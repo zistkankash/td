@@ -31,8 +31,11 @@ namespace TaskLab
 		bool _circSel = false;
 		bool _rectSel = false;
 		bool pnlShapVis, pnlShapPropVis, pnlFixVis, pnlDetalsVis, pnlbackVis;
-
+		Node selectedNode;
+		float screenPictureboxRatioX;
+		float screenPictureboxRatioY;
 		PsycologyTask _curTask;
+		DesignState designerState;
 
 		public bool RectSel
 		{
@@ -85,79 +88,141 @@ namespace TaskLab
 				}
 			}
 		}
-		
+
 		public PsycologyDesigner()
 		{
 			InitializeComponent();
 		}
 
-		private void PsycologyDesigner_Load(object sender, EventArgs e)
+		void PsycologyDesigner_Load(object sender, EventArgs e)
 		{
 			MARGINS marg = new MARGINS() { Left = -1, Right = -1, Top = -1, Bottom = -1 };
 			DwmExtendFrameIntoClientArea(this.Handle, ref marg);
 			pnlShapVis = false; pnlShapPropVis = false; pnlFixVis = false; pnlDetalsVis = false; pnlbackVis = false;
 		}
 
-		private void chboxFixate_CheckedChanged(object sender, EventArgs e)
+		void chboxFixate_CheckedChanged(object sender, EventArgs e)
 		{
 			pnlFixVis = chboxFixate.Checked;
 			PanelModer();
-			
+
 		}
 
-		private void pnlBackGround_Paint(object sender, PaintEventArgs e)
+		void pnlBackGround_Paint(object sender, PaintEventArgs e)
 		{
 
 		}
 
-		private void btnCircle_Click(object sender, EventArgs e)
+		void btnCircle_Click(object sender, EventArgs e)
 		{
-			CircSel = !_circSel;
-			if (CircSel)
+			if (designerState == DesignState.onDesign)
 			{
-				pbDesign.Cursor = Cursors.Hand;
-				pnlShapPropVis = true;
-				PanelModer();
+				
+				CircSel = !_circSel;
+				if (CircSel)
+				{
+					designerState = DesignState.onInsert;
+				}
+				return;
 			}
 		}
 
-		private void btnRect_Click(object sender, EventArgs e)
+		void btnRect_Click(object sender, EventArgs e)
 		{
 			RectSel = !_rectSel;
 			if (RectSel)
 			{
-				pbDesign.Cursor = Cursors.Hand;
+				if (selectedNode == null)
+					pbDesign.Cursor = Cursors.Hand;
 				pnlShapPropVis = true;
 				PanelModer();
 			}
 		}
 
-		private void pbDesign_MouseMove(object sender, MouseEventArgs e)
+		void pbDesign_MouseUp(object sender, MouseEventArgs e)
 		{
-			
+			if (_curTask == null)
+				return;
+			int x = 0, y = 0, w, h = 0;
+			char shape = 'c';
+			Color sColor = Color.Black;
+			#region moving node
+			if (selectedNode != null)
+			{
+				pnlDetalsVis = false; pnlShapPropVis = false; pnlFixVis = false;
+				PanelModer();
+				UpdateRatio(e, out x, out y);
+				_curTask.CreateNode(selectedNode._id, selectedNode.shape, selectedNode.number, x, y, selectedNode.width, selectedNode.height, selectedNode.shapeColor, selectedNode.textColor);
+				selectedNode = null;
+
+			}
+			#endregion
+			#region add node
+			else
+			{
+				int.TryParse(txtWidth.Text, out w);
+				if (CircSel)
+				{
+					sColor = pnlBtnCircle.BackColor;
+				}
+				if (RectSel)
+				{
+					shape = 'r';
+					sColor = pnlBtnRect.BackColor;
+					int.TryParse(txtHeight.Text, out h);
+				}
+				UpdateRatio(e, out x, out y);
+				if (!chboxFixate.Checked)
+					_curTask.CreateNode(-1, shape, (int)numUpDownNode.Value, x, y, w, h, sColor, btnNumberColor.ForeColor);
+				else
+				{
+					int fTm, radFix;
+					int.TryParse(txtFixationTime.Text, out fTm);
+					int.TryParse(txtRadius.Text, out radFix);
+					_curTask.CreateFixateNode(-1, shape, (int)numUpDownNode.Value, x, y, w, h, sColor, btnNumberColor.ForeColor, fTm, btnFixateColor.ForeColor, radFix, (int)numUpDownPriority.Value);
+				}
+				pbDesign.Cursor = Cursors.Default;
+				pnlFixVis = false; pnlShapPropVis = false;
+				PanelModer();
+			}
+			#endregion
+
 		}
 
-		private void pbDesign_MouseUp(object sender, MouseEventArgs e)
+		void pbDesign_MouseDown(object sender, MouseEventArgs e)
 		{
-			
+			int x, y;
+			if (_curTask == null)
+				return;
+			if (CircSel | RectSel)
+				return;
+			UpdateRatio(e, out x, out y);
+			selectedNode = _curTask.findNode(x, y);
+			if (selectedNode == null)
+				return;
+			ShowNode(selectedNode);
 		}
 
-		private void btnFixationColor_Click(object sender, EventArgs e)
+		void UpdateRatio(MouseEventArgs e, out int x, out int y)
+		{
+			screenPictureboxRatioX = BasConfigs._monitor_resolution_x / pbDesign.Size.Width;
+			screenPictureboxRatioY = BasConfigs._monitor_resolution_y / pbDesign.Size.Height;
+
+			x = (int)screenPictureboxRatioX * e.X;
+			y = (int)screenPictureboxRatioY * e.Y;
+		}
+
+		void btnFixationColor_Click(object sender, EventArgs e)
 		{
 
 		}
 
-		private void cmbTheme_SelectedIndexChanged(object sender, EventArgs e)
-		{
-
-		}
-		
-		private void btnSetting_Click(object sender, EventArgs e)
+		void btnSetting_Click(object sender, EventArgs e)
 		{
 			pnlSetting.Visible = !pnlSetting.Visible;
 		}
-		
-		private void spltContner_Click(object sender, EventArgs e)
+
+		void spltContner_Click(object sender, EventArgs e)
 		{
 			if (spltContner.SplitterDistance == 0)
 			{
@@ -170,32 +235,32 @@ namespace TaskLab
 			}
 		}
 
-		private void PanelModer()
+		void PanelModer()
 		{
 			int order = 0;
-			
+
 			if (pnlDetalsVis)
 			{
 				this.spltContner.Panel1.Controls.SetChildIndex(pnlShapeDetails, order);
-				
+
 				order++;
 			}
-			if(pnlFixVis)
+			if (pnlFixVis)
 			{
 				this.spltContner.Panel1.Controls.SetChildIndex(pnlFixate, order);
-				
+
 				order++;
 			}
-			if(pnlShapPropVis)
+			if (pnlShapPropVis)
 			{
 				this.spltContner.Panel1.Controls.SetChildIndex(pnlShapeProp, order);
-				
+
 				order++;
 			}
-			if(pnlShapVis)
+			if (pnlShapVis)
 			{
 				this.spltContner.Panel1.Controls.SetChildIndex(pnlShape, order);
-				
+
 				order++;
 			}
 			pnlShape.Visible = pnlShapVis;
@@ -205,7 +270,7 @@ namespace TaskLab
 			pnlPictureDesign.Visible = pnlbackVis;
 		}
 
-		private void btnNewProject_Click(object sender, EventArgs e)
+		void btnNewProject_Click(object sender, EventArgs e)
 		{
 			if (!CheckSave(true))
 				return;
@@ -219,21 +284,8 @@ namespace TaskLab
 			refreshTimer.Enabled = true;
 			refreshTimer.Start();
 		}
-		
-		private void pbDesign_MouseDown(object sender, MouseEventArgs e)
-		{
-			int x, y, w, h;
-			Color sColor;
-			int.TryParse(txtWidth.Text, out w);
-			int.TryParse(txtHeight.Text, out h);
-			if (CircSel)
-				sColor = pnlBtnCircle.BackColor;
-			if (RectSel)
-				sColor = pnlBtnRect.BackColor;
 
-		}
-
-		private void btnNumberColor_Click(object sender, EventArgs e)
+		void btnNumberColor_Click(object sender, EventArgs e)
 		{
 			ColorDialog cDilog = new ColorDialog();
 			if (cDilog.ShowDialog() == DialogResult.OK)
@@ -242,7 +294,7 @@ namespace TaskLab
 			}
 		}
 
-		private void btnFixateColor_Click(object sender, EventArgs e)
+		void btnFixateColor_Click(object sender, EventArgs e)
 		{
 			ColorDialog cDilog = new ColorDialog();
 			if (cDilog.ShowDialog() == DialogResult.OK)
@@ -251,7 +303,7 @@ namespace TaskLab
 			}
 		}
 
-		private void btnTaskBackColor_Click(object sender, EventArgs e)
+		void btnTaskBackColor_Click(object sender, EventArgs e)
 		{
 			ColorDialog cDilog = new ColorDialog();
 			if (cDilog.ShowDialog() == DialogResult.OK)
@@ -259,10 +311,10 @@ namespace TaskLab
 				_curTask.backColor = cDilog.Color;
 				btnTaskBackColor.ForeColor = cDilog.Color;
 			}
-			 
+
 		}
 
-		private void chkSaveData_CheckedChanged(object sender, EventArgs e)
+		void chkSaveData_CheckedChanged(object sender, EventArgs e)
 		{
 			cmbxSavMod.Enabled = chkSaveData.Checked;
 			txtPath.Visible = chkSaveData.Checked;
@@ -276,7 +328,7 @@ namespace TaskLab
 			}
 		}
 
-		private void btnBackImage_Click(object sender, EventArgs e)
+		void btnBackImage_Click(object sender, EventArgs e)
 		{
 			OpenFileDialog of = new OpenFileDialog();
 			of.Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png";
@@ -292,10 +344,10 @@ namespace TaskLab
 			}
 		}
 
-		private void chkboxUseBackImage_CheckedChanged(object sender, EventArgs e)
+		void chkboxUseBackImage_CheckedChanged(object sender, EventArgs e)
 		{
 			btnBackImage.Visible = chkboxUseBackImage.Checked;
-			
+
 			if (!chkboxUseBackImage.Checked)
 			{
 				_curTask.useBackImage = false;
@@ -303,28 +355,97 @@ namespace TaskLab
 			}
 		}
 
-		private void cmbxSavMod_SelectedIndexChanged(object sender, EventArgs e)
+		void cmbxSavMod_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			_curTask.SavingMode = SaveMod.txt;
 		}
 
-		private void refreshTimer_Tick(object sender, EventArgs e)
+		void refreshTimer_Tick(object sender, EventArgs e)
 		{
-			pbDesign.Image = _curTask.GetTaskImage.ToBitmap();
+			ScreenModer();
+			if (_curTask != null)
+				pbDesign.Image = _curTask.RenderTask();
 		}
 
-		private void btnHome_Click(object sender, EventArgs e)
+		void btnSave_Click(object sender, EventArgs e)
+		{
+			CheckSave(false);
+		}
+
+		void btnChangeNode_Click(object sender, EventArgs e)
+		{
+			if (selectedNode == null)
+				return;
+			int.TryParse(txtWidth.Text, out w);
+			if (CircSel)
+			{
+				sColor = pnlBtnCircle.BackColor;
+			}
+			if (RectSel)
+			{
+				shape = 'r';
+				sColor = pnlBtnRect.BackColor;
+				int.TryParse(txtHeight.Text, out h);
+			}
+			UpdateRatio(e, out x, out y);
+			if (!chboxFixate.Checked)
+				_curTask.CreateNode(-1, shape, (int)numUpDownNode.Value, x, y, w, h, sColor, btnNumberColor.ForeColor);
+			else
+			{
+				int fTm, radFix;
+				int.TryParse(txtFixationTime.Text, out fTm);
+				int.TryParse(txtRadius.Text, out radFix);
+				_curTask.CreateFixateNode(-1, shape, (int)numUpDownNode.Value, x, y, w, h, sColor, btnNumberColor.ForeColor, fTm, btnFixateColor.ForeColor, radFix, (int)numUpDownPriority.Value);
+			}
+			pnlFixVis = false; pnlShapPropVis = false;
+			PanelModer();
+		}
+
+		void ShowNode(Node node)        //نمایش مشخصات گره
+		{
+			if (node.shape == 'c')
+			{
+				pnlBtnCircle.BackColor = node.shapeColor;
+				txtHeight.Enabled = false;
+			}
+			else if (node.shape == 'r')
+			{
+				txtHeight.Text = node.height.ToString();
+				pnlBtnRectangle.BackColor = node.shapeColor;
+			}
+			txtWidth.Text = node.width.ToString();
+			numUpDownNode.Value = node.number;
+			//cmbNumber.Text = node.number.ToString();
+			btnNumberColor.ForeColor = node.textColor;
+			if (node.fixationTime > 0)
+			{
+				chboxFixate.Checked = true;
+
+				numUpDownPriority.Value = node.priority;
+
+				txtFixationTime.Text = node.fixationTime.ToString();
+
+				btnFixateColor.ForeColor = node.fixationColor;
+				txtRadius.Text = node.fixationRadius.ToString();
+			}
+			pnlShapePropVis = true;
+			pnlShapVis = true;
+			pnlDetalsVis = true;
+			PanelModer();
+		}
+
+		void btnHome_Click(object sender, EventArgs e)
 		{
 			Close();
 		}
 
-		private void PsycologyDesigner_FormClosing(object sender, FormClosingEventArgs e)
+		void PsycologyDesigner_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			if (!CheckSave(true))
 				e.Cancel = true;
 		}
 
-		private void btnLoad_Click(object sender, EventArgs e)
+		void btnLoad_Click(object sender, EventArgs e)
 		{
 			btnSetting.Enabled = false;
 			if (refreshTimer.Enabled)
@@ -336,17 +457,17 @@ namespace TaskLab
 			}
 		}
 
-		private bool CheckSave(bool showDialog)
+		bool CheckSave(bool showDialog)
 		{
 			if (!showDialog)
 			{
 				return _curTask == null || _curTask.Save();
 			}
-				
+
 			DialogResult dr = DialogResult.OK;
 			if (_curTask != null && !_curTask.Save())
 			{
-				dr = MetroFramework.MetroMessageBox.Show((IWin32Window)this, "Project not saved. Do you want to continue?","Save Project",MessageBoxButtons.OKCancel,MessageBoxIcon.Question, 100);
+				dr = MetroFramework.MetroMessageBox.Show((IWin32Window)this, "Project not saved. Do you want to continue?", "Save Project", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, 100);
 				if (dr == DialogResult.Cancel)
 					return false;
 				else
@@ -354,12 +475,52 @@ namespace TaskLab
 			}
 			else
 				return true;
-			
+
 		}
+
+		void ScreenModer()
+		{
+			switch (designerState)
+			{
+				case DesignState.idle:
+					{
+						pbDesign.BackColor = Color.Transparent;
+						btnSetting.Enabled = false;
+						pnlSetting.Visible = false;
+						pnlShapeVis = false; pnlShapPropVis = false; pnlDetalsVis = false; pnlbackVis = false; pnlFixVis = false;
+						PanelModer();
+						break;
+					}
+				case DesignState.onDesign:
+					{
+						btnSetting.Enabled = true;
+						pnlShapeVis = true; pnlShapPropVis = false; pnlDetalsVis = false; pnlbackVis = true; pnlFixVis = false;
+						PanelModer();
+						pbDesign.Cursor = Cursors.Default;
+						break;
+					}
+				case DesignState.onInsert:
+					{
+						pnlShapeVis = true; pnlShapPropVis = true; pnlDetalsVis = true; pnlbackVis = true;
+						PanelModer();
+						pbDesign.Cursor = Cursors.Hand;
+						btnChangeNode.Text = "Insert";
+						btnRemoveNode.Text = "Cancel":
+						break;
+					}
+				case DesignState.onChange:
+					{
+						pnlShapeVis = true; pnlShapPropVis = true; pnlDetalsVis = true; pnlbackVis = true;
+						PanelModer();
+						pbDesign.Cursor = Cursors.Hand;
+						btnChangeNode.Text = "Change";
+						btnRemoveNode.Text = "Remove":
+						break;
+					}
+			}
+		}
+
 	}
 
-	public static class LabTaskUtils
-	{
-
-	}
+	public enum DesignState { onInsert, onChange, onDesign, idle }
 }

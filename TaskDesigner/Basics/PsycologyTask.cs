@@ -16,29 +16,20 @@ namespace Basics
 		public bool useBackImage;
 		public Bitmap backImage;
 		public Color backColor;
-		public List<Node> shapeList;
-		public List<Node> fixationList;
-		public List<FNode> positiveFixates;
-		public List<FNode> negativeFixates;
-		
-		private Image<Rgb, byte> tskImg;
-
+		List<Node> shapeList;
+		List<FNode> fixationList;
+		Image<Rgb, byte> tskImg;
 		//In design mode temp image used to compose some feature (for example chessboard grid) with task image.
 		//In running mode temp image used to save original task map to improve running speed. 
-		public Image<Rgb, byte> tskTempImg;
-			
-
+		Image<Rgb, byte> tskTempImg;
+		
 		public int[] colorGroups = null;
 		public List<List<int>> groupMembers = null;
 		public int groupCount = -1;
 
-		public int prmptCircleShower, prmptCircleMaxShower = 10;
-		public int prmptCircleNodeId;
-		public int prmptCircleRadius;
-		public int prmptCircleB = 10, prmptCircleG = 235, prmptCircleR = 255;
-		public int arrowShower;
-		public int arrowBeginNodeId;
-		public int arrowEndNodeId;
+		int prmptNodeShower = 0, prmptNodeMaxShower = 10;
+		int prmptNodeId , prmptRadius = 0, prmptB = 10, prmptG = 235, prmptR = 255;
+		int arrowShower, arrowBeginNodeId, arrowEndNodeId, arrowThickness, arrowR, arrowG, arrowB;
 
 
 		public Image<Rgb, byte> GetTaskImage { get { return tskImg; } }
@@ -46,25 +37,17 @@ namespace Basics
 		
 		public PsycologyTask() : base(TaskType.lab)
 		{
-			fixationList = new List<Node>();
-			positiveFixates = new List<FNode>();
-			negativeFixates = new List<FNode>();
+			fixationList = new List<FNode>();
 			shapeList = new List<Node>();
 			backColor = Color.White;
-			arrowShower = 0;
-			prmptCircleShower = 0;
 			DrawMap();
 		}
 
 		public void Clear()
 		{
 			base._taskIsReady = false;
-			if (shapeList != null)
-				shapeList.Clear();
-			if (positiveFixates != null)
-				positiveFixates.Clear();
-			if (negativeFixates != null)
-				negativeFixates.Clear();
+			shapeList = null;
+			fixationList = null;
 			backColor = Color.White;
 		}
 
@@ -79,7 +62,17 @@ namespace Basics
 			Int32.TryParse(bg[2], out g);
 			Int32.TryParse(bg[3], out b);
 			backColor = Color.FromArgb(r, g, b);
-
+			int R, G, B;
+			int x, y;
+			int width;
+			int height;
+			int number;
+			int textR, textG, textB;
+			char fType;
+			int fTime;
+			int priority;
+			int radius;
+			Color fixationColor;
 			////خواندن اشکال و کشیدن آن روی تصویر
 
 			string[] Number = lines[3].Split(',');
@@ -91,20 +84,15 @@ namespace Basics
 				string[] s = lines[i].Split(',');
 				char shape;
 				shape = s[0].First();
-				int R, G, B;
+				
 				Int32.TryParse(s[1], out R);
 				Int32.TryParse(s[2], out G);
 				Int32.TryParse(s[3], out B);
-				int x, y;
 				Int32.TryParse(s[4], out x);
 				Int32.TryParse(s[5], out y);
-				int width;
 				Int32.TryParse(s[6], out width);
-				int height;
 				Int32.TryParse(s[7], out height);
-				int number;
 				Int32.TryParse(s[8], out number);
-				int textR, textG, textB;
 				Color shapeColor = Color.FromArgb(R, G, B);
 				Int32.TryParse(s[9], out textR);
 				Int32.TryParse(s[10], out textG);
@@ -113,18 +101,18 @@ namespace Basics
 
 				if (s.Length > 12 && s[12] == "True")
 				{
-					char fType = s[13].First();
-					int fTime;
+					fType = s[13].First();
+					
 					Int32.TryParse(s[14], out fTime);
-					int priority;
+					
 					Int32.TryParse(s[15], out priority);
-					int radius;
+					
 					Int32.TryParse(s[16], out radius);
 					int fColorR, fColorG, fColorB;
 					Int32.TryParse(s[17], out fColorR);
 					Int32.TryParse(s[18], out fColorG);
 					Int32.TryParse(s[19], out fColorB);
-					Color fixationColor = Color.FromArgb(fColorR, fColorG, fColorB);
+					fixationColor = Color.FromArgb(fColorR, fColorG, fColorB);
 					shapeList.Add(new Node(i - 4, x, y, shape, shapeColor, number, textColor, width, height, fType, fTime, priority, radius, fixationColor));
 				}
 				else
@@ -134,17 +122,16 @@ namespace Basics
 			}
 			#endregion
 			// اضافه کردن فیکسیشن ها
-			positiveFixates = new List<FNode>();
-			negativeFixates = new List<FNode>();
+			
 			foreach (Node node in shapeList)
 			{
 				if (node.ROI == true)
 				{
-					AddFnode(node);
+					AddFixateNode(node, node.fixationTime, node.fixationColor, node.fixationRadius, node.priority);
 				}
 			}
 			DrawMap();
-			tskTempImg = tskImg;
+			
 			return true;
 		}
 
@@ -153,19 +140,7 @@ namespace Basics
 			LoadFile(true);
 			return Load(lines);
 		}
-
-		public void AddFnode(Node node)
-		{
-			if (node.fixationType == 'P')
-			{
-				positiveFixates.Add(new FNode(node.fixationRadius, node.pos, node.fixationTime, 'P', node.priority));
-			}
-			else
-			{
-				negativeFixates.Add(new FNode(node.fixationRadius, node.pos, node.fixationTime, 'N', node.priority));
-			}
-		}
-		
+				
 		public void DrawMap()
 		{
 			ChangeBackGround();
@@ -191,19 +166,35 @@ namespace Basics
 			tskImg = tskTempImg;
 		}
 
-		public void CreateNode(int index, char shape, int num, int x, int y, int w, int h, Color sColor, Color numColor)
+		public Node CreateNode(int index, char shape, int num, int x, int y, int w, int h, Color sColor, Color numColor)
 		{
+			Node newNode;
 			if (index == -1)
-				shapeList.Add(new Node(0, x, y, shape, sColor, num, numColor, w, h));
+			{
+				newNode = new Node(shapeList.Count, x, y, shape, sColor, num, numColor, w, h);
+				shapeList.Add(newNode);
+			}
 			else
-				shapeList[index] = new Node(0, x, y, shape, sColor, num, numColor, w, h);
+			{
+				newNode = new Node(index, x, y, shape, sColor, num, numColor, w, h);
+				shapeList[index] = newNode;
+			}
+			return newNode;
 		}
 
-		public void CreateFixateNode(int index, char shape, int num, int x, int y, int w, int h, Color sColor, Color numColor, int fTime , int fColor , int fRadius)
+		public void CreateFixateNode(int index, char shape, int num, int x, int y, int w, int h, Color sColor, Color numColor, int fTime, Color fColor, int fRadius,int priority)
 		{
-			CreateNode(index, shape, num, x, y, w, h, sColor, numColor);
-			//add Fnode
+			Node n = CreateNode(index, shape, num, x, y, w, h, sColor, numColor);
+			n.ROI = true;
+			n.type = 1;
+			AddFixateNode(n, fTime, fColor, fRadius, priority);
+		}
 
+		public void AddFixateNode(Node n, int fTime , Color fColor , int fRadius,int priority)
+		{
+
+			fixationList.Add(new FNode(n._id,fRadius, n.pos, fTime, priority));
+			
 		}
 
 		private void DrawNode(Node node)
@@ -299,23 +290,45 @@ namespace Basics
 		/// <summary>
 		/// This methode draws a circle on a node in lab tasks.
 		/// </summary>
-		public void DrawCircle()
+		public void DrawPrompt(int Max, int id, Color prCol)
 		{
+			prmptNodeShower = Max;
+			prmptNodeId = id;
+			prmptNodeMaxShower = Max;
+			prmptR = prCol.R; prmptG = prCol.G; prmptB = prCol.B;
 
-			if (prmptCircleShower == 0)
-				return;
-			tskImg = tskTempImg;
-			int alpha = Math.Min((int)(prmptCircleShower / prmptCircleMaxShower * 255), 255);
-			CvInvoke.Circle(tskImg, shapeList[prmptCircleNodeId].pos, shapeList[prmptCircleNodeId].width, new MCvScalar(prmptCircleB, prmptCircleG, prmptCircleR, alpha));
+		}
+		
+		public void DrawArrow(int beginNodeId,int endNodeId, Color arrowColor,int thickness)
+		{
+			arrowBeginNodeId = beginNodeId;
+			arrowEndNodeId = endNodeId;
+			arrowThickness = thickness;
+			arrowR = arrowColor.R; arrowG = arrowColor.G; arrowB = arrowColor.B;
 		}
 
-		public void DrawArrow()
+		private void RenderNode()
+		{
+			if (prmptNodeShower == 0 || prmptNodeMaxShower == 0)
+				return;
+
+			int alpha = Math.Min(((int)((float)(prmptNodeShower / prmptNodeMaxShower) * 255)), 255);
+
+			if (shapeList[prmptNodeId].shape == 'C')
+			{
+				CvInvoke.Circle(tskImg, new Point(shapeList[prmptNodeId].pos.X, shapeList[prmptNodeId].pos.Y), shapeList[prmptNodeId].width / 2, new MCvScalar(prmptB, prmptG, prmptR, alpha), -1);
+			}
+			else if (shapeList[prmptNodeId].shape == 'R')
+			{
+				CvInvoke.Rectangle(tskImg, new Rectangle(new Point(shapeList[prmptNodeId].pos.X - shapeList[prmptNodeId].width / 2, shapeList[prmptNodeId].pos.Y - shapeList[prmptNodeId].height / 2), new Size(shapeList[prmptNodeId].width, shapeList[prmptNodeId].height)), new MCvScalar(prmptB, prmptG, prmptR, alpha), -1);
+			}
+		}
+
+		private void RenderArrow()
 		{
 			if (arrowShower == 0)
 				return;
-			tskImg = tskTempImg;
-
-			CvInvoke.ArrowedLine(tskImg, shapeList[arrowBeginNodeId].pos, shapeList[arrowEndNodeId].pos, new MCvScalar(0, 0, 0, 125), 5);
+			CvInvoke.ArrowedLine(tskImg, shapeList[arrowBeginNodeId].pos, shapeList[arrowEndNodeId].pos, new MCvScalar(0, 0, 0, 125), arrowThickness);
 		}
 
 		public int[] FindStartShapes()
@@ -426,6 +439,41 @@ namespace Basics
 			{
 				return false;
 			}
+		}
+
+		public Bitmap RenderTask()
+		{
+			DrawMap();
+			RenderNode();
+			RenderArrow();
+			return tskImg.ToBitmap();
+		}
+
+		public Node findNode(int x, int y)
+		{
+			foreach (Node node in shapeList)
+				if (node.shape == 'c')
+				{
+					if (Math.Sqrt(Math.Pow(Math.Abs(node.pos.X - x), 2) + Math.Pow(Math.Abs(node.pos.Y - y), 2)) <= node.width)
+					{
+						return node;
+					}
+				}
+				else
+				{
+					if (Math.Abs(x - node.pos.X) < node.width / 2 && Math.Abs(y - node.pos.Y) < node.height / 2)
+					{
+						return node;
+					}
+				}
+			return null;
+		}
+
+		public Node findNodeByID(int id)
+		{
+			if (id > -1 && id < shapeList.Count)
+				return shapeList[id];
+			return null;
 		}
 	}
 }

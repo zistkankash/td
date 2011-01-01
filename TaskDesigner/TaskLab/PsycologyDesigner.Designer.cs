@@ -68,15 +68,15 @@
 			this.btnLoad = new MetroFramework.Controls.MetroTile();
 			this.btnSave = new MetroFramework.Controls.MetroTile();
 			this.pnlSetting = new System.Windows.Forms.Panel();
+			this.chkboxUseBackImage = new MetroFramework.Controls.MetroCheckBox();
 			this.btnBackImage = new System.Windows.Forms.Button();
 			this.btnTaskBackColor = new System.Windows.Forms.Button();
 			this.chkSaveData = new MetroFramework.Controls.MetroCheckBox();
 			this.cmbxSavMod = new MetroFramework.Controls.MetroComboBox();
+			this.txtPath = new MetroFramework.Controls.MetroTextBox();
 			this.pbDesign = new System.Windows.Forms.PictureBox();
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
 			this.refreshTimer = new System.Windows.Forms.Timer(this.components);
-			this.txtPath = new MetroFramework.Controls.MetroTextBox();
-			this.chkboxUseBackImage = new MetroFramework.Controls.MetroCheckBox();
 			this.pnlBackGround.SuspendLayout();
 			this.pnlBody.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.spltContner)).BeginInit();
@@ -190,6 +190,7 @@
 			this.btnChangeNode.TabIndex = 90;
 			this.btnChangeNode.Text = "Change";
 			this.btnChangeNode.UseVisualStyleBackColor = false;
+			this.btnChangeNode.Click += new System.EventHandler(this.btnChangeNode_Click);
 			// 
 			// pnlFixate
 			// 
@@ -630,6 +631,7 @@
 			this.btnSave.UseCustomBackColor = true;
 			this.btnSave.UseSelectable = true;
 			this.btnSave.UseTileImage = true;
+			this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
 			// 
 			// pnlSetting
 			// 
@@ -648,6 +650,18 @@
 			this.pnlSetting.TabIndex = 69;
 			this.pnlSetting.Visible = false;
 			// 
+			// chkboxUseBackImage
+			// 
+			this.chkboxUseBackImage.AutoSize = true;
+			this.chkboxUseBackImage.Location = new System.Drawing.Point(14, 71);
+			this.chkboxUseBackImage.Name = "chkboxUseBackImage";
+			this.chkboxUseBackImage.Size = new System.Drawing.Size(84, 15);
+			this.chkboxUseBackImage.TabIndex = 95;
+			this.chkboxUseBackImage.Text = "Back Image";
+			this.chkboxUseBackImage.UseCustomBackColor = true;
+			this.chkboxUseBackImage.UseSelectable = true;
+			this.chkboxUseBackImage.CheckedChanged += new System.EventHandler(this.chkboxUseBackImage_CheckedChanged);
+			// 
 			// btnBackImage
 			// 
 			this.btnBackImage.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -656,9 +670,9 @@
 			this.btnBackImage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.btnBackImage.Font = new System.Drawing.Font("Humnst777 BlkCn BT", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.btnBackImage.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-			this.btnBackImage.Location = new System.Drawing.Point(99, 56);
+			this.btnBackImage.Location = new System.Drawing.Point(99, 67);
 			this.btnBackImage.Name = "btnBackImage";
-			this.btnBackImage.Size = new System.Drawing.Size(163, 25);
+			this.btnBackImage.Size = new System.Drawing.Size(194, 25);
 			this.btnBackImage.TabIndex = 93;
 			this.btnBackImage.Text = "Task Back Image";
 			this.btnBackImage.UseVisualStyleBackColor = false;
@@ -672,9 +686,9 @@
 			this.btnTaskBackColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.btnTaskBackColor.Font = new System.Drawing.Font("Humnst777 BlkCn BT", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.btnTaskBackColor.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-			this.btnTaskBackColor.Location = new System.Drawing.Point(330, 56);
+			this.btnTaskBackColor.Location = new System.Drawing.Point(311, 67);
 			this.btnTaskBackColor.Name = "btnTaskBackColor";
-			this.btnTaskBackColor.Size = new System.Drawing.Size(178, 25);
+			this.btnTaskBackColor.Size = new System.Drawing.Size(197, 25);
 			this.btnTaskBackColor.TabIndex = 92;
 			this.btnTaskBackColor.Text = "Task Back Color";
 			this.btnTaskBackColor.UseVisualStyleBackColor = false;
@@ -706,31 +720,11 @@
 			this.cmbxSavMod.Location = new System.Drawing.Point(99, 15);
 			this.cmbxSavMod.Name = "cmbxSavMod";
 			this.cmbxSavMod.PromptText = "Saving Settings";
-			this.cmbxSavMod.Size = new System.Drawing.Size(118, 25);
+			this.cmbxSavMod.Size = new System.Drawing.Size(137, 25);
 			this.cmbxSavMod.TabIndex = 74;
 			this.cmbxSavMod.UseCustomBackColor = true;
 			this.cmbxSavMod.UseSelectable = true;
 			this.cmbxSavMod.SelectedIndexChanged += new System.EventHandler(this.cmbxSavMod_SelectedIndexChanged);
-			// 
-			// pbDesign
-			// 
-			this.pbDesign.BackColor = System.Drawing.Color.Transparent;
-			this.pbDesign.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.pbDesign.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.pbDesign.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pbDesign.Location = new System.Drawing.Point(0, 0);
-			this.pbDesign.Name = "pbDesign";
-			this.pbDesign.Size = new System.Drawing.Size(1078, 606);
-			this.pbDesign.TabIndex = 0;
-			this.pbDesign.TabStop = false;
-			this.pbDesign.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbDesign_MouseDown);
-			this.pbDesign.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbDesign_MouseMove);
-			this.pbDesign.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbDesign_MouseUp);
-			// 
-			// refreshTimer
-			// 
-			this.refreshTimer.Interval = 1000;
-			this.refreshTimer.Tick += new System.EventHandler(this.refreshTimer_Tick);
 			// 
 			// txtPath
 			// 
@@ -748,7 +742,7 @@
 			this.txtPath.CustomButton.Visible = false;
 			this.txtPath.Enabled = false;
 			this.txtPath.Lines = new string[0];
-			this.txtPath.Location = new System.Drawing.Point(223, 15);
+			this.txtPath.Location = new System.Drawing.Point(242, 15);
 			this.txtPath.MaxLength = 32767;
 			this.txtPath.Name = "txtPath";
 			this.txtPath.PasswordChar = '\0';
@@ -758,7 +752,7 @@
 			this.txtPath.SelectionLength = 0;
 			this.txtPath.SelectionStart = 0;
 			this.txtPath.ShortcutsEnabled = true;
-			this.txtPath.Size = new System.Drawing.Size(285, 25);
+			this.txtPath.Size = new System.Drawing.Size(266, 25);
 			this.txtPath.TabIndex = 72;
 			this.txtPath.UseCustomBackColor = true;
 			this.txtPath.UseSelectable = true;
@@ -766,17 +760,24 @@
 			this.txtPath.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
 			this.txtPath.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
 			// 
-			// chkboxUseBackImage
+			// pbDesign
 			// 
-			this.chkboxUseBackImage.AutoSize = true;
-			this.chkboxUseBackImage.Location = new System.Drawing.Point(14, 61);
-			this.chkboxUseBackImage.Name = "chkboxUseBackImage";
-			this.chkboxUseBackImage.Size = new System.Drawing.Size(84, 15);
-			this.chkboxUseBackImage.TabIndex = 95;
-			this.chkboxUseBackImage.Text = "Back Image";
-			this.chkboxUseBackImage.UseCustomBackColor = true;
-			this.chkboxUseBackImage.UseSelectable = true;
-			this.chkboxUseBackImage.CheckedChanged += new System.EventHandler(this.chkboxUseBackImage_CheckedChanged);
+			this.pbDesign.BackColor = System.Drawing.Color.Transparent;
+			this.pbDesign.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			this.pbDesign.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.pbDesign.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pbDesign.Location = new System.Drawing.Point(0, 0);
+			this.pbDesign.Name = "pbDesign";
+			this.pbDesign.Size = new System.Drawing.Size(1078, 606);
+			this.pbDesign.TabIndex = 0;
+			this.pbDesign.TabStop = false;
+			this.pbDesign.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbDesign_MouseDown);
+			this.pbDesign.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbDesign_MouseUp);
+			// 
+			// refreshTimer
+			// 
+			this.refreshTimer.Interval = 30;
+			this.refreshTimer.Tick += new System.EventHandler(this.refreshTimer_Tick);
 			// 
 			// PsycologyDesigner
 			// 
