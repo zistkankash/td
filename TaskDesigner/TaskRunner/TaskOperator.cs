@@ -28,7 +28,7 @@ namespace TaskRunning
 		TaskRunner runner = null;
 		ETStatus _etStat = ETStatus.disconnected;
 		public static float gzX, gzY;
-		public TaskData tsk;
+		public TaskClient tsk;
 		int Marker_Radius = 10;
 		private Size secondMonit;
 		int _slideNum = 0;
@@ -80,7 +80,7 @@ namespace TaskRunning
 						
 			Screen[] screens = Screen.AllScreens;
 			secondMonit = new Size(screens[screens.Length-1].Bounds.Width, screens[screens.Length-1].Bounds.Height);
-			tsk = new TaskData();
+			tsk = new TaskClient();
 		}
 		
 		public void RefreshPctBx()

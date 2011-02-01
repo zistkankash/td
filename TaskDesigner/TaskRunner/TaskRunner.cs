@@ -35,7 +35,7 @@ namespace TaskRunning
 		bool silentMode = false;
 		bool brake = false;
 		Screen[] screens;
-		public static TaskData curTsk;
+		public static TaskClient curTsk;
 		Stopwatch tskWatch;
 		Thread runnerThread;
 		TaskOperator tsop;
@@ -51,7 +51,7 @@ namespace TaskRunning
 		static bool _mouseClicked = false;
 		static int _mousX, _mousY;
 					
-		public TaskRunner(TaskData cs,TaskOperator pr)
+		public TaskRunner(TaskClient cs,TaskOperator pr)
 		{
 			InitializeComponent();
 			tsop = pr;
@@ -59,7 +59,7 @@ namespace TaskRunning
 			InitForm();
 		}
 		
-		public TaskRunner(TaskData cs)
+		public TaskRunner(TaskClient cs)
 		{
 			InitializeComponent();
 			silentMode = true;

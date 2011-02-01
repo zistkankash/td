@@ -44,9 +44,8 @@ namespace Basics
 		public Image<Rgb, byte> GetTaskImage { get { return tskImg; } }
 
 		
-		public PsycologyTask()
+		public PsycologyTask() : base(TaskType.lab)
 		{
-			base._taskIsReady = false;
 			fixationList = new List<Node>();
 			positiveFixates = new List<FNode>();
 			negativeFixates = new List<FNode>();
@@ -54,7 +53,7 @@ namespace Basics
 			backColor = Color.White;
 			arrowShower = 0;
 			prmptCircleShower = 0;
-			
+			DrawMap();
 		}
 
 		public void Clear()
@@ -147,6 +146,12 @@ namespace Basics
 			DrawMap();
 			tskTempImg = tskImg;
 			return true;
+		}
+
+		public bool Load()
+		{
+			LoadFile(true);
+			return Load(lines);
 		}
 
 		public void AddFnode(Node node)
@@ -344,22 +349,22 @@ namespace Basics
 		public bool Save()
 		{
 			int i;
-			if (base._tskAddress == null)
+			if (_tskAddress == null)
 			{
 				SaveFileDialog path = new SaveFileDialog();
 				if (tskSavMod == SaveMod.txt)
 				{
-					path.FileName = "LapTask.txt";
+					path.FileName = "LabTask.txt";
 					path.Filter = "Text File |*.txt";
 				}
 				if (tskSavMod == SaveMod.bin)
 				{
-					path.FileName = "LapTask.bin";
-					path.Filter = "Text File |*.bin";
+					path.FileName = "LabTask.bin";
+					path.Filter = "Binary File |*.bin";
 				}
 				if (path.ShowDialog() == DialogResult.OK)
 				{
-					base._tskAddress = path.FileName;
+					_tskAddress = path.FileName;
 				}
 				else
 					return false;
