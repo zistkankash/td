@@ -52,6 +52,7 @@ namespace Basics
 		{
 			medType = MediaType.Video;
 			address = add;
+			havMedia = true;
 			image = GetVideoFrame();
 		}
 
@@ -94,7 +95,9 @@ namespace Basics
 			
 			VideoFileReader r = new VideoFileReader();
 			r.Open(address);
+
 			image = r.ReadVideoFrame(5);
+			r.Close();
 			r.Dispose();
             var player = new WindowsMediaPlayer();
             var clip = player.newMedia(address);

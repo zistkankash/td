@@ -48,20 +48,24 @@ namespace Basics
 			return false;
 
 		}
-		
+
 		public static GazeTriple ETGaze()
 		{
-			GazeTriple gzTemp = BasConfigs.server.getGaze;
-			if (gzTemp.time != -1)
+			GazeTriple gzTemp = null;
+			if (BasConfigs.server!= null && BasConfigs.server.getGaze != null)
 			{
-				pts[0, _counter] = gzTemp.x;
-				pts[1, _counter] = gzTemp.y;
-				_counter = (_counter + 1) % _gazeSmoothPots;
+				gzTemp = BasConfigs.server.getGaze;
+				if (gzTemp.time != -1)
+				{
+					pts[0, _counter] = gzTemp.x;
+					pts[1, _counter] = gzTemp.y;
+					_counter = (_counter + 1) % _gazeSmoothPots;
+				}
+				else
+					return null;
+				gzTemp.x = MeanPts(0);
+				gzTemp.y = MeanPts(1);
 			}
-			else
-				return null;
-			gzTemp.x = MeanPts(0);
-			gzTemp.y = MeanPts(1);
 			return gzTemp;
 		}
 

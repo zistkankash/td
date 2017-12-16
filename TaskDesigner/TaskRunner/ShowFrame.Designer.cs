@@ -1,4 +1,4 @@
-﻿namespace Psychophysics
+﻿namespace TaskRunning
 {
     partial class ShowFrame
     {

@@ -72,46 +72,59 @@ namespace Basics
 
 		public bool LoadFromText(string[] lines)
 		{
-			SavingMode = SaveMod.txt;
-			picList = new List<MediaEelement>();
-
-			string[] temp = lines[1].Split(' ');
-			int count;
-			Int32.TryParse(temp[0], out count);
-			for (int i = 0; i < count; i++)
+			try
 			{
-				string[] s = lines[i + 2].Split(',');
-				if (s[0] == "BackGround:")
-				{
-					int r, g, b;
-					Int32.TryParse(s[1], out r);
-					Int32.TryParse(s[2], out g);
-					Int32.TryParse(s[3], out b);
-					Color bg = Color.FromArgb(r, g, b);
-					int time;
-					Int32.TryParse(s[4], out time);
-					MediaEelement pic = new MediaEelement(null, null, time);
-					pic.bgColor = bg;
-					picList.Add(pic);
-				}
-				if (s[0] == "Image:")
-				{
-					string address = s[1];
-					int time;
-					Int32.TryParse(s[1], out time);
-					Bitmap bit = new Bitmap(address);
-					MediaEelement pic = new MediaEelement(bit, address, time);
-					picList.Add(pic);
-				}
-				if (s[0] == "Video:")
-				{
-					MediaEelement pic = new MediaEelement(s[1]);
-					picList.Add(pic);
-					TaskMediaType = MediaType.Video;
-				}
-			}
+				SavingMode = SaveMod.txt;
+				picList = new List<MediaEelement>();
 
-			return true;
+				string[] temp = lines[1].Split(' ');
+				int count;
+				Int32.TryParse(temp[0], out count);
+				for (int i = 0; i < count; i++)
+				{
+					string[] s = lines[i + 2].Split(',');
+					if (s[0] == "Background:")
+					{
+						int r, g, b;
+						Int32.TryParse(s[1], out r);
+						Int32.TryParse(s[2], out g);
+						Int32.TryParse(s[3], out b);
+						Color bg = Color.FromArgb(r, g, b);
+						int time;
+						Int32.TryParse(s[4], out time);
+						MediaEelement pic = new MediaEelement(null, null, time);
+						pic.bgColor = bg;
+						picList.Add(pic);
+					}
+					if (s[0] == "Image:")
+					{
+						string address = s[1];
+						int time;
+						Int32.TryParse(s[2], out time);
+						int r, g, b;
+						Int32.TryParse(s[3], out r);
+						Int32.TryParse(s[4], out g);
+						Int32.TryParse(s[5], out b);
+						Color bg = Color.FromArgb(r, g, b);
+						Bitmap bit = new Bitmap(address);
+						MediaEelement pic = new MediaEelement(bit, address, time);
+						picList.Add(pic);
+					}
+					if (s[0] == "Video:")
+					{
+						MediaEelement pic = new MediaEelement(s[1]);
+						picList.Add(pic);
+						TaskMediaType = MediaType.Video;
+					}
+				}
+
+				return true;
+			}
+			catch(Exception ex)
+			{
+				MessageBox.Show("Load Error!" + ex.Message,"Error");
+				return false;
+			}
 		}
 
 		public bool LoadFromBin(byte[] binTaskFile)
@@ -210,57 +223,59 @@ namespace Basics
 		/// <returns></returns>
 		public bool Save()
 		{
-			if (base._tskAddress == null)
-			{
-				GetTaskMediaType();
-				if (TaskMediaType == MediaType.Video)
-					tskSavMod = SaveMod.txt;
-				SaveFileDialog path = new SaveFileDialog();
-				if (tskSavMod == SaveMod.txt)
-				{
-					path.FileName = "LabPic.txt";
-					path.Filter = "Text File |*.txt";
-				}
-				if (tskSavMod == SaveMod.bin)
-				{
-					path.FileName = "LapPic.bin";
-					path.Filter = "Bin File |*.bin";
-				}
-
-				if (path.ShowDialog() == DialogResult.OK)
-				{
-					base._tskAddress = path.FileName;
-                    StringBuilder savFile = new StringBuilder(10000);
-                    savFile.AppendLine("TaskLabMedia");
-                    savFile.AppendLine(picList.Count.ToString());
-                    for(int i=0;i < picList.Count; i++)
-                    {
-                        if(!picList[i].HaveMedia)
-                        {
-                            savFile.AppendLine("Background: " + picList[i].bgColor.R.ToString() + " " + picList[i].bgColor.R.ToString() + " " + picList[i].bgColor.G.ToString() + " " + picList[i].bgColor.B.ToString() + " " + picList[i].time.ToString() + " ");
-                        }
-
-                    }
-				}
-				else
-					return false;
-			}
 			try
 			{
+				if (base._tskAddress == null)
+				{
+					GetTaskMediaType();
+					if (TaskMediaType == MediaType.Video)
+						tskSavMod = SaveMod.txt;
+					SaveFileDialog path = new SaveFileDialog();
+					if (tskSavMod == SaveMod.txt)
+					{
+						path.FileName = "LabPic.txt";
+						path.Filter = "Text File |*.txt";
+					}
+					if (tskSavMod == SaveMod.bin)
+					{
+						path.FileName = "LapPic.bin";
+						path.Filter = "Bin File |*.bin";
+					}
 
-				if (tskSavMod == SaveMod.bin)
-					BinImageWrite();
-
-				if (tskSavMod == SaveMod.txt)
-					TextImageWrite();
-				return true;
+					if (path.ShowDialog() == DialogResult.OK)
+					{
+						base._tskAddress = path.FileName;
+					}
+				}
+				StringBuilder savFile = new StringBuilder(10000);
+				savFile.AppendLine("TaskLabMedia");
+				savFile.AppendLine(picList.Count.ToString());
+				for (int i = 0; i < picList.Count; i++)
+				{
+					if (!picList[i].HaveMedia)
+					{
+						savFile.AppendLine("Background:," + picList[i].bgColor.R.ToString() + "," + picList[i].bgColor.G.ToString() + "," + picList[i].bgColor.B.ToString() + "," + picList[i].time.ToString());
+					}
+					else
+					{
+						if (picList[i].medType == MediaType.Image)
+						{
+							savFile.AppendLine("Image:," + picList[i].address + "," + picList[i].time.ToString() + "," + picList[i].bgColor.R.ToString() + "," + picList[i].bgColor.G.ToString() + "," + picList[i].bgColor.B.ToString());
+						}
+						else
+						{
+							savFile.AppendLine("Video:," + picList[i].address);
+						}
+					}
+				}
+				File.WriteAllText(Address, savFile.ToString());
 			}
 			catch (Exception e)
 			{
 				MessageBox.Show("Error writing file" + e.Message);
 				return false;
 			}
-
+			return true;
 		}
 
 		bool TextImageWrite()

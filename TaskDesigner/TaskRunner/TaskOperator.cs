@@ -11,7 +11,6 @@ using System.Windows.Forms;
 using Basics;
 using MetroFramework;
 using MetroFramework.Forms;
-using Psychophysics;
 
 namespace TaskRunning
 {
@@ -26,12 +25,12 @@ namespace TaskRunning
 		SaveFileDialog sfd = null;
 		TaskRunner runner = null;
 		Bitmap _operationBitmap;
-		Graphics flagGraphics;
+		
 		ETStatus _etStat = ETStatus.disconnected;
 		public static float gzX, gzY;
 		public TaskClient tsk;
-		int Marker_Radius = 5;
-		private Size secondMonit;
+		int Marker_Radius = 8;
+		private Size triableScreen;
 		int _slideNum = 0;
 		public static bool _stopped = false;
 		ShowFrame shFrame;
@@ -80,25 +79,31 @@ namespace TaskRunning
 			InitializeComponent();
 						
 			Screen[] screens = Screen.AllScreens;
-			secondMonit = new Size(screens[1].Bounds.Width, screens[1].Bounds.Height);
+			triableScreen = new Size(screens[BasConfigs._triableMonitor].Bounds.Width, screens[BasConfigs._triableMonitor].Bounds.Height);
 			tsk = new TaskClient();
 			_operationBitmap = new Bitmap(pbOper.Width, pbOper.Height);
-			flagGraphics = Graphics.FromImage(_operationBitmap);
+			
 			
 		}
-		
+
 		public void RefreshPctBx()
 		{
-			
+					
 			if (tsk.Type == TaskType.media)
 				tsk.GetFrameImage(_slideNum, ref _operationBitmap);
-			if (tsk.Type == TaskType.cognitive)
-				_operationBitmap = shFrame.opFlag;
 
-			flagGraphics.FillEllipse(Brushes.Black, (float)gzX * pbOper.Width / secondMonit.Width - Marker_Radius / 2,(float) gzY * pbOper.Height / secondMonit.Height - Marker_Radius / 2, Marker_Radius, Marker_Radius);
+			if (tsk.Type == TaskType.cognitive && shFrame.opFlag != null)
+			{
+				//_operationBitmap = shFrame.opFlag;
+				_operationBitmap = BitmapManager.DrawOn(shFrame.opFlag, pbOper.Size, Color.White);
+			}
+			Graphics flagGraphics = Graphics.FromImage(_operationBitmap);
+			flagGraphics.FillEllipse(Brushes.Red, (float)gzX * pbOper.Width / triableScreen.Width - Marker_Radius / 2, (float)gzY * pbOper.Height / triableScreen.Height - Marker_Radius / 2, Marker_Radius, Marker_Radius);
+
 			flagGraphics.Flush();
 			//pbOper.Image.Dispose();
 			pbOper.Image = _operationBitmap;
+
 		}
 
 		private void txtPath_Click(object sender, EventArgs e)
@@ -124,6 +129,7 @@ namespace TaskRunning
 				if (GetETStat())
 				{
 					btnStart.Enabled = false;
+					refTimer.Start();
 					if (tsk.Type == TaskType.cognitive)
 					{
 						PsycoPhysicTask.brake = false;
@@ -134,20 +140,17 @@ namespace TaskRunning
 							st = false;
 						_stopped = false;
 						PsycoPhysicTask.TypeDisplay = 2;
-						shFrame = new ShowFrame(st ,pbOper.Width, pbOper.Height);
+						shFrame = new ShowFrame(true ,pbOper.Width, pbOper.Height);
 						shFrame.pupilDataPath = txtSavPath.Text;
 						shFrame.eventDataPath = FileName.UpdateFileName(txtSavPath.Text, "events");
+																	
 						shFrame.Show();
 					}
 					else
 					{
 						
-						tsk.runConf = getRunConfigs;
-						SetControlsLocked();
-						btStop.Enabled = true;
-						txtSavPath.Enabled = false;
-						txtbxTask.Enabled = false;
-						refTimer.Start();
+						
+						
 						runner = new TaskRunner(tsk, this);
 						runner.Show();
 						if (_etStat == ETStatus.ready)
@@ -157,12 +160,17 @@ namespace TaskRunning
 							runner.RunTask(false);
 						
 					}
-						
+					tsk.runConf = getRunConfigs;
+					SetControlsLocked();
+					btStop.Enabled = true;
+					txtSavPath.Enabled = false;
+					txtbxTask.Enabled = false;
 					
 				}
 			}
 			catch(Exception)
 			{
+				refTimer.Stop();
 				return;
 			}
 		}
@@ -291,11 +299,14 @@ namespace TaskRunning
 			{
 				PsycoPhysicTask.brake = true;
 				Stop();
-				
+
 			}
-			if (runner.StopTask())
+			else
 			{
-				Stop();
+				if (runner.StopTask())
+				{
+					Stop();
+				}
 			}
 		}
 

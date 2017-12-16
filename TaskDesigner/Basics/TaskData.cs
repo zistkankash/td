@@ -83,7 +83,7 @@ namespace Basics
 					ofd.CustomPlaces.Add(@"C:\");
 					ofd.CustomPlaces.Add(@"C:\Program Files\");
 					ofd.CustomPlaces.Add(@"C:\Documents\");
-					ofd.Filter = "Task File (*.bin , *.txt)|*.bin; *.txt";
+					ofd.Filter = "Task File (*.bin , *.txt)|*.bin;*.txt";
 					if (ofd.ShowDialog() == DialogResult.OK)
 						_tskAddress = ofd.FileName;
 					else
@@ -95,7 +95,7 @@ namespace Basics
 				if (suffix == ".txt")
 				{
 					lines = File.ReadAllLines(_tskAddress, Encoding.UTF8);
-					if (lines[0] != "TaskLabPics" && lines[0] != "TaskLab" && lines[0] != "Number Of Levels")
+					if (lines[0] != "TaskLabMedia" && lines[0] != "TaskLab" && lines[0] != "Number Of Levels")
 					{
 
 						return false;

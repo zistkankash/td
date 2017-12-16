@@ -13,7 +13,7 @@ namespace Basics
 		public static int _monitor_resolution_y = 900;
 		public static TaskServer server;
 		public static int _triableMonitor;
-
+		public static object graphicsLock = new object();
 		public static bool GetScreenConfigs(int TriableMonitor)
 		{
 			_triableMonitor = TriableMonitor;

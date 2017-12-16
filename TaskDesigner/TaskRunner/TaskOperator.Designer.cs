@@ -632,7 +632,7 @@
 			// 
 			// refTimer
 			// 
-			this.refTimer.Interval = 50;
+			this.refTimer.Interval = 30;
 			this.refTimer.Tick += new System.EventHandler(this.refTimer_Tick);
 			// 
 			// TaskOperator

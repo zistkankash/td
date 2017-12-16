@@ -124,11 +124,14 @@ namespace Basics
 					{
 						_taskIsReady = false;
                         tskSavMod = SaveMod.txt;
+						
 						if (lines[0] == "TaskLabMedia")      // تسک های تصویری
 						{
+							mediaTask = new MediaTask();
 							if (mediaTask.LoadFromText(lines))
 								_taskIsReady = true;
 							_type = TaskType.media;
+							return true;
 						}
 
 						else if (lines[0] == "PsycoTaskLab")     // تسک های روانشناختی
