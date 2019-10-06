@@ -32,7 +32,7 @@ namespace Psychophysics
         public static List<int> NumerRepeat = new List<int>();
         public static int[] TaskIndex = new int[NFrame];
         public static bool ChangeHappened = false;
-        public static double userDistance = 0.5;
+        public static double userDistance = 0.5;                   //A: make these userdefined at the end !!!!!!
         public static double WidthM = 0.42, HeightM = 0.26;
         public static double WidthP = 1440, HeightP = 900;
         public static Boolean[] selectedtask = new Boolean [10];  //A:pay attention we could just have 10 tasks...fix it later!??!?!?

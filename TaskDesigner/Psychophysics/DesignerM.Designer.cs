@@ -29,10 +29,10 @@ namespace Psychophysics
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("FixationROI");
-			System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Stimulus");
-			System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("ShowFrame");
-			System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Hint");
+			System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("FixationROI");
+			System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Stimulus");
+			System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("ShowFrame");
+			System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Hint");
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.t_addslide = new MetroFramework.Controls.MetroTile();
 			this.panel4 = new System.Windows.Forms.Panel();
@@ -51,8 +51,8 @@ namespace Psychophysics
 			this.textBox3 = new System.Windows.Forms.TextBox();
 			this.label3 = new System.Windows.Forms.Label();
 			this.label4 = new System.Windows.Forms.Label();
-			this.textBox4 = new System.Windows.Forms.TextBox();
-			this.textBox5 = new System.Windows.Forms.TextBox();
+			this.txbx_mousePradianY = new System.Windows.Forms.TextBox();
+			this.txbx_mousePradianX = new System.Windows.Forms.TextBox();
 			this.label5 = new System.Windows.Forms.Label();
 			this.label9 = new System.Windows.Forms.Label();
 			this.button2 = new System.Windows.Forms.Button();
@@ -159,7 +159,7 @@ namespace Psychophysics
 			// 
 			this.metroLabel2.AutoSize = true;
 			this.metroLabel2.FontWeight = MetroFramework.MetroLabelWeight.Bold;
-			this.metroLabel2.Location = new System.Drawing.Point(273, 23);
+			this.metroLabel2.Location = new System.Drawing.Point(273, 17);
 			this.metroLabel2.Name = "metroLabel2";
 			this.metroLabel2.Size = new System.Drawing.Size(63, 19);
 			this.metroLabel2.TabIndex = 12;
@@ -180,8 +180,8 @@ namespace Psychophysics
 			this.metroTextBox2.CustomButton.UseSelectable = true;
 			this.metroTextBox2.CustomButton.Visible = false;
 			this.metroTextBox2.Lines = new string[] {
-		"metroTextBox2"};
-			this.metroTextBox2.Location = new System.Drawing.Point(221, 56);
+        "metroTextBox2"};
+			this.metroTextBox2.Location = new System.Drawing.Point(230, 54);
 			this.metroTextBox2.MaxLength = 32767;
 			this.metroTextBox2.Name = "metroTextBox2";
 			this.metroTextBox2.PasswordChar = '\0';
@@ -222,7 +222,7 @@ namespace Psychophysics
 			this.metroTextBox1.CustomButton.UseSelectable = true;
 			this.metroTextBox1.CustomButton.Visible = false;
 			this.metroTextBox1.Lines = new string[] {
-		"metroTextBox1"};
+        "metroTextBox1"};
 			this.metroTextBox1.Location = new System.Drawing.Point(103, 18);
 			this.metroTextBox1.MaxLength = 32767;
 			this.metroTextBox1.Name = "metroTextBox1";
@@ -249,6 +249,8 @@ namespace Psychophysics
 			this.pnl_Draw.Name = "pnl_Draw";
 			this.pnl_Draw.Size = new System.Drawing.Size(624, 515);
 			this.pnl_Draw.TabIndex = 3;
+			this.pnl_Draw.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pnl_Draw_MouseDown);
+			this.pnl_Draw.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pnl_Draw_MouseMove);
 			// 
 			// panel9
 			// 
@@ -276,19 +278,19 @@ namespace Psychophysics
 			this.Objects_TV.BackColor = System.Drawing.Color.LightSteelBlue;
 			this.Objects_TV.Location = new System.Drawing.Point(7, 3);
 			this.Objects_TV.Name = "Objects_TV";
-			treeNode1.Name = "FixationROIRoot";
-			treeNode1.Text = "FixationROI";
-			treeNode2.Name = "StimulusRoot";
-			treeNode2.Text = "Stimulus";
-			treeNode3.Name = "ShowFrameRoot";
-			treeNode3.Text = "ShowFrame";
-			treeNode4.Name = "HintRoot";
-			treeNode4.Text = "Hint";
+			treeNode5.Name = "FixationROIRoot";
+			treeNode5.Text = "FixationROI";
+			treeNode6.Name = "StimulusRoot";
+			treeNode6.Text = "Stimulus";
+			treeNode7.Name = "ShowFrameRoot";
+			treeNode7.Text = "ShowFrame";
+			treeNode8.Name = "HintRoot";
+			treeNode8.Text = "Hint";
 			this.Objects_TV.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-			treeNode1,
-			treeNode2,
-			treeNode3,
-			treeNode4});
+            treeNode5,
+            treeNode6,
+            treeNode7,
+            treeNode8});
 			this.Objects_TV.Size = new System.Drawing.Size(142, 135);
 			this.Objects_TV.TabIndex = 26;
 			// 
@@ -300,8 +302,8 @@ namespace Psychophysics
 			this.panel7.Controls.Add(this.textBox3);
 			this.panel7.Controls.Add(this.label3);
 			this.panel7.Controls.Add(this.label4);
-			this.panel7.Controls.Add(this.textBox4);
-			this.panel7.Controls.Add(this.textBox5);
+			this.panel7.Controls.Add(this.txbx_mousePradianY);
+			this.panel7.Controls.Add(this.txbx_mousePradianX);
 			this.panel7.Controls.Add(this.label5);
 			this.panel7.Controls.Add(this.label9);
 			this.panel7.Location = new System.Drawing.Point(163, 3);
@@ -343,21 +345,21 @@ namespace Psychophysics
 			this.label4.TabIndex = 22;
 			this.label4.Text = "Width";
 			// 
-			// textBox4
+			// txbx_mousePradianY
 			// 
-			this.textBox4.Enabled = false;
-			this.textBox4.Location = new System.Drawing.Point(70, 87);
-			this.textBox4.Name = "textBox4";
-			this.textBox4.Size = new System.Drawing.Size(62, 20);
-			this.textBox4.TabIndex = 21;
+			this.txbx_mousePradianY.Enabled = false;
+			this.txbx_mousePradianY.Location = new System.Drawing.Point(70, 87);
+			this.txbx_mousePradianY.Name = "txbx_mousePradianY";
+			this.txbx_mousePradianY.Size = new System.Drawing.Size(62, 20);
+			this.txbx_mousePradianY.TabIndex = 21;
 			// 
-			// textBox5
+			// txbx_mousePradianX
 			// 
-			this.textBox5.Enabled = false;
-			this.textBox5.Location = new System.Drawing.Point(70, 61);
-			this.textBox5.Name = "textBox5";
-			this.textBox5.Size = new System.Drawing.Size(62, 20);
-			this.textBox5.TabIndex = 19;
+			this.txbx_mousePradianX.Enabled = false;
+			this.txbx_mousePradianX.Location = new System.Drawing.Point(70, 61);
+			this.txbx_mousePradianX.Name = "txbx_mousePradianX";
+			this.txbx_mousePradianX.Size = new System.Drawing.Size(62, 20);
+			this.txbx_mousePradianX.TabIndex = 19;
 			// 
 			// label5
 			// 
@@ -383,7 +385,7 @@ namespace Psychophysics
 			// 
 			this.button2.AutoEllipsis = true;
 			this.button2.BackColor = System.Drawing.Color.Transparent;
-			this.button2.BackgroundImage = Resource.shape;
+			this.button2.BackgroundImage = global::TaskDesigner.Resource.shape;
 			this.button2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.button2.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
 			this.button2.FlatAppearance.BorderSize = 0;
@@ -419,7 +421,7 @@ namespace Psychophysics
 			// 
 			this.button3.AutoEllipsis = true;
 			this.button3.BackColor = System.Drawing.Color.Transparent;
-			this.button3.BackgroundImage = Resource.picture;
+			this.button3.BackgroundImage = global::TaskDesigner.Resource.picture;
 			this.button3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.button3.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
 			this.button3.FlatAppearance.BorderSize = 0;
@@ -437,7 +439,7 @@ namespace Psychophysics
 			// 
 			this.button4.AutoEllipsis = true;
 			this.button4.BackColor = System.Drawing.Color.Transparent;
-			this.button4.BackgroundImage = Resource.shape;
+			this.button4.BackgroundImage = global::TaskDesigner.Resource.shape;
 			this.button4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.button4.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
 			this.button4.FlatAppearance.BorderSize = 0;
@@ -463,14 +465,14 @@ namespace Psychophysics
 			// 
 			this.SelectRewardType_CB.FormattingEnabled = true;
 			this.SelectRewardType_CB.Items.AddRange(new object[] {
-			"0",
-			"1",
-			"2",
-			"3",
-			"4",
-			"5",
-			"6",
-			"7"});
+            "0",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7"});
 			this.SelectRewardType_CB.Location = new System.Drawing.Point(103, 56);
 			this.SelectRewardType_CB.Name = "SelectRewardType_CB";
 			this.SelectRewardType_CB.Size = new System.Drawing.Size(70, 21);
@@ -566,7 +568,7 @@ namespace Psychophysics
 			// 
 			this.RectangleShape_BT.AutoEllipsis = true;
 			this.RectangleShape_BT.BackColor = System.Drawing.Color.Transparent;
-			this.RectangleShape_BT.BackgroundImage = Resource.rectangle;
+			this.RectangleShape_BT.BackgroundImage = global::TaskDesigner.Resource.rectangle;
 			this.RectangleShape_BT.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.RectangleShape_BT.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
 			this.RectangleShape_BT.FlatAppearance.BorderSize = 0;
@@ -584,7 +586,7 @@ namespace Psychophysics
 			// 
 			this.SquareShape_BT.AutoEllipsis = true;
 			this.SquareShape_BT.BackColor = System.Drawing.Color.Transparent;
-			this.SquareShape_BT.BackgroundImage = Resource.square;
+			this.SquareShape_BT.BackgroundImage = global::TaskDesigner.Resource.square;
 			this.SquareShape_BT.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.SquareShape_BT.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
 			this.SquareShape_BT.FlatAppearance.BorderSize = 0;
@@ -622,7 +624,7 @@ namespace Psychophysics
 			// 
 			this.CircleShape_BT.AutoEllipsis = true;
 			this.CircleShape_BT.BackColor = System.Drawing.Color.Transparent;
-			this.CircleShape_BT.BackgroundImage = Resource.circle;
+			this.CircleShape_BT.BackgroundImage = global::TaskDesigner.Resource.circle;
 			this.CircleShape_BT.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.CircleShape_BT.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
 			this.CircleShape_BT.FlatAppearance.BorderSize = 0;
@@ -670,6 +672,7 @@ namespace Psychophysics
 			this.btn_PenColor.Size = new System.Drawing.Size(33, 28);
 			this.btn_PenColor.TabIndex = 2;
 			this.btn_PenColor.UseVisualStyleBackColor = false;
+			this.btn_PenColor.Click += new System.EventHandler(this.btn_PenColor_Click);
 			// 
 			// BgColor_BT
 			// 
@@ -679,6 +682,7 @@ namespace Psychophysics
 			this.BgColor_BT.Size = new System.Drawing.Size(29, 28);
 			this.BgColor_BT.TabIndex = 4;
 			this.BgColor_BT.UseVisualStyleBackColor = false;
+			this.BgColor_BT.Click += new System.EventHandler(this.BgColor_BT_Click);
 			// 
 			// label15
 			// 
@@ -696,12 +700,12 @@ namespace Psychophysics
 			// 
 			this.Start_PB.AutoEllipsis = true;
 			this.Start_PB.BackColor = System.Drawing.Color.Transparent;
-			this.Start_PB.BackgroundImage = Resource._checked;
+			this.Start_PB.BackgroundImage = global::TaskDesigner.Resource._checked;
 			this.Start_PB.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.Start_PB.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
 			this.Start_PB.FlatAppearance.BorderSize = 0;
 			this.Start_PB.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.Start_PB.Location = new System.Drawing.Point(273, 88);
+			this.Start_PB.Location = new System.Drawing.Point(273, 80);
 			this.Start_PB.Margin = new System.Windows.Forms.Padding(0);
 			this.Start_PB.Name = "Start_PB";
 			this.Start_PB.Size = new System.Drawing.Size(48, 48);
@@ -809,7 +813,7 @@ namespace Psychophysics
 			this.tb_finishsetting.VerticalScrollbarHighlightOnWheel = false;
 			this.tb_finishsetting.VerticalScrollbarSize = 10;
 			// 
-			// TaskDesigner
+			// DesignerM
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -820,7 +824,7 @@ namespace Psychophysics
 			this.Controls.Add(this.BgColor_BT);
 			this.Controls.Add(this.pnl_Draw);
 			this.Controls.Add(this.panel1);
-			this.Name = "TaskDesigner";
+			this.Name = "DesignerM";
 			this.Style = MetroFramework.MetroColorStyle.Silver;
 			this.panel1.ResumeLayout(false);
 			this.panel4.ResumeLayout(false);
@@ -863,8 +867,8 @@ namespace Psychophysics
 		private System.Windows.Forms.TextBox textBox3;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.TextBox textBox4;
-		private System.Windows.Forms.TextBox textBox5;
+		private System.Windows.Forms.TextBox txbx_mousePradianY;
+		private System.Windows.Forms.TextBox txbx_mousePradianX;
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.Label label9;
 		private System.Windows.Forms.Button button3;

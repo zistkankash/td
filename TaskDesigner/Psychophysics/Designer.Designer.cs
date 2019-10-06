@@ -167,8 +167,8 @@ namespace Psychophysics.Old
 			// AddPicB
 			// 
 			this.AddPicB.BackColor = System.Drawing.Color.White;
-			this.AddPicB.Image = Resource.add;
-			this.AddPicB.InitialImage = Resource.add;
+			this.AddPicB.Image = global::TaskDesigner.Resource.add;
+			this.AddPicB.InitialImage = global::TaskDesigner.Resource.add;
 			this.AddPicB.Location = new System.Drawing.Point(12, 159);
 			this.AddPicB.Name = "AddPicB";
 			this.AddPicB.Size = new System.Drawing.Size(144, 102);
@@ -218,7 +218,7 @@ namespace Psychophysics.Old
 			// BgColor_BT
 			// 
 			this.BgColor_BT.BackColor = System.Drawing.SystemColors.Control;
-			this.BgColor_BT.Location = new System.Drawing.Point(547, 38);
+			this.BgColor_BT.Location = new System.Drawing.Point(554, 44);
 			this.BgColor_BT.Name = "BgColor_BT";
 			this.BgColor_BT.Size = new System.Drawing.Size(122, 28);
 			this.BgColor_BT.TabIndex = 4;
@@ -305,10 +305,10 @@ namespace Psychophysics.Old
 			treeNode4.Name = "HintRoot";
 			treeNode4.Text = "Hint";
 			this.Objects_TV.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-			treeNode1,
-			treeNode2,
-			treeNode3,
-			treeNode4});
+            treeNode1,
+            treeNode2,
+            treeNode3,
+            treeNode4});
 			this.Objects_TV.Size = new System.Drawing.Size(125, 110);
 			this.Objects_TV.TabIndex = 26;
 			this.Objects_TV.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.Objects_TV_AfterSelect);
@@ -331,7 +331,7 @@ namespace Psychophysics.Old
 			// 
 			this.FixationSetting_BT.AutoEllipsis = true;
 			this.FixationSetting_BT.BackColor = System.Drawing.Color.Transparent;
-			this.FixationSetting_BT.BackgroundImage = Resource.fixation_setting;
+			this.FixationSetting_BT.BackgroundImage = global::TaskDesigner.Resource.fixation_setting;
 			this.FixationSetting_BT.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.FixationSetting_BT.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
 			this.FixationSetting_BT.FlatAppearance.BorderSize = 0;
@@ -350,7 +350,7 @@ namespace Psychophysics.Old
 			// 
 			this.button5.AutoEllipsis = true;
 			this.button5.BackColor = System.Drawing.Color.Transparent;
-			this.button5.BackgroundImage = Resource.shape;
+			this.button5.BackgroundImage = global::TaskDesigner.Resource.shape;
 			this.button5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.button5.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
 			this.button5.FlatAppearance.BorderSize = 0;
@@ -507,7 +507,7 @@ namespace Psychophysics.Old
 			// 
 			this.button7.AutoEllipsis = true;
 			this.button7.BackColor = System.Drawing.Color.Transparent;
-			this.button7.BackgroundImage = Resource.picture;
+			this.button7.BackgroundImage = global::TaskDesigner.Resource.picture;
 			this.button7.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.button7.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
 			this.button7.FlatAppearance.BorderSize = 0;
@@ -526,7 +526,7 @@ namespace Psychophysics.Old
 			// 
 			this.button6.AutoEllipsis = true;
 			this.button6.BackColor = System.Drawing.Color.Transparent;
-			this.button6.BackgroundImage = Resource.shape;
+			this.button6.BackgroundImage = global::TaskDesigner.Resource.shape;
 			this.button6.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.button6.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
 			this.button6.FlatAppearance.BorderSize = 0;
@@ -591,14 +591,14 @@ namespace Psychophysics.Old
 			// 
 			this.SelectRewardType_CB.FormattingEnabled = true;
 			this.SelectRewardType_CB.Items.AddRange(new object[] {
-			"0",
-			"1",
-			"2",
-			"3",
-			"4",
-			"5",
-			"6",
-			"7"});
+            "0",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7"});
 			this.SelectRewardType_CB.Location = new System.Drawing.Point(640, 116);
 			this.SelectRewardType_CB.Name = "SelectRewardType_CB";
 			this.SelectRewardType_CB.Size = new System.Drawing.Size(70, 21);
@@ -749,7 +749,7 @@ namespace Psychophysics.Old
 			// 
 			this.RectangleShape_BT.AutoEllipsis = true;
 			this.RectangleShape_BT.BackColor = System.Drawing.Color.Transparent;
-			this.RectangleShape_BT.BackgroundImage = Resource.rectangle;
+			this.RectangleShape_BT.BackgroundImage = global::TaskDesigner.Resource.rectangle;
 			this.RectangleShape_BT.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.RectangleShape_BT.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
 			this.RectangleShape_BT.FlatAppearance.BorderSize = 0;
@@ -768,7 +768,7 @@ namespace Psychophysics.Old
 			// 
 			this.SquareShape_BT.AutoEllipsis = true;
 			this.SquareShape_BT.BackColor = System.Drawing.Color.Transparent;
-			this.SquareShape_BT.BackgroundImage = Resource.square;
+			this.SquareShape_BT.BackgroundImage = global::TaskDesigner.Resource.square;
 			this.SquareShape_BT.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.SquareShape_BT.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
 			this.SquareShape_BT.FlatAppearance.BorderSize = 0;
@@ -797,7 +797,7 @@ namespace Psychophysics.Old
 			// 
 			this.CircleShape_BT.AutoEllipsis = true;
 			this.CircleShape_BT.BackColor = System.Drawing.Color.Transparent;
-			this.CircleShape_BT.BackgroundImage = Resource.circle;
+			this.CircleShape_BT.BackgroundImage = global::TaskDesigner.Resource.circle;
 			this.CircleShape_BT.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.CircleShape_BT.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
 			this.CircleShape_BT.FlatAppearance.BorderSize = 0;
@@ -834,7 +834,7 @@ namespace Psychophysics.Old
 			// 
 			this.Start_PB.AutoEllipsis = true;
 			this.Start_PB.BackColor = System.Drawing.Color.Transparent;
-			this.Start_PB.BackgroundImage = Resource._checked;
+			this.Start_PB.BackgroundImage = global::TaskDesigner.Resource._checked;
 			this.Start_PB.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.Start_PB.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
 			this.Start_PB.FlatAppearance.BorderSize = 0;
@@ -864,8 +864,8 @@ namespace Psychophysics.Old
 			// Popup
 			// 
 			this.Popup.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-			this.deleteToolStripMenuItem,
-			this.clearToolStripMenuItem});
+            this.deleteToolStripMenuItem,
+            this.clearToolStripMenuItem});
 			this.Popup.Name = "Popup";
 			this.Popup.Size = new System.Drawing.Size(108, 48);
 			// 

@@ -98,7 +98,7 @@ namespace Psychophysics.Old
         // Number and Size of Screens
         Screen[] screen = Screen.AllScreens;
         public static int ScreenWidth = 0, ScreenHeight = 0;
-        float ViewSize = 80; //A: main white box in the midddle of task designer
+        float ViewSize = 80; //A: main white box size in the midddle of task designer
         bool startPaint = false;
         Graphics g, gr;
         //nullable int for storing Null value
@@ -235,10 +235,10 @@ namespace Psychophysics.Old
             initX = e.X;
             initY = e.Y;
 
-            double X = ConvertDegreeX(Convert.ToInt16(initX * 100 / ViewSize)) * 180 / 3.1415;
-            double Y = ConvertDegreeY(Convert.ToInt16(initY * 100 / ViewSize)) * 180 / 3.1415; 
-
-            X_Fixation_Location_ET.Text = Convert.ToString(X);
+            double X = ConvertDegreeX(Convert.ToInt16(initX * 100 / ViewSize)) * 180 / 3.1415;//A: convert the cursur position in percent to radian whyyyy?!!
+            double Y = ConvertDegreeY(Convert.ToInt16(initY * 100 / ViewSize)) * 180 / 3.1415;//A:it seems the ConvertDegree suppost to give the degree of the position 
+																					          //A:didnt use it later?!just showing it!
+			X_Fixation_Location_ET.Text = Convert.ToString(X); //A: shows it on the text box
             Y_Fixation_Location_ET.Text = Convert.ToString(Y);
 
 
@@ -458,7 +458,7 @@ namespace Psychophysics.Old
             {
                 btn_PenColor.BackColor = c.Color;
             }
-        }
+        }     //A:DONE
 
         //Setting the Canvas Color
         private void btn_CanvasColor_Click_1(object sender, EventArgs e) //A: changing the background color
@@ -473,8 +473,8 @@ namespace Psychophysics.Old
                 frameList[ActivePicB - 1].frameColor = c.Color;
                 UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList);  //A: update the whole task
             }
-        }
-        private void btn_Square_Click(object sender, EventArgs e)
+		}    //A:DONE
+		private void btn_Square_Click(object sender, EventArgs e)
         {
             drawSquare = true;
         }
