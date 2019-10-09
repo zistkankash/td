@@ -227,10 +227,10 @@ namespace Psychophysics.Old
         static Color SetTransparency(int A, Color color)
         {
             return Color.FromArgb(A, color.R, color.G, color.B);
-        }
+		}          //A:DONE
 
-        //Event fired when the mouse pointer is moved over the Panel(pnl_Draw).
-        private void pnl_Draw_MouseMove(object sender, MouseEventArgs e)
+		//Event fired when the mouse pointer is moved over the Panel(pnl_Draw).
+		private void pnl_Draw_MouseMove(object sender, MouseEventArgs e)
         {
             initX = e.X;
             initY = e.Y;
@@ -253,10 +253,10 @@ namespace Psychophysics.Old
                 UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList);
             }
 
-        }
+		}            //A:DONE
 
-        //Event Fired when the mouse pointer is over Panel and a mouse button is pressed
-        private void pnl_Draw_MouseDown(object sender, MouseEventArgs e)
+		//Event Fired when the mouse pointer is over Panel and a mouse button is pressed
+		private void pnl_Draw_MouseDown(object sender, MouseEventArgs e)
         {
             if (drawSquare)
             {
@@ -436,9 +436,9 @@ namespace Psychophysics.Old
             Bitmap objBitmap = new Bitmap(BitmapPicB[ActivePicB - 1], new Size(PicB1.Width, PicB1.Height));
             PictureBox picb = panel1.Controls.Find("PicB" + ActivePicB, true).FirstOrDefault() as PictureBox;
             picb.Image = objBitmap;
-        }
-        //Fired when the mouse pointer is over the pnl_Draw and a mouse button is released.
-        private void pnl_Draw_MouseUp(object sender, MouseEventArgs e)
+		}           //A:DONE
+					//Fired when the mouse pointer is over the pnl_Draw and a mouse button is released.
+		private void pnl_Draw_MouseUp(object sender, MouseEventArgs e)
         {
             startPaint = false;
             initX = null;
@@ -448,9 +448,9 @@ namespace Psychophysics.Old
             moveObjectX = 0;
             moveObjectY = 0;
             indexMoveObject = -1;
-        }
-        //Button for Setting pen Color
-        private void button1_Click(object sender, EventArgs e)
+		}           //A:DONE
+					//Button for Setting pen Color
+		private void button1_Click(object sender, EventArgs e)
         {
             //Open Color Dialog and Set BackColor of btn_PenColor if user click on OK
             ColorDialog c = new ColorDialog();
@@ -477,17 +477,17 @@ namespace Psychophysics.Old
 		private void btn_Square_Click(object sender, EventArgs e)
         {
             drawSquare = true;
-        }
-        private void btn_Rectangle_Click(object sender, EventArgs e)
+		}    //A:DONE
+		private void btn_Rectangle_Click(object sender, EventArgs e)
         {
             drawRectangle = true;
-        }
-        private void btn_Circle_Click(object sender, EventArgs e)
+		} //A:DONE
+		private void btn_Circle_Click(object sender, EventArgs e) 
         {
             drawCircle = true;
-        }
+		}  //A:DONE
 
-        private void AddPicB_Click(object sender, EventArgs e)
+		private void AddPicB_Click(object sender, EventArgs e)
         {
             // Adding new PictureBox
             StimulusPanel.Enabled = true;
@@ -503,7 +503,7 @@ namespace Psychophysics.Old
             PicB.Location = AddPicB.Location;
             PicB.Size = AddPicB.Size;
             PicB.Name = "PicB" + PicBCnt;
-            PicB.Click += new System.EventHandler(this.PicB_Click);  //A: it seems it doest enter the picB_click event handler,why?!!
+            PicB.Click += new System.EventHandler(this.PicB_Click);  //A: it seems it doest enter the picB_click event handler,why?!!what is it for?
             PicB.Visible = true;
 
             // Frame setting
@@ -540,9 +540,9 @@ namespace Psychophysics.Old
             // Change the location of Add-Picturebox
             AddPicB.Location = new Point(AddPicB.Location.X, AddPicB.Location.Y + AddPicB.Size.Height + 15);
             UpdateTreeView(ActivePicB - 1);
-        }
+		}      //A:DONE
 
-        private void FixationSetting_BT_Click(object sender, EventArgs e)
+		private void FixationSetting_BT_Click(object sender, EventArgs e)
         {
             FixationSetting FixationSettingForm = new FixationSetting(Reward[ActivePicB - 1], ActivePicB - 1);
             FixationSettingForm.Show();
@@ -561,24 +561,24 @@ namespace Psychophysics.Old
             RectangleShape_BT.Enabled = false;
             FixationTime_ET.Enabled = true;
             Shape_Panel.BackColor = Color.Green;
-        }
+		}      //A:DONE
 
-        private void StimulusShapeActive_BT_Click(object sender, EventArgs e)
-        {
+		private void StimulusShapeActive_BT_Click(object sender, EventArgs e)     
+		{
             FixationSelected = false;
             Shape_Panel.Enabled = true;
             SquareShape_BT.Enabled = true;
             RectangleShape_BT.Enabled = true;
             Shape_Panel.BackColor = Color.Green;
-        }
+		}    //A:DONE
 
-        private void ParentPanel_Scroll(object sender, ScrollEventArgs e)
+		private void ParentPanel_Scroll(object sender, ScrollEventArgs e)  
         {
             Bitmap objBitmap = new Bitmap(BitmapPicB[ActivePicB - 1], pnl_Draw.Size);
             g.Clear(Color.White);
             g.DrawImage(objBitmap, new PointF(0, 0));
             objBitmap.Dispose();
-        }  //A:where is this parentpanel?!
+        }  //A:it behind the main white panel.what is it for? didnt put them in designerM
 
         private void ParentPanel_Wheel(object sender, MouseEventArgs e)
         {
@@ -586,9 +586,9 @@ namespace Psychophysics.Old
             g.Clear(Color.White);
             g.DrawImage(objBitmap, new PointF(0, 0));
             objBitmap.Dispose();
-        }  //A:where is this parentpanel?
+		}  //A:it behind the main white panel.what is it for?didnt put them in designerM
 
-        private void Browse_BT(object sender, EventArgs e)
+		private void Browse_BT(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
             string PictureFolder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
@@ -610,14 +610,16 @@ namespace Psychophysics.Old
                 }
             }
             drawImage = true;
-        }
+			textBox1.Text = ImagePath;
 
-        private void ParentPanel_MouseHover(object sender, EventArgs e)  //A:where is this parentpanel?
+		}     //A:Done
+
+        private void ParentPanel_MouseHover(object sender, EventArgs e) 
         {
             ParentPanel.Focus();
-        }
+		}  //A:it behind the main white panel.what is it for?didnt put them in designerM
 
-        private void Next_PB_Click(object sender, EventArgs e)
+		private void Next_PB_Click(object sender, EventArgs e)
         {
             FrameProperties[] AddedFrame = new FrameProperties[PicBCnt];
             List<Basics.FrameProperties> ListAddedFrame = new List<Basics.FrameProperties>();
@@ -755,9 +757,9 @@ namespace Psychophysics.Old
             FixationSelected = false;
             Picture_Panel.Enabled = true;
             Picture_Panel.BackColor = Color.Green;
-        }
+		}           //A:DONE
 
-        private void FixationTime_ET_TextChanged(object sender, EventArgs e)
+		private void FixationTime_ET_TextChanged(object sender, EventArgs e)
         {
             fixationList[ActivePicB - 1].Time = int.Parse(FixationTime_ET.Text);
         }

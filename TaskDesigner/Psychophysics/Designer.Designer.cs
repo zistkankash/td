@@ -854,7 +854,7 @@ namespace Psychophysics.Old
 			this.ParentPanel.AutoScroll = true;
 			this.ParentPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(191)))), ((int)(((byte)(219)))), ((int)(((byte)(255)))));
 			this.ParentPanel.Controls.Add(this.pnl_Draw);
-			this.ParentPanel.Location = new System.Drawing.Point(211, 68);
+			this.ParentPanel.Location = new System.Drawing.Point(210, 73);
 			this.ParentPanel.Name = "ParentPanel";
 			this.ParentPanel.Size = new System.Drawing.Size(822, 545);
 			this.ParentPanel.TabIndex = 18;
@@ -867,6 +867,7 @@ namespace Psychophysics.Old
             this.deleteToolStripMenuItem,
             this.clearToolStripMenuItem});
 			this.Popup.Name = "Popup";
+			this.Popup.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
 			this.Popup.Size = new System.Drawing.Size(108, 48);
 			// 
 			// deleteToolStripMenuItem
@@ -895,7 +896,7 @@ namespace Psychophysics.Old
 			// SelectedPage_LB
 			// 
 			this.SelectedPage_LB.AutoSize = true;
-			this.SelectedPage_LB.Location = new System.Drawing.Point(223, 620);
+			this.SelectedPage_LB.Location = new System.Drawing.Point(214, 616);
 			this.SelectedPage_LB.Name = "SelectedPage_LB";
 			this.SelectedPage_LB.Size = new System.Drawing.Size(83, 13);
 			this.SelectedPage_LB.TabIndex = 22;
