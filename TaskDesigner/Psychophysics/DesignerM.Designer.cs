@@ -29,20 +29,22 @@ namespace Psychophysics
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("FixationROI");
-			System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Stimulus");
-			System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("ShowFrame");
-			System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Hint");
+			this.components = new System.ComponentModel.Container();
+			System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("FixationROI");
+			System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Stimulus");
+			System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("ShowFrame");
+			System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Hint");
 			this.panel1 = new System.Windows.Forms.Panel();
+			this.Size_LB = new System.Windows.Forms.Label();
 			this.SelectedPage_LB = new System.Windows.Forms.Label();
 			this.t_addslide = new MetroFramework.Controls.MetroTile();
 			this.panel4 = new System.Windows.Forms.Panel();
 			this.label6 = new System.Windows.Forms.Label();
 			this.PicB1 = new System.Windows.Forms.PictureBox();
 			this.metroLabel2 = new MetroFramework.Controls.MetroLabel();
-			this.metroTextBox2 = new MetroFramework.Controls.MetroTextBox();
+			this.txtbx_path2save = new MetroFramework.Controls.MetroTextBox();
 			this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
-			this.metroTextBox1 = new MetroFramework.Controls.MetroTextBox();
+			this.txbx_taskname = new MetroFramework.Controls.MetroTextBox();
 			this.pnl_Draw = new System.Windows.Forms.Panel();
 			this.panel9 = new System.Windows.Forms.Panel();
 			this.panel6 = new System.Windows.Forms.Panel();
@@ -59,7 +61,6 @@ namespace Psychophysics
 			this.txb_fixationtime = new System.Windows.Forms.TextBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.RewardType_LB = new System.Windows.Forms.Label();
-			this.SelectRewardType_CB = new System.Windows.Forms.ComboBox();
 			this.FrameTime_ET = new System.Windows.Forms.TextBox();
 			this.btn_browse = new System.Windows.Forms.Button();
 			this.ImageWidth_TB = new System.Windows.Forms.TextBox();
@@ -67,7 +68,6 @@ namespace Psychophysics
 			this.Imageheight_TB = new System.Windows.Forms.TextBox();
 			this.label8 = new System.Windows.Forms.Label();
 			this.label10 = new System.Windows.Forms.Label();
-			this.label18 = new System.Windows.Forms.Label();
 			this.label16 = new System.Windows.Forms.Label();
 			this.RectangleShape_BT = new System.Windows.Forms.Button();
 			this.SquareShape_BT = new System.Windows.Forms.Button();
@@ -80,7 +80,7 @@ namespace Psychophysics
 			this.btn_PenColor = new System.Windows.Forms.Button();
 			this.BgColor_BT = new System.Windows.Forms.Button();
 			this.label15 = new System.Windows.Forms.Label();
-			this.Start_PB = new System.Windows.Forms.Button();
+			this.pb_finish = new System.Windows.Forms.Button();
 			this.tb_toolbar = new MetroFramework.Controls.MetroTabControl();
 			this.tb_addpics = new MetroFramework.Controls.MetroTabPage();
 			this.pnl_pics = new MetroFramework.Controls.MetroPanel();
@@ -88,6 +88,10 @@ namespace Psychophysics
 			this.pnl_shape = new MetroFramework.Controls.MetroPanel();
 			this.ChB_isfixation = new MetroFramework.Controls.MetroCheckBox();
 			this.tb_finishsetting = new MetroFramework.Controls.MetroTabPage();
+			this.Popup = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.b_condition = new System.Windows.Forms.Button();
 			this.panel1.SuspendLayout();
 			this.panel4.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.PicB1)).BeginInit();
@@ -100,12 +104,14 @@ namespace Psychophysics
 			this.tb_addshapes.SuspendLayout();
 			this.pnl_shape.SuspendLayout();
 			this.tb_finishsetting.SuspendLayout();
+			this.Popup.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// panel1
 			// 
 			this.panel1.BackColor = System.Drawing.Color.White;
 			this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.panel1.Controls.Add(this.Size_LB);
 			this.panel1.Controls.Add(this.SelectedPage_LB);
 			this.panel1.Controls.Add(this.t_addslide);
 			this.panel1.Controls.Add(this.panel4);
@@ -116,10 +122,19 @@ namespace Psychophysics
 			this.panel1.Size = new System.Drawing.Size(140, 516);
 			this.panel1.TabIndex = 1;
 			// 
+			// Size_LB
+			// 
+			this.Size_LB.AutoSize = true;
+			this.Size_LB.Location = new System.Drawing.Point(87, 492);
+			this.Size_LB.Name = "Size_LB";
+			this.Size_LB.Size = new System.Drawing.Size(41, 13);
+			this.Size_LB.TabIndex = 26;
+			this.Size_LB.Text = "label19";
+			// 
 			// SelectedPage_LB
 			// 
 			this.SelectedPage_LB.AutoSize = true;
-			this.SelectedPage_LB.Location = new System.Drawing.Point(17, 492);
+			this.SelectedPage_LB.Location = new System.Drawing.Point(5, 492);
 			this.SelectedPage_LB.Name = "SelectedPage_LB";
 			this.SelectedPage_LB.Size = new System.Drawing.Size(83, 13);
 			this.SelectedPage_LB.TabIndex = 23;
@@ -172,43 +187,44 @@ namespace Psychophysics
 			// 
 			this.metroLabel2.AutoSize = true;
 			this.metroLabel2.FontWeight = MetroFramework.MetroLabelWeight.Bold;
-			this.metroLabel2.Location = new System.Drawing.Point(273, 17);
+			this.metroLabel2.Location = new System.Drawing.Point(66, 93);
 			this.metroLabel2.Name = "metroLabel2";
 			this.metroLabel2.Size = new System.Drawing.Size(63, 19);
 			this.metroLabel2.TabIndex = 12;
 			this.metroLabel2.Text = "Save to:";
 			// 
-			// metroTextBox2
+			// txtbx_path2save
 			// 
 			// 
 			// 
 			// 
-			this.metroTextBox2.CustomButton.Image = null;
-			this.metroTextBox2.CustomButton.Location = new System.Drawing.Point(163, 1);
-			this.metroTextBox2.CustomButton.Name = "";
-			this.metroTextBox2.CustomButton.Size = new System.Drawing.Size(21, 21);
-			this.metroTextBox2.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-			this.metroTextBox2.CustomButton.TabIndex = 1;
-			this.metroTextBox2.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-			this.metroTextBox2.CustomButton.UseSelectable = true;
-			this.metroTextBox2.CustomButton.Visible = false;
-			this.metroTextBox2.Lines = new string[] {
-        "metroTextBox2"};
-			this.metroTextBox2.Location = new System.Drawing.Point(230, 54);
-			this.metroTextBox2.MaxLength = 32767;
-			this.metroTextBox2.Name = "metroTextBox2";
-			this.metroTextBox2.PasswordChar = '\0';
-			this.metroTextBox2.ScrollBars = System.Windows.Forms.ScrollBars.None;
-			this.metroTextBox2.SelectedText = "";
-			this.metroTextBox2.SelectionLength = 0;
-			this.metroTextBox2.SelectionStart = 0;
-			this.metroTextBox2.ShortcutsEnabled = true;
-			this.metroTextBox2.Size = new System.Drawing.Size(185, 23);
-			this.metroTextBox2.TabIndex = 11;
-			this.metroTextBox2.Text = "metroTextBox2";
-			this.metroTextBox2.UseSelectable = true;
-			this.metroTextBox2.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-			this.metroTextBox2.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+			this.txtbx_path2save.CustomButton.Image = null;
+			this.txtbx_path2save.CustomButton.Location = new System.Drawing.Point(163, 1);
+			this.txtbx_path2save.CustomButton.Name = "";
+			this.txtbx_path2save.CustomButton.Size = new System.Drawing.Size(21, 21);
+			this.txtbx_path2save.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+			this.txtbx_path2save.CustomButton.TabIndex = 1;
+			this.txtbx_path2save.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+			this.txtbx_path2save.CustomButton.UseSelectable = true;
+			this.txtbx_path2save.CustomButton.Visible = false;
+			this.txtbx_path2save.Lines = new string[0];
+			this.txtbx_path2save.Location = new System.Drawing.Point(15, 115);
+			this.txtbx_path2save.MaxLength = 32767;
+			this.txtbx_path2save.Name = "txtbx_path2save";
+			this.txtbx_path2save.PasswordChar = '\0';
+			this.txtbx_path2save.PromptText = "Enter a path 2 save";
+			this.txtbx_path2save.ScrollBars = System.Windows.Forms.ScrollBars.None;
+			this.txtbx_path2save.SelectedText = "";
+			this.txtbx_path2save.SelectionLength = 0;
+			this.txtbx_path2save.SelectionStart = 0;
+			this.txtbx_path2save.ShortcutsEnabled = true;
+			this.txtbx_path2save.Size = new System.Drawing.Size(185, 23);
+			this.txtbx_path2save.TabIndex = 11;
+			this.txtbx_path2save.UseSelectable = true;
+			this.txtbx_path2save.WaterMark = "Enter a path 2 save";
+			this.txtbx_path2save.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+			this.txtbx_path2save.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+			this.txtbx_path2save.Click += new System.EventHandler(this.txtbx_path2save_Click);
 			// 
 			// metroLabel1
 			// 
@@ -220,37 +236,38 @@ namespace Psychophysics
 			this.metroLabel1.TabIndex = 10;
 			this.metroLabel1.Text = "Task Name";
 			// 
-			// metroTextBox1
+			// txbx_taskname
 			// 
 			// 
 			// 
 			// 
-			this.metroTextBox1.CustomButton.Image = null;
-			this.metroTextBox1.CustomButton.Location = new System.Drawing.Point(87, 1);
-			this.metroTextBox1.CustomButton.Name = "";
-			this.metroTextBox1.CustomButton.Size = new System.Drawing.Size(21, 21);
-			this.metroTextBox1.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-			this.metroTextBox1.CustomButton.TabIndex = 1;
-			this.metroTextBox1.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-			this.metroTextBox1.CustomButton.UseSelectable = true;
-			this.metroTextBox1.CustomButton.Visible = false;
-			this.metroTextBox1.Lines = new string[] {
-        "metroTextBox1"};
-			this.metroTextBox1.Location = new System.Drawing.Point(103, 18);
-			this.metroTextBox1.MaxLength = 32767;
-			this.metroTextBox1.Name = "metroTextBox1";
-			this.metroTextBox1.PasswordChar = '\0';
-			this.metroTextBox1.ScrollBars = System.Windows.Forms.ScrollBars.None;
-			this.metroTextBox1.SelectedText = "";
-			this.metroTextBox1.SelectionLength = 0;
-			this.metroTextBox1.SelectionStart = 0;
-			this.metroTextBox1.ShortcutsEnabled = true;
-			this.metroTextBox1.Size = new System.Drawing.Size(109, 23);
-			this.metroTextBox1.TabIndex = 9;
-			this.metroTextBox1.Text = "metroTextBox1";
-			this.metroTextBox1.UseSelectable = true;
-			this.metroTextBox1.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-			this.metroTextBox1.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+			this.txbx_taskname.CustomButton.Image = null;
+			this.txbx_taskname.CustomButton.Location = new System.Drawing.Point(87, 1);
+			this.txbx_taskname.CustomButton.Name = "";
+			this.txbx_taskname.CustomButton.Size = new System.Drawing.Size(21, 21);
+			this.txbx_taskname.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+			this.txbx_taskname.CustomButton.TabIndex = 1;
+			this.txbx_taskname.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+			this.txbx_taskname.CustomButton.UseSelectable = true;
+			this.txbx_taskname.CustomButton.Visible = false;
+			this.txbx_taskname.Lines = new string[0];
+			this.txbx_taskname.Location = new System.Drawing.Point(103, 18);
+			this.txbx_taskname.MaxLength = 32767;
+			this.txbx_taskname.Name = "txbx_taskname";
+			this.txbx_taskname.PasswordChar = '\0';
+			this.txbx_taskname.PromptText = "Enter Taskname";
+			this.txbx_taskname.ScrollBars = System.Windows.Forms.ScrollBars.None;
+			this.txbx_taskname.SelectedText = "";
+			this.txbx_taskname.SelectionLength = 0;
+			this.txbx_taskname.SelectionStart = 0;
+			this.txbx_taskname.ShortcutsEnabled = true;
+			this.txbx_taskname.Size = new System.Drawing.Size(109, 23);
+			this.txbx_taskname.TabIndex = 9;
+			this.txbx_taskname.UseSelectable = true;
+			this.txbx_taskname.WaterMark = "Enter Taskname";
+			this.txbx_taskname.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+			this.txbx_taskname.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+			this.txbx_taskname.TextChanged += new System.EventHandler(this.txbx_taskname_TextChanged);
 			// 
 			// pnl_Draw
 			// 
@@ -292,21 +309,22 @@ namespace Psychophysics
 			this.Objects_TV.BackColor = System.Drawing.Color.LightSteelBlue;
 			this.Objects_TV.Location = new System.Drawing.Point(7, 3);
 			this.Objects_TV.Name = "Objects_TV";
-			treeNode5.Name = "FixationROIRoot";
-			treeNode5.Text = "FixationROI";
-			treeNode6.Name = "StimulusRoot";
-			treeNode6.Text = "Stimulus";
-			treeNode7.Name = "ShowFrameRoot";
-			treeNode7.Text = "ShowFrame";
-			treeNode8.Name = "HintRoot";
-			treeNode8.Text = "Hint";
+			treeNode9.Name = "FixationROIRoot";
+			treeNode9.Text = "FixationROI";
+			treeNode10.Name = "StimulusRoot";
+			treeNode10.Text = "Stimulus";
+			treeNode11.Name = "ShowFrameRoot";
+			treeNode11.Text = "ShowFrame";
+			treeNode12.Name = "HintRoot";
+			treeNode12.Text = "Hint";
 			this.Objects_TV.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode5,
-            treeNode6,
-            treeNode7,
-            treeNode8});
+            treeNode9,
+            treeNode10,
+            treeNode11,
+            treeNode12});
 			this.Objects_TV.Size = new System.Drawing.Size(142, 135);
 			this.Objects_TV.TabIndex = 26;
+			this.Objects_TV.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.Objects_TV_AfterSelect);
 			// 
 			// panel7
 			// 
@@ -421,31 +439,14 @@ namespace Psychophysics
 			this.RewardType_LB.Size = new System.Drawing.Size(0, 13);
 			this.RewardType_LB.TabIndex = 24;
 			// 
-			// SelectRewardType_CB
-			// 
-			this.SelectRewardType_CB.FormattingEnabled = true;
-			this.SelectRewardType_CB.Items.AddRange(new object[] {
-            "0",
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7"});
-			this.SelectRewardType_CB.Location = new System.Drawing.Point(103, 56);
-			this.SelectRewardType_CB.Name = "SelectRewardType_CB";
-			this.SelectRewardType_CB.Size = new System.Drawing.Size(70, 21);
-			this.SelectRewardType_CB.TabIndex = 23;
-			this.SelectRewardType_CB.Visible = false;
-			// 
 			// FrameTime_ET
 			// 
-			this.FrameTime_ET.Location = new System.Drawing.Point(103, 95);
+			this.FrameTime_ET.Location = new System.Drawing.Point(103, 53);
 			this.FrameTime_ET.Name = "FrameTime_ET";
 			this.FrameTime_ET.Size = new System.Drawing.Size(62, 20);
 			this.FrameTime_ET.TabIndex = 20;
 			this.FrameTime_ET.Text = "0";
+			this.FrameTime_ET.TextChanged += new System.EventHandler(this.FrameTime_ET_TextChanged);
 			// 
 			// btn_browse
 			// 
@@ -502,24 +503,12 @@ namespace Psychophysics
 			this.label10.TabIndex = 13;
 			this.label10.Text = "Height";
 			// 
-			// label18
-			// 
-			this.label18.AutoSize = true;
-			this.label18.BackColor = System.Drawing.Color.White;
-			this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label18.Location = new System.Drawing.Point(15, 60);
-			this.label18.Name = "label18";
-			this.label18.Size = new System.Drawing.Size(82, 13);
-			this.label18.TabIndex = 19;
-			this.label18.Text = "Reward Type";
-			this.label18.Click += new System.EventHandler(this.label18_Click);
-			// 
 			// label16
 			// 
 			this.label16.AutoSize = true;
 			this.label16.BackColor = System.Drawing.Color.White;
 			this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label16.Location = new System.Drawing.Point(20, 98);
+			this.label16.Location = new System.Drawing.Point(20, 56);
 			this.label16.Name = "label16";
 			this.label16.Size = new System.Drawing.Size(72, 13);
 			this.label16.TabIndex = 19;
@@ -641,7 +630,7 @@ namespace Psychophysics
 			// BgColor_BT
 			// 
 			this.BgColor_BT.BackColor = System.Drawing.SystemColors.Control;
-			this.BgColor_BT.Location = new System.Drawing.Point(714, 699);
+			this.BgColor_BT.Location = new System.Drawing.Point(617, 697);
 			this.BgColor_BT.Name = "BgColor_BT";
 			this.BgColor_BT.Size = new System.Drawing.Size(29, 28);
 			this.BgColor_BT.TabIndex = 4;
@@ -654,29 +643,30 @@ namespace Psychophysics
 			this.label15.BackColor = System.Drawing.Color.White;
 			this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label15.ForeColor = System.Drawing.Color.Black;
-			this.label15.Location = new System.Drawing.Point(576, 705);
+			this.label15.Location = new System.Drawing.Point(479, 703);
 			this.label15.Name = "label15";
 			this.label15.Size = new System.Drawing.Size(132, 16);
 			this.label15.TabIndex = 1;
 			this.label15.Text = "Background Color";
 			// 
-			// Start_PB
+			// pb_finish
 			// 
-			this.Start_PB.AutoEllipsis = true;
-			this.Start_PB.BackColor = System.Drawing.Color.Transparent;
-			this.Start_PB.BackgroundImage = global::TaskDesigner.Resource._checked;
-			this.Start_PB.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.Start_PB.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-			this.Start_PB.FlatAppearance.BorderSize = 0;
-			this.Start_PB.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.Start_PB.Location = new System.Drawing.Point(288, 93);
-			this.Start_PB.Margin = new System.Windows.Forms.Padding(0);
-			this.Start_PB.Name = "Start_PB";
-			this.Start_PB.Size = new System.Drawing.Size(48, 48);
-			this.Start_PB.TabIndex = 22;
-			this.Start_PB.TabStop = false;
-			this.Start_PB.UseMnemonic = false;
-			this.Start_PB.UseVisualStyleBackColor = false;
+			this.pb_finish.AutoEllipsis = true;
+			this.pb_finish.BackColor = System.Drawing.Color.Transparent;
+			this.pb_finish.BackgroundImage = global::TaskDesigner.Resource._checked;
+			this.pb_finish.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			this.pb_finish.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+			this.pb_finish.FlatAppearance.BorderSize = 0;
+			this.pb_finish.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.pb_finish.Location = new System.Drawing.Point(291, 53);
+			this.pb_finish.Margin = new System.Windows.Forms.Padding(0);
+			this.pb_finish.Name = "pb_finish";
+			this.pb_finish.Size = new System.Drawing.Size(48, 48);
+			this.pb_finish.TabIndex = 22;
+			this.pb_finish.TabStop = false;
+			this.pb_finish.UseMnemonic = false;
+			this.pb_finish.UseVisualStyleBackColor = false;
+			this.pb_finish.Click += new System.EventHandler(this.pb_finish_Click);
 			// 
 			// tb_toolbar
 			// 
@@ -685,7 +675,7 @@ namespace Psychophysics
 			this.tb_toolbar.Controls.Add(this.tb_finishsetting);
 			this.tb_toolbar.Location = new System.Drawing.Point(7, 534);
 			this.tb_toolbar.Name = "tb_toolbar";
-			this.tb_toolbar.SelectedIndex = 0;
+			this.tb_toolbar.SelectedIndex = 2;
 			this.tb_toolbar.Size = new System.Drawing.Size(426, 183);
 			this.tb_toolbar.TabIndex = 25;
 			this.tb_toolbar.UseSelectable = true;
@@ -783,14 +773,12 @@ namespace Psychophysics
 			// 
 			this.tb_finishsetting.Controls.Add(this.metroLabel2);
 			this.tb_finishsetting.Controls.Add(this.RewardType_LB);
-			this.tb_finishsetting.Controls.Add(this.Start_PB);
-			this.tb_finishsetting.Controls.Add(this.metroTextBox2);
+			this.tb_finishsetting.Controls.Add(this.pb_finish);
+			this.tb_finishsetting.Controls.Add(this.txtbx_path2save);
 			this.tb_finishsetting.Controls.Add(this.metroLabel1);
-			this.tb_finishsetting.Controls.Add(this.metroTextBox1);
-			this.tb_finishsetting.Controls.Add(this.SelectRewardType_CB);
+			this.tb_finishsetting.Controls.Add(this.txbx_taskname);
 			this.tb_finishsetting.Controls.Add(this.FrameTime_ET);
 			this.tb_finishsetting.Controls.Add(this.label16);
-			this.tb_finishsetting.Controls.Add(this.label18);
 			this.tb_finishsetting.HorizontalScrollbarBarColor = true;
 			this.tb_finishsetting.HorizontalScrollbarHighlightOnWheel = false;
 			this.tb_finishsetting.HorizontalScrollbarSize = 10;
@@ -803,19 +791,62 @@ namespace Psychophysics
 			this.tb_finishsetting.VerticalScrollbarHighlightOnWheel = false;
 			this.tb_finishsetting.VerticalScrollbarSize = 10;
 			// 
+			// Popup
+			// 
+			this.Popup.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.deleteToolStripMenuItem,
+            this.clearToolStripMenuItem});
+			this.Popup.Name = "Popup";
+			this.Popup.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+			this.Popup.Size = new System.Drawing.Size(108, 48);
+			// 
+			// deleteToolStripMenuItem
+			// 
+			this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+			this.deleteToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+			this.deleteToolStripMenuItem.Text = "Delete";
+			// 
+			// clearToolStripMenuItem
+			// 
+			this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
+			this.clearToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+			this.clearToolStripMenuItem.Text = "Clear";
+			// 
+			// b_condition
+			// 
+			this.b_condition.AutoEllipsis = true;
+			this.b_condition.BackColor = System.Drawing.Color.Transparent;
+			this.b_condition.BackgroundImage = global::TaskDesigner.Resource.fixation_setting;
+			this.b_condition.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			this.b_condition.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+			this.b_condition.FlatAppearance.BorderSize = 0;
+			this.b_condition.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.b_condition.Location = new System.Drawing.Point(669, 697);
+			this.b_condition.Margin = new System.Windows.Forms.Padding(0);
+			this.b_condition.Name = "b_condition";
+			this.b_condition.Size = new System.Drawing.Size(27, 29);
+			this.b_condition.TabIndex = 26;
+			this.b_condition.TabStop = false;
+			this.b_condition.UseMnemonic = false;
+			this.b_condition.UseVisualStyleBackColor = false;
+			this.b_condition.Click += new System.EventHandler(this.b_condition_Click);
+			// 
 			// DesignerM
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.BorderStyle = MetroFramework.Forms.MetroFormBorderStyle.FixedSingle;
 			this.ClientSize = new System.Drawing.Size(779, 734);
+			this.Controls.Add(this.BgColor_BT);
 			this.Controls.Add(this.label15);
+			this.Controls.Add(this.b_condition);
 			this.Controls.Add(this.tb_toolbar);
 			this.Controls.Add(this.panel9);
-			this.Controls.Add(this.BgColor_BT);
 			this.Controls.Add(this.pnl_Draw);
 			this.Controls.Add(this.panel1);
 			this.Name = "DesignerM";
 			this.Style = MetroFramework.MetroColorStyle.Silver;
+			this.Move += new System.EventHandler(this.DesignerM_Move);
 			this.panel1.ResumeLayout(false);
 			this.panel1.PerformLayout();
 			this.panel4.ResumeLayout(false);
@@ -835,6 +866,7 @@ namespace Psychophysics
 			this.pnl_shape.PerformLayout();
 			this.tb_finishsetting.ResumeLayout(false);
 			this.tb_finishsetting.PerformLayout();
+			this.Popup.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -863,7 +895,6 @@ namespace Psychophysics
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.Label label9;
 		private System.Windows.Forms.Label RewardType_LB;
-		private System.Windows.Forms.ComboBox SelectRewardType_CB;
 		private System.Windows.Forms.TextBox FrameTime_ET;
 		private System.Windows.Forms.Button btn_browse;
 		private System.Windows.Forms.TextBox ImageWidth_TB;
@@ -871,7 +902,6 @@ namespace Psychophysics
 		private System.Windows.Forms.TextBox Imageheight_TB;
 		private System.Windows.Forms.Label label8;
 		private System.Windows.Forms.Label label10;
-		private System.Windows.Forms.Label label18;
 		private System.Windows.Forms.Label label16;
 		private System.Windows.Forms.Button RectangleShape_BT;
 		private System.Windows.Forms.Button SquareShape_BT;
@@ -884,11 +914,11 @@ namespace Psychophysics
 		private System.Windows.Forms.Button btn_PenColor;
 		private System.Windows.Forms.Button BgColor_BT;
 		private System.Windows.Forms.Label label15;
-		private MetroFramework.Controls.MetroTextBox metroTextBox1;
+		private MetroFramework.Controls.MetroTextBox txbx_taskname;
 		private MetroFramework.Controls.MetroLabel metroLabel1;
 		private MetroFramework.Controls.MetroLabel metroLabel2;
-		private MetroFramework.Controls.MetroTextBox metroTextBox2;
-		private System.Windows.Forms.Button Start_PB;
+		private MetroFramework.Controls.MetroTextBox txtbx_path2save;
+		private System.Windows.Forms.Button pb_finish;
 		private MetroFramework.Controls.MetroTabControl tb_toolbar;
 		public MetroFramework.Controls.MetroTabPage tb_addpics;
 		public MetroFramework.Controls.MetroTabPage tb_addshapes;
@@ -897,5 +927,10 @@ namespace Psychophysics
 		private MetroFramework.Controls.MetroPanel pnl_shape;
 		private MetroFramework.Controls.MetroPanel pnl_pics;
 		private System.Windows.Forms.Label SelectedPage_LB;
+		private System.Windows.Forms.ContextMenuStrip Popup;
+		private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem clearToolStripMenuItem;
+		private System.Windows.Forms.Button b_condition;
+		private System.Windows.Forms.Label Size_LB;
 	}
 }

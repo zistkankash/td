@@ -90,7 +90,7 @@ namespace Psychophysics.Old
                 RewardType_LB.Text = Reward[ActivePicB - 1].ToString();
             }
             Size_LB.Text = " % " + Convert.ToString(ViewSize);
-            ParentPanel.MouseWheel += ParentPanel_Wheel;
+            ParentPanel.MouseWheel += ParentPanel_Wheel;    //A:again the parent panel?!! what does it do?!!
             SelectedPage_LB.Text = "Selected Page : " + Convert.ToString(ActivePicB);
 
         }
@@ -551,9 +551,9 @@ namespace Psychophysics.Old
                 UpdateTreeView(ActivePicB - 1);
                 RewardType_LB.Text = Reward[ActivePicB - 1].ToString();
             };
-        }      //A:assign these three to the tabs in the new designer 
+		}                    //A:DONE
 
-        private void FixationShapeActive_BT_Click(object sender, EventArgs e)
+		private void FixationShapeActive_BT_Click(object sender, EventArgs e)
         {
             FixationSelected = true;
             Shape_Panel.Enabled = true;
@@ -561,7 +561,7 @@ namespace Psychophysics.Old
             RectangleShape_BT.Enabled = false;
             FixationTime_ET.Enabled = true;
             Shape_Panel.BackColor = Color.Green;
-		}      //A:DONE
+		}                //A:DONE
 
 		private void StimulusShapeActive_BT_Click(object sender, EventArgs e)     
 		{
@@ -570,7 +570,7 @@ namespace Psychophysics.Old
             SquareShape_BT.Enabled = true;
             RectangleShape_BT.Enabled = true;
             Shape_Panel.BackColor = Color.Green;
-		}    //A:DONE
+		}          //A:DONE
 
 		private void ParentPanel_Scroll(object sender, ScrollEventArgs e)  
         {
@@ -612,7 +612,7 @@ namespace Psychophysics.Old
             drawImage = true;
 			textBox1.Text = ImagePath;
 
-		}     //A:Done
+		}                                 //A:Done
 
         private void ParentPanel_MouseHover(object sender, EventArgs e) 
         {
@@ -633,8 +633,8 @@ namespace Psychophysics.Old
                 int NumStimulus = 0;
                 for (int j = 0; j < stimulusList.Count; j++)
                 {
-                    if (stimulusList[j].FrameIndex == i + 1)
-                        NumStimulus++;
+                    if (stimulusList[j].FrameIndex == i + 1)   //A:why i+1 ? how does he know that its always lower than the PicBCnt ??? 
+                        NumStimulus++;                         //A: asan why counts the stimulus? it can use stimulus.count !!!
                 }
 
                 FixationPts[] StimulusVar = new FixationPts[NumStimulus];
@@ -645,7 +645,7 @@ namespace Psychophysics.Old
                         StimulusVar[indexVar] = new FixationPts();
                     if (stimulusList[j].FrameIndex == i + 1)
                     {
-                        if (stimulusList[j].Type != 4 && stimulusList[j].Type != 8 && stimulusList[j].Type != 12)
+                        if (stimulusList[j].Type != 4 && stimulusList[j].Type != 8 && stimulusList[j].Type != 12)  //A: what are type 8,12 ?!
                         {
                             StimulusVar[indexVar].SetFixationPts(stimulusList[j].Xloc, stimulusList[j].Yloc, stimulusList[j].Width, stimulusList[j].Width, stimulusList[j].Type, stimulusList[j].ColorPt);
                             StimulusVar[indexVar].SetContrastPts(stimulusList[j].Contrast);
@@ -723,36 +723,36 @@ namespace Psychophysics.Old
             }
             if (Mode == 1)
             {
-                if (TaskPreview.AllLevelProp.Count == TaskPreview.ActiveCol)
+                if (TaskPreviewM.AllLevelProp.Count == TaskPreviewM.ActiveCol)
                 {
                     for (int i = 0; i < PicBCnt; i++)
-                        TaskPreview.AllLevelProp[TaskPreview.ActiveCol - 1].Add(ListAddedFrame[i]);
+                        TaskPreviewM.AllLevelProp[TaskPreviewM.ActiveCol - 1].Add(ListAddedFrame[i]);
                 }
                 else
-                    TaskPreview.AllLevelProp.Add(ListAddedFrame);
+                    TaskPreviewM.AllLevelProp.Add(ListAddedFrame);
 
-                TaskPreview.EnabledTask[TaskPreview.AllLevelProp.Count - 1] = 2;   //A:error here by clicking the tick?! fixxxxxxxx it!
+                TaskPreviewM.EnabledTask[TaskPreviewM.AllLevelProp.Count - 1] = 2;   
             }
             else if (Mode == 2)
             {
-                TaskPreview.AllLevelProp[EditedIndex].Clear();
-                TaskPreview.AllLevelProp[EditedIndex] = ListAddedFrame;
-                TaskPreview.ChangeHappened = true;
-                TaskPreview.EnabledTask[EditedIndex] = 2;
+                TaskPreviewM.AllLevelProp[EditedIndex].Clear();
+                TaskPreviewM.AllLevelProp[EditedIndex] = ListAddedFrame;
+                TaskPreviewM.ChangeHappened = true;
+                TaskPreviewM.EnabledTask[EditedIndex] = 2;
             }
 
-            TaskPreview.ChangeHappened = true;
+            TaskPreviewM.ChangeHappened = true;
             this.Close();
 
-        }
+		}                             //A:DONE
 
-        private void FrameTime_ET_TextChanged(object sender, EventArgs e)
+		private void FrameTime_ET_TextChanged(object sender, EventArgs e)
         {
             if (ActivePicB > 0)
                 frameList[ActivePicB - 1].Time = int.Parse(FrameTime_ET.Text);
-        }
+		}                  //A:DONE
 
-        private void StimulusPictureActive_BT_Click(object sender, EventArgs e)
+		private void StimulusPictureActive_BT_Click(object sender, EventArgs e)
         {
             FixationSelected = false;
             Picture_Panel.Enabled = true;
@@ -762,9 +762,9 @@ namespace Psychophysics.Old
 		private void FixationTime_ET_TextChanged(object sender, EventArgs e)
         {
             fixationList[ActivePicB - 1].Time = int.Parse(FixationTime_ET.Text);
-        }
+		}              //A:DONE
 
-        private void PicB_Click(object sender, EventArgs e)
+		private void PicB_Click(object sender, EventArgs e)
         {
             StimulusPanel.Enabled = true;
             FixationPanel.Enabled = true;
@@ -772,7 +772,7 @@ namespace Psychophysics.Old
             switch (me.Button)
             {
                 case MouseButtons.Right:
-                    Popup.Show(Cursor.Position);
+                    Popup.Show(Cursor.Position);  //A: what is popup? and what does it do here?!!
                     break;
                 case MouseButtons.Left:
                     break;
@@ -804,9 +804,9 @@ namespace Psychophysics.Old
             RewardType_LB.Text = Reward[ActivePicB - 1].ToString();
             UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList);
             UpdateTreeView(ActivePicB - 1);
-        }
+		}                              //A:DONE
 
-        private void UpdateChangesByFrameTool()
+		private void UpdateChangesByFrameTool()
         {
 
             for (int i = 0; i < PicBCnt; i++)
@@ -940,7 +940,7 @@ namespace Psychophysics.Old
                 picb.Image = objBitmap;
             }
             UpdateTreeView(ActivePicB - 1);
-        }
+        }                                  //A:it seems no body use this!!!?
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1012,7 +1012,7 @@ namespace Psychophysics.Old
                 Picture_Panel.Enabled = false;
                 AddPicB.Location = new Point(AddPicB.Location.X, AddPicB.Location.Y - AddPicB.Size.Height - 15);
             }
-        }
+        }  //A:what was this toolstrip do and for?
 
         private void clearToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1055,7 +1055,7 @@ namespace Psychophysics.Old
             Bitmap objBitmap = new Bitmap(BitmapPicB[ActivePicB - 1], pnl_Draw.Size);
             g.Clear(Color.White);
             g.DrawImage(objBitmap, new PointF(0, 0));
-        }
+        }                //A: it seems they dont work!!!
 
         private void Minimize_Click(object sender, EventArgs e)
         {
@@ -1068,10 +1068,10 @@ namespace Psychophysics.Old
             Bitmap objBitmap = new Bitmap(BitmapPicB[ActivePicB - 1], pnl_Draw.Size);
             g.Clear(Color.White);
             g.DrawImage(objBitmap, new PointF(0, 0));
-        }
-        #endregion
-        #region TreeView
-        private void UpdateTreeView(int index)
+		}                //A: it seems they dont work!!!
+		#endregion
+		#region TreeView-D
+		private void UpdateTreeView(int index)
         {
             Objects_TV.Nodes[0].Nodes.Clear();
             Objects_TV.Nodes[0].Nodes.Add("Fx");
@@ -1104,7 +1104,8 @@ namespace Psychophysics.Old
             char IdName = Name[0];
             if (IdName == 'F')
             {
-                Form prompt = new Form();
+				MetroFramework.Forms.MetroForm prompt = new MetroFramework.Forms.MetroForm();
+            
 
                 prompt.ShowIcon = false;
                 prompt.Name = "FixationForm";
@@ -1282,9 +1283,9 @@ namespace Psychophysics.Old
                 }
                 prompt.Show();
             }
-        }
+		}   //A:DONE
 
-        void FixationEditWidth(int index, String Value)
+		void FixationEditWidth(int index, String Value)
         {
             fixationList[index].Widthd = double.Parse(Value);
             fixationList[index].ConvertToPix();
@@ -1408,10 +1409,10 @@ namespace Psychophysics.Old
             }
             AddedHintsbyFrameTool[index].BoxRatio = float.Parse(Value);
         }
-        #endregion
+		#endregion        
 
-        #region EditR
-        private void LoadParameters(int index)
+		#region EditR-D
+		private void LoadParameters(int index)
         {
             PicBCnt = TaskPreviewM.AllLevelProp[index].Count;
             for (int i = 0; i < PicBCnt; i++)
@@ -1533,9 +1534,9 @@ namespace Psychophysics.Old
             }
             //UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList);
             pnl_Draw.BackgroundImage = new Bitmap(BitmapPicB[ActivePicB - 1],pnl_Draw.Size);
-        }
+		}         
 
-        private void SelectRewardType_CB_SelectedIndexChanged(object sender, EventArgs e)
+		private void SelectRewardType_CB_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox cmb = (ComboBox)sender;
 
@@ -1549,7 +1550,7 @@ namespace Psychophysics.Old
 
         #endregion
 
-        #region UpdatePictures
+        #region UpdatePictures-D
         private void UpdateFrame(int index, List<FrameProp> FrameObjs, List<ObjectProp> FixationObjs, List<ObjectProp> StimulusObjs)
         {
             if (index < 0)
@@ -1668,9 +1669,9 @@ namespace Psychophysics.Old
             Bitmap objBitmap = new Bitmap(BitmapPicB[index], new Size(PicB1.Width, PicB1.Height));
             PictureBox picb = panel1.Controls.Find("PicB" + (index + 1), true).FirstOrDefault() as PictureBox;
             picb.Image = objBitmap;
-        }
+        }    //A:Done
         #endregion
-        #region FrameProp
+        #region FrameProp-D
         public class FrameProp
         {
             public int frameWidth, frameHeight, Time;
@@ -1703,7 +1704,7 @@ namespace Psychophysics.Old
 
         }
         #endregion
-        #region ObjectProp
+        #region objectprop-D
 
         public class ObjectProp
         {
@@ -1792,52 +1793,52 @@ namespace Psychophysics.Old
 
             private double ConvertDegreeX(int Xp)
             {
-                double ValX = Math.Atan((Xp - TaskPreview.WidthP / 2) * TaskPreview.WidthM / (TaskPreview.WidthP * TaskPreview.userDistance));
-                Debug.Write(" Xp: "+ Xp + " WidthP : " + TaskPreview.WidthP + " WidthM:" + TaskPreview.WidthM + " userDistance:" + TaskPreview.userDistance + " " + ((Xp - TaskPreview.WidthP / 2) * TaskPreview.WidthM / (TaskPreview.WidthP * TaskPreview.userDistance)) + "\n");
+                double ValX = Math.Atan((Xp - TaskPreviewM.WidthP / 2) * TaskPreviewM.WidthM / (TaskPreviewM.WidthP * TaskPreviewM.userDistance));
+                Debug.Write(" Xp: "+ Xp + " WidthP : " + TaskPreviewM.WidthP + " WidthM:" + TaskPreviewM.WidthM + " userDistance:" + TaskPreviewM.userDistance + " " + ((Xp - TaskPreviewM.WidthP / 2) * TaskPreviewM.WidthM / (TaskPreviewM.WidthP * TaskPreviewM.userDistance)) + "\n");
                 return ValX;
             }
 
             private double ConvertDegreeY(int Yp)
             {
-                double ValY = Math.Atan((Yp - TaskPreview.HeightP / 2) * TaskPreview.HeightM / (TaskPreview.HeightP * TaskPreview.userDistance));
+                double ValY = Math.Atan((Yp - TaskPreviewM.HeightP / 2) * TaskPreviewM.HeightM / (TaskPreviewM.HeightP * TaskPreviewM.userDistance));
                 return ValY;
             }
 
             private double ConvertDegreeWidth(int Xp)
             {
-                double ValX = Math.Atan(Xp * TaskPreview.WidthM / (TaskPreview.WidthP * TaskPreview.userDistance));
-                Debug.Write(" Xp: " + Xp + " WidthP : " + TaskPreview.WidthP + " WidthM:" + TaskPreview.WidthM + " userDistance:" + TaskPreview.userDistance + " " + ((Xp - TaskPreview.WidthP / 2) * TaskPreview.WidthM / (TaskPreview.WidthP * TaskPreview.userDistance)) + "\n");
+                double ValX = Math.Atan(Xp * TaskPreviewM.WidthM / (TaskPreviewM.WidthP * TaskPreviewM.userDistance));
+                Debug.Write(" Xp: " + Xp + " WidthP : " + TaskPreviewM.WidthP + " WidthM:" + TaskPreviewM.WidthM + " userDistance:" + TaskPreviewM.userDistance + " " + ((Xp - TaskPreviewM.WidthP / 2) * TaskPreviewM.WidthM / (TaskPreviewM.WidthP * TaskPreviewM.userDistance)) + "\n");
                 return ValX;
             }
 
             private double ConvertDegreeHeight(int Yp)
             {
-                double ValY = Math.Atan(Yp * TaskPreview.HeightM / (TaskPreview.HeightP * TaskPreview.userDistance));
+                double ValY = Math.Atan(Yp * TaskPreviewM.HeightM / (TaskPreviewM.HeightP * TaskPreviewM.userDistance));
                 return ValY;
             }
 
 
             private int ConvertPixelX(double Xd)
             {
-                int ValX = Convert.ToInt16(Math.Tan(Xd * 3.1415 / 180) * TaskPreview.WidthP * TaskPreview.userDistance / TaskPreview.WidthM + TaskPreview.WidthP / 2);
+                int ValX = Convert.ToInt16(Math.Tan(Xd * 3.1415 / 180) * TaskPreviewM.WidthP * TaskPreviewM.userDistance / TaskPreviewM.WidthM + TaskPreviewM.WidthP / 2);
                 return ValX;
             }
 
             private int ConvertPixelY(double Yd)
             {
-                int ValY = Convert.ToInt16(Math.Tan(Yd*3.1415/180) * TaskPreview.HeightP * TaskPreview.userDistance / TaskPreview.HeightM + TaskPreview.HeightP / 2);
+                int ValY = Convert.ToInt16(Math.Tan(Yd*3.1415/180) * TaskPreviewM.HeightP * TaskPreviewM.userDistance / TaskPreviewM.HeightM + TaskPreviewM.HeightP / 2);
                 return ValY;
             }
 
             private int ConvertPixelWidth(double Xd)
             {
-                int ValX = Convert.ToInt16(Math.Tan(Xd * 3.1415 / 180) * TaskPreview.WidthP * TaskPreview.userDistance / TaskPreview.WidthM );
+                int ValX = Convert.ToInt16(Math.Tan(Xd * 3.1415 / 180) * TaskPreviewM.WidthP * TaskPreviewM.userDistance / TaskPreviewM.WidthM );
                 return ValX;
             }
 
             private int ConvertPixelHeight(double Yd)
             {
-                int ValY = Convert.ToInt16(Math.Tan(Yd * 3.1415 / 180) * TaskPreview.HeightP * TaskPreview.userDistance / TaskPreview.HeightM );
+                int ValY = Convert.ToInt16(Math.Tan(Yd * 3.1415 / 180) * TaskPreviewM.HeightP * TaskPreviewM.userDistance / TaskPreviewM.HeightM );
                 return ValY;
             }
 
@@ -1846,14 +1847,14 @@ namespace Psychophysics.Old
 
         private double ConvertDegreeX ( int Xp )
         {
-            double ValX = Math.Atan((Xp - TaskPreview.WidthP / 2) * TaskPreview.WidthM / (TaskPreview.WidthP * TaskPreview.userDistance));
-            //Debug.Write(" Xp: " + Xp + " WidthP : " + TaskPreview.WidthP + " WidthM:" + TaskPreview.WidthM + " userDistance:" + TaskPreview.userDistance + " " + ((Xp - TaskPreview.WidthP / 2) * TaskPreview.WidthM / (TaskPreview.WidthP * TaskPreview.userDistance)) + "\n");
+            double ValX = Math.Atan((Xp - TaskPreviewM.WidthP / 2) * TaskPreviewM.WidthM / (TaskPreviewM.WidthP * TaskPreviewM.userDistance));
+            //Debug.Write(" Xp: " + Xp + " WidthP : " + TaskPreviewM.WidthP + " WidthM:" + TaskPreviewM.WidthM + " userDistance:" + TaskPreviewM.userDistance + " " + ((Xp - TaskPreviewM.WidthP / 2) * TaskPreviewM.WidthM / (TaskPreviewM.WidthP * TaskPreviewM.userDistance)) + "\n");
             return ValX;
         }
 
         private double ConvertDegreeY(int Yp)
         {
-            double ValY = Math.Atan((Yp - TaskPreview.HeightP / 2) * TaskPreview.HeightM / (TaskPreview.HeightP * TaskPreview.userDistance));
+            double ValY = Math.Atan((Yp - TaskPreviewM.HeightP / 2) * TaskPreviewM.HeightM / (TaskPreviewM.HeightP * TaskPreviewM.userDistance));
             return ValY;
         }
 
@@ -1865,25 +1866,25 @@ namespace Psychophysics.Old
 
         private int ConvertPixelX(double Xd)
         {
-            int ValX = Convert.ToInt16(Math.Tan(Xd * 3.1415 / 180) * TaskPreview.WidthP * TaskPreview.userDistance / TaskPreview.WidthM + TaskPreview.WidthP / 2);
+            int ValX = Convert.ToInt16(Math.Tan(Xd * 3.1415 / 180) * TaskPreviewM.WidthP * TaskPreviewM.userDistance / TaskPreviewM.WidthM + TaskPreviewM.WidthP / 2);
             return ValX;
         }
 
         private int ConvertPixelY(double Yd)
         {
-            int ValY = Convert.ToInt16(Math.Tan(Yd * 3.1415 / 180) * TaskPreview.HeightP * TaskPreview.userDistance / TaskPreview.HeightM + TaskPreview.HeightP / 2);
+            int ValY = Convert.ToInt16(Math.Tan(Yd * 3.1415 / 180) * TaskPreviewM.HeightP * TaskPreviewM.userDistance / TaskPreviewM.HeightM + TaskPreviewM.HeightP / 2);
             return ValY;
         }
 
         private int ConvertPixelWidth(double Xd)
         {
-            int ValX = Convert.ToInt16(Math.Tan(Xd * 3.1415 / 180) * TaskPreview.WidthP * TaskPreview.userDistance / TaskPreview.WidthM);
+            int ValX = Convert.ToInt16(Math.Tan(Xd * 3.1415 / 180) * TaskPreviewM.WidthP * TaskPreviewM.userDistance / TaskPreviewM.WidthM);
             return ValX;
         }
 
         private int ConvertPixelHeight(double Yd)
         {
-            int ValY = Convert.ToInt16(Math.Tan(Yd * 3.1415 / 180) * TaskPreview.HeightP * TaskPreview.userDistance / TaskPreview.HeightM);
+            int ValY = Convert.ToInt16(Math.Tan(Yd * 3.1415 / 180) * TaskPreviewM.HeightP * TaskPreviewM.userDistance / TaskPreviewM.HeightM);
             return ValY;
         }
 

@@ -73,7 +73,7 @@ namespace Psychophysics
             tasks.Rows.Add("Untitled" + TaskName,0,0,0);
             GridVu.DataSource = tasks;
             GridVu.Visible = true;
-            Designer NormalFrm = new Designer(1, 0);
+             Designer NormalFrm = new  Designer(1, 0);
             NormalFrm.FormClosing += delegate { this.Show(); };
             this.Hide();
             NormalFrm.Show();
@@ -204,7 +204,7 @@ namespace Psychophysics
 
         private void t_edit_Click(object sender, EventArgs e)
         {
-            Designer EditForm = new Designer(2, index);
+             Designer EditForm = new  Designer(2, index);
             EditForm.FormClosing += delegate { this.Show(); };
             this.Hide();
             EditForm.Show();
