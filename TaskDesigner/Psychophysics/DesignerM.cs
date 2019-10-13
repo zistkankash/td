@@ -517,12 +517,12 @@ namespace Psychophysics
 			UpdateTreeView(ActivePicB - 1);
 			
 			tb_toolbar.SelectedIndex = 0;
-			this.BackColor= Color.White;
+			this.BackColor= Color.Transparent;
 			this.Enabled = false;
 			//tb_addpics.BackColor = Color.Transparent; //A: because it seems i can not modify the enable of the tab like this..so I didnt used this way.
 			//tb_addpics.En
 			tb_toolbar.SelectedIndex = 1;
-			this.BackColor = Color.White;
+			this.BackColor = Color.Transparent;
 			this.Enabled = false;
 			Bitmap objBitmap = new Bitmap(BitmapPicB[ActivePicB - 1], new Size(PicB1.Width, PicB1.Height));
 			PictureBox picb = panel1.Controls.Find("PicB" + ActivePicB, true).FirstOrDefault() as PictureBox;

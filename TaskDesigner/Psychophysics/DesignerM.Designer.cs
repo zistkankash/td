@@ -30,10 +30,10 @@ namespace Psychophysics
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("FixationROI");
-			System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Stimulus");
-			System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("ShowFrame");
-			System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Hint");
+			System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("FixationROI");
+			System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Stimulus");
+			System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("ShowFrame");
+			System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Hint");
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.Size_LB = new System.Windows.Forms.Label();
 			this.SelectedPage_LB = new System.Windows.Forms.Label();
@@ -275,6 +275,7 @@ namespace Psychophysics
 			this.pnl_Draw.BackColor = System.Drawing.SystemColors.ButtonHighlight;
 			this.pnl_Draw.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pnl_Draw.Cursor = System.Windows.Forms.Cursors.Cross;
+			this.pnl_Draw.ForeColor = System.Drawing.SystemColors.ButtonFace;
 			this.pnl_Draw.Location = new System.Drawing.Point(149, 13);
 			this.pnl_Draw.Name = "pnl_Draw";
 			this.pnl_Draw.Size = new System.Drawing.Size(624, 515);
@@ -309,19 +310,19 @@ namespace Psychophysics
 			this.Objects_TV.BackColor = System.Drawing.Color.LightSteelBlue;
 			this.Objects_TV.Location = new System.Drawing.Point(7, 3);
 			this.Objects_TV.Name = "Objects_TV";
-			treeNode9.Name = "FixationROIRoot";
-			treeNode9.Text = "FixationROI";
-			treeNode10.Name = "StimulusRoot";
-			treeNode10.Text = "Stimulus";
-			treeNode11.Name = "ShowFrameRoot";
-			treeNode11.Text = "ShowFrame";
-			treeNode12.Name = "HintRoot";
-			treeNode12.Text = "Hint";
+			treeNode5.Name = "FixationROIRoot";
+			treeNode5.Text = "FixationROI";
+			treeNode6.Name = "StimulusRoot";
+			treeNode6.Text = "Stimulus";
+			treeNode7.Name = "ShowFrameRoot";
+			treeNode7.Text = "ShowFrame";
+			treeNode8.Name = "HintRoot";
+			treeNode8.Text = "Hint";
 			this.Objects_TV.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode9,
-            treeNode10,
-            treeNode11,
-            treeNode12});
+            treeNode5,
+            treeNode6,
+            treeNode7,
+            treeNode8});
 			this.Objects_TV.Size = new System.Drawing.Size(142, 135);
 			this.Objects_TV.TabIndex = 26;
 			this.Objects_TV.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.Objects_TV_AfterSelect);
@@ -845,7 +846,8 @@ namespace Psychophysics
 			this.Controls.Add(this.pnl_Draw);
 			this.Controls.Add(this.panel1);
 			this.Name = "DesignerM";
-			this.Style = MetroFramework.MetroColorStyle.Silver;
+			this.Style = MetroFramework.MetroColorStyle.Orange;
+			this.TransparencyKey = System.Drawing.Color.MidnightBlue;
 			this.Move += new System.EventHandler(this.DesignerM_Move);
 			this.panel1.ResumeLayout(false);
 			this.panel1.PerformLayout();
