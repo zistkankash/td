@@ -13,7 +13,7 @@ namespace Basics
 	public class TaskServer
 	{
 		public static Socket ListenerSocket; //This is the socket that will listen to any incoming connections.
-		public static short Port = 5050; // on this port we will listen and user can change that.
+		public static short Port = 5050; // on this port we will listen and user can change it.
 		public Socket GazeTracker; // This is the socket that reads and writes to ET address.
 		byte[] comBuffer = new byte[sizeof(Int16)];
 		short _comnd;
@@ -30,11 +30,8 @@ namespace Basics
 		{
 			get
 			{
-				if (_endGaze)
-					return new GazeTriple((double)0, (double)0, 0, (double)0);
-
-				while (gazPnt.Count == 0)
-					continue;
+				if (_endGaze || gazPnt.Count == 0)
+					return new GazeTriple((double)-1, (double)-1, -1, (double)-1);
 
 				return gazPnt.Dequeue();
 			}

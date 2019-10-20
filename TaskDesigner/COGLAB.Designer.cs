@@ -356,7 +356,6 @@
 			this.Controls.Add(this.btnCogLab);
 			this.Font = new System.Drawing.Font("Marlett", 20.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(2)), true);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-			this.KeyPreview = true;
 			this.Name = "COGLAB";
 			this.Resizable = false;
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.COGLAB_FormClosing);

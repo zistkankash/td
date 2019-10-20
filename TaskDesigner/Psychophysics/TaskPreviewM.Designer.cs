@@ -30,29 +30,33 @@ namespace Psychophysics
         private void InitializeComponent()
         {
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-			this.pnl_tasktablesbackground = new System.Windows.Forms.Panel();
+			this.t_new = new MetroFramework.Controls.MetroTile();
 			this.GridVu = new System.Windows.Forms.DataGridView();
-			this.btn_preview = new MetroFramework.Controls.MetroButton();
+			this.pnl_tasktablesbackground = new System.Windows.Forms.Panel();
+			this.t_load = new MetroFramework.Controls.MetroTile();
 			this.t_edit = new MetroFramework.Controls.MetroTile();
 			this.t_delete = new MetroFramework.Controls.MetroTile();
 			this.txbx_saveto = new MetroFramework.Controls.MetroTextBox();
 			this.l_save = new MetroFramework.Controls.MetroLabel();
 			this.chbx_showrandom = new MetroFramework.Controls.MetroCheckBox();
-			this.t_load = new MetroFramework.Controls.MetroTile();
-			this.t_new = new MetroFramework.Controls.MetroTile();
-			this.pnl_tasktablesbackground.SuspendLayout();
+			this.btn_preview = new MetroFramework.Controls.MetroButton();
 			((System.ComponentModel.ISupportInitialize)(this.GridVu)).BeginInit();
+			this.pnl_tasktablesbackground.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// pnl_tasktablesbackground
+			// t_new
 			// 
-			this.pnl_tasktablesbackground.AutoScroll = true;
-			this.pnl_tasktablesbackground.BackColor = System.Drawing.Color.Transparent;
-			this.pnl_tasktablesbackground.Controls.Add(this.GridVu);
-			this.pnl_tasktablesbackground.Location = new System.Drawing.Point(106, 40);
-			this.pnl_tasktablesbackground.Name = "pnl_tasktablesbackground";
-			this.pnl_tasktablesbackground.Size = new System.Drawing.Size(503, 366);
-			this.pnl_tasktablesbackground.TabIndex = 1;
+			this.t_new.ActiveControl = null;
+			this.t_new.Location = new System.Drawing.Point(16, 40);
+			this.t_new.Name = "t_new";
+			this.t_new.Size = new System.Drawing.Size(77, 76);
+			this.t_new.Style = MetroFramework.MetroColorStyle.Green;
+			this.t_new.TabIndex = 0;
+			this.t_new.TileImage = global::TaskDesigner.Resource.add;
+			this.t_new.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.t_new.UseSelectable = true;
+			this.t_new.UseTileImage = true;
+			this.t_new.Click += new System.EventHandler(this.t_new_Click);
 			// 
 			// GridVu
 			// 
@@ -83,20 +87,34 @@ namespace Psychophysics
 			this.GridVu.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.GridVu_CellContentClick);
 			this.GridVu.SelectionChanged += new System.EventHandler(this.GridVu_SelectionChanged);
 			// 
-			// btn_preview
+			// pnl_tasktablesbackground
 			// 
-			this.btn_preview.Location = new System.Drawing.Point(23, 412);
-			this.btn_preview.Name = "btn_preview";
-			this.btn_preview.Size = new System.Drawing.Size(75, 23);
-			this.btn_preview.TabIndex = 5;
-			this.btn_preview.Text = "Preview";
-			this.btn_preview.UseSelectable = true;
-			this.btn_preview.Click += new System.EventHandler(this.btn_preview_Click);
+			this.pnl_tasktablesbackground.AutoScroll = true;
+			this.pnl_tasktablesbackground.BackColor = System.Drawing.Color.Transparent;
+			this.pnl_tasktablesbackground.Controls.Add(this.GridVu);
+			this.pnl_tasktablesbackground.Location = new System.Drawing.Point(106, 40);
+			this.pnl_tasktablesbackground.Name = "pnl_tasktablesbackground";
+			this.pnl_tasktablesbackground.Size = new System.Drawing.Size(503, 366);
+			this.pnl_tasktablesbackground.TabIndex = 1;
+			// 
+			// t_load
+			// 
+			this.t_load.ActiveControl = null;
+			this.t_load.Location = new System.Drawing.Point(16, 133);
+			this.t_load.Name = "t_load";
+			this.t_load.Size = new System.Drawing.Size(77, 76);
+			this.t_load.Style = MetroFramework.MetroColorStyle.Lime;
+			this.t_load.TabIndex = 2;
+			this.t_load.TileImage = global::TaskDesigner.Resource.Load;
+			this.t_load.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.t_load.UseSelectable = true;
+			this.t_load.UseTileImage = true;
+			this.t_load.Click += new System.EventHandler(this.t_load_Click);
 			// 
 			// t_edit
 			// 
 			this.t_edit.ActiveControl = null;
-			this.t_edit.Location = new System.Drawing.Point(23, 225);
+			this.t_edit.Location = new System.Drawing.Point(16, 225);
 			this.t_edit.Name = "t_edit";
 			this.t_edit.Size = new System.Drawing.Size(77, 76);
 			this.t_edit.TabIndex = 3;
@@ -109,7 +127,7 @@ namespace Psychophysics
 			// t_delete
 			// 
 			this.t_delete.ActiveControl = null;
-			this.t_delete.Location = new System.Drawing.Point(23, 319);
+			this.t_delete.Location = new System.Drawing.Point(16, 319);
 			this.t_delete.Name = "t_delete";
 			this.t_delete.Size = new System.Drawing.Size(77, 76);
 			this.t_delete.Style = MetroFramework.MetroColorStyle.Red;
@@ -174,33 +192,15 @@ namespace Psychophysics
 			this.chbx_showrandom.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.chbx_showrandom.UseSelectable = true;
 			// 
-			// t_load
+			// btn_preview
 			// 
-			this.t_load.ActiveControl = null;
-			this.t_load.Location = new System.Drawing.Point(23, 133);
-			this.t_load.Name = "t_load";
-			this.t_load.Size = new System.Drawing.Size(77, 76);
-			this.t_load.Style = MetroFramework.MetroColorStyle.Lime;
-			this.t_load.TabIndex = 2;
-			this.t_load.TileImage = global::TaskDesigner.Resource.Load;
-			this.t_load.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.t_load.UseSelectable = true;
-			this.t_load.UseTileImage = true;
-			this.t_load.Click += new System.EventHandler(this.t_load_Click);
-			// 
-			// t_new
-			// 
-			this.t_new.ActiveControl = null;
-			this.t_new.Location = new System.Drawing.Point(23, 40);
-			this.t_new.Name = "t_new";
-			this.t_new.Size = new System.Drawing.Size(77, 76);
-			this.t_new.Style = MetroFramework.MetroColorStyle.Green;
-			this.t_new.TabIndex = 0;
-			this.t_new.TileImage = global::TaskDesigner.Resource.add;
-			this.t_new.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.t_new.UseSelectable = true;
-			this.t_new.UseTileImage = true;
-			this.t_new.Click += new System.EventHandler(this.t_new_Click);
+			this.btn_preview.Location = new System.Drawing.Point(17, 412);
+			this.btn_preview.Name = "btn_preview";
+			this.btn_preview.Size = new System.Drawing.Size(75, 23);
+			this.btn_preview.TabIndex = 5;
+			this.btn_preview.Text = "Preview";
+			this.btn_preview.UseSelectable = true;
+			this.btn_preview.Click += new System.EventHandler(this.btn_preview_Click);
 			// 
 			// TaskPreviewM
 			// 
@@ -217,24 +217,26 @@ namespace Psychophysics
 			this.Controls.Add(this.t_load);
 			this.Controls.Add(this.pnl_tasktablesbackground);
 			this.Controls.Add(this.t_new);
+			this.MaximizeBox = false;
 			this.Name = "TaskPreviewM";
-			this.pnl_tasktablesbackground.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.GridVu)).EndInit();
+			this.pnl_tasktablesbackground.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
         }
 
-        #endregion
-        private MetroFramework.Controls.MetroLabel l_save;
-        public MetroFramework.Controls.MetroTile t_edit;
-        public MetroFramework.Controls.MetroTile t_delete;
-        public MetroFramework.Controls.MetroTextBox txbx_saveto;
-        public MetroFramework.Controls.MetroCheckBox chbx_showrandom;
-        public MetroFramework.Controls.MetroTile t_new;
-        public MetroFramework.Controls.MetroTile t_load;
-        public System.Windows.Forms.Panel pnl_tasktablesbackground;
-        public MetroFramework.Controls.MetroButton btn_preview;
-        public System.Windows.Forms.DataGridView GridVu;
+		#endregion
+
+		public MetroFramework.Controls.MetroTile t_new;
+		public System.Windows.Forms.DataGridView GridVu;
+		public System.Windows.Forms.Panel pnl_tasktablesbackground;
+		public MetroFramework.Controls.MetroTile t_load;
+		public MetroFramework.Controls.MetroTile t_edit;
+		public MetroFramework.Controls.MetroTile t_delete;
+		public MetroFramework.Controls.MetroTextBox txbx_saveto;
+		private MetroFramework.Controls.MetroLabel l_save;
+		public MetroFramework.Controls.MetroCheckBox chbx_showrandom;
+		public MetroFramework.Controls.MetroButton btn_preview;
 	}
 }

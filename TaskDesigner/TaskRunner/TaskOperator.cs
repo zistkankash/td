@@ -26,6 +26,7 @@ namespace TaskRunning
 		OpenFileDialog ofd = null;
 		TaskRunner runner = null;
 		TaskServer et_socket;
+		public static float gzX, gzY;
 		public TaskData tsk;
 		int Marker_Radius = 10;
 		private Size secondMonit;
@@ -63,15 +64,15 @@ namespace TaskRunning
 			tsk = new TaskData();
 		}
 		
-		public void RefreshPctBx(float g1, float g2)
+		public void RefreshPctBx()
 		{
-			Bitmap flag = new Bitmap(pbOper.Width, pbOper.Height);
-			Graphics flagGraphics = Graphics.FromImage(flag);
-			flagGraphics.FillRectangle(Brushes.Black, new Rectangle(0, 0, pbOper.Width, pbOper.Height));
-
-			flagGraphics.FillEllipse(Brushes.Yellow, (float)g1 * pbOper.Width / secondMonit.Width - Marker_Radius / 2,(float) g2 * pbOper.Height / secondMonit.Height - Marker_Radius / 2, Marker_Radius, Marker_Radius);
+			Bitmap b = (Bitmap)pbOper.Image;
+			Graphics flagGraphics = Graphics.FromImage(pbOper.Image);
 			
-			pbOper.Image = flag;
+
+			flagGraphics.FillEllipse(Brushes.Black, (float)gzX * pbOper.Width / secondMonit.Width - Marker_Radius / 2,(float) gzY * pbOper.Height / secondMonit.Height - Marker_Radius / 2, Marker_Radius, Marker_Radius);
+			flagGraphics.Flush();
+			pbOper.Image = b;
 		}
 
 		private void txtPath_Click(object sender, EventArgs e)
@@ -96,7 +97,9 @@ namespace TaskRunning
 			runner.RunTask(GetETStat());
 			runner.Show();
 			btStop.Enabled = true;
-			savTimer.Start();
+			txtSavPath.Enabled = false;
+			txtbxTask.Enabled = false;
+			refTimer.Start();
 		}
 
 		/// <summary>
@@ -212,22 +215,24 @@ namespace TaskRunning
 		private void btStop_Click(object sender, EventArgs e)
 		{
 			if (runner.StopTask())
+			{
 				btStop.Enabled = false;
-			btnStart.Enabled = true;
+				btnStart.Enabled = true;
+				txtbxTask.Enabled = true;
+				txtSavPath.Enabled = true;
+			}
 		}
 
-		private void savTimer_Tick(object sender, EventArgs e)
+		private void refTimer_Tick(object sender, EventArgs e)
 		{
-			if (txtSavPath.Text == "")
-				savTimer.Stop();
-
+			RefreshPctBx();
 		}
 
-		public void SetSlideFileName(int num)
+		public void SetNextSlide(int num)
 		{
 			if (num == 0)
 			{
-				txtSavPath.Text = FileName.UpdateFileName(true,txtSavPath.Text);
+				txtSavPath.Text = FileName.UpdateFileName(true, txtSavPath.Text);
 				return;
 			}
 
@@ -236,7 +241,16 @@ namespace TaskRunning
 				File.WriteAllText(txtSavPath.Text, savedData);
 				savedData = "";
 			}
-			txtSavPath.Text = FileName.UpdateFileName(false,txtSavPath.Text);
+			txtSavPath.Text = FileName.UpdateFileName(false, txtSavPath.Text);
+			if (num < tsk.picList.Count)
+				pbOper.Image = tsk.picList[num].image;
+			else
+			{
+				txtbxTask.Enabled = true;
+				txtSavPath.Enabled = true;
+				btnStart.Enabled = true;
+				btStop.Enabled = false;
+			}
 		}
 	}
 

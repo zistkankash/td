@@ -32,6 +32,7 @@
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TaskOperator));
 			this.TabControl_taskoperator = new MetroFramework.Controls.MetroTabControl();
 			this.Tabtask = new MetroFramework.Controls.MetroTabPage();
+			this.btStop = new MetroFramework.Controls.MetroButton();
 			this.btnStart = new MetroFramework.Controls.MetroButton();
 			this.txtbxTask = new MetroFramework.Controls.MetroTextBox();
 			this.txtSavPath = new MetroFramework.Controls.MetroTextBox();
@@ -56,8 +57,7 @@
 			this.rbtn_ccttask = new MetroFramework.Controls.MetroRadioButton();
 			this.rbtn_normalreward = new MetroFramework.Controls.MetroRadioButton();
 			this.metroLabel2 = new MetroFramework.Controls.MetroLabel();
-			this.btStop = new MetroFramework.Controls.MetroButton();
-			this.savTimer = new System.Windows.Forms.Timer(this.components);
+			this.refTimer = new System.Windows.Forms.Timer(this.components);
 			this.TabControl_taskoperator.SuspendLayout();
 			this.Tabtask.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pbOper)).BeginInit();
@@ -98,6 +98,24 @@
 			this.Tabtask.VerticalScrollbarBarColor = true;
 			this.Tabtask.VerticalScrollbarHighlightOnWheel = false;
 			this.Tabtask.VerticalScrollbarSize = 10;
+			// 
+			// btStop
+			// 
+			this.btStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+			this.btStop.BackColor = System.Drawing.SystemColors.ActiveCaption;
+			this.btStop.Enabled = false;
+			this.btStop.ForeColor = System.Drawing.Color.Black;
+			this.btStop.Location = new System.Drawing.Point(281, 422);
+			this.btStop.Name = "btStop";
+			this.btStop.Size = new System.Drawing.Size(111, 28);
+			this.btStop.Style = MetroFramework.MetroColorStyle.White;
+			this.btStop.TabIndex = 9;
+			this.btStop.Text = "Stop Task";
+			this.btStop.UseCustomBackColor = true;
+			this.btStop.UseCustomForeColor = true;
+			this.btStop.UseSelectable = true;
+			this.btStop.UseStyleColors = true;
+			this.btStop.Click += new System.EventHandler(this.btStop_Click);
 			// 
 			// btnStart
 			// 
@@ -438,28 +456,10 @@
 			this.metroLabel2.TabIndex = 4;
 			this.metroLabel2.Text = "____________________________";
 			// 
-			// btStop
+			// refTimer
 			// 
-			this.btStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-			this.btStop.BackColor = System.Drawing.SystemColors.ActiveCaption;
-			this.btStop.Enabled = false;
-			this.btStop.ForeColor = System.Drawing.Color.Black;
-			this.btStop.Location = new System.Drawing.Point(281, 422);
-			this.btStop.Name = "btStop";
-			this.btStop.Size = new System.Drawing.Size(111, 28);
-			this.btStop.Style = MetroFramework.MetroColorStyle.White;
-			this.btStop.TabIndex = 9;
-			this.btStop.Text = "Stop Task";
-			this.btStop.UseCustomBackColor = true;
-			this.btStop.UseCustomForeColor = true;
-			this.btStop.UseSelectable = true;
-			this.btStop.UseStyleColors = true;
-			this.btStop.Click += new System.EventHandler(this.btStop_Click);
-			// 
-			// savTimer
-			// 
-			this.savTimer.Interval = 1000;
-			this.savTimer.Tick += new System.EventHandler(this.savTimer_Tick);
+			this.refTimer.Interval = 40;
+			this.refTimer.Tick += new System.EventHandler(this.refTimer_Tick);
 			// 
 			// TaskOperator
 			// 
@@ -521,6 +521,6 @@
 		public System.Windows.Forms.CheckBox chbx_showarrow;
 		public System.Windows.Forms.CheckBox chBx_prompt;
 		private MetroFramework.Controls.MetroButton btStop;
-		private System.Windows.Forms.Timer savTimer;
+		private System.Windows.Forms.Timer refTimer;
 	}
 }

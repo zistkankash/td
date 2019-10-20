@@ -66,12 +66,14 @@ namespace TaskRunning
 		
 		private void InitForm()
 		{
-			// for fullscreen
+			
 			FormBorderStyle = FormBorderStyle.None;
-			WindowState = FormWindowState.Maximized;
+			
 			screens = Screen.AllScreens;
 			if (screens.Length == 2)
 			{
+				// for fullscreen
+				WindowState = FormWindowState.Maximized;
 				this.Location = new Point(screens[1].Bounds.X, screens[1].Bounds.Y);
 				this.StartPosition = FormStartPosition.Manual;
 				
@@ -104,7 +106,7 @@ namespace TaskRunning
 				return;
 			
 			tskWatch = new Stopwatch(); //Get a watch for timing operations.
-
+			#region lab tasks
 			if (curTsk.type == TaskType.lab)
 			{
 
@@ -121,29 +123,42 @@ namespace TaskRunning
 
 				return;
 			}
-			if(curTsk.type == TaskType.picture)
+			#endregion
+			if (curTsk.type == TaskType.picture)
 			{
 				showedIndex = 0;
-				Invoke((Action)delegate { tsop.SetSlideFileName(showedIndex); });
+				Invoke((Action)delegate { tsop.SetNextSlide(showedIndex); });
+				if (_getGaz)
+				{
+					ET_Socket.StartGaze();
+				}
 				tskWatch.Start();
 				frameUpdater.Start();
-				
+				GazeTriple gzTemp;
 				while (showedIndex < curTsk.picList.Count)
 				{
 					if (_getGaz)
 					{
-
+						//Check gaze validity and add it to the end of csv file.
+						gzTemp = ET_Socket.getGaze;
+						if (gzTemp.time != -1)
+						{
+							TaskOperator.savedData += gzTemp.x.ToString() + "," + gzTemp.y.ToString() + "," + gzTemp.pupilSize.ToString() + "," + gzTemp.time.ToString() + "," + showedIndex.ToString() + "\n";
+							TaskOperator.gzX = (float)gzTemp.x;
+							TaskOperator.gzY = (float)gzTemp.y;
+						}
 					}
-					TaskOperator.savedData += "0,0,0\n";
+					else
+						TaskOperator.savedData += "0,0,0\n";
 					//Go to next slide...
 					if (tskWatch.ElapsedMilliseconds > curTsk.picList[showedIndex].time)
 					{
 						showedIndex++;
-						Invoke((Action)delegate { tsop.SetSlideFileName(showedIndex); });
+						Invoke((Action)delegate { tsop.SetNextSlide(showedIndex); });
 						tskWatch.Restart();
 					}
 				}
-				brake = true;
+				
 				Invoke((Action)delegate { Hide(); });
 				return;
 			}
@@ -360,56 +375,7 @@ namespace TaskRunning
 			
 
 		}
-		
-		public static void SetCurrentSlide()
-		{
-			//Set Slides for picture tasks
-			//if (showedIndex < curTsk.picList.Count)
-			//{
-			//	showedPic = curTsk.picList[showedIndex];
-			//	if (showedPic.address != null)
-			//	{
-			//		userMap = showedPic.image;
-			//		//savedStr += picList[showedIndex].address + "\n";
-			//	}
-			//	else
-			//	{
-			//		Bitmap bit = new Bitmap(1440, 900);
-			//		Image<Rgb, byte> temp = new Image<Rgb, byte>(bit);
-			//		CvInvoke.Rectangle(temp, new Rectangle(0, 0, bit.Width, bit.Height), new MCvScalar(showedPic.bgColor.R, showedPic.bgColor.G, showedPic.bgColor.B), -1);
-			//		userMap = temp.Bitmap;
-			//		//savedStr += "BackGround: " + "," + picList[showedIndex].bgColor.R + "," + picList[showedIndex].bgColor.G + "," + picList[showedIndex].bgColor.B + "\n";
-			//	}
-			//	frame.DrawPic(userMap);
-			//	showedIndex++;
-			//	//savedData += savedStr;
-			//	//savedStr = "";
-			//}
-			//else
-			//{
-			//	TaskEndingAction(1);
-			//}
-		}
-
-		private void PicTaskRunner()
-		{
-			//tskWatch.Start();
-			//while (true)
-			//{
-
-			//	if (tskWatch.ElapsedMilliseconds > curTsk.picList[curTsk.showedIndex].time )
-			//	{
-			//		SetCurrentSlide();
-			//		tskWatch.Restart();
-			//	}
-
-			//	savedStr = MappedSigs[0].ToString() + "," + MappedSigs[1].ToString() + "," + MappedSigs[2].ToString() + "," + MappedSigs[3].ToString() + "\n";
-			//	savedData += savedStr;
-			//	savedStr = "";
-				
-			//}
-		}
-		
+			
 		private int TLNormalSetGoalNode()
 		{
 			//int tempPriority = 100;
@@ -460,8 +426,13 @@ namespace TaskRunning
 			{
 				return false;
 			}
-
-
+			brake = true;
+			runnerThread.Abort();
+			runMod = RunMod.stop;
+			if (_getGaz)
+			{
+				ET_Socket.EndGaze();
+			}
 			return true;
 		}
 
@@ -478,11 +449,9 @@ namespace TaskRunning
 				{
 					if (brake)
 					{
-						frameUpdater.Stop();
-
-						runnerThread.Abort();
 						brake = false;
-						runMod = RunMod.stop;
+						frameUpdater.Stop();
+						CleanMap();
 						return;
 					}
 					if (showedIndex < curTsk.picList.Count)
