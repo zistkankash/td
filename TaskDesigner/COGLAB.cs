@@ -24,15 +24,15 @@ namespace Basics
         private void btnHeatMap_Click(object sender, EventArgs e)
         {
             HeatMap heat = new HeatMap();
-            heat.FormClosing += delegate { Show(); };
+            heat.FormClosed += delegate { Show(); };
             this.Hide();
             heat.Show();
         }
 
         private void btnCogLab_Click(object sender, EventArgs e)
         {
-            Psychophysics.TaskPreviewM task = new Psychophysics.TaskPreviewM();
-            task.FormClosing += delegate { Show(); }; //A:its for the closing of task preview--- vaghti formclosing task priview runshod in form coglab show beshe 
+            Psychophysics.TaskPreview task = new Psychophysics.TaskPreview();
+            task.FormClosed += delegate { Show(); };  
             this.Hide();
             task.Show();
             

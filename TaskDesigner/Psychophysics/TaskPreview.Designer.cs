@@ -72,7 +72,7 @@ namespace Psychophysics
 			this.Task_Table.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 53F));
 			this.Task_Table.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 146F));
 			this.Task_Table.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 86F));
-			this.Task_Table.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 160F));
+			this.Task_Table.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 161F));
 			this.Task_Table.Controls.Add(this.label3, 4, 0);
 			this.Task_Table.Controls.Add(this.FramePerTask_LB1, 4, 1);
 			this.Task_Table.Controls.Add(this.Time_LB, 3, 0);
@@ -87,7 +87,7 @@ namespace Psychophysics
 			this.Task_Table.RowCount = 2;
 			this.Task_Table.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
 			this.Task_Table.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.Task_Table.Size = new System.Drawing.Size(628, 54);
+			this.Task_Table.Size = new System.Drawing.Size(629, 54);
 			this.Task_Table.TabIndex = 3;
 			// 
 			// label3
@@ -139,15 +139,15 @@ namespace Psychophysics
 			// 
 			this.SelectTask_CB1.FormattingEnabled = true;
 			this.SelectTask_CB1.Items.AddRange(new object[] {
-			"",
-			"Normal",
-			"Load"});
+            "",
+            "Normal",
+            "Load"});
 			this.SelectTask_CB1.Location = new System.Drawing.Point(113, 30);
 			this.SelectTask_CB1.Name = "SelectTask_CB1";
 			this.SelectTask_CB1.Size = new System.Drawing.Size(119, 21);
 			this.SelectTask_CB1.TabIndex = 0;
-			//this.SelectTask_CB1.SelectedIndexChanged += new System.EventHandler(this.SelectTask_CB_SelectedIndexChanged); //A:cmented by me. doen with combobox!
-
+			this.SelectTask_CB1.SelectedIndexChanged += new System.EventHandler(this.SelectTask_CB_SelectedIndexChanged);
+			// 
 			// label1
 			// 
 			this.label1.AutoSize = true;
@@ -179,7 +179,7 @@ namespace Psychophysics
 			// 
 			this.Start_PB.AutoEllipsis = true;
 			this.Start_PB.BackColor = System.Drawing.Color.Transparent;
-			this.Start_PB.BackgroundImage = Resource.next;
+			this.Start_PB.BackgroundImage = global::TaskDesigner.Resource.next;
 			this.Start_PB.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.Start_PB.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
 			this.Start_PB.FlatAppearance.BorderSize = 0;
