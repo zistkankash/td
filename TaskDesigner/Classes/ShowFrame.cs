@@ -68,79 +68,79 @@ namespace Psychophysics
 				}
 
 			}
-			//else
-			//{
-			//    try
-			//    {
-			//        TaskPreview.instantAiCtrl.SelectedDevice = new DeviceInformation(TaskPreview.DaqName);
-			//        Debug.Write(TaskPreview.DaqName + "\n");
-			//        ErrorCode errorCode = ErrorCode.Success;
+			else
+			{
+				try
+				{
+					TaskPreview.instantAiCtrl.SelectedDevice = new DeviceInformation(TaskPreview.DaqName);
+					Debug.Write(TaskPreview.DaqName + "\n");
+					ErrorCode errorCode = ErrorCode.Success;
 
-			//        TaskPreview.instantAiCtrl.Channels[0].ValueRange = TaskPreview.InputValRange;
-			//        TaskPreview.instantAiCtrl.Channels[1].ValueRange = TaskPreview.InputValRange;
-			//        TaskPreview.InputValRange = TaskPreview.instantAiCtrl.Channels[1].ValueRange;
+					TaskPreview.instantAiCtrl.Channels[0].ValueRange = TaskPreview.InputValRange;
+					TaskPreview.instantAiCtrl.Channels[1].ValueRange = TaskPreview.InputValRange;
+					TaskPreview.InputValRange = TaskPreview.instantAiCtrl.Channels[1].ValueRange;
 
-			//        // DAQ
-			//        int channelStart = 0;
-			//        int channelCount = 2;
+					// DAQ
+					int channelStart = 0;
+					int channelCount = 2;
 
-			//        double[] outdaq = new double[2];
-			//        outdaq[0] = 0;
-			//        outdaq[1] = 0;
+					double[] outdaq = new double[2];
+					outdaq[0] = 0;
+					outdaq[1] = 0;
 
-			//        errorCode = TaskPreview.instantAiCtrl.Read(channelStart, channelCount, outdaq);
-			//    }
-			//    catch
-			//    {
+					errorCode = TaskPreview.instantAiCtrl.Read(channelStart, channelCount, outdaq);
+				}
+				catch
+				{
 
-			//    }
+				}
 
-			//    try
-			//    {
-			//        TaskPreview.instantDoCtrl = new InstantDoCtrl();
-			//        TaskPreview.instantDoCtrl.SelectedDevice = new DeviceInformation(TaskPreview.DaqName);
+				try
+				{
+					TaskPreview.instantDoCtrl = new InstantDoCtrl();
+					TaskPreview.instantDoCtrl.SelectedDevice = new DeviceInformation(TaskPreview.DaqName);
 
-			//        Byte Dout = new byte();
-			//        Dout = 0x00;
-			//        TaskPreview.instantDoCtrl.Write(0, Dout);
-			//    }
-			//    catch
-			//    {
+					Byte Dout = new byte();
+					Dout = 0x00;
+					TaskPreview.instantDoCtrl.Write(0, Dout);
+				}
+				catch
+				{
 
-			//    }
+				}
 
 
 
-			//    if (TaskPreview.InputValRange.Equals(ValueRange.V_0To5))
-			//    {
-			//        RangeVolIn = 2.5;
-			//        CenterVolIn = 2.5;
-			//    }
+				if (TaskPreview.InputValRange.Equals(ValueRange.V_0To5))
+				{
+					RangeVolIn = 2.5;
+					CenterVolIn = 2.5;
+				}
 
-			//    if (TaskPreview.InputValRange.Equals(ValueRange.V_0To10))
-			//    {
-			//        RangeVolIn = 5;
-			//        CenterVolIn = 5;
-			//    }
+				if (TaskPreview.InputValRange.Equals(ValueRange.V_0To10))
+				{
+					RangeVolIn = 5;
+					CenterVolIn = 5;
+				}
 
-			//    if (TaskPreview.InputValRange.Equals(ValueRange.V_Neg5To5))
-			//    {
-			//        RangeVolIn = 5;
-			//        CenterVolIn = 0;
-			//    }
+				if (TaskPreview.InputValRange.Equals(ValueRange.V_Neg5To5))
+				{
+					RangeVolIn = 5;
+					CenterVolIn = 0;
+				}
 
-			//    if (TaskPreview.InputValRange.Equals(ValueRange.V_Neg10To10))
-			//    {
-			//        RangeVolIn = 10;
-			//        CenterVolIn = 0;
-			//    }
+				if (TaskPreview.InputValRange.Equals(ValueRange.V_Neg10To10))
+				{
+					RangeVolIn = 10;
+					CenterVolIn = 0;
+				}
 
-			//    if (TaskPreview.InputValRange.Equals(ValueRange.V_0To1pt25))
-			//    {
-			//        RangeVolIn = 1.25 / 2;
-			//        CenterVolIn = 1.25 / 2;
-			//    }
-			//}
+				if (TaskPreview.InputValRange.Equals(ValueRange.V_0To1pt25))
+				{
+					RangeVolIn = 1.25 / 2;
+					CenterVolIn = 1.25 / 2;
+				}
+			}
 
 			Debug.Write("INNNNNNNNNNNNNNNNN " + RangeVolIn + " " + CenterVolIn + " \n");
 

@@ -221,7 +221,7 @@
     <Compile Include="TaskLab\SlideThumb.Designer.cs">
       <DependentUpon>SlideThumb.cs</DependentUpon>
     </Compile>
-    <Compile Include="TaskRunner\RunnerUtils.cs" />
+    <Compile Include="Basics\RunnerUtils.cs" />
     <Compile Include="TaskRunner\TaskOperator.cs">
       <SubType>Form</SubType>
     </Compile>

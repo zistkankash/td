@@ -26,11 +26,13 @@ namespace TaskRunning
 		OpenFileDialog ofd = null;
 		TaskRunner runner = null;
 		TaskServer et_socket;
+		ETStatus _etStat = ETStatus.disconnected;
 		public static float gzX, gzY;
 		public TaskData tsk;
 		int Marker_Radius = 10;
 		private Size secondMonit;
-		public static string savedData = "";
+		int _slideNum = 0;
+		public static string savedData = BasConfigs._monitor_resolution_x.ToString() + "," + BasConfigs._monitor_resolution_y.ToString() + "\n";
 
 		public string getSavPath { get { return txtSavPath.Text; } }
 		
@@ -42,14 +44,26 @@ namespace TaskRunning
 				if (chBx_prompt.Checked)
 					r.showGoalPrompt = true;
 
-				if (chbx_NMshowarrow.Checked)
-					r.showArrow = true;
-				
+				if (chkb_nmsPrompt.Checked)
+					r.nmsShowGoalPrompt = true;
+									
 				if (chbx_sound.Checked)
 					r.useSound = true;
 
-				if (chbx_usemouse.Checked)
+				if (chkb_nmsSound.Checked)
+					r.nmsUseSound = true;
+
+				if (chbx_useMouseGaze.Checked)
 					r.useCursor = true;
+
+				if (chbx_showarrow.Checked)
+					r.showArrow = true;
+
+				if (chbx_NMshowarrow.Checked)
+					r.nmsShowArrow = true;
+
+				if (chbuseMouseNextFrm.Checked)
+					r.useCursorNextFrm = true;
 				return r;
 			}
 		}
@@ -66,10 +80,8 @@ namespace TaskRunning
 		
 		public void RefreshPctBx()
 		{
-			Bitmap b = (Bitmap)pbOper.Image;
-			Graphics flagGraphics = Graphics.FromImage(pbOper.Image);
-			
-
+			Bitmap b = tsk.GetSlideImage(_slideNum, pbOper.Size);
+			Graphics flagGraphics = Graphics.FromImage(b);
 			flagGraphics.FillEllipse(Brushes.Black, (float)gzX * pbOper.Width / secondMonit.Width - Marker_Radius / 2,(float) gzY * pbOper.Height / secondMonit.Height - Marker_Radius / 2, Marker_Radius, Marker_Radius);
 			flagGraphics.Flush();
 			pbOper.Image = b;
@@ -92,47 +104,59 @@ namespace TaskRunning
 				Directory.CreateDirectory(@"C:\GazeData");
 				txtSavPath.Text = @"C:\GazeData\slide.csv";
 			}
-			btnStart.Enabled = false;
-			tsk.runConf = getRunConfigs;
-			runner.RunTask(GetETStat());
-			runner.Show();
-			btStop.Enabled = true;
-			txtSavPath.Enabled = false;
-			txtbxTask.Enabled = false;
-			refTimer.Start();
+			
+			if (GetETStat())
+			{
+				btnStart.Enabled = false;
+				runner = new TaskRunner(et_socket, tsk, this);
+				tsk.runConf = getRunConfigs;
+				runner.Show();
+				if (_etStat == ETStatus.ready)
+					runner.RunTask(true);
+				else
+					runner.RunTask(false);
+				SetControlsLocked();
+				btStop.Enabled = true;
+				txtSavPath.Enabled = false;
+				txtbxTask.Enabled = false;
+				refTimer.Start();
+			}
 		}
 
 		/// <summary>
-		/// 
+		/// Get ET socket status to run the task.
 		/// </summary>
 		/// <returns></returns>
 		private bool GetETStat()
 		{
-			int ans = 2;
 			if (et_socket != null)
-				ans = et_socket.IsCalibrated;
-			if (ans == 2)
+				_etStat = et_socket.IsCalibrated;
+
+			if (_etStat == ETStatus.disconnected || _etStat == ETStatus.listening)
 			{
 				DialogResult dt = MetroMessageBox.Show((IWin32Window)this, "ET was not connected. Run in offline mode?", "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+
 				if (dt == DialogResult.OK)
-					return false;
+					return true;
+
 				else
 				{
-					MetroMessageBox.Show((IWin32Window)this, "Press Connect in ET connection window...", "Connecting...", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-					et_socket.GazeTracker = null;
-					et_socket.StartListening();
-					while (et_socket.GazeTracker == null) ;
-					return true;
+					MetroMessageBox.Show((IWin32Window)this, "Please go to connection settings in ET and coglab and make connection.", "Notice", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+					
+					return false;
 				}
 			}
 
-			if (ans == 1)
+			if (_etStat == ETStatus.ready)
 				return true;
 
-			if (ans == 0)
+			if (_etStat == ETStatus.not_calibrated)
 			{
-				MetroMessageBox.Show((IWin32Window)this, "Due to lack of calibrated data in ET, task is running in offline mode.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-				return false;
+				DialogResult dt = MetroMessageBox.Show((IWin32Window)this, "Due to lack of calibrated data in ET, do you want to run the task in offline mode?", "Question", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+				if (dt == DialogResult.OK)
+					return true;
+				else
+					return false;
 			}
 
 			return false;
@@ -157,7 +181,6 @@ namespace TaskRunning
 		private void TaskOperator_Load(object sender, EventArgs e)
 		{
 			BringToFront();
-			runner = new TaskRunner(et_socket, tsk, this, false);
 			txtbxTask.Select();
 			this.KeyDown += new KeyEventHandler(TaskOperator_KeyDown);
 		}
@@ -216,10 +239,7 @@ namespace TaskRunning
 		{
 			if (runner.StopTask())
 			{
-				btStop.Enabled = false;
-				btnStart.Enabled = true;
-				txtbxTask.Enabled = true;
-				txtSavPath.Enabled = true;
+				Stop();
 			}
 		}
 
@@ -239,22 +259,33 @@ namespace TaskRunning
 			if (savedData != "")
 			{
 				File.WriteAllText(txtSavPath.Text, savedData);
-				savedData = "";
+				savedData = BasConfigs._monitor_resolution_x.ToString() + "," + BasConfigs._monitor_resolution_y.ToString() + "\n";
 			}
-			txtSavPath.Text = FileName.UpdateFileName(false, txtSavPath.Text);
+
 			if (num < tsk.picList.Count)
-				pbOper.Image = tsk.picList[num].image;
+			{
+				txtSavPath.Text = FileName.UpdateFileName(false, txtSavPath.Text);
+				_slideNum = num;
+			}
 			else
 			{
-				txtbxTask.Enabled = true;
-				txtSavPath.Enabled = true;
-				btnStart.Enabled = true;
-				btStop.Enabled = false;
+				Stop();
 			}
+		}
+
+		public void Stop()
+		{
+			_slideNum = 0;
+			gzX = 0; gzY = 0;
+			refTimer.Stop();
+			pbOper.Image = Basics.BitmapData.PutText("اتمام تسک", Color.Black, Brushes.White, pbOper.Size,46);
+			SetControlsOpened();
+			txtbxTask.Enabled = true;
+			txtSavPath.Enabled = true;
+			btnStart.Enabled = true;
+			btStop.Enabled = false;
 		}
 	}
 
-	public enum TaskRunMod { recursive , reward}
 	
-	public struct RunConfig { public GroupingMod shapeGroupingMode; public TaskRunMod taskRunMode; public bool showArrow; public bool showGoalPrompt; public bool useCursor; public bool useSound; }
 }

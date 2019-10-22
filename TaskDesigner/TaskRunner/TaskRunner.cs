@@ -32,6 +32,7 @@ namespace TaskRunning
 		SoundPlayer winSound;
 		SoundPlayer failSound;
 
+		bool silentMode = false;
 		bool brake = false;
 		Screen[] screens;
 		public static TaskData curTsk;
@@ -48,42 +49,47 @@ namespace TaskRunning
 		
 		string savedStr = "";
 		bool _getGaz = false;
+		static bool _mouseClicked = false;
+		static int _mousX, _mousY;
 					
-		public TaskRunner(TaskServer sd,TaskData cs,TaskOperator pr,bool gz)
+		public TaskRunner(TaskServer sd,TaskData cs,TaskOperator pr)
 		{
 			InitializeComponent();
-			if (gz)
+			if (sd != null)
 			{
 				ET_Socket = sd;
 				_getGaz = true;
 			}
 			tsop = pr;
-
 			curTsk = cs;
-			
 			InitForm();
 		}
 		
+		public TaskRunner(TaskData cs)
+		{
+			InitializeComponent();
+			silentMode = true;
+			curTsk = cs;
+			InitForm();
+		}
+
 		private void InitForm()
 		{
-			
 			FormBorderStyle = FormBorderStyle.None;
-			
+			StartPosition = FormStartPosition.Manual;
 			screens = Screen.AllScreens;
 			if (screens.Length == 2)
 			{
 				// for fullscreen
 				WindowState = FormWindowState.Maximized;
 				this.Location = new Point(screens[1].Bounds.X, screens[1].Bounds.Y);
-				this.StartPosition = FormStartPosition.Manual;
-				
-				//pctbxFrm.Size = new Size(screens[screens.Length - 1].Bounds.Width, screens[screens.Length - 1].Bounds.Height);
+				pctbxFrm.Size = new Size(screens[1].Bounds.Width, screens[1].Bounds.Height);
 				secondMonit = new Size(screens[screens.Length - 1].Bounds.Width, screens[screens.Length - 1].Bounds.Height);
 				pctbxFrm.SizeMode = PictureBoxSizeMode.StretchImage;
 			}
 			else
 			{
-				if (screens.Length == 1)
+				if (screens.Length == 1 && !silentMode)
 				{
 					MessageBox.Show("Can not find second screen. Using primary screen.","Task Runner");
 					
@@ -91,8 +97,7 @@ namespace TaskRunning
 			}
 			
 		}
-
-		
+				
 		/// <summary>
 		/// This methode perform initializations for running current task.
 		/// for example set starting goal node.
@@ -101,11 +106,15 @@ namespace TaskRunning
 		/// <returns></returns>
 		private void InitRunningTask()
 		{
-
 			if (!curTsk.taskIsReady)// Check to see if curTsk not inited correctly return.
 				return;
-			
 			tskWatch = new Stopwatch(); //Get a watch for timing operations.
+			if (_getGaz)
+			{
+				ET_Socket.StartGaze();
+			}
+			else
+				Cursor.Position = new Point(BasConfigs._monitor_resolution_x, BasConfigs._monitor_resolution_y);
 			#region lab tasks
 			if (curTsk.type == TaskType.lab)
 			{
@@ -128,38 +137,37 @@ namespace TaskRunning
 			{
 				showedIndex = 0;
 				Invoke((Action)delegate { tsop.SetNextSlide(showedIndex); });
-				if (_getGaz)
-				{
-					ET_Socket.StartGaze();
-				}
 				tskWatch.Start();
 				frameUpdater.Start();
-				GazeTriple gzTemp;
+				
 				while (showedIndex < curTsk.picList.Count)
 				{
+					//If gaze was enabled use gaze values to save in file and update pointer in operator.
 					if (_getGaz)
 					{
 						//Check gaze validity and add it to the end of csv file.
-						gzTemp = ET_Socket.getGaze;
-						if (gzTemp.time != -1)
-						{
-							TaskOperator.savedData += gzTemp.x.ToString() + "," + gzTemp.y.ToString() + "," + gzTemp.pupilSize.ToString() + "," + gzTemp.time.ToString() + "," + showedIndex.ToString() + "\n";
-							TaskOperator.gzX = (float)gzTemp.x;
-							TaskOperator.gzY = (float)gzTemp.y;
-						}
+						GetPictureGaze(false);
+						//else
+						//	continue;
 					}
+					//Else if pointer was enabled add the pointer position in file.
 					else
-						TaskOperator.savedData += "0,0,0\n";
-					//Go to next slide...
-					if (tskWatch.ElapsedMilliseconds > curTsk.picList[showedIndex].time)
 					{
+						GetPictureGaze(curTsk.runConf.useCursor);
+						
+					}
+					
+					//Check status to go to next slide...
+					if ((curTsk.runConf.useCursorNextFrm && _mouseClicked && tskWatch.ElapsedMilliseconds > curTsk.picList[showedIndex].time * 0.2) || tskWatch.ElapsedMilliseconds > curTsk.picList[showedIndex].time)
+					{
+						_mouseClicked = false;
 						showedIndex++;
 						Invoke((Action)delegate { tsop.SetNextSlide(showedIndex); });
 						tskWatch.Restart();
 					}
 				}
+				StopTask();
 				
-				Invoke((Action)delegate { Hide(); });
 				return;
 			}
 
@@ -170,6 +178,30 @@ namespace TaskRunning
 			return;
 		}
 		
+		private bool GetPictureGaze(bool useCursor)
+		{
+			GazeTriple gzTemp;
+			if (useCursor)
+			{
+				TaskOperator.savedData += _mousX.ToString() + "," + _mousY.ToString() + "," + 0.ToString() + "," + tskWatch.ElapsedMilliseconds.ToString() + "," + showedIndex.ToString() + "\n";
+				TaskOperator.gzX = (float)_mousX;
+				TaskOperator.gzY = (float)_mousY;
+				return true;
+			}
+			if (!_getGaz)
+				return false;
+			gzTemp = ET_Socket.getGaze;
+			if (gzTemp.time != -1)
+			{
+				TaskOperator.savedData += gzTemp.x.ToString() + "," + gzTemp.y.ToString() + "," + gzTemp.pupilSize.ToString() + "," + gzTemp.time.ToString() + "," + showedIndex.ToString() + "\n";
+				TaskOperator.gzX = (float)gzTemp.x;
+				TaskOperator.gzY = (float)gzTemp.y;
+				return true;
+			}
+			else
+				return false;
+		}
+
 		public static bool SetCurrentFixate()
 		{ //for lab tasks
 			//int min = 1000;
@@ -429,6 +461,7 @@ namespace TaskRunning
 			brake = true;
 			runnerThread.Abort();
 			runMod = RunMod.stop;
+			Invoke((Action)delegate { Hide(); });
 			if (_getGaz)
 			{
 				ET_Socket.EndGaze();
@@ -474,7 +507,25 @@ namespace TaskRunning
 			Bitmap img = RunnerUtils.PutString("اتمام تسک",new Point(pctbxFrm.Width / 4, pctbxFrm.Height / 2));
 			pctbxFrm.Image = img;
 		}
-		
+
+		private void TaskRunner_KeyUp(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Escape)
+			{
+				StopTask();
+				this.Close();
+			}
+		}
+
+		private void pctbxFrm_MouseMove(object sender, MouseEventArgs e)
+		{
+			_mousX = e.X; _mousY = e.Y;
+		}
+
+		private void pctbxFrm_Click(object sender, EventArgs e)
+		{
+			_mouseClicked = true;
+		}
 	}
-	public enum RunMod { running, stop}
+	
 }

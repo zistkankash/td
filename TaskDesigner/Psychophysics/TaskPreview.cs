@@ -34,13 +34,13 @@ namespace Psychophysics
 		int TaskName = 1;
 		//// DAQ
 		public static int FrameRate = 125;
-		//public static ValueRange InputValRange = ValueRange.V_Neg5To5;
+		public static ValueRange InputValRange = ValueRange.V_Neg5To5;
 		public static String DaqName = "USB-4704,BID#0";
 		// Analog input
-		//public static InstantAiCtrl instantAiCtrl = new InstantAiCtrl();
+		public static InstantAiCtrl instantAiCtrl = new InstantAiCtrl();
 		public static int[] AInIndex = new int[2];
 		// output
-		//public static InstantDoCtrl instantDoCtrl = new InstantDoCtrl();
+		public static InstantDoCtrl instantDoCtrl = new InstantDoCtrl();
 		public static int[] DOutIndex = new int[2];
 		// Sound
 		public static bool SoundMute = false;
@@ -117,6 +117,7 @@ namespace Psychophysics
 
 			xtl.ApplyTheme(Path.Combine(Environment.CurrentDirectory, @"Themes\BlueWinterTheme.xml"));
 		}
+		
 		private void TaskPreview_Load(object sender, EventArgs e)
 		{
 			this.IconHolder.HolderButtons.Add(new XCoolForm.XTitleBarIconHolder.XHolderButton(TaskDesigner.Properties.Resources.file.GetThumbnailImage(20, 20, null, IntPtr.Zero), "File"));
@@ -142,6 +143,7 @@ namespace Psychophysics
 			xtl.ThemeForm = this;
 			SetTheme();
 		}
+		
 		private void frmCoolForm_XCoolFormHolderButtonClick(XCoolForm.XCoolForm.XCoolFormHolderButtonClickArgs e)
 		{
 			switch (e.ButtonIndex)
@@ -919,7 +921,6 @@ namespace Psychophysics
 			Task_Table.Controls.Add(new Label() { Text = "0", Name = "FramePerTask_LB" + (Task_Table.RowCount - 1) }, 4, this.Task_Table.RowCount - 1);
 		}
 
-
 		private void UpdateData(int Index)
 		{
 			int time = 0;
@@ -966,6 +967,7 @@ namespace Psychophysics
 
 
 		}
+		
 		private void ConnectLan()
 		{
 			Debug.Write(" LANDebug" + TaskPreview.LocalIP + " " + TaskPreview.LocalPort + " " + TaskPreview.RemoteIP + " " + TaskPreview.RemotePort + " " + LANConnected + " " + UseLan + "\n");

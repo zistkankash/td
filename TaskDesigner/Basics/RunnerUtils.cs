@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Psychophysics
+namespace Basics
 {
 	public static class RunnerUtils
 	{

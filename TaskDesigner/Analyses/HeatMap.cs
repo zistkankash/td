@@ -189,7 +189,7 @@ namespace Analyses
         private void btnHeatPic_Click(object sender, EventArgs e)
         {
             OpenFileDialog picAddress = new OpenFileDialog();
-            picAddress.Filter = "JPEG Files (*.jpg)|*.jpg|PNG Files (*.png)|*.png";
+           
             if (picAddress.ShowDialog() == DialogResult.OK)
             {
                 txtHeatPic.Text = picAddress.FileName;
@@ -213,32 +213,6 @@ namespace Analyses
                 HeatChart2();
             else if (cmbType.Text == "Chart Movie")
                 ChartMovie();
-        }
-
-        private bool CreateBackground()
-        {
-            StreamReader s = new StreamReader(txtHeatPath.Text);
-            string line;
-            string[] bg;
-            line = s.ReadLine();
-            if (line != "TaskLab")
-                return false;
-            s.ReadLine();       //date created
-            line = s.ReadLine();
-            bg = line.Split(',');   //background
-            int r, g, b;
-            Int32.TryParse(bg[1], out r);
-            Int32.TryParse(bg[2], out g);
-            Int32.TryParse(bg[3], out b);
-            line = s.ReadLine();
-            string[] Number = line.Split(',');
-            int shapeNumber;
-            Int32.TryParse(Number[1], out shapeNumber);
-            for(int i = 0; i < shapeNumber; i++)
-            {
-                
-            }
-            return true;
         }
 
         private void ChartMovie()
@@ -335,7 +309,7 @@ namespace Analyses
             else
             {
                 Bitmap temp = new Bitmap(txtHeatPic.Text);
-                pic = temp;
+                pic = Basics.BitmapData.DrawOn(temp,new Size(BasConfigs._monitor_resolution_x,BasConfigs._monitor_resolution_y), Color.White);
             }
             Image<Bgr, byte> img = new Image<Bgr, byte>(pic);
             StreamReader s = new StreamReader(txtHeatPath.Text);
@@ -366,7 +340,8 @@ namespace Analyses
                     sumX += x;
                     sumY += y;
                 }
-                if (counter == 8)
+				#region counter 8
+				if (counter == 8)
                 {
 
                     counter = 0;
@@ -394,19 +369,21 @@ namespace Analyses
                     sumY = 0;
                     sumX = 0;
                 }
-            }
-            string path;
+				#endregion
+			}
+			string path;
             if (chkSave.Checked)
             {
                 path = txtSave.Text;
             }
             else
                 path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\CogLab Data";
-            img.Save(path + "\\HeatCharts\\" + outputImageFileName + ".jpg");
-            pbHeat.SizeMode = PictureBoxSizeMode.StretchImage;
-            pbHeat.Image = img.ToBitmap();
 			
-            //MessageBox.Show("Chart ic Complete!!!");
+			Bitmap imRes = Basics.BitmapData.DrawOn(img.Bitmap, pbHeat.Size, Color.White);
+            imRes.Save(path + "\\HeatCharts\\" + outputImageFileName + ".jpg");
+            pbHeat.SizeMode = PictureBoxSizeMode.StretchImage;
+			pbHeat.Image = imRes;
+			
         }
         
 		private void HeatChart()
@@ -696,16 +673,11 @@ namespace Analyses
 					
 				}
 			pic = CreateIntensityMask(pic, HeatPoints);
-			Bitmap maskPic = pic;
 			Bitmap output = Colorize(pic, 125);
-			
-			var target = new Bitmap(pbHeat.Size.Width, pbHeat.Size.Height, PixelFormat.Format32bppArgb);
-			var graphics = Graphics.FromImage(target);
-			
-			graphics.CompositingMode = CompositingMode.SourceOver;
-			graphics.DrawImage(jPic, 0, 0);
-			graphics.DrawImage(output, 0, 0);
 
+			Bitmap jp = Basics.BitmapData.DrawOn(jPic, pbHeat.Size, Color.White); 
+			Bitmap target = Basics.BitmapData.DrawOn(output, jp);
+			
 			string path;
             if (chkSave.Checked)
             {
@@ -911,5 +883,7 @@ namespace Analyses
 			}
 			MessageBox.Show("Successful");
 		}
+
+		
 	}
 }

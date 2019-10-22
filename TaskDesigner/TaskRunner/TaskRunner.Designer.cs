@@ -45,6 +45,8 @@
 			this.pctbxFrm.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.pctbxFrm.TabIndex = 0;
 			this.pctbxFrm.TabStop = false;
+			this.pctbxFrm.Click += new System.EventHandler(this.pctbxFrm_Click);
+			this.pctbxFrm.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pctbxFrm_MouseMove);
 			// 
 			// frameUpdater
 			// 
@@ -66,6 +68,7 @@
 			this.Text = "TaskRunner";
 			this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
 			this.Load += new System.EventHandler(this.TaskRunner_Load);
+			this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TaskRunner_KeyUp);
 			((System.ComponentModel.ISupportInitialize)(this.pctbxFrm)).EndInit();
 			this.ResumeLayout(false);
 

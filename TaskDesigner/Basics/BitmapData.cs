@@ -47,7 +47,7 @@ namespace Basics
 
 		}
 
-		public static Bitmap PutText(string st, Color bc, Size sz)
+		public static Bitmap PutText(string st, Color bc, Brush bs, Size sz,short fontSize)
 		{
 			Bitmap bmp = new Bitmap(sz.Width, sz.Height);
 
@@ -58,7 +58,7 @@ namespace Basics
 			g.SmoothingMode = SmoothingMode.AntiAlias;
 			g.InterpolationMode = InterpolationMode.HighQualityBicubic;
 			g.PixelOffsetMode = PixelOffsetMode.HighQuality;
-			g.DrawString(st, new Font("Calibri", 20), Brushes.Black, rectf);
+			g.DrawString(st, new Font("Arial", fontSize), bs, rectf);
 
 			g.Flush();
 
@@ -122,6 +122,13 @@ namespace Basics
 			}
 		}
 
+		/// <summary>
+		/// Make a source copy of input bitmap to a new bitmap with specific size and specific back color.
+		/// </summary>
+		/// <param name="image"></param>
+		/// <param name="s"></param>
+		/// <param name="bgColor"></param>
+		/// <returns></returns>
 		public static Bitmap DrawOn(Bitmap image, Size s, Color bgColor)
 		{
 			var destRect = new Rectangle(0, 0, s.Width, s.Height);
@@ -147,6 +154,35 @@ namespace Basics
 				}
 			}
 			return destImage;
+		}
+
+		/// <summary>
+		/// Make a source over of input bitmap (iamge1) to bitmap image2.
+		/// </summary>
+		/// <param name="image"></param>
+		/// <param name="s"></param>
+		/// <returns></returns>
+		public static Bitmap DrawOn(Bitmap image1, Bitmap image2)
+		{
+			var destRect = new Rectangle(0, 0, image2.Width, image2.Height);
+			
+			using (var graphics = Graphics.FromImage(image2))
+			{
+				graphics.CompositingMode = CompositingMode.SourceOver;
+				graphics.CompositingQuality = CompositingQuality.HighQuality;
+				graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+				graphics.SmoothingMode = SmoothingMode.HighQuality;
+				graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+				
+				//image1.SetResolution(image2.HorizontalResolution, image2.VerticalResolution);
+				using (var wrapMode = new ImageAttributes())
+				{
+					wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+					graphics.DrawImage(image1, destRect, 0, 0, image1.Width, image1.Height, GraphicsUnit.Pixel, wrapMode);
+				}
+				
+			}
+			return image2;
 		}
 	}
 }

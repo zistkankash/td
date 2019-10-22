@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Psychophysics;
@@ -20,11 +21,12 @@ namespace Basics
 		byte[] parBuffer = null; 
 		byte[] b1, b2, b3, b4;
 		private Queue<GazeTriple> gazPnt = new Queue<GazeTriple>();
-		private int paramBufferSize = 2 * sizeof(double) + sizeof(long);
+		private int paramBufferSize = 3 * sizeof(double) + sizeof(long);
 		private int _calibStat;
 		private COGLAB par;
 		public bool _endGaze = true;
 		public bool serverDisposed = false, serverListening = false;
+		
 
 		public GazeTriple getGaze
 		{
@@ -41,36 +43,33 @@ namespace Basics
 		/// Call IsCalibrated to detect calibration status.
 		/// if returned 1 ET is calibrated,if returned 2 Et not connected, if returned 0 Et not calibrated.
 		/// </summary>
-		public int IsCalibrated
+		public ETStatus IsCalibrated
 		{
 			get
 			{
 				if (GazeTracker == null && !GazeTracker.Connected)
 				{
-					return 2;
+					return ETStatus.disconnected;
 				}
-				
-				Send((short)Comnd.CalibStat);
-								
 				_calibStat = 2;
+				Send((short)Comnd.CalibStat);
 				while (_calibStat == 2)
 				{
 					continue;
 				}
-				
 				if (_calibStat == 1)
-					return 1;
+					return ETStatus.ready;
 				else
-					return 0;
+					return ETStatus.not_calibrated;
 			}
-
 		}
 				
 		public TaskServer(short port, COGLAB pr)
 		{
 			par = pr;
 			Port = port;
-			if(ListenerSocket == null)
+			parBuffer = new byte[paramBufferSize];
+			if (ListenerSocket == null)
 				ListenerSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 		}
 		
@@ -138,10 +137,11 @@ namespace Basics
 						Dispose();
 						return;
 					}
-					parBuffer = new byte[paramBufferSize];
+					
 
 					if (_comnd == (short)Comnd.CalibStat)
 					{
+						
 						GazeTracker.Receive(parBuffer, paramBufferSize, SocketFlags.None);
 						SetCalibStat();
 					}
@@ -151,19 +151,18 @@ namespace Basics
 					    GazeTriple gazTemp;
 						gazPnt.Clear();
 
-						parBuffer = new byte[paramBufferSize];
+						
 						_endGaze = false;
 
 						while (!_endGaze)
 						{
 							GazeTracker.Receive(parBuffer, paramBufferSize, SocketFlags.None);
-
+							
 							gazTemp.x = BitConverter.ToDouble(parBuffer, 0);
 							gazTemp.y = BitConverter.ToDouble(parBuffer, sizeof(double));
 							gazTemp.time = BitConverter.ToInt64(parBuffer, 2 * sizeof(double));
 							gazTemp.pupilSize = BitConverter.ToDouble(parBuffer, 2 * sizeof(double) + sizeof(long));
 							gazPnt.Enqueue(gazTemp);
-
 							_comnd = GetComnd();
 							if ( _comnd == (short)Comnd.EndGaz || _comnd == (short)Comnd.Close)
 							{
@@ -182,18 +181,19 @@ namespace Basics
 					if (_comnd == (short)Comnd.Close)
 						Dispose();
 					//get new command after performing current command.
-					ReceivComnd();
+					
 				}
 				else
 				{
-					Dispose();
-						
+					MessageBox.Show("TD End Receive Detectedd");
+
 				}
+				ReceivComnd();
 			}
 			catch(Exception ex)
 			{
-				MessageBox.Show("Receive Callback Error" + ex.Message);
-				Dispose();
+				MessageBox.Show("TD Receive Callback Error" + ex.Message);
+				
 			}
 		}
 		
@@ -252,6 +252,8 @@ namespace Basics
 
 		public bool Send(Int16 cmnd, double p1, double p2, long p3)
 		{
+			if (GazeTracker == null)
+				return false;
 			try
 			{
 				/* what hapends here:
@@ -280,13 +282,15 @@ namespace Basics
 			}
 			catch (SocketException)
 			{
-				MessageBox.Show("Sending problem");
+				MessageBox.Show("TD Sending problem, command is" + cmnd.ToString());
 				return false;
 			}
 		}
 
 		public bool Send(Int16 cmnd)
 		{
+			if (GazeTracker == null)
+				return false;
 			try
 			{
 				b1 = BitConverter.GetBytes(cmnd);
@@ -297,35 +301,9 @@ namespace Basics
 			}
 			catch (SocketException)
 			{
-				MessageBox.Show("Sending problem");
+				MessageBox.Show("TD Sending problem, command is" + cmnd.ToString());
 				return false;
 			}
-		}
-		
-	}
-	
-	enum Comnd { Close = 5, CalibStat = 2, SendGaz = 8, EndGaz = 9}
-	public struct GazeTriple
-	{
-		public double x;
-		public double y;
-		public long time;
-		public double pupilSize;
-
-		public GazeTriple(double a1, double a2, long a3, double a4)
-		{
-			x = a1;
-			y = a2;
-			time = a3;
-			pupilSize = a4;
-		}
-
-		public GazeTriple(double[] a1, long t,double a2)
-		{
-			x = a1[0];
-			y = a1[1];
-			time = t;
-			pupilSize = a2;
-		}
+		}	
 	}
 }

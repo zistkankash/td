@@ -157,8 +157,7 @@ namespace TaskLab
            
                        
         }
-   
-        
+           
     //    private void pbDesign_MouseMove(object sender, MouseEventArgs e)
     //    {
     //        //Cursor.Current = Cursors.Hand;
@@ -839,7 +838,7 @@ namespace TaskLab
         
 		private void AddPicture(Size slidSize)
         {
-			Bitmap b = BitmapData.PutText("Double Click To Add Picture", btnBackgroundCol.BackColor, slidSize);
+			Bitmap b = BitmapData.PutText("Double Click To Add Image", btnBackgroundCol.BackColor, Brushes.Black, slidSize,15);
 			
             Picture p = new Picture(b, null, slideTime);
             p.bgColor = btnBackgroundCol.BackColor;
@@ -865,7 +864,7 @@ namespace TaskLab
 
             p.Size = btnAddPic.Size;
 			p.Visible = true;
-			p.Image = BitmapData.PutText("Double Click To Add Picture",btnBackgroundCol.BackColor, p.Size);
+			p.Image = BitmapData.PutText("Double Click To Add Image",btnBackgroundCol.BackColor, Brushes.Black, p.Size,15);
 
             p.Location = new Point(10, 4);
             p.SizeMode = PictureBoxSizeMode.StretchImage;
