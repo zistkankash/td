@@ -48,9 +48,9 @@ namespace Basics
 
 		private void COGLAB_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			Application.Exit();
 			Application.ExitThread();
-
+			Application.Exit();
+			
 			foreach (Process Proc in Process.GetProcesses())
 				if (Proc.ProcessName.Equals("TaskDesigner"))
 					Proc.Kill();

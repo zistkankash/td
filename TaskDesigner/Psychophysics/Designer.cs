@@ -83,8 +83,8 @@ namespace Psychophysics.Old
             else if( mode == 2 ) //A: a designer for editing the current task
             {
                 this.Mode = mode;
-                LoadParameters(index );
-                this.EditedIndex = index ;
+                LoadParameters(index-1 );
+                this.EditedIndex = index-1 ;
 
                 //SelectRewardType_CB.SelectedIndex = Reward[ActivePicB - 1];
                 RewardType_LB.Text = Reward[ActivePicB - 1].ToString();
@@ -474,14 +474,17 @@ namespace Psychophysics.Old
                 UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList);  //A: update the whole task
             }
 		}    //A:DONE
+		
 		private void btn_Square_Click(object sender, EventArgs e)
         {
             drawSquare = true;
 		}    //A:DONE
+		
 		private void btn_Rectangle_Click(object sender, EventArgs e)
         {
             drawRectangle = true;
 		} //A:DONE
+		
 		private void btn_Circle_Click(object sender, EventArgs e) 
         {
             drawCircle = true;

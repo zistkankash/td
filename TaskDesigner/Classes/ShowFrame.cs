@@ -150,7 +150,10 @@ namespace Psychophysics
 			Debug.Write("RAAAAAAAAAAAAAND" + indexRandForTaskLevel + "\n");
 			level = RandForTaskLevel[indexRandForTaskLevel];
 
-			timelimit = TaskPreview.AllLevelProp[level][frame].FrameTime;
+			if (TaskPreview.AllLevelProp.Count == 0)
+				return;
+			
+				timelimit = TaskPreview.AllLevelProp[level][frame].FrameTime;
 			framelimit = TaskPreview.AllLevelProp[level].Count;
 			repeatInfo = new RepeatLinkFrame();
 			repeatInfo.SetProperties(TaskPreview.AllLevelProp[level][frame].RepeatInfo.Active, TaskPreview.AllLevelProp[level][frame].RepeatInfo.RepeatationNumber, TaskPreview.AllLevelProp[level][frame].RepeatInfo.Length, TaskPreview.AllLevelProp[level][frame].RepeatInfo.RandomLocation);
@@ -502,6 +505,7 @@ namespace Psychophysics
 		MicroLibrary.MicroTimer microTimerLive;
 		// Daq 
 		//int Xindex = TaskPreview.
+		
 		private void Timer1_Tick(object sender, EventArgs e)
 		{
 			//// Save 
@@ -1060,8 +1064,7 @@ namespace Psychophysics
 			//label1.Text = "Step4";
 			return;
 		}
-
-
+		
 		private void ShowFrame_KeyPress(object sender, KeyPressEventArgs e)
 		{
 			if (e.KeyChar == keyboardChar)
@@ -1303,6 +1306,7 @@ namespace Psychophysics
 				//    TaskPreview.instantDoCtrl.Write(0, Dout);
 			}
 		}
+		
 		private void ChangeDaqValue(double[] OutDaq, int NumOfSignals, double InputVolCenter, double InputVolRange, double[] Width, double[] MappedSignals)
 		{
 			if (InputVolCenter == 0)
@@ -1321,8 +1325,7 @@ namespace Psychophysics
 			}
 
 		}
-
-
+		
 		private void MicroTimerEnable()
 		{
 			microTimer = new MicroLibrary.MicroTimer();
@@ -1336,10 +1339,13 @@ namespace Psychophysics
 			//TaskPreview.mySocket.Disconnect(true);
 			//TaskPreview.mySocket.Shutdown(SocketShutdown.Both);
 			//TaskPreview.mySocket.Close();
-			microTimer.Enabled = false;
-			if (TaskPreview.Savetask)
+			if (microTimer != null)
 			{
-				microTimerLive.Enabled = false;
+				microTimer.Enabled = false;
+				if (TaskPreview.Savetask)
+				{
+					microTimerLive.Enabled = false;
+				}
 			}
 			Timer1.Enabled = false;
 		}

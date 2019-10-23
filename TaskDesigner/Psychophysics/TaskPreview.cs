@@ -28,6 +28,8 @@ namespace Psychophysics
 		public static List<int> NumerRepeat = new List<int>();
 		public static int[] TaskIndex = new int[NFrame];
 		public static bool ChangeHappened = false;
+		Size namTxt, numTrilTxt, cmbSiz;
+
 		// Display Option
 		public static int TypeDisplay = 1;
 		//
@@ -92,6 +94,10 @@ namespace Psychophysics
 			SaveOut_CB.Checked = Savetask;
 			Path_TB.Enabled = SaveOut_CB.Checked;
 			Save_BT.Enabled = SaveOut_CB.Checked;
+
+			namTxt = NameTask_TB1.Size;
+			numTrilTxt = NumTrial_TB1.Size;
+			cmbSiz = SelectTask_CB1.Size;
 		}
 
 		private void SetTheme()
@@ -445,18 +451,19 @@ namespace Psychophysics
 								var namebox = new TextBox();
 								namebox.Name = "NameTask_TB" + (Task_Table.RowCount - 1);
 								namebox.TextChanged += new System.EventHandler(this.NameTask_TB_TextChanged);
-
+								namebox.Size = namTxt;
 								namebox.Text = AllLevelName[i];
 								Task_Table.Controls.Add(namebox, 0, this.Task_Table.RowCount - 1);
 
 
 								var Combox = new ComboBox();
+								Combox.Size = cmbSiz;
 								Combox.Items.Add(" ");
-								Combox.Items.Add("Normal");
+								Combox.Items.Add("Design");
 								Combox.Items.Add("MGS");
 								Combox.Items.Add("VGS");
 								Combox.Items.Add("Posner");
-								Combox.Items.Add("Delete");
+								//Combox.Items.Add("Delete");
 								Combox.Name = "SelectTask_CB" + (Task_Table.RowCount - 1);
 								Debug.Write(" Combo" + Combox.Name + "\n");
 								Combox.SelectedIndexChanged += new System.EventHandler(this.SelectTask_CB_SelectedIndexChanged);
@@ -465,7 +472,7 @@ namespace Psychophysics
 								txbox.Text = Convert.ToString(NumerRepeat[i]);
 								txbox.Name = "NumTrial_TB" + (Task_Table.RowCount - 1);
 								txbox.TextChanged += new System.EventHandler(this.NumTrial_TB_TextChanged);
-
+								txbox.Size = numTrilTxt;
 								Task_Table.Controls.Add(txbox, 2, this.Task_Table.RowCount - 1);
 								Task_Table.Controls.Add(new Label() { Text = "0", Name = "TotalTime_LB" + (Task_Table.RowCount - 1) }, 3, this.Task_Table.RowCount - 1);
 								Task_Table.Controls.Add(new Label() { Text = "0", Name = "FramePerTask_LB" + (Task_Table.RowCount - 1) }, 4, this.Task_Table.RowCount - 1);
@@ -687,11 +694,11 @@ namespace Psychophysics
 
 						var Combox = new ComboBox();
 						Combox.Items.Add(" ");
-						Combox.Items.Add("Normal");
+						Combox.Items.Add("Design");
 						Combox.Items.Add("MGS");
 						Combox.Items.Add("VGS");
 						Combox.Items.Add("Posner");
-						Combox.Items.Add("Delete");
+						//Combox.Items.Add("Delete");
 						Combox.Name = "SelectTask_CB" + (Task_Table.RowCount - 1);
 						Debug.Write(" Combo" + Combox.Name + "\n");
 						Combox.SelectedIndexChanged += new System.EventHandler(this.SelectTask_CB_SelectedIndexChanged);
@@ -728,7 +735,7 @@ namespace Psychophysics
 					break;
 				case "MGS":
 					break;
-				case "Normal":
+				case "Design":
 					//this.Visible = false;
 					Designer NormalFrm = new Designer(1, 0);
 					NormalFrm.FormClosing += delegate { this.Show(); this.UpdateComboBox(index); };
@@ -740,10 +747,11 @@ namespace Psychophysics
 				case "Discrimination":
 					break;
 				case "Delete":
+					break;
 					if (AllLevelProp.Count > 0)//&& AllLevelProp[index - 1].Count > 1
 					{
 						Debug.Write("Num List : " + AllLevelName.Count + " " + AllLevelProp.Count + " \n");
-						for (int i = AllLevelName.Count; i > 0; i--)
+						for (int i = AllLevelName.Count -1; i > 0; i--)
 						{
 							Label FrCountLB = Controls.Find("FramePerTask_LB" + (i), true).FirstOrDefault() as Label;
 							Task_Table.Controls.Remove(FrCountLB);
@@ -780,11 +788,11 @@ namespace Psychophysics
 
 							var Combox = new ComboBox();
 							Combox.Items.Add(" ");
-							Combox.Items.Add("Normal");
+							Combox.Items.Add("Design");
 							Combox.Items.Add("MGS");
 							Combox.Items.Add("VGS");
 							Combox.Items.Add("Posner");
-							Combox.Items.Add("Delete");
+							//Combox.Items.Add("Delete");
 							Combox.Name = "SelectTask_CB" + (Task_Table.RowCount - 1);
 							Debug.Write(" Combo" + Combox.Name + "\n");
 							Combox.SelectedIndexChanged += new System.EventHandler(this.SelectTask_CB_SelectedIndexChanged);
@@ -842,7 +850,7 @@ namespace Psychophysics
 
 						var Combox = new ComboBox();
 						Combox.Items.Add(" ");
-						Combox.Items.Add("Normal");
+						Combox.Items.Add("Design");
 
 						Combox.Name = "SelectTask_CB" + (Task_Table.RowCount - 1);
 						Debug.Write(" Combo" + Combox.Name + "\n");
@@ -900,12 +908,14 @@ namespace Psychophysics
 			AllLevelName.Add("Untitled" + TaskName);
 			BaseIndex.Add(0);
 			namebox.Text = "Untitled" + TaskName;
+			namebox.Size = namTxt;
 			Task_Table.Controls.Add(namebox, 0, this.Task_Table.RowCount - 1);
 
 			NumerRepeat.Add(1);
 			var Combox = new ComboBox();
+			Combox.Size = cmbSiz;
 			Combox.Items.Add(" ");
-			Combox.Items.Add("Normal");
+			Combox.Items.Add("Design");
 			Combox.Items.Add("Load");
 
 			Combox.Name = "SelectTask_CB" + (Task_Table.RowCount - 1);
@@ -915,7 +925,7 @@ namespace Psychophysics
 			txbox.Text = "1";
 			txbox.Name = "NumTrial_TB" + (Task_Table.RowCount - 1);
 			txbox.TextChanged += new System.EventHandler(this.NumTrial_TB_TextChanged);
-
+			txbox.Size = numTrilTxt;
 			Task_Table.Controls.Add(txbox, 2, this.Task_Table.RowCount - 1);
 			Task_Table.Controls.Add(new Label() { Text = "0", Name = "TotalTime_LB" + (Task_Table.RowCount - 1) }, 3, this.Task_Table.RowCount - 1);
 			Task_Table.Controls.Add(new Label() { Text = "0", Name = "FramePerTask_LB" + (Task_Table.RowCount - 1) }, 4, this.Task_Table.RowCount - 1);
@@ -990,6 +1000,11 @@ namespace Psychophysics
 			StopBT_Pushed = true;
 		}
 
+		private void Task_Table_Scroll(object sender, ScrollEventArgs e)
+		{
+			return;
+		}
+
 		private void NumTrial_TB_TextChanged(object sender, EventArgs e)
 		{
 			TextBox cmb = (TextBox)sender;
@@ -1024,7 +1039,7 @@ namespace Psychophysics
 			{
 				ComboBox comb = panel1.Controls.Find("SelectTask_CB" + index, true).FirstOrDefault() as ComboBox;
 				comb.Items.Clear();
-				comb.Items.Add("Delete");
+				//comb.Items.Add("Delete");
 				comb.Items.Add("Edit");
 			}
 		}

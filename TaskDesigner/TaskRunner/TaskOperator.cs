@@ -94,32 +94,39 @@ namespace TaskRunning
 
 		private void btnStart_Click_1(object sender, EventArgs e)
 		{
-			if (!tsk.taskIsReady)
+			try
 			{
-				MetroMessageBox.Show((IWin32Window)this, "Please select correct task!", "Task Runner", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+				if (!tsk.taskIsReady)
+				{
+					MetroMessageBox.Show((IWin32Window)this, "Please select correct task!", "Task Runner", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+					return;
+				}
+				if (txtSavPath.Text == "")
+				{
+					Directory.CreateDirectory(@"C:\GazeData");
+					txtSavPath.Text = @"C:\GazeData\slide.csv";
+				}
+
+				if (GetETStat())
+				{
+					btnStart.Enabled = false;
+					runner = new TaskRunner(et_socket, tsk, this);
+					tsk.runConf = getRunConfigs;
+					runner.Show();
+					if (_etStat == ETStatus.ready)
+						runner.RunTask(true);
+					else
+						runner.RunTask(false);
+					SetControlsLocked();
+					btStop.Enabled = true;
+					txtSavPath.Enabled = false;
+					txtbxTask.Enabled = false;
+					refTimer.Start();
+				}
+			}
+			catch(Exception)
+			{
 				return;
-			}
-			if (txtSavPath.Text == "")
-			{
-				Directory.CreateDirectory(@"C:\GazeData");
-				txtSavPath.Text = @"C:\GazeData\slide.csv";
-			}
-			
-			if (GetETStat())
-			{
-				btnStart.Enabled = false;
-				runner = new TaskRunner(et_socket, tsk, this);
-				tsk.runConf = getRunConfigs;
-				runner.Show();
-				if (_etStat == ETStatus.ready)
-					runner.RunTask(true);
-				else
-					runner.RunTask(false);
-				SetControlsLocked();
-				btStop.Enabled = true;
-				txtSavPath.Enabled = false;
-				txtbxTask.Enabled = false;
-				refTimer.Start();
 			}
 		}
 

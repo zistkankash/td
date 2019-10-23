@@ -454,6 +454,7 @@ namespace TaskRunning
 
 		public bool StopTask()
 		{
+			CleanMap();
 			if (runMod == RunMod.stop)       // هنگام اجرای برنامه
 			{
 				return false;

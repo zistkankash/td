@@ -55,45 +55,45 @@ namespace Psychophysics
 			// 
 			// panel1
 			// 
-			this.panel1.AutoScroll = true;
+			this.panel1.AutoSize = true;
 			this.panel1.BackColor = System.Drawing.Color.Transparent;
 			this.panel1.Controls.Add(this.Task_Table);
-			this.panel1.Location = new System.Drawing.Point(28, 140);
+			this.panel1.Location = new System.Drawing.Point(28, 43);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(685, 130);
+			this.panel1.Size = new System.Drawing.Size(685, 300);
 			this.panel1.TabIndex = 0;
 			// 
 			// Task_Table
 			// 
 			this.Task_Table.AutoSize = true;
-			this.Task_Table.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.Task_Table.ColumnCount = 5;
-			this.Task_Table.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 47F));
-			this.Task_Table.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 53F));
-			this.Task_Table.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 146F));
-			this.Task_Table.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 86F));
-			this.Task_Table.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 161F));
+			this.Task_Table.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.0566F));
+			this.Task_Table.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.9434F));
+			this.Task_Table.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 126F));
+			this.Task_Table.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 66F));
+			this.Task_Table.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 114F));
 			this.Task_Table.Controls.Add(this.label3, 4, 0);
 			this.Task_Table.Controls.Add(this.FramePerTask_LB1, 4, 1);
 			this.Task_Table.Controls.Add(this.Time_LB, 3, 0);
 			this.Task_Table.Controls.Add(this.TotalTime_LB1, 3, 1);
 			this.Task_Table.Controls.Add(this.label2, 2, 0);
 			this.Task_Table.Controls.Add(this.SelectTask_CB1, 1, 1);
-			this.Task_Table.Controls.Add(this.label1, 0, 0);
 			this.Task_Table.Controls.Add(this.NameTask_TB1, 0, 1);
 			this.Task_Table.Controls.Add(this.NumTrial_TB1, 2, 1);
-			this.Task_Table.Location = new System.Drawing.Point(33, 25);
+			this.Task_Table.Controls.Add(this.label1, 0, 0);
+			this.Task_Table.Location = new System.Drawing.Point(23, 13);
 			this.Task_Table.Name = "Task_Table";
 			this.Task_Table.RowCount = 2;
 			this.Task_Table.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
 			this.Task_Table.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.Task_Table.Size = new System.Drawing.Size(629, 54);
+			this.Task_Table.Size = new System.Drawing.Size(637, 54);
 			this.Task_Table.TabIndex = 3;
+			this.Task_Table.Scroll += new System.Windows.Forms.ScrollEventHandler(this.Task_Table_Scroll);
 			// 
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(470, 0);
+			this.label3.Location = new System.Drawing.Point(525, 0);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(93, 13);
 			this.label3.TabIndex = 3;
@@ -102,7 +102,7 @@ namespace Psychophysics
 			// FramePerTask_LB1
 			// 
 			this.FramePerTask_LB1.AutoSize = true;
-			this.FramePerTask_LB1.Location = new System.Drawing.Point(470, 27);
+			this.FramePerTask_LB1.Location = new System.Drawing.Point(525, 27);
 			this.FramePerTask_LB1.Name = "FramePerTask_LB1";
 			this.FramePerTask_LB1.Size = new System.Drawing.Size(13, 13);
 			this.FramePerTask_LB1.TabIndex = 4;
@@ -111,7 +111,7 @@ namespace Psychophysics
 			// Time_LB
 			// 
 			this.Time_LB.AutoSize = true;
-			this.Time_LB.Location = new System.Drawing.Point(384, 0);
+			this.Time_LB.Location = new System.Drawing.Point(459, 0);
 			this.Time_LB.Name = "Time_LB";
 			this.Time_LB.Size = new System.Drawing.Size(30, 13);
 			this.Time_LB.TabIndex = 2;
@@ -120,7 +120,7 @@ namespace Psychophysics
 			// TotalTime_LB1
 			// 
 			this.TotalTime_LB1.AutoSize = true;
-			this.TotalTime_LB1.Location = new System.Drawing.Point(384, 27);
+			this.TotalTime_LB1.Location = new System.Drawing.Point(459, 27);
 			this.TotalTime_LB1.Name = "TotalTime_LB1";
 			this.TotalTime_LB1.Size = new System.Drawing.Size(13, 13);
 			this.TotalTime_LB1.TabIndex = 4;
@@ -129,7 +129,7 @@ namespace Psychophysics
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(238, 0);
+			this.label2.Location = new System.Drawing.Point(333, 0);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(99, 13);
 			this.label2.TabIndex = 2;
@@ -140,12 +140,12 @@ namespace Psychophysics
 			this.SelectTask_CB1.FormattingEnabled = true;
 			this.SelectTask_CB1.Items.AddRange(new object[] {
             "",
-            "Normal",
+            "Design",
             "Load"});
-			this.SelectTask_CB1.Location = new System.Drawing.Point(113, 30);
+			this.SelectTask_CB1.Location = new System.Drawing.Point(165, 30);
 			this.SelectTask_CB1.Name = "SelectTask_CB1";
-			this.SelectTask_CB1.Size = new System.Drawing.Size(119, 21);
-			this.SelectTask_CB1.TabIndex = 0;
+			this.SelectTask_CB1.Size = new System.Drawing.Size(139, 21);
+			this.SelectTask_CB1.TabIndex = 4;
 			this.SelectTask_CB1.SelectedIndexChanged += new System.EventHandler(this.SelectTask_CB_SelectedIndexChanged);
 			// 
 			// label1
@@ -161,16 +161,16 @@ namespace Psychophysics
 			// 
 			this.NameTask_TB1.Location = new System.Drawing.Point(3, 30);
 			this.NameTask_TB1.Name = "NameTask_TB1";
-			this.NameTask_TB1.Size = new System.Drawing.Size(87, 20);
-			this.NameTask_TB1.TabIndex = 4;
+			this.NameTask_TB1.Size = new System.Drawing.Size(143, 20);
+			this.NameTask_TB1.TabIndex = 0;
 			this.NameTask_TB1.Text = "1";
 			this.NameTask_TB1.TextChanged += new System.EventHandler(this.NameTask_TB_TextChanged);
 			// 
 			// NumTrial_TB1
 			// 
-			this.NumTrial_TB1.Location = new System.Drawing.Point(238, 30);
+			this.NumTrial_TB1.Location = new System.Drawing.Point(333, 30);
 			this.NumTrial_TB1.Name = "NumTrial_TB1";
-			this.NumTrial_TB1.Size = new System.Drawing.Size(86, 20);
+			this.NumTrial_TB1.Size = new System.Drawing.Size(74, 20);
 			this.NumTrial_TB1.TabIndex = 4;
 			this.NumTrial_TB1.Text = "1";
 			this.NumTrial_TB1.TextChanged += new System.EventHandler(this.NumTrial_TB_TextChanged);
@@ -184,7 +184,7 @@ namespace Psychophysics
 			this.Start_PB.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
 			this.Start_PB.FlatAppearance.BorderSize = 0;
 			this.Start_PB.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.Start_PB.Location = new System.Drawing.Point(316, 358);
+			this.Start_PB.Location = new System.Drawing.Point(665, 365);
 			this.Start_PB.Margin = new System.Windows.Forms.Padding(0);
 			this.Start_PB.Name = "Start_PB";
 			this.Start_PB.Size = new System.Drawing.Size(48, 48);
@@ -201,7 +201,7 @@ namespace Psychophysics
 			this.Save_BT.FlatAppearance.BorderSize = 0;
 			this.Save_BT.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.Save_BT.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.Save_BT.Location = new System.Drawing.Point(292, 310);
+			this.Save_BT.Location = new System.Drawing.Point(253, 385);
 			this.Save_BT.Name = "Save_BT";
 			this.Save_BT.Size = new System.Drawing.Size(26, 25);
 			this.Save_BT.TabIndex = 24;
@@ -211,7 +211,7 @@ namespace Psychophysics
 			// 
 			// Path_TB
 			// 
-			this.Path_TB.Location = new System.Drawing.Point(67, 312);
+			this.Path_TB.Location = new System.Drawing.Point(28, 387);
 			this.Path_TB.Name = "Path_TB";
 			this.Path_TB.Size = new System.Drawing.Size(219, 20);
 			this.Path_TB.TabIndex = 23;
@@ -220,7 +220,7 @@ namespace Psychophysics
 			// 
 			this.SaveOut_CB.AutoSize = true;
 			this.SaveOut_CB.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.SaveOut_CB.Location = new System.Drawing.Point(67, 289);
+			this.SaveOut_CB.Location = new System.Drawing.Point(28, 364);
 			this.SaveOut_CB.Name = "SaveOut_CB";
 			this.SaveOut_CB.Size = new System.Drawing.Size(113, 17);
 			this.SaveOut_CB.TabIndex = 22;
@@ -237,7 +237,7 @@ namespace Psychophysics
 			this.Stop_PB.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
 			this.Stop_PB.FlatAppearance.BorderSize = 0;
 			this.Stop_PB.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.Stop_PB.Location = new System.Drawing.Point(381, 358);
+			this.Stop_PB.Location = new System.Drawing.Point(588, 366);
 			this.Stop_PB.Margin = new System.Windows.Forms.Padding(0);
 			this.Stop_PB.Name = "Stop_PB";
 			this.Stop_PB.Size = new System.Drawing.Size(48, 48);
@@ -245,6 +245,7 @@ namespace Psychophysics
 			this.Stop_PB.TabStop = false;
 			this.Stop_PB.UseMnemonic = false;
 			this.Stop_PB.UseVisualStyleBackColor = false;
+			this.Stop_PB.Visible = false;
 			this.Stop_PB.Click += new System.EventHandler(this.Stop_PB_Click);
 			// 
 			// TaskPreview
