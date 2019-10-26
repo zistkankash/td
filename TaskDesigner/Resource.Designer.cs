@@ -83,26 +83,6 @@ namespace TaskDesigner {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap addpic {
-            get {
-                object obj = ResourceManager.GetObject("addpic", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap addpic1 {
-            get {
-                object obj = ResourceManager.GetObject("addpic1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap brain {
             get {
                 object obj = ResourceManager.GetObject("brain", resourceCulture);
@@ -146,16 +126,6 @@ namespace TaskDesigner {
         internal static System.Drawing.Bitmap circle6 {
             get {
                 object obj = ResourceManager.GetObject("circle6", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap coglab2 {
-            get {
-                object obj = ResourceManager.GetObject("coglab2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -321,9 +291,19 @@ namespace TaskDesigner {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap net3 {
+        internal static System.Drawing.Bitmap load_39552 {
             get {
-                object obj = ResourceManager.GetObject("net3", resourceCulture);
+                object obj = ResourceManager.GetObject("load_39552", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap main3 {
+            get {
+                object obj = ResourceManager.GetObject("main3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -354,36 +334,6 @@ namespace TaskDesigner {
         internal static System.Drawing.Bitmap network {
             get {
                 object obj = ResourceManager.GetObject("network", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap network1 {
-            get {
-                object obj = ResourceManager.GetObject("network1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap networksetting {
-            get {
-                object obj = ResourceManager.GetObject("networksetting", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap networksetting1 {
-            get {
-                object obj = ResourceManager.GetObject("networksetting1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

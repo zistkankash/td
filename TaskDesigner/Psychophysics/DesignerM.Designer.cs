@@ -577,7 +577,7 @@ namespace Psychophysics
 			// 
 			this.CircleShape_BT.AutoEllipsis = true;
 			this.CircleShape_BT.BackColor = System.Drawing.Color.Transparent;
-			this.CircleShape_BT.BackgroundImage = global::TaskDesigner.Resource.circle;
+			this.CircleShape_BT.BackgroundImage = Resource.circle;
 			this.CircleShape_BT.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.CircleShape_BT.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
 			this.CircleShape_BT.FlatAppearance.BorderSize = 0;
