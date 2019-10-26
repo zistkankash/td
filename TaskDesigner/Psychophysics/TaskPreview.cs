@@ -264,225 +264,8 @@ namespace Psychophysics
 					}
 					break;
 				case 2:
-					OpenFileDialog theDialog = new OpenFileDialog();
-					theDialog.Title = "Open Text File";
-					theDialog.Filter = "Text Files (*.txt)|*.txt";
-					theDialog.InitialDirectory = @"..";
-					if (theDialog.ShowDialog() == DialogResult.OK)
 					{
-
-						for (int i = AllLevelName.Count; i > 0; i--)
-						{
-							Label FrCountLB = Controls.Find("FramePerTask_LB" + (i), true).FirstOrDefault() as Label;
-							Task_Table.Controls.Remove(FrCountLB);
-							Label TotalTimeLB = Controls.Find("TotalTime_LB" + (i), true).FirstOrDefault() as Label;
-							Task_Table.Controls.Remove(TotalTimeLB);
-							TextBox RptTB = Controls.Find("NumTrial_TB" + (i), true).FirstOrDefault() as TextBox;
-							Task_Table.Controls.Remove(RptTB);
-							TextBox NmTB = Controls.Find("NameTask_TB" + (i), true).FirstOrDefault() as TextBox;
-							Task_Table.Controls.Remove(NmTB);
-							ComboBox TaskCB = Controls.Find("SelectTask_CB" + (i), true).FirstOrDefault() as ComboBox;
-							Task_Table.Controls.Remove(TaskCB);
-							Task_Table.RowStyles.RemoveAt(i);
-							Task_Table.RowCount--;
-						}
-
-						AllLevelProp.Clear();
-						AllLevelName.Clear();
-						BaseIndex.Clear();
-						NumerRepeat.Clear();
-						EnabledTask.Clear();
-						using (var fs = File.OpenRead(theDialog.FileName))
-						using (var reader = new StreamReader(fs))
-						{
-							var line = reader.ReadLine();
-							line = reader.ReadLine();
-							int NumberLevel = int.Parse(line);
-							for (int i = 0; i < NumberLevel; i++)
-							{
-								BaseIndex.Add(0);
-								List<FrameProperties> ListAddedFrame = new List<FrameProperties>();
-
-								line = reader.ReadLine();
-								line = reader.ReadLine();
-								AllLevelName.Add(line.Substring(3));
-
-								line = reader.ReadLine();
-								line = reader.ReadLine();
-								int repeatnumber = int.Parse(line.Substring(3));
-								NumerRepeat.Add(repeatnumber);
-								EnabledTask.Add(2);
-
-								line = reader.ReadLine();
-								line = reader.ReadLine();
-								int NumberFrame = int.Parse(line.Substring(3));
-
-								for (int j = 0; j < NumberFrame; j++)
-								{
-									FrameProperties varFrame = new FrameProperties();
-
-									line = reader.ReadLine();
-									line = reader.ReadLine();
-									var values = line.Substring(6).Split(' ');
-									int FrameTime = int.Parse(values[0]);
-									//Debug.Write("Load Debug " + line.Substring(6) + " " + values[0] + "\n");
-									Color BGColor = Color.FromArgb(255, int.Parse(values[1]), int.Parse(values[2]), int.Parse(values[3]));
-
-									line = reader.ReadLine();
-									line = reader.ReadLine();
-									values = line.Substring(9).Split(' ');
-									FixationPts varFixation = new FixationPts();
-									//varFixation.SetFixationPts(int.Parse(), int.Parse(), int.Parse(), int.Parse(),Color.FromArgb(255, int.Parse(), int.Parse(), int.Parse()));
-									Color fixationColor = Color.FromArgb(255, int.Parse(values[5]), int.Parse(values[6]), int.Parse(values[7]));
-									varFixation.SetFixationPts(int.Parse(values[0]), int.Parse(values[1]), int.Parse(values[2]), int.Parse(values[3]), fixationColor);
-									int fixationtime = int.Parse(values[4]);
-									line = reader.ReadLine();
-									line = reader.ReadLine();
-									//Debug.Write("Load Debug " + line.Substring(9)+ "\n");
-									int NumberStimulus = int.Parse(line.Substring(9));
-									FixationPts[] varStimulus = new FixationPts[NumberStimulus];
-
-									for (int k = 0; k < NumberStimulus; k++)
-									{
-										line = reader.ReadLine();
-										line = reader.ReadLine();
-										values = line.Substring(9).Split(' ');
-										Debug.Write("Load Debug " + line.Substring(9) + "\n");
-
-										varStimulus[k] = new FixationPts();
-										if (int.Parse(values[0]) == 4 || int.Parse(values[0]) == 8 || int.Parse(values[0]) == 12)
-										{
-											line = reader.ReadLine();
-											varStimulus[k].SetPicture(int.Parse(values[1]), int.Parse(values[2]), int.Parse(values[3]), int.Parse(values[4]), int.Parse(values[0]), line.Substring(9));
-										}
-										else
-										{
-											Color stimulusColor = Color.FromArgb(255, int.Parse(values[5]), int.Parse(values[6]), int.Parse(values[7]));
-											varStimulus[k].SetFixationPts(int.Parse(values[1]), int.Parse(values[2]), int.Parse(values[3]), int.Parse(values[4]), int.Parse(values[0]), stimulusColor);
-											varStimulus[k].SetContrastPts(int.Parse(values[8]));
-										}
-									}
-									line = reader.ReadLine();
-									line = reader.ReadLine();
-									int NumberShowFrame = int.Parse(line.Substring(9));
-									ShowFr[] varShowFrame = new ShowFr[NumberShowFrame];
-									for (int k = 0; k < NumberShowFrame; k++)
-									{
-										varShowFrame[k] = new ShowFr();
-										line = reader.ReadLine();
-										line = reader.ReadLine();
-										values = line.Substring(9).Split(' ');
-										Color showframecolor = Color.FromArgb(255, int.Parse(values[5]), int.Parse(values[6]), int.Parse(values[7]));
-										varShowFrame[k].SetShowFrameProp(int.Parse(values[0]), int.Parse(values[1]), int.Parse(values[2]), int.Parse(values[3]), int.Parse(values[4]), showframecolor);
-									}
-									//MainForm.MeanX_PupilCenter[i] = Double.Parse(values[0]);
-
-									HintForm varCue = new HintForm();
-									line = reader.ReadLine();
-									line = reader.ReadLine();
-									values = line.Substring(9).Split(' ');
-
-									varCue.type = int.Parse(values[0]);
-									if (int.Parse(values[0]) == 1)
-									{
-										//SaveText += "_________" + AllLevelProp[i][j].Cue.type + " " + AllLevelProp[i][j].Cue.ArrowLocX0 + " " + AllLevelProp[i][j].Cue.ArrowLocX1 + " " + AllLevelProp[i][j].Cue.ArrowLocY + " " + AllLevelProp[i][j].Cue.ArrowColor.R + " " + AllLevelProp[i][j].Cue.ArrowColor.G + " " + AllLevelProp[i][j].Cue.ArrowColor.B + " " + AllLevelProp[i][j].Cue.ArrowWidth;
-										Color showframecolor = Color.FromArgb(255, int.Parse(values[5]), int.Parse(values[6]), int.Parse(values[7]));
-
-										varCue.ArrowWidth = int.Parse(values[8]);
-										varCue.SetArrowProp(int.Parse(values[3]), int.Parse(values[1]), int.Parse(values[2]), int.Parse(values[4]), showframecolor);
-									}
-									else if (int.Parse(values[0]) == 2)
-									{
-										//SaveText += "_________" + AllLevelProp[i][j].Cue.type + " " + AllLevelProp[i][j].Cue.BoxRatio + "\n";
-										varCue.SetBoxProp(20, int.Parse(values[1]), Color.Black);
-									}
-									else
-									{
-
-									}
-
-
-									line = reader.ReadLine();
-									line = reader.ReadLine();
-									int reward = int.Parse(line.Substring(9));
-									////Debug.Write("Load Debug " + line.Substring(9) + "\n");
-
-									varFrame.SetProperties(BGColor, FrameTime, varFixation, fixationtime, NumberStimulus, varStimulus, reward, varCue, NumberShowFrame, varShowFrame);
-									Debug.Write("FixTime1 : " + varFrame.FixationTime + "\n");
-
-									line = reader.ReadLine();
-									line = reader.ReadLine();
-									values = line.Substring(9).Split(' ');
-									RepeatLinkFrame repeatInfo = new RepeatLinkFrame();
-									repeatInfo.SetProperties(bool.Parse(values[0]), int.Parse(values[1]), int.Parse(values[2]), int.Parse(values[3]));
-
-									varFrame.RepeatInfo = repeatInfo;
-
-									ListAddedFrame.Add(varFrame);
-								}
-								AllLevelProp.Add(ListAddedFrame);
-							}
-							line = reader.ReadLine();
-							var value = line.Split(' ');
-							userDistance = double.Parse(value[1]);
-
-							line = reader.ReadLine();
-							value = line.Split(' ');
-							WidthM = double.Parse(value[1]);
-
-							line = reader.ReadLine();
-							value = line.Split(' ');
-							HeightM = double.Parse(value[1]);
-
-							line = reader.ReadLine();
-							value = line.Split(' ');
-							WidthP = double.Parse(value[1]);
-
-							line = reader.ReadLine();
-							value = line.Split(' ');
-							HeightP = double.Parse(value[1]);
-
-							for (int i = 0; i < AllLevelProp.Count; i++)
-							{
-								//add a new RowStyle as a copy of the previous one
-								this.Task_Table.RowStyles.Add(new RowStyle(SaveRowStyle.SizeType, SaveRowStyle.Height));
-								this.Task_Table.RowCount++;
-
-								var namebox = new TextBox();
-								namebox.Name = "NameTask_TB" + (Task_Table.RowCount - 1);
-								namebox.TextChanged += new System.EventHandler(this.NameTask_TB_TextChanged);
-								namebox.Size = namTxt;
-								namebox.Text = AllLevelName[i];
-								Task_Table.Controls.Add(namebox, 0, this.Task_Table.RowCount - 1);
-
-
-								var Combox = new ComboBox();
-								Combox.Size = cmbSiz;
-								Combox.Items.Add(" ");
-								Combox.Items.Add("Design");
-								Combox.Items.Add("MGS");
-								Combox.Items.Add("VGS");
-								Combox.Items.Add("Posner");
-								//Combox.Items.Add("Delete");
-								Combox.Name = "SelectTask_CB" + (Task_Table.RowCount - 1);
-								Debug.Write(" Combo" + Combox.Name + "\n");
-								Combox.SelectedIndexChanged += new System.EventHandler(this.SelectTask_CB_SelectedIndexChanged);
-								this.Task_Table.Controls.Add(Combox, 1, this.Task_Table.RowCount - 1);
-								var txbox = new TextBox();
-								txbox.Text = Convert.ToString(NumerRepeat[i]);
-								txbox.Name = "NumTrial_TB" + (Task_Table.RowCount - 1);
-								txbox.TextChanged += new System.EventHandler(this.NumTrial_TB_TextChanged);
-								txbox.Size = numTrilTxt;
-								Task_Table.Controls.Add(txbox, 2, this.Task_Table.RowCount - 1);
-								Task_Table.Controls.Add(new Label() { Text = "0", Name = "TotalTime_LB" + (Task_Table.RowCount - 1) }, 3, this.Task_Table.RowCount - 1);
-								Task_Table.Controls.Add(new Label() { Text = "0", Name = "FramePerTask_LB" + (Task_Table.RowCount - 1) }, 4, this.Task_Table.RowCount - 1);
-								UpdateData(i + 1);
-								UpdateComboBox(i + 1);
-							}
-
-
-
-						}
+						LoadTaskFromFile();						
 					}
 					break;
 				case 5:
@@ -503,31 +286,19 @@ namespace Psychophysics
 			if (theDialog.ShowDialog() == DialogResult.OK)
 			{
 				Debug.Write(AllLevelProp.Count + " " + AllLevelName.Count + " " + EnabledTask.Count + "\n");
-
-				//if(EnabledTask.Count > 0 && EnabledTask[EnabledTask.Count - 1] == 0)
-				{
-					for (int i = AllLevelName.Count; i > 0; i--)
-					{
-						Label FrCountLB = Controls.Find("FramePerTask_LB" + (i), true).FirstOrDefault() as Label;
-						Task_Table.Controls.Remove(FrCountLB);
-						Label TotalTimeLB = Controls.Find("TotalTime_LB" + (i), true).FirstOrDefault() as Label;
-						Task_Table.Controls.Remove(TotalTimeLB);
-						TextBox RptTB = Controls.Find("NumTrial_TB" + (i), true).FirstOrDefault() as TextBox;
-						Task_Table.Controls.Remove(RptTB);
-						TextBox NmTB = Controls.Find("NameTask_TB" + (i), true).FirstOrDefault() as TextBox;
-						Task_Table.Controls.Remove(NmTB);
-						ComboBox TaskCB = Controls.Find("SelectTask_CB" + (i), true).FirstOrDefault() as ComboBox;
-						Task_Table.Controls.Remove(TaskCB);
-						Task_Table.RowStyles.RemoveAt(i);
-						Task_Table.RowCount--;
-					}
-
-					//AllLevelProp.Clear();
-					AllLevelName.RemoveAt(EnabledTask.Count - 1);
-					BaseIndex.RemoveAt(EnabledTask.Count - 1);
-					NumerRepeat.RemoveAt(EnabledTask.Count - 1);
-					EnabledTask.RemoveAt(EnabledTask.Count - 1);
-				}
+												
+				Task_Table.RowStyles.Clear();
+				Task_Table.Controls.Clear();
+				Task_Table.RowCount = 0;
+				AllLevelProp.Clear();
+				AllLevelName.Clear();
+				BaseIndex.Clear();
+				NumerRepeat.Clear();
+				EnabledTask.Clear();
+				//BaseIndex.RemoveAt(EnabledTask.Count - 1);
+				//NumerRepeat.RemoveAt(EnabledTask.Count - 1);
+				//EnabledTask.RemoveAt(EnabledTask.Count - 1);
+				
 
 				using (var fs = File.OpenRead(theDialog.FileName))
 				using (var reader = new StreamReader(fs))
@@ -685,11 +456,11 @@ namespace Psychophysics
 						this.Task_Table.RowCount++;
 
 						var namebox = new TextBox();
-						namebox.Name = "NameTask_TB" + (Task_Table.RowCount - 1);
+						namebox.Name = "NameTask_TB" + (Task_Table.RowCount);
 						namebox.TextChanged += new System.EventHandler(this.NameTask_TB_TextChanged);
 
 						namebox.Text = AllLevelName[i];
-						Task_Table.Controls.Add(namebox, 0, this.Task_Table.RowCount - 1);
+						Task_Table.Controls.Add(namebox, 0, this.Task_Table.RowCount);
 						Debug.Write(" Hellp" + "\n");
 
 						var Combox = new ComboBox();
@@ -699,18 +470,18 @@ namespace Psychophysics
 						Combox.Items.Add("VGS");
 						Combox.Items.Add("Posner");
 						//Combox.Items.Add("Delete");
-						Combox.Name = "SelectTask_CB" + (Task_Table.RowCount - 1);
+						Combox.Name = "SelectTask_CB" + (Task_Table.RowCount);
 						Debug.Write(" Combo" + Combox.Name + "\n");
 						Combox.SelectedIndexChanged += new System.EventHandler(this.SelectTask_CB_SelectedIndexChanged);
-						this.Task_Table.Controls.Add(Combox, 1, this.Task_Table.RowCount - 1);
+						this.Task_Table.Controls.Add(Combox, 1, this.Task_Table.RowCount);
 						var txbox = new TextBox();
 						txbox.Text = Convert.ToString(NumerRepeat[i]);
-						txbox.Name = "NumTrial_TB" + (Task_Table.RowCount - 1);
+						txbox.Name = "NumTrial_TB" + (Task_Table.RowCount);
 						txbox.TextChanged += new System.EventHandler(this.NumTrial_TB_TextChanged);
 
-						Task_Table.Controls.Add(txbox, 2, this.Task_Table.RowCount - 1);
-						Task_Table.Controls.Add(new Label() { Text = "0", Name = "TotalTime_LB" + (Task_Table.RowCount - 1) }, 3, this.Task_Table.RowCount - 1);
-						Task_Table.Controls.Add(new Label() { Text = "0", Name = "FramePerTask_LB" + (Task_Table.RowCount - 1) }, 4, this.Task_Table.RowCount - 1);
+						Task_Table.Controls.Add(txbox, 2, this.Task_Table.RowCount);
+						Task_Table.Controls.Add(new Label() { Text = "0", Name = "TotalTime_LB" + (Task_Table.RowCount - 1).ToString() }, 3, this.Task_Table.RowCount);
+						Task_Table.Controls.Add(new Label() { Text = "0", Name = "FramePerTask_LB" + (Task_Table.RowCount - 1).ToString() }, 4, this.Task_Table.RowCount);
 						UpdateData(i + 1);
 						UpdateComboBox(i + 1);
 					}
@@ -916,7 +687,7 @@ namespace Psychophysics
 			Combox.Size = cmbSiz;
 			Combox.Items.Add(" ");
 			Combox.Items.Add("Design");
-			Combox.Items.Add("Load");
+			//Combox.Items.Add("Load");
 
 			Combox.Name = "SelectTask_CB" + (Task_Table.RowCount - 1);
 			Combox.SelectedIndexChanged += new System.EventHandler(this.SelectTask_CB_SelectedIndexChanged);
@@ -951,26 +722,26 @@ namespace Psychophysics
 						time += AllLevelProp[Index - 1][i].FrameTime;
 					}
 				}
-				Label timeLB = Controls.Find("TotalTime_LB" + Index, true).FirstOrDefault() as Label;
-				Label numFrLB = Controls.Find("FramePerTask_LB" + Index, true).FirstOrDefault() as Label;
+				Label timeLB = Task_Table.Controls.Find("TotalTime_LB" + Index, true).FirstOrDefault() as Label;
+				Label numFrLB = Task_Table.Controls.Find("FramePerTask_LB" + Index, true).FirstOrDefault() as Label;
 				numFrLB.Text = Convert.ToString(AllLevelProp[Index - 1].Count);
 
-				TextBox numtrialTB = Controls.Find("NumTrial_TB" + Index, true).FirstOrDefault() as TextBox;
+				TextBox numtrialTB = Task_Table.Controls.Find("NumTrial_TB" + Index, true).FirstOrDefault() as TextBox;
 				numtrialTB.Text = Convert.ToString(NumerRepeat[Index - 1]);
-				TextBox nametaskTB = Controls.Find("NameTask_TB" + Index, true).FirstOrDefault() as TextBox;
+				TextBox nametaskTB = Task_Table.Controls.Find("NameTask_TB" + Index, true).FirstOrDefault() as TextBox;
 				nametaskTB.Text = AllLevelName[Index - 1];
 				timeLB.Text = Convert.ToString(time * int.Parse(numtrialTB.Text));
 			}
 			else
 			{
-				Label timeLB = Controls.Find("TotalTime_LB" + Index, true).FirstOrDefault() as Label;
-				Label numFrLB = Controls.Find("FramePerTask_LB" + Index, true).FirstOrDefault() as Label;
+				Label timeLB = Task_Table.Controls.Find("TotalTime_LB" + Index, true).FirstOrDefault() as Label;
+				Label numFrLB = Task_Table.Controls.Find("FramePerTask_LB" + Index, true).FirstOrDefault() as Label;
 				numFrLB.Text = Convert.ToString(0);
 				timeLB.Text = Convert.ToString(0);
 
-				TextBox numtrialTB = Controls.Find("NumTrial_TB" + Index, true).FirstOrDefault() as TextBox;
+				TextBox numtrialTB = Task_Table.Controls.Find("NumTrial_TB" + Index, true).FirstOrDefault() as TextBox;
 				numtrialTB.Text = Convert.ToString(NumerRepeat[Index - 1]);
-				TextBox nametaskTB = Controls.Find("NameTask_TB" + Index, true).FirstOrDefault() as TextBox;
+				TextBox nametaskTB = Task_Table.Controls.Find("NameTask_TB" + Index, true).FirstOrDefault() as TextBox;
 				nametaskTB.Text = AllLevelName[Index - 1];
 				timeLB.Text = Convert.ToString(time * int.Parse(numtrialTB.Text));
 			}
@@ -1057,7 +828,6 @@ namespace Psychophysics
 		private void NameTask_TB_TextChanged(object sender, EventArgs e)
 		{
 			TextBox cmb = (TextBox)sender;
-
 			String cmbName = cmb.Name;
 			int index = (int)Char.GetNumericValue(cmbName[(cmbName.Length - 1)]);
 			Debug.Write("Helpppppp " + AllLevelName.Count + " \n");

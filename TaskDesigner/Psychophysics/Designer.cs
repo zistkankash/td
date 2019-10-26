@@ -77,7 +77,7 @@ namespace Psychophysics.Old
                 PicB1.Image = objBitmap;
 
                 //SelectRewardType_CB.SelectedIndex = Reward[ActivePicB - 1];
-                RewardType_LB.Text = Reward[ActivePicB - 1].ToString();
+                //RewardType_LB.Text = Reward[ActivePicB - 1].ToString();
                 UpdateTreeView(ActivePicB - 1);
             }
             else if( mode == 2 ) //A: a designer for editing the current task
@@ -87,7 +87,7 @@ namespace Psychophysics.Old
                 this.EditedIndex = index-1 ;
 
                 //SelectRewardType_CB.SelectedIndex = Reward[ActivePicB - 1];
-                RewardType_LB.Text = Reward[ActivePicB - 1].ToString();
+                //RewardType_LB.Text = Reward[ActivePicB - 1].ToString();
             }
             Size_LB.Text = " % " + Convert.ToString(ViewSize);
             ParentPanel.MouseWheel += ParentPanel_Wheel;    //A:again the parent panel?!! what does it do?!!
@@ -156,7 +156,8 @@ namespace Psychophysics.Old
         #region Theme
         private XmlThemeLoader xtl = new XmlThemeLoader();
         // this function just sets a theme for the application
-        private void SetTheme() //A:we dont need it in metroform
+        
+		private void SetTheme() //A:we dont need it in metroform
         {
             this.Border.BorderStyle = XCoolForm.X3DBorderPrimitive.XBorderStyle.Flat;
 
@@ -177,7 +178,8 @@ namespace Psychophysics.Old
 
             xtl.ApplyTheme(Path.Combine(Environment.CurrentDirectory, @"Themes\BlueWinterTheme.xml"));
         }
-        private void DesignerForm_Load(object sender, EventArgs e)
+        
+		private void DesignerForm_Load(object sender, EventArgs e)
         {
 
             //this.IconHolder.HolderButtons.Add(new XCoolForm.XTitleBarIconHolder.XHolderButton(TaskDesigner.Properties.Resources.reset.GetThumbnailImage(20, 20, null, IntPtr.Zero), "Reset"));
@@ -199,6 +201,7 @@ namespace Psychophysics.Old
             xtl.ThemeForm = this;
             SetTheme();
         }  //A:this is also used for the theme and we dont need it in metroform
+
 
         //private void frmCoolForm_XCoolFormHolderButtonClick(XCoolForm.XCoolForm.XCoolFormHolderButtonClickArgs e)//A: what is its use? so i commented it!
         //{
@@ -392,6 +395,7 @@ namespace Psychophysics.Old
                 g.DrawImage(bmpvar, new Point(e.X - Convert.ToInt16(width * ViewSize / 200), Convert.ToInt16(e.Y - height * ViewSize / 200)));
                 startPaint = false;
                 drawImage = false;
+				button7.Enabled = true;
             }
             else
             {
@@ -431,9 +435,10 @@ namespace Psychophysics.Old
             Shape_Panel.BackColor = Color.Transparent;
             Picture_Panel.BackColor = Color.Transparent;
             Shape_Panel.Enabled = false;
-            Picture_Panel.Enabled = false;
-
-            Bitmap objBitmap = new Bitmap(BitmapPicB[ActivePicB - 1], new Size(PicB1.Width, PicB1.Height));
+			Shape_Panel.Visible = false;
+			Picture_Panel.Enabled = false;
+			Picture_Panel.Visible = false;
+			Bitmap objBitmap = new Bitmap(BitmapPicB[ActivePicB - 1], new Size(PicB1.Width, PicB1.Height));
             PictureBox picb = panel1.Controls.Find("PicB" + ActivePicB, true).FirstOrDefault() as PictureBox;
             picb.Image = objBitmap;
 		}           //A:DONE
@@ -461,7 +466,7 @@ namespace Psychophysics.Old
         }     //A:DONE
 
         //Setting the Canvas Color
-        private void btn_CanvasColor_Click_1(object sender, EventArgs e) //A: changing the background color
+        private void btn_CanvasColor_Click_1(object sender, EventArgs e) 
         {
             ColorDialog c = new ColorDialog();
             if (c.ShowDialog() == DialogResult.OK)
@@ -471,24 +476,24 @@ namespace Psychophysics.Old
                 gr.Clear(c.Color);
 
                 frameList[ActivePicB - 1].frameColor = c.Color;
-                UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList);  //A: update the whole task
+                UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList);  
             }
 		}    //A:DONE
 		
 		private void btn_Square_Click(object sender, EventArgs e)
         {
             drawSquare = true;
-		}    //A:DONE
+		}    
 		
 		private void btn_Rectangle_Click(object sender, EventArgs e)
         {
             drawRectangle = true;
-		} //A:DONE
+		} 
 		
 		private void btn_Circle_Click(object sender, EventArgs e) 
         {
             drawCircle = true;
-		}  //A:DONE
+		} 
 
 		private void AddPicB_Click(object sender, EventArgs e)
         {
@@ -543,37 +548,39 @@ namespace Psychophysics.Old
             // Change the location of Add-Picturebox
             AddPicB.Location = new Point(AddPicB.Location.X, AddPicB.Location.Y + AddPicB.Size.Height + 15);
             UpdateTreeView(ActivePicB - 1);
-		}      //A:DONE
+		}      
 
 		private void FixationSetting_BT_Click(object sender, EventArgs e)
         {
             FixationSetting FixationSettingForm = new FixationSetting(Reward[ActivePicB - 1], ActivePicB - 1);
-            FixationSettingForm.Show();
+			FixationSettingForm.ShowDialog();
             FixationSettingForm.FormClosing += delegate {
                 UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList);
                 UpdateTreeView(ActivePicB - 1);
                 RewardType_LB.Text = Reward[ActivePicB - 1].ToString();
             };
-		}                    //A:DONE
+		}                   
 
 		private void FixationShapeActive_BT_Click(object sender, EventArgs e)
-        {
-            FixationSelected = true;
-            Shape_Panel.Enabled = true;
-            SquareShape_BT.Enabled = false;
-            RectangleShape_BT.Enabled = false;
-            FixationTime_ET.Enabled = true;
-            Shape_Panel.BackColor = Color.Green;
-		}                //A:DONE
+		{
+			FixationSelected = true;
+			Shape_Panel.Enabled = true;
+			Shape_Panel.Visible = true;
+			SquareShape_BT.Visible = false;
+			RectangleShape_BT.Visible = false;
+			FixationTime_ET.Enabled = true;
+			Shape_Panel.BackColor = Color.Green;
+		}
 
 		private void StimulusShapeActive_BT_Click(object sender, EventArgs e)     
 		{
             FixationSelected = false;
             Shape_Panel.Enabled = true;
-            SquareShape_BT.Enabled = true;
-            RectangleShape_BT.Enabled = true;
+			Shape_Panel.Visible = true;
+			SquareShape_BT.Visible = true;
+            RectangleShape_BT.Visible = true;
             Shape_Panel.BackColor = Color.Green;
-		}          //A:DONE
+		}          
 
 		private void ParentPanel_Scroll(object sender, ScrollEventArgs e)  
         {
@@ -581,7 +588,7 @@ namespace Psychophysics.Old
             g.Clear(Color.White);
             g.DrawImage(objBitmap, new PointF(0, 0));
             objBitmap.Dispose();
-        }  //A:it behind the main white panel.what is it for? didnt put them in designerM
+        }  
 
         private void ParentPanel_Wheel(object sender, MouseEventArgs e)
         {
@@ -589,7 +596,7 @@ namespace Psychophysics.Old
             g.Clear(Color.White);
             g.DrawImage(objBitmap, new PointF(0, 0));
             objBitmap.Dispose();
-		}  //A:it behind the main white panel.what is it for?didnt put them in designerM
+		} 
 
 		private void Browse_BT(object sender, EventArgs e)
         {
@@ -603,24 +610,26 @@ namespace Psychophysics.Old
             //ofd.Multiselect = true;
             ofd.Filter = "Pictures|*.jpg; *.bmp; *.png|Documents|*.txt; *.doc; *.log|All|*.*";
             System.Windows.Forms.DialogResult dr = ofd.ShowDialog();
-            if (dr == DialogResult.OK)
-            {
-                //userSelectedFilePath = ofd.FileName;
-                foreach (string fileName in ofd.FileNames)
-                {
-                    ImagePath = fileName;
-                    break;
-                }
-            }
-            drawImage = true;
-			textBox1.Text = ImagePath;
+			if (dr == DialogResult.OK)
+			{
+				//userSelectedFilePath = ofd.FileName;
+				foreach (string fileName in ofd.FileNames)
+				{
+					ImagePath = fileName;
+					drawImage = true;
+					textBox1.Text = ImagePath;
+					break;
+				}
+			}
+			else
+				Picture_Panel.Visible = false;
 
-		}                                 //A:Done
+		}                                 
 
         private void ParentPanel_MouseHover(object sender, EventArgs e) 
         {
             ParentPanel.Focus();
-		}  //A:it behind the main white panel.what is it for?didnt put them in designerM
+		}  
 
 		private void Next_PB_Click(object sender, EventArgs e)
         {
@@ -745,27 +754,30 @@ namespace Psychophysics.Old
             }
 
             TaskPreview.ChangeHappened = true;
+
             this.Close();
 
-		}                             //A:DONE
+		}                            
 
 		private void FrameTime_ET_TextChanged(object sender, EventArgs e)
         {
             if (ActivePicB > 0)
                 frameList[ActivePicB - 1].Time = int.Parse(FrameTime_ET.Text);
-		}                  //A:DONE
+		}                  
 
 		private void StimulusPictureActive_BT_Click(object sender, EventArgs e)
         {
+			button7.Enabled = false;
             FixationSelected = false;
             Picture_Panel.Enabled = true;
-            Picture_Panel.BackColor = Color.Green;
-		}           //A:DONE
+			Picture_Panel.Visible = true;
+			Picture_Panel.BackColor = Color.Green;
+		}          
 
 		private void FixationTime_ET_TextChanged(object sender, EventArgs e)
         {
             fixationList[ActivePicB - 1].Time = int.Parse(FixationTime_ET.Text);
-		}              //A:DONE
+		}              
 
 		private void PicB_Click(object sender, EventArgs e)
         {
@@ -775,7 +787,7 @@ namespace Psychophysics.Old
             switch (me.Button)
             {
                 case MouseButtons.Right:
-                    Popup.Show(Cursor.Position);  //A: what is popup? and what does it do here?!!
+                    Popup.Show(Cursor.Position); 
                     break;
                 case MouseButtons.Left:
                     break;
@@ -804,7 +816,7 @@ namespace Psychophysics.Old
                 FixationTime_ET.Enabled = false;
             Debug.Write("Debug Rew: "+ Reward[ActivePicB - 1] + "\n");
             //SelectRewardType_CB.SelectedIndex = Reward[ActivePicB - 1];
-            RewardType_LB.Text = Reward[ActivePicB - 1].ToString();
+            //RewardType_LB.Text = Reward[ActivePicB - 1].ToString();
             UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList);
             UpdateTreeView(ActivePicB - 1);
 		}                              //A:DONE
@@ -1012,8 +1024,10 @@ namespace Psychophysics.Old
                 Shape_Panel.BackColor = Color.Transparent;
                 Picture_Panel.BackColor = Color.Transparent;
                 Shape_Panel.Enabled = false;
-                Picture_Panel.Enabled = false;
-                AddPicB.Location = new Point(AddPicB.Location.X, AddPicB.Location.Y - AddPicB.Size.Height - 15);
+				Shape_Panel.Visible = false;
+				Picture_Panel.Enabled = false;
+				Picture_Panel.Visible = false;
+				AddPicB.Location = new Point(AddPicB.Location.X, AddPicB.Location.Y - AddPicB.Size.Height - 15);
             }
         }  //A:what was this toolstrip do and for?
 
@@ -1058,7 +1072,7 @@ namespace Psychophysics.Old
             Bitmap objBitmap = new Bitmap(BitmapPicB[ActivePicB - 1], pnl_Draw.Size);
             g.Clear(Color.White);
             g.DrawImage(objBitmap, new PointF(0, 0));
-        }                //A: it seems they dont work!!!
+        }                
 
         private void Minimize_Click(object sender, EventArgs e)
         {
@@ -1071,7 +1085,7 @@ namespace Psychophysics.Old
             Bitmap objBitmap = new Bitmap(BitmapPicB[ActivePicB - 1], pnl_Draw.Size);
             g.Clear(Color.White);
             g.DrawImage(objBitmap, new PointF(0, 0));
-		}                //A: it seems they dont work!!!
+		}                
 		#endregion
 		#region TreeView-D
 		private void UpdateTreeView(int index)
@@ -1108,26 +1122,25 @@ namespace Psychophysics.Old
             if (IdName == 'F')
             {
 				MetroFramework.Forms.MetroForm prompt = new MetroFramework.Forms.MetroForm();
-            
-
                 prompt.ShowIcon = false;
+				prompt.TopMost = true;
                 prompt.Name = "FixationForm";
                 prompt.Width = 250;
                 prompt.Height = 190;
-                prompt.Text = "Fixation Edit Panel";
-                Label SizeLabel = new Label() { Left = 30, Top = 20, Height = 15,Text = "Size :" };
-                TextBox SizeTextBox = new TextBox { Left = 160, Top = 20, Width = 40, Text = Convert.ToString(fixationList[ActivePicB - 1].Widthd) };
+                //prompt.Text = "Fixation Edit Panel";
+                Label SizeLabel = new Label() { Left = 30, Top = 30, Height = 15,Text = "Size :" };
+                TextBox SizeTextBox = new TextBox { Left = 160, Top = 30, Width = 60, Text = Convert.ToString(fixationList[ActivePicB - 1].Widthd) };
                 SizeTextBox.TextChanged += delegate { this.FixationEditWidth(ActivePicB - 1, SizeTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList); };
-                Label XLabel = new Label() { Left = 30, Top = 40, Height = 15, Text = "X :" };
-                TextBox XTextBox = new TextBox { Left = 160, Top = 40, Width = 40, Text = Convert.ToString(fixationList[ActivePicB - 1].Xlocd) };
+                Label XLabel = new Label() { Left = 30, Top = 70, Height = 15, Text = "X :" };
+                TextBox XTextBox = new TextBox { Left = 160, Top = 70, Width = 60, Text = Convert.ToString(fixationList[ActivePicB - 1].Xlocd) };
                 XTextBox.TextChanged += delegate { this.FixationEditX(ActivePicB - 1, XTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList); };
-                Label YLabel = new Label() { Left = 30, Top = 60, Height = 15, Text = "Y :" };
-                TextBox YTextBox = new TextBox { Left = 160, Top = 60, Width = 40, Text = Convert.ToString(fixationList[ActivePicB - 1].Ylocd) };
+                Label YLabel = new Label() { Left = 30, Top = 110, Height = 15, Text = "Y :" };
+                TextBox YTextBox = new TextBox { Left = 160, Top = 110, Width = 60, Text = Convert.ToString(fixationList[ActivePicB - 1].Ylocd) };
                 YTextBox.TextChanged += delegate { this.FixationEditY(ActivePicB - 1, YTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList); };
-                Label TimeLabel = new Label() { Left = 30, Top = 80, Height = 15, Text = "Fixation Time :" };
-                TextBox TimeTextBox = new TextBox { Left = 160, Top = 80, Width = 40, Text = Convert.ToString(fixationList[ActivePicB - 1].Time) };
+                Label TimeLabel = new Label() { Left = 30, Top = 150, Height = 15, Text = "Fixation Time :" };
+                TextBox TimeTextBox = new TextBox { Left = 160, Top = 150, Width = 60, Text = Convert.ToString(fixationList[ActivePicB - 1].Time) };
                 TimeTextBox.TextChanged += delegate { this.FixationEditTime(ActivePicB - 1, TimeTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList); };
-                Button RemoveButton = new Button { Left = 75, Top = 120, Width = 80, Text = Convert.ToString("Remove") };
+                Button RemoveButton = new Button { Left = 75, Top = 190, Width = 80, Text = Convert.ToString("Remove") };
                 RemoveButton.Click += delegate { this.FixationRemove(ActivePicB - 1); this.UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList); UpdateTreeView(ActivePicB - 1); prompt.Close(); };
 
                 prompt.Controls.Add(SizeLabel);
@@ -1139,7 +1152,7 @@ namespace Psychophysics.Old
                 prompt.Controls.Add(TimeLabel);
                 prompt.Controls.Add(TimeTextBox);
                 prompt.Controls.Add(RemoveButton);
-                prompt.Show();
+				prompt.ShowDialog();
                 prompt.BringToFront();
             }
 
@@ -1147,39 +1160,39 @@ namespace Psychophysics.Old
             {
                 int IdIndex = int.Parse(Regex.Match(Name, @"\d+").Value);
 
-                Form prompt = new Form();
-                prompt.ShowIcon = false; 
+				MetroFramework.Forms.MetroForm prompt = new MetroFramework.Forms.MetroForm();
+				prompt.ShowIcon = false; 
                 prompt.Name = "StimulusForm";
                 prompt.Width = 250;
                 prompt.Height = 300;
-                prompt.Text = "Stimulus Edit Panel";
+                //prompt.Text = "Stimulus Edit Panel";
                 //Width
-                Label SizeWLabel = new Label() { Left = 30, Top = 20, Text = "Size :" };
-                TextBox SizeWTextBox = new TextBox { Left = 160, Top = 20, Width = 40, Text = Convert.ToString(stimulusList[IdIndex].Widthd) };
+                Label SizeWLabel = new Label() { Left = 30, Top = 30, Text = "Size :" };
+                TextBox SizeWTextBox = new TextBox { Left = 160, Top = 30, Width = 60, Text = Convert.ToString(stimulusList[IdIndex].Widthd) };
                 SizeWTextBox.TextChanged += delegate { this.StimulusEditWidth(IdIndex, SizeWTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList); };
                 //Height
-                Label SizeHLabel = new Label() { Left = 30, Top = 50, Text = "Size :" };
-                TextBox SizeHTextBox = new TextBox { Left = 160, Top = 50, Width = 40, Text = Convert.ToString(stimulusList[IdIndex].Heightd) };
+                Label SizeHLabel = new Label() { Left = 30, Top = 70, Text = "Size :" };
+                TextBox SizeHTextBox = new TextBox { Left = 160, Top = 70, Width = 60, Text = Convert.ToString(stimulusList[IdIndex].Heightd) };
                 SizeHTextBox.TextChanged += delegate { this.StimulusEditHeight(IdIndex, SizeHTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList); };
                 //X
-                Label XLabel = new Label() { Left = 30, Top = 80, Text = "X :" };
-                TextBox XTextBox = new TextBox { Left = 160, Top = 80, Width = 40, Text = Convert.ToString(stimulusList[IdIndex].Xlocd) };
+                Label XLabel = new Label() { Left = 30, Top = 110, Text = "X :" };
+                TextBox XTextBox = new TextBox { Left = 160, Top = 110, Width = 60, Text = Convert.ToString(stimulusList[IdIndex].Xlocd) };
                 XTextBox.TextChanged += delegate { this.StimulusEditX(IdIndex, XTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList); };
                 //Y
-                Label YLabel = new Label() { Left = 30, Top = 110, Text = "Y :" };
-                TextBox YTextBox = new TextBox { Left = 160, Top = 110, Width = 40, Text = Convert.ToString(stimulusList[IdIndex].Ylocd) };
+                Label YLabel = new Label() { Left = 30, Top = 150, Text = "Y :" };
+                TextBox YTextBox = new TextBox { Left = 160, Top = 150, Width = 60, Text = Convert.ToString(stimulusList[IdIndex].Ylocd) };
                 YTextBox.TextChanged += delegate { this.StimulusEditY(IdIndex, YTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList); };
 
                 if (stimulusList[IdIndex].Type == 4 || stimulusList[IdIndex].Type == 8 || stimulusList[IdIndex].Type == 12)
                 {
                     prompt.Height = 270;
                     //Path
-                    Label PathLabel = new Label() { Left = 30, Top = 140, Width = 40, Text = "Path :" };
-                    TextBox PathTextBox = new TextBox { Left = 75, Top = 140, Width = 120, Text = Convert.ToString(stimulusList[IdIndex].PathPic) };
-                    Button PathButton = new Button() { Left = 200, Top = 140, Width = 30, Height = PathTextBox.Height, Text = "..." };
+                    Label PathLabel = new Label() { Left = 30, Top = 190, Width = 40, Text = "Path :" };
+                    TextBox PathTextBox = new TextBox { Left = 75, Top = 190, Width = 120, Text = Convert.ToString(stimulusList[IdIndex].PathPic) };
+                    Button PathButton = new Button() { Left = 200, Top = 190, Width = 30, Height = PathTextBox.Height, Text = "..." };
                     PathButton.Click += delegate { string VarPath = this.StimulusEditPath(IdIndex); PathTextBox.Text = VarPath; this.UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList); };
 
-                    Button RemoveButton = new Button { Left = 85, Top = 180, Width = 80, Text = Convert.ToString("Remove") };
+                    Button RemoveButton = new Button { Left = 85, Top = 230, Width = 80, Text = Convert.ToString("Remove") };
                     RemoveButton.Click += delegate { this.StimulusRemove(IdIndex); this.UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList); UpdateTreeView(ActivePicB - 1); prompt.Close(); };
 
                     prompt.Controls.Add(SizeWLabel);
@@ -1198,15 +1211,15 @@ namespace Psychophysics.Old
                 else
                 {
                     //Color
-                    Label ColorLabel = new Label() { Left = 30, Top = 140, Text = "Color :" };
-                    Button ColorButton = new Button() { Left = 160, Top = 135, Width = 30, Height = 30, BackColor = stimulusList[IdIndex].ColorPt };
+                    Label ColorLabel = new Label() { Left = 30, Top = 180, Text = "Color :" };
+                    Button ColorButton = new Button() { Left = 160, Top = 175, Width = 30, Height = 30, BackColor = stimulusList[IdIndex].ColorPt };
                     ColorButton.Click += delegate { this.StimulusEditColor(IdIndex); ColorButton.BackColor = stimulusList[IdIndex].ColorPt; this.UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList); };
                     //Contrast
-                    Label ContrastLabel = new Label() { Left = 30, Top = 170, Text = "Contrast :" };
-                    TextBox ContrastTextBox = new TextBox { Left = 160, Top = 170, Width = 40, Text = Convert.ToString(stimulusList[IdIndex].Contrast) };
+                    Label ContrastLabel = new Label() { Left = 30, Top = 210, Text = "Contrast :" };
+                    TextBox ContrastTextBox = new TextBox { Left = 160, Top = 210, Width = 60, Text = Convert.ToString(stimulusList[IdIndex].Contrast) };
                     ContrastTextBox.TextChanged += delegate { this.StimulusEditContrast(IdIndex, ContrastTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList); };
 
-                    Button RemoveButton = new Button { Left = 85, Top = 210, Width = 80, Text = Convert.ToString("Remove") };
+                    Button RemoveButton = new Button { Left = 85, Top = 250, Width = 80, Text = Convert.ToString("Remove") };
                     RemoveButton.Click += delegate { this.StimulusRemove(IdIndex); this.UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList); UpdateTreeView(ActivePicB - 1); prompt.Close(); };
 
                     prompt.Controls.Add(SizeWLabel);
@@ -1223,19 +1236,18 @@ namespace Psychophysics.Old
                     prompt.Controls.Add(ContrastTextBox);
                     prompt.Controls.Add(RemoveButton);
                 }
-                prompt.Show();
+                prompt.ShowDialog();
             }
 
             if (IdName == 'H')
             {
                 int IdIndex = int.Parse(Regex.Match(Name, @"\d+").Value);
-
-                Form prompt = new Form();
-                prompt.ShowIcon = false;
+				MetroFramework.Forms.MetroForm prompt = new MetroFramework.Forms.MetroForm();
+				prompt.ShowIcon = false;
                 prompt.Name = "HintForm";
                 prompt.Width = 250;
 
-                prompt.Text = "Hint Edit Panel";
+                //prompt.Text = "Hint Edit Panel";
                 //Type
                 if (AddedHintsbyFrameTool[IdIndex].type == 1)
                 {
@@ -1243,22 +1255,22 @@ namespace Psychophysics.Old
 
                     //X0
                     Label X0ArrowLabel = new Label() { Left = 30, Top = 30, Text = "X :" };
-                    TextBox X0ArrowTextBox = new TextBox { Left = 160, Top = 30, Width = 40, Text = Convert.ToString(AddedHintsbyFrameTool[IdIndex].ArrowLocX0 + AddedHintsbyFrameTool[IdIndex].ArrowWidth) };
+                    TextBox X0ArrowTextBox = new TextBox { Left = 160, Top = 30, Width = 60, Text = Convert.ToString(AddedHintsbyFrameTool[IdIndex].ArrowLocX0 + AddedHintsbyFrameTool[IdIndex].ArrowWidth) };
                     X0ArrowTextBox.TextChanged += delegate { this.HintEditX0(IdIndex, X0ArrowTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList); };
 
                     //Y
-                    Label YLabel = new Label() { Left = 30, Top = 60, Text = "Y :" };
-                    TextBox YTextBox = new TextBox { Left = 160, Top = 60, Width = 40, Text = Convert.ToString(AddedHintsbyFrameTool[IdIndex].ArrowLocY) };
+                    Label YLabel = new Label() { Left = 30, Top = 70, Text = "Y :" };
+                    TextBox YTextBox = new TextBox { Left = 160, Top = 70, Width = 60, Text = Convert.ToString(AddedHintsbyFrameTool[IdIndex].ArrowLocY) };
                     YTextBox.TextChanged += delegate { this.HintEditY(IdIndex, YTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList); };
 
                     //Width
-                    Label WidthLabel = new Label() { Left = 30, Top = 90, Text = "Width :" };
-                    TextBox WidthTextBox = new TextBox { Left = 160, Top = 90, Width = 40, Text = Convert.ToString(AddedHintsbyFrameTool[IdIndex].ArrowWidth) };
+                    Label WidthLabel = new Label() { Left = 30, Top = 110, Text = "Width :" };
+                    TextBox WidthTextBox = new TextBox { Left = 160, Top = 110, Width = 60, Text = Convert.ToString(AddedHintsbyFrameTool[IdIndex].ArrowWidth) };
                     WidthTextBox.TextChanged += delegate { this.HintEditWidth(IdIndex, YTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList); };
                     WidthTextBox.Enabled = false;
                     //Color
-                    Label ColorLabel = new Label() { Left = 30, Top = 120, Text = "Color :" };
-                    Button ColorButton = new Button() { Left = 160, Top = 120, Width = 30, Height = 30, BackColor = AddedHintsbyFrameTool[IdIndex].ArrowColor };
+                    Label ColorLabel = new Label() { Left = 30, Top = 150, Text = "Color :" };
+                    Button ColorButton = new Button() { Left = 160, Top = 150, Width = 30, Height = 30, BackColor = AddedHintsbyFrameTool[IdIndex].ArrowColor };
                     ColorButton.Click += delegate { this.HintEditColor(IdIndex); ColorButton.BackColor = AddedHintsbyFrameTool[IdIndex].ArrowColor; this.UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList); };
 
                     prompt.Controls.Add(X0ArrowLabel);
@@ -1278,22 +1290,23 @@ namespace Psychophysics.Old
                     prompt.Height = 150;
                     //Ratio
                     Label RatioBoxLabel = new Label() { Left = 30, Top = 30, Text = "Ratio :" };
-                    TextBox RatioBoxTextBox = new TextBox { Left = 160, Top = 30, Width = 40, Text = Convert.ToString(AddedHintsbyFrameTool[IdIndex].BoxRatio) };
+                    TextBox RatioBoxTextBox = new TextBox { Left = 160, Top = 30, Width = 60, Text = Convert.ToString(AddedHintsbyFrameTool[IdIndex].BoxRatio) };
                     RatioBoxTextBox.TextChanged += delegate { this.HintEditRatio(IdIndex, RatioBoxTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList); };
                     prompt.Controls.Add(RatioBoxLabel);
                     prompt.Controls.Add(RatioBoxTextBox);
 
                 }
-                prompt.Show();
+				prompt.ShowDialog();
             }
-		}   //A:DONE
+		}  
 
 		void FixationEditWidth(int index, String Value)
         {
             fixationList[index].Widthd = double.Parse(Value);
             fixationList[index].ConvertToPix();
         }
-        void FixationEditX(int index, String Value)
+        
+		void FixationEditX(int index, String Value)
         {
             fixationList[index].Xlocd = double.Parse(Value);
             fixationList[index].ConvertToPix();
@@ -1320,12 +1333,14 @@ namespace Psychophysics.Old
             stimulusList[index].Widthd = double.Parse(Value);
             stimulusList[index].ConvertToPix();
         }
-        void StimulusEditHeight(int index, String Value)
+        
+		void StimulusEditHeight(int index, String Value)
         {
             stimulusList[index].Heightd = double.Parse(Value);
             stimulusList[index].ConvertToPix();
         }
-        void StimulusEditX(int index, String Value)
+        
+		void StimulusEditX(int index, String Value)
         {
             stimulusList[index].Xlocd = double.Parse(Value);
             stimulusList[index].ConvertToPix();
@@ -1867,7 +1882,9 @@ namespace Psychophysics.Old
             UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList);
         }
 
-        private int ConvertPixelX(double Xd)
+		
+
+		private int ConvertPixelX(double Xd)
         {
             int ValX = Convert.ToInt16(Math.Tan(Xd * 3.1415 / 180) * TaskPreview.WidthP * TaskPreview.userDistance / TaskPreview.WidthM + TaskPreview.WidthP / 2);
             return ValX;

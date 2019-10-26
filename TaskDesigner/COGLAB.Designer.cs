@@ -198,7 +198,7 @@
 			this.btnConct.ForeColor = System.Drawing.Color.Black;
 			this.btnConct.Location = new System.Drawing.Point(112, 48);
 			this.btnConct.Name = "btnConct";
-			this.btnConct.Size = new System.Drawing.Size(205, 35);
+			this.btnConct.Size = new System.Drawing.Size(205, 44);
 			this.btnConct.Style = MetroFramework.MetroColorStyle.Blue;
 			this.btnConct.TabIndex = 75;
 			this.btnConct.Text = "Start Connection";

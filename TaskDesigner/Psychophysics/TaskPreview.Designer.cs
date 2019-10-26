@@ -41,14 +41,15 @@ namespace Psychophysics
 			this.TotalTime_LB1 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.SelectTask_CB1 = new System.Windows.Forms.ComboBox();
-			this.label1 = new System.Windows.Forms.Label();
 			this.NameTask_TB1 = new System.Windows.Forms.TextBox();
 			this.NumTrial_TB1 = new System.Windows.Forms.TextBox();
+			this.label1 = new System.Windows.Forms.Label();
 			this.Start_PB = new System.Windows.Forms.Button();
 			this.Save_BT = new System.Windows.Forms.Button();
 			this.Path_TB = new System.Windows.Forms.TextBox();
 			this.SaveOut_CB = new System.Windows.Forms.CheckBox();
 			this.Stop_PB = new System.Windows.Forms.Button();
+			this.label4 = new System.Windows.Forms.Label();
 			this.panel1.SuspendLayout();
 			this.Task_Table.SuspendLayout();
 			this.SuspendLayout();
@@ -71,7 +72,7 @@ namespace Psychophysics
 			this.Task_Table.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.9434F));
 			this.Task_Table.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 126F));
 			this.Task_Table.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 66F));
-			this.Task_Table.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 114F));
+			this.Task_Table.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 115F));
 			this.Task_Table.Controls.Add(this.label3, 4, 0);
 			this.Task_Table.Controls.Add(this.FramePerTask_LB1, 4, 1);
 			this.Task_Table.Controls.Add(this.Time_LB, 3, 0);
@@ -81,6 +82,7 @@ namespace Psychophysics
 			this.Task_Table.Controls.Add(this.NameTask_TB1, 0, 1);
 			this.Task_Table.Controls.Add(this.NumTrial_TB1, 2, 1);
 			this.Task_Table.Controls.Add(this.label1, 0, 0);
+			this.Task_Table.Controls.Add(this.label4, 1, 0);
 			this.Task_Table.Location = new System.Drawing.Point(23, 13);
 			this.Task_Table.Name = "Task_Table";
 			this.Task_Table.RowCount = 2;
@@ -93,7 +95,7 @@ namespace Psychophysics
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(525, 0);
+			this.label3.Location = new System.Drawing.Point(524, 0);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(93, 13);
 			this.label3.TabIndex = 3;
@@ -102,7 +104,7 @@ namespace Psychophysics
 			// FramePerTask_LB1
 			// 
 			this.FramePerTask_LB1.AutoSize = true;
-			this.FramePerTask_LB1.Location = new System.Drawing.Point(525, 27);
+			this.FramePerTask_LB1.Location = new System.Drawing.Point(524, 27);
 			this.FramePerTask_LB1.Name = "FramePerTask_LB1";
 			this.FramePerTask_LB1.Size = new System.Drawing.Size(13, 13);
 			this.FramePerTask_LB1.TabIndex = 4;
@@ -111,7 +113,7 @@ namespace Psychophysics
 			// Time_LB
 			// 
 			this.Time_LB.AutoSize = true;
-			this.Time_LB.Location = new System.Drawing.Point(459, 0);
+			this.Time_LB.Location = new System.Drawing.Point(458, 0);
 			this.Time_LB.Name = "Time_LB";
 			this.Time_LB.Size = new System.Drawing.Size(30, 13);
 			this.Time_LB.TabIndex = 2;
@@ -120,7 +122,7 @@ namespace Psychophysics
 			// TotalTime_LB1
 			// 
 			this.TotalTime_LB1.AutoSize = true;
-			this.TotalTime_LB1.Location = new System.Drawing.Point(459, 27);
+			this.TotalTime_LB1.Location = new System.Drawing.Point(458, 27);
 			this.TotalTime_LB1.Name = "TotalTime_LB1";
 			this.TotalTime_LB1.Size = new System.Drawing.Size(13, 13);
 			this.TotalTime_LB1.TabIndex = 4;
@@ -129,7 +131,7 @@ namespace Psychophysics
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(333, 0);
+			this.label2.Location = new System.Drawing.Point(332, 0);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(99, 13);
 			this.label2.TabIndex = 2;
@@ -140,22 +142,12 @@ namespace Psychophysics
 			this.SelectTask_CB1.FormattingEnabled = true;
 			this.SelectTask_CB1.Items.AddRange(new object[] {
             "",
-            "Design",
-            "Load"});
-			this.SelectTask_CB1.Location = new System.Drawing.Point(165, 30);
+            "Design"});
+			this.SelectTask_CB1.Location = new System.Drawing.Point(164, 30);
 			this.SelectTask_CB1.Name = "SelectTask_CB1";
 			this.SelectTask_CB1.Size = new System.Drawing.Size(139, 21);
 			this.SelectTask_CB1.TabIndex = 4;
 			this.SelectTask_CB1.SelectedIndexChanged += new System.EventHandler(this.SelectTask_CB_SelectedIndexChanged);
-			// 
-			// label1
-			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(3, 0);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(35, 13);
-			this.label1.TabIndex = 2;
-			this.label1.Text = "Name";
 			// 
 			// NameTask_TB1
 			// 
@@ -168,12 +160,21 @@ namespace Psychophysics
 			// 
 			// NumTrial_TB1
 			// 
-			this.NumTrial_TB1.Location = new System.Drawing.Point(333, 30);
+			this.NumTrial_TB1.Location = new System.Drawing.Point(332, 30);
 			this.NumTrial_TB1.Name = "NumTrial_TB1";
 			this.NumTrial_TB1.Size = new System.Drawing.Size(74, 20);
 			this.NumTrial_TB1.TabIndex = 4;
 			this.NumTrial_TB1.Text = "1";
 			this.NumTrial_TB1.TextChanged += new System.EventHandler(this.NumTrial_TB_TextChanged);
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(3, 0);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(35, 13);
+			this.label1.TabIndex = 2;
+			this.label1.Text = "Name";
 			// 
 			// Start_PB
 			// 
@@ -248,6 +249,15 @@ namespace Psychophysics
 			this.Stop_PB.Visible = false;
 			this.Stop_PB.Click += new System.EventHandler(this.Stop_PB_Click);
 			// 
+			// label4
+			// 
+			this.label4.AutoSize = true;
+			this.label4.Location = new System.Drawing.Point(164, 0);
+			this.label4.Name = "label4";
+			this.label4.Size = new System.Drawing.Size(100, 13);
+			this.label4.TabIndex = 5;
+			this.label4.Text = "Operation Selection";
+			// 
 			// TaskPreview
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -294,5 +304,6 @@ namespace Psychophysics
 		private TextBox Path_TB;
 		private CheckBox SaveOut_CB;
 		private Button Stop_PB;
+		private Label label4;
 	}
 }

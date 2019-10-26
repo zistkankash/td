@@ -45,8 +45,6 @@ namespace Psychophysics.Old
 			this.panel8 = new System.Windows.Forms.Panel();
 			this.label3 = new System.Windows.Forms.Label();
 			this.BgColor_BT = new System.Windows.Forms.Button();
-			this.panel5 = new System.Windows.Forms.Panel();
-			this.label1 = new System.Windows.Forms.Label();
 			this.btn_PenColor = new System.Windows.Forms.Button();
 			this.pnl_Draw = new System.Windows.Forms.Panel();
 			this.panel9 = new System.Windows.Forms.Panel();
@@ -107,7 +105,6 @@ namespace Psychophysics.Old
 			((System.ComponentModel.ISupportInitialize)(this.PicB1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.AddPicB)).BeginInit();
 			this.panel8.SuspendLayout();
-			this.panel5.SuspendLayout();
 			this.panel9.SuspendLayout();
 			this.panel6.SuspendLayout();
 			this.FixationPanel.SuspendLayout();
@@ -132,7 +129,7 @@ namespace Psychophysics.Old
 			this.panel1.Controls.Add(this.AddPicB);
 			this.panel1.Location = new System.Drawing.Point(19, 68);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(186, 545);
+			this.panel1.Size = new System.Drawing.Size(186, 713);
 			this.panel1.TabIndex = 0;
 			// 
 			// panel4
@@ -179,7 +176,7 @@ namespace Psychophysics.Old
 			// 
 			// txt_ShapeSize
 			// 
-			this.txt_ShapeSize.Location = new System.Drawing.Point(98, 105);
+			this.txt_ShapeSize.Location = new System.Drawing.Point(106, 106);
 			this.txt_ShapeSize.Name = "txt_ShapeSize";
 			this.txt_ShapeSize.Size = new System.Drawing.Size(50, 20);
 			this.txt_ShapeSize.TabIndex = 9;
@@ -189,7 +186,7 @@ namespace Psychophysics.Old
 			// 
 			this.label4.AutoSize = true;
 			this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label4.Location = new System.Drawing.Point(90, 85);
+			this.label4.Location = new System.Drawing.Point(97, 85);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(71, 13);
 			this.label4.TabIndex = 8;
@@ -211,39 +208,20 @@ namespace Psychophysics.Old
 			this.label3.ForeColor = System.Drawing.Color.White;
 			this.label3.Location = new System.Drawing.Point(88, 5);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(100, 16);
+			this.label3.Size = new System.Drawing.Size(0, 16);
 			this.label3.TabIndex = 1;
-			this.label3.Text = "Draw Shapes";
 			// 
 			// BgColor_BT
 			// 
 			this.BgColor_BT.BackColor = System.Drawing.SystemColors.Control;
-			this.BgColor_BT.Location = new System.Drawing.Point(554, 44);
+			this.BgColor_BT.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.BgColor_BT.Location = new System.Drawing.Point(9, 6);
 			this.BgColor_BT.Name = "BgColor_BT";
-			this.BgColor_BT.Size = new System.Drawing.Size(122, 28);
+			this.BgColor_BT.Size = new System.Drawing.Size(156, 28);
 			this.BgColor_BT.TabIndex = 4;
+			this.BgColor_BT.Text = "Background Color";
 			this.BgColor_BT.UseVisualStyleBackColor = false;
 			this.BgColor_BT.Click += new System.EventHandler(this.btn_CanvasColor_Click_1);
-			// 
-			// panel5
-			// 
-			this.panel5.BackColor = System.Drawing.Color.DimGray;
-			this.panel5.Controls.Add(this.label1);
-			this.panel5.Location = new System.Drawing.Point(529, 5);
-			this.panel5.Name = "panel5";
-			this.panel5.Size = new System.Drawing.Size(154, 27);
-			this.panel5.TabIndex = 0;
-			// 
-			// label1
-			// 
-			this.label1.AutoSize = true;
-			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label1.ForeColor = System.Drawing.Color.White;
-			this.label1.Location = new System.Drawing.Point(15, 5);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(132, 16);
-			this.label1.TabIndex = 1;
-			this.label1.Text = "Background Color";
 			// 
 			// btn_PenColor
 			// 
@@ -260,6 +238,7 @@ namespace Psychophysics.Old
 			this.pnl_Draw.AutoScroll = true;
 			this.pnl_Draw.BackColor = System.Drawing.SystemColors.ButtonHighlight;
 			this.pnl_Draw.Cursor = System.Windows.Forms.Cursors.Cross;
+			this.pnl_Draw.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pnl_Draw.Location = new System.Drawing.Point(0, 0);
 			this.pnl_Draw.Name = "pnl_Draw";
 			this.pnl_Draw.Size = new System.Drawing.Size(822, 545);
@@ -571,18 +550,17 @@ namespace Psychophysics.Old
 			this.Start_BT.Controls.Add(this.Picture_Panel);
 			this.Start_BT.Controls.Add(this.label18);
 			this.Start_BT.Controls.Add(this.label16);
-			this.Start_BT.Controls.Add(this.Shape_Panel);
 			this.Start_BT.Controls.Add(this.BgColor_BT);
-			this.Start_BT.Controls.Add(this.panel5);
-			this.Start_BT.Location = new System.Drawing.Point(19, 638);
+			this.Start_BT.Controls.Add(this.Shape_Panel);
+			this.Start_BT.Location = new System.Drawing.Point(211, 622);
 			this.Start_BT.Name = "Start_BT";
-			this.Start_BT.Size = new System.Drawing.Size(957, 159);
+			this.Start_BT.Size = new System.Drawing.Size(719, 159);
 			this.Start_BT.TabIndex = 4;
 			// 
 			// RewardType_LB
 			// 
 			this.RewardType_LB.AutoSize = true;
-			this.RewardType_LB.Location = new System.Drawing.Point(544, 121);
+			this.RewardType_LB.Location = new System.Drawing.Point(151, 121);
 			this.RewardType_LB.Name = "RewardType_LB";
 			this.RewardType_LB.Size = new System.Drawing.Size(0, 13);
 			this.RewardType_LB.TabIndex = 24;
@@ -599,18 +577,17 @@ namespace Psychophysics.Old
             "5",
             "6",
             "7"});
-			this.SelectRewardType_CB.Location = new System.Drawing.Point(640, 116);
+			this.SelectRewardType_CB.Location = new System.Drawing.Point(97, 116);
 			this.SelectRewardType_CB.Name = "SelectRewardType_CB";
-			this.SelectRewardType_CB.Size = new System.Drawing.Size(70, 21);
+			this.SelectRewardType_CB.Size = new System.Drawing.Size(30, 21);
 			this.SelectRewardType_CB.TabIndex = 23;
-			this.SelectRewardType_CB.Visible = false;
 			this.SelectRewardType_CB.SelectedIndexChanged += new System.EventHandler(this.SelectRewardType_CB_SelectedIndexChanged);
 			// 
 			// FrameTime_ET
 			// 
-			this.FrameTime_ET.Location = new System.Drawing.Point(844, 38);
+			this.FrameTime_ET.Location = new System.Drawing.Point(97, 66);
 			this.FrameTime_ET.Name = "FrameTime_ET";
-			this.FrameTime_ET.Size = new System.Drawing.Size(62, 20);
+			this.FrameTime_ET.Size = new System.Drawing.Size(68, 20);
 			this.FrameTime_ET.TabIndex = 20;
 			this.FrameTime_ET.Text = "0";
 			this.FrameTime_ET.TextChanged += new System.EventHandler(this.FrameTime_ET_TextChanged);
@@ -626,10 +603,11 @@ namespace Psychophysics.Old
 			this.Picture_Panel.Controls.Add(this.label5);
 			this.Picture_Panel.Controls.Add(this.label11);
 			this.Picture_Panel.Enabled = false;
-			this.Picture_Panel.Location = new System.Drawing.Point(4, 5);
+			this.Picture_Panel.Location = new System.Drawing.Point(475, 8);
 			this.Picture_Panel.Name = "Picture_Panel";
 			this.Picture_Panel.Size = new System.Drawing.Size(234, 146);
 			this.Picture_Panel.TabIndex = 17;
+			this.Picture_Panel.Visible = false;
 			// 
 			// panel2
 			// 
@@ -710,7 +688,7 @@ namespace Psychophysics.Old
 			// 
 			this.label18.AutoSize = true;
 			this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label18.Location = new System.Drawing.Point(526, 93);
+			this.label18.Location = new System.Drawing.Point(6, 119);
 			this.label18.Name = "label18";
 			this.label18.Size = new System.Drawing.Size(82, 13);
 			this.label18.TabIndex = 19;
@@ -720,7 +698,7 @@ namespace Psychophysics.Old
 			// 
 			this.label16.AutoSize = true;
 			this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label16.Location = new System.Drawing.Point(748, 38);
+			this.label16.Location = new System.Drawing.Point(6, 69);
 			this.label16.Name = "label16";
 			this.label16.Size = new System.Drawing.Size(72, 13);
 			this.label16.TabIndex = 19;
@@ -740,10 +718,11 @@ namespace Psychophysics.Old
 			this.Shape_Panel.Controls.Add(this.txt_ShapeSize);
 			this.Shape_Panel.Controls.Add(this.btn_PenColor);
 			this.Shape_Panel.Enabled = false;
-			this.Shape_Panel.Location = new System.Drawing.Point(239, 5);
+			this.Shape_Panel.Location = new System.Drawing.Point(191, 8);
 			this.Shape_Panel.Name = "Shape_Panel";
 			this.Shape_Panel.Size = new System.Drawing.Size(269, 146);
 			this.Shape_Panel.TabIndex = 16;
+			this.Shape_Panel.Visible = false;
 			// 
 			// RectangleShape_BT
 			// 
@@ -754,7 +733,7 @@ namespace Psychophysics.Old
 			this.RectangleShape_BT.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
 			this.RectangleShape_BT.FlatAppearance.BorderSize = 0;
 			this.RectangleShape_BT.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.RectangleShape_BT.Location = new System.Drawing.Point(170, 29);
+			this.RectangleShape_BT.Location = new System.Drawing.Point(196, 30);
 			this.RectangleShape_BT.Margin = new System.Windows.Forms.Padding(0);
 			this.RectangleShape_BT.Name = "RectangleShape_BT";
 			this.RectangleShape_BT.Size = new System.Drawing.Size(48, 48);
@@ -773,7 +752,7 @@ namespace Psychophysics.Old
 			this.SquareShape_BT.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
 			this.SquareShape_BT.FlatAppearance.BorderSize = 0;
 			this.SquareShape_BT.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.SquareShape_BT.Location = new System.Drawing.Point(106, 29);
+			this.SquareShape_BT.Location = new System.Drawing.Point(18, 30);
 			this.SquareShape_BT.Margin = new System.Windows.Forms.Padding(0);
 			this.SquareShape_BT.Name = "SquareShape_BT";
 			this.SquareShape_BT.Size = new System.Drawing.Size(48, 48);
@@ -787,7 +766,7 @@ namespace Psychophysics.Old
 			// 
 			this.label17.AutoSize = true;
 			this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label17.Location = new System.Drawing.Point(167, 88);
+			this.label17.Location = new System.Drawing.Point(172, 86);
 			this.label17.Name = "label17";
 			this.label17.Size = new System.Drawing.Size(94, 13);
 			this.label17.TabIndex = 8;
@@ -802,7 +781,7 @@ namespace Psychophysics.Old
 			this.CircleShape_BT.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
 			this.CircleShape_BT.FlatAppearance.BorderSize = 0;
 			this.CircleShape_BT.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.CircleShape_BT.Location = new System.Drawing.Point(40, 29);
+			this.CircleShape_BT.Location = new System.Drawing.Point(108, 29);
 			this.CircleShape_BT.Margin = new System.Windows.Forms.Padding(0);
 			this.CircleShape_BT.Name = "CircleShape_BT";
 			this.CircleShape_BT.Size = new System.Drawing.Size(48, 48);
@@ -824,7 +803,7 @@ namespace Psychophysics.Old
 			// 
 			// Contrast_ET
 			// 
-			this.Contrast_ET.Location = new System.Drawing.Point(185, 105);
+			this.Contrast_ET.Location = new System.Drawing.Point(196, 102);
 			this.Contrast_ET.Name = "Contrast_ET";
 			this.Contrast_ET.Size = new System.Drawing.Size(50, 20);
 			this.Contrast_ET.TabIndex = 9;
@@ -839,7 +818,7 @@ namespace Psychophysics.Old
 			this.Start_PB.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
 			this.Start_PB.FlatAppearance.BorderSize = 0;
 			this.Start_PB.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.Start_PB.Location = new System.Drawing.Point(1058, 733);
+			this.Start_PB.Location = new System.Drawing.Point(1092, 689);
 			this.Start_PB.Margin = new System.Windows.Forms.Padding(0);
 			this.Start_PB.Name = "Start_PB";
 			this.Start_PB.Size = new System.Drawing.Size(48, 48);
@@ -887,16 +866,15 @@ namespace Psychophysics.Old
 			// Size_LB
 			// 
 			this.Size_LB.AutoSize = true;
-			this.Size_LB.Location = new System.Drawing.Point(963, 617);
+			this.Size_LB.Location = new System.Drawing.Point(976, 621);
 			this.Size_LB.Name = "Size_LB";
-			this.Size_LB.Size = new System.Drawing.Size(41, 13);
+			this.Size_LB.Size = new System.Drawing.Size(0, 13);
 			this.Size_LB.TabIndex = 21;
-			this.Size_LB.Text = "label19";
 			// 
 			// SelectedPage_LB
 			// 
 			this.SelectedPage_LB.AutoSize = true;
-			this.SelectedPage_LB.Location = new System.Drawing.Point(214, 616);
+			this.SelectedPage_LB.Location = new System.Drawing.Point(16, 784);
 			this.SelectedPage_LB.Name = "SelectedPage_LB";
 			this.SelectedPage_LB.Size = new System.Drawing.Size(83, 13);
 			this.SelectedPage_LB.TabIndex = 22;
@@ -927,8 +905,6 @@ namespace Psychophysics.Old
 			((System.ComponentModel.ISupportInitialize)(this.AddPicB)).EndInit();
 			this.panel8.ResumeLayout(false);
 			this.panel8.PerformLayout();
-			this.panel5.ResumeLayout(false);
-			this.panel5.PerformLayout();
 			this.panel9.ResumeLayout(false);
 			this.panel6.ResumeLayout(false);
 			this.FixationPanel.ResumeLayout(false);
@@ -960,8 +936,6 @@ namespace Psychophysics.Old
 		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.Panel pnl_Draw;
 		private System.Windows.Forms.Button btn_PenColor;
-		private System.Windows.Forms.Panel panel5;
-		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Button BgColor_BT;
 		private System.Windows.Forms.TextBox txt_ShapeSize;
 		private System.Windows.Forms.Label label4;
