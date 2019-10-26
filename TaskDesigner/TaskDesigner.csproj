@@ -76,7 +76,7 @@
     </Reference>
     <Reference Include="Emgu.CV.DebuggerVisualizers.VS2015, Version=3.4.3.3016, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\Emgu.CV.DebuggerVisualizers.VS2015.dll</HintPath>
+      <HintPath>bin\x64\Debug\Emgu.CV.DebuggerVisualizers.VS2015.dll</HintPath>
     </Reference>
     <Reference Include="Emgu.CV.UI, Version=3.2.0.2682, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -125,12 +125,8 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="WeifenLuo.WinFormsUI.Docking, Version=2.4.0.16114, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\x64\Debug\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
-    </Reference>
     <Reference Include="XCoolForm">
-      <HintPath>..\..\..\..\XCoolForm\XCoolForm\obj\Debug\XCoolForm.dll</HintPath>
+      <HintPath>bin\x64\Debug\XCoolForm.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -303,6 +299,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Resource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
       <LastGenOutput>Resource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Classes\Setting.resx">
@@ -423,10 +420,11 @@
     <None Include="Resources\iconfinder_Close_Icon_Dark_1398917.png" />
     <Content Include="Resources\import.png" />
     <None Include="Resources\net3.png" />
-    <None Include="Resources\load_39552.png" />
     <None Include="Resources\load3.png" />
     <None Include="Resources\Load.png" />
     <None Include="Resources\load_1.png" />
+    <None Include="Resources\leftArtboard 1.png" />
+    <None Include="Resources\load_39552.png" />
     <Content Include="Resources\netdisconnected.png" />
     <Content Include="Resources\new project.png" />
     <Content Include="Resources\next %282%29.png" />
