@@ -177,8 +177,7 @@ namespace Psychophysics
 				}
 			}
 
-			Debug.Write("INNNNNNNNNNNNNNNNN " + RangeVolIn + " " + CenterVolIn + " \n");
-
+			
 			level = RandForTaskLevel[indexRandForTaskLevel];
 
 			if (TaskPreview.AllLevelProp.Count == 0)
@@ -510,7 +509,7 @@ namespace Psychophysics
 			//    DataTask += DataStr;
 			//}
 
-			if (TaskPreview.StopBT_Pushed)
+			if (TaskPreview.brake)
 			{
 				this.BeginInvoke(new MethodInvoker(Close));
 			}
@@ -518,7 +517,7 @@ namespace Psychophysics
 			// داده ها درون فایل csv ذخیره میشود
 			if (TaskPreview.Savetask && DataTask.Length > 0)
 			{
-				File.AppendAllText(TaskPreview.DataPath, DataTask);
+				File.WriteAllText(TaskPreview.DataPath, DataTask);
 				DataTask = "";
 			}
 

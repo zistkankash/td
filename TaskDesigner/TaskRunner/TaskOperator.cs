@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using Basics;
 using MetroFramework;
 using MetroFramework.Forms;
+using Psychophysics;
 
 namespace TaskRunning
 {
@@ -68,11 +69,10 @@ namespace TaskRunning
 			}
 		}
 
-		public TaskOperator(TaskServer sd)
+		public TaskOperator()
 		{
 			InitializeComponent();
-			et_socket = sd;
-			
+						
 			Screen[] screens = Screen.AllScreens;
 			secondMonit = new Size(screens[screens.Length-1].Bounds.Width, screens[screens.Length-1].Bounds.Height);
 			tsk = new TaskData();
@@ -110,13 +110,28 @@ namespace TaskRunning
 				if (GetETStat())
 				{
 					btnStart.Enabled = false;
-					runner = new TaskRunner(et_socket, tsk, this);
-					tsk.runConf = getRunConfigs;
-					runner.Show();
-					if (_etStat == ETStatus.ready)
-						runner.RunTask(true);
+					if (tsk.type == TaskType.cognitive)
+					{
+						TaskPreview.brake = false;
+						bool st;
+						if (_etStat == ETStatus.ready)
+							st = true;
+						else
+							st = false;
+						ShowFrame ShFrame = new ShowFrame(st);
+						ShFrame.Show();
+					}
 					else
-						runner.RunTask(false);
+					{
+						runner = new TaskRunner(tsk, this);
+						tsk.runConf = getRunConfigs;
+						runner.Show();
+						if (_etStat == ETStatus.ready)
+							runner.RunTask(true);
+						else
+							runner.RunTask(false);
+					}
+						
 					SetControlsLocked();
 					btStop.Enabled = true;
 					txtSavPath.Enabled = false;

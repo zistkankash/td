@@ -4,14 +4,12 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using TaskLab;
 using Emgu.CV.Structure;
 using Emgu.CV;
-using TaskRunning;
-using System.Drawing.Imaging;
-using System.Drawing.Drawing2D;
+using Psychophysics;
+
 
 namespace Basics
 {
@@ -86,6 +84,8 @@ namespace Basics
 		public  double userDistance = 0.5;
 		public  double WidthM = 0.42, HeightM = 0.26;
 		public  double WidthP = 1440, HeightP = 900;
+
+		public TaskPreview tsp;
 
 		#endregion
 
@@ -314,139 +314,10 @@ namespace Basics
 						
 						else if (lines[0] == "Number Of Levels")
 						{
-							int lNum = 1;
-							int NumberLevel = int.Parse(lines[lNum]);
-							for (int i = 0; i < NumberLevel; i++)
-							{
-								BaseIndex.Add(0);
-								List<FrameProperties> ListAddedFrame = new List<FrameProperties>();
-								lNum++;
-								lNum++;
-								AllLevelName.Add(lines[lNum].Substring(3));
-								lNum++;
-								lNum++;
-								int repeatnumber = int.Parse(lines[lNum].Substring(3));
-								NumerRepeat.Add(repeatnumber);
-								EnabledTask.Add(2);
-
-								lNum++;
-								lNum++;
-								int NumberFrame = int.Parse(lines[lNum].Substring(3));
-
-								for (int j = 0; j < NumberFrame; j++)
-								{
-									FrameProperties varFrame = new FrameProperties();
-									lNum++;
-									lNum++;
-									var values = lines[lNum].Substring(6).Split(' ');
-									int FrameTime = int.Parse(values[0]);
-									
-									Color BGColor = Color.FromArgb(255, int.Parse(values[1]), int.Parse(values[2]), int.Parse(values[3]));
-									lNum++;
-									lNum++;
-									values = lines[lNum].Substring(9).Split(' ');
-									FixationPts varFixation = new FixationPts();
-									
-									Color fixationColor = Color.FromArgb(255, int.Parse(values[5]), int.Parse(values[6]), int.Parse(values[7]));
-									varFixation.SetFixationPts(int.Parse(values[0]), int.Parse(values[1]), int.Parse(values[2]), int.Parse(values[3]), fixationColor);
-									int fixationtime = int.Parse(values[4]);
-									lNum++;
-									lNum++;
-									
-									int NumberStimulus = int.Parse(lines[lNum].Substring(9));
-									FixationPts[] varStimulus = new FixationPts[NumberStimulus];
-
-									for (int k = 0; k < NumberStimulus; k++)
-									{
-										
-										values = lines[lNum].Substring(9).Split(' ');
-										
-										varStimulus[k] = new FixationPts();
-										if (int.Parse(values[0]) == 4 || int.Parse(values[0]) == 8 || int.Parse(values[0]) == 12)
-										{
-											lNum++;
-											varStimulus[k].SetPicture(int.Parse(values[1]), int.Parse(values[2]), int.Parse(values[3]), int.Parse(values[4]), int.Parse(values[0]), lines[lNum].Substring(9));
-										}
-										else
-										{
-											Color stimulusColor = Color.FromArgb(255, int.Parse(values[5]), int.Parse(values[6]), int.Parse(values[7]));
-											varStimulus[k].SetFixationPts(int.Parse(values[1]), int.Parse(values[2]), int.Parse(values[3]), int.Parse(values[4]), int.Parse(values[0]), stimulusColor);
-											varStimulus[k].SetContrastPts(int.Parse(values[8]));
-										}
-									}
-									lNum++;
-									lNum++;
-									int NumberShowFrame = int.Parse(lines[lNum].Substring(9));
-									ShowFr[] varShowFrame = new ShowFr[NumberShowFrame];
-									for (int k = 0; k < NumberShowFrame; k++)
-									{
-										varShowFrame[k] = new ShowFr();
-										lNum++;
-										lNum++;
-										values = lines[lNum].Substring(9).Split(' ');
-										Color showframecolor = Color.FromArgb(255, int.Parse(values[5]), int.Parse(values[6]), int.Parse(values[7]));
-										varShowFrame[k].SetShowFrameProp(int.Parse(values[0]), int.Parse(values[1]), int.Parse(values[2]), int.Parse(values[3]), int.Parse(values[4]), showframecolor);
-									}
-									
-
-									HintForm varCue = new HintForm();
-									lNum++;
-									lNum++;
-									values = lines[lNum].Substring(9).Split(' ');
-
-									varCue.type = int.Parse(values[0]);
-									if (int.Parse(values[0]) == 1)
-									{
-										
-										Color showframecolor = Color.FromArgb(255, int.Parse(values[5]), int.Parse(values[6]), int.Parse(values[7]));
-
-										varCue.ArrowWidth = int.Parse(values[8]);
-										varCue.SetArrowProp(int.Parse(values[3]), int.Parse(values[1]), int.Parse(values[2]), int.Parse(values[4]), showframecolor);
-									}
-									else if (int.Parse(values[0]) == 2)
-									{
-										varCue.SetBoxProp(20, int.Parse(values[1]), Color.Black);
-									}
-									else
-									{
-
-									}
-									lNum++;
-									lNum++;
-									int reward = int.Parse(lines[lNum].Substring(9));
-									
-									varFrame.SetProperties(BGColor, FrameTime, varFixation, fixationtime, NumberStimulus, varStimulus, reward, varCue, NumberShowFrame, varShowFrame);
-									lNum++;
-									lNum++;
-									values = lines[lNum].Substring(9).Split(' ');
-									RepeatLinkFrame repeatInfo = new RepeatLinkFrame();
-									repeatInfo.SetProperties(bool.Parse(values[0]), int.Parse(values[1]), int.Parse(values[2]), int.Parse(values[3]));
-
-									varFrame.RepeatInfo = repeatInfo;
-
-									ListAddedFrame.Add(varFrame);
-								}
-								AllLevelProp.Add(ListAddedFrame);
-							}
-							lNum++;
-							var value = lines[lNum].Split(' ');
-							userDistance = double.Parse(value[1]);
-
-							lNum++;
-							value = lines[lNum].Split(' ');
-							WidthM = double.Parse(value[1]);
-
-							lNum++;
-							value = lines[lNum].Split(' ');
-							HeightM = double.Parse(value[1]);
-
-							lNum++;
-							value = lines[lNum].Split(' ');
-							WidthP = double.Parse(value[1]);
-
-							lNum++;
-							value = lines[lNum].Split(' ');
-							HeightP = double.Parse(value[1]);
+							//LoadPsycoTasks(lines);
+							tsp = new TaskPreview();
+							tsp.LoadTaskFromFile(false, tskAddress);
+							type = TaskType.cognitive;
 						}
 						#endregion
 					}
@@ -509,7 +380,145 @@ namespace Basics
 			taskIsReady = true;
 			return true;
 		}
-		
+
+		private bool LoadPsycoTasks(string[] lines)
+		{
+			int lNum = 1;
+			int NumberLevel = int.Parse(lines[lNum]);
+			for (int i = 0; i < NumberLevel; i++)
+			{
+				BaseIndex.Add(0);
+				List<FrameProperties> ListAddedFrame = new List<FrameProperties>();
+				lNum++;
+				lNum++;
+				AllLevelName.Add(lines[lNum].Substring(3));
+				lNum++;
+				lNum++;
+				int repeatnumber = int.Parse(lines[lNum].Substring(3));
+				NumerRepeat.Add(repeatnumber);
+				EnabledTask.Add(2);
+
+				lNum++;
+				lNum++;
+				int NumberFrame = int.Parse(lines[lNum].Substring(3));
+
+				for (int j = 0; j < NumberFrame; j++)
+				{
+					FrameProperties varFrame = new FrameProperties();
+					lNum++;
+					lNum++;
+					var values = lines[lNum].Substring(6).Split(' ');
+					int FrameTime = int.Parse(values[0]);
+
+					Color BGColor = Color.FromArgb(255, int.Parse(values[1]), int.Parse(values[2]), int.Parse(values[3]));
+					lNum++;
+					lNum++;
+					values = lines[lNum].Substring(9).Split(' ');
+					FixationPts varFixation = new FixationPts();
+
+					Color fixationColor = Color.FromArgb(255, int.Parse(values[5]), int.Parse(values[6]), int.Parse(values[7]));
+					varFixation.SetFixationPts(int.Parse(values[0]), int.Parse(values[1]), int.Parse(values[2]), int.Parse(values[3]), fixationColor);
+					int fixationtime = int.Parse(values[4]);
+					lNum++;
+					lNum++;
+
+					int NumberStimulus = int.Parse(lines[lNum].Substring(9));
+					FixationPts[] varStimulus = new FixationPts[NumberStimulus];
+
+					for (int k = 0; k < NumberStimulus; k++)
+					{
+
+						values = lines[lNum].Substring(9).Split(' ');
+
+						varStimulus[k] = new FixationPts();
+						if (int.Parse(values[0]) == 4 || int.Parse(values[0]) == 8 || int.Parse(values[0]) == 12)
+						{
+							lNum++;
+							varStimulus[k].SetPicture(int.Parse(values[1]), int.Parse(values[2]), int.Parse(values[3]), int.Parse(values[4]), int.Parse(values[0]), lines[lNum].Substring(9));
+						}
+						else
+						{
+							Color stimulusColor = Color.FromArgb(255, int.Parse(values[5]), int.Parse(values[6]), int.Parse(values[7]));
+							varStimulus[k].SetFixationPts(int.Parse(values[1]), int.Parse(values[2]), int.Parse(values[3]), int.Parse(values[4]), int.Parse(values[0]), stimulusColor);
+							varStimulus[k].SetContrastPts(int.Parse(values[8]));
+						}
+					}
+					lNum++;
+					lNum++;
+					int NumberShowFrame = int.Parse(lines[lNum].Substring(9));
+					ShowFr[] varShowFrame = new ShowFr[NumberShowFrame];
+					for (int k = 0; k < NumberShowFrame; k++)
+					{
+						varShowFrame[k] = new ShowFr();
+						lNum++;
+						lNum++;
+						values = lines[lNum].Substring(9).Split(' ');
+						Color showframecolor = Color.FromArgb(255, int.Parse(values[5]), int.Parse(values[6]), int.Parse(values[7]));
+						varShowFrame[k].SetShowFrameProp(int.Parse(values[0]), int.Parse(values[1]), int.Parse(values[2]), int.Parse(values[3]), int.Parse(values[4]), showframecolor);
+					}
+
+
+					HintForm varCue = new HintForm();
+					lNum++;
+					lNum++;
+					values = lines[lNum].Substring(9).Split(' ');
+
+					varCue.type = int.Parse(values[0]);
+					if (int.Parse(values[0]) == 1)
+					{
+
+						Color showframecolor = Color.FromArgb(255, int.Parse(values[5]), int.Parse(values[6]), int.Parse(values[7]));
+
+						varCue.ArrowWidth = int.Parse(values[8]);
+						varCue.SetArrowProp(int.Parse(values[3]), int.Parse(values[1]), int.Parse(values[2]), int.Parse(values[4]), showframecolor);
+					}
+					else if (int.Parse(values[0]) == 2)
+					{
+						varCue.SetBoxProp(20, int.Parse(values[1]), Color.Black);
+					}
+					else
+					{
+
+					}
+					lNum++;
+					lNum++;
+					int reward = int.Parse(lines[lNum].Substring(9));
+
+					varFrame.SetProperties(BGColor, FrameTime, varFixation, fixationtime, NumberStimulus, varStimulus, reward, varCue, NumberShowFrame, varShowFrame);
+					lNum++;
+					lNum++;
+					values = lines[lNum].Substring(9).Split(' ');
+					RepeatLinkFrame repeatInfo = new RepeatLinkFrame();
+					repeatInfo.SetProperties(bool.Parse(values[0]), int.Parse(values[1]), int.Parse(values[2]), int.Parse(values[3]));
+
+					varFrame.RepeatInfo = repeatInfo;
+
+					ListAddedFrame.Add(varFrame);
+				}
+				AllLevelProp.Add(ListAddedFrame);
+			}
+			lNum++;
+			var value = lines[lNum].Split(' ');
+			userDistance = double.Parse(value[1]);
+
+			lNum++;
+			value = lines[lNum].Split(' ');
+			WidthM = double.Parse(value[1]);
+
+			lNum++;
+			value = lines[lNum].Split(' ');
+			HeightM = double.Parse(value[1]);
+
+			lNum++;
+			value = lines[lNum].Split(' ');
+			WidthP = double.Parse(value[1]);
+
+			lNum++;
+			value = lines[lNum].Split(' ');
+			HeightP = double.Parse(value[1]);
+			return true;
+		}
+
 		public void AddFnode(Node node)
 		{
 			if (node.fixationType == 'P')

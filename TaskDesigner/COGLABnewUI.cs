@@ -232,7 +232,7 @@ namespace Basics
 				return;
 			}
 
-			runner = new TaskOperator(BasConfigs.server);
+			runner = new TaskOperator();
 			runner.FormClosed += delegate { Show(); };
 			this.Hide();
 

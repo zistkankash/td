@@ -64,11 +64,9 @@ namespace Psychophysics
 		public static double WidthM = 0.42, HeightM = 0.26;
 		public static double WidthP = 1440, HeightP = 900;
 
-		// LAN
-		public static Socket mySocket;
-		
+				
 		// Stop
-		public static bool StopBT_Pushed = false;
+		public static bool brake = false;
 
         bool eventLock = false;
 
@@ -88,10 +86,7 @@ namespace Psychophysics
 			AInIndex[1] = 1;
 
 			SaveRowStyle = Task_Table.RowStyles[Task_Table.RowCount - 1];
-			SaveOut_CB.Checked = Savetask;
-			Path_TB.Enabled = SaveOut_CB.Checked;
-			Save_BT.Enabled = SaveOut_CB.Checked;
-
+			
 			namTxt = NameTask_TB0.Size;
 			numTrilTxt = NumTrial_TB0.Size;
 			cmbSiz = SelectTask_CB0.Size;
@@ -263,7 +258,7 @@ namespace Psychophysics
 					break;
 				case 2:
 					{
-						LoadTaskFromFile();						
+						LoadTaskFromFile(true, null);						
 					}
 					break;
 				case 5:
@@ -275,181 +270,187 @@ namespace Psychophysics
 		}
 
 
-		private void LoadTaskFromFile()
+		public void LoadTaskFromFile(bool _getAddress, string address)
 		{
-            
+			DialogResult dt = DialogResult.Cancel;
 			OpenFileDialog theDialog = new OpenFileDialog();
-			theDialog.Title = "Open Text File";
-			theDialog.Filter = "Text Files (*.txt)|*.txt";
-			theDialog.InitialDirectory = @"..";
-			if (theDialog.ShowDialog() == DialogResult.OK)
+			if (_getAddress)
 			{
-                eventLock = false;
-                Debug.Write(AllLevelProp.Count + " " + AllLevelName.Count + " " + EnabledTask.Count + "\n");
-												
-				
-				AllLevelProp.Clear();
-				AllLevelName.Clear();
-				BaseIndex.Clear();
-				NumerRepeat.Clear();
-				EnabledTask.Clear();
-				//BaseIndex.RemoveAt(EnabledTask.Count - 1);
-				//NumerRepeat.RemoveAt(EnabledTask.Count - 1);
-				//EnabledTask.RemoveAt(EnabledTask.Count - 1);
-				
+				theDialog.Title = "Open Text File";
+				theDialog.Filter = "Text Files (*.txt)|*.txt";
+				theDialog.InitialDirectory = @"..";
+				dt = theDialog.ShowDialog();
+				if (dt == DialogResult.Cancel)
+					return;
+			}
+			else
+			{
+				theDialog.FileName = address;
+			}
+			eventLock = false;
 
-				using (var fs = File.OpenRead(theDialog.FileName))
-				using (var reader = new StreamReader(fs))
+			AllLevelProp.Clear();
+			AllLevelName.Clear();
+			BaseIndex.Clear();
+			NumerRepeat.Clear();
+			EnabledTask.Clear();
+			//BaseIndex.RemoveAt(EnabledTask.Count - 1);
+			//NumerRepeat.RemoveAt(EnabledTask.Count - 1);
+			//EnabledTask.RemoveAt(EnabledTask.Count - 1);
+
+
+			using (var fs = File.OpenRead(theDialog.FileName))
+			using (var reader = new StreamReader(fs))
+			{
+				var line = reader.ReadLine();
+				line = reader.ReadLine();
+				int NumberLevel = int.Parse(line);
+				for (int i = 0; i < NumberLevel; i++)
 				{
-					var line = reader.ReadLine();
+					BaseIndex.Add(0);
+					List<FrameProperties> ListAddedFrame = new List<FrameProperties>();
+
 					line = reader.ReadLine();
-					int NumberLevel = int.Parse(line);
-					for (int i = 0; i < NumberLevel; i++)
+					line = reader.ReadLine();
+					AllLevelName.Add(line.Substring(3));
+
+					line = reader.ReadLine();
+					line = reader.ReadLine();
+					int repeatnumber = int.Parse(line.Substring(3));
+					NumerRepeat.Add(repeatnumber);
+					EnabledTask.Add(2);
+
+					line = reader.ReadLine();
+					line = reader.ReadLine();
+					int NumberFrame = int.Parse(line.Substring(3));
+
+					for (int j = 0; j < NumberFrame; j++)
 					{
-						BaseIndex.Add(0);
-						List<FrameProperties> ListAddedFrame = new List<FrameProperties>();
+						FrameProperties varFrame = new FrameProperties();
 
 						line = reader.ReadLine();
 						line = reader.ReadLine();
-						AllLevelName.Add(line.Substring(3));
+						var values = line.Substring(6).Split(' ');
+						int FrameTime = int.Parse(values[0]);
+						//Debug.Write("Load Debug " + line.Substring(6) + " " + values[0] + "\n");
+						Color BGColor = Color.FromArgb(255, int.Parse(values[1]), int.Parse(values[2]), int.Parse(values[3]));
 
 						line = reader.ReadLine();
 						line = reader.ReadLine();
-						int repeatnumber = int.Parse(line.Substring(3));
-						NumerRepeat.Add(repeatnumber);
-						EnabledTask.Add(2);
-
+						values = line.Substring(9).Split(' ');
+						FixationPts varFixation = new FixationPts();
+						//varFixation.SetFixationPts(int.Parse(), int.Parse(), int.Parse(), int.Parse(),Color.FromArgb(255, int.Parse(), int.Parse(), int.Parse()));
+						Color fixationColor = Color.FromArgb(255, int.Parse(values[5]), int.Parse(values[6]), int.Parse(values[7]));
+						varFixation.SetFixationPts(int.Parse(values[0]), int.Parse(values[1]), int.Parse(values[2]), int.Parse(values[3]), fixationColor);
+						int fixationtime = int.Parse(values[4]);
 						line = reader.ReadLine();
 						line = reader.ReadLine();
-						int NumberFrame = int.Parse(line.Substring(3));
+						//Debug.Write("Load Debug " + line.Substring(9)+ "\n");
+						int NumberStimulus = int.Parse(line.Substring(9));
+						FixationPts[] varStimulus = new FixationPts[NumberStimulus];
 
-						for (int j = 0; j < NumberFrame; j++)
+						for (int k = 0; k < NumberStimulus; k++)
 						{
-							FrameProperties varFrame = new FrameProperties();
-
-							line = reader.ReadLine();
-							line = reader.ReadLine();
-							var values = line.Substring(6).Split(' ');
-							int FrameTime = int.Parse(values[0]);
-							//Debug.Write("Load Debug " + line.Substring(6) + " " + values[0] + "\n");
-							Color BGColor = Color.FromArgb(255, int.Parse(values[1]), int.Parse(values[2]), int.Parse(values[3]));
-
 							line = reader.ReadLine();
 							line = reader.ReadLine();
 							values = line.Substring(9).Split(' ');
-							FixationPts varFixation = new FixationPts();
-							//varFixation.SetFixationPts(int.Parse(), int.Parse(), int.Parse(), int.Parse(),Color.FromArgb(255, int.Parse(), int.Parse(), int.Parse()));
-							Color fixationColor = Color.FromArgb(255, int.Parse(values[5]), int.Parse(values[6]), int.Parse(values[7]));
-							varFixation.SetFixationPts(int.Parse(values[0]), int.Parse(values[1]), int.Parse(values[2]), int.Parse(values[3]), fixationColor);
-							int fixationtime = int.Parse(values[4]);
-							line = reader.ReadLine();
-							line = reader.ReadLine();
-							//Debug.Write("Load Debug " + line.Substring(9)+ "\n");
-							int NumberStimulus = int.Parse(line.Substring(9));
-							FixationPts[] varStimulus = new FixationPts[NumberStimulus];
+							Debug.Write("Load Debug " + line.Substring(9) + "\n");
 
-							for (int k = 0; k < NumberStimulus; k++)
+							varStimulus[k] = new FixationPts();
+							if (int.Parse(values[0]) == 4 || int.Parse(values[0]) == 8 || int.Parse(values[0]) == 12)
 							{
 								line = reader.ReadLine();
-								line = reader.ReadLine();
-								values = line.Substring(9).Split(' ');
-								Debug.Write("Load Debug " + line.Substring(9) + "\n");
-
-								varStimulus[k] = new FixationPts();
-								if (int.Parse(values[0]) == 4 || int.Parse(values[0]) == 8 || int.Parse(values[0]) == 12)
-								{
-									line = reader.ReadLine();
-									varStimulus[k].SetPicture(int.Parse(values[1]), int.Parse(values[2]), int.Parse(values[3]), int.Parse(values[4]), int.Parse(values[0]), line.Substring(9));
-								}
-								else
-								{
-									Color stimulusColor = Color.FromArgb(255, int.Parse(values[5]), int.Parse(values[6]), int.Parse(values[7]));
-									varStimulus[k].SetFixationPts(int.Parse(values[1]), int.Parse(values[2]), int.Parse(values[3]), int.Parse(values[4]), int.Parse(values[0]), stimulusColor);
-									varStimulus[k].SetContrastPts(int.Parse(values[8]));
-								}
-							}
-							line = reader.ReadLine();
-							line = reader.ReadLine();
-							int NumberShowFrame = int.Parse(line.Substring(9));
-							ShowFr[] varShowFrame = new ShowFr[NumberShowFrame];
-							for (int k = 0; k < NumberShowFrame; k++)
-							{
-								varShowFrame[k] = new ShowFr();
-								line = reader.ReadLine();
-								line = reader.ReadLine();
-								values = line.Substring(9).Split(' ');
-								Color showframecolor = Color.FromArgb(255, int.Parse(values[5]), int.Parse(values[6]), int.Parse(values[7]));
-								varShowFrame[k].SetShowFrameProp(int.Parse(values[0]), int.Parse(values[1]), int.Parse(values[2]), int.Parse(values[3]), int.Parse(values[4]), showframecolor);
-							}
-							//MainForm.MeanX_PupilCenter[i] = Double.Parse(values[0]);
-
-							HintForm varCue = new HintForm();
-							line = reader.ReadLine();
-							line = reader.ReadLine();
-							values = line.Substring(9).Split(' ');
-
-							varCue.type = int.Parse(values[0]);
-							if (int.Parse(values[0]) == 1)
-							{
-								//SaveText += "_________" + AllLevelProp[i][j].Cue.type + " " + AllLevelProp[i][j].Cue.ArrowLocX0 + " " + AllLevelProp[i][j].Cue.ArrowLocX1 + " " + AllLevelProp[i][j].Cue.ArrowLocY + " " + AllLevelProp[i][j].Cue.ArrowColor.R + " " + AllLevelProp[i][j].Cue.ArrowColor.G + " " + AllLevelProp[i][j].Cue.ArrowColor.B + " " + AllLevelProp[i][j].Cue.ArrowWidth;
-								Color showframecolor = Color.FromArgb(255, int.Parse(values[5]), int.Parse(values[6]), int.Parse(values[7]));
-
-								varCue.ArrowWidth = int.Parse(values[8]);
-								varCue.SetArrowProp(int.Parse(values[3]), int.Parse(values[1]), int.Parse(values[2]), int.Parse(values[4]), showframecolor);
-							}
-							else if (int.Parse(values[0]) == 2)
-							{
-								//SaveText += "_________" + AllLevelProp[i][j].Cue.type + " " + AllLevelProp[i][j].Cue.BoxRatio + "\n";
-								varCue.SetBoxProp(20, int.Parse(values[1]), Color.Black);
+								varStimulus[k].SetPicture(int.Parse(values[1]), int.Parse(values[2]), int.Parse(values[3]), int.Parse(values[4]), int.Parse(values[0]), line.Substring(9));
 							}
 							else
 							{
-
+								Color stimulusColor = Color.FromArgb(255, int.Parse(values[5]), int.Parse(values[6]), int.Parse(values[7]));
+								varStimulus[k].SetFixationPts(int.Parse(values[1]), int.Parse(values[2]), int.Parse(values[3]), int.Parse(values[4]), int.Parse(values[0]), stimulusColor);
+								varStimulus[k].SetContrastPts(int.Parse(values[8]));
 							}
-
-							line = reader.ReadLine();
-							line = reader.ReadLine();
-							int reward = int.Parse(line.Substring(9));
-							////Debug.Write("Load Debug " + line.Substring(9) + "\n");
-
-							varFrame.SetProperties(BGColor, FrameTime, varFixation, fixationtime, NumberStimulus, varStimulus, reward, varCue, NumberShowFrame, varShowFrame);
-							Debug.Write("FixTime1 : " + varFrame.FixationTime + "\n");
-
+						}
+						line = reader.ReadLine();
+						line = reader.ReadLine();
+						int NumberShowFrame = int.Parse(line.Substring(9));
+						ShowFr[] varShowFrame = new ShowFr[NumberShowFrame];
+						for (int k = 0; k < NumberShowFrame; k++)
+						{
+							varShowFrame[k] = new ShowFr();
 							line = reader.ReadLine();
 							line = reader.ReadLine();
 							values = line.Substring(9).Split(' ');
-							RepeatLinkFrame repeatInfo = new RepeatLinkFrame();
-							repeatInfo.SetProperties(bool.Parse(values[0]), int.Parse(values[1]), int.Parse(values[2]), int.Parse(values[3]));
-
-							varFrame.RepeatInfo = repeatInfo;
-
-							ListAddedFrame.Add(varFrame);
+							Color showframecolor = Color.FromArgb(255, int.Parse(values[5]), int.Parse(values[6]), int.Parse(values[7]));
+							varShowFrame[k].SetShowFrameProp(int.Parse(values[0]), int.Parse(values[1]), int.Parse(values[2]), int.Parse(values[3]), int.Parse(values[4]), showframecolor);
 						}
-						AllLevelProp.Add(ListAddedFrame);
+						//MainForm.MeanX_PupilCenter[i] = Double.Parse(values[0]);
+
+						HintForm varCue = new HintForm();
+						line = reader.ReadLine();
+						line = reader.ReadLine();
+						values = line.Substring(9).Split(' ');
+
+						varCue.type = int.Parse(values[0]);
+						if (int.Parse(values[0]) == 1)
+						{
+							//SaveText += "_________" + AllLevelProp[i][j].Cue.type + " " + AllLevelProp[i][j].Cue.ArrowLocX0 + " " + AllLevelProp[i][j].Cue.ArrowLocX1 + " " + AllLevelProp[i][j].Cue.ArrowLocY + " " + AllLevelProp[i][j].Cue.ArrowColor.R + " " + AllLevelProp[i][j].Cue.ArrowColor.G + " " + AllLevelProp[i][j].Cue.ArrowColor.B + " " + AllLevelProp[i][j].Cue.ArrowWidth;
+							Color showframecolor = Color.FromArgb(255, int.Parse(values[5]), int.Parse(values[6]), int.Parse(values[7]));
+
+							varCue.ArrowWidth = int.Parse(values[8]);
+							varCue.SetArrowProp(int.Parse(values[3]), int.Parse(values[1]), int.Parse(values[2]), int.Parse(values[4]), showframecolor);
+						}
+						else if (int.Parse(values[0]) == 2)
+						{
+							//SaveText += "_________" + AllLevelProp[i][j].Cue.type + " " + AllLevelProp[i][j].Cue.BoxRatio + "\n";
+							varCue.SetBoxProp(20, int.Parse(values[1]), Color.Black);
+						}
+						else
+						{
+
+						}
+
+						line = reader.ReadLine();
+						line = reader.ReadLine();
+						int reward = int.Parse(line.Substring(9));
+						////Debug.Write("Load Debug " + line.Substring(9) + "\n");
+
+						varFrame.SetProperties(BGColor, FrameTime, varFixation, fixationtime, NumberStimulus, varStimulus, reward, varCue, NumberShowFrame, varShowFrame);
+						Debug.Write("FixTime1 : " + varFrame.FixationTime + "\n");
+
+						line = reader.ReadLine();
+						line = reader.ReadLine();
+						values = line.Substring(9).Split(' ');
+						RepeatLinkFrame repeatInfo = new RepeatLinkFrame();
+						repeatInfo.SetProperties(bool.Parse(values[0]), int.Parse(values[1]), int.Parse(values[2]), int.Parse(values[3]));
+
+						varFrame.RepeatInfo = repeatInfo;
+
+						ListAddedFrame.Add(varFrame);
 					}
-					line = reader.ReadLine();
-					var value = line.Split(' ');
-					userDistance = double.Parse(value[1]);
-
-					line = reader.ReadLine();
-					value = line.Split(' ');
-					WidthM = double.Parse(value[1]);
-
-					line = reader.ReadLine();
-					value = line.Split(' ');
-					HeightM = double.Parse(value[1]);
-
-					line = reader.ReadLine();
-					value = line.Split(' ');
-					WidthP = double.Parse(value[1]);
-
-					line = reader.ReadLine();
-					value = line.Split(' ');
-					HeightP = double.Parse(value[1]);
-
-                    FillTaskTable();
+					AllLevelProp.Add(ListAddedFrame);
 				}
-                eventLock = true;
+				line = reader.ReadLine();
+				var value = line.Split(' ');
+				userDistance = double.Parse(value[1]);
+
+				line = reader.ReadLine();
+				value = line.Split(' ');
+				WidthM = double.Parse(value[1]);
+
+				line = reader.ReadLine();
+				value = line.Split(' ');
+				HeightM = double.Parse(value[1]);
+
+				line = reader.ReadLine();
+				value = line.Split(' ');
+				WidthP = double.Parse(value[1]);
+
+				line = reader.ReadLine();
+				value = line.Split(' ');
+				HeightP = double.Parse(value[1]);
+
+				FillTaskTable();
+
+				eventLock = true;
 			}
 		}
 
@@ -550,9 +551,7 @@ namespace Psychophysics
 					this.Hide();
 					EditForm.Show();
 					break;
-				case "Load":
-					LoadTaskFromFile();
-					break;
+				
 				default:
 
 
@@ -659,7 +658,7 @@ namespace Psychophysics
 		
 		private void Stop_PB_Click(object sender, EventArgs e)
 		{
-			StopBT_Pushed = true;
+			brake = true;
 		}
 
 		private void Task_Table_Scroll(object sender, ScrollEventArgs e)
@@ -681,15 +680,11 @@ namespace Psychophysics
 
 		private void Start_PB_Click(object sender, EventArgs e)
 		{
-			StopBT_Pushed = false;
+			brake = false;
 			
 			ShowFrame ShFrame = new ShowFrame(false);
 
-			Screen[] screens = Screen.AllScreens;
-			
-			ShFrame.Location = new Point(0, 0);
-				
-			
+								
 			ShFrame.Show();
 		}
 
@@ -725,22 +720,6 @@ namespace Psychophysics
 			AllLevelName[index] = cmb.Text;
 		}
 
-		private void SaveOut_CB_CheckedChanged(object sender, EventArgs e)
-		{
-			Save_BT.Enabled = SaveOut_CB.Checked;
-			Savetask = SaveOut_CB.Checked;
-		}
-
-		private void Save_BT_Click(object sender, EventArgs e)
-		{
-			SaveFileDialog sfd = new SaveFileDialog();
-			sfd.Filter = "CSV Files (*.csv)|*.csv";
-
-			if (sfd.ShowDialog() == DialogResult.OK)
-			{
-				TaskPreview.DataPath = sfd.FileName;
-				Path_TB.Text = sfd.FileName;
-			}
-		}
+		
 	}
 }

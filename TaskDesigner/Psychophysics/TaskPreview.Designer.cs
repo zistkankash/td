@@ -47,9 +47,6 @@ namespace Psychophysics
 			this.label4 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.Start_PB = new System.Windows.Forms.Button();
-			this.Save_BT = new System.Windows.Forms.Button();
-			this.Path_TB = new System.Windows.Forms.TextBox();
-			this.SaveOut_CB = new System.Windows.Forms.CheckBox();
 			this.Stop_PB = new System.Windows.Forms.Button();
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
 			this.panel1.SuspendLayout();
@@ -207,40 +204,6 @@ namespace Psychophysics
 			this.Start_PB.UseVisualStyleBackColor = false;
 			this.Start_PB.Click += new System.EventHandler(this.Start_PB_Click);
 			// 
-			// Save_BT
-			// 
-			this.Save_BT.BackColor = System.Drawing.Color.White;
-			this.Save_BT.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.Save_BT.FlatAppearance.BorderSize = 0;
-			this.Save_BT.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.Save_BT.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.Save_BT.Location = new System.Drawing.Point(253, 385);
-			this.Save_BT.Name = "Save_BT";
-			this.Save_BT.Size = new System.Drawing.Size(26, 25);
-			this.Save_BT.TabIndex = 24;
-			this.Save_BT.Text = "...";
-			this.Save_BT.UseVisualStyleBackColor = false;
-			this.Save_BT.Click += new System.EventHandler(this.Save_BT_Click);
-			// 
-			// Path_TB
-			// 
-			this.Path_TB.Location = new System.Drawing.Point(28, 387);
-			this.Path_TB.Name = "Path_TB";
-			this.Path_TB.Size = new System.Drawing.Size(219, 20);
-			this.Path_TB.TabIndex = 23;
-			// 
-			// SaveOut_CB
-			// 
-			this.SaveOut_CB.AutoSize = true;
-			this.SaveOut_CB.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.SaveOut_CB.Location = new System.Drawing.Point(28, 364);
-			this.SaveOut_CB.Name = "SaveOut_CB";
-			this.SaveOut_CB.Size = new System.Drawing.Size(113, 17);
-			this.SaveOut_CB.TabIndex = 22;
-			this.SaveOut_CB.Text = "Save Data Stream";
-			this.SaveOut_CB.UseVisualStyleBackColor = true;
-			this.SaveOut_CB.CheckedChanged += new System.EventHandler(this.SaveOut_CB_CheckedChanged);
-			// 
 			// Stop_PB
 			// 
 			this.Stop_PB.AutoEllipsis = true;
@@ -268,9 +231,6 @@ namespace Psychophysics
 			this.BackColor = System.Drawing.Color.Transparent;
 			this.ClientSize = new System.Drawing.Size(737, 455);
 			this.Controls.Add(this.Stop_PB);
-			this.Controls.Add(this.Save_BT);
-			this.Controls.Add(this.Path_TB);
-			this.Controls.Add(this.SaveOut_CB);
 			this.Controls.Add(this.panel1);
 			this.Controls.Add(this.Start_PB);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -303,9 +263,6 @@ namespace Psychophysics
 		private Label FramePerTask_LB0;
 		private Label label1;
 		private TextBox NameTask_TB0;
-		private Button Save_BT;
-		private TextBox Path_TB;
-		private CheckBox SaveOut_CB;
 		private Button Stop_PB;
 		private Label label4;
 		private ToolTip toolTip1;

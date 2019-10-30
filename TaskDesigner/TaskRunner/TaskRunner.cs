@@ -38,7 +38,6 @@ namespace TaskRunning
 		public static TaskData curTsk;
 		Stopwatch tskWatch;
 		Thread runnerThread;
-		TaskServer ET_Socket;
 		TaskOperator tsop;
 		int showedIndex;
 		//FNode goalNodeThrd, goalNodePrevius;
@@ -52,14 +51,9 @@ namespace TaskRunning
 		static bool _mouseClicked = false;
 		static int _mousX, _mousY;
 					
-		public TaskRunner(TaskServer sd,TaskData cs,TaskOperator pr)
+		public TaskRunner(TaskData cs,TaskOperator pr)
 		{
 			InitializeComponent();
-			if (sd != null)
-			{
-				ET_Socket = sd;
-				_getGaz = true;
-			}
 			tsop = pr;
 			curTsk = cs;
 			InitForm();
@@ -111,7 +105,7 @@ namespace TaskRunning
 			tskWatch = new Stopwatch(); //Get a watch for timing operations.
 			if (_getGaz)
 			{
-				ET_Socket.StartGaze();
+				BasConfigs.server.StartGaze();
 			}
 			else
 				Cursor.Position = new Point(BasConfigs._monitor_resolution_x, BasConfigs._monitor_resolution_y);
@@ -190,7 +184,7 @@ namespace TaskRunning
 			}
 			if (!_getGaz)
 				return false;
-			gzTemp = ET_Socket.getGaze;
+			gzTemp = BasConfigs.server.getGaze;
 			if (gzTemp.time != -1)
 			{
 				TaskOperator.savedData += gzTemp.x.ToString() + "," + gzTemp.y.ToString() + "," + gzTemp.pupilSize.ToString() + "," + gzTemp.time.ToString() + "," + showedIndex.ToString() + "\n";
@@ -465,7 +459,7 @@ namespace TaskRunning
 			Invoke((Action)delegate { Hide(); });
 			if (_getGaz)
 			{
-				ET_Socket.EndGaze();
+				BasConfigs.server.EndGaze();
 			}
 			return true;
 		}
