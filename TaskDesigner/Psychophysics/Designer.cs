@@ -83,8 +83,8 @@ namespace Psychophysics.Old
             else if( mode == 2 ) //A: a designer for editing the current task
             {
                 this.Mode = mode;
-                LoadParameters(index-1 );
-                this.EditedIndex = index-1 ;
+                LoadParameters(index);
+                this.EditedIndex = index ;
 
                 //SelectRewardType_CB.SelectedIndex = Reward[ActivePicB - 1];
                 //RewardType_LB.Text = Reward[ActivePicB - 1].ToString();

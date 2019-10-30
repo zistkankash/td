@@ -39,10 +39,10 @@ namespace Psychophysics
 		public static ValueRange InputValRange = ValueRange.V_Neg5To5;
 		public static String DaqName = "USB-4704,BID#0";
 		// Analog input
-		public static InstantAiCtrl instantAiCtrl = new InstantAiCtrl();
+		//public static InstantAiCtrl instantAiCtrl = new InstantAiCtrl();
 		public static int[] AInIndex = new int[2];
 		// output
-		public static InstantDoCtrl instantDoCtrl = new InstantDoCtrl();
+		//public static InstantDoCtrl instantDoCtrl = new InstantDoCtrl();
 		public static int[] DOutIndex = new int[2];
 		// Sound
 		public static bool SoundMute = false;
@@ -75,14 +75,17 @@ namespace Psychophysics
 		public static bool UseLan = true, LANConnected = false;
 		// Stop
 		public static bool StopBT_Pushed = false;
-		public TaskPreview()
+
+        bool eventLock = false;
+
+        public TaskPreview()
 		{
 			InitializeComponent();
 			EnabledTask.Add(0);
 			NumerRepeat.Add(1);
 			AllLevelName.Add("Untitled" + (AllLevelName.Count + 1));
 			BaseIndex.Add(0);
-			NameTask_TB1.Text = AllLevelName[0];
+			NameTask_TB0.Text = AllLevelName[0];
 			DOutIndex[0] = 0;
 			DOutIndex[1] = 1;
 			// initializaion for Analog Input index (X)
@@ -95,9 +98,9 @@ namespace Psychophysics
 			Path_TB.Enabled = SaveOut_CB.Checked;
 			Save_BT.Enabled = SaveOut_CB.Checked;
 
-			namTxt = NameTask_TB1.Size;
-			numTrilTxt = NumTrial_TB1.Size;
-			cmbSiz = SelectTask_CB1.Size;
+			namTxt = NameTask_TB0.Size;
+			numTrilTxt = NumTrial_TB0.Size;
+			cmbSiz = SelectTask_CB0.Size;
 		}
 
 		private void SetTheme()
@@ -148,6 +151,7 @@ namespace Psychophysics
 			this.XCoolFormHolderButtonClick += new XCoolFormHolderButtonClickHandler(frmCoolForm_XCoolFormHolderButtonClick);
 			xtl.ThemeForm = this;
 			SetTheme();
+            eventLock = true;
 		}
 		
 		private void frmCoolForm_XCoolFormHolderButtonClick(XCoolForm.XCoolForm.XCoolFormHolderButtonClickArgs e)
@@ -279,17 +283,17 @@ namespace Psychophysics
 
 		private void LoadTaskFromFile()
 		{
+            
 			OpenFileDialog theDialog = new OpenFileDialog();
 			theDialog.Title = "Open Text File";
 			theDialog.Filter = "Text Files (*.txt)|*.txt";
 			theDialog.InitialDirectory = @"..";
 			if (theDialog.ShowDialog() == DialogResult.OK)
 			{
-				Debug.Write(AllLevelProp.Count + " " + AllLevelName.Count + " " + EnabledTask.Count + "\n");
+                eventLock = false;
+                Debug.Write(AllLevelProp.Count + " " + AllLevelName.Count + " " + EnabledTask.Count + "\n");
 												
-				Task_Table.RowStyles.Clear();
-				Task_Table.Controls.Clear();
-				Task_Table.RowCount = 0;
+				
 				AllLevelProp.Clear();
 				AllLevelName.Clear();
 				BaseIndex.Clear();
@@ -449,53 +453,65 @@ namespace Psychophysics
 					value = line.Split(' ');
 					HeightP = double.Parse(value[1]);
 
-					for (int i = 0; i < AllLevelProp.Count; i++)
-					{
-						//add a new RowStyle as a copy of the previous one
-						this.Task_Table.RowStyles.Add(new RowStyle(SaveRowStyle.SizeType, SaveRowStyle.Height));
-						this.Task_Table.RowCount++;
-
-						var namebox = new TextBox();
-						namebox.Name = "NameTask_TB" + (Task_Table.RowCount);
-						namebox.TextChanged += new System.EventHandler(this.NameTask_TB_TextChanged);
-
-						namebox.Text = AllLevelName[i];
-						Task_Table.Controls.Add(namebox, 0, this.Task_Table.RowCount);
-						Debug.Write(" Hellp" + "\n");
-
-						var Combox = new ComboBox();
-						Combox.Items.Add(" ");
-						Combox.Items.Add("Design");
-						Combox.Items.Add("MGS");
-						Combox.Items.Add("VGS");
-						Combox.Items.Add("Posner");
-						//Combox.Items.Add("Delete");
-						Combox.Name = "SelectTask_CB" + (Task_Table.RowCount);
-						Debug.Write(" Combo" + Combox.Name + "\n");
-						Combox.SelectedIndexChanged += new System.EventHandler(this.SelectTask_CB_SelectedIndexChanged);
-						this.Task_Table.Controls.Add(Combox, 1, this.Task_Table.RowCount);
-						var txbox = new TextBox();
-						txbox.Text = Convert.ToString(NumerRepeat[i]);
-						txbox.Name = "NumTrial_TB" + (Task_Table.RowCount);
-						txbox.TextChanged += new System.EventHandler(this.NumTrial_TB_TextChanged);
-
-						Task_Table.Controls.Add(txbox, 2, this.Task_Table.RowCount);
-						Task_Table.Controls.Add(new Label() { Text = "0", Name = "TotalTime_LB" + (Task_Table.RowCount - 1).ToString() }, 3, this.Task_Table.RowCount);
-						Task_Table.Controls.Add(new Label() { Text = "0", Name = "FramePerTask_LB" + (Task_Table.RowCount - 1).ToString() }, 4, this.Task_Table.RowCount);
-						UpdateData(i + 1);
-						UpdateComboBox(i + 1);
-					}
+                    FillTaskTable();
 				}
+                eventLock = true;
 			}
 		}
 
-		private void SelectTask_CB_SelectedIndexChanged(object sender, EventArgs e)
+        private void FillTaskTable()
+        {
+            Task_Table.RowStyles.Clear();
+            Task_Table.Controls.Clear();
+            Task_Table.RowCount = 0;
+            for (int i = 0; i < AllLevelProp.Count; i++)
+            {
+                //add a new RowStyle as a copy of the previous one
+                this.Task_Table.RowStyles.Add(new RowStyle(SaveRowStyle.SizeType, SaveRowStyle.Height));
+
+                var namebox = new TextBox();
+                namebox.Name = "NameTask_TB" + (Task_Table.RowCount);
+                namebox.TextChanged += new System.EventHandler(this.NameTask_TB_TextChanged);
+                //namebox.Size = namTxt;
+                namebox.Text = AllLevelName[i];
+                Task_Table.Controls.Add(namebox, 0, this.Task_Table.RowCount);
+                Debug.Write(" Hellp" + "\n");
+
+                var Combox = new ComboBox();
+                Combox.Items.Add(" ");
+                Combox.Items.Add("Design");
+                //Combox.Items.Add("MGS");
+                //Combox.Items.Add("VGS");
+                //Combox.Items.Add("Posner");
+                Combox.Items.Add("Delete");
+                Combox.Name = "SelectTask_CB" + (Task_Table.RowCount);
+                //Debug.Write(" Combo" + Combox.Name + "\n");
+                Combox.SelectedIndexChanged += new System.EventHandler(this.SelectTask_CB_SelectedIndexChanged);
+                //Combox.Size = cmbSiz;
+                this.Task_Table.Controls.Add(Combox, 1, this.Task_Table.RowCount);
+                var txbox = new TextBox();
+                txbox.Text = Convert.ToString(NumerRepeat[i]);
+                txbox.Name = "NumTrial_TB" + (Task_Table.RowCount);
+                txbox.TextChanged += new System.EventHandler(this.NumTrial_TB_TextChanged);
+                //txbox.Size = numTrilTxt;
+                Task_Table.Controls.Add(txbox, 2, this.Task_Table.RowCount);
+                Task_Table.Controls.Add(new Label() { Text = "0", Name = "TotalTime_LB" + (Task_Table.RowCount).ToString() }, 3, this.Task_Table.RowCount);
+                Task_Table.Controls.Add(new Label() { Text = "0", Name = "FramePerTask_LB" + (Task_Table.RowCount).ToString() }, 4, this.Task_Table.RowCount);
+                this.Task_Table.RowCount++;
+                UpdateData(i + 1);
+                UpdateComboBox(i);
+            }
+        }
+
+        private void SelectTask_CB_SelectedIndexChanged(object sender, EventArgs e)
 		{
+            if (!eventLock)
+                return;
 			ComboBox cmb = (ComboBox)sender;
 
 			String cmbName = cmb.Name;
 			int index = (int)Char.GetNumericValue(cmbName[(cmbName.Length - 1)]);
-			ActiveCol = index;
+            ActiveCol = index + 1;
 			int selectedIndex = cmb.SelectedIndex;
 			String selectedText = cmb.Text;
 			Debug.Write(this.Name + selectedIndex + "\n");
@@ -518,123 +534,19 @@ namespace Psychophysics
 				case "Discrimination":
 					break;
 				case "Delete":
-					break;
+					
 					if (AllLevelProp.Count > 0)//&& AllLevelProp[index - 1].Count > 1
 					{
-						Debug.Write("Num List : " + AllLevelName.Count + " " + AllLevelProp.Count + " \n");
-						for (int i = AllLevelName.Count -1; i > 0; i--)
-						{
-							Label FrCountLB = Controls.Find("FramePerTask_LB" + (i), true).FirstOrDefault() as Label;
-							Task_Table.Controls.Remove(FrCountLB);
-							Label TotalTimeLB = Controls.Find("TotalTime_LB" + (i), true).FirstOrDefault() as Label;
-							Task_Table.Controls.Remove(TotalTimeLB);
-							TextBox RptTB = Controls.Find("NumTrial_TB" + (i), true).FirstOrDefault() as TextBox;
-							Task_Table.Controls.Remove(RptTB);
-							TextBox NmTB = Controls.Find("NameTask_TB" + (i), true).FirstOrDefault() as TextBox;
-							Task_Table.Controls.Remove(NmTB);
-							ComboBox TaskCB = Controls.Find("SelectTask_CB" + (i), true).FirstOrDefault() as ComboBox;
-							Task_Table.Controls.Remove(TaskCB);
-							Task_Table.RowStyles.RemoveAt(i);
-							Task_Table.RowCount--;
-						}
-
-						AllLevelProp.RemoveAt(index - 1);
-						AllLevelName.RemoveAt(index - 1);
-						NumerRepeat.RemoveAt(index - 1);
-						EnabledTask.RemoveAt(index - 1);
-						BaseIndex.RemoveAt(index - 1);
-						Debug.Write("Num List : " + AllLevelProp.Count + " \n");
-						for (int i = 0; i < AllLevelProp.Count; i++)
-						{
-							//add a new RowStyle as a copy of the previous one
-							this.Task_Table.RowStyles.Add(new RowStyle(SaveRowStyle.SizeType, SaveRowStyle.Height));
-							this.Task_Table.RowCount++;
-
-							var namebox = new TextBox();
-							namebox.Name = "NameTask_TB" + (Task_Table.RowCount - 1);
-							namebox.TextChanged += new System.EventHandler(this.NameTask_TB_TextChanged);
-
-							namebox.Text = AllLevelName[i];
-							Task_Table.Controls.Add(namebox, 0, this.Task_Table.RowCount - 1);
-
-							var Combox = new ComboBox();
-							Combox.Items.Add(" ");
-							Combox.Items.Add("Design");
-							Combox.Items.Add("MGS");
-							Combox.Items.Add("VGS");
-							Combox.Items.Add("Posner");
-							//Combox.Items.Add("Delete");
-							Combox.Name = "SelectTask_CB" + (Task_Table.RowCount - 1);
-							Debug.Write(" Combo" + Combox.Name + "\n");
-							Combox.SelectedIndexChanged += new System.EventHandler(this.SelectTask_CB_SelectedIndexChanged);
-							this.Task_Table.Controls.Add(Combox, 1, this.Task_Table.RowCount - 1);
-							var txbox = new TextBox();
-							txbox.Text = Convert.ToString(NumerRepeat[i]);
-							txbox.Name = "NumTrial_TB" + (Task_Table.RowCount - 1);
-							txbox.TextChanged += new System.EventHandler(this.NumTrial_TB_TextChanged);
-
-							Task_Table.Controls.Add(txbox, 2, this.Task_Table.RowCount - 1);
-							Task_Table.Controls.Add(new Label() { Text = "0", Name = "TotalTime_LB" + (Task_Table.RowCount - 1) }, 3, this.Task_Table.RowCount - 1);
-							Task_Table.Controls.Add(new Label() { Text = "0", Name = "FramePerTask_LB" + (Task_Table.RowCount - 1) }, 4, this.Task_Table.RowCount - 1);
-							UpdateData(i + 1);
-							UpdateComboBox(i + 1);
-						}
-						if (AllLevelProp.Count != EnabledTask.Count)
-						{
-							EnabledTask.RemoveAt(EnabledTask.Count - 1);
-							AllLevelName.RemoveAt(AllLevelName.Count - 1);
-						}
+												
+						AllLevelProp.RemoveAt(index);
+						AllLevelName.RemoveAt(index);
+						NumerRepeat.RemoveAt(index);
+						EnabledTask.RemoveAt(index);
+						BaseIndex.RemoveAt(index);
+						
+                        FillTaskTable();
 					}
-					else
-					{
-						AllLevelProp.RemoveAt(0);
-						NumerRepeat[0] = 1;
-						EnabledTask[0] = 0;
-						AllLevelName[0] = "Untitled1";
-						BaseIndex[0] = 0;
-
-						Label FrCountLB = Controls.Find("FramePerTask_LB" + 1, true).FirstOrDefault() as Label;
-						Task_Table.Controls.Remove(FrCountLB);
-						Label TotalTimeLB = Controls.Find("TotalTime_LB" + 1, true).FirstOrDefault() as Label;
-						Task_Table.Controls.Remove(TotalTimeLB);
-						TextBox RptTB = Controls.Find("NumTrial_TB" + 1, true).FirstOrDefault() as TextBox;
-						Task_Table.Controls.Remove(RptTB);
-						TextBox NmTB = Controls.Find("NameTask_TB" + 1, true).FirstOrDefault() as TextBox;
-						Task_Table.Controls.Remove(NmTB);
-						ComboBox TaskCB = Controls.Find("SelectTask_CB" + 1, true).FirstOrDefault() as ComboBox;
-						Task_Table.Controls.Remove(TaskCB);
-						Task_Table.RowStyles.RemoveAt(1);
-						Task_Table.RowCount--;
-
-						//add a new RowStyle as a copy of the previous one
-						this.Task_Table.RowStyles.Add(new RowStyle(SaveRowStyle.SizeType, SaveRowStyle.Height));
-						this.Task_Table.RowCount++;
-
-
-						var namebox = new TextBox();
-						namebox.Name = "NameTask_TB" + (Task_Table.RowCount - 1);
-						namebox.TextChanged += new System.EventHandler(this.NameTask_TB_TextChanged);
-
-						namebox.Text = AllLevelName[0];
-						Task_Table.Controls.Add(namebox, 0, this.Task_Table.RowCount - 1);
-
-
-						var Combox = new ComboBox();
-						Combox.Items.Add(" ");
-						Combox.Items.Add("Design");
-
-						Combox.Name = "SelectTask_CB" + (Task_Table.RowCount - 1);
-						Debug.Write(" Combo" + Combox.Name + "\n");
-						Combox.SelectedIndexChanged += new System.EventHandler(this.SelectTask_CB_SelectedIndexChanged);
-						this.Task_Table.Controls.Add(Combox, 1, this.Task_Table.RowCount - 1);
-						var txbox = new TextBox();
-						txbox.Text = Convert.ToString(NumerRepeat[0]);
-						txbox.Name = "NumTrial_TB" + (Task_Table.RowCount - 1);
-						txbox.TextChanged += new System.EventHandler(this.NumTrial_TB_TextChanged);
-						Task_Table.Controls.Add(txbox, 2, this.Task_Table.RowCount - 1);
-						Task_Table.Controls.Add(new Label() { Text = "0", Name = "TotalTime_LB" + (Task_Table.RowCount - 1) }, 3, this.Task_Table.RowCount - 1);
-						Task_Table.Controls.Add(new Label() { Text = "0", Name = "FramePerTask_LB" + (Task_Table.RowCount - 1) }, 4, this.Task_Table.RowCount - 1);
-					}
+					
 
 					break;
 
@@ -658,17 +570,18 @@ namespace Psychophysics
 
 		public void TaskPreview_VisibleChanged(object sender, EventArgs e)
 		{
-			if (!ChangeHappened)
+			if (!ChangeHappened || !eventLock)
 				return;
 			ChangeHappened = false;
 
-			Label FrCountLB = Controls.Find("FramePerTask_LB" + ActiveCol, true).FirstOrDefault() as Label;
+			Label FrCountLB = Controls.Find("FramePerTask_LB" + (ActiveCol-1), true).FirstOrDefault() as Label;
 			FrCountLB.Text = Convert.ToString(AllLevelProp[ActiveCol - 1].Count);
 			UpdateData(ActiveCol);
 		}
 
 		private void Add_PB_Click(object sender, EventArgs e)
 		{
+            eventLock = false;
 			//add a new RowStyle as a copy of the previous one
 			this.Task_Table.RowStyles.Add(new RowStyle(SaveRowStyle.SizeType, SaveRowStyle.Height));
 			this.Task_Table.RowCount++;
@@ -700,6 +613,7 @@ namespace Psychophysics
 			Task_Table.Controls.Add(txbox, 2, this.Task_Table.RowCount - 1);
 			Task_Table.Controls.Add(new Label() { Text = "0", Name = "TotalTime_LB" + (Task_Table.RowCount - 1) }, 3, this.Task_Table.RowCount - 1);
 			Task_Table.Controls.Add(new Label() { Text = "0", Name = "FramePerTask_LB" + (Task_Table.RowCount - 1) }, 4, this.Task_Table.RowCount - 1);
+            eventLock = true;
 		}
 
 		private void UpdateData(int Index)
@@ -722,26 +636,26 @@ namespace Psychophysics
 						time += AllLevelProp[Index - 1][i].FrameTime;
 					}
 				}
-				Label timeLB = Task_Table.Controls.Find("TotalTime_LB" + Index, true).FirstOrDefault() as Label;
-				Label numFrLB = Task_Table.Controls.Find("FramePerTask_LB" + Index, true).FirstOrDefault() as Label;
+                Label timeLB = Task_Table.Controls.Find("TotalTime_LB" + (Index - 1), true).FirstOrDefault() as Label;
+                Label numFrLB = Task_Table.Controls.Find("FramePerTask_LB" + (Index - 1), true).FirstOrDefault() as Label;
 				numFrLB.Text = Convert.ToString(AllLevelProp[Index - 1].Count);
 
-				TextBox numtrialTB = Task_Table.Controls.Find("NumTrial_TB" + Index, true).FirstOrDefault() as TextBox;
+				TextBox numtrialTB = Task_Table.Controls.Find("NumTrial_TB" + (Index - 1), true).FirstOrDefault() as TextBox;
 				numtrialTB.Text = Convert.ToString(NumerRepeat[Index - 1]);
-				TextBox nametaskTB = Task_Table.Controls.Find("NameTask_TB" + Index, true).FirstOrDefault() as TextBox;
+				TextBox nametaskTB = Task_Table.Controls.Find("NameTask_TB" + (Index - 1), true).FirstOrDefault() as TextBox;
 				nametaskTB.Text = AllLevelName[Index - 1];
 				timeLB.Text = Convert.ToString(time * int.Parse(numtrialTB.Text));
 			}
 			else
 			{
-				Label timeLB = Task_Table.Controls.Find("TotalTime_LB" + Index, true).FirstOrDefault() as Label;
-				Label numFrLB = Task_Table.Controls.Find("FramePerTask_LB" + Index, true).FirstOrDefault() as Label;
+				Label timeLB = Task_Table.Controls.Find("TotalTime_LB" + (Index-1), true).FirstOrDefault() as Label;
+				Label numFrLB = Task_Table.Controls.Find("FramePerTask_LB" + (Index-1), true).FirstOrDefault() as Label;
 				numFrLB.Text = Convert.ToString(0);
 				timeLB.Text = Convert.ToString(0);
 
-				TextBox numtrialTB = Task_Table.Controls.Find("NumTrial_TB" + Index, true).FirstOrDefault() as TextBox;
+				TextBox numtrialTB = Task_Table.Controls.Find("NumTrial_TB" + (Index - 1), true).FirstOrDefault() as TextBox;
 				numtrialTB.Text = Convert.ToString(NumerRepeat[Index - 1]);
-				TextBox nametaskTB = Task_Table.Controls.Find("NameTask_TB" + Index, true).FirstOrDefault() as TextBox;
+				TextBox nametaskTB = Task_Table.Controls.Find("NameTask_TB" + (Index - 1), true).FirstOrDefault() as TextBox;
 				nametaskTB.Text = AllLevelName[Index - 1];
 				timeLB.Text = Convert.ToString(time * int.Parse(numtrialTB.Text));
 			}
@@ -778,12 +692,14 @@ namespace Psychophysics
 
 		private void NumTrial_TB_TextChanged(object sender, EventArgs e)
 		{
+            if (!eventLock)
+                return;
 			TextBox cmb = (TextBox)sender;
 
 			String cmbName = cmb.Name;
 			int index = (int)Char.GetNumericValue(cmbName[(cmbName.Length - 1)]);
-			NumerRepeat[index - 1] = int.Parse(cmb.Text);
-			UpdateData(index);
+			NumerRepeat[index] = int.Parse(cmb.Text);
+			UpdateData(index+1);
 		}
 
 		private void Start_PB_Click(object sender, EventArgs e)
@@ -806,11 +722,11 @@ namespace Psychophysics
 
 		private void UpdateComboBox(int index)
 		{
-			if (EnabledTask[index - 1] == 2)
+			if (EnabledTask[index] == 2)
 			{
-				ComboBox comb = panel1.Controls.Find("SelectTask_CB" + index, true).FirstOrDefault() as ComboBox;
+				ComboBox comb = Task_Table.Controls.Find("SelectTask_CB" + index, true).FirstOrDefault() as ComboBox;
 				comb.Items.Clear();
-				//comb.Items.Add("Delete");
+				comb.Items.Add("Delete");
 				comb.Items.Add("Edit");
 			}
 		}
@@ -827,11 +743,13 @@ namespace Psychophysics
 
 		private void NameTask_TB_TextChanged(object sender, EventArgs e)
 		{
+            if (!eventLock)
+                return;
 			TextBox cmb = (TextBox)sender;
 			String cmbName = cmb.Name;
 			int index = (int)Char.GetNumericValue(cmbName[(cmbName.Length - 1)]);
 			Debug.Write("Helpppppp " + AllLevelName.Count + " \n");
-			AllLevelName[index - 1] = cmb.Text;
+			AllLevelName[index] = cmb.Text;
 		}
 
 		private void SaveOut_CB_CheckedChanged(object sender, EventArgs e)

@@ -72,13 +72,13 @@ namespace Psychophysics
 			{
 				try
 				{
-					TaskPreview.instantAiCtrl.SelectedDevice = new DeviceInformation(TaskPreview.DaqName);
+					//TaskPreview.instantAiCtrl.SelectedDevice = new DeviceInformation(TaskPreview.DaqName);
 					Debug.Write(TaskPreview.DaqName + "\n");
 					ErrorCode errorCode = ErrorCode.Success;
 
-					TaskPreview.instantAiCtrl.Channels[0].ValueRange = TaskPreview.InputValRange;
-					TaskPreview.instantAiCtrl.Channels[1].ValueRange = TaskPreview.InputValRange;
-					TaskPreview.InputValRange = TaskPreview.instantAiCtrl.Channels[1].ValueRange;
+					//TaskPreview.instantAiCtrl.Channels[0].ValueRange = TaskPreview.InputValRange;
+					//TaskPreview.instantAiCtrl.Channels[1].ValueRange = TaskPreview.InputValRange;
+					//TaskPreview.InputValRange = TaskPreview.instantAiCtrl.Channels[1].ValueRange;
 
 					// DAQ
 					int channelStart = 0;
@@ -88,7 +88,7 @@ namespace Psychophysics
 					outdaq[0] = 0;
 					outdaq[1] = 0;
 
-					errorCode = TaskPreview.instantAiCtrl.Read(channelStart, channelCount, outdaq);
+					//errorCode = TaskPreview.instantAiCtrl.Read(channelStart, channelCount, outdaq);
 				}
 				catch
 				{
@@ -97,12 +97,12 @@ namespace Psychophysics
 
 				try
 				{
-					TaskPreview.instantDoCtrl = new InstantDoCtrl();
-					TaskPreview.instantDoCtrl.SelectedDevice = new DeviceInformation(TaskPreview.DaqName);
+					//TaskPreview.instantDoCtrl = new InstantDoCtrl();
+					//TaskPreview.instantDoCtrl.SelectedDevice = new DeviceInformation(TaskPreview.DaqName);
 
-					Byte Dout = new byte();
-					Dout = 0x00;
-					TaskPreview.instantDoCtrl.Write(0, Dout);
+					//Byte Dout = new byte();
+					//Dout = 0x00;
+					//TaskPreview.instantDoCtrl.Write(0, Dout);
 				}
 				catch
 				{
