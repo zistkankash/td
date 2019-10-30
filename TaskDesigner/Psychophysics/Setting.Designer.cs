@@ -281,7 +281,8 @@ namespace Psychophysics
             this.LANEn_CB.TabStop = true;
             this.LANEn_CB.Text = "Use LAN";
             this.LANEn_CB.UseVisualStyleBackColor = true;
-            this.LANEn_CB.CheckedChanged += new System.EventHandler(this.LANEn_CB_CheckedChanged);
+			this.LANEn_CB.Enabled = false;
+           
             // 
             // DaqEn_CB
             // 
@@ -314,7 +315,7 @@ namespace Psychophysics
             this.LANConnect_BT.TabIndex = 3;
             this.LANConnect_BT.Text = "Connect";
             this.LANConnect_BT.UseVisualStyleBackColor = true;
-            this.LANConnect_BT.Click += new System.EventHandler(this.LANConnect_BT_Click);
+           
             // 
             // groupBox6
             // 

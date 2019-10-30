@@ -66,13 +66,7 @@ namespace Psychophysics
 
 		// LAN
 		public static Socket mySocket;
-		public static EndPoint epLocal, epRemote;
-		public static int RemotePort = 1, LocalPort = 2;
-		public static string RemoteIP = " ", LocalIP = " ";
-		public static byte[] buffer;
-		public static byte[] SendingData;
-		double[] DSendingData = new double[3];
-		public static bool UseLan = true, LANConnected = false;
+		
 		// Stop
 		public static bool StopBT_Pushed = false;
 
@@ -663,23 +657,6 @@ namespace Psychophysics
 
 		}
 		
-		private void ConnectLan()
-		{
-			Debug.Write(" LANDebug" + TaskPreview.LocalIP + " " + TaskPreview.LocalPort + " " + TaskPreview.RemoteIP + " " + TaskPreview.RemotePort + " " + LANConnected + " " + UseLan + "\n");
-
-			//set up socket
-			TaskPreview.mySocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-			TaskPreview.mySocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
-
-			//binding sockets
-			TaskPreview.epLocal = new IPEndPoint(IPAddress.Parse(TaskPreview.LocalIP), TaskPreview.LocalPort);
-			TaskPreview.mySocket.Bind(TaskPreview.epLocal);
-
-			//Connecting To Remote IP
-			TaskPreview.epRemote = new IPEndPoint(IPAddress.Parse(TaskPreview.RemoteIP), TaskPreview.RemotePort);
-			TaskPreview.mySocket.Connect(TaskPreview.epRemote);
-		}
-
 		private void Stop_PB_Click(object sender, EventArgs e)
 		{
 			StopBT_Pushed = true;
@@ -705,18 +682,14 @@ namespace Psychophysics
 		private void Start_PB_Click(object sender, EventArgs e)
 		{
 			StopBT_Pushed = false;
-			if (LANConnected & UseLan)
-				ConnectLan();
-			Debug.Write(" LANDebug" + TaskPreview.LocalIP + " " + TaskPreview.LocalPort + " " + TaskPreview.RemoteIP + " " + TaskPreview.RemotePort + " " + LANConnected + " " + UseLan + "\n");
-
-			ShowFrame ShFrame = new ShowFrame();
+			
+			ShowFrame ShFrame = new ShowFrame(false);
 
 			Screen[] screens = Screen.AllScreens;
-			if (screens.Length == 2)
-			{
-				ShFrame.Location = new Point(screens[0].Bounds.X, screens[0].Bounds.Y);
-				Debug.Write(screens[0].Bounds + "\n");
-			}
+			
+			ShFrame.Location = new Point(0, 0);
+				
+			
 			ShFrame.Show();
 		}
 

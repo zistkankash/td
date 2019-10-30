@@ -33,15 +33,57 @@ namespace Psychophysics
 		// ROI
 		bool InROI = false;
 		bool WriteStateInROI = false;
-		// LAN
-		bool UseLan, LanConnected;
-		byte[] buffer;
+		bool _useGaz = false;
+		bool _useDaq = false;		
 		int numberOfData = 3;
 		bool CloseForm = false;
 
-		public ShowFrame()
+		Screen[] screen = Screen.AllScreens;
+		int counter = 0;
+		int level = 0;
+		int frame = 0;
+		int timelimit = 0;
+		int framelimit = 0;
+		int repeat = 0;
+		int baseframe = 0;
+		bool fixatehappened = false;
+		Stopwatch sw = Stopwatch.StartNew();
+		Bitmap flag;
+		Graphics flagGraphics;
+		FixationPts stimulus;
+		FixationPts fixationstimulus;
+		Pen fixationp;
+		SolidBrush sb;
+		Bitmap bmpvar;
+		int numberstimulus;
+		int i;
+		bool containfixation = false;
+		double CenterVolIn = 0, RangeVolIn = 0;
+		double[] MappingWidth = new double[2];
+		double[] MappedSigs = new double[3];
+		double FixationCenterX = 0, FixationCenterY = 0, FixationCenterWidth = 0;
+		int FixationCenterTime = 0, FixationOutTime = 200;
+		int FixationRewardType = 0;
+		Stopwatch FixationSW = Stopwatch.StartNew();
+		bool FirstTimeInRoi = true;
+
+		int[] RandForPosnerStimulus, RandForPosnerCue;
+		public int[] RandForTaskLevel, RepeatationIndex;
+		int indexRandForTaskLevel = 0;
+		RepeatLinkFrame repeatInfo = new RepeatLinkFrame();
+		int RandomLocation = 0;
+		string DataTask = "";
+		//Timer
+		MicroLibrary.MicroTimer microTimer;
+		MicroLibrary.MicroTimer microTimerLive;
+		// Daq 
+		//int Xindex = TaskPreview.
+		
+		public ShowFrame(bool getGaze)
 		{
 			InitializeComponent();
+			
+			
 			MappedSigs[0] = 0;
 			MappedSigs[1] = 0;
 			MappedSigs[2] = 0;
@@ -52,24 +94,8 @@ namespace Psychophysics
 			{
 				Debug.Write(RandForTaskLevel[i] + "\n");
 			}
-			UseLan = TaskPreview.UseLan;
-			LanConnected = TaskPreview.LANConnected;
-			if (UseLan & LanConnected)
-			{
-				try
-				{
-					buffer = new byte[numberOfData * sizeof(double)];
-
-					TaskPreview.mySocket.BeginReceiveFrom(buffer, 0, buffer.Length, SocketFlags.None, ref TaskPreview.epRemote, new AsyncCallback(MessageCallBack), buffer);
-				}
-				catch
-				{
-
-				}
-
-			}
-			else
-			{
+			if(_useDaq)
+			{ 
 				try
 				{
 					//TaskPreview.instantAiCtrl.SelectedDevice = new DeviceInformation(TaskPreview.DaqName);
@@ -147,7 +173,7 @@ namespace Psychophysics
 			// for fullscreen
 			FormBorderStyle = FormBorderStyle.None;
 			WindowState = FormWindowState.Maximized;
-			Debug.Write("RAAAAAAAAAAAAAND" + indexRandForTaskLevel + "\n");
+			
 			level = RandForTaskLevel[indexRandForTaskLevel];
 
 			if (TaskPreview.AllLevelProp.Count == 0)
@@ -169,8 +195,14 @@ namespace Psychophysics
 
 			if (screen.Length == 2)
 			{
-				pictureBox1.Size = new Size(screen[1].Bounds.Width, screen[1].Bounds.Height);
-				pictureBox1.SetBounds(this.Bounds.X, this.Bounds.Y, screen[1].Bounds.Width, screen[1].Bounds.Height);
+				this.Size = new Size(screen[1].Bounds.Width, screen[1].Bounds.Height);
+				this.WindowState = FormWindowState.Maximized;
+			}
+			if(screen.Length == 1)
+			{
+				this.WindowState = FormWindowState.Normal;
+			}
+				
 
 				MappingWidth[0] = screen[1].Bounds.Width;
 				MappingWidth[1] = screen[1].Bounds.Height;
@@ -438,7 +470,7 @@ namespace Psychophysics
 				Debug.Write("CueType " + TaskPreview.AllLevelProp[level][frame].Cue.type + " \n");
 				pictureBox1.Image = flag;
 				sw = Stopwatch.StartNew();
-			}
+			
 			Timer1.Start();
 			//MessageBox.Show("box2");
 			//label1.Text = "Step2";
@@ -464,48 +496,6 @@ namespace Psychophysics
 			//label1.Text = "Step3";
 		}
 
-		// Number and Size of Screens
-		Screen[] screen = Screen.AllScreens;
-		int counter = 0;
-		int level = 0;
-		int frame = 0;
-		int timelimit = 0;
-		int framelimit = 0;
-		int repeat = 0;
-		int baseframe = 0;
-		bool fixatehappened = false;
-		Stopwatch sw = Stopwatch.StartNew();
-		Bitmap flag;
-		Graphics flagGraphics;
-		FixationPts stimulus;
-		FixationPts fixationstimulus;
-		Pen fixationp;
-		SolidBrush sb;
-		Bitmap bmpvar;
-		int numberstimulus;
-		int i;
-		bool containfixation = false;
-		double CenterVolIn = 0, RangeVolIn = 0;
-		double[] MappingWidth = new double[2];
-		double[] MappedSigs = new double[3];
-		double FixationCenterX = 0, FixationCenterY = 0, FixationCenterWidth = 0;
-		int FixationCenterTime = 0, FixationOutTime = 200;
-		int FixationRewardType = 0;
-		Stopwatch FixationSW = Stopwatch.StartNew();
-		bool FirstTimeInRoi = true;
-
-		int[] RandForPosnerStimulus, RandForPosnerCue;
-		public int[] RandForTaskLevel, RepeatationIndex;
-		int indexRandForTaskLevel = 0;
-		RepeatLinkFrame repeatInfo = new RepeatLinkFrame();
-		int RandomLocation = 0;
-		string DataTask = "";
-		//Timer
-		MicroLibrary.MicroTimer microTimer;
-		MicroLibrary.MicroTimer microTimerLive;
-		// Daq 
-		//int Xindex = TaskPreview.
-		
 		private void Timer1_Tick(object sender, EventArgs e)
 		{
 			//// Save 
@@ -518,13 +508,6 @@ namespace Psychophysics
 
 			if (TaskPreview.StopBT_Pushed)
 			{
-				CloseForm = true;
-				if (TaskPreview.mySocket != null)
-				{
-					TaskPreview.mySocket.Close();
-					TaskPreview.mySocket.Dispose();
-				}
-				//this.Close();
 				this.BeginInvoke(new MethodInvoker(Close));
 			}
 
@@ -548,6 +531,7 @@ namespace Psychophysics
 			counter = 0;
 			//Test_LB.Text = sw.ElapsedMilliseconds + "ms \n";
 			sw = Stopwatch.StartNew();
+			#region check reward
 			if (FixationRewardType == 83 || FixationRewardType == 50 || FixationRewardType == 87 || FixationRewardType == 51)
 			{
 				Debug.Write("Fixate1 " + frame + "\n");
@@ -602,12 +586,7 @@ namespace Psychophysics
 						{
 							Timer1.Stop();
 							CloseForm = true;
-							if (TaskPreview.mySocket != null)
-							{
-								TaskPreview.mySocket.Close();
-								TaskPreview.mySocket.Dispose();
-							}
-							//this.Close();
+							
 							this.BeginInvoke(new MethodInvoker(Close));
 							return;
 						}
@@ -677,11 +656,7 @@ namespace Psychophysics
 					{
 						Timer1.Stop();
 						CloseForm = true;
-						if (TaskPreview.mySocket != null)
-						{
-							TaskPreview.mySocket.Close();
-							TaskPreview.mySocket.Dispose();
-						}
+						
 						//this.Close();
 						this.BeginInvoke(new MethodInvoker(Close));
 						return;
@@ -693,6 +668,8 @@ namespace Psychophysics
 				}
 
 			}
+			#endregion
+			#region else reward
 			else
 			{
 				frame++;
@@ -733,15 +710,7 @@ namespace Psychophysics
 					{
 						Timer1.Stop();
 						CloseForm = true;
-						if (TaskPreview.mySocket != null)
-						{
-							TaskPreview.mySocket.Close();
-							TaskPreview.mySocket.Dispose();
-						}
-						//TaskPreview.mySocket.Shutdown(SocketShutdown.Both);
-
-						//TaskPreview.mySocket.Disconnect(false);
-						//this.Close();
+						
 						this.BeginInvoke(new MethodInvoker(Close));
 						return;
 					}
@@ -750,33 +719,32 @@ namespace Psychophysics
 					framelimit = TaskPreview.AllLevelProp[level].Count;
 				}
 			}
+			#endregion
 
-			if (screen.Length == 2)
+			#region add graphic objects
+			flagGraphics.Clear(TaskPreview.AllLevelProp[level][frame].BGColor);
+			numberstimulus = TaskPreview.AllLevelProp[level][frame].Stimulus.Length;
+			if (TaskPreview.AllLevelProp[level][frame].RepeatInfo.Active)
 			{
-				flagGraphics.Clear(Color.White);
-				flagGraphics.Clear(TaskPreview.AllLevelProp[level][frame].BGColor);
-				numberstimulus = TaskPreview.AllLevelProp[level][frame].Stimulus.Length;
-				if (TaskPreview.AllLevelProp[level][frame].RepeatInfo.Active)
+				if (repeatInfo.RandomLocation == 1)
 				{
-					if (repeatInfo.RandomLocation == 1)
-					{
-						repeatInfo.LeftOrRight = 2;
-					}
-					else if (repeatInfo.RandomLocation == 2)
-					{
-						repeatInfo.LeftOrRight = 1;
-					}
-					else if (repeatInfo.RandomLocation == 3)
-					{
-						repeatInfo.LeftOrRight = repeatInfo.Makerand();
-					}
-					else
-					{
-						RandomLocation = 0;
-					}
+					repeatInfo.LeftOrRight = 2;
 				}
-				//Debug.Write("Random Location " + frame + " " + RandomLocation + " " + repeatInfo.LeftOrRight + " " + TaskPreview.AllLevelProp[level][frame].RepeatInfo.RandomLocation + " \n");
+				else if (repeatInfo.RandomLocation == 2)
+				{
+					repeatInfo.LeftOrRight = 1;
+				}
+				else if (repeatInfo.RandomLocation == 3)
+				{
+					repeatInfo.LeftOrRight = repeatInfo.Makerand();
+				}
+				else
+				{
+					RandomLocation = 0;
+				}
 
+				//Debug.Write("Random Location " + frame + " " + RandomLocation + " " + repeatInfo.LeftOrRight + " " + TaskPreview.AllLevelProp[level][frame].RepeatInfo.RandomLocation + " \n");
+				#region add stimulus
 				//Debug.Write("NUm " + numberstimulus + " \n");
 				for (int k = 0; k < numberstimulus; k++)
 				{
@@ -932,6 +900,8 @@ namespace Psychophysics
 					}
 
 				}
+				#endregion
+				#region add fixation
 				fixationstimulus = TaskPreview.AllLevelProp[level][frame].Fixation;
 				//Use Solid Brush for filling the graphic shapes
 				fixationp = new Pen(fixationstimulus.ColorPt);
@@ -991,6 +961,7 @@ namespace Psychophysics
 					FirstTimeInRoi = true;
 					//flagGraphics.DrawEllipse(fixationp, var.CenterX - fixationstimulus.Width / 2, var.CenterY - fixationstimulus.Width / 2, fixationstimulus.Width, fixationstimulus.Width);
 				}
+				#endregion
 
 				int numbox = TaskPreview.AllLevelProp[level][frame].ShowFrame.Length;
 				for (i = 0; i < numbox; i++)
@@ -1058,10 +1029,9 @@ namespace Psychophysics
 					status = 0;
 				}
 				pictureBox1.Image = flag;
-				//flag.Dispose();
+
 			}
-			//MessageBox.Show("box5");
-			//label1.Text = "Step4";
+			#endregion
 			return;
 		}
 		
@@ -1336,9 +1306,6 @@ namespace Psychophysics
 
 		private void ShowFrame_FormClosed(object sender, FormClosedEventArgs e)
 		{
-			//TaskPreview.mySocket.Disconnect(true);
-			//TaskPreview.mySocket.Shutdown(SocketShutdown.Both);
-			//TaskPreview.mySocket.Close();
 			if (microTimer != null)
 			{
 				microTimer.Enabled = false;
@@ -1356,13 +1323,6 @@ namespace Psychophysics
 			microTimerLive.MicroTimerElapsed += new MicroLibrary.MicroTimer.MicroTimerElapsedEventHandler(OnTimedEventLive);
 
 			microTimerLive.Interval = 4000; // Call micro timer every 1000µs (1ms)
-		}
-
-		private void ShowFrame_FormClosing(object sender, FormClosingEventArgs e)
-		{
-			//TaskPreview.mySocket.Disconnect(true);
-			//TaskPreview.mySocket.Shutdown(SocketShutdown.Both);
-			//TaskPreview.mySocket.Close();
 		}
 
 		private void OnTimedEventLive(object sender,
@@ -1399,7 +1359,7 @@ namespace Psychophysics
 		private void OnTimedEvent(object sender,
 				  MicroLibrary.MicroTimerEventArgs timerEventArgs)
 		{
-			if (!UseLan)
+			if (_useDaq)
 			{
 				double[] outdaq = new double[2];
 				outdaq[0] = 1;
@@ -1501,32 +1461,6 @@ namespace Psychophysics
 
 		}
 
-		private void MessageCallBack(IAsyncResult aResult)
-		{
-			try
-			{
-				byte[] RecivedData = new byte[numberOfData * sizeof(double)];
-				RecivedData = (byte[])aResult.AsyncState;
-				double[] rec = new double[numberOfData];
-				Buffer.BlockCopy(RecivedData, 0, rec, 0, RecivedData.Length);
-
-
-				MappedSigs[0] = rec[0];
-				MappedSigs[1] = rec[1];
-				MappedSigs[2] = rec[2];
-				if (CloseForm)
-					return;
-				Debug.Write(" Val ::: " + Convert.ToString(MappedSigs[0]) + " " + Convert.ToString(MappedSigs[1]));
-				buffer = new byte[numberOfData * sizeof(double)];
-				TaskPreview.mySocket.BeginReceiveFrom(buffer, 0, buffer.Length, SocketFlags.None, ref TaskPreview.epRemote, new AsyncCallback(MessageCallBack), buffer);
-
-			}
-			catch (Exception ex)
-			{
-				MessageBox.Show(ex.ToString());
-			}
-		}
-
-
+		
 	}
 }

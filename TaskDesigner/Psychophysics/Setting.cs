@@ -80,20 +80,12 @@ namespace Psychophysics
             //        SelectDaqVol_CB.SelectedIndex = 4;
             //        break;
             //}
-
-
-            if (TaskPreview.UseLan)
-            {
-                LANEn_CB.Checked = true;
-                LANPanel.Enabled = true;
-                DAQPanel.Enabled = false;
-            }
-            else
-            {
+			
+            
                 DaqEn_CB.Checked = true;
                 DAQPanel.Enabled = true;
                 LANPanel.Enabled = false;
-            }
+            
             //Debug.Write();
             PictureBox varselected = this.Controls.Find("pictureBox" + 0 + TaskPreview.DOutIndex[0], true).FirstOrDefault() as PictureBox;
             varselected.BackColor = Color.Green;
@@ -127,24 +119,12 @@ namespace Psychophysics
             MonitorWidth_ET.Text = Convert.ToString(TaskPreview.WidthM);
             MonitorHeight_ET.Text = Convert.ToString(TaskPreview.HeightM);
 
-            Debug.Write("Loading ... " + TaskPreview.LANConnected + " " + TaskPreview.LocalIP + " " + TaskPreview.RemoteIP + " \n");
-            if (TaskPreview.LANConnected)
-            {
-                LANConnect_BT.Text = "Connected";
-                txtLocalIP.Text = TaskPreview.LocalIP;
-                txtRemoteIP.Text = TaskPreview.RemoteIP;
-            }
-            else
-            {
-                //get user IP
-                txtLocalIP.Text = GetLocalIP();
-                //txtRemoteIP.Text = GetLocalIP();
-                txtRemoteIP.Text = "192.168.1.1";
-            }
-
-            txtLocalPort.Text = TaskPreview.LocalPort.ToString();
-            txtRemotePort.Text = TaskPreview.RemotePort.ToString();
-
+                      
+            //get user IP
+            //txtLocalIP.Text = GetLocalIP();
+            //txtRemoteIP.Text = GetLocalIP();
+            txtRemoteIP.Text = "127.0.0.1";
+            
             ////get user IP
             //txtLocalIP.Text = GetLocalIP();
             //txtRemoteIP.Text = GetLocalIP();
@@ -376,7 +356,7 @@ namespace Psychophysics
             int Deviceindex = Devices_CB.SelectedIndex;
             if(Devices_CB.Items.Count>0)
                 TaskPreview.DaqName = Devices_CB.Items[Deviceindex].ToString();
-            DisconnectLan();
+           
             this.Close();
         }
 
@@ -501,11 +481,9 @@ namespace Psychophysics
         {
             if(DaqEn_CB.Checked)
             {
-                TaskPreview.UseLan = false;
                 DAQPanel.Enabled = true;
                 LANPanel.Enabled = false;
-                DisconnectLan();
-                TaskPreview.LANConnected = false;
+               
             }
             else
             {
@@ -514,88 +492,6 @@ namespace Psychophysics
 
         }
 
-        private void LANEn_CB_CheckedChanged(object sender, EventArgs e)
-        {
-            if (LANEn_CB.Checked)
-            {
-                TaskPreview.UseLan = true;
-                DAQPanel.Enabled = false;
-                LANPanel.Enabled = true;
-            }
-            else
-            {
-                TaskPreview.UseLan = false;
-                LANPanel.Enabled = false;
-            }
-
-        }
-
-        private void ConnectLan()
-        {
-            //set up socket
-            TaskPreview.mySocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-            TaskPreview.mySocket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
-
-            //binding sockets
-            TaskPreview.epLocal = new IPEndPoint(IPAddress.Parse(txtLocalIP.Text), Convert.ToInt32(txtLocalPort.Text));
-            TaskPreview.mySocket.Bind(TaskPreview.epLocal);
-            TaskPreview.LocalIP = txtLocalIP.Text;
-            TaskPreview.LocalPort = int.Parse(txtLocalPort.Text);
-
-            //Connecting To Remote IP
-            TaskPreview.epRemote = new IPEndPoint(IPAddress.Parse(txtRemoteIP.Text), Convert.ToInt32(txtRemotePort.Text));
-            TaskPreview.mySocket.Connect(TaskPreview.epRemote);
-            TaskPreview.RemoteIP = txtRemoteIP.Text;
-            TaskPreview.RemotePort = int.Parse(txtRemotePort.Text);
-
-            //Changing btnCOnnect text
-            LANConnect_BT.Text = "Connected";
-            TaskPreview.LANConnected = true;
-        }
-
-        private void DisconnectLan()
-        {
-            //TaskPreview.LANConnected = false;
-            if(TaskPreview.mySocket != null)
-                TaskPreview.mySocket.Close();
-            LANConnect_BT.Text = "Disconnected";
-        }
-
-        private void LANConnect_BT_Click(object sender, EventArgs e)
-        {
-            if (TaskPreview.LANConnected)
-            {
-                DisconnectLan();
-                TaskPreview.LANConnected = false;
-            }
-            else
-            {
-                ConnectLan();
-                if(SocketConnected(TaskPreview.mySocket))
-                    TaskPreview.LANConnected = true;
-            }
-        }
-        bool SocketConnected(Socket s)
-        {
-            bool part1 = s.Poll(1000, SelectMode.SelectRead);
-            bool part2 = (s.Available == 0);
-            if (part1 & part2)
-                return false;
-            else
-                return true;
-        }
-
-        private string GetLocalIP()
-        {
-            IPHostEntry myHost;
-            myHost = Dns.GetHostEntry(Dns.GetHostName());
-            foreach (IPAddress ip in myHost.AddressList)
-            {
-                if (ip.AddressFamily == AddressFamily.InterNetwork)
-                    return ip.ToString();
-            }
-            return "127.0.0.1";
-        }
     }
 
     class MyTabControl : TabControl
