@@ -23,7 +23,7 @@ namespace Basics
 		private Queue<GazeTriple> gazPnt = new Queue<GazeTriple>();
 		private int paramBufferSize = 3 * sizeof(double) + sizeof(long);
 		private int _calibStat;
-		private COGLAB par;
+		private NetSettingForm par;
 		public bool _endGaze = true;
 		public bool serverDisposed = false, serverListening = false;
 		
@@ -64,7 +64,7 @@ namespace Basics
 			}
 		}
 				
-		public TaskServer(short port, COGLAB pr)
+		public TaskServer(short port, NetSettingForm pr)
 		{
 			par = pr;
 			Port = port;
@@ -185,14 +185,14 @@ namespace Basics
 				}
 				else
 				{
-					MessageBox.Show("TD End Receive Detectedd");
+					MessageBox.Show("TD End Receive Detected");
 
 				}
 				ReceivComnd();
 			}
 			catch(Exception ex)
 			{
-				MessageBox.Show("TD Receive Callback Error" + ex.Message);
+				MessageBox.Show("Connection was terminated in ET ");
 				
 			}
 		}

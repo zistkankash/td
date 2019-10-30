@@ -33,8 +33,10 @@ namespace Psychophysics
 		// ROI
 		bool InROI = false;
 		bool WriteStateInROI = false;
+		
 		bool _useGaz = false;
 		bool _useDaq = false;		
+		
 		int numberOfData = 3;
 		bool CloseForm = false;
 
@@ -60,7 +62,7 @@ namespace Psychophysics
 		bool containfixation = false;
 		double CenterVolIn = 0, RangeVolIn = 0;
 		double[] MappingWidth = new double[2];
-		double[] MappedSigs = new double[3];
+		double[] MappedSigs = new double[4];
 		double FixationCenterX = 0, FixationCenterY = 0, FixationCenterWidth = 0;
 		int FixationCenterTime = 0, FixationOutTime = 200;
 		int FixationRewardType = 0;
@@ -78,15 +80,22 @@ namespace Psychophysics
 		MicroLibrary.MicroTimer microTimerLive;
 		// Daq 
 		//int Xindex = TaskPreview.
-		
+
 		public ShowFrame(bool getGaze)
 		{
 			InitializeComponent();
-			
-			
+
+			if (!getGaze)
+			{
+				_useDaq = false;
+				_useGaz = false;
+			}
+
+
 			MappedSigs[0] = 0;
 			MappedSigs[1] = 0;
 			MappedSigs[2] = 0;
+			MappedSigs[3] = 0;
 
 			//Daq initialization
 			MakeRandomRepeat(TaskPreview.TypeDisplay);
@@ -94,8 +103,8 @@ namespace Psychophysics
 			{
 				Debug.Write(RandForTaskLevel[i] + "\n");
 			}
-			if(_useDaq)
-			{ 
+			if (_useDaq)
+			{
 				try
 				{
 					//TaskPreview.instantAiCtrl.SelectedDevice = new DeviceInformation(TaskPreview.DaqName);
@@ -170,16 +179,12 @@ namespace Psychophysics
 
 			Debug.Write("INNNNNNNNNNNNNNNNN " + RangeVolIn + " " + CenterVolIn + " \n");
 
-			// for fullscreen
-			FormBorderStyle = FormBorderStyle.None;
-			WindowState = FormWindowState.Maximized;
-			
 			level = RandForTaskLevel[indexRandForTaskLevel];
 
 			if (TaskPreview.AllLevelProp.Count == 0)
 				return;
-			
-				timelimit = TaskPreview.AllLevelProp[level][frame].FrameTime;
+
+			timelimit = TaskPreview.AllLevelProp[level][frame].FrameTime;
 			framelimit = TaskPreview.AllLevelProp[level].Count;
 			repeatInfo = new RepeatLinkFrame();
 			repeatInfo.SetProperties(TaskPreview.AllLevelProp[level][frame].RepeatInfo.Active, TaskPreview.AllLevelProp[level][frame].RepeatInfo.RepeatationNumber, TaskPreview.AllLevelProp[level][frame].RepeatInfo.Length, TaskPreview.AllLevelProp[level][frame].RepeatInfo.RandomLocation);
@@ -197,280 +202,279 @@ namespace Psychophysics
 			{
 				this.Size = new Size(screen[1].Bounds.Width, screen[1].Bounds.Height);
 				this.WindowState = FormWindowState.Maximized;
-			}
-			if(screen.Length == 1)
-			{
-				this.WindowState = FormWindowState.Normal;
-			}
-				
-
 				MappingWidth[0] = screen[1].Bounds.Width;
 				MappingWidth[1] = screen[1].Bounds.Height;
-
 				flag = new Bitmap(screen[1].Bounds.Width, screen[1].Bounds.Height);
-				flagGraphics = Graphics.FromImage(flag);
-				flagGraphics.Clear(TaskPreview.AllLevelProp[level][frame].BGColor);
-				int numberstimulus = TaskPreview.AllLevelProp[level][frame].Stimulus.Length;
+			}
+			if (screen.Length == 1)
+			{
+				this.WindowState = FormWindowState.Normal;
+				flag = new Bitmap(screen[0].Bounds.Width, screen[0].Bounds.Height);
+			}
+
+			flagGraphics = Graphics.FromImage(flag);
+			flagGraphics.Clear(TaskPreview.AllLevelProp[level][frame].BGColor);
+			int numberstimulus = TaskPreview.AllLevelProp[level][frame].Stimulus.Length;
 
 
-				if (repeatInfo.RandomLocation == 1)
-				{
-					repeatInfo.LeftOrRight = 2;
-				}
-				else if (repeatInfo.RandomLocation == 2)
-				{
-					repeatInfo.LeftOrRight = 1;
-				}
-				else if (repeatInfo.RandomLocation == 3)
-				{
-					repeatInfo.LeftOrRight = repeatInfo.Makerand();
-				}
-				else
-				{
-					repeatInfo.LeftOrRight = 0;
-				}
+			if (repeatInfo.RandomLocation == 1)
+			{
+				repeatInfo.LeftOrRight = 2;
+			}
+			else if (repeatInfo.RandomLocation == 2)
+			{
+				repeatInfo.LeftOrRight = 1;
+			}
+			else if (repeatInfo.RandomLocation == 3)
+			{
+				repeatInfo.LeftOrRight = repeatInfo.Makerand();
+			}
+			else
+			{
+				repeatInfo.LeftOrRight = 0;
+			}
 
-				Debug.Write("Random Location " + RandomLocation + " " + repeatInfo.LeftOrRight + " " + TaskPreview.AllLevelProp[level][frame].RepeatInfo.RandomLocation + " \n");
-
-
-				for (int i = 0; i < numberstimulus; i++)
-				{
-					FixationPts stimulus = TaskPreview.AllLevelProp[level][frame].Stimulus[i];
-					//Use Solid Brush for filling the graphic shapes
-					SolidBrush sb = new SolidBrush(Color.FromArgb(stimulus.Contrast, stimulus.ColorPt));
-					if (stimulus.Type == 1)
-					{
-						flagGraphics.FillRectangle(sb, stimulus.Xloc - stimulus.Width / 2, stimulus.Yloc - stimulus.Width / 2, stimulus.Width, stimulus.Width);
-					}
-					if (stimulus.Type == 2)
-					{
-						flagGraphics.FillRectangle(sb, stimulus.Xloc - stimulus.Width / 2, stimulus.Yloc - stimulus.Width / 2, stimulus.Width, stimulus.Width);
-					}
-					if (stimulus.Type == 3)
-					{
-						flagGraphics.FillEllipse(sb, stimulus.Xloc - stimulus.Width / 2, stimulus.Yloc - stimulus.Width / 2, stimulus.Width, stimulus.Width);
-					}
-
-					if (stimulus.Type == 4)
-					{
-						if (File.Exists(stimulus.PathPic))
-						{
-							Bitmap bmpvar = new Bitmap(stimulus.PathPic);
-							Debug.Write("Path " + stimulus.PathPic + " " + stimulus.Width + " " + stimulus.Height + "\n");
-							bmpvar = new Bitmap(bmpvar, new Size(stimulus.Width, stimulus.Height));
-							flagGraphics.DrawImage(bmpvar, new Point(stimulus.Xloc - stimulus.Width / 2, stimulus.Yloc - stimulus.Width / 2));
-						}
-					}
-
-					if (stimulus.Type == 5)
-					{
-						if (repeatInfo.LeftOrRight == 1)
-							i = 0;
-						else if (repeatInfo.LeftOrRight == 2)
-							i = 1;
-						else
-							i = 0;
+			Debug.Write("Random Location " + RandomLocation + " " + repeatInfo.LeftOrRight + " " + TaskPreview.AllLevelProp[level][frame].RepeatInfo.RandomLocation + " \n");
 
 
-						ShowFr var = TaskPreview.AllLevelProp[level][frame].ShowFrame[i];
-						flagGraphics.FillRectangle(sb, var.CenterX - stimulus.Width / 2, var.CenterY - stimulus.Width / 2, stimulus.Width, stimulus.Width);
-					}
-
-					if (stimulus.Type == 6)
-					{
-						if (repeatInfo.LeftOrRight == 1)
-							i = 0;
-						else if (repeatInfo.LeftOrRight == 2)
-							i = 1;
-						else
-							i = 0;
-						ShowFr var = TaskPreview.AllLevelProp[level][frame].ShowFrame[i];
-						flagGraphics.FillRectangle(sb, var.CenterX - stimulus.Width / 2, var.CenterY - stimulus.Width / 2, stimulus.Width, stimulus.Width);
-					}
-
-					if (stimulus.Type == 7)
-					{
-						if (repeatInfo.LeftOrRight == 1)
-							i = 0;
-						else if (repeatInfo.LeftOrRight == 2)
-							i = 1;
-						else
-							i = 0;
-
-						ShowFr var = TaskPreview.AllLevelProp[level][frame].ShowFrame[i];
-						flagGraphics.FillEllipse(sb, var.CenterX - stimulus.Width / 2, var.CenterY - stimulus.Width / 2, stimulus.Width, stimulus.Width);
-					}
-
-					if (stimulus.Type == 8)
-					{
-						if (repeatInfo.LeftOrRight == 1)
-							i = 0;
-						else if (repeatInfo.LeftOrRight == 2)
-							i = 1;
-						else
-							i = 0;
-						if (File.Exists(stimulus.PathPic))
-						{
-							ShowFr var = TaskPreview.AllLevelProp[level][frame].ShowFrame[i];
-							bmpvar = new Bitmap(stimulus.PathPic);
-							bmpvar = new Bitmap(bmpvar, new Size(var.Width, var.Height));
-							flagGraphics.DrawImage(bmpvar, new Point(var.CenterX - var.Width / 2, var.CenterY - var.Height / 2));
-						}
-
-						bmpvar.Dispose();
-					}
-
-					if (stimulus.Type == 9)
-					{
-						if (repeatInfo.LeftOrRight == 1)
-							i = 1;
-						else if (repeatInfo.LeftOrRight == 2)
-							i = 0;
-						else
-							i = 1;
-
-						ShowFr var = TaskPreview.AllLevelProp[level][frame].ShowFrame[i];
-						flagGraphics.FillRectangle(sb, var.CenterX - stimulus.Width / 2, var.CenterY - stimulus.Width / 2, stimulus.Width, stimulus.Width);
-					}
-
-					if (stimulus.Type == 10)
-					{
-						if (repeatInfo.LeftOrRight == 1)
-							i = 1;
-						else if (repeatInfo.LeftOrRight == 2)
-							i = 0;
-						else
-							i = 1;
-						ShowFr var = TaskPreview.AllLevelProp[level][frame].ShowFrame[i];
-						flagGraphics.FillRectangle(sb, var.CenterX - stimulus.Width / 2, var.CenterY - stimulus.Width / 2, stimulus.Width, stimulus.Width);
-					}
-
-					if (stimulus.Type == 11)
-					{
-						if (repeatInfo.LeftOrRight == 1)
-							i = 1;
-						else if (repeatInfo.LeftOrRight == 2)
-							i = 0;
-						else
-							i = 1;
-
-						ShowFr var = TaskPreview.AllLevelProp[level][frame].ShowFrame[i];
-						flagGraphics.FillEllipse(sb, var.CenterX - stimulus.Width / 2, var.CenterY - stimulus.Width / 2, stimulus.Width, stimulus.Width);
-					}
-
-					if (stimulus.Type == 12)
-					{
-						if (repeatInfo.LeftOrRight == 1)
-							i = 1;
-						else if (repeatInfo.LeftOrRight == 2)
-							i = 0;
-						else
-							i = 1;
-						if (File.Exists(stimulus.PathPic))
-						{
-							ShowFr var = TaskPreview.AllLevelProp[level][frame].ShowFrame[i];
-							bmpvar = new Bitmap(stimulus.PathPic);
-							bmpvar = new Bitmap(bmpvar, new Size(var.Width, var.Height));
-							flagGraphics.DrawImage(bmpvar, new Point(var.CenterX - var.Width / 2, var.CenterY - var.Height / 2));
-						}
-						bmpvar.Dispose();
-					}
-				}
-
-				Debug.Write("State " + containfixation + " " + frame + " " + level + " \n");
-				fixationstimulus = TaskPreview.AllLevelProp[level][frame].Fixation;
+			for (int i = 0; i < numberstimulus; i++)
+			{
+				FixationPts stimulus = TaskPreview.AllLevelProp[level][frame].Stimulus[i];
 				//Use Solid Brush for filling the graphic shapes
-				Pen fixationp = new Pen(fixationstimulus.ColorPt);
-				if (fixationstimulus.Type == 1)
+				SolidBrush sb = new SolidBrush(Color.FromArgb(stimulus.Contrast, stimulus.ColorPt));
+				if (stimulus.Type == 1)
 				{
-					containfixation = true;
-					FixationCenterX = fixationstimulus.Xloc;
-					FixationCenterY = fixationstimulus.Yloc;
-					FixationCenterWidth = fixationstimulus.Width;
-					FixationCenterTime = TaskPreview.AllLevelProp[level][frame].FixationTime;
-
-					FirstTimeInRoi = true;
-					//flagGraphics.DrawRectangle(fixationp, fixationstimulus.Xloc - fixationstimulus.Width / 2, fixationstimulus.Yloc - fixationstimulus.Width / 2, fixationstimulus.Width, fixationstimulus.Width);
+					flagGraphics.FillRectangle(sb, stimulus.Xloc - stimulus.Width / 2, stimulus.Yloc - stimulus.Width / 2, stimulus.Width, stimulus.Width);
 				}
-				if (fixationstimulus.Type == 2)
+				if (stimulus.Type == 2)
 				{
-					containfixation = true;
-					FixationCenterX = fixationstimulus.Xloc;
-					FixationCenterY = fixationstimulus.Yloc;
-					FixationCenterWidth = fixationstimulus.Width;
-					FixationCenterTime = TaskPreview.AllLevelProp[level][frame].FixationTime;
-					FirstTimeInRoi = true;
-					//flagGraphics.DrawRectangle(fixationp, fixationstimulus.Xloc - fixationstimulus.Width / 2, fixationstimulus.Yloc - fixationstimulus.Width / 2, fixationstimulus.Width, fixationstimulus.Width);
+					flagGraphics.FillRectangle(sb, stimulus.Xloc - stimulus.Width / 2, stimulus.Yloc - stimulus.Width / 2, stimulus.Width, stimulus.Width);
+				}
+				if (stimulus.Type == 3)
+				{
+					flagGraphics.FillEllipse(sb, stimulus.Xloc - stimulus.Width / 2, stimulus.Yloc - stimulus.Width / 2, stimulus.Width, stimulus.Width);
 				}
 
-				if (fixationstimulus.Type == 3)
+				if (stimulus.Type == 4)
 				{
-					containfixation = true;
-					FixationCenterX = fixationstimulus.Xloc;
-					FixationCenterY = fixationstimulus.Yloc;
-					FixationCenterWidth = fixationstimulus.Width;
-					FixationCenterTime = TaskPreview.AllLevelProp[level][frame].FixationTime;
-					FirstTimeInRoi = true;
-					//flagGraphics.DrawEllipse(fixationp, fixationstimulus.Xloc - fixationstimulus.Width / 2, fixationstimulus.Yloc - fixationstimulus.Width / 2, fixationstimulus.Width, fixationstimulus.Width);
+					if (File.Exists(stimulus.PathPic))
+					{
+						Bitmap bmpvar = new Bitmap(stimulus.PathPic);
+						Debug.Write("Path " + stimulus.PathPic + " " + stimulus.Width + " " + stimulus.Height + "\n");
+						bmpvar = new Bitmap(bmpvar, new Size(stimulus.Width, stimulus.Height));
+						flagGraphics.DrawImage(bmpvar, new Point(stimulus.Xloc - stimulus.Width / 2, stimulus.Yloc - stimulus.Width / 2));
+					}
 				}
 
-				if (fixationstimulus.Type == 7)
+				if (stimulus.Type == 5)
 				{
-					containfixation = true;
-					FixationCenterX = fixationstimulus.Xloc;
-					FixationCenterY = fixationstimulus.Yloc;
-					FixationCenterWidth = fixationstimulus.Width;
-					FixationCenterTime = TaskPreview.AllLevelProp[level][frame].FixationTime;
-					FirstTimeInRoi = true;
-					//flagGraphics.DrawEllipse(fixationp, fixationstimulus.Xloc - fixationstimulus.Width / 2, fixationstimulus.Yloc - fixationstimulus.Width / 2, fixationstimulus.Width, fixationstimulus.Width);
-				}
+					if (repeatInfo.LeftOrRight == 1)
+						i = 0;
+					else if (repeatInfo.LeftOrRight == 2)
+						i = 1;
+					else
+						i = 0;
 
-				if (containfixation)
-					status = 1;
-				else
-					status = 0;
 
-				int numbox = TaskPreview.AllLevelProp[level][frame].ShowFrame.Length;
-				for (int i = 0; i < numbox; i++)
-				{
 					ShowFr var = TaskPreview.AllLevelProp[level][frame].ShowFrame[i];
-					Pen framepen = new Pen(var.ColorBox, var.Thickness);
+					flagGraphics.FillRectangle(sb, var.CenterX - stimulus.Width / 2, var.CenterY - stimulus.Width / 2, stimulus.Width, stimulus.Width);
+				}
+
+				if (stimulus.Type == 6)
+				{
+					if (repeatInfo.LeftOrRight == 1)
+						i = 0;
+					else if (repeatInfo.LeftOrRight == 2)
+						i = 1;
+					else
+						i = 0;
+					ShowFr var = TaskPreview.AllLevelProp[level][frame].ShowFrame[i];
+					flagGraphics.FillRectangle(sb, var.CenterX - stimulus.Width / 2, var.CenterY - stimulus.Width / 2, stimulus.Width, stimulus.Width);
+				}
+
+				if (stimulus.Type == 7)
+				{
+					if (repeatInfo.LeftOrRight == 1)
+						i = 0;
+					else if (repeatInfo.LeftOrRight == 2)
+						i = 1;
+					else
+						i = 0;
+
+					ShowFr var = TaskPreview.AllLevelProp[level][frame].ShowFrame[i];
+					flagGraphics.FillEllipse(sb, var.CenterX - stimulus.Width / 2, var.CenterY - stimulus.Width / 2, stimulus.Width, stimulus.Width);
+				}
+
+				if (stimulus.Type == 8)
+				{
+					if (repeatInfo.LeftOrRight == 1)
+						i = 0;
+					else if (repeatInfo.LeftOrRight == 2)
+						i = 1;
+					else
+						i = 0;
+					if (File.Exists(stimulus.PathPic))
+					{
+						ShowFr var = TaskPreview.AllLevelProp[level][frame].ShowFrame[i];
+						bmpvar = new Bitmap(stimulus.PathPic);
+						bmpvar = new Bitmap(bmpvar, new Size(var.Width, var.Height));
+						flagGraphics.DrawImage(bmpvar, new Point(var.CenterX - var.Width / 2, var.CenterY - var.Height / 2));
+					}
+
+					bmpvar.Dispose();
+				}
+
+				if (stimulus.Type == 9)
+				{
+					if (repeatInfo.LeftOrRight == 1)
+						i = 1;
+					else if (repeatInfo.LeftOrRight == 2)
+						i = 0;
+					else
+						i = 1;
+
+					ShowFr var = TaskPreview.AllLevelProp[level][frame].ShowFrame[i];
+					flagGraphics.FillRectangle(sb, var.CenterX - stimulus.Width / 2, var.CenterY - stimulus.Width / 2, stimulus.Width, stimulus.Width);
+				}
+
+				if (stimulus.Type == 10)
+				{
+					if (repeatInfo.LeftOrRight == 1)
+						i = 1;
+					else if (repeatInfo.LeftOrRight == 2)
+						i = 0;
+					else
+						i = 1;
+					ShowFr var = TaskPreview.AllLevelProp[level][frame].ShowFrame[i];
+					flagGraphics.FillRectangle(sb, var.CenterX - stimulus.Width / 2, var.CenterY - stimulus.Width / 2, stimulus.Width, stimulus.Width);
+				}
+
+				if (stimulus.Type == 11)
+				{
+					if (repeatInfo.LeftOrRight == 1)
+						i = 1;
+					else if (repeatInfo.LeftOrRight == 2)
+						i = 0;
+					else
+						i = 1;
+
+					ShowFr var = TaskPreview.AllLevelProp[level][frame].ShowFrame[i];
+					flagGraphics.FillEllipse(sb, var.CenterX - stimulus.Width / 2, var.CenterY - stimulus.Width / 2, stimulus.Width, stimulus.Width);
+				}
+
+				if (stimulus.Type == 12)
+				{
+					if (repeatInfo.LeftOrRight == 1)
+						i = 1;
+					else if (repeatInfo.LeftOrRight == 2)
+						i = 0;
+					else
+						i = 1;
+					if (File.Exists(stimulus.PathPic))
+					{
+						ShowFr var = TaskPreview.AllLevelProp[level][frame].ShowFrame[i];
+						bmpvar = new Bitmap(stimulus.PathPic);
+						bmpvar = new Bitmap(bmpvar, new Size(var.Width, var.Height));
+						flagGraphics.DrawImage(bmpvar, new Point(var.CenterX - var.Width / 2, var.CenterY - var.Height / 2));
+					}
+					bmpvar.Dispose();
+				}
+			}
+
+			Debug.Write("State " + containfixation + " " + frame + " " + level + " \n");
+			fixationstimulus = TaskPreview.AllLevelProp[level][frame].Fixation;
+			//Use Solid Brush for filling the graphic shapes
+			Pen fixationp = new Pen(fixationstimulus.ColorPt);
+			if (fixationstimulus.Type == 1)
+			{
+				containfixation = true;
+				FixationCenterX = fixationstimulus.Xloc;
+				FixationCenterY = fixationstimulus.Yloc;
+				FixationCenterWidth = fixationstimulus.Width;
+				FixationCenterTime = TaskPreview.AllLevelProp[level][frame].FixationTime;
+
+				FirstTimeInRoi = true;
+				//flagGraphics.DrawRectangle(fixationp, fixationstimulus.Xloc - fixationstimulus.Width / 2, fixationstimulus.Yloc - fixationstimulus.Width / 2, fixationstimulus.Width, fixationstimulus.Width);
+			}
+			if (fixationstimulus.Type == 2)
+			{
+				containfixation = true;
+				FixationCenterX = fixationstimulus.Xloc;
+				FixationCenterY = fixationstimulus.Yloc;
+				FixationCenterWidth = fixationstimulus.Width;
+				FixationCenterTime = TaskPreview.AllLevelProp[level][frame].FixationTime;
+				FirstTimeInRoi = true;
+				//flagGraphics.DrawRectangle(fixationp, fixationstimulus.Xloc - fixationstimulus.Width / 2, fixationstimulus.Yloc - fixationstimulus.Width / 2, fixationstimulus.Width, fixationstimulus.Width);
+			}
+
+			if (fixationstimulus.Type == 3)
+			{
+				containfixation = true;
+				FixationCenterX = fixationstimulus.Xloc;
+				FixationCenterY = fixationstimulus.Yloc;
+				FixationCenterWidth = fixationstimulus.Width;
+				FixationCenterTime = TaskPreview.AllLevelProp[level][frame].FixationTime;
+				FirstTimeInRoi = true;
+				//flagGraphics.DrawEllipse(fixationp, fixationstimulus.Xloc - fixationstimulus.Width / 2, fixationstimulus.Yloc - fixationstimulus.Width / 2, fixationstimulus.Width, fixationstimulus.Width);
+			}
+
+			if (fixationstimulus.Type == 7)
+			{
+				containfixation = true;
+				FixationCenterX = fixationstimulus.Xloc;
+				FixationCenterY = fixationstimulus.Yloc;
+				FixationCenterWidth = fixationstimulus.Width;
+				FixationCenterTime = TaskPreview.AllLevelProp[level][frame].FixationTime;
+				FirstTimeInRoi = true;
+				//flagGraphics.DrawEllipse(fixationp, fixationstimulus.Xloc - fixationstimulus.Width / 2, fixationstimulus.Yloc - fixationstimulus.Width / 2, fixationstimulus.Width, fixationstimulus.Width);
+			}
+
+			if (containfixation)
+				status = 1;
+			else
+				status = 0;
+
+			int numbox = TaskPreview.AllLevelProp[level][frame].ShowFrame.Length;
+			for (int i = 0; i < numbox; i++)
+			{
+				ShowFr var = TaskPreview.AllLevelProp[level][frame].ShowFrame[i];
+				Pen framepen = new Pen(var.ColorBox, var.Thickness);
+				flagGraphics.DrawRectangle(framepen, var.CenterX - var.Width / 2, var.CenterY - var.Height / 2, var.Width, var.Height);
+			}
+
+			if (numbox == 2)
+			{
+				if (TaskPreview.AllLevelProp[level][frame].Cue.type == 2)
+				{
+					HintForm varBoxHint = TaskPreview.AllLevelProp[level][frame].Cue;
+
+					Debug.Write("Debug Box Hint: " + (repeatInfo.LeftOrRight - 1) + " \n");
+					ShowFr var = TaskPreview.AllLevelProp[level][frame].ShowFrame[repeatInfo.LeftOrRight - 1];
+					Pen framepen = new Pen(var.ColorBox, varBoxHint.BoxRatio * var.Thickness);
+
 					flagGraphics.DrawRectangle(framepen, var.CenterX - var.Width / 2, var.CenterY - var.Height / 2, var.Width, var.Height);
 				}
 
-				if (numbox == 2)
+				if (TaskPreview.AllLevelProp[level][frame].Cue.type == 1)
 				{
-					if (TaskPreview.AllLevelProp[level][frame].Cue.type == 2)
-					{
-						HintForm varBoxHint = TaskPreview.AllLevelProp[level][frame].Cue;
+					HintForm vararrow = TaskPreview.AllLevelProp[level][frame].Cue;
 
-						Debug.Write("Debug Box Hint: " + (repeatInfo.LeftOrRight - 1) + " \n");
-						ShowFr var = TaskPreview.AllLevelProp[level][frame].ShowFrame[repeatInfo.LeftOrRight - 1];
-						Pen framepen = new Pen(var.ColorBox, varBoxHint.BoxRatio * var.Thickness);
+					Pen pen = new Pen(vararrow.ArrowColor, vararrow.ArrowWidth);
+					pen.StartCap = LineCap.ArrowAnchor;
+					//pen.EndCap = LineCap.RoundAnchor;
 
-						flagGraphics.DrawRectangle(framepen, var.CenterX - var.Width / 2, var.CenterY - var.Height / 2, var.Width, var.Height);
-					}
-
-					if (TaskPreview.AllLevelProp[level][frame].Cue.type == 1)
-					{
-						HintForm vararrow = TaskPreview.AllLevelProp[level][frame].Cue;
-
-						Pen pen = new Pen(vararrow.ArrowColor, vararrow.ArrowWidth);
-						pen.StartCap = LineCap.ArrowAnchor;
-						//pen.EndCap = LineCap.RoundAnchor;
-
-						if (repeatInfo.LeftOrRight == 1)
-							flagGraphics.DrawLine(pen, vararrow.ArrowLocX0, vararrow.ArrowLocY, vararrow.ArrowLocX1, vararrow.ArrowLocY);
-						else if (repeatInfo.LeftOrRight == 2)
-							flagGraphics.DrawLine(pen, vararrow.ArrowLocX1, vararrow.ArrowLocY, vararrow.ArrowLocX0, vararrow.ArrowLocY);
-						else
-							flagGraphics.DrawLine(pen, vararrow.ArrowLocX0, vararrow.ArrowLocY, vararrow.ArrowLocX1, vararrow.ArrowLocY);
-					}
+					if (repeatInfo.LeftOrRight == 1)
+						flagGraphics.DrawLine(pen, vararrow.ArrowLocX0, vararrow.ArrowLocY, vararrow.ArrowLocX1, vararrow.ArrowLocY);
+					else if (repeatInfo.LeftOrRight == 2)
+						flagGraphics.DrawLine(pen, vararrow.ArrowLocX1, vararrow.ArrowLocY, vararrow.ArrowLocX0, vararrow.ArrowLocY);
+					else
+						flagGraphics.DrawLine(pen, vararrow.ArrowLocX0, vararrow.ArrowLocY, vararrow.ArrowLocX1, vararrow.ArrowLocY);
 				}
-				Debug.Write("CueType " + TaskPreview.AllLevelProp[level][frame].Cue.type + " \n");
-				pictureBox1.Image = flag;
-				sw = Stopwatch.StartNew();
-			
+			}
+			Debug.Write("CueType " + TaskPreview.AllLevelProp[level][frame].Cue.type + " \n");
+			pictureBox1.Image = flag;
+			sw = Stopwatch.StartNew();
+
 			Timer1.Start();
 			//MessageBox.Show("box2");
 			//label1.Text = "Step2";

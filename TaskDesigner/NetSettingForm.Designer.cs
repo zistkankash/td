@@ -1,6 +1,6 @@
 ﻿namespace Basics
 {
-	partial class COGLAB
+	partial class NetSettingForm
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -29,8 +29,7 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(COGLAB));
-			this.label1 = new System.Windows.Forms.Label();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NetSettingForm));
 			this.pnlNetSetting = new MetroFramework.Controls.MetroPanel();
 			this.TxtbxLIP = new MetroFramework.Controls.MetroTextBox();
 			this.txtbxLport = new MetroFramework.Controls.MetroTextBox();
@@ -38,27 +37,10 @@
 			this.labelLIP = new MetroFramework.Controls.MetroLabel();
 			this.btnConct = new MetroFramework.Controls.MetroTile();
 			this.LabelLport = new MetroFramework.Controls.MetroLabel();
-			this.btnTaskRun = new MetroFramework.Controls.MetroTile();
-			this.metroBtnImageTask = new MetroFramework.Controls.MetroTile();
-			this.btnNetSetting = new MetroFramework.Controls.MetroTile();
-			this.btnTaskLab = new MetroFramework.Controls.MetroTile();
-			this.btnHeatMap = new MetroFramework.Controls.MetroTile();
-			this.btnCogLab = new MetroFramework.Controls.MetroTile();
 			this.ToolTipHelp = new MetroFramework.Components.MetroToolTip();
 			this.coglabRefrshForm = new System.Windows.Forms.Timer(this.components);
 			this.pnlNetSetting.SuspendLayout();
 			this.SuspendLayout();
-			// 
-			// label1
-			// 
-			this.label1.AutoSize = true;
-			this.label1.Font = new System.Drawing.Font("Bauhaus 93", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label1.ForeColor = System.Drawing.Color.Tomato;
-			this.label1.Location = new System.Drawing.Point(142, 11);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(149, 42);
-			this.label1.TabIndex = 4;
-			this.label1.Text = "CogLab";
 			// 
 			// pnlNetSetting
 			// 
@@ -72,9 +54,9 @@
 			this.pnlNetSetting.HorizontalScrollbarBarColor = true;
 			this.pnlNetSetting.HorizontalScrollbarHighlightOnWheel = false;
 			this.pnlNetSetting.HorizontalScrollbarSize = 10;
-			this.pnlNetSetting.Location = new System.Drawing.Point(7, 322);
+			this.pnlNetSetting.Location = new System.Drawing.Point(0, 4);
 			this.pnlNetSetting.Name = "pnlNetSetting";
-			this.pnlNetSetting.Size = new System.Drawing.Size(421, 95);
+			this.pnlNetSetting.Size = new System.Drawing.Size(510, 123);
 			this.pnlNetSetting.Style = MetroFramework.MetroColorStyle.Blue;
 			this.pnlNetSetting.TabIndex = 64;
 			this.pnlNetSetting.UseCustomBackColor = true;
@@ -82,7 +64,6 @@
 			this.pnlNetSetting.VerticalScrollbarBarColor = true;
 			this.pnlNetSetting.VerticalScrollbarHighlightOnWheel = false;
 			this.pnlNetSetting.VerticalScrollbarSize = 10;
-			this.pnlNetSetting.Visible = false;
 			// 
 			// TxtbxLIP
 			// 
@@ -91,7 +72,7 @@
 			// 
 			// 
 			this.TxtbxLIP.CustomButton.Image = null;
-			this.TxtbxLIP.CustomButton.Location = new System.Drawing.Point(74, 1);
+			this.TxtbxLIP.CustomButton.Location = new System.Drawing.Point(128, 1);
 			this.TxtbxLIP.CustomButton.Name = "";
 			this.TxtbxLIP.CustomButton.Size = new System.Drawing.Size(21, 21);
 			this.TxtbxLIP.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
@@ -102,7 +83,7 @@
 			this.TxtbxLIP.Enabled = false;
 			this.TxtbxLIP.ForeColor = System.Drawing.Color.Black;
 			this.TxtbxLIP.Lines = new string[0];
-			this.TxtbxLIP.Location = new System.Drawing.Point(34, 12);
+			this.TxtbxLIP.Location = new System.Drawing.Point(50, 20);
 			this.TxtbxLIP.MaxLength = 32767;
 			this.TxtbxLIP.Name = "TxtbxLIP";
 			this.TxtbxLIP.PasswordChar = '\0';
@@ -111,7 +92,7 @@
 			this.TxtbxLIP.SelectionLength = 0;
 			this.TxtbxLIP.SelectionStart = 0;
 			this.TxtbxLIP.ShortcutsEnabled = true;
-			this.TxtbxLIP.Size = new System.Drawing.Size(96, 23);
+			this.TxtbxLIP.Size = new System.Drawing.Size(150, 23);
 			this.TxtbxLIP.TabIndex = 78;
 			this.ToolTipHelp.SetToolTip(this.TxtbxLIP, "Enter this  IP address in Coglab address field in ET");
 			this.TxtbxLIP.UseCustomBackColor = true;
@@ -127,7 +108,7 @@
 			// 
 			// 
 			this.txtbxLport.CustomButton.Image = null;
-			this.txtbxLport.CustomButton.Location = new System.Drawing.Point(69, 1);
+			this.txtbxLport.CustomButton.Location = new System.Drawing.Point(125, 1);
 			this.txtbxLport.CustomButton.Name = "";
 			this.txtbxLport.CustomButton.Size = new System.Drawing.Size(21, 21);
 			this.txtbxLport.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
@@ -137,7 +118,7 @@
 			this.txtbxLport.CustomButton.Visible = false;
 			this.txtbxLport.ForeColor = System.Drawing.Color.Black;
 			this.txtbxLport.Lines = new string[0];
-			this.txtbxLport.Location = new System.Drawing.Point(186, 12);
+			this.txtbxLport.Location = new System.Drawing.Point(320, 20);
 			this.txtbxLport.MaxLength = 32767;
 			this.txtbxLport.Name = "txtbxLport";
 			this.txtbxLport.PasswordChar = '\0';
@@ -146,7 +127,7 @@
 			this.txtbxLport.SelectionLength = 0;
 			this.txtbxLport.SelectionStart = 0;
 			this.txtbxLport.ShortcutsEnabled = true;
-			this.txtbxLport.Size = new System.Drawing.Size(91, 23);
+			this.txtbxLport.Size = new System.Drawing.Size(147, 23);
 			this.txtbxLport.TabIndex = 80;
 			this.ToolTipHelp.SetToolTip(this.txtbxLport, "Enter this  Port address in Coglab Port address field in ET");
 			this.txtbxLport.UseCustomBackColor = true;
@@ -161,9 +142,9 @@
 			this.btnNetAddressSet.ActiveControl = null;
 			this.btnNetAddressSet.BackColor = System.Drawing.Color.Black;
 			this.btnNetAddressSet.ForeColor = System.Drawing.Color.Black;
-			this.btnNetAddressSet.Location = new System.Drawing.Point(290, 7);
+			this.btnNetAddressSet.Location = new System.Drawing.Point(268, 59);
 			this.btnNetAddressSet.Name = "btnNetAddressSet";
-			this.btnNetAddressSet.Size = new System.Drawing.Size(121, 35);
+			this.btnNetAddressSet.Size = new System.Drawing.Size(239, 44);
 			this.btnNetAddressSet.Style = MetroFramework.MetroColorStyle.Blue;
 			this.btnNetAddressSet.TabIndex = 79;
 			this.btnNetAddressSet.Text = "Network IP";
@@ -182,7 +163,7 @@
 			this.labelLIP.FontSize = MetroFramework.MetroLabelSize.Small;
 			this.labelLIP.FontWeight = MetroFramework.MetroLabelWeight.Bold;
 			this.labelLIP.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
-			this.labelLIP.Location = new System.Drawing.Point(7, 14);
+			this.labelLIP.Location = new System.Drawing.Point(7, 28);
 			this.labelLIP.Name = "labelLIP";
 			this.labelLIP.Size = new System.Drawing.Size(21, 15);
 			this.labelLIP.Style = MetroFramework.MetroColorStyle.Blue;
@@ -196,9 +177,9 @@
 			this.btnConct.ActiveControl = null;
 			this.btnConct.BackColor = System.Drawing.Color.Black;
 			this.btnConct.ForeColor = System.Drawing.Color.Black;
-			this.btnConct.Location = new System.Drawing.Point(112, 48);
+			this.btnConct.Location = new System.Drawing.Point(7, 59);
 			this.btnConct.Name = "btnConct";
-			this.btnConct.Size = new System.Drawing.Size(205, 44);
+			this.btnConct.Size = new System.Drawing.Size(245, 44);
 			this.btnConct.Style = MetroFramework.MetroColorStyle.Blue;
 			this.btnConct.TabIndex = 75;
 			this.btnConct.Text = "Start Connection";
@@ -215,7 +196,7 @@
 			this.LabelLport.AutoSize = true;
 			this.LabelLport.FontSize = MetroFramework.MetroLabelSize.Small;
 			this.LabelLport.FontWeight = MetroFramework.MetroLabelWeight.Bold;
-			this.LabelLport.Location = new System.Drawing.Point(143, 14);
+			this.LabelLport.Location = new System.Drawing.Point(268, 28);
 			this.LabelLport.Name = "LabelLport";
 			this.LabelLport.Size = new System.Drawing.Size(34, 15);
 			this.LabelLport.Style = MetroFramework.MetroColorStyle.Blue;
@@ -223,110 +204,6 @@
 			this.LabelLport.Text = "Port:";
 			this.LabelLport.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			this.LabelLport.UseCustomBackColor = true;
-			// 
-			// btnTaskRun
-			// 
-			this.btnTaskRun.ActiveControl = null;
-			this.btnTaskRun.BackColor = System.Drawing.Color.Tomato;
-			this.btnTaskRun.ForeColor = System.Drawing.Color.White;
-			this.btnTaskRun.Location = new System.Drawing.Point(228, 236);
-			this.btnTaskRun.Name = "btnTaskRun";
-			this.btnTaskRun.Size = new System.Drawing.Size(200, 75);
-			this.btnTaskRun.Style = MetroFramework.MetroColorStyle.Blue;
-			this.btnTaskRun.TabIndex = 66;
-			this.btnTaskRun.Text = "Task Runner";
-			this.btnTaskRun.TileImage = ((System.Drawing.Image)(resources.GetObject("btnTaskRun.TileImage")));
-			this.btnTaskRun.TileImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.btnTaskRun.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
-			this.btnTaskRun.UseCustomBackColor = true;
-			this.btnTaskRun.UseCustomForeColor = true;
-			this.btnTaskRun.UseSelectable = true;
-			this.btnTaskRun.UseStyleColors = true;
-			this.btnTaskRun.UseTileImage = true;
-			this.btnTaskRun.Click += new System.EventHandler(this.btnTaskRun_Click);
-			// 
-			// metroBtnImageTask
-			// 
-			this.metroBtnImageTask.ActiveControl = null;
-			this.metroBtnImageTask.BackColor = System.Drawing.Color.White;
-			this.metroBtnImageTask.Location = new System.Drawing.Point(228, 150);
-			this.metroBtnImageTask.Name = "metroBtnImageTask";
-			this.metroBtnImageTask.Size = new System.Drawing.Size(200, 75);
-			this.metroBtnImageTask.Style = MetroFramework.MetroColorStyle.Red;
-			this.metroBtnImageTask.TabIndex = 65;
-			this.metroBtnImageTask.Text = "Image Tasks";
-			this.metroBtnImageTask.TileImage = ((System.Drawing.Image)(resources.GetObject("metroBtnImageTask.TileImage")));
-			this.metroBtnImageTask.TileImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.metroBtnImageTask.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
-			this.metroBtnImageTask.UseSelectable = true;
-			this.metroBtnImageTask.UseTileImage = true;
-			this.metroBtnImageTask.Click += new System.EventHandler(this.metroBtnImageTask_Click);
-			// 
-			// btnNetSetting
-			// 
-			this.btnNetSetting.ActiveControl = null;
-			this.btnNetSetting.Location = new System.Drawing.Point(7, 237);
-			this.btnNetSetting.Margin = new System.Windows.Forms.Padding(3, 3, 10, 3);
-			this.btnNetSetting.Name = "btnNetSetting";
-			this.btnNetSetting.Size = new System.Drawing.Size(200, 75);
-			this.btnNetSetting.Style = MetroFramework.MetroColorStyle.Blue;
-			this.btnNetSetting.TabIndex = 63;
-			this.btnNetSetting.Text = "Network Setting";
-			this.btnNetSetting.TileImage = global::TaskDesigner.Properties.Resources.network;
-			this.btnNetSetting.TileImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.btnNetSetting.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
-			this.btnNetSetting.UseSelectable = true;
-			this.btnNetSetting.UseTileImage = true;
-			this.btnNetSetting.Click += new System.EventHandler(this.btnNetSetting_Click);
-			// 
-			// btnTaskLab
-			// 
-			this.btnTaskLab.ActiveControl = null;
-			this.btnTaskLab.Location = new System.Drawing.Point(228, 63);
-			this.btnTaskLab.Name = "btnTaskLab";
-			this.btnTaskLab.Size = new System.Drawing.Size(200, 75);
-			this.btnTaskLab.Style = MetroFramework.MetroColorStyle.Magenta;
-			this.btnTaskLab.TabIndex = 3;
-			this.btnTaskLab.Text = "Design Laburatory";
-			this.btnTaskLab.TileImage = ((System.Drawing.Image)(resources.GetObject("btnTaskLab.TileImage")));
-			this.btnTaskLab.TileImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.btnTaskLab.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
-			this.btnTaskLab.UseSelectable = true;
-			this.btnTaskLab.UseTileImage = true;
-			this.btnTaskLab.Click += new System.EventHandler(this.btnTaskLab_Click);
-			// 
-			// btnHeatMap
-			// 
-			this.btnHeatMap.ActiveControl = null;
-			this.btnHeatMap.Location = new System.Drawing.Point(7, 150);
-			this.btnHeatMap.Name = "btnHeatMap";
-			this.btnHeatMap.Size = new System.Drawing.Size(200, 75);
-			this.btnHeatMap.Style = MetroFramework.MetroColorStyle.Teal;
-			this.btnHeatMap.TabIndex = 2;
-			this.btnHeatMap.Text = "Analyses";
-			this.btnHeatMap.TileImage = ((System.Drawing.Image)(resources.GetObject("btnHeatMap.TileImage")));
-			this.btnHeatMap.TileImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.btnHeatMap.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
-			this.btnHeatMap.UseSelectable = true;
-			this.btnHeatMap.UseTileImage = true;
-			this.btnHeatMap.Click += new System.EventHandler(this.btnHeatMap_Click);
-			// 
-			// btnCogLab
-			// 
-			this.btnCogLab.ActiveControl = null;
-			this.btnCogLab.Location = new System.Drawing.Point(7, 63);
-			this.btnCogLab.Name = "btnCogLab";
-			this.btnCogLab.Size = new System.Drawing.Size(200, 75);
-			this.btnCogLab.Style = MetroFramework.MetroColorStyle.Purple;
-			this.btnCogLab.TabIndex = 1;
-			this.btnCogLab.Text = "Psychophysics";
-			this.btnCogLab.TileImage = ((System.Drawing.Image)(resources.GetObject("btnCogLab.TileImage")));
-			this.btnCogLab.TileImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-			this.btnCogLab.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
-			this.btnCogLab.UseSelectable = true;
-			this.btnCogLab.UseStyleColors = true;
-			this.btnCogLab.UseTileImage = true;
-			this.btnCogLab.Click += new System.EventHandler(this.btnCogLab_Click);
 			// 
 			// ToolTipHelp
 			// 
@@ -342,43 +219,26 @@
 			this.coglabRefrshForm.Interval = 1000;
 			this.coglabRefrshForm.Tick += new System.EventHandler(this.coglabRefrshForm_Tick);
 			// 
-			// COGLAB
+			// NetSettingForm
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(438, 426);
-			this.Controls.Add(this.btnTaskRun);
-			this.Controls.Add(this.metroBtnImageTask);
+			this.ClientSize = new System.Drawing.Size(511, 126);
 			this.Controls.Add(this.pnlNetSetting);
-			this.Controls.Add(this.btnNetSetting);
-			this.Controls.Add(this.label1);
-			this.Controls.Add(this.btnTaskLab);
-			this.Controls.Add(this.btnHeatMap);
-			this.Controls.Add(this.btnCogLab);
 			this.Font = new System.Drawing.Font("Marlett", 20.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(2)), true);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-			this.Name = "COGLAB";
+			this.Name = "NetSettingForm";
 			this.Resizable = false;
-			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.COGLAB_FormClosing);
 			this.Load += new System.EventHandler(this.COGLAB_Load);
 			this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.COGLAB_KeyUp);
 			this.pnlNetSetting.ResumeLayout(false);
 			this.pnlNetSetting.PerformLayout();
 			this.ResumeLayout(false);
-			this.PerformLayout();
 
 		}
 
 		#endregion
-
-		private MetroFramework.Controls.MetroTile btnCogLab;
-		private MetroFramework.Controls.MetroTile btnHeatMap;
-		private MetroFramework.Controls.MetroTile btnTaskLab;
-		private System.Windows.Forms.Label label1;
-		private MetroFramework.Controls.MetroTile btnNetSetting;
 		private MetroFramework.Controls.MetroPanel pnlNetSetting;
-		private MetroFramework.Controls.MetroTile metroBtnImageTask;
 		private MetroFramework.Controls.MetroTile btnConct;
-		private MetroFramework.Controls.MetroTile btnTaskRun;
 		private MetroFramework.Controls.MetroTile btnNetAddressSet;
 		private MetroFramework.Components.MetroToolTip ToolTipHelp;
 		public MetroFramework.Controls.MetroTextBox TxtbxLIP;

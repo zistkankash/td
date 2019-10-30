@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Basics
 {
@@ -10,7 +11,37 @@ namespace Basics
 	{
 		public static int _monitor_resolution_x = 1440;
 		public static int _monitor_resolution_y = 900;
-		
+		public static TaskServer server;
+
+		public static bool GetConfigs()
+		{
+			Screen[] screen = Screen.AllScreens;
+			if (screen.Length == 2)
+			{
+				_monitor_resolution_x = screen[1].Bounds.Width;
+				_monitor_resolution_y = screen[1].Bounds.Height;
+				
+			}
+			if (screen.Length == 1)
+			{
+				
+			}
+			return true;
+		}
+
+		public static ETStatus GetNetStatus()
+		{
+			if (server == null || server.serverDisposed)
+			{
+				return ETStatus.disconnected;
+			}
+			if (server.serverListening)
+			{
+				return ETStatus.listening;
+			}
+
+			return ETStatus.Connected;
+		}
 	}
 	public enum ETStatus { Connected, listening, disconnected, ready, not_calibrated }
 

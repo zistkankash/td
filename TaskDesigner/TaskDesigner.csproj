@@ -135,6 +135,12 @@
     <Compile Include="Basics\ByteCompressor.cs" />
     <Compile Include="Basics\FileName.cs" />
     <Compile Include="Basics\TaskData.cs" />
+    <Compile Include="COGLABnewUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="COGLABnewUI.Designer.cs">
+      <DependentUpon>COGLABnewUI.cs</DependentUpon>
+    </Compile>
     <Compile Include="DesignerMain\ImageList.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -182,10 +188,10 @@
       <DependentUpon>Designer.cs</DependentUpon>
     </Compile>
     <Compile Include="Basics\FrameProperties.cs" />
-    <Compile Include="Basics\frmCoolForm.cs">
+    <Compile Include="Psychophysics\frmCoolForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Basics\frmCoolForm.Designer.cs">
+    <Compile Include="Psychophysics\frmCoolForm.Designer.cs">
       <DependentUpon>frmCoolForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Psychophysics\FixationSetting.cs">
@@ -201,7 +207,7 @@
       <DependentUpon>HeatMap.cs</DependentUpon>
     </Compile>
     <Compile Include="Basics\HeatPoint.cs" />
-    <Compile Include="Classes\MicroLibrary.cs" />
+    <Compile Include="Basics\MicroLibrary.cs" />
     <Compile Include="Psychophysics\NormalPageSetting.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -230,7 +236,7 @@
     <Compile Include="TaskRunner\TaskRunner.Designer.cs">
       <DependentUpon>TaskRunner.cs</DependentUpon>
     </Compile>
-    <Compile Include="Server\TaskServer.cs" />
+    <Compile Include="Basics\TaskServer.cs" />
     <Compile Include="Psychophysics\Setting.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -243,11 +249,11 @@
     <Compile Include="Psychophysics\ShowFrame.Designer.cs">
       <DependentUpon>ShowFrame.cs</DependentUpon>
     </Compile>
-    <Compile Include="COGLAB.cs">
+    <Compile Include="NetSettingForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="COGLAB.Designer.cs">
-      <DependentUpon>COGLAB.cs</DependentUpon>
+    <Compile Include="NetSettingForm.Designer.cs">
+      <DependentUpon>NetSettingForm.cs</DependentUpon>
     </Compile>
     <Compile Include="TaskLab\FNode.cs" />
     <Compile Include="TaskLab\TaskGen.cs">
@@ -265,8 +271,11 @@
       <DependentUpon>TaskPreview.cs</DependentUpon>
     </Compile>
     <Compile Include="Basics\XmlThemeLoader.cs" />
-    <EmbeddedResource Include="Basics\frmCoolForm.resx">
+    <EmbeddedResource Include="Psychophysics\frmCoolForm.resx">
       <DependentUpon>frmCoolForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="COGLABnewUI.resx">
+      <DependentUpon>COGLABnewUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DesignerMain\MainDesigner.resx">
       <DependentUpon>MainDesigner.cs</DependentUpon>
@@ -308,8 +317,8 @@
     <EmbeddedResource Include="Psychophysics\ShowFrame.resx">
       <DependentUpon>ShowFrame.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="COGLAB.resx">
-      <DependentUpon>COGLAB.cs</DependentUpon>
+    <EmbeddedResource Include="NetSettingForm.resx">
+      <DependentUpon>NetSettingForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TaskLab\SlideThumb.resx">
       <DependentUpon>SlideThumb.cs</DependentUpon>
@@ -449,17 +458,17 @@
     <None Include="Resources\usermap.jpg" />
     <Content Include="tbr7.ico" />
     <None Include="Themes\BlueWinterTheme.xml" />
-    <Content Include="Theme\AdobeMediaPlayerTheme.xml" />
-    <Content Include="Theme\AlienTheme.xml" />
-    <Content Include="Theme\AnimalKingdomTheme.xml" />
-    <Content Include="Theme\BlackTheme.xml" />
-    <Content Include="Theme\BlueWinterTheme.xml" />
-    <Content Include="Theme\DarkSystemTheme.xml" />
-    <Content Include="Theme\MacOSTheme.xml" />
-    <Content Include="Theme\StandardWindowsTheme.xml" />
-    <Content Include="Theme\ValentineTheme.xml" />
-    <Content Include="Theme\VistaTheme.xml" />
-    <Content Include="Theme\WhiteTheme.xml" />
+    <Content Include="Themes1\AdobeMediaPlayerTheme.xml" />
+    <Content Include="Themes1\AlienTheme.xml" />
+    <Content Include="Themes1\AnimalKingdomTheme.xml" />
+    <Content Include="Themes1\BlackTheme.xml" />
+    <Content Include="Themes1\BlueWinterTheme.xml" />
+    <Content Include="Themes1\DarkSystemTheme.xml" />
+    <Content Include="Themes1\MacOSTheme.xml" />
+    <Content Include="Themes1\StandardWindowsTheme.xml" />
+    <Content Include="Themes1\ValentineTheme.xml" />
+    <Content Include="Themes1\VistaTheme.xml" />
+    <Content Include="Themes1\WhiteTheme.xml" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
