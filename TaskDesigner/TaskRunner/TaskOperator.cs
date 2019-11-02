@@ -65,6 +65,9 @@ namespace TaskRunning
 
 				if (chbuseMouseNextFrm.Checked)
 					r.useCursorNextFrm = true;
+				try
+				{ r.gazNumSmoth = short.Parse(txtNumGazeSmth.Text); }
+				catch (Exception) { r.gazNumSmoth = 5; txtNumGazeSmth.Text = 5.ToString(); }
 				return r;
 			}
 		}
@@ -259,6 +262,12 @@ namespace TaskRunning
 
 		private void btStop_Click(object sender, EventArgs e)
 		{
+			if (tsk.type == TaskType.cognitive)
+			{
+				TaskPreview.brake = true;
+				Stop();
+				return;
+			}
 			if (runner.StopTask())
 			{
 				Stop();

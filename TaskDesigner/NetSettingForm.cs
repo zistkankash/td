@@ -22,6 +22,7 @@ namespace Basics
 			TxtbxLIP.Text = TaskServer.GetLocalIP();
 			setBtnNetSettingText();
 			txtbxLport.Text = "5050";
+			UpdateNetControls();
 		}
 
 		private void setBtnNetSettingText()
@@ -90,7 +91,7 @@ namespace Basics
 
 		private void UpdateNetControls()
 		{
-			ETStatus ns = GetNetStatus();
+			ETStatus ns = BasConfigs.GetNetStatus();
 			if (ns == ETStatus.disconnected)
 			{
 				txtbxLport.Enabled = true;
@@ -119,20 +120,6 @@ namespace Basics
 
 		}
 
-		private ETStatus GetNetStatus()
-		{
-			if (BasConfigs.server == null || BasConfigs.server.serverDisposed)
-			{
-				return ETStatus.disconnected;
-			}
-			if (BasConfigs.server.serverListening)
-			{
-				return ETStatus.listening;
-			}
-
-			return ETStatus.Connected;
-		}
-
 		private void coglabRefrshForm_Tick(object sender, EventArgs e)
 		{
 			UpdateNetControls();
@@ -142,7 +129,26 @@ namespace Basics
 		{
 			if (e.KeyCode == Keys.Escape)
 			{
-				if (GetNetStatus() == ETStatus.listening)
+				if (BasConfigs.GetNetStatus() == ETStatus.listening)
+				{
+					MetroMessageBox.Show((IWin32Window)this, "Waiting for Et to connect.", "ET Connection", 100);
+					return;
+				}
+				else
+					Close();
+			}
+		}
+
+		private void NetSettingForm_FormClosing(object sender, FormClosingEventArgs e)
+		{
+
+		}
+
+		private void NetSettingForm_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Escape)
+			{
+				if (BasConfigs.GetNetStatus() == ETStatus.listening)
 				{
 					MetroMessageBox.Show((IWin32Window)this, "Waiting for Et to connect.", "ET Connection", 100);
 					return;

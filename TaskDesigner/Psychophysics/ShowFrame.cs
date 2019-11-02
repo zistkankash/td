@@ -50,7 +50,7 @@ namespace Psychophysics
 		int baseframe = 0;
 		bool fixatehappened = false;
 		Stopwatch sw = Stopwatch.StartNew();
-		Bitmap flag;
+		public Bitmap flag;
 		Graphics flagGraphics;
 		FixationPts stimulus;
 		FixationPts fixationstimulus;
@@ -74,10 +74,10 @@ namespace Psychophysics
 		int indexRandForTaskLevel = 0;
 		RepeatLinkFrame repeatInfo = new RepeatLinkFrame();
 		int RandomLocation = 0;
-		string DataTask = "";
+		string _dataTask = "", _eventData = "";
 		//Timer
 		MicroLibrary.MicroTimer microTimer;
-		MicroLibrary.MicroTimer microTimerLive;
+		MicroLibrary.MicroStopwatch microTimerLive;
 		// Daq 
 		//int Xindex = TaskPreview.
 
@@ -85,10 +85,10 @@ namespace Psychophysics
 		{
 			InitializeComponent();
 
-			if (!getGaze)
+			if (getGaze)
 			{
-				_useDaq = false;
-				_useGaz = false;
+				_useDaq = true;
+				_useGaz = true;
 			}
 
 
@@ -97,8 +97,12 @@ namespace Psychophysics
 			MappedSigs[2] = 0;
 			MappedSigs[3] = 0;
 
+			if (_useDaq)
+				TaskPreview.InputValRange = ValueRange.V_Neg5To5;
 			//Daq initialization
+			
 			MakeRandomRepeat(TaskPreview.TypeDisplay);
+			
 			for (int i = 0; i < RandForTaskLevel.Length; i++)
 			{
 				Debug.Write(RandForTaskLevel[i] + "\n");
@@ -127,7 +131,7 @@ namespace Psychophysics
 				}
 				catch
 				{
-
+					MessageBox.Show("Can't write to dac device!","Daq Error");
 				}
 
 				try
@@ -201,6 +205,7 @@ namespace Psychophysics
 			{
 				this.Size = new Size(screen[1].Bounds.Width, screen[1].Bounds.Height);
 				this.WindowState = FormWindowState.Maximized;
+				this.Location = new Point(screen[0].Bounds.Width, screen[0].Bounds.Height);
 				MappingWidth[0] = screen[1].Bounds.Width;
 				MappingWidth[1] = screen[1].Bounds.Height;
 				flag = new Bitmap(screen[1].Bounds.Width, screen[1].Bounds.Height);
@@ -233,9 +238,6 @@ namespace Psychophysics
 				repeatInfo.LeftOrRight = 0;
 			}
 
-			Debug.Write("Random Location " + RandomLocation + " " + repeatInfo.LeftOrRight + " " + TaskPreview.AllLevelProp[level][frame].RepeatInfo.RandomLocation + " \n");
-
-
 			for (int i = 0; i < numberstimulus; i++)
 			{
 				FixationPts stimulus = TaskPreview.AllLevelProp[level][frame].Stimulus[i];
@@ -259,7 +261,7 @@ namespace Psychophysics
 					if (File.Exists(stimulus.PathPic))
 					{
 						Bitmap bmpvar = new Bitmap(stimulus.PathPic);
-						Debug.Write("Path " + stimulus.PathPic + " " + stimulus.Width + " " + stimulus.Height + "\n");
+						
 						bmpvar = new Bitmap(bmpvar, new Size(stimulus.Width, stimulus.Height));
 						flagGraphics.DrawImage(bmpvar, new Point(stimulus.Xloc - stimulus.Width / 2, stimulus.Yloc - stimulus.Width / 2));
 					}
@@ -447,7 +449,7 @@ namespace Psychophysics
 				{
 					HintForm varBoxHint = TaskPreview.AllLevelProp[level][frame].Cue;
 
-					Debug.Write("Debug Box Hint: " + (repeatInfo.LeftOrRight - 1) + " \n");
+					
 					ShowFr var = TaskPreview.AllLevelProp[level][frame].ShowFrame[repeatInfo.LeftOrRight - 1];
 					Pen framepen = new Pen(var.ColorBox, varBoxHint.BoxRatio * var.Thickness);
 
@@ -470,7 +472,7 @@ namespace Psychophysics
 						flagGraphics.DrawLine(pen, vararrow.ArrowLocX0, vararrow.ArrowLocY, vararrow.ArrowLocX1, vararrow.ArrowLocY);
 				}
 			}
-			Debug.Write("CueType " + TaskPreview.AllLevelProp[level][frame].Cue.type + " \n");
+			
 			pictureBox1.Image = flag;
 			sw = Stopwatch.StartNew();
 
@@ -478,16 +480,15 @@ namespace Psychophysics
 			//MessageBox.Show("box2");
 			//label1.Text = "Step2";
 			// پارامتر مربوط به ذخیره داده ها
-			if (TaskPreview.Savetask)
+			if (_useGaz)
 			{
-				string DataStr = "Signal X" + "," + "Signal Y" + "," + "Level" + "," + "Frame" + "," + "In ROI?" + "," + "Time (ms)";
+				//string DataStr = "Signal X" + "," + "Signal Y" + "," + "Level" + "," + "Frame" + "," + "In ROI?" + "," + "Time (ms)";
 				// CSV File
 				//DataStr += MappedSigs[0] + ";" + MappedSigs[1] + ";" + level + ";" + frame + ";" + repeat + ";" + repeatInfo.CurrentRepeatationNumber + ";" + repeatInfo.CurrentIndex + ";" + DateTime.Now.Minute + ";" + DateTime.Now.Second + ";" + DateTime.Now.Millisecond + "\n";
-				DataTask += DataStr;
-
-
-				MicroTimerLiveEnable();
-				microTimerLive.Enabled = true;
+				//DataTask += DataStr;
+				BasConfigs.server.StartGaze();
+				microTimerLive.Start();
+				
 			}
 
 			//if (containfixation)
@@ -509,17 +510,27 @@ namespace Psychophysics
 			//    DataTask += DataStr;
 			//}
 
+			if (_useGaz && _dataTask.Length > 0)
+			{
+				File.AppendAllText(TaskPreview.DataPath, _dataTask);
+				_dataTask = "";
+				
+			}
+			if (_useGaz && _eventData.Length > 0)
+			{
+				
+				File.AppendAllText(TaskPreview.DataPath + "1", _eventData);
+				_eventData = "";
+			}
+
 			if (TaskPreview.brake)
 			{
+
 				this.BeginInvoke(new MethodInvoker(Close));
 			}
 
 			// داده ها درون فایل csv ذخیره میشود
-			if (TaskPreview.Savetask && DataTask.Length > 0)
-			{
-				File.WriteAllText(TaskPreview.DataPath, DataTask);
-				DataTask = "";
-			}
+			
 
 			if (sw.ElapsedMilliseconds < timelimit)
 			{
@@ -537,20 +548,15 @@ namespace Psychophysics
 			#region check reward
 			if (FixationRewardType == 83 || FixationRewardType == 50 || FixationRewardType == 87 || FixationRewardType == 51)
 			{
-				Debug.Write("Fixate1 " + frame + "\n");
+				
 				if (fixatehappened)
 				{
-					Debug.Write("Fixate2 " + frame + "\n");
+					
 					frame++;
 					if (frame == framelimit)
 					{
 						status = 4;
-						if (TaskPreview.Savetask)
-						{
-							string DataStr;
-							DataStr = "," + status.ToString();
-							DataTask += DataStr;
-						}
+						
 					}
 
 					if (repeatInfo.Active)
@@ -641,18 +647,14 @@ namespace Psychophysics
 					//fixatehappened = false;
 					//DaqTimer.Stop();
 					//microTimer.Enabled = false;
-					if (TaskPreview.Savetask)
-					{
-						string DataStr;
-						// CSV File
-						DataStr = "," + status.ToString();
-						DataTask += DataStr;
-					}
-					if (TaskPreview.Savetask && DataTask.Length > 0)
-					{
-						File.AppendAllText(TaskPreview.DataPath, DataTask);
-						DataTask = "";
-					}
+					//if (TaskPreview.Savetask)
+					//{
+					//	string DataStr;
+					//	// CSV File
+					//	DataStr = "," + status.ToString();
+					//	DataTask += DataStr;
+					//}
+					
 
 					indexRandForTaskLevel++;
 					if (indexRandForTaskLevel >= RandForTaskLevel.Length)
@@ -981,7 +983,7 @@ namespace Psychophysics
 					{
 						HintForm varBoxHint = TaskPreview.AllLevelProp[level][frame].Cue;
 
-						Debug.Write("Error Here :" + frame + " " + level + "\n");
+						
 						ShowFr var = TaskPreview.AllLevelProp[level][frame].ShowFrame[repeatInfo.LeftOrRight - 1];
 						//Debug.Write("Debug Var: " + var.CenterX + " " + TaskPreview.AllLevelProp[level][frame].ShowFrame[repeatInfo.LeftOrRight - 1].CenterX + " " + varBoxHint.BoxRatio + " \n");
 						Pen framepen = new Pen(var.ColorBox, varBoxHint.BoxRatio * var.Thickness);
@@ -1006,7 +1008,7 @@ namespace Psychophysics
 							flagGraphics.DrawLine(pen, vararrow.ArrowLocX0, vararrow.ArrowLocY, vararrow.ArrowLocX1, vararrow.ArrowLocY);
 					}
 				}
-				Debug.Write("Repeatation : " + frame + " " + repeatInfo.CurrentRepeatationNumber + " " + repeatInfo.CurrentIndex + " " + level + " \n");
+				
 				if (repeatInfo.Active == false)
 				{
 					repeatInfo.SetProperties(TaskPreview.AllLevelProp[level][frame].RepeatInfo.Active, TaskPreview.AllLevelProp[level][frame].RepeatInfo.RepeatationNumber, TaskPreview.AllLevelProp[level][frame].RepeatInfo.Length, TaskPreview.AllLevelProp[level][frame].RepeatInfo.RandomLocation);
@@ -1051,7 +1053,7 @@ namespace Psychophysics
 		{
 			double dist = 0;
 			dist = (Point[0] - FixationCenterX) * (Point[0] - FixationCenterX) + (Point[1] - FixationCenterY) * (Point[1] - FixationCenterY);
-			Debug.Write("In ROI : " + dist + " " + FixationCenterX + " " + FixationCenterY + " " + Point[0] + " " + Point[1] + " \n");
+			
 			if (rewardtype == 83 || rewardtype == 87)
 			{
 				if (keyState)
@@ -1076,7 +1078,7 @@ namespace Psychophysics
 				{
 					if (FirstTimeInRoi & timelimit > 0)
 					{
-						//Debug.Write("Helllllllllllllllllllllllllllllllllllllllllllllo2\n");
+						
 						if (sw.ElapsedMilliseconds + FixationCenterTime + FixationOutTime >= timelimit)
 						{
 							timelimit = Convert.ToInt16(sw.ElapsedMilliseconds) + FixationCenterTime + FixationOutTime + 20;
@@ -1312,56 +1314,55 @@ namespace Psychophysics
 			if (microTimer != null)
 			{
 				microTimer.Enabled = false;
-				if (TaskPreview.Savetask)
+				if (_useGaz)
 				{
-					microTimerLive.Enabled = false;
+					microTimerLive.Reset();
 				}
 			}
 			Timer1.Enabled = false;
 		}
 
-		private void MicroTimerLiveEnable()
-		{
-			microTimerLive = new MicroLibrary.MicroTimer();
-			microTimerLive.MicroTimerElapsed += new MicroLibrary.MicroTimer.MicroTimerElapsedEventHandler(OnTimedEventLive);
+		//private void OnTimedEventLive(object sender,
+		//  MicroLibrary.MicroTimerEventArgs timerEventArgs)
+		//{
+		//	// تبدیل پیکسل به درجه
+		//	double x = ConvertDegreeX(MappedSigs[0]) * 180 / 3.1415;
+		//	double y = ConvertDegreeY(MappedSigs[1]) * 180 / 3.1415;
+		//	string DataStr = "";
 
-			microTimerLive.Interval = 4000; // Call micro timer every 1000µs (1ms)
-		}
+		//	// CSV File
+		//	if (WriteStateInROI != InROI)
+		//	{
+		//		WriteStateInROI = InROI;
+		//		if (WriteStateInROI)
+		//		{
+		//			//DataStr = "\n" + x + "," + y + "," + level + "," + frame + "," + 1 + "," + timerEventArgs.ElapsedMicroseconds / 1000;
 
-		private void OnTimedEventLive(object sender,
-		  MicroLibrary.MicroTimerEventArgs timerEventArgs)
-		{
-			// تبدیل پیکسل به درجه
-			double x = ConvertDegreeX(MappedSigs[0]) * 180 / 3.1415;
-			double y = ConvertDegreeY(MappedSigs[1]) * 180 / 3.1415;
-			string DataStr = "";
+		//			DataStr = "\n" + MappedSigs[0] + "," + MappedSigs[1] + "," + level + "," + frame + "," + 1 + "," + timerEventArgs.ElapsedMicroseconds / 1000;
+		//		}
+		//		else
+		//		{
+		//			DataStr = "\n" + MappedSigs[0] + "," + MappedSigs[1] + "," + level + "," + frame + "," + 0 + "," + timerEventArgs.ElapsedMicroseconds / 1000;
+		//		}
+		//	}
+		//	else
+		//	{
+		//		DataStr = "\n" + MappedSigs[0] + "," + MappedSigs[1] + "," + level + "," + frame + "," + 0 + "," + timerEventArgs.ElapsedMicroseconds / 1000;
+		//	}
+		//	DataTask += DataStr;
 
-			// CSV File
-			if (WriteStateInROI != InROI)
-			{
-				WriteStateInROI = InROI;
-				if (WriteStateInROI)
-				{
-					//DataStr = "\n" + x + "," + y + "," + level + "," + frame + "," + 1 + "," + timerEventArgs.ElapsedMicroseconds / 1000;
-
-					DataStr = "\n" + MappedSigs[0] + "," + MappedSigs[1] + "," + level + "," + frame + "," + 1 + "," + timerEventArgs.ElapsedMicroseconds / 1000;
-				}
-				else
-				{
-					DataStr = "\n" + MappedSigs[0] + "," + MappedSigs[1] + "," + level + "," + frame + "," + 0 + "," + timerEventArgs.ElapsedMicroseconds / 1000;
-				}
-			}
-			else
-			{
-				DataStr = "\n" + MappedSigs[0] + "," + MappedSigs[1] + "," + level + "," + frame + "," + 0 + "," + timerEventArgs.ElapsedMicroseconds / 1000;
-			}
-			DataTask += DataStr;
-
-		}
+		//}
 
 		private void OnTimedEvent(object sender,
 				  MicroLibrary.MicroTimerEventArgs timerEventArgs)
 		{
+			GazeTriple gzTemp = BasConfigs.server.getGaze;
+			if (gzTemp.time != -1)
+			{
+				_dataTask += gzTemp.x.ToString() + "," + gzTemp.y.ToString() + "," + gzTemp.pupilSize.ToString() + "," + gzTemp.time.ToString() + "\n";
+				MappedSigs[0] = gzTemp.x;
+				MappedSigs[1] = gzTemp.y;
+			}
 			if (_useDaq)
 			{
 				double[] outdaq = new double[2];

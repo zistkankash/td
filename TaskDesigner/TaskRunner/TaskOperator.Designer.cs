@@ -61,6 +61,8 @@
 			this.rbtn_normalreward = new MetroFramework.Controls.MetroRadioButton();
 			this.metroLabel2 = new MetroFramework.Controls.MetroLabel();
 			this.refTimer = new System.Windows.Forms.Timer(this.components);
+			this.txtNumGazeSmth = new System.Windows.Forms.TextBox();
+			this.label1 = new System.Windows.Forms.Label();
 			this.TabControl_taskoperator.SuspendLayout();
 			this.Tabtask.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pbOper)).BeginInit();
@@ -77,7 +79,7 @@
 			this.TabControl_taskoperator.Controls.Add(this.Tabsetting);
 			this.TabControl_taskoperator.Location = new System.Drawing.Point(-1, 4);
 			this.TabControl_taskoperator.Name = "TabControl_taskoperator";
-			this.TabControl_taskoperator.SelectedIndex = 0;
+			this.TabControl_taskoperator.SelectedIndex = 1;
 			this.TabControl_taskoperator.Size = new System.Drawing.Size(486, 495);
 			this.TabControl_taskoperator.TabIndex = 5;
 			this.TabControl_taskoperator.UseSelectable = true;
@@ -253,6 +255,8 @@
 			// 
 			// metroPanel4
 			// 
+			this.metroPanel4.Controls.Add(this.label1);
+			this.metroPanel4.Controls.Add(this.txtNumGazeSmth);
 			this.metroPanel4.Controls.Add(this.chbuseMouseNextFrm);
 			this.metroPanel4.Controls.Add(this.chbx_useMouseGaze);
 			this.metroPanel4.HorizontalScrollbarBarColor = true;
@@ -260,7 +264,7 @@
 			this.metroPanel4.HorizontalScrollbarSize = 10;
 			this.metroPanel4.Location = new System.Drawing.Point(29, 46);
 			this.metroPanel4.Name = "metroPanel4";
-			this.metroPanel4.Size = new System.Drawing.Size(205, 71);
+			this.metroPanel4.Size = new System.Drawing.Size(205, 105);
 			this.metroPanel4.TabIndex = 13;
 			this.metroPanel4.VerticalScrollbarBarColor = true;
 			this.metroPanel4.VerticalScrollbarHighlightOnWheel = false;
@@ -372,7 +376,7 @@
 			// 
 			this.metroLabel3.AutoSize = true;
 			this.metroLabel3.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-			this.metroLabel3.Location = new System.Drawing.Point(21, 120);
+			this.metroLabel3.Location = new System.Drawing.Point(21, 186);
 			this.metroLabel3.Name = "metroLabel3";
 			this.metroLabel3.Size = new System.Drawing.Size(86, 19);
 			this.metroLabel3.TabIndex = 6;
@@ -386,7 +390,7 @@
 			this.metroPanel2.HorizontalScrollbarBarColor = true;
 			this.metroPanel2.HorizontalScrollbarHighlightOnWheel = false;
 			this.metroPanel2.HorizontalScrollbarSize = 10;
-			this.metroPanel2.Location = new System.Drawing.Point(29, 148);
+			this.metroPanel2.Location = new System.Drawing.Point(29, 214);
 			this.metroPanel2.Name = "metroPanel2";
 			this.metroPanel2.Size = new System.Drawing.Size(205, 81);
 			this.metroPanel2.TabIndex = 5;
@@ -432,7 +436,7 @@
 			this.metroLabel4.AutoSize = true;
 			this.metroLabel4.FontSize = MetroFramework.MetroLabelSize.Tall;
 			this.metroLabel4.FontWeight = MetroFramework.MetroLabelWeight.Bold;
-			this.metroLabel4.Location = new System.Drawing.Point(21, 120);
+			this.metroLabel4.Location = new System.Drawing.Point(21, 186);
 			this.metroLabel4.Name = "metroLabel4";
 			this.metroLabel4.Size = new System.Drawing.Size(208, 25);
 			this.metroLabel4.TabIndex = 7;
@@ -499,6 +503,22 @@
 			this.refTimer.Interval = 40;
 			this.refTimer.Tick += new System.EventHandler(this.refTimer_Tick);
 			// 
+			// txtNumGazeSmth
+			// 
+			this.txtNumGazeSmth.Location = new System.Drawing.Point(18, 70);
+			this.txtNumGazeSmth.Name = "txtNumGazeSmth";
+			this.txtNumGazeSmth.Size = new System.Drawing.Size(30, 22);
+			this.txtNumGazeSmth.TabIndex = 16;
+			// 
+			// label1
+			// 
+			this.label1.BackColor = System.Drawing.Color.White;
+			this.label1.Location = new System.Drawing.Point(54, 73);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(120, 22);
+			this.label1.TabIndex = 16;
+			this.label1.Text = "Points to smooth gaze";
+			// 
 			// TaskOperator
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -563,5 +583,7 @@
 		public System.Windows.Forms.CheckBox chbuseMouseNextFrm;
 		public System.Windows.Forms.CheckBox chkb_nmsSound;
 		public System.Windows.Forms.CheckBox chkb_nmsPrompt;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.TextBox txtNumGazeSmth;
 	}
 }

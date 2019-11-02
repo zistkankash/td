@@ -18,6 +18,7 @@ namespace Basics
 {
 	public partial class COGLABnewUI : Form
 	{
+		public bool connected = false;
 		public const int WM_NCLBUTTONDOWN = 0xA1;
 		public const int HT_CAPTION = 0x2;
 
@@ -31,10 +32,10 @@ namespace Basics
 			InitializeComponent();
 			#region psychophysics polygon and button
 			Point[] p_psychophysics = {
-		new Point(330, 20),
-		new Point(428,40),
+		new Point(330, 50),
+		new Point(415,75),
 		new Point(518, 120),
-		new Point(330,  250)
+		new Point(340,  230)
 		};
 
 			GraphicsPath polygon_path_psychophysics = new GraphicsPath(FillMode.Winding);
@@ -57,10 +58,10 @@ namespace Basics
 			#region setting  polygon and button
 
 			Point[] p_setting = {
-		new Point(327, 20),
-		new Point(217,40),
-		new Point(117, 130),
-		new Point(327,  250)
+		new Point(327, 40),
+		new Point(230,50),
+		new Point(132, 140),
+		new Point(317,  230)
 		};
 
 			GraphicsPath polygon_path_setting = new GraphicsPath(FillMode.Winding);
@@ -82,10 +83,10 @@ namespace Basics
 			#endregion
 			#region psychology polygon and button
 			Point[] p_psychology = {
-		new Point(520, 125),
-		new Point(570,260),
-		new Point(540, 355),
-		new Point(332,  250)
+		new Point(513, 135),
+		new Point(550,260),
+		new Point(530, 350),
+		new Point(350,  250)
 		};
 
 			GraphicsPath polygon_path_psychology = new GraphicsPath(FillMode.Winding);
@@ -107,10 +108,10 @@ namespace Basics
 			#endregion
 			#region linguistics polygone and button
 			Point[] p_linguistics = {
-		new Point(528, 355),
-		new Point(478,460),
+		new Point(515, 345),
+		new Point(458,445),
 		new Point(330, 500),
-		new Point(330,  250)
+		new Point(340,  240)
 		};
 
 			GraphicsPath polygon_path_linguistics = new GraphicsPath(FillMode.Winding);
@@ -136,7 +137,7 @@ namespace Basics
 		new Point(322, 500),
 		new Point(220,490),
 		new Point(130, 390),
-		new Point(332,  250)
+		new Point(322,  270)
 		};
 
 			GraphicsPath polygon_path_analysis = new GraphicsPath(FillMode.Winding);
@@ -159,9 +160,9 @@ namespace Basics
 			#region Trunner polygon and button
 			Point[] p_trunner = {
 		 new Point(125, 380),
-		new Point(75,270),
+		new Point(115,270),
 		new Point(115, 140),
-		new Point(317,  250)
+		new Point(300,  250)
 		};
 
 			GraphicsPath polygon_path_trunner = new GraphicsPath(FillMode.Winding);
@@ -257,7 +258,15 @@ namespace Basics
 
 		private void COGLABnewUI_Load(object sender, EventArgs e)
 		{
-			//backUpdater.Start();
+			mtlCls.TileImage = Resource.Button_Blank_Red_icon.GetThumbnailImage(25, 25,ThumbnailCallback,IntPtr.Zero);
+			mtlMov.TileImage = Resource.Button_Blank_Yellow_icon.GetThumbnailImage(25, 25, ThumbnailCallback, IntPtr.Zero);
+
+			this.CenterToScreen();
+		}
+		
+		public bool ThumbnailCallback()
+		{
+			return false;
 		}
 
 		private void COGLABnewUI_MouseDown(object sender, MouseEventArgs e)
@@ -284,6 +293,31 @@ namespace Basics
 		}
 
 		private void pnl_cntrl_MouseDown(object sender, MouseEventArgs e)
+		{
+			if (e.Button == MouseButtons.Left)
+			{
+				ReleaseCapture();
+				SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+			}
+		}
+
+		private void btn_analysis_MouseClick(object sender, MouseEventArgs e)
+		{
+
+		}
+
+		private void COGLABnewUI_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Escape)
+				Close();
+		}
+
+		private void mtlCls_Click(object sender, EventArgs e)
+		{
+			this.Close();
+		}
+
+		private void mtlMov_MouseDown(object sender, MouseEventArgs e)
 		{
 			if (e.Button == MouseButtons.Left)
 			{

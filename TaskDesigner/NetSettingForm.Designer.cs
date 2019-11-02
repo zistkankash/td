@@ -226,9 +226,12 @@
 			this.Controls.Add(this.pnlNetSetting);
 			this.Font = new System.Drawing.Font("Marlett", 20.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(2)), true);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			this.KeyPreview = true;
 			this.Name = "NetSettingForm";
 			this.Resizable = false;
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.NetSettingForm_FormClosing);
 			this.Load += new System.EventHandler(this.COGLAB_Load);
+			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.NetSettingForm_KeyDown);
 			this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.COGLAB_KeyUp);
 			this.pnlNetSetting.ResumeLayout(false);
 			this.pnlNetSetting.PerformLayout();
