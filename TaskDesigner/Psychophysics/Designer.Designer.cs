@@ -238,10 +238,9 @@ namespace Psychophysics.Old
 			this.pnl_Draw.AutoScroll = true;
 			this.pnl_Draw.BackColor = System.Drawing.SystemColors.ButtonHighlight;
 			this.pnl_Draw.Cursor = System.Windows.Forms.Cursors.Cross;
-			this.pnl_Draw.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pnl_Draw.Location = new System.Drawing.Point(0, 0);
 			this.pnl_Draw.Name = "pnl_Draw";
-			this.pnl_Draw.Size = new System.Drawing.Size(822, 545);
+			this.pnl_Draw.Size = new System.Drawing.Size(810, 527);
 			this.pnl_Draw.TabIndex = 2;
 			this.pnl_Draw.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pnl_Draw_MouseDown);
 			this.pnl_Draw.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pnl_Draw_MouseMove);

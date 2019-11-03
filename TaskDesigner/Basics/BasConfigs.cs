@@ -13,7 +13,7 @@ namespace Basics
 		public static int _monitor_resolution_y = 900;
 		public static TaskServer server;
 
-		public static bool GetConfigs()
+		public static bool GetScreenConfigs()
 		{
 			Screen[] screen = Screen.AllScreens;
 			if (screen.Length == 2)
@@ -43,6 +43,8 @@ namespace Basics
 			return ETStatus.Connected;
 		}
 	}
+
+
 	public enum ETStatus { Connected, listening, disconnected, ready, not_calibrated }
 
 	public enum TaskRunMod { recursive, reward }

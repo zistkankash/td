@@ -11,9 +11,13 @@ namespace Basics
 	public static class RunnerUtils
 	{
 		public static Queue<GazeTriple> Gaze = new Queue<GazeTriple>();
-		public static int GazeSmoothPots = 1;
+		public static int GazeSmoothPots = 11;
 		static int _counter = 0;
 		static double[,] pts = new double[2, GazeSmoothPots];
+		public static bool _endGaze = false;
+
+		public static MicroLibrary.MicroStopwatch microTimerLive;
+		//public static string[] 
 
 		public static double twoDist(double px, double py, double ox, double oy)
 		{
@@ -28,7 +32,7 @@ namespace Basics
 			return img;
 		}
 
-		public static double Mean(short row)
+		public static double MeanPts(short row)
 		{
 			double res = 0;
 			for (int i = 0; i < GazeSmoothPots; i++)
@@ -41,18 +45,28 @@ namespace Basics
 
 		public static void ETGaze()
 		{
-			GazeTriple gzTemp = BasConfigs.server.getGaze;
-			if (gzTemp.time != -1)
+			while (!_endGaze)
 			{
-				_counter = (_counter + 1) % GazeSmoothPots;
-				pts[0, _counter] = gzTemp.x;
-				pts[1, _counter] = gzTemp.y;
+				GazeTriple gzTemp = BasConfigs.server.getGaze;
+				if (gzTemp.time != -1)
+				{
+					_counter = (_counter + 1) % GazeSmoothPots;
+					pts[0, _counter] = gzTemp.x;
+					pts[1, _counter] = gzTemp.y;
+				}
+				else
+					return;
+				gzTemp.x = MeanPts(0);
+				gzTemp.y = MeanPts(1);
+				Gaze.Enqueue(gzTemp);
 			}
-			else
-				return;
-			gzTemp.x = Mean(0);
-			gzTemp.y = Mean(1);
-			Gaze.Enqueue(gzTemp);
+		}
+
+		public static void ClearGaze()
+		{
+			pts[1, 0] = 10;
+			_counter = 0;
+			Array.Clear(pts, 0, pts.Length);
 		}
 	}
 }

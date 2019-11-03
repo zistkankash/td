@@ -9,7 +9,7 @@ namespace Basics
 {
 	public partial class NetSettingForm : MetroFramework.Forms.MetroForm
 	{
-		
+		int _conectMessageShowed = 0;
 		public NetSettingForm()
 		{
 			InitializeComponent();
@@ -23,6 +23,7 @@ namespace Basics
 			setBtnNetSettingText();
 			txtbxLport.Text = "5050";
 			UpdateNetControls();
+			Select();
 		}
 
 		private void setBtnNetSettingText()
@@ -77,6 +78,7 @@ namespace Basics
 				BasConfigs.server.Dispose();
 
 				btnNetAddressSet.Enabled = true;
+				MetroMessageBox.Show((IWin32Window)this, "ET Was Disconnected", "ET Connection", MessageBoxButtons.OK, MessageBoxIcon.Stop, 100);
 				btnConct.Text = "Start Connection";
 
 				coglabRefrshForm.Stop();
@@ -98,7 +100,6 @@ namespace Basics
 				btnConct.Enabled = true;
 				btnNetAddressSet.Enabled = true;
 				btnConct.Text = "Start Connection";
-
 				return;
 			}
 			if (ns == ETStatus.listening)
@@ -110,11 +111,25 @@ namespace Basics
 				return;
 			}
 
-			btnConct.Enabled = true;
-			txtbxLport.Enabled = false;
-			btnNetAddressSet.Enabled = false;
-			btnConct.Text = "Disconnect";
-			Close();
+			if (ns == ETStatus.Connected)
+			{
+				_conectMessageShowed++;
+				btnConct.Enabled = true;
+				txtbxLport.Enabled = false;
+				btnNetAddressSet.Enabled = false;
+				if (_conectMessageShowed == 0)
+				{
+					coglabRefrshForm.Stop();
+					MetroMessageBox.Show((IWin32Window)this, "ET was connected", "ET Connection", MessageBoxButtons.OK, MessageBoxIcon.Asterisk, 100);
+					coglabRefrshForm.Start();
+				}
+
+				btnConct.Text = "Disconnect";
+
+				if (_conectMessageShowed == 3)
+					Close();
+			}
+			
 			return;
 
 

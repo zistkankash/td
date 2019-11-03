@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Psychophysics;
 
 namespace Basics
 {
@@ -117,7 +112,7 @@ namespace Basics
 			}
 			catch
 			{
-				MessageBox.Show("receive error");
+				//MessageBox.Show("receive error");
 				return false;
 			}
 		}
@@ -185,14 +180,15 @@ namespace Basics
 				}
 				else
 				{
-					MessageBox.Show("TD End Receive Detected");
+					//MetroMessageBox.Show((IWin32Window)this, "ET Was Disconnected", "ET Connection", MessageBoxButtons.OK, MessageBoxIcon.Stop, 100);
 
 				}
 				ReceivComnd();
 			}
-			catch(Exception ex)
+			catch(Exception)
 			{
-				MessageBox.Show("Connection was terminated in ET ");
+				MessageBox.Show("Connection was interrupted in ET", "ET Connection", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+				
 				
 			}
 		}

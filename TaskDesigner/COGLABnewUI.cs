@@ -30,6 +30,7 @@ namespace Basics
 		public COGLABnewUI()
 		{
 			InitializeComponent();
+			Select();
 			#region psychophysics polygon and button
 			Point[] p_psychophysics = {
 		new Point(330, 50),
@@ -196,6 +197,8 @@ namespace Basics
 		private void btn_setting_Click(object sender, EventArgs e)
 		{
 			NetSettingForm nt = new NetSettingForm();
+			nt.FormClosed += delegate { Show(); };
+			Hide();
 			nt.ShowDialog();
 		}
 
@@ -285,6 +288,13 @@ namespace Basics
 
 		private void COGLABnewUI_Paint(object sender, PaintEventArgs e)
 		{
+			if (BasConfigs.GetNetStatus() == ETStatus.Connected)
+			{
+				connected = true;
+			}
+			else
+				connected = false;
+
 			//this.BackgroundImage = BitmapData.TakeBlurSnapshot(this);
 			//BackColor = Color.FromArgb(25, pnl_cntrl.BackColor);
 			//var hb = new HatchBrush(HatchStyle.Sphere, this.TransparencyKey);
@@ -324,6 +334,102 @@ namespace Basics
 				ReleaseCapture();
 				SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
 			}
+		}
+
+		private void btn_analysis_MouseEnter(object sender, EventArgs e)
+		{
+			if (connected)
+				pnl_cntrl.BackgroundImage = Resource.main3_analysis_selected_green;
+			else
+				pnl_cntrl.BackgroundImage = Resource.main3_analysis_selected;
+		}
+
+		private void btn_analysis_MouseLeave(object sender, EventArgs e)
+		{
+			if (connected)
+				pnl_cntrl.BackgroundImage = Resource.main3_connected;
+			else
+				pnl_cntrl.BackgroundImage = Resource.main3_final;
+		}
+
+		private void btn_linguistics_MouseEnter(object sender, EventArgs e)
+		{
+			if (connected)
+				pnl_cntrl.BackgroundImage = Resource.main3_linguistics_selected_green;
+			else
+				pnl_cntrl.BackgroundImage = Resource.main3_linguistics_selected;
+		}
+
+		private void btn_linguistics_MouseLeave(object sender, EventArgs e)
+		{
+			if (connected)
+				pnl_cntrl.BackgroundImage = Resource.main3_connected;
+			else
+				pnl_cntrl.BackgroundImage = Resource.main3_final;
+		}
+
+		private void btn_psychology_MouseEnter(object sender, EventArgs e)
+		{
+			if (connected)
+				pnl_cntrl.BackgroundImage = Resource.main3_psycologyselected_green;
+			else
+				pnl_cntrl.BackgroundImage = Resource.main3_psycologyselected;
+		}
+
+		private void btn_psychology_MouseLeave(object sender, EventArgs e)
+		{
+			if (connected)
+				pnl_cntrl.BackgroundImage = Resource.main3_connected;
+			else
+				pnl_cntrl.BackgroundImage = Resource.main3_final;
+		}
+
+		private void btn_psychophysics_MouseEnter(object sender, EventArgs e)
+		{
+			if (connected)
+				pnl_cntrl.BackgroundImage = Resource.main3__psychophysics_seleced_green;
+			else
+				pnl_cntrl.BackgroundImage = Resource.main3__psychophysics_seleced;
+		}
+
+		private void btn_psychophysics_MouseLeave(object sender, EventArgs e)
+		{
+			if (connected)
+				pnl_cntrl.BackgroundImage = Resource.main3_connected;
+			else
+				pnl_cntrl.BackgroundImage = Resource.main3_final;
+		}
+
+		private void btn_setting_MouseEnter(object sender, EventArgs e)
+		{
+			if (connected)
+				pnl_cntrl.BackgroundImage = Resource.main3_setting_selected_green;
+			else
+				pnl_cntrl.BackgroundImage = Resource.main3_setting_selected;
+		}
+
+		private void btn_trunner_MouseEnter(object sender, EventArgs e)
+		{
+			if (connected)
+				pnl_cntrl.BackgroundImage = Resource.main3_runner_selected_green;
+			else
+				pnl_cntrl.BackgroundImage = Resource.main3_runnerselected;
+		}
+
+		private void btn_trunner_MouseLeave(object sender, EventArgs e)
+		{
+			if (connected)
+				pnl_cntrl.BackgroundImage = Resource.main3_connected;
+			else
+				pnl_cntrl.BackgroundImage = Resource.main3_final;
+		}
+
+		private void btn_setting_MouseLeave(object sender, EventArgs e)
+		{
+			if (connected)
+				pnl_cntrl.BackgroundImage = Resource.main3_connected;
+			else
+				pnl_cntrl.BackgroundImage = Resource.main3_final;
 		}
 	}
 }

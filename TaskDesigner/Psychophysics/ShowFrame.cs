@@ -77,13 +77,16 @@ namespace Psychophysics
 		string _dataTask = "", _eventData = "";
 		//Timer
 		MicroLibrary.MicroTimer microTimer;
-		MicroLibrary.MicroStopwatch microTimerLive;
+		
 		// Daq 
 		//int Xindex = TaskPreview.
 
 		public ShowFrame(bool getGaze)
 		{
 			InitializeComponent();
+
+			if (TaskPreview.AllLevelProp.Count == 0)
+				return;
 
 			if (getGaze)
 			{
@@ -96,10 +99,8 @@ namespace Psychophysics
 			MappedSigs[1] = 0;
 			MappedSigs[2] = 0;
 			MappedSigs[3] = 0;
-
-			if (_useDaq)
-				TaskPreview.InputValRange = ValueRange.V_Neg5To5;
-			//Daq initialization
+		
+			ScreenConfig();
 			
 			MakeRandomRepeat(TaskPreview.TypeDisplay);
 			
@@ -128,14 +129,6 @@ namespace Psychophysics
 					outdaq[1] = 0;
 
 					//errorCode = TaskPreview.instantAiCtrl.Read(channelStart, channelCount, outdaq);
-				}
-				catch
-				{
-					MessageBox.Show("Can't write to dac device!","Daq Error");
-				}
-
-				try
-				{
 					//TaskPreview.instantDoCtrl = new InstantDoCtrl();
 					//TaskPreview.instantDoCtrl.SelectedDevice = new DeviceInformation(TaskPreview.DaqName);
 
@@ -145,11 +138,9 @@ namespace Psychophysics
 				}
 				catch
 				{
-
+					MessageBox.Show("Can't write to dac device!","Daq Error");
 				}
-
-
-
+				#region InputValDetect
 				if (TaskPreview.InputValRange.Equals(ValueRange.V_0To5))
 				{
 					RangeVolIn = 2.5;
@@ -179,13 +170,13 @@ namespace Psychophysics
 					RangeVolIn = 1.25 / 2;
 					CenterVolIn = 1.25 / 2;
 				}
+				#endregion
 			}
 
-			
+
 			level = RandForTaskLevel[indexRandForTaskLevel];
 
-			if (TaskPreview.AllLevelProp.Count == 0)
-				return;
+			
 
 			timelimit = TaskPreview.AllLevelProp[level][frame].FrameTime;
 			framelimit = TaskPreview.AllLevelProp[level].Count;
@@ -201,22 +192,7 @@ namespace Psychophysics
 				RandForPosnerCue[k] = (rnd.Next(1, 1000) % 2);
 			}
 
-			if (screen.Length == 2)
-			{
-				this.Size = new Size(screen[1].Bounds.Width, screen[1].Bounds.Height);
-				this.WindowState = FormWindowState.Maximized;
-				this.Location = new Point(screen[0].Bounds.Width, screen[0].Bounds.Height);
-				MappingWidth[0] = screen[1].Bounds.Width;
-				MappingWidth[1] = screen[1].Bounds.Height;
-				flag = new Bitmap(screen[1].Bounds.Width, screen[1].Bounds.Height);
-			}
-			if (screen.Length == 1)
-			{
-				this.WindowState = FormWindowState.Normal;
-				flag = new Bitmap(screen[0].Bounds.Width, screen[0].Bounds.Height);
-			}
-
-			flagGraphics = Graphics.FromImage(flag);
+			
 			flagGraphics.Clear(TaskPreview.AllLevelProp[level][frame].BGColor);
 			int numberstimulus = TaskPreview.AllLevelProp[level][frame].Stimulus.Length;
 
@@ -487,7 +463,7 @@ namespace Psychophysics
 				//DataStr += MappedSigs[0] + ";" + MappedSigs[1] + ";" + level + ";" + frame + ";" + repeat + ";" + repeatInfo.CurrentRepeatationNumber + ";" + repeatInfo.CurrentIndex + ";" + DateTime.Now.Minute + ";" + DateTime.Now.Second + ";" + DateTime.Now.Millisecond + "\n";
 				//DataTask += DataStr;
 				BasConfigs.server.StartGaze();
-				microTimerLive.Start();
+				RunnerUtils.microTimerLive.Start();
 				
 			}
 
@@ -500,6 +476,33 @@ namespace Psychophysics
 			//label1.Text = "Step3";
 		}
 
+		public void ScreenConfig()
+		{
+
+			if (screen.Length == 2)
+			{
+				if (!_useGaz)
+				{
+					this.Size = new Size(screen[1].Bounds.Width, screen[1].Bounds.Height);
+					this.WindowState = FormWindowState.Maximized;
+					this.Location = new Point(screen[0].Bounds.Width, screen[0].Bounds.Height);
+					MappingWidth[0] = screen[1].Bounds.Width;
+					MappingWidth[1] = screen[1].Bounds.Height;
+				}
+				flag = new Bitmap(screen[1].Bounds.Width, screen[1].Bounds.Height);
+			}
+
+			else
+			{
+				if (!_useGaz)
+					this.WindowState = FormWindowState.Normal;
+				flag = new Bitmap(screen[0].Bounds.Width, screen[0].Bounds.Height);
+			}
+
+			flagGraphics = Graphics.FromImage(flag);
+
+		}
+		
 		private void Timer1_Tick(object sender, EventArgs e)
 		{
 			//// Save 
@@ -1316,7 +1319,7 @@ namespace Psychophysics
 				microTimer.Enabled = false;
 				if (_useGaz)
 				{
-					microTimerLive.Reset();
+					RunnerUtils.microTimerLive.Reset();
 				}
 			}
 			Timer1.Enabled = false;
@@ -1356,12 +1359,12 @@ namespace Psychophysics
 		private void OnTimedEvent(object sender,
 				  MicroLibrary.MicroTimerEventArgs timerEventArgs)
 		{
-			GazeTriple gzTemp = BasConfigs.server.getGaze;
-			if (gzTemp.time != -1)
+			if(_useGaz && RunnerUtils.Gaze.Count > 0)
 			{
-				_dataTask += gzTemp.x.ToString() + "," + gzTemp.y.ToString() + "," + gzTemp.pupilSize.ToString() + "," + gzTemp.time.ToString() + "\n";
-				MappedSigs[0] = gzTemp.x;
-				MappedSigs[1] = gzTemp.y;
+				GazeTriple gz;
+				gz = RunnerUtils.Gaze.Dequeue();
+				MappedSigs[0] = gz.x;
+				MappedSigs[1] = gz.y;
 			}
 			if (_useDaq)
 			{

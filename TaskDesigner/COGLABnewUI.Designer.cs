@@ -112,6 +112,8 @@
 			this.btn_trunner.TabIndex = 5;
 			this.btn_trunner.UseVisualStyleBackColor = false;
 			this.btn_trunner.Click += new System.EventHandler(this.btn_trunner_Click);
+			this.btn_trunner.MouseEnter += new System.EventHandler(this.btn_trunner_MouseEnter);
+			this.btn_trunner.MouseLeave += new System.EventHandler(this.btn_trunner_MouseLeave);
 			// 
 			// btn_analysis
 			// 
@@ -125,6 +127,8 @@
 			this.btn_analysis.UseVisualStyleBackColor = false;
 			this.btn_analysis.Click += new System.EventHandler(this.btn_analysis_Click);
 			this.btn_analysis.MouseClick += new System.Windows.Forms.MouseEventHandler(this.btn_analysis_MouseClick);
+			this.btn_analysis.MouseEnter += new System.EventHandler(this.btn_analysis_MouseEnter);
+			this.btn_analysis.MouseLeave += new System.EventHandler(this.btn_analysis_MouseLeave);
 			// 
 			// btn_linguistics
 			// 
@@ -137,6 +141,8 @@
 			this.btn_linguistics.TabIndex = 3;
 			this.btn_linguistics.UseVisualStyleBackColor = false;
 			this.btn_linguistics.Click += new System.EventHandler(this.btn_linguistics_Click);
+			this.btn_linguistics.MouseEnter += new System.EventHandler(this.btn_linguistics_MouseEnter);
+			this.btn_linguistics.MouseLeave += new System.EventHandler(this.btn_linguistics_MouseLeave);
 			// 
 			// btn_psychology
 			// 
@@ -149,6 +155,8 @@
 			this.btn_psychology.TabIndex = 2;
 			this.btn_psychology.UseVisualStyleBackColor = false;
 			this.btn_psychology.Click += new System.EventHandler(this.btn_psychology_Click);
+			this.btn_psychology.MouseEnter += new System.EventHandler(this.btn_psychology_MouseEnter);
+			this.btn_psychology.MouseLeave += new System.EventHandler(this.btn_psychology_MouseLeave);
 			// 
 			// btn_setting
 			// 
@@ -161,6 +169,8 @@
 			this.btn_setting.TabIndex = 1;
 			this.btn_setting.UseVisualStyleBackColor = false;
 			this.btn_setting.Click += new System.EventHandler(this.btn_setting_Click);
+			this.btn_setting.MouseEnter += new System.EventHandler(this.btn_setting_MouseEnter);
+			this.btn_setting.MouseLeave += new System.EventHandler(this.btn_setting_MouseLeave);
 			// 
 			// btn_psychophysics
 			// 
@@ -173,6 +183,8 @@
 			this.btn_psychophysics.TabIndex = 0;
 			this.btn_psychophysics.UseVisualStyleBackColor = false;
 			this.btn_psychophysics.Click += new System.EventHandler(this.btn_psychophysics_Click);
+			this.btn_psychophysics.MouseEnter += new System.EventHandler(this.btn_psychophysics_MouseEnter);
+			this.btn_psychophysics.MouseLeave += new System.EventHandler(this.btn_psychophysics_MouseLeave);
 			// 
 			// COGLABnewUI
 			// 
@@ -186,7 +198,6 @@
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "COGLABnewUI";
-			this.TopMost = true;
 			this.TransparencyKey = System.Drawing.Color.Black;
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.COGLABnewUI_FormClosed);
 			this.Load += new System.EventHandler(this.COGLABnewUI_Load);

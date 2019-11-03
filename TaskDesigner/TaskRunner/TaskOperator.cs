@@ -26,7 +26,6 @@ namespace TaskRunning
 		SaveFileDialog sfd = null;
 		OpenFileDialog ofd = null;
 		TaskRunner runner = null;
-		TaskServer et_socket;
 		ETStatus _etStat = ETStatus.disconnected;
 		public static float gzX, gzY;
 		public TaskData tsk;
@@ -154,8 +153,8 @@ namespace TaskRunning
 		/// <returns></returns>
 		private bool GetETStat()
 		{
-			if (et_socket != null)
-				_etStat = et_socket.IsCalibrated;
+			if (BasConfigs.server != null)
+				_etStat = BasConfigs.server.IsCalibrated;
 
 			if (_etStat == ETStatus.disconnected || _etStat == ETStatus.listening)
 			{
