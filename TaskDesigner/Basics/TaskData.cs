@@ -85,7 +85,7 @@ namespace Basics
 		public  double WidthM = 0.42, HeightM = 0.26;
 		public  double WidthP = 1440, HeightP = 900;
 
-		public TaskPreview tsp;
+		public TaskPreview psycophysicsData;
 
 		#endregion
 
@@ -315,8 +315,8 @@ namespace Basics
 						else if (lines[0] == "Number Of Levels")
 						{
 							//LoadPsycoTasks(lines);
-							tsp = new TaskPreview();
-							tsp.LoadTaskFromFile(false, tskAddress);
+							psycophysicsData = new TaskPreview();
+							psycophysicsData.LoadTaskFromFile(false, tskAddress);
 							type = TaskType.cognitive;
 						}
 						#endregion
@@ -1001,26 +1001,34 @@ namespace Basics
 		
 		public Bitmap GetSlideImage(int selSlide, Size pbSize)
 		{
-			if (selSlide == -1 || picList == null || picList.Count == 0 || selSlide == picList.Count)
-				return new Bitmap(100,100);
+			Bitmap b = new Bitmap(100, 100);
 			
-			Bitmap b;
-			
-			if (picList[selSlide].address != null)
-				b = BitmapData.DrawOn(picList[selSlide].image, pbSize, picList[selSlide].bgColor);
-			else
-				b = BitmapData.DrawOn(null, pbSize, picList[selSlide].bgColor);
-
-			if (setTransparency)
-				b.MakeTransparent(transColor);
-
-
-			if (drawChess)
+			if (type == TaskType.picture)
 			{
-				BitmapData.ChessboardDraw(ref b);
-				
+				if (selSlide == -1 || picList == null || picList.Count == 0 || selSlide == picList.Count)
+					return b;
+
+				if (picList[selSlide].address != null)
+					b = BitmapData.DrawOn(picList[selSlide].image, pbSize, picList[selSlide].bgColor);
+				else
+					b = BitmapData.DrawOn(null, pbSize, picList[selSlide].bgColor);
+
+				if (setTransparency)
+					b.MakeTransparent(transColor);
+
+
+				if (drawChess)
+				{
+					BitmapData.ChessboardDraw(ref b);
+
+				}
+
+				return b;
 			}
-			
+			//if(type == TaskType.cognitive)
+			//{
+			//return psycophysicsData.
+			//}
 			return b;
 		}
 	}

@@ -204,30 +204,37 @@ namespace Basics
 
 		private void btn_psychology_Click(object sender, EventArgs e)
 		{
+
 			TaskLab.TaskGen taskLab = new TaskLab.TaskGen(TaskType.lab);
 			taskLab.FormClosed += delegate { Show(); };
 			this.Hide();
 			taskLab.Show();
+
 		}
 
 		private void btn_linguistics_Click(object sender, EventArgs e)
 		{
+
 			TaskLab.TaskGen taskLab = new TaskLab.TaskGen(TaskType.picture);
 			taskLab.FormClosed += delegate { Show(); };
 			this.Hide();
 			taskLab.Show();
+
 		}
 
 		private void btn_analysis_Click(object sender, EventArgs e)
 		{
+
 			HeatMap heat = new HeatMap();
 			heat.FormClosed += delegate { Show(); };
 			this.Hide();
 			heat.Show();
+
 		}
 
 		private void btn_trunner_Click(object sender, EventArgs e)
 		{
+
 			TaskOperator runner;
 			ETStatus ns = BasConfigs.GetNetStatus();
 			if (ns == ETStatus.listening)
@@ -241,6 +248,8 @@ namespace Basics
 			this.Hide();
 
 			runner.Show();
+			
+
 		}
 
 		private void COGLABnewUI_FormClosed(object sender, FormClosedEventArgs e)
@@ -255,14 +264,14 @@ namespace Basics
 
 		private void COGLABnewUI_KeyUp(object sender, KeyEventArgs e)
 		{
-			if (e.KeyCode == Keys.Escape)
-				Close();
+			//if (e.KeyCode == Keys.Escape)
+				//Close();
 		}
 
 		private void COGLABnewUI_Load(object sender, EventArgs e)
 		{
-			mtlCls.TileImage = Resource.Button_Blank_Red_icon.GetThumbnailImage(25, 25,ThumbnailCallback,IntPtr.Zero);
-			mtlMov.TileImage = Resource.Button_Blank_Yellow_icon.GetThumbnailImage(25, 25, ThumbnailCallback, IntPtr.Zero);
+			mtlCls.TileImage = Resource.Button_Blank_Red_icon.GetThumbnailImage(50, 50,ThumbnailCallback,IntPtr.Zero);
+			mtlMov.TileImage = Resource.Button_Blank_Yellow_icon.GetThumbnailImage(50, 50, ThumbnailCallback, IntPtr.Zero);
 
 			this.CenterToScreen();
 		}
@@ -318,8 +327,8 @@ namespace Basics
 
 		private void COGLABnewUI_KeyDown(object sender, KeyEventArgs e)
 		{
-			if (e.KeyCode == Keys.Escape)
-				Close();
+			//if (e.KeyCode == Keys.Escape)
+				//Close();
 		}
 
 		private void mtlCls_Click(object sender, EventArgs e)

@@ -563,6 +563,7 @@ namespace Psychophysics.Old
 			this.RewardType_LB.Name = "RewardType_LB";
 			this.RewardType_LB.Size = new System.Drawing.Size(0, 13);
 			this.RewardType_LB.TabIndex = 24;
+			this.RewardType_LB.Visible = false;
 			// 
 			// SelectRewardType_CB
 			// 
@@ -580,6 +581,7 @@ namespace Psychophysics.Old
 			this.SelectRewardType_CB.Name = "SelectRewardType_CB";
 			this.SelectRewardType_CB.Size = new System.Drawing.Size(30, 21);
 			this.SelectRewardType_CB.TabIndex = 23;
+			this.SelectRewardType_CB.Visible = false;
 			this.SelectRewardType_CB.SelectedIndexChanged += new System.EventHandler(this.SelectRewardType_CB_SelectedIndexChanged);
 			// 
 			// FrameTime_ET
@@ -692,6 +694,7 @@ namespace Psychophysics.Old
 			this.label18.Size = new System.Drawing.Size(82, 13);
 			this.label18.TabIndex = 19;
 			this.label18.Text = "Reward Type";
+			this.label18.Visible = false;
 			// 
 			// label16
 			// 

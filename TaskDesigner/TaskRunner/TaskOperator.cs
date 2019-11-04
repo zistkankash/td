@@ -32,6 +32,9 @@ namespace TaskRunning
 		int Marker_Radius = 10;
 		private Size secondMonit;
 		int _slideNum = 0;
+
+		ShowFrame shFrame;
+
 		public static string savedData = BasConfigs._monitor_resolution_x.ToString() + "," + BasConfigs._monitor_resolution_y.ToString() + "\n";
 
 		public string getSavPath { get { return txtSavPath.Text; } }
@@ -82,7 +85,11 @@ namespace TaskRunning
 		
 		public void RefreshPctBx()
 		{
-			Bitmap b = tsk.GetSlideImage(_slideNum, pbOper.Size);
+			Bitmap b = new Bitmap(pbOper.Size.Width,pbOper.Size.Height);
+			if (tsk.type == TaskType.picture)
+				b = tsk.GetSlideImage(_slideNum, pbOper.Size);
+			if (tsk.type == TaskType.cognitive)
+				b = shFrame.flag;
 			Graphics flagGraphics = Graphics.FromImage(b);
 			flagGraphics.FillEllipse(Brushes.Black, (float)gzX * pbOper.Width / secondMonit.Width - Marker_Radius / 2,(float) gzY * pbOper.Height / secondMonit.Height - Marker_Radius / 2, Marker_Radius, Marker_Radius);
 			flagGraphics.Flush();
@@ -120,8 +127,12 @@ namespace TaskRunning
 							st = true;
 						else
 							st = false;
-						ShowFrame ShFrame = new ShowFrame(st);
-						ShFrame.Show();
+						
+						shFrame = new ShowFrame(true);
+						shFrame._useGaz = true;
+						shFrame.dataPath = txtSavPath.Text;
+						shFrame.ScreenConfig();
+						shFrame.Show();
 					}
 					else
 					{
@@ -189,17 +200,17 @@ namespace TaskRunning
 		private void SetControlsLocked()
 		{
 			metroPanel1.Enabled = false;
-			metroPanel2.Enabled = false;
-			metroPanel3.Enabled = false;
-			metroPanel4.Enabled = false;
+			pnlErr1.Enabled = false;
+			pnlErr2.Enabled = false;
+			pnlPsycophysics.Enabled = false;
 		}
 
 		private void SetControlsOpened()
 		{
 			metroPanel1.Enabled = true;
-			metroPanel2.Enabled = true;
-			metroPanel3.Enabled = true;
-			metroPanel4.Enabled = true;
+			pnlErr1.Enabled = true;
+			pnlErr2.Enabled = true;
+			pnlPsycophysics.Enabled = true;
 		}
 		
 		private void TaskOperator_Load(object sender, EventArgs e)
@@ -302,7 +313,7 @@ namespace TaskRunning
 				Stop();
 			}
 		}
-
+				
 		public void Stop()
 		{
 			_slideNum = 0;

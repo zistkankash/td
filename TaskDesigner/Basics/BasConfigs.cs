@@ -53,7 +53,7 @@ namespace Basics
 
 	enum Comnd { Close = 5, CalibStat = 2, SendGaz = 8, EndGaz = 9 , WatRest = 11 }
 	
-	public struct GazeTriple
+	public class GazeTriple
 	{
 		public double x;
 		public double y;
@@ -66,6 +66,11 @@ namespace Basics
 			y = a2;
 			time = a3;
 			pupilSize = a4;
+		}
+
+		public GazeTriple()
+		{
+
 		}
 
 		public GazeTriple(double[] a1, long t, double a2)

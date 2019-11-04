@@ -38,25 +38,34 @@
 			// Timer1
 			// 
 			this.Timer1.Enabled = true;
-			this.Timer1.Interval = 16;
+			this.Timer1.Interval = 20;
 			this.Timer1.Tick += new System.EventHandler(this.Timer1_Tick);
 			// 
 			// pictureBox1
 			// 
-			resources.ApplyResources(this.pictureBox1, "pictureBox1");
+			this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pictureBox1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.pictureBox1.Location = new System.Drawing.Point(0, 0);
 			this.pictureBox1.Name = "pictureBox1";
+			this.pictureBox1.Size = new System.Drawing.Size(284, 261);
+			this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+			this.pictureBox1.TabIndex = 1;
 			this.pictureBox1.TabStop = false;
 			// 
 			// ShowFrame
 			// 
-			resources.ApplyResources(this, "$this");
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.Black;
+			this.ClientSize = new System.Drawing.Size(284, 261);
 			this.Controls.Add(this.pictureBox1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "ShowFrame";
-			
+			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
+			this.Text = "ShowFrame";
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ShowFrame_FormClosed);
+			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ShowFrame_KeyDown);
 			this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ShowFrame_KeyPress);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
 			this.ResumeLayout(false);

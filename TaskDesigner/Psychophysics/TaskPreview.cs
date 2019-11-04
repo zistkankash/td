@@ -42,7 +42,7 @@ namespace Psychophysics
 		//public static InstantAiCtrl instantAiCtrl = new InstantAiCtrl();
 		public static int[] AInIndex = new int[2];
 		// output
-		//public static InstantDoCtrl instantDoCtrl = new InstantDoCtrl();
+		public static InstantDoCtrl instantDoCtrl = new InstantDoCtrl();
 		public static int[] DOutIndex = new int[2];
 		// Sound
 		public static bool SoundMute = false;
@@ -62,7 +62,7 @@ namespace Psychophysics
 		// Degree Conversion
 		public static double userDistance = 0.5;
 		public static double WidthM = 0.42, HeightM = 0.26;
-		public static double WidthP = 1440, HeightP = 900;
+		public static double WidthP = BasConfigs._monitor_resolution_x, HeightP = BasConfigs._monitor_resolution_y;
 
 				
 		// Stop

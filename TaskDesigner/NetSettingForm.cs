@@ -39,7 +39,7 @@ namespace Basics
 			
 			if (TxtbxLIP.Text != "127.0.0.1")
 			{
-				MetroMessageBox.Show((IWin32Window)this, "Use 127.0.0.1 and Port " + txtbxLport.Text + " in ET connection window.", "Network Address", 120);
+				MetroMessageBox.Show((IWin32Window)this, "Use 127.0.0.1 and Port " + txtbxLport.Text + " in ET connection window.", "Network Address", MessageBoxButtons.OK, MessageBoxIcon.Information, 120);
 				TxtbxLIP.Text = "127.0.0.1";
 			}
 			else
@@ -47,10 +47,10 @@ namespace Basics
 				TxtbxLIP.Text = TaskServer.GetLocalIP();
 				if (TxtbxLIP.Text == "127.0.0.1")
 				{
-					MetroMessageBox.Show((IWin32Window)this, "Network address not found. Use 127.0.0.1 and Port " + txtbxLport.Text + " in ET connection window.", "Network Address", 120);
+					MetroMessageBox.Show((IWin32Window)this, "Network address not found. Use 127.0.0.1 and Port " + txtbxLport.Text + " in ET connection window.", "Network Address", MessageBoxButtons.OK, MessageBoxIcon.Information, 120);
 				}
 				else
-					MetroMessageBox.Show((IWin32Window)this, "Please use IP " + TxtbxLIP.Text + " and Port " + txtbxLport.Text +" in ET connection window.", "Network Address", 120);
+					MetroMessageBox.Show((IWin32Window)this, "Please use IP " + TxtbxLIP.Text + " and Port " + txtbxLport.Text +" in ET connection window.", "Network Address",MessageBoxButtons.OK,MessageBoxIcon.Information,120);
 			}
 			setBtnNetSettingText();
 		}

@@ -71,14 +71,15 @@
 			// mtlCls
 			// 
 			this.mtlCls.ActiveControl = null;
-			this.mtlCls.Location = new System.Drawing.Point(539, 32);
+			this.mtlCls.Location = new System.Drawing.Point(511, 45);
 			this.mtlCls.Name = "mtlCls";
 			this.mtlCls.PaintTileCount = false;
-			this.mtlCls.Size = new System.Drawing.Size(28, 26);
+			this.mtlCls.Size = new System.Drawing.Size(50, 50);
 			this.mtlCls.Style = MetroFramework.MetroColorStyle.Black;
 			this.mtlCls.TabIndex = 7;
+			this.mtlCls.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.mtlCls.Theme = MetroFramework.MetroThemeStyle.Dark;
-			this.mtlCls.TileImage = global::TaskDesigner.Resource._512px_Cross_red_circle_svg;
+			this.mtlCls.TileImage = global::TaskDesigner.Resource.Button_Blank_Red_icon;
 			this.mtlCls.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.mtlCls.UseSelectable = true;
 			this.mtlCls.UseTileImage = true;
@@ -88,9 +89,9 @@
 			// 
 			this.mtlMov.ActiveControl = null;
 			this.mtlMov.Cursor = System.Windows.Forms.Cursors.NoMove2D;
-			this.mtlMov.Location = new System.Drawing.Point(90, 32);
+			this.mtlMov.Location = new System.Drawing.Point(95, 45);
 			this.mtlMov.Name = "mtlMov";
-			this.mtlMov.Size = new System.Drawing.Size(28, 26);
+			this.mtlMov.Size = new System.Drawing.Size(50, 50);
 			this.mtlMov.Style = MetroFramework.MetroColorStyle.Black;
 			this.mtlMov.TabIndex = 6;
 			this.mtlMov.Theme = MetroFramework.MetroThemeStyle.Dark;

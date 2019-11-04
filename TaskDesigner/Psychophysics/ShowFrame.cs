@@ -8,22 +8,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
 using Automation.BDaq;
 using System.Drawing.Drawing2D;
 using System.IO;
 using System.Media;
-using System.Net.Sockets;
-using System.Net;
+using TaskDesigner;
 using Basics;
+using TaskRunning;
 
 namespace Psychophysics
 {
     public partial class ShowFrame : Form
     {
 		// Sound
-		SoundPlayer winSound = new SoundPlayer(@TaskPreview.WinPath);
-		SoundPlayer failSound = new SoundPlayer(@TaskPreview.FailPath);
+		SoundPlayer winSound = new SoundPlayer(Resource.coin);
+		SoundPlayer failSound = new SoundPlayer(Resource.fail);
 		// Keyboard
 		char keyboardChar = TaskPreview.keyboardChar;
 		bool keyState = false;
@@ -33,20 +32,16 @@ namespace Psychophysics
 		// ROI
 		bool InROI = false;
 		bool WriteStateInROI = false;
-		
-		bool _useGaz = false;
-		bool _useDaq = false;		
-		
-		int numberOfData = 3;
 		bool CloseForm = false;
-
-		Screen[] screen = Screen.AllScreens;
+		public bool _useGaz = false;
+		public bool _useDaq = false;		
+		
 		int counter = 0;
 		int level = 0;
 		int frame = 0;
 		int timelimit = 0;
 		int framelimit = 0;
-		int repeat = 0;
+		int repeat;
 		int baseframe = 0;
 		bool fixatehappened = false;
 		Stopwatch sw = Stopwatch.StartNew();
@@ -73,18 +68,18 @@ namespace Psychophysics
 		public int[] RandForTaskLevel, RepeatationIndex;
 		int indexRandForTaskLevel = 0;
 		RepeatLinkFrame repeatInfo = new RepeatLinkFrame();
-		int RandomLocation = 0;
+		int RandomLocation, trialCounter;
+		public string dataPath;
 		string _dataTask = "", _eventData = "";
 		//Timer
 		MicroLibrary.MicroTimer microTimer;
+		MicroLibrary.MicroStopwatch micSW = new MicroLibrary.MicroStopwatch();
 		
-		// Daq 
-		//int Xindex = TaskPreview.
-
 		public ShowFrame(bool getGaze)
 		{
 			InitializeComponent();
-
+			trialCounter = 0;
+			micSW.Start();
 			if (TaskPreview.AllLevelProp.Count == 0)
 				return;
 
@@ -108,6 +103,8 @@ namespace Psychophysics
 			{
 				Debug.Write(RandForTaskLevel[i] + "\n");
 			}
+			
+			#region daq init
 			if (_useDaq)
 			{
 				try
@@ -172,12 +169,14 @@ namespace Psychophysics
 				}
 				#endregion
 			}
-
+			#endregion
 
 			level = RandForTaskLevel[indexRandForTaskLevel];
-
-			
-
+			if (_useGaz)
+			{
+				trialCounter++;
+				_eventData += "t," + trialCounter.ToString() + ",C," + level.ToString() + ",F," + (frame+1).ToString() + "," + micSW.ElapsedMicroseconds.ToString() + "\n";
+			} 
 			timelimit = TaskPreview.AllLevelProp[level][frame].FrameTime;
 			framelimit = TaskPreview.AllLevelProp[level].Count;
 			repeatInfo = new RepeatLinkFrame();
@@ -463,8 +462,8 @@ namespace Psychophysics
 				//DataStr += MappedSigs[0] + ";" + MappedSigs[1] + ";" + level + ";" + frame + ";" + repeat + ";" + repeatInfo.CurrentRepeatationNumber + ";" + repeatInfo.CurrentIndex + ";" + DateTime.Now.Minute + ";" + DateTime.Now.Second + ";" + DateTime.Now.Millisecond + "\n";
 				//DataTask += DataStr;
 				BasConfigs.server.StartGaze();
-				RunnerUtils.microTimerLive.Start();
-				
+				micSW.Start();
+				RunnerUtils.ETGaze();
 			}
 
 			//if (containfixation)
@@ -478,24 +477,24 @@ namespace Psychophysics
 
 		public void ScreenConfig()
 		{
-
-			if (screen.Length == 2)
+			Screen[] screen = Screen.AllScreens;
+			if (screen.Length == 2 && _useGaz)
 			{
-				if (!_useGaz)
-				{
-					this.Size = new Size(screen[1].Bounds.Width, screen[1].Bounds.Height);
-					this.WindowState = FormWindowState.Maximized;
-					this.Location = new Point(screen[0].Bounds.Width, screen[0].Bounds.Height);
-					MappingWidth[0] = screen[1].Bounds.Width;
-					MappingWidth[1] = screen[1].Bounds.Height;
-				}
+
+				this.Size = new Size(screen[1].Bounds.Width, screen[1].Bounds.Height);
+				this.WindowState = FormWindowState.Maximized;
+				this.Location = new Point(screen[0].Bounds.Width, 0);
+				MappingWidth[0] = screen[1].Bounds.Width;
+				MappingWidth[1] = screen[1].Bounds.Height;
+
 				flag = new Bitmap(screen[1].Bounds.Width, screen[1].Bounds.Height);
 			}
 
 			else
 			{
-				if (!_useGaz)
-					this.WindowState = FormWindowState.Normal;
+				MappingWidth[0] = screen[0].Bounds.Width;
+				MappingWidth[1] = screen[0].Bounds.Height;
+				this.WindowState = FormWindowState.Maximized;
 				flag = new Bitmap(screen[0].Bounds.Width, screen[0].Bounds.Height);
 			}
 
@@ -515,14 +514,14 @@ namespace Psychophysics
 
 			if (_useGaz && _dataTask.Length > 0)
 			{
-				File.AppendAllText(TaskPreview.DataPath, _dataTask);
+				File.AppendAllText(dataPath, _dataTask);
 				_dataTask = "";
 				
 			}
 			if (_useGaz && _eventData.Length > 0)
 			{
 				
-				File.AppendAllText(TaskPreview.DataPath + "1", _eventData);
+				File.AppendAllText(dataPath + "1", _eventData);
 				_eventData = "";
 			}
 
@@ -542,9 +541,9 @@ namespace Psychophysics
 			}
 
 			Byte Dout = new byte();
-			Dout = 0x00;
-			//if (!UseLan && TaskPreview.instantDoCtrl != null)
-			//    TaskPreview.instantDoCtrl.Write(0, Dout);
+			byte[] b = BitConverter.GetBytes(counter);
+			if (TaskPreview.instantDoCtrl != null)
+			    TaskPreview.instantDoCtrl.Write(0, b[0]);
 			counter = 0;
 			//Test_LB.Text = sw.ElapsedMilliseconds + "ms \n";
 			sw = Stopwatch.StartNew();
@@ -554,14 +553,12 @@ namespace Psychophysics
 				
 				if (fixatehappened)
 				{
-					
 					frame++;
 					if (frame == framelimit)
 					{
 						status = 4;
 						
 					}
-
 					if (repeatInfo.Active)
 					{
 						repeatInfo.CurrentIndex++;
@@ -588,6 +585,11 @@ namespace Psychophysics
 					//microTimer.Enabled = false;
 					if (frame < framelimit)
 					{
+						if (_useGaz)
+						{
+							
+							_eventData += "t," + trialCounter.ToString() + ",C," + level.ToString() + ",F," + (frame+1).ToString() + "," + micSW.ElapsedMicroseconds.ToString() + "\n";
+						}
 						timelimit = TaskPreview.AllLevelProp[level][frame].FrameTime;
 					}
 					else
@@ -603,7 +605,11 @@ namespace Psychophysics
 							return;
 						}
 						level = RandForTaskLevel[indexRandForTaskLevel];
-
+						if (_useGaz)
+						{
+							trialCounter++;
+							_eventData += "t," + trialCounter.ToString() + ",C," + level.ToString() + ",F," + (frame + 1).ToString() + "," + micSW.ElapsedMicroseconds.ToString() + "\n";
+						}
 						timelimit = TaskPreview.AllLevelProp[level][frame].FrameTime;
 						framelimit = TaskPreview.AllLevelProp[level].Count;
 
@@ -618,7 +624,7 @@ namespace Psychophysics
 					{
 						status = 2;
 						//if(!Mute)
-						//failSound.Play();
+						failSound.Play();
 					}
 
 					if (FixationRewardType == 50 || FixationRewardType == 51)
@@ -670,7 +676,11 @@ namespace Psychophysics
 						return;
 					}
 					level = RandForTaskLevel[indexRandForTaskLevel];
-
+					if (_useGaz)
+					{
+						trialCounter++;
+						_eventData += "t," + trialCounter.ToString() + ",C," + level.ToString() + ",F," + (frame + 1).ToString() + "," + micSW.ElapsedMicroseconds.ToString() + "\n";
+					}
 					timelimit = TaskPreview.AllLevelProp[level][frame].FrameTime;
 					framelimit = TaskPreview.AllLevelProp[level].Count;
 				}
@@ -699,16 +709,18 @@ namespace Psychophysics
 
 					}
 				}
-
-
 				containfixation = false;
 				fixatehappened = false;
 				keyState = false;
 				//microTimer.Enabled = false;
-
+				#region next frame / slide
 				if (frame < framelimit)
 				{
 					timelimit = TaskPreview.AllLevelProp[level][frame].FrameTime;
+					if (_useGaz)
+					{
+						_eventData += "t," + trialCounter.ToString() + ",C," + level.ToString() + ",F," + (frame + 1).ToString() + "," + micSW.ElapsedMicroseconds.ToString() + "\n";
+					}
 				}
 				else
 				{
@@ -723,9 +735,15 @@ namespace Psychophysics
 						return;
 					}
 					level = RandForTaskLevel[indexRandForTaskLevel];
+					if (_useGaz)
+					{
+						trialCounter++;
+						_eventData += "t," + trialCounter.ToString() + ",C," + level.ToString() + ",F," + (frame + 1).ToString() + "," + micSW.ElapsedMicroseconds.ToString() + "\n";
+					}
 					timelimit = TaskPreview.AllLevelProp[level][frame].FrameTime;
 					framelimit = TaskPreview.AllLevelProp[level].Count;
 				}
+				#endregion
 			}
 			#endregion
 
@@ -1049,7 +1067,7 @@ namespace Psychophysics
 				keyState = true;
 			else
 				keyState = false;
-
+			
 		}
 
 		private void CheckPointInROI(double[] Point, int rewardtype)
@@ -1064,7 +1082,8 @@ namespace Psychophysics
 					FirstTimeInRoi = true;
 					FixationSW.Stop();
 					FixationSW.Reset();
-
+					if (_useGaz)
+						_eventData += "t," + trialCounter.ToString() + ",C," + level.ToString() + ",F," + (frame + 1).ToString() + ",FXHAPPEND," + micSW.ElapsedMicroseconds.ToString() + "\n";
 					fixatehappened = true;
 					timelimit = 0;
 
@@ -1099,8 +1118,8 @@ namespace Psychophysics
 					{
 						Byte Dout = new byte();
 						Dout = 0x01;
-						//if (!UseLan && TaskPreview.instantDoCtrl != null)
-						//    TaskPreview.instantDoCtrl.Write(0, Dout);
+						if (TaskPreview.instantDoCtrl != null)
+						    TaskPreview.instantDoCtrl.Write(0, Dout);
 						//Debug.Write("Helllllllllllllllllllllllllllllllllllllllllllllo\n");
 					}
 
@@ -1136,6 +1155,8 @@ namespace Psychophysics
 						FirstTimeInRoi = true;
 						FixationSW.Stop();
 						FixationSW.Reset();
+						if (_useGaz)
+							_eventData += "t," + trialCounter.ToString() + ",C," + level.ToString() + ",F," + (frame + 1).ToString() + ",FXHAPPEND," + micSW.ElapsedMicroseconds.ToString() + "\n";
 						fixatehappened = true;
 						timelimit = 0;
 						keyState = false;
@@ -1227,11 +1248,12 @@ namespace Psychophysics
 						FirstTimeInRoi = true;
 						FixationSW.Stop();
 						FixationSW.Reset();
+						if (_useGaz)
+							_eventData += "t," + trialCounter.ToString() + ",C," + level.ToString() + ",F," + (frame + 1).ToString() + ",FXHAPPEND," + micSW.ElapsedMicroseconds.ToString() + "\n";
 						fixatehappened = true;
 						keyState = false;
 						timelimit = 0;
-						if (!Mute)
-							winSound.Play();
+						winSound.Play();
 					}
 				}
 
@@ -1284,7 +1306,13 @@ namespace Psychophysics
 				//    TaskPreview.instantDoCtrl.Write(0, Dout);
 			}
 		}
-		
+
+		private void ShowFrame_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Escape)
+				Close();
+		}
+
 		private void ChangeDaqValue(double[] OutDaq, int NumOfSignals, double InputVolCenter, double InputVolRange, double[] Width, double[] MappedSignals)
 		{
 			if (InputVolCenter == 0)
@@ -1314,12 +1342,24 @@ namespace Psychophysics
 
 		private void ShowFrame_FormClosed(object sender, FormClosedEventArgs e)
 		{
+			if (_useGaz && _dataTask.Length > 0)
+			{
+				File.AppendAllText(dataPath, _dataTask);
+				_dataTask = "";
+
+			}
+			if (_useGaz && _eventData.Length > 0)
+			{
+
+				File.AppendAllText(dataPath + "1", _eventData);
+				_eventData = "";
+			}
 			if (microTimer != null)
 			{
 				microTimer.Enabled = false;
 				if (_useGaz)
 				{
-					RunnerUtils.microTimerLive.Reset();
+					micSW.Reset();
 				}
 			}
 			Timer1.Enabled = false;
@@ -1359,12 +1399,18 @@ namespace Psychophysics
 		private void OnTimedEvent(object sender,
 				  MicroLibrary.MicroTimerEventArgs timerEventArgs)
 		{
-			if(_useGaz && RunnerUtils.Gaze.Count > 0)
+			GazeTriple gz;
+			if (_useGaz)
 			{
-				GazeTriple gz;
-				gz = RunnerUtils.Gaze.Dequeue();
-				MappedSigs[0] = gz.x;
-				MappedSigs[1] = gz.y;
+				gz = RunnerUtils.ETGaze();
+				if (gz != null)
+				{
+					MappedSigs[0] = gz.x;
+					MappedSigs[1] = gz.y;
+					TaskOperator.gzX = (float)gz.x;
+					TaskOperator.gzY = (float)gz.y;
+					_dataTask += gz.x.ToString() + "," + gz.y.ToString() + "," + gz.pupilSize.ToString() + "," + gz.time.ToString() + "\n";
+				}
 			}
 			if (_useDaq)
 			{

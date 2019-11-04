@@ -143,7 +143,7 @@ namespace Basics
 
 					if (_comnd == (short)Comnd.SendGaz)
 					{
-					    GazeTriple gazTemp;
+					    GazeTriple gazTemp = new GazeTriple();
 						gazPnt.Clear();
 
 						

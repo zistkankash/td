@@ -54,9 +54,9 @@
 			this.pnlNetSetting.HorizontalScrollbarBarColor = true;
 			this.pnlNetSetting.HorizontalScrollbarHighlightOnWheel = false;
 			this.pnlNetSetting.HorizontalScrollbarSize = 10;
-			this.pnlNetSetting.Location = new System.Drawing.Point(0, 4);
+			this.pnlNetSetting.Location = new System.Drawing.Point(6, 28);
 			this.pnlNetSetting.Name = "pnlNetSetting";
-			this.pnlNetSetting.Size = new System.Drawing.Size(510, 123);
+			this.pnlNetSetting.Size = new System.Drawing.Size(524, 119);
 			this.pnlNetSetting.Style = MetroFramework.MetroColorStyle.Blue;
 			this.pnlNetSetting.TabIndex = 64;
 			this.pnlNetSetting.UseCustomBackColor = true;
@@ -72,7 +72,7 @@
 			// 
 			// 
 			this.TxtbxLIP.CustomButton.Image = null;
-			this.TxtbxLIP.CustomButton.Location = new System.Drawing.Point(128, 1);
+			this.TxtbxLIP.CustomButton.Location = new System.Drawing.Point(116, 1);
 			this.TxtbxLIP.CustomButton.Name = "";
 			this.TxtbxLIP.CustomButton.Size = new System.Drawing.Size(21, 21);
 			this.TxtbxLIP.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
@@ -83,7 +83,7 @@
 			this.TxtbxLIP.Enabled = false;
 			this.TxtbxLIP.ForeColor = System.Drawing.Color.Black;
 			this.TxtbxLIP.Lines = new string[0];
-			this.TxtbxLIP.Location = new System.Drawing.Point(50, 20);
+			this.TxtbxLIP.Location = new System.Drawing.Point(114, 24);
 			this.TxtbxLIP.MaxLength = 32767;
 			this.TxtbxLIP.Name = "TxtbxLIP";
 			this.TxtbxLIP.PasswordChar = '\0';
@@ -92,7 +92,7 @@
 			this.TxtbxLIP.SelectionLength = 0;
 			this.TxtbxLIP.SelectionStart = 0;
 			this.TxtbxLIP.ShortcutsEnabled = true;
-			this.TxtbxLIP.Size = new System.Drawing.Size(150, 23);
+			this.TxtbxLIP.Size = new System.Drawing.Size(138, 23);
 			this.TxtbxLIP.TabIndex = 78;
 			this.ToolTipHelp.SetToolTip(this.TxtbxLIP, "Enter this  IP address in Coglab address field in ET");
 			this.TxtbxLIP.UseCustomBackColor = true;
@@ -108,7 +108,7 @@
 			// 
 			// 
 			this.txtbxLport.CustomButton.Image = null;
-			this.txtbxLport.CustomButton.Location = new System.Drawing.Point(125, 1);
+			this.txtbxLport.CustomButton.Location = new System.Drawing.Point(97, 1);
 			this.txtbxLport.CustomButton.Name = "";
 			this.txtbxLport.CustomButton.Size = new System.Drawing.Size(21, 21);
 			this.txtbxLport.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
@@ -118,7 +118,7 @@
 			this.txtbxLport.CustomButton.Visible = false;
 			this.txtbxLport.ForeColor = System.Drawing.Color.Black;
 			this.txtbxLport.Lines = new string[0];
-			this.txtbxLport.Location = new System.Drawing.Point(320, 20);
+			this.txtbxLport.Location = new System.Drawing.Point(388, 24);
 			this.txtbxLport.MaxLength = 32767;
 			this.txtbxLport.Name = "txtbxLport";
 			this.txtbxLport.PasswordChar = '\0';
@@ -127,7 +127,7 @@
 			this.txtbxLport.SelectionLength = 0;
 			this.txtbxLport.SelectionStart = 0;
 			this.txtbxLport.ShortcutsEnabled = true;
-			this.txtbxLport.Size = new System.Drawing.Size(147, 23);
+			this.txtbxLport.Size = new System.Drawing.Size(119, 23);
 			this.txtbxLport.TabIndex = 80;
 			this.ToolTipHelp.SetToolTip(this.txtbxLport, "Enter this  Port address in Coglab Port address field in ET");
 			this.txtbxLport.UseCustomBackColor = true;
@@ -142,7 +142,7 @@
 			this.btnNetAddressSet.ActiveControl = null;
 			this.btnNetAddressSet.BackColor = System.Drawing.Color.Black;
 			this.btnNetAddressSet.ForeColor = System.Drawing.Color.Black;
-			this.btnNetAddressSet.Location = new System.Drawing.Point(268, 59);
+			this.btnNetAddressSet.Location = new System.Drawing.Point(268, 62);
 			this.btnNetAddressSet.Name = "btnNetAddressSet";
 			this.btnNetAddressSet.Size = new System.Drawing.Size(239, 44);
 			this.btnNetAddressSet.Style = MetroFramework.MetroColorStyle.Blue;
@@ -165,10 +165,10 @@
 			this.labelLIP.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
 			this.labelLIP.Location = new System.Drawing.Point(7, 28);
 			this.labelLIP.Name = "labelLIP";
-			this.labelLIP.Size = new System.Drawing.Size(21, 15);
+			this.labelLIP.Size = new System.Drawing.Size(101, 15);
 			this.labelLIP.Style = MetroFramework.MetroColorStyle.Blue;
 			this.labelLIP.TabIndex = 77;
-			this.labelLIP.Text = "IP:";
+			this.labelLIP.Text = "Task Designer IP:";
 			this.labelLIP.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			this.labelLIP.UseCustomBackColor = true;
 			// 
@@ -177,7 +177,7 @@
 			this.btnConct.ActiveControl = null;
 			this.btnConct.BackColor = System.Drawing.Color.Black;
 			this.btnConct.ForeColor = System.Drawing.Color.Black;
-			this.btnConct.Location = new System.Drawing.Point(7, 59);
+			this.btnConct.Location = new System.Drawing.Point(6, 62);
 			this.btnConct.Name = "btnConct";
 			this.btnConct.Size = new System.Drawing.Size(245, 44);
 			this.btnConct.Style = MetroFramework.MetroColorStyle.Blue;
@@ -198,10 +198,10 @@
 			this.LabelLport.FontWeight = MetroFramework.MetroLabelWeight.Bold;
 			this.LabelLport.Location = new System.Drawing.Point(268, 28);
 			this.LabelLport.Name = "LabelLport";
-			this.LabelLport.Size = new System.Drawing.Size(34, 15);
+			this.LabelLport.Size = new System.Drawing.Size(114, 15);
 			this.LabelLport.Style = MetroFramework.MetroColorStyle.Blue;
 			this.LabelLport.TabIndex = 79;
-			this.LabelLport.Text = "Port:";
+			this.LabelLport.Text = "Task Designer Port:";
 			this.LabelLport.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			this.LabelLport.UseCustomBackColor = true;
 			// 
@@ -222,11 +222,13 @@
 			// NetSettingForm
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(511, 126);
+			this.ClientSize = new System.Drawing.Size(533, 155);
 			this.Controls.Add(this.pnlNetSetting);
 			this.Font = new System.Drawing.Font("Marlett", 20.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(2)), true);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.KeyPreview = true;
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
 			this.Name = "NetSettingForm";
 			this.Resizable = false;
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.NetSettingForm_FormClosing);
