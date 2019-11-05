@@ -32,14 +32,14 @@
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(COGLABnewUI));
 			this.backUpdater = new System.Windows.Forms.Timer(this.components);
 			this.pnl_cntrl = new System.Windows.Forms.Panel();
-			this.mtlCls = new MetroFramework.Controls.MetroTile();
-			this.mtlMov = new MetroFramework.Controls.MetroTile();
 			this.btn_trunner = new System.Windows.Forms.Button();
 			this.btn_analysis = new System.Windows.Forms.Button();
 			this.btn_linguistics = new System.Windows.Forms.Button();
 			this.btn_psychology = new System.Windows.Forms.Button();
 			this.btn_setting = new System.Windows.Forms.Button();
 			this.btn_psychophysics = new System.Windows.Forms.Button();
+			this.btnCls = new System.Windows.Forms.Button();
+			this.btnMinmiz = new System.Windows.Forms.Button();
 			this.pnl_cntrl.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -51,10 +51,10 @@
 			// pnl_cntrl
 			// 
 			this.pnl_cntrl.BackColor = System.Drawing.Color.Transparent;
-			this.pnl_cntrl.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pnl_cntrl.BackgroundImage")));
+			this.pnl_cntrl.BackgroundImage = global::TaskDesigner.Resource.main3_final;
 			this.pnl_cntrl.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-			this.pnl_cntrl.Controls.Add(this.mtlCls);
-			this.pnl_cntrl.Controls.Add(this.mtlMov);
+			this.pnl_cntrl.Controls.Add(this.btnMinmiz);
+			this.pnl_cntrl.Controls.Add(this.btnCls);
 			this.pnl_cntrl.Controls.Add(this.btn_trunner);
 			this.pnl_cntrl.Controls.Add(this.btn_analysis);
 			this.pnl_cntrl.Controls.Add(this.btn_linguistics);
@@ -67,39 +67,6 @@
 			this.pnl_cntrl.Size = new System.Drawing.Size(655, 508);
 			this.pnl_cntrl.TabIndex = 1;
 			this.pnl_cntrl.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pnl_cntrl_MouseDown);
-			// 
-			// mtlCls
-			// 
-			this.mtlCls.ActiveControl = null;
-			this.mtlCls.Location = new System.Drawing.Point(511, 45);
-			this.mtlCls.Name = "mtlCls";
-			this.mtlCls.PaintTileCount = false;
-			this.mtlCls.Size = new System.Drawing.Size(50, 50);
-			this.mtlCls.Style = MetroFramework.MetroColorStyle.Black;
-			this.mtlCls.TabIndex = 7;
-			this.mtlCls.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.mtlCls.Theme = MetroFramework.MetroThemeStyle.Dark;
-			this.mtlCls.TileImage = global::TaskDesigner.Resource.Button_Blank_Red_icon;
-			this.mtlCls.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.mtlCls.UseSelectable = true;
-			this.mtlCls.UseTileImage = true;
-			this.mtlCls.Click += new System.EventHandler(this.mtlCls_Click);
-			// 
-			// mtlMov
-			// 
-			this.mtlMov.ActiveControl = null;
-			this.mtlMov.Cursor = System.Windows.Forms.Cursors.NoMove2D;
-			this.mtlMov.Location = new System.Drawing.Point(95, 45);
-			this.mtlMov.Name = "mtlMov";
-			this.mtlMov.Size = new System.Drawing.Size(50, 50);
-			this.mtlMov.Style = MetroFramework.MetroColorStyle.Black;
-			this.mtlMov.TabIndex = 6;
-			this.mtlMov.Theme = MetroFramework.MetroThemeStyle.Dark;
-			this.mtlMov.TileImage = global::TaskDesigner.Resource.Button_Blank_Yellow_icon;
-			this.mtlMov.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.mtlMov.UseSelectable = true;
-			this.mtlMov.UseTileImage = true;
-			this.mtlMov.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mtlMov_MouseDown);
 			// 
 			// btn_trunner
 			// 
@@ -187,11 +154,37 @@
 			this.btn_psychophysics.MouseEnter += new System.EventHandler(this.btn_psychophysics_MouseEnter);
 			this.btn_psychophysics.MouseLeave += new System.EventHandler(this.btn_psychophysics_MouseLeave);
 			// 
+			// btnCls
+			// 
+			this.btnCls.FlatAppearance.BorderSize = 0;
+			this.btnCls.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+			this.btnCls.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+			this.btnCls.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.btnCls.Location = new System.Drawing.Point(530, 95);
+			this.btnCls.Name = "btnCls";
+			this.btnCls.Size = new System.Drawing.Size(36, 30);
+			this.btnCls.TabIndex = 6;
+			this.btnCls.UseVisualStyleBackColor = true;
+			this.btnCls.Click += new System.EventHandler(this.mtlCls_Click);
+			// 
+			// btnMinmiz
+			// 
+			this.btnMinmiz.FlatAppearance.BorderSize = 0;
+			this.btnMinmiz.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+			this.btnMinmiz.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+			this.btnMinmiz.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.btnMinmiz.Location = new System.Drawing.Point(90, 104);
+			this.btnMinmiz.Name = "btnMinmiz";
+			this.btnMinmiz.Size = new System.Drawing.Size(33, 31);
+			this.btnMinmiz.TabIndex = 8;
+			this.btnMinmiz.UseVisualStyleBackColor = true;
+			this.btnMinmiz.Click += new System.EventHandler(this.btnMinmiz_Click);
+			// 
 			// COGLABnewUI
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.BackColor = System.Drawing.Color.Black;
+			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(86)))), ((int)(((byte)(75)))), ((int)(((byte)(75)))));
 			this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
 			this.ClientSize = new System.Drawing.Size(655, 508);
 			this.Controls.Add(this.pnl_cntrl);
@@ -199,7 +192,7 @@
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "COGLABnewUI";
-			this.TransparencyKey = System.Drawing.Color.Black;
+			this.TransparencyKey = System.Drawing.Color.FromArgb(((int)(((byte)(86)))), ((int)(((byte)(75)))), ((int)(((byte)(75)))));
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.COGLABnewUI_FormClosed);
 			this.Load += new System.EventHandler(this.COGLABnewUI_Load);
 			this.Paint += new System.Windows.Forms.PaintEventHandler(this.COGLABnewUI_Paint);
@@ -220,7 +213,7 @@
 		public System.Windows.Forms.Button btn_analysis;
 		private System.Windows.Forms.Panel pnl_cntrl;
 		public System.Windows.Forms.Button btn_trunner;
-		private MetroFramework.Controls.MetroTile mtlMov;
-		private MetroFramework.Controls.MetroTile mtlCls;
+		private System.Windows.Forms.Button btnMinmiz;
+		private System.Windows.Forms.Button btnCls;
 	}
 }

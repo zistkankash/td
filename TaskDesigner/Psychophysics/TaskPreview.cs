@@ -681,19 +681,26 @@ namespace Psychophysics
             }
             catch(Exception)
             {
-                cmb.Text = "";
-                NumerRepeat[index] = 1;
+				NumerRepeat[index] = 1;
+				cmb.Text = "";
+                
             }
             UpdateData(index + 1);
         }
 
 		private void Start_PB_Click(object sender, EventArgs e)
 		{
+			if (AllLevelProp.Count == 0)
+			{
+				MessageBox.Show("Can not show empty task!", "Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
+				return;
+			}
 			brake = false;
-			
+			if (chkRandom.Checked)
+				TypeDisplay = 2;
+			else
+				TypeDisplay = 1;
 			ShowFrame ShFrame = new ShowFrame(false);
-
-								
 			ShFrame.Show();
 		}
 

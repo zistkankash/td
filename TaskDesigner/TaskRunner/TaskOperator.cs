@@ -32,7 +32,7 @@ namespace TaskRunning
 		int Marker_Radius = 10;
 		private Size secondMonit;
 		int _slideNum = 0;
-
+		public static bool _stopped = false;
 		ShowFrame shFrame;
 
 		public static string savedData = BasConfigs._monitor_resolution_x.ToString() + "," + BasConfigs._monitor_resolution_y.ToString() + "\n";
@@ -130,8 +130,9 @@ namespace TaskRunning
 						
 						shFrame = new ShowFrame(true);
 						shFrame._useGaz = true;
-						shFrame.dataPath = txtSavPath.Text;
+						shFrame.pupilDataPath = txtSavPath.Text;
 						shFrame.ScreenConfig();
+						_stopped = false;
 						shFrame.Show();
 					}
 					else
@@ -286,6 +287,11 @@ namespace TaskRunning
 
 		private void refTimer_Tick(object sender, EventArgs e)
 		{
+			if (_stopped == true)
+			{
+				Stop();
+				_stopped = false;
+			}
 			RefreshPctBx();
 		}
 
@@ -293,7 +299,7 @@ namespace TaskRunning
 		{
 			if (num == 0)
 			{
-				txtSavPath.Text = FileName.UpdateFileName(true, txtSavPath.Text);
+				txtSavPath.Text = FileName.AddNumToCSVFileName(true, txtSavPath.Text);
 				return;
 			}
 
@@ -305,7 +311,7 @@ namespace TaskRunning
 
 			if (num < tsk.picList.Count)
 			{
-				txtSavPath.Text = FileName.UpdateFileName(false, txtSavPath.Text);
+				txtSavPath.Text = FileName.AddNumToCSVFileName(false, txtSavPath.Text);
 				_slideNum = num;
 			}
 			else

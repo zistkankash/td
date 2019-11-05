@@ -44,7 +44,7 @@ namespace Psychophysics
 		int repeat;
 		int baseframe = 0;
 		bool fixatehappened = false;
-		Stopwatch sw = Stopwatch.StartNew();
+		Stopwatch sw = new Stopwatch();
 		public Bitmap flag;
 		Graphics flagGraphics;
 		FixationPts stimulus;
@@ -61,28 +61,34 @@ namespace Psychophysics
 		double FixationCenterX = 0, FixationCenterY = 0, FixationCenterWidth = 0;
 		int FixationCenterTime = 0, FixationOutTime = 200;
 		int FixationRewardType = 0;
-		Stopwatch FixationSW = Stopwatch.StartNew();
+		Stopwatch FixationSW = new Stopwatch();
 		bool FirstTimeInRoi = true;
 
 		int[] RandForPosnerStimulus, RandForPosnerCue;
 		public int[] RandForTaskLevel, RepeatationIndex;
 		int indexRandForTaskLevel = 0;
+
 		RepeatLinkFrame repeatInfo = new RepeatLinkFrame();
 		int RandomLocation, trialCounter;
-		public string dataPath;
+		
+		public string pupilDataPath, eventDataPath;
 		string _dataTask = "", _eventData = "";
 		//Timer
+		
 		MicroLibrary.MicroTimer microTimer;
-		MicroLibrary.MicroStopwatch micSW = new MicroLibrary.MicroStopwatch();
+		MicroLibrary.MicroStopwatch _eventMicSW = new MicroLibrary.MicroStopwatch();
 		
 		public ShowFrame(bool getGaze)
 		{
 			InitializeComponent();
+			
 			trialCounter = 0;
-			micSW.Start();
-			if (TaskPreview.AllLevelProp.Count == 0)
-				return;
 
+			if (TaskPreview.AllLevelProp.Count == 0)
+			{
+				
+				return;
+			}
 			if (getGaze)
 			{
 				_useDaq = true;
@@ -96,7 +102,8 @@ namespace Psychophysics
 			MappedSigs[3] = 0;
 		
 			ScreenConfig();
-			
+			eventDataPath = FileName.UpdateFileName(pupilDataPath,"events");
+
 			MakeRandomRepeat(TaskPreview.TypeDisplay);
 			
 			for (int i = 0; i < RandForTaskLevel.Length; i++)
@@ -175,13 +182,17 @@ namespace Psychophysics
 			if (_useGaz)
 			{
 				trialCounter++;
-				_eventData += "t," + trialCounter.ToString() + ",C," + level.ToString() + ",F," + (frame+1).ToString() + "," + micSW.ElapsedMicroseconds.ToString() + "\n";
+				_eventData += "t," + trialCounter.ToString() + ",C," + (level + 1).ToString() + ",F," + (frame + 1).ToString() + "," + _eventMicSW.ElapsedMicroseconds.ToString() + "\n";
 			} 
 			timelimit = TaskPreview.AllLevelProp[level][frame].FrameTime;
 			framelimit = TaskPreview.AllLevelProp[level].Count;
-			repeatInfo = new RepeatLinkFrame();
-			repeatInfo.SetProperties(TaskPreview.AllLevelProp[level][frame].RepeatInfo.Active, TaskPreview.AllLevelProp[level][frame].RepeatInfo.RepeatationNumber, TaskPreview.AllLevelProp[level][frame].RepeatInfo.Length, TaskPreview.AllLevelProp[level][frame].RepeatInfo.RandomLocation);
+			//repeatInfo = new RepeatLinkFrame();
+			//repeatInfo.SetProperties(TaskPreview.AllLevelProp[level][frame].RepeatInfo.Active, TaskPreview.AllLevelProp[level][frame].RepeatInfo.RepeatationNumber, TaskPreview.AllLevelProp[level][frame].RepeatInfo.Length, TaskPreview.AllLevelProp[level][frame].RepeatInfo.RandomLocation);
+			
+			FixationRewardType = TaskPreview.AllLevelProp[level][frame].RewardType;
+			
 
+			#region add graphic objects
 			RandForPosnerStimulus = new int[TaskPreview.NumerRepeat[level]];
 			RandForPosnerCue = new int[TaskPreview.NumerRepeat[level]];
 			for (int k = 0; k < TaskPreview.NumerRepeat[level]; k++)
@@ -358,6 +369,8 @@ namespace Psychophysics
 			}
 
 			Debug.Write("State " + containfixation + " " + frame + " " + level + " \n");
+			
+			#region get fixation
 			fixationstimulus = TaskPreview.AllLevelProp[level][frame].Fixation;
 			//Use Solid Brush for filling the graphic shapes
 			Pen fixationp = new Pen(fixationstimulus.ColorPt);
@@ -404,12 +417,9 @@ namespace Psychophysics
 				FirstTimeInRoi = true;
 				//flagGraphics.DrawEllipse(fixationp, fixationstimulus.Xloc - fixationstimulus.Width / 2, fixationstimulus.Yloc - fixationstimulus.Width / 2, fixationstimulus.Width, fixationstimulus.Width);
 			}
+			#endregion
 
-			if (containfixation)
-				status = 1;
-			else
-				status = 0;
-
+			#region numbox
 			int numbox = TaskPreview.AllLevelProp[level][frame].ShowFrame.Length;
 			for (int i = 0; i < numbox; i++)
 			{
@@ -447,32 +457,25 @@ namespace Psychophysics
 						flagGraphics.DrawLine(pen, vararrow.ArrowLocX0, vararrow.ArrowLocY, vararrow.ArrowLocX1, vararrow.ArrowLocY);
 				}
 			}
-			
-			pictureBox1.Image = flag;
-			sw = Stopwatch.StartNew();
+			#endregion
 
+			#endregion
+			pictureBox1.Image = flag;
+			sw.Start();
+			_eventMicSW.Start();
+			Timer1.Enabled = true;
 			Timer1.Start();
-			//MessageBox.Show("box2");
-			//label1.Text = "Step2";
-			// پارامتر مربوط به ذخیره داده ها
+						
 			if (_useGaz)
 			{
-				//string DataStr = "Signal X" + "," + "Signal Y" + "," + "Level" + "," + "Frame" + "," + "In ROI?" + "," + "Time (ms)";
-				// CSV File
-				//DataStr += MappedSigs[0] + ";" + MappedSigs[1] + ";" + level + ";" + frame + ";" + repeat + ";" + repeatInfo.CurrentRepeatationNumber + ";" + repeatInfo.CurrentIndex + ";" + DateTime.Now.Minute + ";" + DateTime.Now.Second + ";" + DateTime.Now.Millisecond + "\n";
-				//DataTask += DataStr;
 				BasConfigs.server.StartGaze();
-				micSW.Start();
+				_eventMicSW.Start();
 				RunnerUtils.ETGaze();
 			}
 
-			//if (containfixation)
-			//DaqTimer.Start();
-
 			MicroTimerEnable();
 			microTimer.Enabled = true;
-			//MessageBox.Show("box3");
-			//label1.Text = "Step3";
+		
 		}
 
 		public void ScreenConfig()
@@ -504,24 +507,17 @@ namespace Psychophysics
 		
 		private void Timer1_Tick(object sender, EventArgs e)
 		{
-			//// Save 
-			//if (TaskPreview.Savetask)
-			//{
-			//    // CSV File
-			//    string DataStr = MappedSigs[0] + ";" + MappedSigs[1] + ";" + level + ";" + frame + ";" + repeat + ";" + repeatInfo.CurrentRepeatationNumber + ";" + repeatInfo.CurrentIndex + ";" + DateTime.Now.Minute + ";" + DateTime.Now.Second + ";" + DateTime.Now.Millisecond + "\n";
-			//    DataTask += DataStr;
-			//}
-
+			
 			if (_useGaz && _dataTask.Length > 0)
 			{
-				File.AppendAllText(dataPath, _dataTask);
+				File.AppendAllText(pupilDataPath, _dataTask);
 				_dataTask = "";
 				
 			}
 			if (_useGaz && _eventData.Length > 0)
 			{
 				
-				File.AppendAllText(dataPath + "1", _eventData);
+				File.AppendAllText(eventDataPath, _eventData);
 				_eventData = "";
 			}
 
@@ -531,442 +527,291 @@ namespace Psychophysics
 				this.BeginInvoke(new MethodInvoker(Close));
 			}
 
-			// داده ها درون فایل csv ذخیره میشود
-			
+				
 
-			if (sw.ElapsedMilliseconds < timelimit)
+			if (sw.ElapsedMilliseconds < timelimit && !fixatehappened)
 			{
-				counter++;
+				
 				return;
 			}
 
-			Byte Dout = new byte();
-			byte[] b = BitConverter.GetBytes(counter);
-			//if (TaskPreview.instantDoCtrl != null)
-			    //TaskPreview.instantDoCtrl.Write(0, b[0]);
-			counter = 0;
-			//Test_LB.Text = sw.ElapsedMilliseconds + "ms \n";
-			sw = Stopwatch.StartNew();
-			#region check reward
-			if (FixationRewardType == 83 || FixationRewardType == 50 || FixationRewardType == 87 || FixationRewardType == 51)
+			if (FixationRewardType == 50 || FixationRewardType == 51 || FixationRewardType == 48 || FixationRewardType == 0)
 			{
-				
-				if (fixatehappened)
+				#region fixatehappened
+				if (fixatehappened || !_useGaz)
 				{
 					frame++;
-					if (frame == framelimit)
-					{
-						status = 4;
-						
-					}
-					if (repeatInfo.Active)
-					{
-						repeatInfo.CurrentIndex++;
-						if (!(repeatInfo.CurrentIndex < repeatInfo.Length))
-						{
-							repeatInfo.CurrentRepeatationNumber++;
-							if (repeatInfo.CurrentRepeatationNumber < repeatInfo.RepeatationNumber)
-							{
-								frame = frame - repeatInfo.CurrentIndex;
-								repeatInfo.CurrentIndex = 0;
-							}
-							else
-							{
-								repeatInfo.Active = false;
-							}
-						}
-					}
-
 					containfixation = false;
-					//if (FixationRewardType != 5)
-					//    fixatehappened = false;
+					microTimer.Stop();
+					#region commented
+					//if (frame == framelimit)
+					//{
+					//	status = 4;
 
-					//DaqTimer.Stop();
-					//microTimer.Enabled = false;
+					//}
+					//if (repeatInfo.Active)
+					//{
+					//	repeatInfo.CurrentIndex++;
+					//	if (!(repeatInfo.CurrentIndex < repeatInfo.Length))
+					//	{
+					//		repeatInfo.CurrentRepeatationNumber++;
+					//		if (repeatInfo.CurrentRepeatationNumber < repeatInfo.RepeatationNumber)
+					//		{
+					//			frame = frame - repeatInfo.CurrentIndex;
+					//			repeatInfo.CurrentIndex = 0;
+					//		}
+					//		else
+					//		{
+					//			repeatInfo.Active = false;
+					//		}
+					//	}
+					//}
+
+					#endregion
+
 					if (frame < framelimit)
 					{
 						if (_useGaz)
 						{
-							
-							_eventData += "t," + trialCounter.ToString() + ",C," + level.ToString() + ",F," + (frame+1).ToString() + "," + micSW.ElapsedMicroseconds.ToString() + "\n";
+							_eventData += "t," + trialCounter.ToString() + ",C," + (level + 1).ToString() + ",F," + (frame + 1).ToString() + "," + _eventMicSW.ElapsedMicroseconds.ToString() + "\n";
+
 						}
 						timelimit = TaskPreview.AllLevelProp[level][frame].FrameTime;
 					}
+					// go to next trial
 					else
 					{
 						frame = 0;
 						indexRandForTaskLevel++;
 						if (indexRandForTaskLevel >= RandForTaskLevel.Length)
 						{
-							Timer1.Stop();
-							CloseForm = true;
-							
-							this.BeginInvoke(new MethodInvoker(Close));
+							StopRun();
 							return;
 						}
 						level = RandForTaskLevel[indexRandForTaskLevel];
 						if (_useGaz)
 						{
 							trialCounter++;
-							_eventData += "t," + trialCounter.ToString() + ",C," + level.ToString() + ",F," + (frame + 1).ToString() + "," + micSW.ElapsedMicroseconds.ToString() + "\n";
+							_eventData += "t," + trialCounter.ToString() + ",C," + (level + 1).ToString() + ",F," + (frame + 1).ToString() + "," + _eventMicSW.ElapsedMicroseconds.ToString() + "\n";
 						}
 						timelimit = TaskPreview.AllLevelProp[level][frame].FrameTime;
 						framelimit = TaskPreview.AllLevelProp[level].Count;
 
 					}
-					Debug.Write("Fixate \n");
-				}
-				else
-				{
-					Debug.Write("Fixate*** " + frame + " " + FixationRewardType + "\n");
-
-					if (FixationRewardType == 87 || FixationRewardType == 83)
-					{
-						status = 2;
-						//if(!Mute)
-						failSound.Play();
-					}
-
-					if (FixationRewardType == 50 || FixationRewardType == 51)
-					{
-						status = 3;
-					}
-
-					frame = baseframe;
-					if (repeatInfo.Active)
-					{
-						repeatInfo.CurrentIndex = 0;
-						if (!(repeatInfo.CurrentIndex < repeatInfo.Length))
-						{
-							repeatInfo.CurrentRepeatationNumber++;
-							if (repeatInfo.CurrentRepeatationNumber < repeatInfo.RepeatationNumber)
-							{
-								frame = frame - repeatInfo.CurrentIndex;
-								repeatInfo.CurrentIndex = 0;
-							}
-							else
-							{
-								repeatInfo.Active = false;
-							}
-						}
-					}
-
-					containfixation = false;
-					keyState = false;
-					//fixatehappened = false;
-					//DaqTimer.Stop();
-					//microTimer.Enabled = false;
-					//if (TaskPreview.Savetask)
-					//{
-					//	string DataStr;
-					//	// CSV File
-					//	DataStr = "," + status.ToString();
-					//	DataTask += DataStr;
-					//}
+					RunnerUtils.ClearGaze();
 					
-
-					indexRandForTaskLevel++;
-					if (indexRandForTaskLevel >= RandForTaskLevel.Length)
-					{
-						Timer1.Stop();
-						CloseForm = true;
-						
-						//this.Close();
-						this.BeginInvoke(new MethodInvoker(Close));
-						return;
-					}
-					level = RandForTaskLevel[indexRandForTaskLevel];
-					if (_useGaz)
-					{
-						trialCounter++;
-						_eventData += "t," + trialCounter.ToString() + ",C," + level.ToString() + ",F," + (frame + 1).ToString() + "," + micSW.ElapsedMicroseconds.ToString() + "\n";
-					}
-					timelimit = TaskPreview.AllLevelProp[level][frame].FrameTime;
-					framelimit = TaskPreview.AllLevelProp[level].Count;
-				}
-
-			}
-			#endregion
-			#region else reward
-			else
-			{
-				frame++;
-				if (repeatInfo.Active)
-				{
-					repeatInfo.CurrentIndex++;
-					if (!(repeatInfo.CurrentIndex < repeatInfo.Length))
-					{
-						repeatInfo.CurrentRepeatationNumber++;
-						if (repeatInfo.CurrentRepeatationNumber < repeatInfo.RepeatationNumber)
-						{
-							frame = frame - repeatInfo.CurrentIndex;
-							repeatInfo.CurrentIndex = 0;
-						}
-						else
-						{
-							repeatInfo.Active = false;
-						}
-
-					}
-				}
-				containfixation = false;
-				fixatehappened = false;
-				keyState = false;
-				//microTimer.Enabled = false;
-				#region next frame / slide
-				if (frame < framelimit)
-				{
-					timelimit = TaskPreview.AllLevelProp[level][frame].FrameTime;
-					if (_useGaz)
-					{
-						_eventData += "t," + trialCounter.ToString() + ",C," + level.ToString() + ",F," + (frame + 1).ToString() + "," + micSW.ElapsedMicroseconds.ToString() + "\n";
-					}
-				}
-				else
-				{
-					frame = 0;
-					indexRandForTaskLevel++;
-					if (indexRandForTaskLevel >= RandForTaskLevel.Length)
-					{
-						Timer1.Stop();
-						CloseForm = true;
-						
-						this.BeginInvoke(new MethodInvoker(Close));
-						return;
-					}
-					level = RandForTaskLevel[indexRandForTaskLevel];
-					if (_useGaz)
-					{
-						trialCounter++;
-						_eventData += "t," + trialCounter.ToString() + ",C," + level.ToString() + ",F," + (frame + 1).ToString() + "," + micSW.ElapsedMicroseconds.ToString() + "\n";
-					}
-					timelimit = TaskPreview.AllLevelProp[level][frame].FrameTime;
-					framelimit = TaskPreview.AllLevelProp[level].Count;
+					//Debug.Write("Fixate \n");
 				}
 				#endregion
+				#region else fixatehappened  commented
+				//else
+				//{
+				//	//Debug.Write("Fixate*** " + frame + " " + FixationRewardType + "\n");
+
+				//	//if (FixationRewardType == 87 || FixationRewardType == 83)
+				//	//{
+				//	//	status = 2;
+				//	//	//if(!Mute)
+				//	//	failSound.Play();
+				//	//}
+
+				//	//if (FixationRewardType == 50 || FixationRewardType == 51)
+				//	//{
+				//	//	status = 3;
+				//	//}
+
+				//	frame = baseframe;
+				//	//if (repeatInfo.Active)
+				//	//{
+				//	//	repeatInfo.CurrentIndex = 0;
+				//	//	if (!(repeatInfo.CurrentIndex < repeatInfo.Length))
+				//	//	{
+				//	//		repeatInfo.CurrentRepeatationNumber++;
+				//	//		if (repeatInfo.CurrentRepeatationNumber < repeatInfo.RepeatationNumber)
+				//	//		{
+				//	//			frame = frame - repeatInfo.CurrentIndex;
+				//	//			repeatInfo.CurrentIndex = 0;
+				//	//		}
+				//	//		else
+				//	//		{
+				//	//			repeatInfo.Active = false;
+				//	//		}
+				//	//	}
+				//	//}
+
+				//	containfixation = false;
+				//	keyState = false;
+				//	//fixatehappened = false;
+				//	//DaqTimer.Stop();
+				//	//microTimer.Enabled = false;
+				//	//if (TaskPreview.Savetask)
+				//	//{
+				//	//	string DataStr;
+				//	//	// CSV File
+				//	//	DataStr = "," + status.ToString();
+				//	//	DataTask += DataStr;
+				//	//}
+
+
+				//	indexRandForTaskLevel++;
+				//	if (indexRandForTaskLevel >= RandForTaskLevel.Length)
+				//	{
+				//		Timer1.Stop();
+				//		CloseForm = true;
+
+				//		if (_useGaz)
+				//		{
+				//			TaskOperator._stopped = true;
+				//		}
+				//		this.BeginInvoke(new MethodInvoker(Close));
+				//		return;
+				//	}
+				//	level = RandForTaskLevel[indexRandForTaskLevel];
+				//	if (_useGaz)
+				//	{
+				//		trialCounter++;
+				//		_eventData += "t," + trialCounter.ToString() + ",C," + (level + 1).ToString() + ",F," + (frame + 1).ToString() + "," + _eventMicSW.ElapsedMicroseconds.ToString() + "\n";
+				//	}
+				//	timelimit = TaskPreview.AllLevelProp[level][frame].FrameTime;
+				//	framelimit = TaskPreview.AllLevelProp[level].Count;
+				//}
+
+
+				#endregion
 			}
+			#region else reward commented
+			//else
+			//{
+			//	frame++;
+			//if (repeatInfo.Active)
+			//{
+			//	repeatInfo.CurrentIndex++;
+			//	if (!(repeatInfo.CurrentIndex < repeatInfo.Length))
+			//	{
+			//		repeatInfo.CurrentRepeatationNumber++;
+			//		if (repeatInfo.CurrentRepeatationNumber < repeatInfo.RepeatationNumber)
+			//		{
+			//			frame = frame - repeatInfo.CurrentIndex;
+			//			repeatInfo.CurrentIndex = 0;
+			//		}
+			//		else
+			//		{
+			//			repeatInfo.Active = false;
+			//		}
+
+			//	}
+			//}
+			//containfixation = false;
+			//fixatehappened = false;
+			//keyState = false;
+			//microTimer.Enabled = false;
+			
+			//if (frame < framelimit)
+			//	{
+			//		timelimit = TaskPreview.AllLevelProp[level][frame].FrameTime;
+			//		if (_useGaz)
+			//		{
+			//			_eventData += "t," + trialCounter.ToString() + ",C," + (level + 1).ToString() + ",F," + (frame + 1).ToString() + "," + _eventMicSW.ElapsedMicroseconds.ToString() + "\n";
+			//		}
+			//	}
+			//	else
+			//	{
+			//		frame = 0;
+			//		indexRandForTaskLevel++;
+			//		if (indexRandForTaskLevel >= RandForTaskLevel.Length)
+			//		{
+			//			Timer1.Stop();
+			//			CloseForm = true;
+			//			if (_useGaz)
+			//			{
+			//				TaskOperator._stopped = true;
+			//			}
+			//			this.BeginInvoke(new MethodInvoker(Close));
+			//			return;
+			//		}
+			//		level = RandForTaskLevel[indexRandForTaskLevel];
+			//		if (_useGaz)
+			//		{
+			//			trialCounter++;
+			//			_eventData += "t," + trialCounter.ToString() + ",C," + (level + 1).ToString() + ",F," + (frame + 1).ToString() + "," + _eventMicSW.ElapsedMicroseconds.ToString() + "\n";
+			//		}
+			//		timelimit = TaskPreview.AllLevelProp[level][frame].FrameTime;
+			//		framelimit = TaskPreview.AllLevelProp[level].Count;
+			//	}
+			
+			//}
             #endregion
 
             #region add graphic objects
             
 			flagGraphics.Clear(TaskPreview.AllLevelProp[level][frame].BGColor);
+			
 			numberstimulus = TaskPreview.AllLevelProp[level][frame].Stimulus.Length;
-			//if (TaskPreview.AllLevelProp[level][frame].RepeatInfo.Active)
+			
+						
+			#region add stimulus
+			
+			for (int k = 0; k < numberstimulus; k++)
 			{
-				if (repeatInfo.RandomLocation == 1)
-				{
-					repeatInfo.LeftOrRight = 2;
-				}
-				else if (repeatInfo.RandomLocation == 2)
-				{
-					repeatInfo.LeftOrRight = 1;
-				}
-				else if (repeatInfo.RandomLocation == 3)
-				{
-					repeatInfo.LeftOrRight = repeatInfo.Makerand();
-				}
-				else
-				{
-					RandomLocation = 0;
-				}
-
-				//Debug.Write("Random Location " + frame + " " + RandomLocation + " " + repeatInfo.LeftOrRight + " " + TaskPreview.AllLevelProp[level][frame].RepeatInfo.RandomLocation + " \n");
-				#region add stimulus
-				//Debug.Write("NUm " + numberstimulus + " \n");
-				for (int k = 0; k < numberstimulus; k++)
-				{
-					stimulus = TaskPreview.AllLevelProp[level][frame].Stimulus[k];
-					//Use Solid Brush for filling the graphic shapes
-					sb = new SolidBrush(Color.FromArgb(stimulus.Contrast, stimulus.ColorPt));
-
-					if (stimulus.Type == 1)
-					{
-						flagGraphics.FillRectangle(sb, stimulus.Xloc - stimulus.Width / 2, stimulus.Yloc - stimulus.Width / 2, stimulus.Width, stimulus.Width);
-					}
-
-					if (stimulus.Type == 2)
-					{
-						flagGraphics.FillRectangle(sb, stimulus.Xloc - stimulus.Width / 2, stimulus.Yloc - stimulus.Width / 2, stimulus.Width, stimulus.Width);
-					}
-
-					if (stimulus.Type == 3)
-					{
-						flagGraphics.FillEllipse(sb, stimulus.Xloc - stimulus.Width / 2, stimulus.Yloc - stimulus.Width / 2, stimulus.Width, stimulus.Width);
-					}
-					//Debug.Write("Stimulius Error :" + k +" " + stimulus.PathPic + " " + numberstimulus  + " " + stimulus.Type+ " " + "\n");
-
-					if (stimulus.Type == 4)
-					{
-						if (File.Exists(stimulus.PathPic))
-						{
-							bmpvar = new Bitmap(stimulus.PathPic);
-							bmpvar = new Bitmap(bmpvar, new Size(stimulus.Width, stimulus.Height));
-							flagGraphics.DrawImage(bmpvar, new Point(stimulus.Xloc - stimulus.Width / 2, stimulus.Yloc - stimulus.Width / 2));
-						}
-
-						bmpvar.Dispose();
-					}
-
-					if (stimulus.Type == 5)
-					{
-
-						if (repeatInfo.LeftOrRight == 1)
-							i = 0;
-						else if (repeatInfo.LeftOrRight == 2)
-							i = 1;
-						else
-							i = 0;
-
-						ShowFr var = TaskPreview.AllLevelProp[level][frame].ShowFrame[i];
-						flagGraphics.FillRectangle(sb, var.CenterX - stimulus.Width / 2, var.CenterY - stimulus.Width / 2, stimulus.Width, stimulus.Width);
-					}
-
-					if (stimulus.Type == 6)
-					{
-						if (repeatInfo.LeftOrRight == 1)
-							i = 0;
-						else if (repeatInfo.LeftOrRight == 2)
-							i = 1;
-						else
-							i = 0;
-						ShowFr var = TaskPreview.AllLevelProp[level][frame].ShowFrame[i];
-						flagGraphics.FillRectangle(sb, var.CenterX - stimulus.Width / 2, var.CenterY - stimulus.Width / 2, stimulus.Width, stimulus.Width);
-					}
-
-					if (stimulus.Type == 7)
-					{
-						if (repeatInfo.LeftOrRight == 1)
-							i = 0;
-						else if (repeatInfo.LeftOrRight == 2)
-							i = 1;
-						else
-							i = 0;
-						//if (RandForPosnerStimulus[repeat] == 0)
-						//    i = 0;
-						//else
-						//    i = 1;
-						ShowFr var = TaskPreview.AllLevelProp[level][frame].ShowFrame[i];
-						flagGraphics.FillEllipse(sb, var.CenterX - stimulus.Width / 2, var.CenterY - stimulus.Width / 2, stimulus.Width, stimulus.Width);
-					}
-
-					if (stimulus.Type == 8)
-					{
-						if (repeatInfo.LeftOrRight == 1)
-							i = 0;
-						else if (repeatInfo.LeftOrRight == 2)
-							i = 1;
-						else
-							i = 0;
-						ShowFr var = TaskPreview.AllLevelProp[level][frame].ShowFrame[i];
-						//Debug.Write("PathPic :" + stimulus.PathPic+ "\n " );
-						if (File.Exists(stimulus.PathPic))
-						{
-							bmpvar = new Bitmap(stimulus.PathPic);
-							bmpvar = new Bitmap(bmpvar, new Size(var.Width, var.Height));
-							flagGraphics.DrawImage(bmpvar, new Point(var.CenterX - var.Width / 2, var.CenterY - var.Height / 2));
-						}
-
-
-						bmpvar.Dispose();
-					}
-
-					if (stimulus.Type == 9)
-					{
-						if (repeatInfo.LeftOrRight == 1)
-							i = 1;
-						else if (repeatInfo.LeftOrRight == 2)
-							i = 0;
-						else
-							i = 1;
-
-						ShowFr var = TaskPreview.AllLevelProp[level][frame].ShowFrame[i];
-						flagGraphics.FillRectangle(sb, var.CenterX - stimulus.Width / 2, var.CenterY - stimulus.Width / 2, stimulus.Width, stimulus.Width);
-					}
-
-					if (stimulus.Type == 10)
-					{
-						if (repeatInfo.LeftOrRight == 1)
-							i = 1;
-						else if (repeatInfo.LeftOrRight == 2)
-							i = 0;
-						else
-							i = 1;
-						ShowFr var = TaskPreview.AllLevelProp[level][frame].ShowFrame[i];
-						flagGraphics.FillRectangle(sb, var.CenterX - stimulus.Width / 2, var.CenterY - stimulus.Width / 2, stimulus.Width, stimulus.Width);
-					}
-
-					if (stimulus.Type == 11)
-					{
-						if (repeatInfo.LeftOrRight == 1)
-							i = 1;
-						else if (repeatInfo.LeftOrRight == 2)
-							i = 0;
-						else
-							i = 1;
-
-						ShowFr var = TaskPreview.AllLevelProp[level][frame].ShowFrame[i];
-						flagGraphics.FillEllipse(sb, var.CenterX - stimulus.Width / 2, var.CenterY - stimulus.Width / 2, stimulus.Width, stimulus.Width);
-					}
-
-					if (stimulus.Type == 12)
-					{
-						if (repeatInfo.LeftOrRight == 1)
-							i = 1;
-						else if (repeatInfo.LeftOrRight == 2)
-							i = 0;
-						else
-							i = 1;
-						ShowFr var = TaskPreview.AllLevelProp[level][frame].ShowFrame[i];
-						if (File.Exists(stimulus.PathPic))
-						{
-							bmpvar = new Bitmap(stimulus.PathPic);
-							bmpvar = new Bitmap(bmpvar, new Size(var.Width, var.Height));
-							flagGraphics.DrawImage(bmpvar, new Point(var.CenterX - var.Width / 2, var.CenterY - var.Height / 2));
-						}
-						bmpvar.Dispose();
-					}
-
-				}
-				#endregion
-				#region add fixation
-				fixationstimulus = TaskPreview.AllLevelProp[level][frame].Fixation;
+				stimulus = TaskPreview.AllLevelProp[level][frame].Stimulus[k];
 				//Use Solid Brush for filling the graphic shapes
-				fixationp = new Pen(fixationstimulus.ColorPt);
-				//Debug.Write("Data  f:" + fixationstimulus.Xloc + " " + fixationstimulus.Yloc + " " + fixationstimulus.Type  + " " + numberstimulus + " " + "\n");
-				if (fixationstimulus.Type == 1)
+				sb = new SolidBrush(Color.FromArgb(stimulus.Contrast, stimulus.ColorPt));
+
+				if (stimulus.Type == 1)
 				{
-					containfixation = true;
-					FixationCenterX = fixationstimulus.Xloc;
-					FixationCenterY = fixationstimulus.Yloc;
-					FixationCenterWidth = fixationstimulus.Width;
-					FixationCenterTime = TaskPreview.AllLevelProp[level][frame].FixationTime;
-					FirstTimeInRoi = true;
-					//flagGraphics.DrawRectangle(fixationp, fixationstimulus.Xloc - fixationstimulus.Width / 2, fixationstimulus.Yloc - fixationstimulus.Width / 2, fixationstimulus.Width, fixationstimulus.Width);
+					flagGraphics.FillRectangle(sb, stimulus.Xloc - stimulus.Width / 2, stimulus.Yloc - stimulus.Width / 2, stimulus.Width, stimulus.Width);
 				}
 
-				if (fixationstimulus.Type == 2)
+				if (stimulus.Type == 2)
 				{
-					containfixation = true;
-					FixationCenterX = fixationstimulus.Xloc;
-					FixationCenterY = fixationstimulus.Yloc;
-					FixationCenterWidth = fixationstimulus.Width;
-					FixationCenterTime = TaskPreview.AllLevelProp[level][frame].FixationTime;
-					FirstTimeInRoi = true;
-					//flagGraphics.DrawRectangle(fixationp, fixationstimulus.Xloc - fixationstimulus.Width / 2, fixationstimulus.Yloc - fixationstimulus.Width / 2, fixationstimulus.Width, fixationstimulus.Width);
+					flagGraphics.FillRectangle(sb, stimulus.Xloc - stimulus.Width / 2, stimulus.Yloc - stimulus.Width / 2, stimulus.Width, stimulus.Width);
 				}
 
-				if (fixationstimulus.Type == 3)
+				if (stimulus.Type == 3)
 				{
-					containfixation = true;
-					FixationCenterX = fixationstimulus.Xloc;
-					FixationCenterY = fixationstimulus.Yloc;
-					FixationCenterWidth = fixationstimulus.Width;
-					FixationCenterTime = TaskPreview.AllLevelProp[level][frame].FixationTime;
-					FirstTimeInRoi = true;
-					//flagGraphics.DrawEllipse(fixationp, fixationstimulus.Xloc - fixationstimulus.Width / 2, fixationstimulus.Yloc - fixationstimulus.Width / 2, fixationstimulus.Width, fixationstimulus.Width);
+					flagGraphics.FillEllipse(sb, stimulus.Xloc - stimulus.Width / 2, stimulus.Yloc - stimulus.Width / 2, stimulus.Width, stimulus.Width);
+				}
+				//Debug.Write("Stimulius Error :" + k +" " + stimulus.PathPic + " " + numberstimulus  + " " + stimulus.Type+ " " + "\n");
+
+				if (stimulus.Type == 4)
+				{
+					if (File.Exists(stimulus.PathPic))
+					{
+						bmpvar = new Bitmap(stimulus.PathPic);
+						bmpvar = new Bitmap(bmpvar, new Size(stimulus.Width, stimulus.Height));
+						flagGraphics.DrawImage(bmpvar, new Point(stimulus.Xloc - stimulus.Width / 2, stimulus.Yloc - stimulus.Width / 2));
+					}
+
+					bmpvar.Dispose();
 				}
 
-				if (fixationstimulus.Type == 7)
+				if (stimulus.Type == 5)
+				{
+
+					if (repeatInfo.LeftOrRight == 1)
+						i = 0;
+					else if (repeatInfo.LeftOrRight == 2)
+						i = 1;
+					else
+						i = 0;
+
+					ShowFr var = TaskPreview.AllLevelProp[level][frame].ShowFrame[i];
+					flagGraphics.FillRectangle(sb, var.CenterX - stimulus.Width / 2, var.CenterY - stimulus.Width / 2, stimulus.Width, stimulus.Width);
+				}
+
+				if (stimulus.Type == 6)
+				{
+					if (repeatInfo.LeftOrRight == 1)
+						i = 0;
+					else if (repeatInfo.LeftOrRight == 2)
+						i = 1;
+					else
+						i = 0;
+					ShowFr var = TaskPreview.AllLevelProp[level][frame].ShowFrame[i];
+					flagGraphics.FillRectangle(sb, var.CenterX - stimulus.Width / 2, var.CenterY - stimulus.Width / 2, stimulus.Width, stimulus.Width);
+				}
+
+				if (stimulus.Type == 7)
 				{
 					if (repeatInfo.LeftOrRight == 1)
 						i = 0;
@@ -979,90 +824,215 @@ namespace Psychophysics
 					//else
 					//    i = 1;
 					ShowFr var = TaskPreview.AllLevelProp[level][frame].ShowFrame[i];
-					//Debug.Write("Fixationnnnnnnnnnnnnnnnn :" + repeatInfo.LeftOrRight + " " + i + frame + "\n");
-					containfixation = true;
-					FixationCenterX = var.CenterX;
-					FixationCenterY = var.CenterY;
-					FixationCenterWidth = fixationstimulus.Width;
-					FixationCenterTime = TaskPreview.AllLevelProp[level][frame].FixationTime;
-					FirstTimeInRoi = true;
-					//flagGraphics.DrawEllipse(fixationp, var.CenterX - fixationstimulus.Width / 2, var.CenterY - fixationstimulus.Width / 2, fixationstimulus.Width, fixationstimulus.Width);
+					flagGraphics.FillEllipse(sb, var.CenterX - stimulus.Width / 2, var.CenterY - stimulus.Width / 2, stimulus.Width, stimulus.Width);
 				}
-				#endregion
 
-				int numbox = TaskPreview.AllLevelProp[level][frame].ShowFrame.Length;
-				for (i = 0; i < numbox; i++)
+				if (stimulus.Type == 8)
 				{
-					ShowFr var = TaskPreview.AllLevelProp[level][frame].ShowFrame[i];
-					Pen framepen = new Pen(var.ColorBox, var.Thickness);
-					flagGraphics.DrawRectangle(framepen, var.CenterX - var.Width / 2, var.CenterY - var.Height / 2, var.Width, var.Height);
-				}
-				//Debug.Write("Fixationnnnn1111111111111 :" + repeatInfo.LeftOrRight + " " + i + " " +  frame + "\n");
-				//Debug.Write("DebugCue : " + TaskPreview.AllLevelProp[level][frame].Cue.type  + " " + numbox  + "  " +  frame + " \n");
-				if (numbox == 2)
-				{
-					if (TaskPreview.AllLevelProp[level][frame].Cue.type == 2)
-					{
-						HintForm varBoxHint = TaskPreview.AllLevelProp[level][frame].Cue;
-
-						
-						ShowFr var = TaskPreview.AllLevelProp[level][frame].ShowFrame[repeatInfo.LeftOrRight - 1];
-						//Debug.Write("Debug Var: " + var.CenterX + " " + TaskPreview.AllLevelProp[level][frame].ShowFrame[repeatInfo.LeftOrRight - 1].CenterX + " " + varBoxHint.BoxRatio + " \n");
-						Pen framepen = new Pen(var.ColorBox, varBoxHint.BoxRatio * var.Thickness);
-
-						flagGraphics.DrawRectangle(framepen, var.CenterX - var.Width / 2, var.CenterY - var.Height / 2, var.Width, var.Height);
-
-					}
-
-					if (TaskPreview.AllLevelProp[level][frame].Cue.type == 1)
-					{
-						HintForm vararrow = TaskPreview.AllLevelProp[level][frame].Cue;
-
-						Pen pen = new Pen(vararrow.ArrowColor, vararrow.ArrowWidth);
-						pen.StartCap = LineCap.ArrowAnchor;
-						//pen.EndCap = LineCap.RoundAnchor;
-
-						if (repeatInfo.LeftOrRight == 1)
-							flagGraphics.DrawLine(pen, vararrow.ArrowLocX0, vararrow.ArrowLocY, vararrow.ArrowLocX1, vararrow.ArrowLocY);
-						else if (repeatInfo.LeftOrRight == 2)
-							flagGraphics.DrawLine(pen, vararrow.ArrowLocX1, vararrow.ArrowLocY, vararrow.ArrowLocX0, vararrow.ArrowLocY);
-						else
-							flagGraphics.DrawLine(pen, vararrow.ArrowLocX0, vararrow.ArrowLocY, vararrow.ArrowLocX1, vararrow.ArrowLocY);
-					}
-				}
-				
-				if (repeatInfo.Active == false)
-				{
-					repeatInfo.SetProperties(TaskPreview.AllLevelProp[level][frame].RepeatInfo.Active, TaskPreview.AllLevelProp[level][frame].RepeatInfo.RepeatationNumber, TaskPreview.AllLevelProp[level][frame].RepeatInfo.Length, TaskPreview.AllLevelProp[level][frame].RepeatInfo.RandomLocation);
-				}
-				FixationRewardType = TaskPreview.AllLevelProp[level][frame].RewardType;
-				if (FixationRewardType != 51 && FixationRewardType != 50)
-					fixatehappened = false;
-				if (containfixation)
-				{
-					if (TaskPreview.AllLevelProp[level][frame].RewardType == 0)
-					{
-						status = 0;
-					}
+					if (repeatInfo.LeftOrRight == 1)
+						i = 0;
+					else if (repeatInfo.LeftOrRight == 2)
+						i = 1;
 					else
+						i = 0;
+					ShowFr var = TaskPreview.AllLevelProp[level][frame].ShowFrame[i];
+					//Debug.Write("PathPic :" + stimulus.PathPic+ "\n " );
+					if (File.Exists(stimulus.PathPic))
 					{
-						//microTimer.Enabled = true;
-						status = 1;
-						//DaqTimer.Start();
+						bmpvar = new Bitmap(stimulus.PathPic);
+						bmpvar = new Bitmap(bmpvar, new Size(var.Width, var.Height));
+						flagGraphics.DrawImage(bmpvar, new Point(var.CenterX - var.Width / 2, var.CenterY - var.Height / 2));
 					}
+
+
+					bmpvar.Dispose();
 				}
-				else
+
+				if (stimulus.Type == 9)
 				{
-					status = 0;
+					if (repeatInfo.LeftOrRight == 1)
+						i = 1;
+					else if (repeatInfo.LeftOrRight == 2)
+						i = 0;
+					else
+						i = 1;
+
+					ShowFr var = TaskPreview.AllLevelProp[level][frame].ShowFrame[i];
+					flagGraphics.FillRectangle(sb, var.CenterX - stimulus.Width / 2, var.CenterY - stimulus.Width / 2, stimulus.Width, stimulus.Width);
 				}
-				
+
+				if (stimulus.Type == 10)
+				{
+					if (repeatInfo.LeftOrRight == 1)
+						i = 1;
+					else if (repeatInfo.LeftOrRight == 2)
+						i = 0;
+					else
+						i = 1;
+					ShowFr var = TaskPreview.AllLevelProp[level][frame].ShowFrame[i];
+					flagGraphics.FillRectangle(sb, var.CenterX - stimulus.Width / 2, var.CenterY - stimulus.Width / 2, stimulus.Width, stimulus.Width);
+				}
+
+				if (stimulus.Type == 11)
+				{
+					if (repeatInfo.LeftOrRight == 1)
+						i = 1;
+					else if (repeatInfo.LeftOrRight == 2)
+						i = 0;
+					else
+						i = 1;
+
+					ShowFr var = TaskPreview.AllLevelProp[level][frame].ShowFrame[i];
+					flagGraphics.FillEllipse(sb, var.CenterX - stimulus.Width / 2, var.CenterY - stimulus.Width / 2, stimulus.Width, stimulus.Width);
+				}
+
+				if (stimulus.Type == 12)
+				{
+					if (repeatInfo.LeftOrRight == 1)
+						i = 1;
+					else if (repeatInfo.LeftOrRight == 2)
+						i = 0;
+					else
+						i = 1;
+					ShowFr var = TaskPreview.AllLevelProp[level][frame].ShowFrame[i];
+					if (File.Exists(stimulus.PathPic))
+					{
+						bmpvar = new Bitmap(stimulus.PathPic);
+						bmpvar = new Bitmap(bmpvar, new Size(var.Width, var.Height));
+						flagGraphics.DrawImage(bmpvar, new Point(var.CenterX - var.Width / 2, var.CenterY - var.Height / 2));
+					}
+					bmpvar.Dispose();
+				}
 
 			}
-            pictureBox1.Image = flag;
-            #endregion
-            return;
+			#endregion
+			#region add fixation
+			fixationstimulus = TaskPreview.AllLevelProp[level][frame].Fixation;
+			//Use Solid Brush for filling the graphic shapes
+			fixationp = new Pen(fixationstimulus.ColorPt);
+			//Debug.Write("Data  f:" + fixationstimulus.Xloc + " " + fixationstimulus.Yloc + " " + fixationstimulus.Type  + " " + numberstimulus + " " + "\n");
+			if (fixationstimulus.Type == 1)
+			{
+				containfixation = true;
+				FixationCenterX = fixationstimulus.Xloc;
+				FixationCenterY = fixationstimulus.Yloc;
+				FixationCenterWidth = fixationstimulus.Width;
+				FixationCenterTime = TaskPreview.AllLevelProp[level][frame].FixationTime;
+				FirstTimeInRoi = true;
+				//flagGraphics.DrawRectangle(fixationp, fixationstimulus.Xloc - fixationstimulus.Width / 2, fixationstimulus.Yloc - fixationstimulus.Width / 2, fixationstimulus.Width, fixationstimulus.Width);
+			}
+
+			if (fixationstimulus.Type == 2)
+			{
+				containfixation = true;
+				FixationCenterX = fixationstimulus.Xloc;
+				FixationCenterY = fixationstimulus.Yloc;
+				FixationCenterWidth = fixationstimulus.Width;
+				FixationCenterTime = TaskPreview.AllLevelProp[level][frame].FixationTime;
+				FirstTimeInRoi = true;
+				//flagGraphics.DrawRectangle(fixationp, fixationstimulus.Xloc - fixationstimulus.Width / 2, fixationstimulus.Yloc - fixationstimulus.Width / 2, fixationstimulus.Width, fixationstimulus.Width);
+			}
+
+			if (fixationstimulus.Type == 3)
+			{
+				containfixation = true;
+				FixationCenterX = fixationstimulus.Xloc;
+				FixationCenterY = fixationstimulus.Yloc;
+				FixationCenterWidth = fixationstimulus.Width;
+				FixationCenterTime = TaskPreview.AllLevelProp[level][frame].FixationTime;
+				FirstTimeInRoi = true;
+				//flagGraphics.DrawEllipse(fixationp, fixationstimulus.Xloc - fixationstimulus.Width / 2, fixationstimulus.Yloc - fixationstimulus.Width / 2, fixationstimulus.Width, fixationstimulus.Width);
+			}
+
+			if (fixationstimulus.Type == 7)
+			{
+				if (repeatInfo.LeftOrRight == 1)
+					i = 0;
+				else if (repeatInfo.LeftOrRight == 2)
+					i = 1;
+				else
+					i = 0;
+				//if (RandForPosnerStimulus[repeat] == 0)
+				//    i = 0;
+				//else
+				//    i = 1;
+				ShowFr var = TaskPreview.AllLevelProp[level][frame].ShowFrame[i];
+				//Debug.Write("Fixationnnnnnnnnnnnnnnnn :" + repeatInfo.LeftOrRight + " " + i + frame + "\n");
+				containfixation = true;
+				FixationCenterX = var.CenterX;
+				FixationCenterY = var.CenterY;
+				FixationCenterWidth = fixationstimulus.Width;
+				FixationCenterTime = TaskPreview.AllLevelProp[level][frame].FixationTime;
+				FirstTimeInRoi = true;
+				//flagGraphics.DrawEllipse(fixationp, var.CenterX - fixationstimulus.Width / 2, var.CenterY - fixationstimulus.Width / 2, fixationstimulus.Width, fixationstimulus.Width);
+			}
+			#endregion
+			#region numbox
+			int numbox = TaskPreview.AllLevelProp[level][frame].ShowFrame.Length;
+			for (i = 0; i < numbox; i++)
+			{
+				ShowFr var = TaskPreview.AllLevelProp[level][frame].ShowFrame[i];
+				Pen framepen = new Pen(var.ColorBox, var.Thickness);
+				flagGraphics.DrawRectangle(framepen, var.CenterX - var.Width / 2, var.CenterY - var.Height / 2, var.Width, var.Height);
+			}
+			//Debug.Write("Fixationnnnn1111111111111 :" + repeatInfo.LeftOrRight + " " + i + " " +  frame + "\n");
+			//Debug.Write("DebugCue : " + TaskPreview.AllLevelProp[level][frame].Cue.type  + " " + numbox  + "  " +  frame + " \n");
+			if (numbox == 2)
+			{
+				if (TaskPreview.AllLevelProp[level][frame].Cue.type == 2)
+				{
+					HintForm varBoxHint = TaskPreview.AllLevelProp[level][frame].Cue;
+
+						
+					ShowFr var = TaskPreview.AllLevelProp[level][frame].ShowFrame[repeatInfo.LeftOrRight - 1];
+					//Debug.Write("Debug Var: " + var.CenterX + " " + TaskPreview.AllLevelProp[level][frame].ShowFrame[repeatInfo.LeftOrRight - 1].CenterX + " " + varBoxHint.BoxRatio + " \n");
+					Pen framepen = new Pen(var.ColorBox, varBoxHint.BoxRatio * var.Thickness);
+
+					flagGraphics.DrawRectangle(framepen, var.CenterX - var.Width / 2, var.CenterY - var.Height / 2, var.Width, var.Height);
+
+				}
+
+				//if (TaskPreview.AllLevelProp[level][frame].Cue.type == 1)
+				//{
+				//	HintForm vararrow = TaskPreview.AllLevelProp[level][frame].Cue;
+
+				//	Pen pen = new Pen(vararrow.ArrowColor, vararrow.ArrowWidth);
+				//	pen.StartCap = LineCap.ArrowAnchor;
+				//	//pen.EndCap = LineCap.RoundAnchor;
+
+				//	if (repeatInfo.LeftOrRight == 1)
+				//		flagGraphics.DrawLine(pen, vararrow.ArrowLocX0, vararrow.ArrowLocY, vararrow.ArrowLocX1, vararrow.ArrowLocY);
+				//	else if (repeatInfo.LeftOrRight == 2)
+				//		flagGraphics.DrawLine(pen, vararrow.ArrowLocX1, vararrow.ArrowLocY, vararrow.ArrowLocX0, vararrow.ArrowLocY);
+				//	else
+				//		flagGraphics.DrawLine(pen, vararrow.ArrowLocX0, vararrow.ArrowLocY, vararrow.ArrowLocX1, vararrow.ArrowLocY);
+				//}
+			}
+			#endregion
+
+			#endregion
+
+			FixationRewardType = TaskPreview.AllLevelProp[level][frame].RewardType;
+			fixatehappened = false;
+			InROI = false;
+
+
+			pictureBox1.Image = flag;
+			sw.Restart();
+			return;
 		}
-		
+		private void StopRun()
+		{
+			Timer1.Stop();
+			microTimer.Stop();
+			CloseForm = true;
+			if (_useGaz)
+			{
+				TaskOperator._stopped = true;
+			}
+			this.BeginInvoke(new MethodInvoker(Close));
+		}
+
 		private void ShowFrame_KeyPress(object sender, KeyPressEventArgs e)
 		{
 			if (e.KeyChar == keyboardChar)
@@ -1076,237 +1046,244 @@ namespace Psychophysics
 		{
 			double dist = 0;
 			dist = (Point[0] - FixationCenterX) * (Point[0] - FixationCenterX) + (Point[1] - FixationCenterY) * (Point[1] - FixationCenterY);
-			
-			if (rewardtype == 83 || rewardtype == 87)
-			{
-				if (keyState)
-				{
-					FirstTimeInRoi = true;
-					FixationSW.Stop();
-					FixationSW.Reset();
-					if (_useGaz)
-						_eventData += "t," + trialCounter.ToString() + ",C," + level.ToString() + ",F," + (frame + 1).ToString() + ",FXHAPPEND," + micSW.ElapsedMicroseconds.ToString() + "\n";
-					fixatehappened = true;
-					timelimit = 0;
+			#region commented
+			//if (rewardtype == 83 || rewardtype == 87)
+			//{
+			//	if (keyState)
+			//	{
+			//		FirstTimeInRoi = true;
+			//		FixationSW.Stop();
+			//		FixationSW.Reset();
+			//		if (_useGaz)
+			//			_eventData += "t," + trialCounter.ToString() + ",C," + (level + 1).ToString() + ",F," + (frame + 1).ToString() + ",KEYFXHAPPEND," + micSW.ElapsedMicroseconds.ToString() + "\n";
+			//		fixatehappened = true;
+			//		timelimit = 0;
 
-					if (rewardtype == 87 && (!Mute))
-						winSound.Play();
-				}
-			}
-			keyState = false;
-
+			//		if (rewardtype == 87)
+			//			winSound.Play();
+			//	}
+			//}
+			//keyState = false;
+			#endregion
+		
+			#region check dist fixate
 			if (dist < FixationCenterWidth * FixationCenterWidth && timelimit > 0)
 			{
-				InROI = true;
-				if (rewardtype == 74)
+				if (!InROI)
 				{
-					if (FirstTimeInRoi & timelimit > 0)
+					InROI = true;
+					Debug.Write("fix entered\n");
+					FixationSW = Stopwatch.StartNew();
+					if (rewardtype == 50 || rewardtype == 51 || rewardtype == 48)
 					{
-						
-						if (sw.ElapsedMilliseconds + FixationCenterTime + FixationOutTime >= timelimit)
+						FixationCenterTime = TaskPreview.AllLevelProp[level][frame].FixationTime;
+					}
+				}
+				else
+				{
+					if (rewardtype == 50 || rewardtype == 51 || rewardtype == 48)
+					{
+						if (FixationSW.ElapsedMilliseconds >= FixationCenterTime)
 						{
-							timelimit = Convert.ToInt16(sw.ElapsedMilliseconds) + FixationCenterTime + FixationOutTime + 20;
+							if (_useGaz)
+								_eventData += "t," + trialCounter.ToString() + ",C," + (level + 1).ToString() + ",F," + (frame + 1).ToString() + ",FXHAPPEND," + _eventMicSW.ElapsedMicroseconds.ToString() + "\n";
+							fixatehappened = true;
+							winSound.Play();
+							FixationSW.Reset();
 						}
-
-						FixationSW = Stopwatch.StartNew();
-						Byte Dout = new byte();
-						Dout = 0x00;
-						//if (TaskPreview.instantDoCtrl != null)
-						//    TaskPreview.instantDoCtrl.Write(0, Dout);
-						FirstTimeInRoi = false;
-					}
-
-					if (FixationSW.ElapsedMilliseconds > FixationCenterTime)
-					{
-						Byte Dout = new byte();
-						Dout = 0x01;
-						//if (TaskPreview.instantDoCtrl != null)
-						    //TaskPreview.instantDoCtrl.Write(0, Dout);
-						//Debug.Write("Helllllllllllllllllllllllllllllllllllllllllllllo\n");
-					}
-
-					if (FixationSW.ElapsedMilliseconds > FixationCenterTime + FixationOutTime)
-					{
-						//Debug.Write("Helllllllllllllllllllllllllllllllllllllllllllllo1\n");
-						//FixationSW = Stopwatch.StartNew();
-						FixationSW.Stop();
-						FixationSW.Reset();
-
-						Byte Dout = new byte();
-						Dout = 0x00;
-						//if (!UseLan && TaskPreview.instantDoCtrl != null)
-						//    TaskPreview.instantDoCtrl.Write(0, Dout);
-						//FirstTimeInRoi = true;
 					}
 				}
-				if (rewardtype == 83)
-				{
-					if (FirstTimeInRoi & timelimit > 0)
-					{
-						//Debug.Write("Helllllllllllllllllllllllllllllllllllllllllllllo2\n");
-						if (sw.ElapsedMilliseconds + FixationCenterTime >= timelimit)
-						{
-							timelimit = Convert.ToInt16(sw.ElapsedMilliseconds) + FixationCenterTime + FixationOutTime + 20;
-						}
-						FixationSW = Stopwatch.StartNew();
-						FirstTimeInRoi = false;
-					}
-
-					if ((FixationSW.ElapsedMilliseconds > FixationCenterTime))
-					{
-						FirstTimeInRoi = true;
-						FixationSW.Stop();
-						FixationSW.Reset();
-						if (_useGaz)
-							_eventData += "t," + trialCounter.ToString() + ",C," + level.ToString() + ",F," + (frame + 1).ToString() + ",FXHAPPEND," + micSW.ElapsedMicroseconds.ToString() + "\n";
-						fixatehappened = true;
-						timelimit = 0;
-						keyState = false;
-					}
-				}
-
-				if (rewardtype == 90)
-				{
-					if (FirstTimeInRoi & timelimit > 0)
-					{
-						if (sw.ElapsedMilliseconds + FixationCenterTime + FixationOutTime >= timelimit)
-						{
-							timelimit = Convert.ToInt16(sw.ElapsedMilliseconds) + FixationCenterTime + FixationOutTime + 20;
-						}
-
-						//Debug.Write("Helllllllllllllllllllllllllllllllllllllllllllllo2\n");
-						FixationSW = Stopwatch.StartNew();
-						Byte Dout = new byte();
-						Dout = 0x00;
-						//if (!UseLan && TaskPreview.instantDoCtrl != null)
-						//    TaskPreview.instantDoCtrl.Write(0, Dout);
-						FirstTimeInRoi = false;
-					}
-					if (FixationSW.ElapsedMilliseconds > FixationCenterTime)
-					{
-						Byte Dout = new byte();
-						Dout = 0x01;
-						//if (!UseLan && TaskPreview.instantDoCtrl != null)
-						//    TaskPreview.instantDoCtrl.Write(0, Dout);
-						//Debug.Write("Helllllllllllllllllllllllllllllllllllllllllllllo\n");
-					}
-					if (FixationSW.ElapsedMilliseconds > FixationCenterTime + FixationOutTime)
-					{
-						//Debug.Write("Helllllllllllllllllllllllllllllllllllllllllllllo1\n");
-						//FixationSW = Stopwatch.StartNew();
-						FixationSW.Stop();
-						FixationSW.Reset();
-
-						Byte Dout = new byte();
-						Dout = 0x00;
-						//if (!UseLan && TaskPreview.instantDoCtrl != null)
-						//    TaskPreview.instantDoCtrl.Write(0, Dout);
-						FirstTimeInRoi = true;
-						timelimit = 0;
-					}
-				}
-
-				if (rewardtype == 82)
-				{
-					if (FirstTimeInRoi & timelimit > 0)
-					{
-						//Debug.Write("Helllllllllllllllllllllllllllllllllllllllllllllo2\n");
-						if (sw.ElapsedMilliseconds + FixationCenterTime >= timelimit)
-						{
-							timelimit = Convert.ToInt16(sw.ElapsedMilliseconds) + FixationCenterTime + 20;
-						}
-						FixationSW = Stopwatch.StartNew();
-						FirstTimeInRoi = false;
-					}
-
-					if (FixationSW.ElapsedMilliseconds > FixationCenterTime)
-					{
-						FirstTimeInRoi = true;
-						FixationSW.Stop();
-						FixationSW.Reset();
-						timelimit = 0;
-						baseframe = TaskPreview.BaseIndex[level];
-						//Debug.Write("Helllllllllllllllllllllllllllllllllllllllllllllo\n");
-					}
-
-				}
-				//Debug.Write("rewardtype : " + rewardtype + "\n");
-				if (rewardtype == 87)
-				{
-					if (FirstTimeInRoi & timelimit > 0)
-					{
-						if (sw.ElapsedMilliseconds + FixationCenterTime >= timelimit)
-						{
-							timelimit = Convert.ToInt16(sw.ElapsedMilliseconds) + FixationCenterTime + 20;
-						}
-						FixationSW = Stopwatch.StartNew();
-						FirstTimeInRoi = false;
-						Debug.Write("timelimit : " + timelimit + " " + sw.ElapsedMilliseconds + " FixationSW " + FixationSW.ElapsedMilliseconds + "\n");
-					}
-
-					if (FixationSW.ElapsedMilliseconds >= FixationCenterTime)
-					{
-						Debug.Write("timelimit : " + timelimit + " " + sw.ElapsedMilliseconds + " FixationSW " + FixationSW.ElapsedMilliseconds + "\n");
-						FirstTimeInRoi = true;
-						FixationSW.Stop();
-						FixationSW.Reset();
-						if (_useGaz)
-							_eventData += "t," + trialCounter.ToString() + ",C," + level.ToString() + ",F," + (frame + 1).ToString() + ",FXHAPPEND," + micSW.ElapsedMicroseconds.ToString() + "\n";
-						fixatehappened = true;
-						keyState = false;
-						timelimit = 0;
-						winSound.Play();
-					}
-				}
-
-				if (rewardtype == 35)
-				{
-
-				}
-
-				if (rewardtype == 34)
-				{
-
-				}
-
 			}
+			#endregion
+			#region else check fixate
 			else
 			{
-				InROI = false;
-				if (rewardtype == 51)
+				if (rewardtype == 50 || rewardtype == 51 || rewardtype == 48)
 				{
-					timelimit = 0;
-					fixatehappened = false;
-
-					if (!Mute)
-						failSound.Play();
-
-					//frame = baseframe;
-				}
-				if (rewardtype == 50)
-				{
-					timelimit = 0;
-					fixatehappened = false;
-				}
-				if (rewardtype == 87 || rewardtype == 82 || rewardtype == 74 || rewardtype == 83 || rewardtype == 90)
-				{
-					if (FirstTimeInRoi == false && timelimit > 0)
+					if (InROI && FixationSW.ElapsedMilliseconds < FixationCenterTime)
 					{
-						Debug.Write("timelimit1 : " + timelimit + " " + sw.ElapsedMilliseconds + " FixationSW " + FixationSW.ElapsedMilliseconds + "\n");
-						timelimit = TaskPreview.AllLevelProp[level][frame].FrameTime;
-						Debug.Write("timelimit2 : " + timelimit + " " + sw.ElapsedMilliseconds + " FixationSW " + FixationSW.ElapsedMilliseconds + "\n");
+						InROI = false;
+						fixatehappened = false;
+						FirstTimeInRoi = true;
+						FixationSW.Reset();
 					}
 				}
-
-				FirstTimeInRoi = true;
-				FixationSW.Stop();
-				FixationSW.Reset();
-
-				Byte Dout = new byte();
-				Dout = 0x00;
-				//if (!UseLan && TaskPreview.instantDoCtrl != null)
-				//    TaskPreview.instantDoCtrl.Write(0, Dout);
 			}
+			#endregion
+			
+			
+			#region commented in dist
+			//if (rewardtype == 74)
+			//{
+			//	if (FirstTimeInRoi & timelimit > 0)
+			//	{
+
+			//		if (sw.ElapsedMilliseconds + FixationCenterTime + FixationOutTime >= timelimit)
+			//		{
+			//			timelimit = Convert.ToInt16(sw.ElapsedMilliseconds) + FixationCenterTime + FixationOutTime + 20;
+			//		}
+
+
+
+			//		FirstTimeInRoi = false;
+			//	}
+
+			//	if (FixationSW.ElapsedMilliseconds > FixationCenterTime)
+			//	{
+
+			//		Debug.Write("Helllllllllllllllllllllllllllllllllllllllllllllo\n");
+			//	}
+
+			//	if (FixationSW.ElapsedMilliseconds > FixationCenterTime + FixationOutTime)
+			//	{
+			//		//Debug.Write("Helllllllllllllllllllllllllllllllllllllllllllllo1\n");
+			//		//FixationSW = Stopwatch.StartNew();
+			//		FixationSW.Stop();
+			//		FixationSW.Reset();
+
+			//	}
+			//}
+			//if (rewardtype == 83)
+			//{
+			//	if (FirstTimeInRoi & timelimit > 0)
+			//	{
+
+			//		if (sw.ElapsedMilliseconds + FixationCenterTime >= timelimit)
+			//		{
+			//			timelimit = Convert.ToInt16(sw.ElapsedMilliseconds) + FixationCenterTime + FixationOutTime + 20;
+			//		}
+			//		FixationSW = Stopwatch.StartNew();
+			//		FirstTimeInRoi = false;
+			//	}
+
+			//	if ((FixationSW.ElapsedMilliseconds > FixationCenterTime))
+			//	{
+			//		FirstTimeInRoi = true;
+			//		FixationSW.Stop();
+			//		FixationSW.Reset();
+			//		if (_useGaz)
+			//			_eventData += "t," + trialCounter.ToString() + ",C," + (level + 1).ToString() + ",F," + (frame + 1).ToString() + ",FXHAPPEND," + micSW.ElapsedMicroseconds.ToString() + "\n";
+			//		fixatehappened = true;
+			//		timelimit = 0;
+			//		keyState = false;
+			//	}
+			//}
+
+			//if (rewardtype == 90)
+			//{
+			//	if (FirstTimeInRoi & timelimit > 0)
+			//	{
+			//		if (sw.ElapsedMilliseconds + FixationCenterTime + FixationOutTime >= timelimit)
+			//		{
+			//			timelimit = Convert.ToInt16(sw.ElapsedMilliseconds) + FixationCenterTime + FixationOutTime + 20;
+			//		}
+
+			//		//Debug.Write("Helllllllllllllllllllllllllllllllllllllllllllllo2\n");
+			//		FixationSW = Stopwatch.StartNew();
+			//		Byte Dout = new byte();
+			//		Dout = 0x00;
+			//		//if (!UseLan && TaskPreview.instantDoCtrl != null)
+			//		//    TaskPreview.instantDoCtrl.Write(0, Dout);
+			//		FirstTimeInRoi = false;
+			//	}
+			//	if (FixationSW.ElapsedMilliseconds > FixationCenterTime)
+			//	{
+			//		Byte Dout = new byte();
+			//		Dout = 0x01;
+			//		//if (!UseLan && TaskPreview.instantDoCtrl != null)
+			//		//    TaskPreview.instantDoCtrl.Write(0, Dout);
+			//		//Debug.Write("Helllllllllllllllllllllllllllllllllllllllllllllo\n");
+			//	}
+			//	if (FixationSW.ElapsedMilliseconds > FixationCenterTime + FixationOutTime)
+			//	{
+			//		//Debug.Write("Helllllllllllllllllllllllllllllllllllllllllllllo1\n");
+			//		//FixationSW = Stopwatch.StartNew();
+			//		FixationSW.Stop();
+			//		FixationSW.Reset();
+
+			//		Byte Dout = new byte();
+			//		Dout = 0x00;
+			//		//if (!UseLan && TaskPreview.instantDoCtrl != null)
+			//		//    TaskPreview.instantDoCtrl.Write(0, Dout);
+			//		FirstTimeInRoi = true;
+			//		timelimit = 0;
+			//	}
+			//}
+
+			//if (rewardtype == 82)
+			//{
+			//	if (FirstTimeInRoi & timelimit > 0)
+			//	{
+			//		//Debug.Write("Helllllllllllllllllllllllllllllllllllllllllllllo2\n");
+			//		if (sw.ElapsedMilliseconds + FixationCenterTime >= timelimit)
+			//		{
+			//			timelimit = Convert.ToInt16(sw.ElapsedMilliseconds) + FixationCenterTime + 20;
+			//		}
+			//		FixationSW = Stopwatch.StartNew();
+			//		FirstTimeInRoi = false;
+			//	}
+
+			//	if (FixationSW.ElapsedMilliseconds > FixationCenterTime)
+			//	{
+			//		FirstTimeInRoi = true;
+			//		FixationSW.Stop();
+			//		FixationSW.Reset();
+			//		timelimit = 0;
+			//		baseframe = TaskPreview.BaseIndex[level];
+			//		//Debug.Write("Helllllllllllllllllllllllllllllllllllllllllllllo\n");
+			//	}
+
+			//}
+			////Debug.Write("rewardtype : " + rewardtype + "\n");
+			//if (rewardtype == 87)
+			//{
+			//	if (FirstTimeInRoi & timelimit > 0)
+			//	{
+			//		if (sw.ElapsedMilliseconds + FixationCenterTime >= timelimit)
+			//		{
+			//			timelimit = Convert.ToInt16(sw.ElapsedMilliseconds) + FixationCenterTime + 20;
+			//		}
+			//		FixationSW = Stopwatch.StartNew();
+			//		FirstTimeInRoi = false;
+			//		Debug.Write("timelimit : " + timelimit + " " + sw.ElapsedMilliseconds + " FixationSW " + FixationSW.ElapsedMilliseconds + "\n");
+			//	}
+
+			//	if (FixationSW.ElapsedMilliseconds >= FixationCenterTime)
+			//	{
+			//		Debug.Write("timelimit : " + timelimit + " " + sw.ElapsedMilliseconds + " FixationSW " + FixationSW.ElapsedMilliseconds + "\n");
+			//		FirstTimeInRoi = true;
+			//		FixationSW.Stop();
+			//		FixationSW.Reset();
+			//		if (_useGaz)
+			//			_eventData += "t," + trialCounter.ToString() + ",C," + level.ToString() + ",F," + (frame + 1).ToString() + ",FXHAPPEND," + micSW.ElapsedMicroseconds.ToString() + "\n";
+			//		fixatehappened = true;
+			//		keyState = false;
+			//		timelimit = 0;
+			//		winSound.Play();
+			//	}
+			//}
+
+			//if (rewardtype == 35)
+			//{
+
+			//}
+
+			//if (rewardtype == 34)
+			//{
+
+			//}
+			#endregion
+			#region  commented out dist
+			//if (rewardtype == 87 || rewardtype == 82 || rewardtype == 74 || rewardtype == 83 || rewardtype == 90)
+			//{
+			//	if (FirstTimeInRoi == false && timelimit > 0)
+			//	{
+			//		Debug.Write("timelimit1 : " + timelimit + " " + sw.ElapsedMilliseconds + " FixationSW " + FixationSW.ElapsedMilliseconds + "\n");
+			//		timelimit = TaskPreview.AllLevelProp[level][frame].FrameTime;
+			//		Debug.Write("timelimit2 : " + timelimit + " " + sw.ElapsedMilliseconds + " FixationSW " + FixationSW.ElapsedMilliseconds + "\n");
+			//	}
+			//}
+			#endregion
 		}
 
 		private void ShowFrame_KeyDown(object sender, KeyEventArgs e)
@@ -1346,14 +1323,14 @@ namespace Psychophysics
 		{
 			if (_useGaz && _dataTask.Length > 0)
 			{
-				File.AppendAllText(dataPath, _dataTask);
+				File.AppendAllText(pupilDataPath, _dataTask);
 				_dataTask = "";
 
 			}
 			if (_useGaz && _eventData.Length > 0)
 			{
 
-				File.AppendAllText(dataPath + "1", _eventData);
+				File.AppendAllText(pupilDataPath + "1", _eventData);
 				_eventData = "";
 			}
 			if (microTimer != null)
@@ -1361,7 +1338,7 @@ namespace Psychophysics
 				microTimer.Enabled = false;
 				if (_useGaz)
 				{
-					micSW.Reset();
+					_eventMicSW.Reset();
 				}
 			}
 			Timer1.Enabled = false;
@@ -1414,22 +1391,7 @@ namespace Psychophysics
 					_dataTask += gz.x.ToString() + "," + gz.y.ToString() + "," + gz.pupilSize.ToString() + "," + gz.time.ToString() + "\n";
 				}
 			}
-			if (_useDaq)
-			{
-				double[] outdaq = new double[2];
-				outdaq[0] = 1;
-				outdaq[1] = 1;
-
-				// DAQ
-				int channelStart = 0;
-				int channelCount = 2;
-
-				ErrorCode errorCode = ErrorCode.Success;
-				//errorCode = TaskPreview.instantAiCtrl.Read(channelStart, channelCount, outdaq);
-				ChangeDaqValue(outdaq, 2, CenterVolIn, RangeVolIn, MappingWidth, MappedSigs);
-			}
-
-
+			
 			if (containfixation)
 			{
 				CheckPointInROI(MappedSigs, FixationRewardType);
@@ -1515,7 +1477,6 @@ namespace Psychophysics
 			}
 
 		}
-
-		
+	
 	}
 }

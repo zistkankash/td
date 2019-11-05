@@ -217,9 +217,6 @@
   <data name="open" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\open.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="next__2_" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\next (2).png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="circle6" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\circle6.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -247,24 +244,6 @@
   <data name="Home1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>bin\x64\Debug\Icons\Home.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="netdisconnected1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>bin\x64\Debug\Icons\netdisconnected.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="new_project1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>bin\x64\Debug\Icons\new project.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="open1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>bin\x64\Debug\Icons\open.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="save1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>bin\x64\Debug\Icons\save.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="setting1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>bin\x64\Debug\Icons\setting.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="stop1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>bin\x64\Debug\Icons\stop.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="load_39552" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\load_39552.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -277,32 +256,17 @@
   <data name="Button_Blank_Yellow_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\Button-Blank-Yellow-icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="main3_analysis_blur" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\main3-analysis-blur.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="main3_analysis_blur2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\main3-analysis-blur2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="main3_analysis_selected" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\main3-analysis selected.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="main3_analysis_selected_green" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\main3-analysis_selected_green.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="main3_blur" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\main3-blur.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="main3_connected" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\main3-connected.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="main3_connected_blur" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\main3-connected-blur.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="main3_final" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\main3-final.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="main3_linguistics_blur" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\main3-linguistics-blur.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="main3_linguistics_selected" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\main3-linguistics selected.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -310,47 +274,17 @@
   <data name="main3_linguistics_selected_green" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\main3-linguistics_selected_green.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="main3_psychology_blur" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\main3-psychology-blur.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="main3_psychology_blur2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\main3-psychology-blur2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="main3_psychology_blur2_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\main3-psychology-blur2_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="main3_psychophysicsselected" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\main3-psychophysicsselected.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="main3_psycologyselected" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\main3-psycologyselected.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="main3_psycologyselected_green" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\main3-psycologyselected-green.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="main3_psycphysiccs_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\main3-psycphysiccs-2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="main3_psyphysics_blur" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\main3-psyphysics-blur.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="main3_runnerselected" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\main3-runnerselected.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="main3_runner_blur" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\main3-runner-blur.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="main3_runner_blur2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\main3-runner-blur2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="main3_runner_selected_green" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\main3-runner_selected_green.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="main3_setting_blur" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\main3-setting-blur.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="main3_setting_blur2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\main3-setting-blur2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="main3_setting_selected" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\main3-setting selected.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

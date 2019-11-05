@@ -270,9 +270,6 @@ namespace Basics
 
 		private void COGLABnewUI_Load(object sender, EventArgs e)
 		{
-			mtlCls.TileImage = Resource.Button_Blank_Red_icon.GetThumbnailImage(50, 50,ThumbnailCallback,IntPtr.Zero);
-			mtlMov.TileImage = Resource.Button_Blank_Yellow_icon.GetThumbnailImage(50, 50, ThumbnailCallback, IntPtr.Zero);
-
 			this.CenterToScreen();
 		}
 		
@@ -439,6 +436,11 @@ namespace Basics
 				pnl_cntrl.BackgroundImage = Resource.main3_connected;
 			else
 				pnl_cntrl.BackgroundImage = Resource.main3_final;
+		}
+
+		private void btnMinmiz_Click(object sender, EventArgs e)
+		{
+			this.WindowState = FormWindowState.Minimized;
 		}
 	}
 }

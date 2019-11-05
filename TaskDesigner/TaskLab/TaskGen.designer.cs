@@ -171,7 +171,7 @@ namespace TaskLab
 			this.btnSave.Size = new System.Drawing.Size(40, 40);
 			this.btnSave.Style = MetroFramework.MetroColorStyle.Pink;
 			this.btnSave.TabIndex = 53;
-			this.btnSave.TileImage = global::TaskDesigner.Resource.save1;
+			this.btnSave.TileImage = global::TaskDesigner.Resource.save;
 			this.btnSave.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.btnSave.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
 			this.tltpHelp.SetToolTip(this.btnSave, "Save Project");

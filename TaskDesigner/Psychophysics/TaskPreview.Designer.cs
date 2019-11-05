@@ -49,6 +49,7 @@ namespace Psychophysics
 			this.Start_PB = new System.Windows.Forms.Button();
 			this.Stop_PB = new System.Windows.Forms.Button();
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+			this.chkRandom = new System.Windows.Forms.CheckBox();
 			this.panel1.SuspendLayout();
 			this.Task_Table.SuspendLayout();
 			this.SuspendLayout();
@@ -162,9 +163,9 @@ namespace Psychophysics
 			this.Time_LB.AutoSize = true;
 			this.Time_LB.Location = new System.Drawing.Point(473, 22);
 			this.Time_LB.Name = "Time_LB";
-			this.Time_LB.Size = new System.Drawing.Size(30, 13);
+			this.Time_LB.Size = new System.Drawing.Size(55, 13);
 			this.Time_LB.TabIndex = 2;
-			this.Time_LB.Text = "Time";
+			this.Time_LB.Text = "Time (ms):";
 			// 
 			// label4
 			// 
@@ -193,7 +194,7 @@ namespace Psychophysics
 			this.Start_PB.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
 			this.Start_PB.FlatAppearance.BorderSize = 0;
 			this.Start_PB.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.Start_PB.Location = new System.Drawing.Point(665, 365);
+			this.Start_PB.Location = new System.Drawing.Point(28, 379);
 			this.Start_PB.Margin = new System.Windows.Forms.Padding(0);
 			this.Start_PB.Name = "Start_PB";
 			this.Start_PB.Size = new System.Drawing.Size(48, 48);
@@ -213,7 +214,7 @@ namespace Psychophysics
 			this.Stop_PB.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
 			this.Stop_PB.FlatAppearance.BorderSize = 0;
 			this.Stop_PB.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.Stop_PB.Location = new System.Drawing.Point(588, 366);
+			this.Stop_PB.Location = new System.Drawing.Point(665, 379);
 			this.Stop_PB.Margin = new System.Windows.Forms.Padding(0);
 			this.Stop_PB.Name = "Stop_PB";
 			this.Stop_PB.Size = new System.Drawing.Size(48, 48);
@@ -224,12 +225,24 @@ namespace Psychophysics
 			this.Stop_PB.Visible = false;
 			this.Stop_PB.Click += new System.EventHandler(this.Stop_PB_Click);
 			// 
+			// chkRandom
+			// 
+			this.chkRandom.AutoSize = true;
+			this.chkRandom.ForeColor = System.Drawing.Color.White;
+			this.chkRandom.Location = new System.Drawing.Point(93, 396);
+			this.chkRandom.Name = "chkRandom";
+			this.chkRandom.Size = new System.Drawing.Size(93, 17);
+			this.chkRandom.TabIndex = 26;
+			this.chkRandom.Text = "MakeRandom";
+			this.chkRandom.UseVisualStyleBackColor = true;
+			// 
 			// TaskPreview
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.Transparent;
 			this.ClientSize = new System.Drawing.Size(737, 455);
+			this.Controls.Add(this.chkRandom);
 			this.Controls.Add(this.Stop_PB);
 			this.Controls.Add(this.panel1);
 			this.Controls.Add(this.Start_PB);
@@ -266,5 +279,6 @@ namespace Psychophysics
 		private Button Stop_PB;
 		private Label label4;
 		private ToolTip toolTip1;
+		private CheckBox chkRandom;
 	}
 }
