@@ -761,8 +761,15 @@ namespace Psychophysics.Old
 
 		private void FrameTime_ET_TextChanged(object sender, EventArgs e)
         {
-            if (ActivePicB > 0)
-                frameList[ActivePicB - 1].Time = int.Parse(FrameTime_ET.Text);
+            try
+            {
+                if (ActivePicB > 0)
+                    frameList[ActivePicB - 1].Time = int.Parse(FrameTime_ET.Text);
+            }
+            catch(Exception)
+            {
+                MessageBox.Show("");
+            }
 		}                  
 
 		private void StimulusPictureActive_BT_Click(object sender, EventArgs e)
@@ -1302,25 +1309,56 @@ namespace Psychophysics.Old
 
 		void FixationEditWidth(int index, String Value)
         {
-            fixationList[index].Widthd = double.Parse(Value);
-            fixationList[index].ConvertToPix();
+            try
+            {
+                fixationList[index].Widthd = double.Parse(Value);
+                fixationList[index].ConvertToPix();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Please insert numerical data in field", "Input Error");
+            }
         }
         
 		void FixationEditX(int index, String Value)
         {
-            fixationList[index].Xlocd = double.Parse(Value);
-            fixationList[index].ConvertToPix();
+            try
+            {
+                fixationList[index].Xlocd = double.Parse(Value);
+                fixationList[index].ConvertToPix();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Please insert numerical data in field", "Input Error");
+            }
+            
         }
 
         void FixationEditY(int index, String Value)
         {
-            fixationList[index].Ylocd = double.Parse(Value);
-            fixationList[index].ConvertToPix();
+            try
+            {
+                fixationList[index].Ylocd = double.Parse(Value);
+                fixationList[index].ConvertToPix();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Please insert numerical data in field", "Input Error");
+            }
+            
         }
 
         void FixationEditTime(int index, String Value)
         {
-            fixationList[index].Time = int.Parse(Value);
+            try
+            {
+                fixationList[index].Time = int.Parse(Value);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Please insert numerical data in field", "Input Error");
+            }
+            
         }
 
         void FixationRemove(int index)
@@ -1330,26 +1368,58 @@ namespace Psychophysics.Old
 
         void StimulusEditWidth(int index, String Value)
         {
-            stimulusList[index].Widthd = double.Parse(Value);
-            stimulusList[index].ConvertToPix();
+            try
+            {
+                stimulusList[index].Widthd = double.Parse(Value);
+                stimulusList[index].ConvertToPix();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Please insert numerical data in field", "Input Error");
+            }
+            
         }
         
 		void StimulusEditHeight(int index, String Value)
         {
-            stimulusList[index].Heightd = double.Parse(Value);
-            stimulusList[index].ConvertToPix();
+            try
+            {
+                stimulusList[index].Heightd = double.Parse(Value);
+                stimulusList[index].ConvertToPix();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Please insert numerical data in field", "Input Error");
+            }
+            
         }
         
 		void StimulusEditX(int index, String Value)
         {
-            stimulusList[index].Xlocd = double.Parse(Value);
-            stimulusList[index].ConvertToPix();
+            try
+            {
+                stimulusList[index].Xlocd = double.Parse(Value);
+                stimulusList[index].ConvertToPix();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Please insert numerical data in field", "Input Error");
+            }
+           
         }
 
         void StimulusEditY(int index, String Value)
         {
-            stimulusList[index].Ylocd = double.Parse(Value);
-            stimulusList[index].ConvertToPix();
+            try
+            {
+                stimulusList[index].Ylocd = double.Parse(Value);
+                stimulusList[index].ConvertToPix();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Please insert numerical data in field", "Input Error");
+            }
+           
         }
 
         void StimulusEditColor(int index)
@@ -1385,7 +1455,15 @@ namespace Psychophysics.Old
 
         void StimulusEditContrast(int index, String Value)
         {
-            stimulusList[index].Contrast = int.Parse(Value);
+            try
+            {
+                stimulusList[index].Contrast = int.Parse(Value);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Please insert numerical data in field", "Input Error");
+            }
+            
         }
 
         void StimulusRemove(int index)
@@ -1395,17 +1473,41 @@ namespace Psychophysics.Old
 
         void HintEditX0(int index, String Value)
         {
-            AddedHintsbyFrameTool[index].ArrowLocX0 = int.Parse(Value) - AddedHintsbyFrameTool[index].ArrowWidth;
-            AddedHintsbyFrameTool[index].ArrowLocX1 = int.Parse(Value) + AddedHintsbyFrameTool[index].ArrowWidth;
+            try
+            {
+                AddedHintsbyFrameTool[index].ArrowLocX0 = int.Parse(Value) - AddedHintsbyFrameTool[index].ArrowWidth;
+                AddedHintsbyFrameTool[index].ArrowLocX1 = int.Parse(Value) + AddedHintsbyFrameTool[index].ArrowWidth;
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Please insert numerical data in field", "Input Error");
+            }
+            
         }
 
         void HintEditY(int index, String Value)
         {
-            AddedHintsbyFrameTool[index].ArrowLocY = int.Parse(Value);
+            try
+            {
+                AddedHintsbyFrameTool[index].ArrowLocY = int.Parse(Value);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Please insert numerical data in field", "Input Error");
+            }
+            
         }
         void HintEditWidth(int index, String Value)
         {
-            AddedHintsbyFrameTool[index].ArrowWidth = int.Parse(Value);
+            try
+            {
+                AddedHintsbyFrameTool[index].ArrowWidth = int.Parse(Value);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Please insert numerical data in field", "Input Error");
+            }
+            
         }
         void HintEditColor(int index)
         {
@@ -1425,7 +1527,14 @@ namespace Psychophysics.Old
                     break;
                 }
             }
-            AddedHintsbyFrameTool[index].BoxRatio = float.Parse(Value);
+            try
+            {
+                AddedHintsbyFrameTool[index].BoxRatio = float.Parse(Value);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Please insert numerical data in field", "Input Error");
+            }
         }
 		#endregion        
 

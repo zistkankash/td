@@ -542,8 +542,8 @@ namespace Psychophysics
 
 			Byte Dout = new byte();
 			byte[] b = BitConverter.GetBytes(counter);
-			if (TaskPreview.instantDoCtrl != null)
-			    TaskPreview.instantDoCtrl.Write(0, b[0]);
+			//if (TaskPreview.instantDoCtrl != null)
+			    //TaskPreview.instantDoCtrl.Write(0, b[0]);
 			counter = 0;
 			//Test_LB.Text = sw.ElapsedMilliseconds + "ms \n";
 			sw = Stopwatch.StartNew();
@@ -745,12 +745,13 @@ namespace Psychophysics
 				}
 				#endregion
 			}
-			#endregion
+            #endregion
 
-			#region add graphic objects
+            #region add graphic objects
+            
 			flagGraphics.Clear(TaskPreview.AllLevelProp[level][frame].BGColor);
 			numberstimulus = TaskPreview.AllLevelProp[level][frame].Stimulus.Length;
-			if (TaskPreview.AllLevelProp[level][frame].RepeatInfo.Active)
+			//if (TaskPreview.AllLevelProp[level][frame].RepeatInfo.Active)
 			{
 				if (repeatInfo.RandomLocation == 1)
 				{
@@ -1054,11 +1055,12 @@ namespace Psychophysics
 				{
 					status = 0;
 				}
-				pictureBox1.Image = flag;
+				
 
 			}
-			#endregion
-			return;
+            pictureBox1.Image = flag;
+            #endregion
+            return;
 		}
 		
 		private void ShowFrame_KeyPress(object sender, KeyPressEventArgs e)
@@ -1118,8 +1120,8 @@ namespace Psychophysics
 					{
 						Byte Dout = new byte();
 						Dout = 0x01;
-						if (TaskPreview.instantDoCtrl != null)
-						    TaskPreview.instantDoCtrl.Write(0, Dout);
+						//if (TaskPreview.instantDoCtrl != null)
+						    //TaskPreview.instantDoCtrl.Write(0, Dout);
 						//Debug.Write("Helllllllllllllllllllllllllllllllllllllllllllllo\n");
 					}
 

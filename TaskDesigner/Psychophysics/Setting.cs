@@ -39,8 +39,8 @@ namespace Psychophysics
                 }
             }
 
-            OutputEnable[0, TaskPreview.DOutIndex[0]] = 1;
-            OutputEnable[1, TaskPreview.DOutIndex[1]] = 1;
+            //OutputEnable[0, TaskPreview.DOutIndex[0]] = 1;
+            //OutputEnable[1, TaskPreview.DOutIndex[1]] = 1;
             Debug.Write("AInIndex : " + TaskPreview.AInIndex[0] + " " + TaskPreview.AInIndex[1] + "\n");
             if (TaskPreview.AInIndex[0] == 0)
             {
@@ -138,12 +138,12 @@ namespace Psychophysics
         //ValueRange InputValRange = ValueRange.V_0To1;
         String DaqName = TaskPreview.DaqName;
         // Analog input
-        InstantAiCtrl instantAiCtrl = new InstantAiCtrl();
+        //InstantAiCtrl instantAiCtrl = new InstantAiCtrl();
         //int RangeOutDaq = 0;
         //bool EnAInput = false;
 
         // output
-        InstantDoCtrl instantDoCtrl = new InstantDoCtrl();
+        //InstantDoCtrl instantDoCtrl = new InstantDoCtrl();
         //bool EnDOutput = false;
         int[,] OutputEnable = new int[2, 8];
 

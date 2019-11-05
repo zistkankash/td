@@ -42,7 +42,7 @@ namespace Psychophysics
 		//public static InstantAiCtrl instantAiCtrl = new InstantAiCtrl();
 		public static int[] AInIndex = new int[2];
 		// output
-		public static InstantDoCtrl instantDoCtrl = new InstantDoCtrl();
+		//public static InstantDoCtrl instantDoCtrl = new InstantDoCtrl();
 		public static int[] DOutIndex = new int[2];
 		// Sound
 		public static bool SoundMute = false;
@@ -674,9 +674,18 @@ namespace Psychophysics
 
 			String cmbName = cmb.Name;
 			int index = (int)Char.GetNumericValue(cmbName[(cmbName.Length - 1)]);
-			NumerRepeat[index] = int.Parse(cmb.Text);
-			UpdateData(index+1);
-		}
+            try
+            {
+                NumerRepeat[index] = int.Parse(cmb.Text);
+                
+            }
+            catch(Exception)
+            {
+                cmb.Text = "";
+                NumerRepeat[index] = 1;
+            }
+            UpdateData(index + 1);
+        }
 
 		private void Start_PB_Click(object sender, EventArgs e)
 		{
