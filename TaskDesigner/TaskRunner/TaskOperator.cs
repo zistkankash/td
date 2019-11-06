@@ -89,7 +89,8 @@ namespace TaskRunning
 			if (tsk.type == TaskType.picture)
 				b = tsk.GetSlideImage(_slideNum, pbOper.Size);
 			if (tsk.type == TaskType.cognitive)
-				b = shFrame.flag;
+				b = BitmapData.DrawOn(shFrame.flag, pbOper.Size, Color.White);
+
 			Graphics flagGraphics = Graphics.FromImage(b);
 			flagGraphics.FillEllipse(Brushes.Black, (float)gzX * pbOper.Width / secondMonit.Width - Marker_Radius / 2,(float) gzY * pbOper.Height / secondMonit.Height - Marker_Radius / 2, Marker_Radius, Marker_Radius);
 			flagGraphics.Flush();
@@ -127,12 +128,11 @@ namespace TaskRunning
 							st = true;
 						else
 							st = false;
-						
-						shFrame = new ShowFrame(true);
-						shFrame._useGaz = true;
-						shFrame.pupilDataPath = txtSavPath.Text;
-						shFrame.ScreenConfig();
 						_stopped = false;
+											
+						shFrame = new ShowFrame(true);
+						shFrame.pupilDataPath = txtSavPath.Text;
+						shFrame.eventDataPath = FileName.UpdateFileName(txtSavPath.Text, "events");
 						shFrame.Show();
 					}
 					else

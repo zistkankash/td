@@ -23,6 +23,7 @@ namespace Psychophysics
 		// Sound
 		SoundPlayer winSound = new SoundPlayer(Resource.coin);
 		SoundPlayer failSound = new SoundPlayer(Resource.fail);
+		
 		// Keyboard
 		char keyboardChar = TaskPreview.keyboardChar;
 		bool keyState = false;
@@ -45,8 +46,11 @@ namespace Psychophysics
 		int baseframe = 0;
 		bool fixatehappened = false;
 		Stopwatch sw = new Stopwatch();
-		public Bitmap flag;
-		Graphics flagGraphics;
+		public Bitmap flag, opFlag;
+		
+		Graphics flagGraphics, opFlagGraphics;
+		int opFlagSizeX, opFlagSizeY;
+		
 		FixationPts stimulus;
 		FixationPts fixationstimulus;
 		Pen fixationp;
@@ -102,15 +106,18 @@ namespace Psychophysics
 			MappedSigs[3] = 0;
 		
 			ScreenConfig();
-			eventDataPath = FileName.UpdateFileName(pupilDataPath,"events");
+
+			failSound.Load();
+			winSound.Load();
+			
 
 			MakeRandomRepeat(TaskPreview.TypeDisplay);
-			
-			for (int i = 0; i < RandForTaskLevel.Length; i++)
-			{
-				Debug.Write(RandForTaskLevel[i] + "\n");
-			}
-			
+			#region commented
+			//for (int i = 0; i < RandForTaskLevel.Length; i++)
+			//{
+			//	Debug.Write(RandForTaskLevel[i] + "\n");
+			//}
+			/*
 			#region daq init
 			if (_useDaq)
 			{
@@ -176,18 +183,22 @@ namespace Psychophysics
 				}
 				#endregion
 			}
+			*/
 			#endregion
-
+			
 			level = RandForTaskLevel[indexRandForTaskLevel];
 			if (_useGaz)
 			{
 				trialCounter++;
-				_eventData += "t," + trialCounter.ToString() + ",C," + (level + 1).ToString() + ",F," + (frame + 1).ToString() + "," + _eventMicSW.ElapsedMicroseconds.ToString() + "\n";
+				if (TaskPreview.AllLevelProp[level][frame].Stimulus.Length > 0)
+					_eventData += "t," + trialCounter.ToString() + ",C," + (level + 1).ToString() + ",FS," + (frame + 1).ToString() + ", ," + _eventMicSW.ElapsedMicroseconds.ToString() + "\n";
+				else
+					_eventData += "t," + trialCounter.ToString() + ",C," + (level + 1).ToString() + ",FN," + (frame + 1).ToString() + ", ," + _eventMicSW.ElapsedMicroseconds.ToString() + "\n";
+				
 			} 
 			timelimit = TaskPreview.AllLevelProp[level][frame].FrameTime;
 			framelimit = TaskPreview.AllLevelProp[level].Count;
-			//repeatInfo = new RepeatLinkFrame();
-			//repeatInfo.SetProperties(TaskPreview.AllLevelProp[level][frame].RepeatInfo.Active, TaskPreview.AllLevelProp[level][frame].RepeatInfo.RepeatationNumber, TaskPreview.AllLevelProp[level][frame].RepeatInfo.Length, TaskPreview.AllLevelProp[level][frame].RepeatInfo.RandomLocation);
+			
 			
 			FixationRewardType = TaskPreview.AllLevelProp[level][frame].RewardType;
 			
@@ -207,22 +218,6 @@ namespace Psychophysics
 			int numberstimulus = TaskPreview.AllLevelProp[level][frame].Stimulus.Length;
 
 
-			if (repeatInfo.RandomLocation == 1)
-			{
-				repeatInfo.LeftOrRight = 2;
-			}
-			else if (repeatInfo.RandomLocation == 2)
-			{
-				repeatInfo.LeftOrRight = 1;
-			}
-			else if (repeatInfo.RandomLocation == 3)
-			{
-				repeatInfo.LeftOrRight = repeatInfo.Makerand();
-			}
-			else
-			{
-				repeatInfo.LeftOrRight = 0;
-			}
 
 			for (int i = 0; i < numberstimulus; i++)
 			{
@@ -232,6 +227,10 @@ namespace Psychophysics
 				if (stimulus.Type == 1)
 				{
 					flagGraphics.FillRectangle(sb, stimulus.Xloc - stimulus.Width / 2, stimulus.Yloc - stimulus.Width / 2, stimulus.Width, stimulus.Width);
+					//if(_useGaz)
+					//{
+					//	opFlagGraphics
+					//}
 				}
 				if (stimulus.Type == 2)
 				{
@@ -368,8 +367,7 @@ namespace Psychophysics
 				}
 			}
 
-			Debug.Write("State " + containfixation + " " + frame + " " + level + " \n");
-			
+						
 			#region get fixation
 			fixationstimulus = TaskPreview.AllLevelProp[level][frame].Fixation;
 			//Use Solid Brush for filling the graphic shapes
@@ -462,7 +460,7 @@ namespace Psychophysics
 			#endregion
 			pictureBox1.Image = flag;
 			sw.Start();
-			_eventMicSW.Start();
+			
 			Timer1.Enabled = true;
 			Timer1.Start();
 						
@@ -481,7 +479,7 @@ namespace Psychophysics
 		public void ScreenConfig()
 		{
 			Screen[] screen = Screen.AllScreens;
-			if (screen.Length == 2 && _useGaz)
+			if (screen.Length == 2)
 			{
 
 				this.Size = new Size(screen[1].Bounds.Width, screen[1].Bounds.Height);
@@ -491,6 +489,8 @@ namespace Psychophysics
 				MappingWidth[1] = screen[1].Bounds.Height;
 
 				flag = new Bitmap(screen[1].Bounds.Width, screen[1].Bounds.Height);
+				//opFlag = new Bitmap(opFlagSizeX, opFlagSizeY);
+				//opFlagGraphics = Graphics.FromImage(opFlag);
 			}
 
 			else
@@ -502,24 +502,13 @@ namespace Psychophysics
 			}
 
 			flagGraphics = Graphics.FromImage(flag);
-
+			
 		}
 		
 		private void Timer1_Tick(object sender, EventArgs e)
 		{
-			
-			if (_useGaz && _dataTask.Length > 0)
-			{
-				File.AppendAllText(pupilDataPath, _dataTask);
-				_dataTask = "";
-				
-			}
-			if (_useGaz && _eventData.Length > 0)
-			{
-				
-				File.AppendAllText(eventDataPath, _eventData);
-				_eventData = "";
-			}
+			if (_useGaz)
+				SaveData();
 
 			if (TaskPreview.brake)
 			{
@@ -534,151 +523,142 @@ namespace Psychophysics
 				
 				return;
 			}
-
-			if (FixationRewardType == 50 || FixationRewardType == 51 || FixationRewardType == 48 || FixationRewardType == 0)
+			
+			sw.Stop();
+			microTimer.Stop();
+						
+			#region fixatehappened
+			if (!_useGaz)
 			{
-				#region fixatehappened
-				if (fixatehappened || !_useGaz)
-				{
-					frame++;
-					containfixation = false;
-					microTimer.Stop();
-					#region commented
-					//if (frame == framelimit)
-					//{
-					//	status = 4;
-
-					//}
-					//if (repeatInfo.Active)
-					//{
-					//	repeatInfo.CurrentIndex++;
-					//	if (!(repeatInfo.CurrentIndex < repeatInfo.Length))
-					//	{
-					//		repeatInfo.CurrentRepeatationNumber++;
-					//		if (repeatInfo.CurrentRepeatationNumber < repeatInfo.RepeatationNumber)
-					//		{
-					//			frame = frame - repeatInfo.CurrentIndex;
-					//			repeatInfo.CurrentIndex = 0;
-					//		}
-					//		else
-					//		{
-					//			repeatInfo.Active = false;
-					//		}
-					//	}
-					//}
-
-					#endregion
-
-					if (frame < framelimit)
-					{
-						if (_useGaz)
-						{
-							_eventData += "t," + trialCounter.ToString() + ",C," + (level + 1).ToString() + ",F," + (frame + 1).ToString() + "," + _eventMicSW.ElapsedMicroseconds.ToString() + "\n";
-
-						}
-						timelimit = TaskPreview.AllLevelProp[level][frame].FrameTime;
-					}
-					// go to next trial
-					else
-					{
-						frame = 0;
-						indexRandForTaskLevel++;
-						if (indexRandForTaskLevel >= RandForTaskLevel.Length)
-						{
-							StopRun();
-							return;
-						}
-						level = RandForTaskLevel[indexRandForTaskLevel];
-						if (_useGaz)
-						{
-							trialCounter++;
-							_eventData += "t," + trialCounter.ToString() + ",C," + (level + 1).ToString() + ",F," + (frame + 1).ToString() + "," + _eventMicSW.ElapsedMicroseconds.ToString() + "\n";
-						}
-						timelimit = TaskPreview.AllLevelProp[level][frame].FrameTime;
-						framelimit = TaskPreview.AllLevelProp[level].Count;
-
-					}
-					RunnerUtils.ClearGaze();
-					
-					//Debug.Write("Fixate \n");
-				}
-				#endregion
-				#region else fixatehappened  commented
-				//else
+				NextFrame();
+				#region commented
+				//if (frame == framelimit)
 				//{
-				//	//Debug.Write("Fixate*** " + frame + " " + FixationRewardType + "\n");
+				//	status = 4;
 
-				//	//if (FixationRewardType == 87 || FixationRewardType == 83)
-				//	//{
-				//	//	status = 2;
-				//	//	//if(!Mute)
-				//	//	failSound.Play();
-				//	//}
-
-				//	//if (FixationRewardType == 50 || FixationRewardType == 51)
-				//	//{
-				//	//	status = 3;
-				//	//}
-
-				//	frame = baseframe;
-				//	//if (repeatInfo.Active)
-				//	//{
-				//	//	repeatInfo.CurrentIndex = 0;
-				//	//	if (!(repeatInfo.CurrentIndex < repeatInfo.Length))
-				//	//	{
-				//	//		repeatInfo.CurrentRepeatationNumber++;
-				//	//		if (repeatInfo.CurrentRepeatationNumber < repeatInfo.RepeatationNumber)
-				//	//		{
-				//	//			frame = frame - repeatInfo.CurrentIndex;
-				//	//			repeatInfo.CurrentIndex = 0;
-				//	//		}
-				//	//		else
-				//	//		{
-				//	//			repeatInfo.Active = false;
-				//	//		}
-				//	//	}
-				//	//}
-
-				//	containfixation = false;
-				//	keyState = false;
-				//	//fixatehappened = false;
-				//	//DaqTimer.Stop();
-				//	//microTimer.Enabled = false;
-				//	//if (TaskPreview.Savetask)
-				//	//{
-				//	//	string DataStr;
-				//	//	// CSV File
-				//	//	DataStr = "," + status.ToString();
-				//	//	DataTask += DataStr;
-				//	//}
-
-
-				//	indexRandForTaskLevel++;
-				//	if (indexRandForTaskLevel >= RandForTaskLevel.Length)
-				//	{
-				//		Timer1.Stop();
-				//		CloseForm = true;
-
-				//		if (_useGaz)
-				//		{
-				//			TaskOperator._stopped = true;
-				//		}
-				//		this.BeginInvoke(new MethodInvoker(Close));
-				//		return;
-				//	}
-				//	level = RandForTaskLevel[indexRandForTaskLevel];
-				//	if (_useGaz)
-				//	{
-				//		trialCounter++;
-				//		_eventData += "t," + trialCounter.ToString() + ",C," + (level + 1).ToString() + ",F," + (frame + 1).ToString() + "," + _eventMicSW.ElapsedMicroseconds.ToString() + "\n";
-				//	}
-				//	timelimit = TaskPreview.AllLevelProp[level][frame].FrameTime;
-				//	framelimit = TaskPreview.AllLevelProp[level].Count;
 				//}
-
+				//if (repeatInfo.Active)
+				//{
+				//	repeatInfo.CurrentIndex++;
+				//	if (!(repeatInfo.CurrentIndex < repeatInfo.Length))
+				//	{
+				//		repeatInfo.CurrentRepeatationNumber++;
+				//		if (repeatInfo.CurrentRepeatationNumber < repeatInfo.RepeatationNumber)
+				//		{
+				//			frame = frame - repeatInfo.CurrentIndex;
+				//			repeatInfo.CurrentIndex = 0;
+				//		}
+				//		else
+				//		{
+				//			repeatInfo.Active = false;
+				//		}
+				//	}
+				//}
 
 				#endregion
 			}
+				
+			else
+			{
+				if (FixationRewardType == 0)
+				{
+					NextFrame();
+
+				}
+				else
+				{
+					if (fixatehappened)
+					{
+						NextFrame();
+						winSound.Play();
+					}
+					else
+					{
+						NextTrial();
+						failSound.Play();
+					}
+				}
+			}
+								
+			//Debug.Write("Fixate \n");
+				
+			#endregion
+			#region else fixatehappened  commented
+			//else
+			//{
+			//	//Debug.Write("Fixate*** " + frame + " " + FixationRewardType + "\n");
+
+			//	//if (FixationRewardType == 87 || FixationRewardType == 83)
+			//	//{
+			//	//	status = 2;
+			//	//	//if(!Mute)
+			//	//	failSound.Play();
+			//	//}
+
+			//	//if (FixationRewardType == 50 || FixationRewardType == 51)
+			//	//{
+			//	//	status = 3;
+			//	//}
+
+			//	frame = baseframe;
+			//	//if (repeatInfo.Active)
+			//	//{
+			//	//	repeatInfo.CurrentIndex = 0;
+			//	//	if (!(repeatInfo.CurrentIndex < repeatInfo.Length))
+			//	//	{
+			//	//		repeatInfo.CurrentRepeatationNumber++;
+			//	//		if (repeatInfo.CurrentRepeatationNumber < repeatInfo.RepeatationNumber)
+			//	//		{
+			//	//			frame = frame - repeatInfo.CurrentIndex;
+			//	//			repeatInfo.CurrentIndex = 0;
+			//	//		}
+			//	//		else
+			//	//		{
+			//	//			repeatInfo.Active = false;
+			//	//		}
+			//	//	}
+			//	//}
+
+			//	containfixation = false;
+			//	keyState = false;
+			//	//fixatehappened = false;
+			//	//DaqTimer.Stop();
+			//	//microTimer.Enabled = false;
+			//	//if (TaskPreview.Savetask)
+			//	//{
+			//	//	string DataStr;
+			//	//	// CSV File
+			//	//	DataStr = "," + status.ToString();
+			//	//	DataTask += DataStr;
+			//	//}
+
+
+			//	indexRandForTaskLevel++;
+			//	if (indexRandForTaskLevel >= RandForTaskLevel.Length)
+			//	{
+			//		Timer1.Stop();
+			//		CloseForm = true;
+
+			//		if (_useGaz)
+			//		{
+			//			TaskOperator._stopped = true;
+			//		}
+			//		this.BeginInvoke(new MethodInvoker(Close));
+			//		return;
+			//	}
+			//	level = RandForTaskLevel[indexRandForTaskLevel];
+			//	if (_useGaz)
+			//	{
+			//		trialCounter++;
+			//		_eventData += "t," + trialCounter.ToString() + ",C," + (level + 1).ToString() + ",F," + (frame + 1).ToString() + "," + _eventMicSW.ElapsedMicroseconds.ToString() + "\n";
+			//	}
+			//	timelimit = TaskPreview.AllLevelProp[level][frame].FrameTime;
+			//	framelimit = TaskPreview.AllLevelProp[level].Count;
+			//}
+
+
+			#endregion
+			
 			#region else reward commented
 			//else
 			//{
@@ -747,8 +727,7 @@ namespace Psychophysics
 			flagGraphics.Clear(TaskPreview.AllLevelProp[level][frame].BGColor);
 			
 			numberstimulus = TaskPreview.AllLevelProp[level][frame].Stimulus.Length;
-			
-						
+									
 			#region add stimulus
 			
 			for (int k = 0; k < numberstimulus; k++)
@@ -1011,18 +990,85 @@ namespace Psychophysics
 			#endregion
 
 			#endregion
-
-			FixationRewardType = TaskPreview.AllLevelProp[level][frame].RewardType;
+			
+			
 			fixatehappened = false;
 			InROI = false;
 
 
 			pictureBox1.Image = flag;
+			microTimer.Start();
 			sw.Restart();
 			return;
 		}
+
+		private bool NextFrame()
+		{
+			frame++;
+			if (frame < framelimit)
+			{
+				if (_useGaz)
+				{
+				if(TaskPreview.AllLevelProp[level][frame].Stimulus.Length > 0)
+					_eventData += "t," + trialCounter.ToString() + ",C," + (level + 1).ToString() + ",FS," + (frame + 1).ToString() + ", ," + _eventMicSW.ElapsedMicroseconds.ToString() + "\n";
+					else
+						_eventData += "t," + trialCounter.ToString() + ",C," + (level + 1).ToString() + ",FN," + (frame + 1).ToString() + ", ," + _eventMicSW.ElapsedMicroseconds.ToString() + "\n";
+
+				}
+				timelimit = TaskPreview.AllLevelProp[level][frame].FrameTime;
+				FixationRewardType = TaskPreview.AllLevelProp[level][frame].RewardType;
+
+				return true;
+			}
+			else
+				return NextTrial();
+		}
+
+		private bool NextTrial()
+		{
+			frame = 0;
+			indexRandForTaskLevel++;
+			if (indexRandForTaskLevel >= RandForTaskLevel.Length)
+			{
+				StopRun();
+				return false;
+			}
+			level = RandForTaskLevel[indexRandForTaskLevel];
+			if (_useGaz)
+			{
+				trialCounter++;
+				if (TaskPreview.AllLevelProp[level][frame].Stimulus.Length > 0)
+					_eventData += "t," + trialCounter.ToString() + ",C," + (level + 1).ToString() + ",FS," + (frame + 1).ToString() + ", ," + _eventMicSW.ElapsedMicroseconds.ToString() + "\n";
+				else
+					_eventData += "t," + trialCounter.ToString() + ",C," + (level + 1).ToString() + ",FN," + (frame + 1).ToString() + ", ," + _eventMicSW.ElapsedMicroseconds.ToString() + "\n";
+			}
+			timelimit = TaskPreview.AllLevelProp[level][frame].FrameTime;
+			framelimit = TaskPreview.AllLevelProp[level].Count;
+			FixationRewardType = TaskPreview.AllLevelProp[level][frame].RewardType;
+
+			return true;
+		}
+		
+		private void SaveData()
+		{
+			if (_useGaz && _dataTask.Length > 0)
+			{
+				File.AppendAllText(pupilDataPath, _dataTask);
+				_dataTask = "";
+
+			}
+			if (_useGaz && _eventData.Length > 0)
+			{
+
+				File.AppendAllText(eventDataPath, _eventData);
+				_eventData = "";
+			}
+		}
+
 		private void StopRun()
 		{
+			if (_useGaz)
+				SaveData();
 			Timer1.Stop();
 			microTimer.Stop();
 			CloseForm = true;
@@ -1042,7 +1088,7 @@ namespace Psychophysics
 			
 		}
 
-		private void CheckPointInROI(double[] Point, int rewardtype)
+		private void CheckPointInROI(double[] Point)
 		{
 			double dist = 0;
 			dist = (Point[0] - FixationCenterX) * (Point[0] - FixationCenterX) + (Point[1] - FixationCenterY) * (Point[1] - FixationCenterY);
@@ -1065,49 +1111,53 @@ namespace Psychophysics
 			//}
 			//keyState = false;
 			#endregion
-		
+
 			#region check dist fixate
 			if (dist < FixationCenterWidth * FixationCenterWidth && timelimit > 0)
 			{
 				if (!InROI)
 				{
 					InROI = true;
-					Debug.Write("fix entered\n");
-					FixationSW = Stopwatch.StartNew();
-					if (rewardtype == 50 || rewardtype == 51 || rewardtype == 48)
-					{
-						FixationCenterTime = TaskPreview.AllLevelProp[level][frame].FixationTime;
-					}
+					//Debug.Write("fix entered\n");
+					FixationCenterTime = TaskPreview.AllLevelProp[level][frame].FixationTime;
+					FixationSW.Restart();
+					if (_useGaz)
+						_eventData += "t," + trialCounter.ToString() + ",C," + (level + 1).ToString() + ",F," + (frame + 1).ToString() + ",FIXENTERED," + _eventMicSW.ElapsedMicroseconds.ToString() + "\n";
+
 				}
 				else
 				{
-					if (rewardtype == 50 || rewardtype == 51 || rewardtype == 48)
+					//Debug.Write("fix continued, fix time is "  + FixationSW.ElapsedMilliseconds.ToString()  + " and  dist is :" + dist.ToString() + "\n");
+					if (FixationSW.ElapsedMilliseconds >= FixationCenterTime)
 					{
-						if (FixationSW.ElapsedMilliseconds >= FixationCenterTime)
-						{
-							if (_useGaz)
-								_eventData += "t," + trialCounter.ToString() + ",C," + (level + 1).ToString() + ",F," + (frame + 1).ToString() + ",FXHAPPEND," + _eventMicSW.ElapsedMicroseconds.ToString() + "\n";
-							fixatehappened = true;
-							winSound.Play();
-							FixationSW.Reset();
-						}
+						microTimer.Stop();
+						//Debug.Write("fix holded, fix time is " + FixationSW.ElapsedMilliseconds.ToString() + " and  dist is :" + dist.ToString() + "\n");
+						if (_useGaz)
+							_eventData += "t," + trialCounter.ToString() + ",C," + (level + 1).ToString() + ",F," + (frame + 1).ToString() + ",FIXHOLDED," + _eventMicSW.ElapsedMicroseconds.ToString() + "\n";
+						fixatehappened = true;
+						FixationSW.Reset();
+						
+						InROI = false;
 					}
+
 				}
 			}
 			#endregion
 			#region else check fixate
 			else
 			{
-				if (rewardtype == 50 || rewardtype == 51 || rewardtype == 48)
+				//Debug.Write("fix failed, dist is :" + dist.ToString() + "\n");
+				if (InROI && FixationSW.ElapsedMilliseconds < FixationCenterTime)
 				{
-					if (InROI && FixationSW.ElapsedMilliseconds < FixationCenterTime)
-					{
-						InROI = false;
-						fixatehappened = false;
-						FirstTimeInRoi = true;
-						FixationSW.Reset();
-					}
+					//Debug.Write("fix not holded, dist is :" + dist.ToString() + "\n");
+					if (_useGaz)
+						_eventData += "t," + trialCounter.ToString() + ",C," + (level + 1).ToString() + ",F," + (frame + 1).ToString() + ",FIXDISPOSED," + _eventMicSW.ElapsedMicroseconds.ToString() + "\n";
+					InROI = false;
+					fixatehappened = false;
+					FirstTimeInRoi = true;
+					FixationSW.Reset();
 				}
+
 			}
 			#endregion
 			
@@ -1330,7 +1380,7 @@ namespace Psychophysics
 			if (_useGaz && _eventData.Length > 0)
 			{
 
-				File.AppendAllText(pupilDataPath + "1", _eventData);
+				File.AppendAllText(eventDataPath, _eventData);
 				_eventData = "";
 			}
 			if (microTimer != null)
@@ -1390,34 +1440,21 @@ namespace Psychophysics
 					TaskOperator.gzY = (float)gz.y;
 					_dataTask += gz.x.ToString() + "," + gz.y.ToString() + "," + gz.pupilSize.ToString() + "," + gz.time.ToString() + "\n";
 				}
+				else
+					return;
 			}
 			
 			if (containfixation)
 			{
-				CheckPointInROI(MappedSigs, FixationRewardType);
+				CheckPointInROI(MappedSigs);
 			}
-			else
-			{
-				InROI = false;
-				FixationSW.Stop();
-				FixationSW.Reset();
-			}
-
-			if (InvokeRequired)
-			{
-				BeginInvoke((MethodInvoker)delegate
-				{
-					//label1.Text = "Step"+ timerEventArgs.ElapsedMicroseconds;
-				});
-			}
-
-			Invalidate();
+			
 		}
 
 		private double ConvertDegreeX(double Xp)
 		{
 			double ValX = Math.Atan((Xp - TaskPreview.WidthP / 2) * TaskPreview.WidthM / (TaskPreview.WidthP * TaskPreview.userDistance));
-			Debug.Write(" Xp: " + Xp + " WidthP : " + TaskPreview.WidthP + " WidthM:" + TaskPreview.WidthM + " userDistance:" + TaskPreview.userDistance + " " + ((Xp - TaskPreview.WidthP / 2) * TaskPreview.WidthM / (TaskPreview.WidthP * TaskPreview.userDistance)) + "\n");
+			//Debug.Write(" Xp: " + Xp + " WidthP : " + TaskPreview.WidthP + " WidthM:" + TaskPreview.WidthM + " userDistance:" + TaskPreview.userDistance + " " + ((Xp - TaskPreview.WidthP / 2) * TaskPreview.WidthM / (TaskPreview.WidthP * TaskPreview.userDistance)) + "\n");
 			return ValX;
 		}
 
@@ -1454,7 +1491,7 @@ namespace Psychophysics
 				{
 					a = (rnd.Next(1, 1000) % totalRepeat);
 					b = (rnd.Next(1, 1000) % totalRepeat);
-					Debug.Write("a and b " + a + " " + b + "\n");
+					//Debug.Write("a and b " + a + " " + b + "\n");
 					int varindex = RandForTaskLevel[a];
 					RandForTaskLevel[a] = RandForTaskLevel[b];
 					RandForTaskLevel[b] = varindex;

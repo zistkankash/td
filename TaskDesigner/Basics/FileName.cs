@@ -34,7 +34,7 @@ namespace Basics
 			string dir = Path.GetDirectoryName(path);
 			string ext = Path.GetExtension(path);
 			string name = Path.GetFileNameWithoutExtension(path);
-			name = name + "-" + trail + "." + ext;
+			name = dir + "\\" + name + "-" + trail + "." + ext;
 			return name;
 		}
 	}

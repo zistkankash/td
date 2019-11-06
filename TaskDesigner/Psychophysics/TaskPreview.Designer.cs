@@ -193,6 +193,8 @@ namespace Psychophysics
 			this.Start_PB.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.Start_PB.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
 			this.Start_PB.FlatAppearance.BorderSize = 0;
+			this.Start_PB.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+			this.Start_PB.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
 			this.Start_PB.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.Start_PB.Location = new System.Drawing.Point(28, 379);
 			this.Start_PB.Margin = new System.Windows.Forms.Padding(0);
@@ -228,7 +230,7 @@ namespace Psychophysics
 			// chkRandom
 			// 
 			this.chkRandom.AutoSize = true;
-			this.chkRandom.ForeColor = System.Drawing.Color.White;
+			this.chkRandom.ForeColor = System.Drawing.Color.Black;
 			this.chkRandom.Location = new System.Drawing.Point(93, 396);
 			this.chkRandom.Name = "chkRandom";
 			this.chkRandom.Size = new System.Drawing.Size(93, 17);

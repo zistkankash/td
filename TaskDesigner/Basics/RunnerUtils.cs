@@ -34,8 +34,8 @@ namespace Basics
 			double res = 0;
 			for (int i = 0; i < GazeSmoothPots; i++)
 			{
-				if (pts[0, i] != 0)
-					res += pts[0, i];	
+				if (pts[row, i] != 0)
+					res += pts[row, i];	
 			}
 			return res / GazeSmoothPots;
 		}
@@ -45,9 +45,10 @@ namespace Basics
 			GazeTriple gzTemp = BasConfigs.server.getGaze;
 			if (gzTemp.time != -1)
 			{
-				_counter = (_counter + 1) % GazeSmoothPots;
+				
 				pts[0, _counter] = gzTemp.x;
 				pts[1, _counter] = gzTemp.y;
+				_counter = (_counter + 1) % GazeSmoothPots;
 			}
 			else
 				return null;
