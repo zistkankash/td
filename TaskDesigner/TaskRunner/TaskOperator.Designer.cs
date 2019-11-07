@@ -576,6 +576,7 @@
 			this.Resizable = false;
 			this.Text = "Task Runner Operator";
 			this.Load += new System.EventHandler(this.TaskOperator_Load);
+			this.Paint += new System.Windows.Forms.PaintEventHandler(this.TaskOperator_Paint);
 			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TaskOperator_KeyDown);
 			this.TabControl_taskoperator.ResumeLayout(false);
 			this.Tabtask.ResumeLayout(false);

@@ -157,7 +157,7 @@ namespace Basics
 				ofd.CustomPlaces.Add(@"C:\");
 				ofd.CustomPlaces.Add(@"C:\Program Files\");
 				ofd.CustomPlaces.Add(@"K:\Documents\");
-				ofd.Filter = "Binary File (*.bin)|*.bin| Text File (*.txt) |*.txt";
+				//ofd.Filter = "Binary File (*.bin)|*.bin| Text File (*.txt) |*.txt";
 				if (ofd.ShowDialog() == DialogResult.OK)
 					tskAddress = ofd.FileName;
 				else
@@ -318,6 +318,8 @@ namespace Basics
 							psycophysicsData = new TaskPreview();
 							psycophysicsData.LoadTaskFromFile(false, tskAddress);
 							type = TaskType.cognitive;
+							taskIsReady = true;
+							return true;
 						}
 						#endregion
 					}
@@ -368,6 +370,8 @@ namespace Basics
 						}
 					}
 					#endregion
+					taskIsReady = true;
+					return true;
 				}
 				#endregion
 			}
@@ -377,8 +381,7 @@ namespace Basics
 				tskAddress = null;
 				return false;
 			}
-			taskIsReady = true;
-			return true;
+			return false;
 		}
 
 		private bool LoadPsycoTasks(string[] lines)

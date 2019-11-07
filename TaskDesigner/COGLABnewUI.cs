@@ -188,10 +188,17 @@ namespace Basics
 
 		private void btn_psychophysics_Click(object sender, EventArgs e)
 		{
-			Psychophysics.TaskPreview task = new Psychophysics.TaskPreview();
-			task.FormClosed += delegate { Show(); };
-			this.Hide();
-			task.Show();
+			try
+			{
+				Psychophysics.TaskPreview task = new Psychophysics.TaskPreview();
+				task.FormClosed += delegate { Show(); };
+				this.Hide();
+				task.Show();
+			}
+			catch(Exception)
+			{
+				return;
+			}
 		}
 
 		private void btn_setting_Click(object sender, EventArgs e)
@@ -204,51 +211,71 @@ namespace Basics
 
 		private void btn_psychology_Click(object sender, EventArgs e)
 		{
-
-			TaskLab.TaskGen taskLab = new TaskLab.TaskGen(TaskType.lab);
-			taskLab.FormClosed += delegate { Show(); };
-			this.Hide();
-			taskLab.Show();
-
+			try
+			{
+				TaskLab.TaskGen taskLab = new TaskLab.TaskGen(TaskType.lab);
+				taskLab.FormClosed += delegate { Show(); };
+				this.Hide();
+				taskLab.Show();
+			}
+			catch(Exception)
+			{
+				return;
+			}
 		}
 
 		private void btn_linguistics_Click(object sender, EventArgs e)
 		{
-
-			TaskLab.TaskGen taskLab = new TaskLab.TaskGen(TaskType.picture);
-			taskLab.FormClosed += delegate { Show(); };
-			this.Hide();
-			taskLab.Show();
-
+			try
+			{
+				TaskLab.TaskGen taskLab = new TaskLab.TaskGen(TaskType.picture);
+				taskLab.FormClosed += delegate { Show(); };
+				this.Hide();
+				taskLab.Show();
+			}
+			catch(Exception)
+			{
+				return;
+			}
 		}
 
 		private void btn_analysis_Click(object sender, EventArgs e)
 		{
-
-			HeatMap heat = new HeatMap();
-			heat.FormClosed += delegate { Show(); };
-			this.Hide();
-			heat.Show();
-
+			try
+			{
+				HeatMap heat = new HeatMap();
+				heat.FormClosed += delegate { Show(); };
+				this.Hide();
+				heat.Show();
+			}
+			catch(Exception)
+			{
+				return;
+			}
 		}
 
 		private void btn_trunner_Click(object sender, EventArgs e)
 		{
-
-			TaskOperator runner;
-			ETStatus ns = BasConfigs.GetNetStatus();
-			if (ns == ETStatus.listening)
+			try
 			{
-				MessageBox.Show("You pressed Start Connection. press Connect in ET Net window to run a task please.","");
+				TaskOperator runner;
+				ETStatus ns = BasConfigs.GetNetStatus();
+				if (ns == ETStatus.listening)
+				{
+					MessageBox.Show("You pressed Start Connection. press Connect in ET Net window to run a task please.", "");
+					return;
+				}
+
+				runner = new TaskOperator();
+				runner.FormClosed += delegate { Show(); };
+				this.Hide();
+
+				runner.Show();
+			}
+			catch(Exception)
+			{
 				return;
 			}
-
-			runner = new TaskOperator();
-			runner.FormClosed += delegate { Show(); };
-			this.Hide();
-
-			runner.Show();
-			
 
 		}
 
@@ -324,8 +351,8 @@ namespace Basics
 
 		private void COGLABnewUI_KeyDown(object sender, KeyEventArgs e)
 		{
-			//if (e.KeyCode == Keys.Escape)
-				//Close();
+			if (e.KeyCode == Keys.Escape)
+				Close();
 		}
 
 		private void mtlCls_Click(object sender, EventArgs e)

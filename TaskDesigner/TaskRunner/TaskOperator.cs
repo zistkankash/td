@@ -130,7 +130,7 @@ namespace TaskRunning
 							st = false;
 						_stopped = false;
 											
-						shFrame = new ShowFrame(true);
+						shFrame = new ShowFrame(st);
 						shFrame.pupilDataPath = txtSavPath.Text;
 						shFrame.eventDataPath = FileName.UpdateFileName(txtSavPath.Text, "events");
 						shFrame.Show();
@@ -239,7 +239,7 @@ namespace TaskRunning
 		
 		private void setTextTask()
 		{
-			if (tsk.LoadTask(false))
+			if (tsk.LoadTask(true))
 			{
 				txtbxTask.Text = tsk.tskAddress;
 				pbOper.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -249,7 +249,7 @@ namespace TaskRunning
 			else
 			{
 				MetroMessageBox.Show((IWin32Window)this, "Wrong or Corrupted Task File", "Error", 100);
-				
+				Select();
 			}
 		}
 		
@@ -319,7 +319,12 @@ namespace TaskRunning
 				Stop();
 			}
 		}
-				
+
+		private void TaskOperator_Paint(object sender, PaintEventArgs e)
+		{
+			Select();
+		}
+
 		public void Stop()
 		{
 			_slideNum = 0;
@@ -331,6 +336,7 @@ namespace TaskRunning
 			txtSavPath.Enabled = true;
 			btnStart.Enabled = true;
 			btStop.Enabled = false;
+			Select();
 		}
 	}
 
