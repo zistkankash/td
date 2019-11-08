@@ -31,7 +31,7 @@ namespace Analyses
 		private List<HeatPoint> femHeats = new List<HeatPoint>();
 		private static ColorMap[] Colors2 = new ColorMap[256];
         //private StreamReader globalSR;
-        private Bitmap map = new Bitmap(1440, 900);
+        private Bitmap map = new Bitmap(BasConfigs._monitor_resolution_x, BasConfigs._monitor_resolution_y);
         bool isTaskLab = false;
         int taskShapes;
 		//string folderHist;
@@ -81,7 +81,7 @@ namespace Analyses
             StreamReader s = new StreamReader(txtHeatPath.Text);
             string line;
             string[] words;
-            Image<Rgb, byte> img = new Image<Rgb, byte>(1440, 900);
+            Image<Rgb, byte> img = new Image<Rgb, byte>(BasConfigs._monitor_resolution_x, BasConfigs._monitor_resolution_y);
             s.ReadLine();
             s.ReadLine();
             line = s.ReadLine();
@@ -90,7 +90,7 @@ namespace Analyses
             Int32.TryParse(words[2], out G);
             Int32.TryParse(words[3], out B);
             //background = Color.FromArgb(R, G, B);
-            CvInvoke.Rectangle(img, new Rectangle(0, 0, 1440, 900), new MCvScalar(R, G, B), -1);
+            CvInvoke.Rectangle(img, new Rectangle(0, 0, BasConfigs._monitor_resolution_x, BasConfigs._monitor_resolution_y), new MCvScalar(R, G, B), -1);
             line = s.ReadLine();
             words = line.Split(',');
             int shapes;
@@ -234,7 +234,7 @@ namespace Analyses
             }
             else
                 path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\CogLab Data";
-            VideoWriter video = new VideoWriter(path + "\\ChartMovie.avi", 5, new Size(1440, 900), true);
+            VideoWriter video = new VideoWriter(path + "\\ChartMovie.avi", 5, new Size(BasConfigs._monitor_resolution_x, BasConfigs._monitor_resolution_y), true);
             int counter = 0;
             int number = 1;
             int sumX = 0, sumY = 0;
@@ -254,7 +254,7 @@ namespace Analyses
                 y = (int)n;
                 i[0] = "";
                 i[1] = "";
-                if (x > 0 && x < 1440 && y > 0 && y < 900)
+                if (x > 0 && x < BasConfigs._monitor_resolution_x && y > 0 && y < BasConfigs._monitor_resolution_y)
                 {
                     counter++;
                     sumX += x;
@@ -334,7 +334,7 @@ namespace Analyses
                 y = (int)n;
                 i[0] = "";
                 i[1] = "";
-                if (x > 0 && x < 1440 && y > 0 && y < 900)
+                if (x > 0 && x < BasConfigs._monitor_resolution_x && y > 0 && y < BasConfigs._monitor_resolution_y)
                 {
                     counter++;
                     sumX += x;
@@ -408,7 +408,7 @@ namespace Analyses
                 y = (int)n;
                 i[0] = "";
                 i[1] = "";
-                if (x > 0 && x < 1440 && y > 0 && y < 900)
+                if (x > 0 && x < BasConfigs._monitor_resolution_x && y > 0 && y < BasConfigs._monitor_resolution_y)
                 {
                     cells[y / 46, x / 73]++;
                     if (currentX == -1 && currentY == -1)
@@ -460,7 +460,7 @@ namespace Analyses
             }
             else
                 path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            VideoWriter video = new VideoWriter(path + "\\video.avi", 5, new Size(1440, 900), true);
+            VideoWriter video = new VideoWriter(path + "\\video.avi", 5, new Size(BasConfigs._monitor_resolution_x, BasConfigs._monitor_resolution_y), true);
             int min = 0;
             int max = 0;
             StreamReader s = new StreamReader(txtHeatPath.Text);
@@ -476,7 +476,7 @@ namespace Analyses
                 double.TryParse(i[1], out n);
                 x = (int)m;
                 y = (int)n;
-                if (x > 0 && x < 1440 && y > 0 && y < 900)
+                if (x > 0 && x < BasConfigs._monitor_resolution_x && y > 0 && y < BasConfigs._monitor_resolution_y)
                 {
                     cells[y / 31, x / 49]++;
                     min = Math.Min(min, cells[y / 31, x / 49]);
@@ -496,7 +496,7 @@ namespace Analyses
                 double.TryParse(i[1], out n);
                 x = (int)m;
                 y = (int)n;
-                if (x > 0 && x < 1440 && y > 0 && y < 900)
+                if (x > 0 && x < BasConfigs._monitor_resolution_x && y > 0 && y < BasConfigs._monitor_resolution_y)
                 {
                     counter++;
                     c[y / 31, x / 49]++;
@@ -504,7 +504,7 @@ namespace Analyses
                 if (counter == 8)
                 {
                     fCounter++;
-                    Bitmap pic = new Bitmap(1440, 900);
+                    Bitmap pic = new Bitmap(BasConfigs._monitor_resolution_x, BasConfigs._monitor_resolution_y);
                     int iX;
                     int iY;
                     byte iIntense;
@@ -521,7 +521,7 @@ namespace Analyses
                     Bitmap maskPic = pic;
                     Bitmap output = Colorize2(pic, 125);
 
-                    var target = new Bitmap(1440, 900, PixelFormat.Format32bppArgb);
+                    var target = new Bitmap(BasConfigs._monitor_resolution_x, BasConfigs._monitor_resolution_y, PixelFormat.Format32bppArgb);
                     var graphics = Graphics.FromImage(target);
                     graphics.CompositingMode = CompositingMode.SourceOver;
                     graphics.DrawImage(jPic, 0, 0);
@@ -556,7 +556,7 @@ namespace Analyses
             }
             else
                 path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\CogLab Data";
-            VideoWriter pointVideo = new VideoWriter(path + "\\pointVideo.avi", 10, new Size(1440, 900), true);
+            VideoWriter pointVideo = new VideoWriter(path + "\\pointVideo.avi", 10, new Size(BasConfigs._monitor_resolution_x, BasConfigs._monitor_resolution_y), true);
             Bitmap source;
             if (isTaskLab)
                 source = map;
@@ -583,7 +583,7 @@ namespace Analyses
                 double.TryParse(i[1], out n);
                 x = (int)m;
                 y = (int)n;
-                if (x > 0 && x < 1440 && y > 0 && y < 900)
+                if (x > 0 && x < BasConfigs._monitor_resolution_x && y > 0 && y < BasConfigs._monitor_resolution_y)
                 {
                     points[counter] = new Point(x, y);
                     counter++;
@@ -637,7 +637,7 @@ namespace Analyses
 				double.TryParse(i[1], out n);
 				x = (int)m;
 				y = (int)n;
-				if (x > 0 && x < 1440 && y > 0 && y < 900)
+				if (x > 0 && x < BasConfigs._monitor_resolution_x && y > 0 && y < BasConfigs._monitor_resolution_y)
 				{
 					counter++;
 					cells[y / 31, x / 49]++;

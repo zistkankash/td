@@ -24,7 +24,8 @@ namespace Basics
 			}
 			if (screen.Length == 1)
 			{
-				
+				_monitor_resolution_x = screen[0].Bounds.Width;
+				_monitor_resolution_y = screen[0].Bounds.Height;
 			}
 			return true;
 		}

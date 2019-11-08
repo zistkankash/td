@@ -32,14 +32,14 @@
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(COGLABnewUI));
 			this.backUpdater = new System.Windows.Forms.Timer(this.components);
 			this.pnl_cntrl = new System.Windows.Forms.Panel();
+			this.btnMinmiz = new System.Windows.Forms.Button();
+			this.btnCls = new System.Windows.Forms.Button();
 			this.btn_trunner = new System.Windows.Forms.Button();
 			this.btn_analysis = new System.Windows.Forms.Button();
 			this.btn_linguistics = new System.Windows.Forms.Button();
 			this.btn_psychology = new System.Windows.Forms.Button();
 			this.btn_setting = new System.Windows.Forms.Button();
 			this.btn_psychophysics = new System.Windows.Forms.Button();
-			this.btnCls = new System.Windows.Forms.Button();
-			this.btnMinmiz = new System.Windows.Forms.Button();
 			this.pnl_cntrl.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -67,6 +67,32 @@
 			this.pnl_cntrl.Size = new System.Drawing.Size(655, 508);
 			this.pnl_cntrl.TabIndex = 1;
 			this.pnl_cntrl.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pnl_cntrl_MouseDown);
+			// 
+			// btnMinmiz
+			// 
+			this.btnMinmiz.FlatAppearance.BorderSize = 0;
+			this.btnMinmiz.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+			this.btnMinmiz.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+			this.btnMinmiz.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.btnMinmiz.Location = new System.Drawing.Point(90, 104);
+			this.btnMinmiz.Name = "btnMinmiz";
+			this.btnMinmiz.Size = new System.Drawing.Size(33, 31);
+			this.btnMinmiz.TabIndex = 8;
+			this.btnMinmiz.UseVisualStyleBackColor = true;
+			this.btnMinmiz.Click += new System.EventHandler(this.btnMinmiz_Click);
+			// 
+			// btnCls
+			// 
+			this.btnCls.FlatAppearance.BorderSize = 0;
+			this.btnCls.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+			this.btnCls.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+			this.btnCls.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.btnCls.Location = new System.Drawing.Point(530, 95);
+			this.btnCls.Name = "btnCls";
+			this.btnCls.Size = new System.Drawing.Size(36, 30);
+			this.btnCls.TabIndex = 6;
+			this.btnCls.UseVisualStyleBackColor = true;
+			this.btnCls.Click += new System.EventHandler(this.mtlCls_Click);
 			// 
 			// btn_trunner
 			// 
@@ -154,32 +180,6 @@
 			this.btn_psychophysics.MouseEnter += new System.EventHandler(this.btn_psychophysics_MouseEnter);
 			this.btn_psychophysics.MouseLeave += new System.EventHandler(this.btn_psychophysics_MouseLeave);
 			// 
-			// btnCls
-			// 
-			this.btnCls.FlatAppearance.BorderSize = 0;
-			this.btnCls.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-			this.btnCls.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-			this.btnCls.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.btnCls.Location = new System.Drawing.Point(530, 95);
-			this.btnCls.Name = "btnCls";
-			this.btnCls.Size = new System.Drawing.Size(36, 30);
-			this.btnCls.TabIndex = 6;
-			this.btnCls.UseVisualStyleBackColor = true;
-			this.btnCls.Click += new System.EventHandler(this.mtlCls_Click);
-			// 
-			// btnMinmiz
-			// 
-			this.btnMinmiz.FlatAppearance.BorderSize = 0;
-			this.btnMinmiz.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-			this.btnMinmiz.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-			this.btnMinmiz.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.btnMinmiz.Location = new System.Drawing.Point(90, 104);
-			this.btnMinmiz.Name = "btnMinmiz";
-			this.btnMinmiz.Size = new System.Drawing.Size(33, 31);
-			this.btnMinmiz.TabIndex = 8;
-			this.btnMinmiz.UseVisualStyleBackColor = true;
-			this.btnMinmiz.Click += new System.EventHandler(this.btnMinmiz_Click);
-			// 
 			// COGLABnewUI
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -191,6 +191,7 @@
 			this.DoubleBuffered = true;
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			this.KeyPreview = true;
 			this.Name = "COGLABnewUI";
 			this.TransparencyKey = System.Drawing.Color.FromArgb(((int)(((byte)(86)))), ((int)(((byte)(75)))), ((int)(((byte)(75)))));
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.COGLABnewUI_FormClosed);

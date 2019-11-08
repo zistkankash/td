@@ -85,7 +85,7 @@
 			this.TabControl_taskoperator.Controls.Add(this.Tabsetting);
 			this.TabControl_taskoperator.Location = new System.Drawing.Point(-1, 4);
 			this.TabControl_taskoperator.Name = "TabControl_taskoperator";
-			this.TabControl_taskoperator.SelectedIndex = 1;
+			this.TabControl_taskoperator.SelectedIndex = 0;
 			this.TabControl_taskoperator.Size = new System.Drawing.Size(486, 534);
 			this.TabControl_taskoperator.TabIndex = 5;
 			this.TabControl_taskoperator.UseSelectable = true;

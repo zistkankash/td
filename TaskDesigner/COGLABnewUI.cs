@@ -244,7 +244,7 @@ namespace Basics
 			try
 			{
 				HeatMap heat = new HeatMap();
-				heat.FormClosed += delegate { Show(); Select(); Focus(); };
+				heat.FormClosed += delegate { Show(); Select(); };
 				this.Hide();
 				heat.Show();
 			}
@@ -351,10 +351,13 @@ namespace Basics
 
 		private void COGLABnewUI_KeyDown(object sender, KeyEventArgs e)
 		{
-			if (e.KeyCode == Keys.Escape)
-				Close();
+			if (!e.Handled)
+				if (e.KeyCode == Keys.Escape)
+				{
+					Close();
+				}
 		}
-
+		
 		private void mtlCls_Click(object sender, EventArgs e)
 		{
 			this.Close();
