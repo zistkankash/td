@@ -191,7 +191,7 @@ namespace Basics
 			try
 			{
 				Psychophysics.TaskPreview task = new Psychophysics.TaskPreview();
-				task.FormClosed += delegate { Show(); };
+				task.FormClosed += delegate { Show(); Select();};
 				this.Hide();
 				task.Show();
 			}
@@ -204,7 +204,7 @@ namespace Basics
 		private void btn_setting_Click(object sender, EventArgs e)
 		{
 			NetSettingForm nt = new NetSettingForm();
-			nt.FormClosed += delegate { Show(); };
+			nt.FormClosed += delegate { Show(); Select(); };
 			Hide();
 			nt.ShowDialog();
 		}
@@ -214,7 +214,7 @@ namespace Basics
 			try
 			{
 				TaskLab.TaskGen taskLab = new TaskLab.TaskGen(TaskType.lab);
-				taskLab.FormClosed += delegate { Show(); };
+				taskLab.FormClosed += delegate { Show(); Select(); };
 				this.Hide();
 				taskLab.Show();
 			}
@@ -229,7 +229,7 @@ namespace Basics
 			try
 			{
 				TaskLab.TaskGen taskLab = new TaskLab.TaskGen(TaskType.picture);
-				taskLab.FormClosed += delegate { Show(); };
+				taskLab.FormClosed += delegate { Show(); Select(); };
 				this.Hide();
 				taskLab.Show();
 			}
@@ -244,7 +244,7 @@ namespace Basics
 			try
 			{
 				HeatMap heat = new HeatMap();
-				heat.FormClosed += delegate { Show(); };
+				heat.FormClosed += delegate { Show(); Select(); Focus(); };
 				this.Hide();
 				heat.Show();
 			}
@@ -262,12 +262,12 @@ namespace Basics
 				ETStatus ns = BasConfigs.GetNetStatus();
 				if (ns == ETStatus.listening)
 				{
-					MessageBox.Show("You pressed Start Connection. press Connect in ET Net window to run a task please.", "");
-					return;
+					MessageBox.Show("You pressed Start Connection but ET not connected to Runner to get gaze data points. Please go to ET connection window and press Connect button.", "");
+					
 				}
 
 				runner = new TaskOperator();
-				runner.FormClosed += delegate { Show(); };
+				runner.FormClosed += delegate { Show(); Select(); };
 				this.Hide();
 
 				runner.Show();

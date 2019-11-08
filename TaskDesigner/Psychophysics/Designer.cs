@@ -431,7 +431,8 @@ namespace Psychophysics.Old
             }
 
             UpdateTreeView(ActivePicB - 1);
-
+            
+            pnl_Draw.Cursor = Cursors.Arrow;
             Shape_Panel.BackColor = Color.Transparent;
             Picture_Panel.BackColor = Color.Transparent;
             Shape_Panel.Enabled = false;
@@ -483,19 +484,22 @@ namespace Psychophysics.Old
 		private void btn_Square_Click(object sender, EventArgs e)
         {
             drawSquare = true;
-		}    
-		
-		private void btn_Rectangle_Click(object sender, EventArgs e)
+            pnl_Draw.Cursor = Cursors.Hand;
+        }
+
+        private void btn_Rectangle_Click(object sender, EventArgs e)
         {
             drawRectangle = true;
-		} 
-		
-		private void btn_Circle_Click(object sender, EventArgs e) 
+            pnl_Draw.Cursor = Cursors.Hand;
+        }
+
+        private void btn_Circle_Click(object sender, EventArgs e) 
         {
             drawCircle = true;
-		} 
+            pnl_Draw.Cursor = Cursors.Hand;
+        }
 
-		private void AddPicB_Click(object sender, EventArgs e)
+        private void AddPicB_Click(object sender, EventArgs e)
         {
             // Adding new PictureBox
             StimulusPanel.Enabled = true;
@@ -768,7 +772,7 @@ namespace Psychophysics.Old
             }
             catch(Exception)
             {
-                MessageBox.Show("");
+                //MessageBox.Show("");
             }
 		}                  
 
@@ -1041,7 +1045,7 @@ namespace Psychophysics.Old
         private void clearToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
-            DialogResult dialogResult = MessageBox.Show("This erases all the material related to the current active Page. Are you sure you want to continue it?", "Warning", MessageBoxButtons.YesNo);
+            DialogResult dialogResult = MessageBox.Show("This erases all the material related to the current active Page. Are you sure you want to continue it?", "Warning", MessageBoxButtons.YesNo,MessageBoxIcon.Question);
             if (dialogResult == DialogResult.Yes)
             {
                 fixationList[ActivePicB - 1] = new ObjectProp();
