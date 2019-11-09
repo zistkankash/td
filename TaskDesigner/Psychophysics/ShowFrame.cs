@@ -466,9 +466,9 @@ namespace Psychophysics
 						
 			if (_useGaz)
 			{
-				BasConfigs.server.StartGaze();
-				_eventMicSW.Start();
+				RunnerUtils.StartGaze();
 				RunnerUtils.ETGaze();
+				_eventMicSW.Start();
 			}
 
 			MicroTimerEnable();
@@ -570,12 +570,15 @@ namespace Psychophysics
 					if (fixatehappened)
 					{
 						NextFrame();
-						winSound.Play();
+						if (FixationRewardType == 3 || FixationRewardType == 4)
+							winSound.Play();
 					}
 					else
 					{
 						NextTrial();
-						failSound.Play();
+						if (FixationRewardType == 3 || FixationRewardType == 4)
+							failSound.Play();
+
 					}
 				}
 			}
@@ -1075,6 +1078,7 @@ namespace Psychophysics
 			if (_useGaz)
 			{
 				TaskOperator._stopped = true;
+				RunnerUtils.EndGaze();
 			}
 			this.BeginInvoke(new MethodInvoker(Close));
 		}
@@ -1338,8 +1342,12 @@ namespace Psychophysics
 
 		private void ShowFrame_KeyDown(object sender, KeyEventArgs e)
 		{
-			if (e.KeyCode == Keys.Escape)
-				Close();
+			if (!e.Handled)
+				if (e.KeyCode == Keys.Escape)
+				{
+					e.Handled = true;
+					Close();
+				}
 		}
 
 		private void ChangeDaqValue(double[] OutDaq, int NumOfSignals, double InputVolCenter, double InputVolRange, double[] Width, double[] MappedSignals)

@@ -531,9 +531,6 @@ namespace Psychophysics
                 TextFormatFlags.Left | TextFormatFlags.VerticalCenter);
         }
 
-
-
-
         protected override void OnPaint(PaintEventArgs e)
         {
 

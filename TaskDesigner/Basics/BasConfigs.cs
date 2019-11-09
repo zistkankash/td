@@ -26,6 +26,7 @@ namespace Basics
 			{
 				_monitor_resolution_x = screen[0].Bounds.Width;
 				_monitor_resolution_y = screen[0].Bounds.Height;
+				MessageBox.Show("Second screen not detected. This cause some features not working well!","Information",MessageBoxButtons.OK,MessageBoxIcon.Information);
 			}
 			return true;
 		}

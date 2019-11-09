@@ -40,6 +40,16 @@ namespace Basics
 			return res / GazeSmoothPots;
 		}
 
+		public static bool StartGaze()
+		{
+			if (BasConfigs.server != null && BasConfigs.server.IsCalibrated == ETStatus.ready)
+			{
+				return  BasConfigs.server.StartGaze();
+			}
+			return false;
+
+		}
+		
 		public static GazeTriple ETGaze()
 		{
 			GazeTriple gzTemp = BasConfigs.server.getGaze;
@@ -57,6 +67,15 @@ namespace Basics
 			return gzTemp;
 		}
 
+		public static bool EndGaze()
+		{
+			if (BasConfigs.server != null && BasConfigs.server.IsCalibrated == ETStatus.ready)
+			{
+				return BasConfigs.server.EndGaze();
+			}
+			return false;
+		}
+		
 		public static void ClearGaze()
 		{
 			_counter = 0;

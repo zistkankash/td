@@ -233,9 +233,9 @@ namespace Psychophysics
 			this.chkRandom.ForeColor = System.Drawing.Color.Black;
 			this.chkRandom.Location = new System.Drawing.Point(93, 396);
 			this.chkRandom.Name = "chkRandom";
-			this.chkRandom.Size = new System.Drawing.Size(93, 17);
+			this.chkRandom.Size = new System.Drawing.Size(134, 17);
 			this.chkRandom.TabIndex = 26;
-			this.chkRandom.Text = "MakeRandom";
+			this.chkRandom.Text = "Make Random Repeat";
 			this.chkRandom.UseVisualStyleBackColor = true;
 			// 
 			// TaskPreview

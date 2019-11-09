@@ -488,17 +488,15 @@
     <None Include="Resources\usermap.jpg" />
     <Content Include="tbr7.ico" />
     <None Include="Themes\BlueWinterTheme.xml" />
-    <Content Include="Themes1\AdobeMediaPlayerTheme.xml" />
-    <Content Include="Themes1\AlienTheme.xml" />
-    <Content Include="Themes1\AnimalKingdomTheme.xml" />
-    <Content Include="Themes1\BlackTheme.xml" />
-    <Content Include="Themes1\BlueWinterTheme.xml" />
-    <Content Include="Themes1\DarkSystemTheme.xml" />
-    <Content Include="Themes1\MacOSTheme.xml" />
-    <Content Include="Themes1\StandardWindowsTheme.xml" />
-    <Content Include="Themes1\ValentineTheme.xml" />
-    <Content Include="Themes1\VistaTheme.xml" />
-    <Content Include="Themes1\WhiteTheme.xml" />
+    <Content Include="Themes\AdobeMediaPlayerTheme.xml" />
+    <Content Include="Themes\AlienTheme.xml" />
+    <Content Include="Themes\AnimalKingdomTheme.xml" />
+    <Content Include="Themes\BlackTheme.xml" />
+    <Content Include="Themes\DarkSystemTheme.xml" />
+    <Content Include="Themes\MacOSTheme.xml" />
+    <Content Include="Themes\StandardWindowsTheme.xml" />
+    <Content Include="Themes\ValentineTheme.xml" />
+    <Content Include="Themes\VistaTheme.xml" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

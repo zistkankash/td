@@ -35,8 +35,8 @@ namespace Psychophysics.Old
 
             MonitorWidth_TB.Enabled = false;
             MonitorHeight_TB.Enabled = false;
-
-            if (mode == 1) //A: new designer
+			#region new desidn mod
+			if (mode == 1) //A: new designer
             {
                 this.Mode = mode;
 
@@ -80,7 +80,9 @@ namespace Psychophysics.Old
                 //RewardType_LB.Text = Reward[ActivePicB - 1].ToString();
                 UpdateTreeView(ActivePicB - 1);
             }
-            else if( mode == 2 ) //A: a designer for editing the current task
+			#endregion
+			#region edit mode
+			else if ( mode == 2 ) 
             {
                 this.Mode = mode;
                 LoadParameters(index);
@@ -89,7 +91,8 @@ namespace Psychophysics.Old
                 //SelectRewardType_CB.SelectedIndex = Reward[ActivePicB - 1];
                 //RewardType_LB.Text = Reward[ActivePicB - 1].ToString();
             }
-            Size_LB.Text = " % " + Convert.ToString(ViewSize);
+			#endregion
+			Size_LB.Text = " % " + Convert.ToString(ViewSize);
             ParentPanel.MouseWheel += ParentPanel_Wheel;    //A:again the parent panel?!! what does it do?!!
             SelectedPage_LB.Text = "Selected Page : " + Convert.ToString(ActivePicB);
 
@@ -1665,6 +1668,7 @@ namespace Psychophysics.Old
             }
             //UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList);
             pnl_Draw.BackgroundImage = new Bitmap(BitmapPicB[ActivePicB - 1],pnl_Draw.Size);
+			FrameTime_ET.Text = TaskPreview.AllLevelProp[0][0].FrameTime.ToString();
 		}         
 
 		private void SelectRewardType_CB_SelectedIndexChanged(object sender, EventArgs e)
@@ -1995,7 +1999,10 @@ namespace Psychophysics.Old
             UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList);
         }
 
-		
+		private void Popup_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+		{
+
+		}
 
 		private int ConvertPixelX(double Xd)
         {

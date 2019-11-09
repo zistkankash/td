@@ -31,6 +31,8 @@ namespace Basics
 		{
 			InitializeComponent();
 			Select();
+			BasConfigs.GetScreenConfigs();
+
 			#region psychophysics polygon and button
 			Point[] p_psychophysics = {
 		new Point(330, 50),
@@ -211,17 +213,17 @@ namespace Basics
 
 		private void btn_psychology_Click(object sender, EventArgs e)
 		{
-			try
-			{
-				TaskLab.TaskGen taskLab = new TaskLab.TaskGen(TaskType.lab);
-				taskLab.FormClosed += delegate { Show(); Select(); };
-				this.Hide();
-				taskLab.Show();
-			}
-			catch(Exception)
-			{
-				return;
-			}
+			//try
+			//{
+			//	TaskLab.TaskGen taskLab = new TaskLab.TaskGen(TaskType.lab);
+			//	taskLab.FormClosed += delegate { Show(); Select(); };
+			//	this.Hide();
+			//	taskLab.Show();
+			//}
+			//catch(Exception)
+			//{
+			//	return;
+			//}
 		}
 
 		private void btn_linguistics_Click(object sender, EventArgs e)
@@ -406,18 +408,18 @@ namespace Basics
 
 		private void btn_psychology_MouseEnter(object sender, EventArgs e)
 		{
-			if (connected)
-				pnl_cntrl.BackgroundImage = Resource.main3_psycologyselected_green;
-			else
-				pnl_cntrl.BackgroundImage = Resource.main3_psycologyselected;
+			//if (connected)
+			//	pnl_cntrl.BackgroundImage = Resource.main3_psycologyselected_green;
+			//else
+			//	pnl_cntrl.BackgroundImage = Resource.main3_psycologyselected;
 		}
 
 		private void btn_psychology_MouseLeave(object sender, EventArgs e)
 		{
-			if (connected)
-				pnl_cntrl.BackgroundImage = Resource.main3_connected;
-			else
-				pnl_cntrl.BackgroundImage = Resource.main3_final;
+			//if (connected)
+			//	pnl_cntrl.BackgroundImage = Resource.main3_connected;
+			//else
+			//	pnl_cntrl.BackgroundImage = Resource.main3_final;
 		}
 
 		private void btn_psychophysics_MouseEnter(object sender, EventArgs e)
