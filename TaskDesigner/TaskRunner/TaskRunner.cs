@@ -76,9 +76,9 @@ namespace TaskRunning
 			{
 				// for fullscreen
 				WindowState = FormWindowState.Maximized;
-				this.Location = new Point(screens[1].Bounds.X, screens[1].Bounds.Y);
-				pctbxFrm.Size = new Size(screens[1].Bounds.Width, screens[1].Bounds.Height);
-				secondMonit = new Size(screens[screens.Length - 1].Bounds.Width, screens[screens.Length - 1].Bounds.Height);
+				this.Location = new Point(screens[0].Bounds.X, screens[0].Bounds.Y);
+				pctbxFrm.Size = new Size(screens[0].Bounds.Width, screens[0].Bounds.Height);
+				secondMonit = new Size(screens[0].Bounds.Width, screens[0].Bounds.Height);
 				pctbxFrm.SizeMode = PictureBoxSizeMode.StretchImage;
 			}
 			else
