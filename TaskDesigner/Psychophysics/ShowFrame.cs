@@ -482,13 +482,13 @@ namespace Psychophysics
 			if (screen.Length == 2)
 			{
 
-				this.Size = new Size(screen[1].Bounds.Width, screen[1].Bounds.Height);
+				this.Size = new Size(screen[0].Bounds.Width, screen[0].Bounds.Height);
 				this.WindowState = FormWindowState.Maximized;
-				this.Location = new Point(screen[0].Bounds.Width, 0);
-				MappingWidth[0] = screen[1].Bounds.Width;
-				MappingWidth[1] = screen[1].Bounds.Height;
+				this.Location = new Point(0, 0);
+				MappingWidth[0] = screen[0].Bounds.Width;
+				MappingWidth[1] = screen[0].Bounds.Height;
 
-				flag = new Bitmap(screen[1].Bounds.Width, screen[1].Bounds.Height);
+				flag = new Bitmap(screen[0].Bounds.Width, screen[0].Bounds.Height);
 				//opFlag = new Bitmap(opFlagSizeX, opFlagSizeY);
 				//opFlagGraphics = Graphics.FromImage(opFlag);
 			}
