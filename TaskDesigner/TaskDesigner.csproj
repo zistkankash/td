@@ -142,11 +142,11 @@
     <Compile Include="COGLABnewUI.Designer.cs">
       <DependentUpon>COGLABnewUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="DesignerMain\ImageList.cs">
+    <Compile Include="Controls\ThumbnailList.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="DesignerMain\ImageList.Designer.cs">
-      <DependentUpon>ImageList.cs</DependentUpon>
+    <Compile Include="Controls\ThumbnailList.Designer.cs">
+      <DependentUpon>ThumbnailList.cs</DependentUpon>
     </Compile>
     <Compile Include="DesignerMain\MainDesigner.cs">
       <SubType>Form</SubType>
@@ -272,6 +272,9 @@
       <DependentUpon>TaskPreview.cs</DependentUpon>
     </Compile>
     <Compile Include="Basics\XmlThemeLoader.cs" />
+    <EmbeddedResource Include="Controls\ThumbnailList.resx">
+      <DependentUpon>ThumbnailList.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Psychophysics\frmCoolForm.resx">
       <DependentUpon>frmCoolForm.cs</DependentUpon>
     </EmbeddedResource>

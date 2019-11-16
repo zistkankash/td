@@ -1075,9 +1075,10 @@ namespace Psychophysics
 			Timer1.Stop();
 			microTimer.Stop();
 			CloseForm = true;
+			TaskOperator._stopped = true;
 			if (_useGaz)
 			{
-				TaskOperator._stopped = true;
+				
 				RunnerUtils.EndGaze();
 			}
 			this.BeginInvoke(new MethodInvoker(Close));

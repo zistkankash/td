@@ -11,7 +11,7 @@ using MetroFramework.Forms;
 
 namespace Psychophysics
 {
-	public partial class MainDesigner : MetroForm
+	public partial class MainDesigner : Form
 	{
 		public MainDesigner()
 		{

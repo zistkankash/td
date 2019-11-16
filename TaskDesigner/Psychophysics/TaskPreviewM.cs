@@ -15,7 +15,7 @@ using Psychophysics.Old;
 
 namespace Psychophysics
 {
-    public partial class TaskPreviewM : MetroFramework.Forms.MetroForm
+    public partial class TaskPreviewM : Form
     {
         RowStyle SaveRowStyle;
         int TaskName ;

@@ -28,56 +28,54 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainDesigner));
-			this.spltContainer = new System.Windows.Forms.SplitContainer();
-			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-			this.pbDesign = new System.Windows.Forms.PictureBox();
-			((System.ComponentModel.ISupportInitialize)(this.spltContainer)).BeginInit();
-			this.spltContainer.Panel1.SuspendLayout();
-			this.spltContainer.Panel2.SuspendLayout();
-			this.spltContainer.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.pbDesign)).BeginInit();
+			this.mainSplitter = new System.Windows.Forms.SplitContainer();
+			this.splitterItems = new System.Windows.Forms.SplitContainer();
+			this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+			((System.ComponentModel.ISupportInitialize)(this.mainSplitter)).BeginInit();
+			this.mainSplitter.Panel1.SuspendLayout();
+			this.mainSplitter.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.splitterItems)).BeginInit();
+			this.splitterItems.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// spltContainer
+			// mainSplitter
 			// 
-			this.spltContainer.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.spltContainer.Location = new System.Drawing.Point(20, 60);
-			this.spltContainer.Name = "spltContainer";
+			this.mainSplitter.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.mainSplitter.Location = new System.Drawing.Point(0, 0);
+			this.mainSplitter.Name = "mainSplitter";
+			this.mainSplitter.Orientation = System.Windows.Forms.Orientation.Horizontal;
 			// 
-			// spltContainer.Panel1
+			// mainSplitter.Panel1
 			// 
-			this.spltContainer.Panel1.Controls.Add(this.tableLayoutPanel1);
+			this.mainSplitter.Panel1.Controls.Add(this.splitterItems);
 			// 
-			// spltContainer.Panel2
+			// mainSplitter.Panel2
 			// 
-			this.spltContainer.Panel2.Controls.Add(this.pbDesign);
-			this.spltContainer.Size = new System.Drawing.Size(1142, 557);
-			this.spltContainer.SplitterDistance = 264;
-			this.spltContainer.TabIndex = 0;
+			this.mainSplitter.Panel2.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+			this.mainSplitter.Size = new System.Drawing.Size(1182, 637);
+			this.mainSplitter.SplitterDistance = 510;
+			this.mainSplitter.TabIndex = 0;
 			// 
-			// tableLayoutPanel1
+			// splitterItems
 			// 
-			this.tableLayoutPanel1.ColumnCount = 1;
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-			this.tableLayoutPanel1.RowCount = 1;
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutPanel1.Size = new System.Drawing.Size(264, 557);
-			this.tableLayoutPanel1.TabIndex = 0;
+			this.splitterItems.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.splitterItems.Location = new System.Drawing.Point(0, 0);
+			this.splitterItems.Name = "splitterItems";
+			this.splitterItems.Size = new System.Drawing.Size(1182, 510);
+			this.splitterItems.SplitterDistance = 243;
+			this.splitterItems.TabIndex = 0;
 			// 
-			// pbDesign
+			// imageList1
 			// 
-			this.pbDesign.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.pbDesign.Location = new System.Drawing.Point(0, 0);
-			this.pbDesign.Name = "pbDesign";
-			this.pbDesign.Size = new System.Drawing.Size(874, 557);
-			this.pbDesign.TabIndex = 0;
-			this.pbDesign.TabStop = false;
+			this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+			this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+			this.imageList1.Images.SetKeyName(0, "Chrysanthemum.jpg");
+			this.imageList1.Images.SetKeyName(1, "Desert.jpg");
+			this.imageList1.Images.SetKeyName(2, "Hydrangeas.jpg");
+			this.imageList1.Images.SetKeyName(3, "Penguins.jpg");
+			this.imageList1.Images.SetKeyName(4, "Tulips.jpg");
 			// 
 			// MainDesigner
 			// 
@@ -85,26 +83,26 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.AutoScroll = true;
 			this.ClientSize = new System.Drawing.Size(1182, 637);
-			this.Controls.Add(this.spltContainer);
+			this.Controls.Add(this.mainSplitter);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "MainDesigner";
 			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-			this.Style = MetroFramework.MetroColorStyle.White;
 			this.TransparencyKey = System.Drawing.Color.White;
 			this.Load += new System.EventHandler(this.MainDesigner_Load);
-			this.spltContainer.Panel1.ResumeLayout(false);
-			this.spltContainer.Panel2.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.spltContainer)).EndInit();
-			this.spltContainer.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.pbDesign)).EndInit();
+			this.mainSplitter.Panel1.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.mainSplitter)).EndInit();
+			this.mainSplitter.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.splitterItems)).EndInit();
+			this.splitterItems.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
 
 		#endregion
 
-		private System.Windows.Forms.SplitContainer spltContainer;
-		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-		private System.Windows.Forms.PictureBox pbDesign;
+		private System.Windows.Forms.SplitContainer mainSplitter;
+		private System.Windows.Forms.SplitContainer splitterItems;
+		private System.Windows.Forms.ImageList imageList1;
 	}
 }
