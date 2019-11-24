@@ -86,9 +86,9 @@ namespace TaskRunning
 		public void RefreshPctBx()
 		{
 			Bitmap b = new Bitmap(pbOper.Size.Width,pbOper.Size.Height);
-			if (tsk.type == TaskType.picture)
-				b = tsk.GetSlideImage(_slideNum, pbOper.Size);
-			if (tsk.type == TaskType.cognitive)
+			if (tsk.Type == TaskType.media)
+				b = tsk.GetFrameImage(_slideNum, pbOper.Size);
+			if (tsk.Type == TaskType.cognitive)
 				b = BitmapData.DrawOn(shFrame.flag, pbOper.Size, Color.White);
 
 			Graphics flagGraphics = Graphics.FromImage(b);
@@ -106,7 +106,7 @@ namespace TaskRunning
 		{
 			try
 			{
-				if (!tsk.taskIsReady)
+				if (!tsk.IsReady)
 				{
 					MetroMessageBox.Show((IWin32Window)this, "Please select correct task!", "Task Runner", MessageBoxButtons.OK, MessageBoxIcon.Hand);
 					return;
@@ -120,9 +120,9 @@ namespace TaskRunning
 				if (GetETStat())
 				{
 					btnStart.Enabled = false;
-					if (tsk.type == TaskType.cognitive)
+					if (tsk.Type == TaskType.cognitive)
 					{
-						TaskPreview.brake = false;
+						PsycoPhysicTask.brake = false;
 						bool st;
 						if (_etStat == ETStatus.ready)
 							st = true;
@@ -241,9 +241,9 @@ namespace TaskRunning
 		{
 			if (tsk.LoadTask(true))
 			{
-				txtbxTask.Text = tsk.tskAddress;
+				txtbxTask.Text = tsk.Address;
 				pbOper.SizeMode = PictureBoxSizeMode.StretchImage;
-				pbOper.Image = tsk.GetSlideImage(0,pbOper.Size);
+				pbOper.Image = tsk.GetFrameImage(0,pbOper.Size);
 				btnStart.Enabled = true;
 			}
 			else
@@ -274,9 +274,9 @@ namespace TaskRunning
 
 		private void btStop_Click(object sender, EventArgs e)
 		{
-			if (tsk.type == TaskType.cognitive)
+			if (tsk.Type == TaskType.cognitive)
 			{
-				TaskPreview.brake = true;
+				PsycoPhysicTask.brake = true;
 				Stop();
 				return;
 			}
@@ -310,7 +310,7 @@ namespace TaskRunning
 				savedData = BasConfigs._monitor_resolution_x.ToString() + "," + BasConfigs._monitor_resolution_y.ToString() + "\n";
 			}
 
-			if (num < tsk.picList.Count)
+			if (num < tsk.MediaTask.picList.Count)
 			{
 				txtSavPath.Text = FileName.AddNumToCSVFileName(false, txtSavPath.Text);
 				_slideNum = num;

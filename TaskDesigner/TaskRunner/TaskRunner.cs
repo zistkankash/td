@@ -71,23 +71,24 @@ namespace TaskRunning
 		{
 			FormBorderStyle = FormBorderStyle.None;
 			StartPosition = FormStartPosition.Manual;
-			screens = Screen.AllScreens;
+            pctbxFrm.SizeMode = PictureBoxSizeMode.StretchImage;
+            screens = Screen.AllScreens;
 			if (screens.Length == 2)
 			{
 				// for fullscreen
 				WindowState = FormWindowState.Maximized;
-				this.Location = new Point(screens[0].Bounds.X, screens[0].Bounds.Y);
-				pctbxFrm.Size = new Size(screens[0].Bounds.Width, screens[0].Bounds.Height);
-				secondMonit = new Size(screens[0].Bounds.Width, screens[0].Bounds.Height);
-				pctbxFrm.SizeMode = PictureBoxSizeMode.StretchImage;
+				this.Location = new Point(screens[1].Bounds.X, screens[1].Bounds.Y);
+				pctbxFrm.Size = new Size(screens[1].Bounds.Width, screens[1].Bounds.Height);
+				
 			}
 			else
 			{
-				if (screens.Length == 1 && !silentMode)
+				if (screens.Length == 1)
 				{
-					MessageBox.Show("Can not find second screen. Using primary screen.","Task Runner");
-					
-				}
+                    if (!silentMode)
+                        MessageBox.Show("Can not find second screen. Using primary screen.", "Task Runner");
+                    WindowState = FormWindowState.Normal;
+                }
 			}
 			
 		}
@@ -100,17 +101,18 @@ namespace TaskRunning
 		/// <returns></returns>
 		private void InitRunningTask()
 		{
-			if (!curTsk.taskIsReady)// Check to see if curTsk not inited correctly return.
+			if (!curTsk.IsReady)// Check to see if curTsk not inited correctly return.
 				return;
 			tskWatch = new Stopwatch(); //Get a watch for timing operations.
 			if (_getGaz)
 			{
-				BasConfigs.server.StartGaze();
+				RunnerUtils.StartGaze();
 			}
 			else
 				Cursor.Position = new Point(BasConfigs._monitor_resolution_x, BasConfigs._monitor_resolution_y);
+
 			#region lab tasks
-			if (curTsk.type == TaskType.lab)
+			if (curTsk.Type == TaskType.lab)
 			{
 
 				if(curTsk.runConf.taskRunMode == TaskRunMod.recursive)
@@ -127,14 +129,14 @@ namespace TaskRunning
 				return;
 			}
 			#endregion
-			if (curTsk.type == TaskType.picture)
+			if (curTsk.Type == TaskType.media)
 			{
 				showedIndex = 0;
 				Invoke((Action)delegate { tsop.SetNextSlide(showedIndex); });
 				tskWatch.Start();
 				frameUpdater.Start();
 				
-				while (showedIndex < curTsk.picList.Count)
+				while (showedIndex < curTsk.MediaTask.picList.Count)
 				{
 					//If gaze was enabled use gaze values to save in file and update pointer in operator.
 					if (_getGaz)
@@ -152,7 +154,7 @@ namespace TaskRunning
 					}
 					
 					//Check status to go to next slide...
-					if ((curTsk.runConf.useCursorNextFrm && _mouseClicked && tskWatch.ElapsedMilliseconds > curTsk.picList[showedIndex].time * 0.2) || tskWatch.ElapsedMilliseconds > curTsk.picList[showedIndex].time)
+					if ((curTsk.runConf.useCursorNextFrm && _mouseClicked && tskWatch.ElapsedMilliseconds > curTsk.MediaTask.picList[showedIndex].time * 0.2) || tskWatch.ElapsedMilliseconds > curTsk.MediaTask.picList[showedIndex].time)
 					{
 						_mouseClicked = false;
 						showedIndex++;
@@ -165,7 +167,7 @@ namespace TaskRunning
 				return;
 			}
 
-			if(curTsk.type == TaskType.cognitive)
+			if(curTsk.Type == TaskType.cognitive)
 			{
 				return;
 			}
@@ -331,7 +333,7 @@ namespace TaskRunning
 						currentNode = new FNode(10, new Point(-1, -1), 100, 'C', -100);
 						currentIndex = 0;
 						//score = 0;
-						foreach (FNode node in curTsk.positiveFixates)
+						foreach (FNode node in curTsk.PsycoTask.positiveFixates)
 						{
 							if (Math.Sqrt(Math.Pow(Math.Abs(node.pos.X - mouseX), 2) + Math.Pow(Math.Abs(node.pos.Y - mouseY), 2)) <= node.radius)
 							{
@@ -339,7 +341,7 @@ namespace TaskRunning
 								currentIndex = node.priority;
 							}
 						}
-						foreach (FNode node in curTsk.negativeFixates)
+						foreach (FNode node in curTsk.PsycoTask.negativeFixates)
 						{
 							if (Math.Sqrt(Math.Pow(Math.Abs(node.pos.X - mouseX), 2) + Math.Pow(Math.Abs(node.pos.Y - mouseY), 2)) <= node.radius)
 							{
@@ -397,7 +399,7 @@ namespace TaskRunning
 
 		private void CTTaskSelectStartGoal()
 		{
-			int[] strt = curTsk.FindStartShapes();
+			int[] strt = curTsk.PsycoTask.FindStartShapes();
 			
 
 		}
@@ -451,7 +453,7 @@ namespace TaskRunning
 			CleanMap();
 			if (runMod == RunMod.stop)       // هنگام اجرای برنامه
 			{
-				return false;
+				return true;
 			}
 			brake = true;
 			runnerThread.Abort();
@@ -459,7 +461,7 @@ namespace TaskRunning
 			Invoke((Action)delegate { Hide(); });
 			if (_getGaz)
 			{
-				BasConfigs.server.EndGaze();
+				RunnerUtils.EndGaze();
 			}
 			return true;
 		}
@@ -471,7 +473,7 @@ namespace TaskRunning
 		/// <param name="e"></param>
 		private void frameUpdater_Tick(object sender, EventArgs e)
 		{
-			if (curTsk.type == TaskType.picture)
+			if (curTsk.Type == TaskType.media)
 			{
 				if (runMod == RunMod.running)
 				{
@@ -482,10 +484,10 @@ namespace TaskRunning
 						CleanMap();
 						return;
 					}
-					if (showedIndex < curTsk.picList.Count)
+					if (showedIndex < curTsk.MediaTask.picList.Count)
 					{
-						pctbxFrm.BackColor = curTsk.picList[showedIndex].bgColor;
-						pctbxFrm.Image = curTsk.GetSlideImage(showedIndex, pctbxFrm.Size);
+						pctbxFrm.BackColor = curTsk.MediaTask.picList[showedIndex].bgColor;
+						pctbxFrm.Image = curTsk.GetFrameImage(showedIndex, pctbxFrm.Size);
 					}
 				}
 			}
@@ -507,7 +509,6 @@ namespace TaskRunning
 		{
 			if (e.KeyCode == Keys.Escape)
 			{
-				StopTask();
 				this.Close();
 			}
 		}
@@ -517,7 +518,12 @@ namespace TaskRunning
 			_mousX = e.X; _mousY = e.Y;
 		}
 
-		private void pctbxFrm_Click(object sender, EventArgs e)
+        private void TaskRunner_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            StopTask();
+        }
+
+        private void pctbxFrm_Click(object sender, EventArgs e)
 		{
 			_mouseClicked = true;
 		}

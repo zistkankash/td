@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using System.Drawing;
 
-namespace TaskLab
+namespace Basics
 {
     public class Node
     {

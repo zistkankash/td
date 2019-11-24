@@ -2,9 +2,9 @@
 using System.Windows.Forms;
 using TaskDesigner;
 
-namespace Psychophysics
+namespace Basics
 {
-	partial class TaskPreview
+	partial class PsycoPhysicTask
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -33,7 +33,7 @@ namespace Psychophysics
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TaskPreview));
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PsycoPhysicTask));
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.label3 = new System.Windows.Forms.Label();
 			this.Task_Table = new System.Windows.Forms.TableLayoutPanel();

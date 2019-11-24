@@ -291,16 +291,6 @@ namespace TaskDesigner.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap load {
-            get {
-                object obj = ResourceManager.GetObject("load", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap load1 {
             get {
                 object obj = ResourceManager.GetObject("load1", resourceCulture);
@@ -324,26 +314,6 @@ namespace TaskDesigner.Properties {
         internal static System.Drawing.Bitmap load3 {
             get {
                 object obj = ResourceManager.GetObject("load3", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap load31 {
-            get {
-                object obj = ResourceManager.GetObject("load31", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap load4 {
-            get {
-                object obj = ResourceManager.GetObject("load4", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -414,16 +384,6 @@ namespace TaskDesigner.Properties {
         internal static System.Drawing.Bitmap next {
             get {
                 object obj = ResourceManager.GetObject("next", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap not_connected {
-            get {
-                object obj = ResourceManager.GetObject("not connected", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -564,16 +524,6 @@ namespace TaskDesigner.Properties {
         internal static System.Drawing.Bitmap stop {
             get {
                 object obj = ResourceManager.GetObject("stop", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap usermap {
-            get {
-                object obj = ResourceManager.GetObject("usermap", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

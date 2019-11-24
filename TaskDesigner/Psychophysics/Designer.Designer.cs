@@ -48,8 +48,15 @@ namespace Psychophysics.Old
 			this.btn_PenColor = new System.Windows.Forms.Button();
 			this.pnl_Draw = new System.Windows.Forms.Panel();
 			this.panel9 = new System.Windows.Forms.Panel();
+			this.panel7 = new System.Windows.Forms.Panel();
+			this.label1 = new System.Windows.Forms.Label();
 			this.panel6 = new System.Windows.Forms.Panel();
 			this.Objects_TV = new System.Windows.Forms.TreeView();
+			this.panel5 = new System.Windows.Forms.Panel();
+			this.label20 = new System.Windows.Forms.Label();
+			this.label19 = new System.Windows.Forms.Label();
+			this.txtTrigger = new System.Windows.Forms.TextBox();
+			this.cmbtrigger = new System.Windows.Forms.ComboBox();
 			this.FixationPanel = new System.Windows.Forms.Panel();
 			this.FixationSetting_BT = new System.Windows.Forms.Button();
 			this.button5 = new System.Windows.Forms.Button();
@@ -106,7 +113,9 @@ namespace Psychophysics.Old
 			((System.ComponentModel.ISupportInitialize)(this.AddPicB)).BeginInit();
 			this.panel8.SuspendLayout();
 			this.panel9.SuspendLayout();
+			this.panel7.SuspendLayout();
 			this.panel6.SuspendLayout();
+			this.panel5.SuspendLayout();
 			this.FixationPanel.SuspendLayout();
 			this.panel15.SuspendLayout();
 			this.panel3.SuspendLayout();
@@ -250,21 +259,43 @@ namespace Psychophysics.Old
 			// 
 			this.panel9.AutoScroll = true;
 			this.panel9.BackColor = System.Drawing.Color.Transparent;
+			this.panel9.Controls.Add(this.panel7);
 			this.panel9.Controls.Add(this.panel6);
+			this.panel9.Controls.Add(this.panel5);
 			this.panel9.Controls.Add(this.FixationPanel);
 			this.panel9.Controls.Add(this.panel3);
 			this.panel9.Controls.Add(this.StimulusPanel);
 			this.panel9.Location = new System.Drawing.Point(1038, 68);
 			this.panel9.Name = "panel9";
-			this.panel9.Size = new System.Drawing.Size(160, 545);
+			this.panel9.Size = new System.Drawing.Size(160, 636);
 			this.panel9.TabIndex = 3;
+			// 
+			// panel7
+			// 
+			this.panel7.BackColor = System.Drawing.Color.DimGray;
+			this.panel7.Controls.Add(this.label1);
+			this.panel7.Location = new System.Drawing.Point(0, 275);
+			this.panel7.Name = "panel7";
+			this.panel7.Size = new System.Drawing.Size(159, 27);
+			this.panel7.TabIndex = 2;
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label1.ForeColor = System.Drawing.Color.White;
+			this.label1.Location = new System.Drawing.Point(11, 6);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(83, 16);
+			this.label1.TabIndex = 1;
+			this.label1.Text = "Event Tool";
 			// 
 			// panel6
 			// 
 			this.panel6.BackColor = System.Drawing.Color.LightCyan;
 			this.panel6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.panel6.Controls.Add(this.Objects_TV);
-			this.panel6.Location = new System.Drawing.Point(3, 394);
+			this.panel6.Location = new System.Drawing.Point(3, 515);
 			this.panel6.Name = "panel6";
 			this.panel6.Size = new System.Drawing.Size(154, 118);
 			this.panel6.TabIndex = 4;
@@ -287,9 +318,69 @@ namespace Psychophysics.Old
             treeNode2,
             treeNode3,
             treeNode4});
-			this.Objects_TV.Size = new System.Drawing.Size(125, 110);
+			this.Objects_TV.Size = new System.Drawing.Size(141, 110);
 			this.Objects_TV.TabIndex = 26;
 			this.Objects_TV.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.Objects_TV_AfterSelect);
+			// 
+			// panel5
+			// 
+			this.panel5.BackColor = System.Drawing.Color.LightCyan;
+			this.panel5.Controls.Add(this.label20);
+			this.panel5.Controls.Add(this.label19);
+			this.panel5.Controls.Add(this.txtTrigger);
+			this.panel5.Controls.Add(this.cmbtrigger);
+			this.panel5.Location = new System.Drawing.Point(2, 275);
+			this.panel5.Name = "panel5";
+			this.panel5.Size = new System.Drawing.Size(158, 109);
+			this.panel5.TabIndex = 5;
+			// 
+			// label20
+			// 
+			this.label20.AutoSize = true;
+			this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label20.Location = new System.Drawing.Point(9, 79);
+			this.label20.Name = "label20";
+			this.label20.Size = new System.Drawing.Size(36, 13);
+			this.label20.TabIndex = 24;
+			this.label20.Text = "Code";
+			// 
+			// label19
+			// 
+			this.label19.AutoSize = true;
+			this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label19.Location = new System.Drawing.Point(9, 48);
+			this.label19.Name = "label19";
+			this.label19.Size = new System.Drawing.Size(40, 13);
+			this.label19.TabIndex = 23;
+			this.label19.Text = "Event";
+			// 
+			// txtTrigger
+			// 
+			this.txtTrigger.Location = new System.Drawing.Point(66, 76);
+			this.txtTrigger.Name = "txtTrigger";
+			this.txtTrigger.Size = new System.Drawing.Size(81, 20);
+			this.txtTrigger.TabIndex = 1;
+			// 
+			// cmbtrigger
+			// 
+			this.cmbtrigger.FormattingEnabled = true;
+			this.cmbtrigger.Items.AddRange(new object[] {
+            "Condition",
+            "Trial Start",
+            "Trial End",
+            "Fixation Point On",
+            "Fixation Point Off",
+            "Enter Fixation Window",
+            "Abort Fixation Window",
+            "Stimulus On",
+            "Stimulus Off",
+            "Saccad Ini",
+            "Saccad Land"});
+			this.cmbtrigger.Location = new System.Drawing.Point(66, 45);
+			this.cmbtrigger.Name = "cmbtrigger";
+			this.cmbtrigger.Size = new System.Drawing.Size(81, 21);
+			this.cmbtrigger.TabIndex = 0;
+			this.cmbtrigger.SelectedIndexChanged += new System.EventHandler(this.cmbtrigger_SelectedIndexChanged);
 			// 
 			// FixationPanel
 			// 
@@ -394,30 +485,30 @@ namespace Psychophysics.Old
 			this.panel3.Controls.Add(this.X_Fixation_Location_ET);
 			this.panel3.Controls.Add(this.label12);
 			this.panel3.Controls.Add(this.label10);
-			this.panel3.Location = new System.Drawing.Point(3, 270);
+			this.panel3.Location = new System.Drawing.Point(3, 391);
 			this.panel3.Name = "panel3";
 			this.panel3.Size = new System.Drawing.Size(154, 118);
 			this.panel3.TabIndex = 3;
 			// 
 			// MonitorHeight_TB
 			// 
-			this.MonitorHeight_TB.Location = new System.Drawing.Point(70, 33);
+			this.MonitorHeight_TB.Location = new System.Drawing.Point(64, 34);
 			this.MonitorHeight_TB.Name = "MonitorHeight_TB";
-			this.MonitorHeight_TB.Size = new System.Drawing.Size(62, 20);
+			this.MonitorHeight_TB.Size = new System.Drawing.Size(79, 20);
 			this.MonitorHeight_TB.TabIndex = 25;
 			// 
 			// MonitorWidth_TB
 			// 
-			this.MonitorWidth_TB.Location = new System.Drawing.Point(70, 7);
+			this.MonitorWidth_TB.Location = new System.Drawing.Point(64, 7);
 			this.MonitorWidth_TB.Name = "MonitorWidth_TB";
-			this.MonitorWidth_TB.Size = new System.Drawing.Size(62, 20);
+			this.MonitorWidth_TB.Size = new System.Drawing.Size(79, 20);
 			this.MonitorWidth_TB.TabIndex = 23;
 			// 
 			// label14
 			// 
 			this.label14.AutoSize = true;
 			this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label14.Location = new System.Drawing.Point(20, 35);
+			this.label14.Location = new System.Drawing.Point(7, 36);
 			this.label14.Name = "label14";
 			this.label14.Size = new System.Drawing.Size(44, 13);
 			this.label14.TabIndex = 24;
@@ -427,7 +518,7 @@ namespace Psychophysics.Old
 			// 
 			this.label15.AutoSize = true;
 			this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label15.Location = new System.Drawing.Point(20, 9);
+			this.label15.Location = new System.Drawing.Point(7, 10);
 			this.label15.Name = "label15";
 			this.label15.Size = new System.Drawing.Size(40, 13);
 			this.label15.TabIndex = 22;
@@ -436,24 +527,24 @@ namespace Psychophysics.Old
 			// Y_Fixation_Location_ET
 			// 
 			this.Y_Fixation_Location_ET.Enabled = false;
-			this.Y_Fixation_Location_ET.Location = new System.Drawing.Point(70, 87);
+			this.Y_Fixation_Location_ET.Location = new System.Drawing.Point(64, 87);
 			this.Y_Fixation_Location_ET.Name = "Y_Fixation_Location_ET";
-			this.Y_Fixation_Location_ET.Size = new System.Drawing.Size(62, 20);
+			this.Y_Fixation_Location_ET.Size = new System.Drawing.Size(79, 20);
 			this.Y_Fixation_Location_ET.TabIndex = 21;
 			// 
 			// X_Fixation_Location_ET
 			// 
 			this.X_Fixation_Location_ET.Enabled = false;
-			this.X_Fixation_Location_ET.Location = new System.Drawing.Point(70, 61);
+			this.X_Fixation_Location_ET.Location = new System.Drawing.Point(64, 61);
 			this.X_Fixation_Location_ET.Name = "X_Fixation_Location_ET";
-			this.X_Fixation_Location_ET.Size = new System.Drawing.Size(62, 20);
+			this.X_Fixation_Location_ET.Size = new System.Drawing.Size(79, 20);
 			this.X_Fixation_Location_ET.TabIndex = 19;
 			// 
 			// label12
 			// 
 			this.label12.AutoSize = true;
 			this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label12.Location = new System.Drawing.Point(20, 89);
+			this.label12.Location = new System.Drawing.Point(7, 90);
 			this.label12.Name = "label12";
 			this.label12.Size = new System.Drawing.Size(15, 13);
 			this.label12.TabIndex = 20;
@@ -463,7 +554,7 @@ namespace Psychophysics.Old
 			// 
 			this.label10.AutoSize = true;
 			this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label10.Location = new System.Drawing.Point(20, 63);
+			this.label10.Location = new System.Drawing.Point(7, 64);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(15, 13);
 			this.label10.TabIndex = 18;
@@ -476,7 +567,7 @@ namespace Psychophysics.Old
 			this.StimulusPanel.Controls.Add(this.button7);
 			this.StimulusPanel.Controls.Add(this.button6);
 			this.StimulusPanel.Controls.Add(this.panel13);
-			this.StimulusPanel.Location = new System.Drawing.Point(2, 154);
+			this.StimulusPanel.Location = new System.Drawing.Point(2, 157);
 			this.StimulusPanel.Name = "StimulusPanel";
 			this.StimulusPanel.Size = new System.Drawing.Size(155, 112);
 			this.StimulusPanel.TabIndex = 2;
@@ -577,7 +668,7 @@ namespace Psychophysics.Old
             "5",
             "6",
             "7"});
-			this.SelectRewardType_CB.Location = new System.Drawing.Point(97, 116);
+			this.SelectRewardType_CB.Location = new System.Drawing.Point(135, 113);
 			this.SelectRewardType_CB.Name = "SelectRewardType_CB";
 			this.SelectRewardType_CB.Size = new System.Drawing.Size(30, 21);
 			this.SelectRewardType_CB.TabIndex = 23;
@@ -820,7 +911,7 @@ namespace Psychophysics.Old
 			this.Start_PB.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
 			this.Start_PB.FlatAppearance.BorderSize = 0;
 			this.Start_PB.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.Start_PB.Location = new System.Drawing.Point(1092, 689);
+			this.Start_PB.Location = new System.Drawing.Point(1093, 711);
 			this.Start_PB.Margin = new System.Windows.Forms.Padding(0);
 			this.Start_PB.Name = "Start_PB";
 			this.Start_PB.Size = new System.Drawing.Size(48, 48);
@@ -849,20 +940,20 @@ namespace Psychophysics.Old
             this.clearToolStripMenuItem});
 			this.Popup.Name = "Popup";
 			this.Popup.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-			this.Popup.Size = new System.Drawing.Size(153, 70);
+			this.Popup.Size = new System.Drawing.Size(108, 48);
 			this.Popup.Opening += new System.ComponentModel.CancelEventHandler(this.Popup_Opening);
 			// 
 			// deleteToolStripMenuItem
 			// 
 			this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-			this.deleteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.deleteToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
 			this.deleteToolStripMenuItem.Text = "Delete";
 			this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
 			// 
 			// clearToolStripMenuItem
 			// 
 			this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
-			this.clearToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.clearToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
 			this.clearToolStripMenuItem.Text = "Clear";
 			this.clearToolStripMenuItem.Click += new System.EventHandler(this.clearToolStripMenuItem_Click);
 			// 
@@ -909,7 +1000,11 @@ namespace Psychophysics.Old
 			this.panel8.ResumeLayout(false);
 			this.panel8.PerformLayout();
 			this.panel9.ResumeLayout(false);
+			this.panel7.ResumeLayout(false);
+			this.panel7.PerformLayout();
 			this.panel6.ResumeLayout(false);
+			this.panel5.ResumeLayout(false);
+			this.panel5.PerformLayout();
 			this.FixationPanel.ResumeLayout(false);
 			this.FixationPanel.PerformLayout();
 			this.panel15.ResumeLayout(false);
@@ -1001,6 +1096,13 @@ namespace Psychophysics.Old
 		private System.Windows.Forms.Label SelectedPage_LB;
 		private System.Windows.Forms.Button FixationSetting_BT;
 		private System.Windows.Forms.Label RewardType_LB;
+		private System.Windows.Forms.Panel panel5;
+		private System.Windows.Forms.TextBox txtTrigger;
+		private System.Windows.Forms.ComboBox cmbtrigger;
+		private System.Windows.Forms.Panel panel7;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.Label label20;
+		private System.Windows.Forms.Label label19;
 	}
 
 }

@@ -742,25 +742,25 @@ namespace Psychophysics.Old
             }
             if (Mode == 1)
             {
-                if (TaskPreview.AllLevelProp.Count == TaskPreview.ActiveCol)
+                if (PsycoPhysicTask.AllLevelProp.Count == PsycoPhysicTask.ActiveCol)
                 {
                     for (int i = 0; i < PicBCnt; i++)
-                        TaskPreview.AllLevelProp[TaskPreview.ActiveCol - 1].Add(ListAddedFrame[i]);
+                        PsycoPhysicTask.AllLevelProp[PsycoPhysicTask.ActiveCol - 1].Add(ListAddedFrame[i]);
                 }
                 else
-                    TaskPreview.AllLevelProp.Add(ListAddedFrame);
+                    PsycoPhysicTask.AllLevelProp.Add(ListAddedFrame);
 
-                TaskPreview.EnabledTask[TaskPreview.AllLevelProp.Count - 1] = 2;   
+                PsycoPhysicTask.EnabledTask[PsycoPhysicTask.AllLevelProp.Count - 1] = 2;   
             }
             else if (Mode == 2)
             {
-                TaskPreview.AllLevelProp[EditedIndex].Clear();
-                TaskPreview.AllLevelProp[EditedIndex] = ListAddedFrame;
-                TaskPreview.ChangeHappened = true;
-                TaskPreview.EnabledTask[EditedIndex] = 2;
+                PsycoPhysicTask.AllLevelProp[EditedIndex].Clear();
+                PsycoPhysicTask.AllLevelProp[EditedIndex] = ListAddedFrame;
+                PsycoPhysicTask.ChangeHappened = true;
+                PsycoPhysicTask.EnabledTask[EditedIndex] = 2;
             }
 
-            TaskPreview.ChangeHappened = true;
+            PsycoPhysicTask.ChangeHappened = true;
 
             this.Close();
 
@@ -1548,19 +1548,19 @@ namespace Psychophysics.Old
 		#region EditR-D
 		private void LoadParameters(int index)
         {
-            PicBCnt = TaskPreview.AllLevelProp[index].Count;
+            PicBCnt = PsycoPhysicTask.AllLevelProp[index].Count;
             for (int i = 0; i < PicBCnt; i++)
             {
                 // Frame setting
                 FrameProp newFrame = new FrameProp();
-                newFrame.setFrameProp(newFrame.frameWidth, newFrame.frameHeight, TaskPreview.AllLevelProp[index][i].FrameTime, TaskPreview.AllLevelProp[index][i].BGColor);
+                newFrame.setFrameProp(newFrame.frameWidth, newFrame.frameHeight, PsycoPhysicTask.AllLevelProp[index][i].FrameTime, PsycoPhysicTask.AllLevelProp[index][i].BGColor);
                 frameList.Add(newFrame);
 
-                Reward.Add(TaskPreview.AllLevelProp[index][i].RewardType);
+                Reward.Add(PsycoPhysicTask.AllLevelProp[index][i].RewardType);
                 DeletedFrames.Add(0);
-                RepeatedFrame.Add(TaskPreview.AllLevelProp[index][i].RepeatInfo.RepeatationNumber);
-                RepeatationLength.Add(TaskPreview.AllLevelProp[index][i].RepeatInfo.Length);
-                RepeatedRandomLocation.Add(TaskPreview.AllLevelProp[index][i].RepeatInfo.RandomLocation);
+                RepeatedFrame.Add(PsycoPhysicTask.AllLevelProp[index][i].RepeatInfo.RepeatationNumber);
+                RepeatationLength.Add(PsycoPhysicTask.AllLevelProp[index][i].RepeatInfo.Length);
+                RepeatedRandomLocation.Add(PsycoPhysicTask.AllLevelProp[index][i].RepeatInfo.RandomLocation);
             }
 
             for (int i = 0; i < PicBCnt; i++)
@@ -1598,8 +1598,8 @@ namespace Psychophysics.Old
             for (int i = 0; i < PicBCnt; i++)
             {
                 ObjectProp fixationProp = new ObjectProp();
-                fixationProp.SetFixationPts(TaskPreview.AllLevelProp[index][i].Fixation.Xloc,TaskPreview.AllLevelProp[index][i].Fixation.Yloc, TaskPreview.AllLevelProp[index][i].Fixation.Width, TaskPreview.AllLevelProp[index][i].Fixation.Height, TaskPreview.AllLevelProp[index][i].Fixation.Type, i + 1, true,TaskPreview.AllLevelProp[index][i].Fixation.ColorPt);
-                fixationProp.Time = TaskPreview.AllLevelProp[index][i].FixationTime;
+                fixationProp.SetFixationPts(PsycoPhysicTask.AllLevelProp[index][i].Fixation.Xloc,PsycoPhysicTask.AllLevelProp[index][i].Fixation.Yloc, PsycoPhysicTask.AllLevelProp[index][i].Fixation.Width, PsycoPhysicTask.AllLevelProp[index][i].Fixation.Height, PsycoPhysicTask.AllLevelProp[index][i].Fixation.Type, i + 1, true,PsycoPhysicTask.AllLevelProp[index][i].Fixation.ColorPt);
+                fixationProp.Time = PsycoPhysicTask.AllLevelProp[index][i].FixationTime;
                 fixationProp.ConvertToDeg();
 
                 fixationList.Add(fixationProp);
@@ -1608,17 +1608,17 @@ namespace Psychophysics.Old
 
             for (int i = 0; i < PicBCnt; i++)
             {
-                for (int j = 0; j < TaskPreview.AllLevelProp[index][i].NumberSaccade; j++)
+                for (int j = 0; j < PsycoPhysicTask.AllLevelProp[index][i].NumberSaccade; j++)
                 {
                     ObjectProp stimulusProp = new ObjectProp();
-                    if (TaskPreview.AllLevelProp[index][i].Stimulus[j].Type == 4 | TaskPreview.AllLevelProp[index][i].Stimulus[j].Type == 8 | TaskPreview.AllLevelProp[index][i].Stimulus[j].Type == 12)
+                    if (PsycoPhysicTask.AllLevelProp[index][i].Stimulus[j].Type == 4 | PsycoPhysicTask.AllLevelProp[index][i].Stimulus[j].Type == 8 | PsycoPhysicTask.AllLevelProp[index][i].Stimulus[j].Type == 12)
                     {
-                        stimulusProp.SetPicture(TaskPreview.AllLevelProp[index][i].Stimulus[j].Xloc, TaskPreview.AllLevelProp[index][i].Stimulus[j].Yloc, TaskPreview.AllLevelProp[index][i].Stimulus[j].Width, TaskPreview.AllLevelProp[index][i].Stimulus[j].Height, TaskPreview.AllLevelProp[index][i].Stimulus[j].Type, i + 1, true, TaskPreview.AllLevelProp[index][i].Stimulus[j].PathPic);
+                        stimulusProp.SetPicture(PsycoPhysicTask.AllLevelProp[index][i].Stimulus[j].Xloc, PsycoPhysicTask.AllLevelProp[index][i].Stimulus[j].Yloc, PsycoPhysicTask.AllLevelProp[index][i].Stimulus[j].Width, PsycoPhysicTask.AllLevelProp[index][i].Stimulus[j].Height, PsycoPhysicTask.AllLevelProp[index][i].Stimulus[j].Type, i + 1, true, PsycoPhysicTask.AllLevelProp[index][i].Stimulus[j].PathPic);
                     }
                     else
                     {
-                        stimulusProp.SetProps(TaskPreview.AllLevelProp[index][i].Stimulus[j].Xloc, TaskPreview.AllLevelProp[index][i].Stimulus[j].Yloc, TaskPreview.AllLevelProp[index][i].Stimulus[j].Width,TaskPreview.AllLevelProp[index][i].Stimulus[j].Height, TaskPreview.AllLevelProp[index][i].Stimulus[j].Type, i + 1, true, TaskPreview.AllLevelProp[index][i].Stimulus[j].ColorPt);
-                        stimulusProp.SetContrastPts(TaskPreview.AllLevelProp[index][i].Stimulus[j].Contrast);
+                        stimulusProp.SetProps(PsycoPhysicTask.AllLevelProp[index][i].Stimulus[j].Xloc, PsycoPhysicTask.AllLevelProp[index][i].Stimulus[j].Yloc, PsycoPhysicTask.AllLevelProp[index][i].Stimulus[j].Width,PsycoPhysicTask.AllLevelProp[index][i].Stimulus[j].Height, PsycoPhysicTask.AllLevelProp[index][i].Stimulus[j].Type, i + 1, true, PsycoPhysicTask.AllLevelProp[index][i].Stimulus[j].ColorPt);
+                        stimulusProp.SetContrastPts(PsycoPhysicTask.AllLevelProp[index][i].Stimulus[j].Contrast);
                     }
                     stimulusProp.ConvertToDeg();
                     stimulusList.Add(stimulusProp);
@@ -1627,12 +1627,12 @@ namespace Psychophysics.Old
 
             for (int i = 0; i < PicBCnt; i++)
             {
-                if (TaskPreview.AllLevelProp[index][i].ShowFrame.Length > 1)
+                if (PsycoPhysicTask.AllLevelProp[index][i].ShowFrame.Length > 1)
                 {
-                    for (int j = 0; j < TaskPreview.AllLevelProp[index][i].ShowFrame.Length; j++)
+                    for (int j = 0; j < PsycoPhysicTask.AllLevelProp[index][i].ShowFrame.Length; j++)
                     {
                         ShowFr varshowfr = new ShowFr();
-                        varshowfr.SetShowFrameProp(TaskPreview.AllLevelProp[index][i].ShowFrame[j].CenterX, TaskPreview.AllLevelProp[index][i].ShowFrame[j].CenterY, TaskPreview.AllLevelProp[index][i].ShowFrame[j].Width, TaskPreview.AllLevelProp[index][i].ShowFrame[j].Height, TaskPreview.AllLevelProp[index][i].ShowFrame[j].Thickness, TaskPreview.AllLevelProp[index][i].ShowFrame[j].ColorBox);
+                        varshowfr.SetShowFrameProp(PsycoPhysicTask.AllLevelProp[index][i].ShowFrame[j].CenterX, PsycoPhysicTask.AllLevelProp[index][i].ShowFrame[j].CenterY, PsycoPhysicTask.AllLevelProp[index][i].ShowFrame[j].Width, PsycoPhysicTask.AllLevelProp[index][i].ShowFrame[j].Height, PsycoPhysicTask.AllLevelProp[index][i].ShowFrame[j].Thickness, PsycoPhysicTask.AllLevelProp[index][i].ShowFrame[j].ColorBox);
                         ShowBoxes.Add(varshowfr);
                         FrameIndexes.Add(i + 1);
                     }
@@ -1641,13 +1641,13 @@ namespace Psychophysics.Old
 
             for (int i = 0; i < PicBCnt; i++)
             {
-                if (TaskPreview.AllLevelProp[index][i].Cue.type != 0)
+                if (PsycoPhysicTask.AllLevelProp[index][i].Cue.type != 0)
                 {
                     HintForm varhintform = new HintForm();
-                    varhintform.SetArrowProp(TaskPreview.AllLevelProp[index][i].Cue.ArrowLocY, TaskPreview.AllLevelProp[index][i].Cue.ArrowLocX0, TaskPreview.AllLevelProp[index][i].Cue.ArrowLocX1, TaskPreview.AllLevelProp[index][i].Cue.Valid, TaskPreview.AllLevelProp[index][i].Cue.ArrowColor);
-                    varhintform.SetBoxProp(TaskPreview.AllLevelProp[index][i].Cue.BoxThickness,TaskPreview.AllLevelProp[index][i].Cue.BoxRatio, TaskPreview.AllLevelProp[index][i].Cue.BoxColor);
-                    varhintform.type = TaskPreview.AllLevelProp[index][i].Cue.type;
-                    varhintform.ArrowWidth = TaskPreview.AllLevelProp[index][i].Cue.ArrowWidth;
+                    varhintform.SetArrowProp(PsycoPhysicTask.AllLevelProp[index][i].Cue.ArrowLocY, PsycoPhysicTask.AllLevelProp[index][i].Cue.ArrowLocX0, PsycoPhysicTask.AllLevelProp[index][i].Cue.ArrowLocX1, PsycoPhysicTask.AllLevelProp[index][i].Cue.Valid, PsycoPhysicTask.AllLevelProp[index][i].Cue.ArrowColor);
+                    varhintform.SetBoxProp(PsycoPhysicTask.AllLevelProp[index][i].Cue.BoxThickness,PsycoPhysicTask.AllLevelProp[index][i].Cue.BoxRatio, PsycoPhysicTask.AllLevelProp[index][i].Cue.BoxColor);
+                    varhintform.type = PsycoPhysicTask.AllLevelProp[index][i].Cue.type;
+                    varhintform.ArrowWidth = PsycoPhysicTask.AllLevelProp[index][i].Cue.ArrowWidth;
                     AddedHintsbyFrameTool.Add(varhintform);
                     HintIndexes.Add(i + 1);
                 }
@@ -1668,7 +1668,7 @@ namespace Psychophysics.Old
             }
             //UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList);
             pnl_Draw.BackgroundImage = new Bitmap(BitmapPicB[ActivePicB - 1],pnl_Draw.Size);
-			FrameTime_ET.Text = TaskPreview.AllLevelProp[0][0].FrameTime.ToString();
+			FrameTime_ET.Text = PsycoPhysicTask.AllLevelProp[0][0].FrameTime.ToString();
 		}         
 
 		private void SelectRewardType_CB_SelectedIndexChanged(object sender, EventArgs e)
@@ -1928,52 +1928,52 @@ namespace Psychophysics.Old
 
             private double ConvertDegreeX(int Xp)
             {
-                double ValX = Math.Atan((Xp - TaskPreview.WidthP / 2) * TaskPreview.WidthM / (TaskPreview.WidthP * TaskPreview.userDistance));
-                Debug.Write(" Xp: "+ Xp + " WidthP : " + TaskPreview.WidthP + " WidthM:" + TaskPreview.WidthM + " userDistance:" + TaskPreview.userDistance + " " + ((Xp - TaskPreview.WidthP / 2) * TaskPreview.WidthM / (TaskPreview.WidthP * TaskPreview.userDistance)) + "\n");
+                double ValX = Math.Atan((Xp - PsycoPhysicTask.WidthP / 2) * PsycoPhysicTask.WidthM / (PsycoPhysicTask.WidthP * PsycoPhysicTask.userDistance));
+                Debug.Write(" Xp: "+ Xp + " WidthP : " + PsycoPhysicTask.WidthP + " WidthM:" + PsycoPhysicTask.WidthM + " userDistance:" + PsycoPhysicTask.userDistance + " " + ((Xp - PsycoPhysicTask.WidthP / 2) * PsycoPhysicTask.WidthM / (PsycoPhysicTask.WidthP * PsycoPhysicTask.userDistance)) + "\n");
                 return ValX;
             }
 
             private double ConvertDegreeY(int Yp)
             {
-                double ValY = Math.Atan((Yp - TaskPreview.HeightP / 2) * TaskPreview.HeightM / (TaskPreview.HeightP * TaskPreview.userDistance));
+                double ValY = Math.Atan((Yp - PsycoPhysicTask.HeightP / 2) * PsycoPhysicTask.HeightM / (PsycoPhysicTask.HeightP * PsycoPhysicTask.userDistance));
                 return ValY;
             }
 
             private double ConvertDegreeWidth(int Xp)
             {
-                double ValX = Math.Atan(Xp * TaskPreview.WidthM / (TaskPreview.WidthP * TaskPreview.userDistance));
-                Debug.Write(" Xp: " + Xp + " WidthP : " + TaskPreview.WidthP + " WidthM:" + TaskPreview.WidthM + " userDistance:" + TaskPreview.userDistance + " " + ((Xp - TaskPreview.WidthP / 2) * TaskPreview.WidthM / (TaskPreview.WidthP * TaskPreview.userDistance)) + "\n");
+                double ValX = Math.Atan(Xp * PsycoPhysicTask.WidthM / (PsycoPhysicTask.WidthP * PsycoPhysicTask.userDistance));
+                Debug.Write(" Xp: " + Xp + " WidthP : " + PsycoPhysicTask.WidthP + " WidthM:" + PsycoPhysicTask.WidthM + " userDistance:" + PsycoPhysicTask.userDistance + " " + ((Xp - PsycoPhysicTask.WidthP / 2) * PsycoPhysicTask.WidthM / (PsycoPhysicTask.WidthP * PsycoPhysicTask.userDistance)) + "\n");
                 return ValX;
             }
 
             private double ConvertDegreeHeight(int Yp)
             {
-                double ValY = Math.Atan(Yp * TaskPreview.HeightM / (TaskPreview.HeightP * TaskPreview.userDistance));
+                double ValY = Math.Atan(Yp * PsycoPhysicTask.HeightM / (PsycoPhysicTask.HeightP * PsycoPhysicTask.userDistance));
                 return ValY;
             }
 
 
             private int ConvertPixelX(double Xd)
             {
-                int ValX = Convert.ToInt16(Math.Tan(Xd * 3.1415 / 180) * TaskPreview.WidthP * TaskPreview.userDistance / TaskPreview.WidthM + TaskPreview.WidthP / 2);
+                int ValX = Convert.ToInt16(Math.Tan(Xd * 3.1415 / 180) * PsycoPhysicTask.WidthP * PsycoPhysicTask.userDistance / PsycoPhysicTask.WidthM + PsycoPhysicTask.WidthP / 2);
                 return ValX;
             }
 
             private int ConvertPixelY(double Yd)
             {
-                int ValY = Convert.ToInt16(Math.Tan(Yd*3.1415/180) * TaskPreview.HeightP * TaskPreview.userDistance / TaskPreview.HeightM + TaskPreview.HeightP / 2);
+                int ValY = Convert.ToInt16(Math.Tan(Yd*3.1415/180) * PsycoPhysicTask.HeightP * PsycoPhysicTask.userDistance / PsycoPhysicTask.HeightM + PsycoPhysicTask.HeightP / 2);
                 return ValY;
             }
 
             private int ConvertPixelWidth(double Xd)
             {
-                int ValX = Convert.ToInt16(Math.Tan(Xd * 3.1415 / 180) * TaskPreview.WidthP * TaskPreview.userDistance / TaskPreview.WidthM );
+                int ValX = Convert.ToInt16(Math.Tan(Xd * 3.1415 / 180) * PsycoPhysicTask.WidthP * PsycoPhysicTask.userDistance / PsycoPhysicTask.WidthM );
                 return ValX;
             }
 
             private int ConvertPixelHeight(double Yd)
             {
-                int ValY = Convert.ToInt16(Math.Tan(Yd * 3.1415 / 180) * TaskPreview.HeightP * TaskPreview.userDistance / TaskPreview.HeightM );
+                int ValY = Convert.ToInt16(Math.Tan(Yd * 3.1415 / 180) * PsycoPhysicTask.HeightP * PsycoPhysicTask.userDistance / PsycoPhysicTask.HeightM );
                 return ValY;
             }
 
@@ -1982,14 +1982,14 @@ namespace Psychophysics.Old
 
         private double ConvertDegreeX ( int Xp )
         {
-            double ValX = Math.Atan((Xp - TaskPreview.WidthP / 2) * TaskPreview.WidthM / (TaskPreview.WidthP * TaskPreview.userDistance));
+            double ValX = Math.Atan((Xp - PsycoPhysicTask.WidthP / 2) * PsycoPhysicTask.WidthM / (PsycoPhysicTask.WidthP * PsycoPhysicTask.userDistance));
             //Debug.Write(" Xp: " + Xp + " WidthP : " + TaskPreview.WidthP + " WidthM:" + TaskPreview.WidthM + " userDistance:" + TaskPreview.userDistance + " " + ((Xp - TaskPreview.WidthP / 2) * TaskPreview.WidthM / (TaskPreview.WidthP * TaskPreview.userDistance)) + "\n");
             return ValX;
         }
 
         private double ConvertDegreeY(int Yp)
         {
-            double ValY = Math.Atan((Yp - TaskPreview.HeightP / 2) * TaskPreview.HeightM / (TaskPreview.HeightP * TaskPreview.userDistance));
+            double ValY = Math.Atan((Yp - PsycoPhysicTask.HeightP / 2) * PsycoPhysicTask.HeightM / (PsycoPhysicTask.HeightP * PsycoPhysicTask.userDistance));
             return ValY;
         }
 
@@ -2004,27 +2004,32 @@ namespace Psychophysics.Old
 
 		}
 
+		private void cmbtrigger_SelectedIndexChanged(object sender, EventArgs e)
+		{
+
+		}
+
 		private int ConvertPixelX(double Xd)
         {
-            int ValX = Convert.ToInt16(Math.Tan(Xd * 3.1415 / 180) * TaskPreview.WidthP * TaskPreview.userDistance / TaskPreview.WidthM + TaskPreview.WidthP / 2);
+            int ValX = Convert.ToInt16(Math.Tan(Xd * 3.1415 / 180) * PsycoPhysicTask.WidthP * PsycoPhysicTask.userDistance / PsycoPhysicTask.WidthM + PsycoPhysicTask.WidthP / 2);
             return ValX;
         }
 
         private int ConvertPixelY(double Yd)
         {
-            int ValY = Convert.ToInt16(Math.Tan(Yd * 3.1415 / 180) * TaskPreview.HeightP * TaskPreview.userDistance / TaskPreview.HeightM + TaskPreview.HeightP / 2);
+            int ValY = Convert.ToInt16(Math.Tan(Yd * 3.1415 / 180) * PsycoPhysicTask.HeightP * PsycoPhysicTask.userDistance / PsycoPhysicTask.HeightM + PsycoPhysicTask.HeightP / 2);
             return ValY;
         }
 
         private int ConvertPixelWidth(double Xd)
         {
-            int ValX = Convert.ToInt16(Math.Tan(Xd * 3.1415 / 180) * TaskPreview.WidthP * TaskPreview.userDistance / TaskPreview.WidthM);
+            int ValX = Convert.ToInt16(Math.Tan(Xd * 3.1415 / 180) * PsycoPhysicTask.WidthP * PsycoPhysicTask.userDistance / PsycoPhysicTask.WidthM);
             return ValX;
         }
 
         private int ConvertPixelHeight(double Yd)
         {
-            int ValY = Convert.ToInt16(Math.Tan(Yd * 3.1415 / 180) * TaskPreview.HeightP * TaskPreview.userDistance / TaskPreview.HeightM);
+            int ValY = Convert.ToInt16(Math.Tan(Yd * 3.1415 / 180) * PsycoPhysicTask.HeightP * PsycoPhysicTask.userDistance / PsycoPhysicTask.HeightM);
             return ValY;
         }
 

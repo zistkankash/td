@@ -157,7 +157,7 @@ namespace Psychophysics
 			this.txbx_saveto.MaxLength = 32767;
 			this.txbx_saveto.Name = "txbx_saveto";
 			this.txbx_saveto.PasswordChar = '\0';
-			this.txbx_saveto.PromptText = "choose address";
+			this.txbx_saveto.WaterMark = "choose address";
 			this.txbx_saveto.ScrollBars = System.Windows.Forms.ScrollBars.None;
 			this.txbx_saveto.SelectedText = "";
 			this.txbx_saveto.SelectionLength = 0;
@@ -166,7 +166,6 @@ namespace Psychophysics
 			this.txbx_saveto.Size = new System.Drawing.Size(247, 23);
 			this.txbx_saveto.TabIndex = 6;
 			this.txbx_saveto.UseSelectable = true;
-			this.txbx_saveto.WaterMark = "choose address";
 			this.txbx_saveto.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
 			this.txbx_saveto.WaterMarkFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.txbx_saveto.Click += new System.EventHandler(this.txbx_saveto_Click);

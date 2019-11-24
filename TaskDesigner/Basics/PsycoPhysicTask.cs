@@ -6,16 +6,12 @@ using System.Linq;
 using System.Windows.Forms;
 using Automation.BDaq;
 using System.IO;
-using System.Media;
-using System.Net.Sockets;
-using System.Net;
-using Basics;
-using TaskDesigner;
+using Psychophysics;
 using Psychophysics.Old;
 
-namespace Psychophysics
+namespace Basics
 {
-    public partial class TaskPreview : XCoolForm.XCoolForm
+    public partial class PsycoPhysicTask : XCoolForm.XCoolForm
     {
 		public static int NFrame = 0;
 		public static int NumberCol = 1;
@@ -70,7 +66,7 @@ namespace Psychophysics
 
         bool eventLock = false;
 
-        public TaskPreview()
+        public PsycoPhysicTask()
 		{
 			InitializeComponent();
 			EnabledTask.Add(0);
@@ -270,7 +266,7 @@ namespace Psychophysics
 		}
 
 
-		public void LoadTaskFromFile(bool _getAddress, string address)
+		public bool LoadTaskFromFile(bool _getAddress, string address)
 		{
 			DialogResult dt = DialogResult.Cancel;
 			OpenFileDialog theDialog = new OpenFileDialog();
@@ -281,7 +277,7 @@ namespace Psychophysics
 				theDialog.InitialDirectory = @"..";
 				dt = theDialog.ShowDialog();
 				if (dt == DialogResult.Cancel)
-					return;
+					return false;
 			}
 			else
 			{
@@ -451,6 +447,7 @@ namespace Psychophysics
 				FillTaskTable();
 
 				eventLock = true;
+				return true;
 			}
 		}
 
@@ -700,7 +697,9 @@ namespace Psychophysics
 				TypeDisplay = 2;
 			else
 				TypeDisplay = 1;
+
 			ShowFrame ShFrame = new ShowFrame(false);
+
 			ShFrame.Show();
 		}
 

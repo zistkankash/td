@@ -51,6 +51,12 @@ namespace Basics
 
 	public enum TaskRunMod { recursive, reward }
 
+	public enum TaskType { media, lab, cognitive }
+
+	public enum GroupingMod { byColor, byType, byRegion }
+
+	public enum SaveMod { bin, txt }
+
 	public struct RunConfig { public GroupingMod shapeGroupingMode; public TaskRunMod taskRunMode; public bool showArrow; public bool showGoalPrompt; public bool useCursor; public bool useSound; public bool nmsShowArrow; public bool nmsShowGoalPrompt; public bool useCursorNextFrm; public bool nmsUseSound; public short gazNumSmoth; }
 
 	enum Comnd { Close = 5, CalibStat = 2, SendGaz = 8, EndGaz = 9 , WatRest = 11 }
@@ -85,4 +91,7 @@ namespace Basics
 	}
 
 	public enum RunMod { running, stop }
+
+	public enum Operat { Media, GraphicsMap }
+
 }

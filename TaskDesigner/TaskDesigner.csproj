@@ -133,8 +133,10 @@
   <ItemGroup>
     <Compile Include="Basics\BasConfigs.cs" />
     <Compile Include="Basics\BitmapData.cs" />
-    <Compile Include="Basics\ByteCompressor.cs" />
+    <Compile Include="Basics\ByteManager.cs" />
     <Compile Include="Basics\FileName.cs" />
+    <Compile Include="Basics\MediaTask.cs" />
+    <Compile Include="Basics\PsycologyTask.cs" />
     <Compile Include="Basics\TaskData.cs" />
     <Compile Include="COGLABnewUI.cs">
       <SubType>Form</SubType>
@@ -218,13 +220,13 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Basics\RepeatLinkFrame.cs" />
-    <Compile Include="TaskLab\SlideThumb.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="TaskLab\SlideThumb.Designer.cs">
-      <DependentUpon>SlideThumb.cs</DependentUpon>
-    </Compile>
     <Compile Include="Basics\RunnerUtils.cs" />
+    <Compile Include="TaskLab\PsycologyDesigner.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TaskLab\PsycologyDesigner.Designer.cs">
+      <DependentUpon>PsycologyDesigner.cs</DependentUpon>
+    </Compile>
     <Compile Include="TaskRunner\TaskOperator.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -256,20 +258,20 @@
     <Compile Include="NetSettingForm.Designer.cs">
       <DependentUpon>NetSettingForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="TaskLab\FNode.cs" />
+    <Compile Include="Basics\FNode.cs" />
     <Compile Include="TaskLab\TaskGen.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="TaskLab\TaskGen.designer.cs">
       <DependentUpon>TaskGen.cs</DependentUpon>
     </Compile>
-    <Compile Include="TaskLab\Node.cs" />
-    <Compile Include="TaskLab\Picture.cs" />
-    <Compile Include="Psychophysics\TaskPreview.cs">
+    <Compile Include="Basics\Node.cs" />
+    <Compile Include="Basics\Picture.cs" />
+    <Compile Include="Basics\PsycoPhysicTask.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Psychophysics\TaskPreview.Designer.cs">
-      <DependentUpon>TaskPreview.cs</DependentUpon>
+    <Compile Include="Basics\PsycoPhysicTask.Designer.cs">
+      <DependentUpon>PsycoPhysicTask.cs</DependentUpon>
     </Compile>
     <Compile Include="Basics\XmlThemeLoader.cs" />
     <EmbeddedResource Include="Controls\ThumbnailList.resx">
@@ -324,14 +326,14 @@
     <EmbeddedResource Include="NetSettingForm.resx">
       <DependentUpon>NetSettingForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TaskLab\SlideThumb.resx">
-      <DependentUpon>SlideThumb.cs</DependentUpon>
+    <EmbeddedResource Include="TaskLab\PsycologyDesigner.resx">
+      <DependentUpon>PsycologyDesigner.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TaskLab\TaskGen.resx">
       <DependentUpon>TaskGen.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Psychophysics\TaskPreview.resx">
-      <DependentUpon>TaskPreview.cs</DependentUpon>
+    <EmbeddedResource Include="Basics\PsycoPhysicTask.resx">
+      <DependentUpon>PsycoPhysicTask.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TaskRunner\TaskOperator.resx">
       <DependentUpon>TaskOperator.cs</DependentUpon>
@@ -406,7 +408,6 @@
     <None Include="Resources\ADD.png" />
     <None Include="Resources\delete.png" />
     <None Include="Resources\Edit.png" />
-    <Content Include="Resources\icon_XnY_icon.ico" />
     <None Include="Resources\512px-Cross_red_circle.svg.png" />
     <Content Include="Resources\brain.png" />
     <None Include="Resources\Button-Blank-Green-icon %281%29.png" />
@@ -414,10 +415,8 @@
     <None Include="Resources\Button-Blank-Red-icon.png" />
     <None Include="Resources\Button-Blank-Yellow-icon.png" />
     <Content Include="Resources\checked.png" />
+    <None Include="Resources\Circle-psychology_1.png" />
     <Content Include="Resources\circle.png" />
-    <Content Include="Resources\circle2.png" />
-    <None Include="Resources\circle4.png" />
-    <None Include="Resources\circle6.png" />
     <None Include="Resources\Clear-Green-Button-icon.png" />
     <Content Include="Resources\coin.wav" />
     <Content Include="Resources\engineer.png" />
@@ -430,20 +429,14 @@
     <Content Include="Resources\help.png" />
     <Content Include="Resources\Home.png" />
     <None Include="Resources\Icon.png" />
-    <None Include="Resources\iconfinder_Close_Icon_Dark_1398917.png" />
     <Content Include="Resources\import.png" />
     <None Include="Resources\net3.png" />
-    <None Include="Resources\load3.png" />
     <None Include="Resources\Load.png" />
-    <None Include="Resources\load_1.png" />
-    <None Include="Resources\leftArtboard 1.png" />
-    <None Include="Resources\load_39552.png" />
     <None Include="Resources\main3- psychophysics seleced.png" />
     <None Include="Resources\main3-analysis selected.png" />
     <None Include="Resources\main3-connected.png" />
     <None Include="Resources\main3-final.png" />
     <None Include="Resources\main3-linguistics selected.png" />
-    <None Include="Resources\main3-psychophysicsselected.png" />
     <None Include="Resources\main3-psycologyselected.png" />
     <None Include="Resources\main3-runnerselected.png" />
     <None Include="Resources\main3-setting selected.png" />
@@ -452,21 +445,8 @@
     <None Include="Resources\main3-linguistics_selected_green.png" />
     <None Include="Resources\main3-runner_selected_green.png" />
     <None Include="Resources\main3-setting_selected_green.png" />
-    <None Include="Resources\main3-analysis-blur.png" />
-    <None Include="Resources\main3-analysis-blur2.png" />
-    <None Include="Resources\main3-blur.png" />
-    <None Include="Resources\main3-connected-blur.png" />
-    <None Include="Resources\main3-linguistics-blur.png" />
-    <None Include="Resources\main3-psychology-blur.png" />
-    <None Include="Resources\main3-psychology-blur2.png" />
-    <None Include="Resources\main3-psychology-blur2_1.png" />
-    <None Include="Resources\main3-psycphysiccs-2.png" />
-    <None Include="Resources\main3-psyphysics-blur.png" />
-    <None Include="Resources\main3-runner-blur.png" />
-    <None Include="Resources\main3-runner-blur2.png" />
-    <None Include="Resources\main3-setting-blur.png" />
-    <None Include="Resources\main3-setting-blur2.png" />
     <None Include="Resources\main3-psycologyselected-green.png" />
+    <None Include="Resources\MAINWINDOWBROWN-BIG.png" />
     <Content Include="Resources\netdisconnected.png" />
     <Content Include="Resources\new project.png" />
     <Content Include="Resources\next %282%29.png" />
@@ -477,6 +457,7 @@
     <Content Include="Resources\picture.png" />
     <Content Include="Resources\rect2.png" />
     <Content Include="Resources\rectangle %286%29.png" />
+    <None Include="Resources\rectangle-psychology_1.png" />
     <Content Include="Resources\rectangle.png" />
     <Content Include="Resources\reset.png" />
     <Content Include="Resources\right-arrow.png" />
@@ -488,7 +469,7 @@
     <Content Include="Resources\stop.png" />
     <Content Include="Resources\stopbutton.png" />
     <None Include="Resources\stopbutton1.png" />
-    <None Include="Resources\usermap.jpg" />
+    <None Include="Resources\tasklab.png" />
     <Content Include="tbr7.ico" />
     <None Include="Themes\BlueWinterTheme.xml" />
     <Content Include="Themes\AdobeMediaPlayerTheme.xml" />

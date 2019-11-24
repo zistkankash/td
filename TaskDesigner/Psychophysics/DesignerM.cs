@@ -229,52 +229,52 @@ namespace Psychophysics
 
 			private double ConvertDegreeX(int Xp)
 			{
-				double ValX = Math.Atan((Xp - TaskPreview.WidthP / 2) * TaskPreview.WidthM / (TaskPreview.WidthP * TaskPreview.userDistance));
-				Debug.Write(" Xp: " + Xp + " WidthP : " + TaskPreview.WidthP + " WidthM:" + TaskPreview.WidthM + " userDistance:" + TaskPreview.userDistance + " " + ((Xp - TaskPreview.WidthP / 2) * TaskPreview.WidthM / (TaskPreview.WidthP * TaskPreview.userDistance)) + "\n");
+				double ValX = Math.Atan((Xp - PsycoPhysicTask.WidthP / 2) * PsycoPhysicTask.WidthM / (PsycoPhysicTask.WidthP * PsycoPhysicTask.userDistance));
+				Debug.Write(" Xp: " + Xp + " WidthP : " + PsycoPhysicTask.WidthP + " WidthM:" + PsycoPhysicTask.WidthM + " userDistance:" + PsycoPhysicTask.userDistance + " " + ((Xp - PsycoPhysicTask.WidthP / 2) * PsycoPhysicTask.WidthM / (PsycoPhysicTask.WidthP * PsycoPhysicTask.userDistance)) + "\n");
 				return ValX;
 			}
 
 			private double ConvertDegreeY(int Yp)
 			{
-				double ValY = Math.Atan((Yp - TaskPreview.HeightP / 2) * TaskPreview.HeightM / (TaskPreview.HeightP * TaskPreview.userDistance));
+				double ValY = Math.Atan((Yp - PsycoPhysicTask.HeightP / 2) * PsycoPhysicTask.HeightM / (PsycoPhysicTask.HeightP * PsycoPhysicTask.userDistance));
 				return ValY;
 			}
 
 			private double ConvertDegreeWidth(int Xp)
 			{
-				double ValX = Math.Atan(Xp * TaskPreview.WidthM / (TaskPreview.WidthP * TaskPreview.userDistance));
-				Debug.Write(" Xp: " + Xp + " WidthP : " + TaskPreview.WidthP + " WidthM:" + TaskPreview.WidthM + " userDistance:" + TaskPreview.userDistance + " " + ((Xp - TaskPreview.WidthP / 2) * TaskPreview.WidthM / (TaskPreview.WidthP * TaskPreview.userDistance)) + "\n");
+				double ValX = Math.Atan(Xp * PsycoPhysicTask.WidthM / (PsycoPhysicTask.WidthP * PsycoPhysicTask.userDistance));
+				Debug.Write(" Xp: " + Xp + " WidthP : " + PsycoPhysicTask.WidthP + " WidthM:" + PsycoPhysicTask.WidthM + " userDistance:" + PsycoPhysicTask.userDistance + " " + ((Xp - PsycoPhysicTask.WidthP / 2) * PsycoPhysicTask.WidthM / (PsycoPhysicTask.WidthP * PsycoPhysicTask.userDistance)) + "\n");
 				return ValX;
 			}
 
 			private double ConvertDegreeHeight(int Yp)
 			{
-				double ValY = Math.Atan(Yp * TaskPreview.HeightM / (TaskPreview.HeightP * TaskPreview.userDistance));
+				double ValY = Math.Atan(Yp * PsycoPhysicTask.HeightM / (PsycoPhysicTask.HeightP * PsycoPhysicTask.userDistance));
 				return ValY;
 			}
 
 
 			private int ConvertPixelX(double Xd)
 			{
-				int ValX = Convert.ToInt16(Math.Tan(Xd * 3.1415 / 180) * TaskPreview.WidthP * TaskPreview.userDistance / TaskPreview.WidthM + TaskPreview.WidthP / 2);
+				int ValX = Convert.ToInt16(Math.Tan(Xd * 3.1415 / 180) * PsycoPhysicTask.WidthP * PsycoPhysicTask.userDistance / PsycoPhysicTask.WidthM + PsycoPhysicTask.WidthP / 2);
 				return ValX;
 			}
 
 			private int ConvertPixelY(double Yd)
 			{
-				int ValY = Convert.ToInt16(Math.Tan(Yd * 3.1415 / 180) * TaskPreview.HeightP * TaskPreview.userDistance / TaskPreview.HeightM + TaskPreview.HeightP / 2);
+				int ValY = Convert.ToInt16(Math.Tan(Yd * 3.1415 / 180) * PsycoPhysicTask.HeightP * PsycoPhysicTask.userDistance / PsycoPhysicTask.HeightM + PsycoPhysicTask.HeightP / 2);
 				return ValY;
 			}
 
 			private int ConvertPixelWidth(double Xd)
 			{
-				int ValX = Convert.ToInt16(Math.Tan(Xd * 3.1415 / 180) * TaskPreview.WidthP * TaskPreview.userDistance / TaskPreview.WidthM);
+				int ValX = Convert.ToInt16(Math.Tan(Xd * 3.1415 / 180) * PsycoPhysicTask.WidthP * PsycoPhysicTask.userDistance / PsycoPhysicTask.WidthM);
 				return ValX;
 			}
 
 			private int ConvertPixelHeight(double Yd)
 			{
-				int ValY = Convert.ToInt16(Math.Tan(Yd * 3.1415 / 180) * TaskPreview.HeightP * TaskPreview.userDistance / TaskPreview.HeightM);
+				int ValY = Convert.ToInt16(Math.Tan(Yd * 3.1415 / 180) * PsycoPhysicTask.HeightP * PsycoPhysicTask.userDistance / PsycoPhysicTask.HeightM);
 				return ValY;
 			}
 
@@ -1355,23 +1355,23 @@ namespace Psychophysics
 		}
 		private double ConvertDegreeWidth(int Xp)
 		{
-			double ValX = Math.Atan(Xp * TaskPreview.WidthM / (TaskPreview.WidthP * TaskPreview.userDistance));
-			Debug.Write(" Xp: " + Xp + " WidthP : " + TaskPreview.WidthP + " WidthM:" + TaskPreview.WidthM + " userDistance:" + TaskPreview.userDistance + " " + ((Xp - TaskPreview.WidthP / 2) * TaskPreview.WidthM / (TaskPreview.WidthP * TaskPreview.userDistance)) + "\n");
+			double ValX = Math.Atan(Xp * PsycoPhysicTask.WidthM / (PsycoPhysicTask.WidthP * PsycoPhysicTask.userDistance));
+			Debug.Write(" Xp: " + Xp + " WidthP : " + PsycoPhysicTask.WidthP + " WidthM:" + PsycoPhysicTask.WidthM + " userDistance:" + PsycoPhysicTask.userDistance + " " + ((Xp - PsycoPhysicTask.WidthP / 2) * PsycoPhysicTask.WidthM / (PsycoPhysicTask.WidthP * PsycoPhysicTask.userDistance)) + "\n");
 			return ValX;
 		}
 		private double ConvertDegreeHeight(int Yp)
 		{
-			double ValY = Math.Atan(Yp * TaskPreview.HeightM / (TaskPreview.HeightP * TaskPreview.userDistance));
+			double ValY = Math.Atan(Yp * PsycoPhysicTask.HeightM / (PsycoPhysicTask.HeightP * PsycoPhysicTask.userDistance));
 			return ValY;
 		}
 		private int ConvertPixelHeight(double Yd)
 		{
-			int ValY = Convert.ToInt16(Math.Tan(Yd * 3.1415 / 180) * TaskPreview.HeightP * TaskPreview.userDistance / TaskPreview.HeightM);
+			int ValY = Convert.ToInt16(Math.Tan(Yd * 3.1415 / 180) * PsycoPhysicTask.HeightP * PsycoPhysicTask.userDistance / PsycoPhysicTask.HeightM);
 			return ValY;
 		}
 		private int ConvertPixelWidth(double Xd)
 		{
-			int ValX = Convert.ToInt16(Math.Tan(Xd * 3.1415 / 180) * TaskPreview.WidthP * TaskPreview.userDistance / TaskPreview.WidthM);
+			int ValX = Convert.ToInt16(Math.Tan(Xd * 3.1415 / 180) * PsycoPhysicTask.WidthP * PsycoPhysicTask.userDistance / PsycoPhysicTask.WidthM);
 			return ValX;
 		}
 		#endregion

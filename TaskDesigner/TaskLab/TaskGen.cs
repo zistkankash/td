@@ -26,62 +26,29 @@ namespace TaskLab
     public partial class TaskGen : Form
     {
 		public Bitmap map = new Bitmap(BasConfigs._monitor_resolution_x, BasConfigs._monitor_resolution_y);
-        private Bitmap userMap = new Bitmap(BasConfigs._monitor_resolution_x, BasConfigs._monitor_resolution_y);
-        private Image<Rgb, Byte> img = new Image<Rgb, byte>(BasConfigs._monitor_resolution_x, BasConfigs._monitor_resolution_y);
-		private bool isManupulated = false;
-		private TaskData curTask = new TaskData();
-		//picList = new List<Picture>();
-  //      private List<Node> shapeList = new List<Node>();
-  //      private List<Node> fixationList = new List<Node>();
-  //      public static List<FNode> positiveFixates = new List<FNode>();
-  //      public static List<FNode> negativeFixates = new List<FNode>();
-        private FNode currentFNode = new FNode();
-        private FNode oldFNode = new FNode();
-        private bool objectSelect;
-        private Node movmentNode = new Node();
-        //private Node[] shapeTree = new Node[100];
-        //private Node[] fixationTree = new Node[100];
-       
-        //private int shapeCounter;
-        //private int fixationCounter;
-        private Point[] Priority = new Point[15];
-        //int numberOfData;
         
-        //bool CloseForm;
-        //bool start;
-     
-        //private Color backGround = new Color();
-        private int tempFixate = -1;
-        private Point mousePos = new Point();
-        //private bool isCondition = false;       // استفاده شده برای فهمیدن اینکه شرط داریم یا نه
-        //int temp = 0;
-        //private bool connectionSW = false;
-        //private bool firstConnect = true;
-        // مشخصات نقطه فیکسیشن
-        private Point ROIPos = new Point(-1, -1);
-        private int ROISize = -1;
-        private int ROITime = -1;
-        private List<string> positivePriority = new List<string>();
-        private List<string> negativePriority = new List<string>();
-        private FNode oldFixate = new FNode(100, new Point(0,0),100,'C', 100);
-        private FNode currentFixate = new FNode();
-        private FNode goalNodeThrd = new FNode(100, new Point(0, 0), 100, 'C', -100);
-        private FNode goalNodePrevius = new FNode(100, new Point(0, 0), 100, 'C', -100);
+		private Bitmap userMap = new Bitmap(BasConfigs._monitor_resolution_x, BasConfigs._monitor_resolution_y);
+        
+		private Image<Rgb, Byte> img = new Image<Rgb, byte>(BasConfigs._monitor_resolution_x, BasConfigs._monitor_resolution_y);
+		
+		private bool isManupulated = false;
+		
+		private TaskData curTask = new TaskData();
+
+		private int movementNode;
+        private bool objectSelect;
+
+		int selectedSlide = 0, slideTime ,picCount;
+        private Point[] Priority = new Point[15];
+		Point currentLocation;
 
 		private bool circleSelected = false;
 		private bool rectSelected = false;
-        //private long startTime;
-        //private long endTime;
+      
         int changedPriority = 100;
 
-        //صدای برنامه
-              
-        //قسمت مرتبط با پنل اسلاید
-        private int picCount = 1;
-        private int slideTime = 1000;
-        private int selectedSlide = -1;
-        private Point currentLocation = new Point(3, 165);
 
+		#region mouse move form
 		public const int WM_NCLBUTTONDOWN = 0xA1;
 		public const int HT_CAPTION = 0x2;
 
@@ -89,6 +56,7 @@ namespace TaskLab
 		public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
 		[System.Runtime.InteropServices.DllImport("user32.dll")]
 		public static extern bool ReleaseCapture();
+		#endregion
 
 		private void Form1_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
 		{
@@ -102,6 +70,7 @@ namespace TaskLab
 		public TaskGen(TaskType mod)
         {
             InitializeComponent();
+			
 			switch (mod)
 			{
 				case TaskType.lab:
@@ -111,10 +80,10 @@ namespace TaskLab
 						
 						break;
 					}
-				case TaskType.picture:
+				case TaskType.media:
 					{
 						
-						curTask = new TaskData(TaskType.picture);
+						curTask = new TaskData(TaskType.media);
 						
 						break;
 					}
@@ -130,23 +99,12 @@ namespace TaskLab
         {
             this.StartPosition = FormStartPosition.Manual;
 			pbDesign.SizeMode = PictureBoxSizeMode.StretchImage;
-			this.Location = new Point(100, 50);
-            this.KeyPreview = true;
-        
-            for(int i = 1; i < 31; i++)
-            {
-                positivePriority.Add(i.ToString());
-                negativePriority.Add((-1 * i).ToString());
-            }
-            //backGround = btnBackgroundCol.color;
-           
-            btnRemove.Visible = false;
-            btnChange.Visible = false;
-            btnCancel.Visible = false;
-            //pnlShapeProp.Enabled = false;
-           
+			Location = new Point(50,0);          
+            btnRemove.Enabled = false;
+            btnChange.Enabled = false;
+            btnCancel.Enabled = false;
             pnlSetting.Visible = false;
-            pnlguide.Visible = false;
+           
 			pnlShapeProp.Enabled = false;
             pnlFixation.Enabled = false;
             foreach (var item in Enum.GetValues(typeof(MetroFramework.MetroColorStyle)))
@@ -157,28 +115,23 @@ namespace TaskLab
            
                        
         }
-           
-    //    private void pbDesign_MouseMove(object sender, MouseEventArgs e)
-    //    {
-    //        //Cursor.Current = Cursors.Hand;
-    //        mousePos.X = e.X * 3 / 2;
-    //        mousePos.Y = e.Y * 3 / 2;
-    //        lblR.Text = (e.X * 3 / 2).ToString();
-    //        lblC.Text = (e.Y * 3 / 2).ToString();
-    //        if (objectSelect == true)
-    //        {
-    //            int fIndex = fixationList.IndexOf(movmentNode);
-    //            if (fIndex != -1)
-    //            {
-    //                fixationList[fIndex].pos = new Point(e.X * 3 / 2, e.Y * 3 / 2);
-    //                return;
-    //            }
-    //            int sIndex = curTask.shapeList.IndexOf(movmentNode);
-				//curTask.shapeList[sIndex].pos = new Point(e.X * 3 / 2, e.Y * 3 / 2);
-    //        }
-    //    }
 
-        private void btnShapeColor_Click(object sender, EventArgs e)
+		private void pbDesign_MouseMove(object sender, MouseEventArgs e)
+		{
+			lblC.Text = e.X.ToString();
+			lblR.Text = e.Y.ToString();
+			if (objectSelect == true)
+			{
+
+				//fixationList[fIndex].pos = new Point(e.X * 3 / 2, e.Y * 3 / 2);
+				
+				//int sIndex = curTask.PsycoTask.shapeList.IndexOf(movementNode);
+				//curTask.PsycoTask.shapeList[sIndex].pos = new Point(e.X * 3 / 2, e.Y * 3 / 2);
+				pbDesign.Cursor = Cursors.Arrow;
+			}
+		}
+
+		private void btnShapeColor_Click(object sender, EventArgs e)
         {
             ColorDialog cDilog = new ColorDialog();
             if (cDilog.ShowDialog() == DialogResult.OK)
@@ -234,16 +187,16 @@ namespace TaskLab
             {
 				isManupulated = true;
                 CreateNode(-1);
-                if(curTask.shapeList[curTask.shapeList.Count - 1].ROI == true)
-					curTask.AddFnode(curTask.shapeList[curTask.shapeList.Count - 1]);
+                if(curTask.PsycoTask.shapeList[curTask.PsycoTask.shapeList.Count - 1].ROI == true)
+					curTask.PsycoTask.AddFnode(curTask.PsycoTask.shapeList[curTask.PsycoTask.shapeList.Count - 1]);
 				//curTask.DrawNode(curTask.shapeList[curTask.shapeList.Count - 1]);
-                UpdateTree(0, curTask.shapeList.Count - 1);
+                UpdateTree(0, curTask.PsycoTask.shapeList.Count - 1);
             }
             
-            if (rbPFixate.Checked == true)
-                UpdateCmbPriority('P');
-            else if (rbNFixate.Checked == true)
-                UpdateCmbPriority('N');
+            //if (rbPFixate.Checked == true)
+            //    UpdateCmbPriority('P');
+            //else if (rbNFixate.Checked == true)
+            //    UpdateCmbPriority('N');
         }
 
         //// ساختن گره
@@ -255,23 +208,20 @@ namespace TaskLab
             if(rectSelected)
                 shape = 'R';
             int x, y, w, h;
-            Int32.TryParse(txtPosX.Text, out x);
-            Int32.TryParse(txtPosY.Text, out y);
-            Int32.TryParse(txtWidth.Text, out w);
-            Int32.TryParse(txtHeight.Text, out h);
+            int.TryParse(txtPosX.Text, out x);
+            int.TryParse(txtPosY.Text, out y);
+            int.TryParse(txtWidth.Text, out w);
+            int.TryParse(txtHeight.Text, out h);
             Color sColor = btnShapeColor.BackColor;
-            int num;
-            if (cmbNumber.Text != "")
-                Int32.TryParse(cmbNumber.Text, out num);
-            else
-                num = -1;
+            int num = 0;
+           
             Color numColor = btnNumberColor.BackColor;
             if(chkROI.Checked == false)
             {
                 if (index == -1)
-                    curTask.shapeList.Add(new Node(0, x, y, shape, sColor, num, numColor, w, h));
+                    curTask.PsycoTask.shapeList.Add(new Node(0, x, y, shape, sColor, num, numColor, w, h));
                 else
-					curTask.shapeList[index] = new Node(0, x, y, shape, sColor, num, numColor, w, h);
+					curTask.PsycoTask.shapeList[index] = new Node(0, x, y, shape, sColor, num, numColor, w, h);
             }
             // فیکسیشن
             else
@@ -284,14 +234,14 @@ namespace TaskLab
                 int fTime;
                 Int32.TryParse(txtFixationTime.Text, out fTime);
                 int priority;
-                Int32.TryParse(cmbPriority.Text, out priority);
+                //Int32.TryParse(cmbPriority.Text, out priority);
                 Color fColor = btnFixationColor.BackColor;
                 int fRadius;
                 Int32.TryParse(txtRadius.Text, out fRadius);
-                if (index == -1)
-					curTask.shapeList.Add(new Node(0,x, y, shape, sColor, num, numColor, w, h, fType, fTime, priority, fRadius, fColor));
-                else
-					curTask.shapeList[index] = new Node(0,x, y, shape, sColor, num, numColor, w, h, fType, fTime, priority, fRadius, fColor);
+     //           if (index == -1)
+					//curTask.PsycoTask.shapeList.Add(new Node(0,x, y, shape, sColor, num, numColor, w, h, fType, fTime, priority, fRadius, fColor));
+     //           else
+					//curTask.PsycoTask.shapeList[index] = new Node(0,x, y, shape, sColor, num, numColor, w, h, fType, fTime, priority, fRadius, fColor);
             }
         }
         
@@ -306,7 +256,7 @@ namespace TaskLab
             txtWidth.Text = node.width.ToString();
             txtHeight.Text = node.height.ToString();
             btnShapeColor.BackColor = node.shapeColor;
-            cmbNumber.Text = node.number.ToString();
+            //cmbNumber.Text = node.number.ToString();
             btnNumberColor.BackColor = node.textColor;
             if (node.ROI == true)
             {
@@ -314,18 +264,18 @@ namespace TaskLab
                 if (node.fixationType == 'P')
                 {
                     changedPriority = node.priority;
-                    positivePriority.Add(node.priority.ToString());
+                    //positivePriority.Add(node.priority.ToString());
                     rbPFixate.Checked = false;
                     rbPFixate.Checked = true;
-                    cmbPriority.SelectedIndex = positivePriority.IndexOf(changedPriority.ToString());
+                    //cmbPriority.SelectedIndex = positivePriority.IndexOf(changedPriority.ToString());
                 }
                 else if (node.fixationType == 'N')
                 {
                     changedPriority = node.priority;
-                    negativePriority.Add(node.priority.ToString());
+                    //negativePriority.Add(node.priority.ToString());
                     rbNFixate.Checked = false;
                     rbNFixate.Checked = true;
-                    cmbPriority.SelectedIndex = negativePriority.IndexOf(changedPriority.ToString());
+                   // cmbPriority.SelectedIndex = negativePriority.IndexOf(changedPriority.ToString());
                 }
                 txtFixationTime.Text = node.fixationTime.ToString();
                 //cmbPriority.Text = node.priority.ToString();
@@ -343,8 +293,8 @@ namespace TaskLab
             string s = treObjects.SelectedNode.Text;
             char[] s2 = s.ToCharArray();
             int index = (int)s2[1] - 48;
-			curTask.shapeList.RemoveAt(index);
-			curTask.DrawMap();
+			curTask.PsycoTask.shapeList.RemoveAt(index);
+			curTask.PsycoTask.DrawMap();
             DrawTree();
 			btnCancel_Click(sender, e);
         }
@@ -357,17 +307,17 @@ namespace TaskLab
             {
 				//backGround = cDilog.Color;
 				btnBackgroundCol.color = cDilog.Color;
-				if (curTask.type == TaskType.lab)
+				if (curTask.Type == TaskType.lab)
 				{
-					curTask.backColor = cDilog.Color;
-					curTask.DrawMap();
+					curTask.PsycoTask.backColor = cDilog.Color;
+					curTask.PsycoTask.DrawMap();
 
 				}
-				else if (curTask.type == TaskType.picture)
+				else if (curTask.Type == TaskType.media)
 				{
 					//pbDesign.BackColor = btnBackgroundCol.color;
 					if (selectedSlide != -1)
-						curTask.picList[selectedSlide].bgColor = btnBackgroundCol.color;
+						curTask.MediaTask.picList[selectedSlide].bgColor = btnBackgroundCol.color;
 					DrawSlides();
 
 				}
@@ -389,13 +339,13 @@ namespace TaskLab
             btnShapeColor.BackColor = Color.Cyan;
             txtWidth.Text = "30";
             txtHeight.Text = "30";
-            cmbNumber.SelectedIndex = 0;
-            cmbPriority.SelectedIndex = 0;
+            //cmbNumber.SelectedIndex = 0;
+            //cmbPriority.SelectedIndex = 0;
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-			if (curTask.tskAddress == null)
+			if (curTask.Address == null)
 				chkSaveData.Checked = true;
 			else
 				curTask.SaveTask();
@@ -417,33 +367,33 @@ namespace TaskLab
 			btnStart.TileImage = Resource.stop;
 		}
 		
-        private void SetFixation()
-        {
-            for (int i = 0; i < curTask.fixationList.Count; i++)
-            {
-                if (curTask.fixationList[i] != null && curTask.fixationList[i].enable == true)
-                {
-                    ROIPos = curTask.fixationList[i].pos;
-                    ROISize = curTask.fixationList[i].width;
-                    ROITime = curTask.fixationList[i].fixationTime;
-					curTask.fixationList[i].enable = false;
-                    return;
-                }
-            }
-        }
+     //   private void SetFixation()
+     //   {
+     //       for (int i = 0; i < curTask.PsycoTask.fixationList.Count; i++)
+     //       {
+     //           if (curTask.PsycoTask.fixationList[i] != null && curTask.PsycoTask.fixationList[i].enable == true)
+     //           {
+     //               ROIPos = curTask.PsycoTask.fixationList[i].pos;
+     //               ROISize = curTask.PsycoTask.fixationList[i].width;
+     //               ROITime = curTask.PsycoTask.fixationList[i].fixationTime;
+					//curTask.PsycoTask.fixationList[i].enable = false;
+     //               return;
+     //           }
+     //       }
+     //   }
         
-		private void rbShape_CheckedChanged(object sender, EventArgs e)
-        {
-            //if (rbShape.Checked)
-            if (true)
-            {
-                pnlShapeProp.Visible = true;
-                pnlShapeProp.Enabled = true;
-                pnlShapeProp.BringToFront();
-                //cmbShape.SelectedIndex = 0;
-                cmbNumber.SelectedIndex = 0;
-            }
-        }
+		//private void rbShape_CheckedChanged(object sender, EventArgs e)
+  //      {
+  //          //if (rbShape.Checked)
+  //          if (true)
+  //          {
+  //              pnlShapeProp.Visible = true;
+  //              pnlShapeProp.Enabled = true;
+  //              pnlShapeProp.BringToFront();
+  //              //cmbShape.SelectedIndex = 0;
+  //              cmbNumber.SelectedIndex = 0;
+  //          }
+  //      }
 
         private void rbFixation_CheckedChanged(object sender, EventArgs e)
         {
@@ -453,38 +403,38 @@ namespace TaskLab
                 //pnlFixationProp.Visible = true;
                 //pnlFixationProp.Enabled = true;
                 //pnlFixationProp.BringToFront();
-                cmbPriority.SelectedIndex = 0;
+                //cmbPriority.SelectedIndex = 0;
             }
         }
 			
 		private void treObjects_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            if (tempFixate != -1)
-                cmbPriority.Items.Remove(tempFixate);
-            if (e.Node.Level == 1)
-            { 
-                if (e.Node.Parent.Name == "nodeShapes")
-                {
-                    btnInsert.Visible = false;
-                    btnCancel.Visible = true;
-                    btnChange.Visible = true;
-                    btnRemove.Visible = true;
-                    pnlShape.Enabled = true;
+            //if (tempFixate != -1)
+            //    cmbPriority.Items.Remove(tempFixate);
+            //if (e.Node.Level == 1)
+            //{ 
+            //    if (e.Node.Parent.Name == "nodeShapes")
+            //    {
+            //        btnInsert.Visible = false;
+            //        btnCancel.Visible = true;
+            //        btnChange.Visible = true;
+            //        btnRemove.Visible = true;
+            //        pnlShape.Enabled = true;
 
-                    string[] sp = e.Node.Text.Split('S');
-                    int index;
-                    Int32.TryParse(sp[1], out index);
-                    if(changedPriority != 100)
-                    {
-                        if (changedPriority > 0)
-                            positivePriority.Remove(changedPriority.ToString());
-                        else if (changedPriority < 0)
-                            negativePriority.Remove(changedPriority.ToString());
-                    }
-                    ShowNode(curTask.shapeList[index]);
-                    btnRemove.Enabled = true;
-                }
-            }
+            //        string[] sp = e.Node.Text.Split('S');
+            //        int index;
+            //        Int32.TryParse(sp[1], out index);
+            //        if(changedPriority != 100)
+            //        {
+            //            if (changedPriority > 0)
+            //                positivePriority.Remove(changedPriority.ToString());
+            //            else if (changedPriority < 0)
+            //                negativePriority.Remove(changedPriority.ToString());
+            //        }
+            //        ShowNode(curTask.PsycoTask.shapeList[index]);
+            //        btnRemove.Enabled = true;
+            //    }
+            //}
         }
 
         private void btnFixationColor_Click(object sender, EventArgs e)
@@ -498,31 +448,31 @@ namespace TaskLab
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            if(changedPriority != 100)
-            {
-                if(changedPriority > 0)
-                {
-                    positivePriority.Remove(changedPriority.ToString());
-                    changedPriority = 100;
-                }
-                if (changedPriority < 0)
-                {
-                    negativePriority.Remove(changedPriority.ToString());
-                    changedPriority = 100;
-                }
-            }
-            pnlShape.Enabled = false;
-            chkROI.Checked = false;
-            cmbPriority.Items.Remove(tempFixate);
-            tempFixate = -1;
-            //cmbPriority.SelectedIndex = 0;
-            btnChange.Visible = false;
-            btnRemove.Visible = false;
-            btnCancel.Visible = false;
-            btnInsert.Visible = true;
-            //rbFixation.Visible = true;
-            //rbShape.Visible = true;
-            treObjects.CollapseAll();
+            //if(changedPriority != 100)
+            //{
+            //    if(changedPriority > 0)
+            //    {
+            //        positivePriority.Remove(changedPriority.ToString());
+            //        changedPriority = 100;
+            //    }
+            //    if (changedPriority < 0)
+            //    {
+            //        negativePriority.Remove(changedPriority.ToString());
+            //        changedPriority = 100;
+            //    }
+            //}
+            //pnlShape.Enabled = false;
+            //chkROI.Checked = false;
+            //cmbPriority.Items.Remove(tempFixate);
+            //tempFixate = -1;
+            ////cmbPriority.SelectedIndex = 0;
+            //btnChange.Visible = false;
+            //btnRemove.Visible = false;
+            //btnCancel.Visible = false;
+            //btnInsert.Visible = true;
+            ////rbFixation.Visible = true;
+            ////rbShape.Visible = true;
+            //treObjects.CollapseAll();
         }
 
         private void btnChange_Click(object sender, EventArgs e)
@@ -532,43 +482,44 @@ namespace TaskLab
             int index;
             Int32.TryParse(text[1], out index);
             CreateNode(index);
-			curTask.DrawMap();
+			curTask.PsycoTask.DrawMap();
             DrawTree();
             treObjects.SelectedNode.Text = st;
             pbDesign.Image = map;
-            if (chkROI.Checked == true)
-                Int32.TryParse(cmbPriority.Text, out changedPriority);
-            else
-                changedPriority = 100;
+            //if (chkROI.Checked == true)
+            //    Int32.TryParse(cmbPriority.Text, out changedPriority);
+            //else
+            //    changedPriority = 100;
         }
 				
         //// انتخاب کردن اشیا جهت ادیت و حذف و جابجایی
         private void pbDesign_MouseDown(object sender, MouseEventArgs e)
         {
-			if (curTask.type == TaskType.lab)
+		
+			if (curTask.Type == TaskType.lab)
 			{
-				foreach (Node n in curTask.fixationList)
+				foreach (Node n in curTask.PsycoTask.fixationList)
 				{
 					Point nodePose = n.pos;
 					double dist;
-					dist = Math.Sqrt(Math.Pow(mousePos.X - nodePose.X, 2) + Math.Pow(mousePos.Y - nodePose.Y, 2));
+					dist = Math.Sqrt(Math.Pow(Cursor.Position.X - nodePose.X, 2) + Math.Pow(Cursor.Position.Y - nodePose.Y, 2));
 					if (dist < n.width)
 					{
 						objectSelect = true;
-						movmentNode = n;
+						//movementNode = n;
 						//treObjects.SelectedNode = treObjects.Nodes[1].Nodes[fixationList.IndexOf(n)];
 						return;
 					}
 				}
-				foreach (Node n in curTask.shapeList)
+				foreach (Node n in curTask.PsycoTask.shapeList)
 				{
 					Point nodePose = n.pos;
 					double dist;
-					dist = Math.Sqrt(Math.Pow(mousePos.X - nodePose.X, 2) + Math.Pow(mousePos.Y - nodePose.Y, 2));
+					dist = Math.Sqrt(Math.Pow(Cursor.Position.X - nodePose.X, 2) + Math.Pow(Cursor.Position.Y - nodePose.Y, 2));
 					if (dist < n.width)
 					{
 						objectSelect = true;
-						movmentNode = n;
+						//movmentNode = n;
 						//treObjects.SelectedNode = treObjects.Nodes[0].Nodes[shapeList.IndexOf(n)];
 						return;
 					}
@@ -578,17 +529,17 @@ namespace TaskLab
 
 		private void pbDesign_MouseUp(object sender, MouseEventArgs e)
 		{
-			if (curTask.type == TaskType.lab)
+			if (curTask.Type == TaskType.lab)
 			{
 				objectSelect = false;
-				foreach (Node n in curTask.shapeList)
+				foreach (Node n in curTask.PsycoTask.shapeList)
 				{
 					Point nodePose = n.pos;
 					double dist;
-					dist = Math.Sqrt(Math.Pow(mousePos.X - nodePose.X, 2) + Math.Pow(mousePos.Y - nodePose.Y, 2));
+					dist = Math.Sqrt(Math.Pow(Cursor.Position.X - nodePose.X, 2) + Math.Pow(Cursor.Position.Y - nodePose.Y, 2));
 					if (dist < n.width)
 					{
-						treObjects.SelectedNode = treObjects.Nodes[0].Nodes[curTask.shapeList.IndexOf(n)];
+						treObjects.SelectedNode = treObjects.Nodes[0].Nodes[curTask.PsycoTask.shapeList.IndexOf(n)];
 						return;
 					}
 				}
@@ -599,9 +550,9 @@ namespace TaskLab
 		private void DrawTree()
         {
             treObjects.Nodes[0].Nodes.Clear();
-            foreach (Node n in curTask.shapeList)
+            foreach (Node n in curTask.PsycoTask.shapeList)
             {
-                UpdateTree(0, curTask.shapeList.IndexOf(n));
+                UpdateTree(0, curTask.PsycoTask.shapeList.IndexOf(n));
             }
         }
         
@@ -612,8 +563,7 @@ namespace TaskLab
 
         private void btnHome_Click(object sender, EventArgs e)
         {
-			pnlguide.Visible = true;
-			pnlguide.Location = new Point(pnlguide.Location.X, btnHome.Location.Y);
+					
 			this.Close();
         }
 
@@ -621,15 +571,15 @@ namespace TaskLab
         {
 			if (!pnlSetting.Visible)
 			{
-				pnlguide.Visible = true;
-				pnlguide.Location = new Point(pnlguide.Location.X, btnSetting.Location.Y);
+				btnSetting.Style = MetroColorStyle.Yellow;
+				
 				pnlSetting.BringToFront();
 				pnlSetting.Visible = true;
 			}
 			else
 			{
-				pnlguide.Visible = false;
-				pnlguide.Location = new Point(pnlguide.Location.X, btnSetting.Location.Y);
+				btnSetting.Style = MetroColorStyle.White;
+				
 				pnlSetting.BringToFront();
 				pnlSetting.Visible = false; ;
 			}
@@ -722,14 +672,14 @@ namespace TaskLab
 			}
 			if(e.KeyCode == Keys.Up)
 			{
-				if(curTask.type == TaskType.picture)
+				if(curTask.Type == TaskType.media)
 				{
 					SelectSlide(selectedSlide-1);
 				}
 			}
 			if (e.KeyCode == Keys.Down)
 			{
-				if (curTask.type == TaskType.picture)
+				if (curTask.Type == TaskType.media)
 				{
 					SelectSlide(selectedSlide + 1);
 				}
@@ -743,7 +693,7 @@ namespace TaskLab
 			if (CheckSave(true))
 			{
 				isManupulated = false;
-				oldTaskType = curTask.type;
+				oldTaskType = curTask.Type;
 				selectedSlide = -1;
 				curTask = new TaskData(oldTaskType);
 				TaskDesignConfig();
@@ -756,7 +706,7 @@ namespace TaskLab
 			if (!isManupulated)
 				return true;
 
-			if (message && curTask.tskAddress == null)
+			if (message && curTask.Address == null)
 			{
 				DialogResult result = DialogResult.Cancel;
 
@@ -791,7 +741,7 @@ namespace TaskLab
 
 		private void TaskDesignConfig()
 		{
-			if (curTask.type == TaskType.lab)
+			if (curTask.Type == TaskType.lab)
 			{
 				pnlPics.Visible = false;
 				pnlTask.Visible = true;
@@ -799,7 +749,7 @@ namespace TaskLab
 				pnlShape.Visible = true;
 				
 			}
-			if (curTask.type == TaskType.picture)
+			if (curTask.Type == TaskType.media)
 			{
 				pnlPics.Visible = true;
 				pnlTask.Visible = false;
@@ -807,7 +757,7 @@ namespace TaskLab
 				DrawSlides();
 				tmrMain.Start();
 			}
-			if (curTask.type == TaskType.cognitive)
+			if (curTask.Type == TaskType.cognitive)
 			{
 				Close();
 			}
@@ -843,7 +793,7 @@ namespace TaskLab
             Picture p = new Picture(b, null, slideTime);
             p.bgColor = btnBackgroundCol.BackColor;
             p.name = "pic" + picCount.ToString();
-            curTask.picList.Add(p);
+            curTask.MediaTask.picList.Add(p);
         }
         
 		private Size SetupPb(int index)
@@ -884,10 +834,10 @@ namespace TaskLab
             lblNumber.Size = new Size(39, 13);
             pnl.Controls.Add(txt);
             txt.Size = txtPicTime.Size;
-			if (curTask.picList.Count > index && curTask.picList[index].address != null)
+			if (curTask.MediaTask.picList.Count > index && curTask.MediaTask.picList[index].address != null)
 			{
-				txt.Text = curTask.picList[index].time.ToString();
-				p.Image = curTask.picList[index].image;
+				txt.Text = curTask.MediaTask.picList[index].time.ToString();
+				p.Image = curTask.MediaTask.picList[index].image;
 			}
 			else
 				txt.Text = txtPicTime.Text;
@@ -917,7 +867,7 @@ namespace TaskLab
             {
                 if (pnl.Name == "pnlPic" + selectedSlide.ToString())
                 {
-					curTask.picList.RemoveAt(selectedSlide);
+					curTask.MediaTask.picList.RemoveAt(selectedSlide);
 					DrawSlides();
 					SelectSlide(selectedSlide - 1);
 					break;
@@ -931,9 +881,9 @@ namespace TaskLab
 			PicturePanelReset();
 			picCount = 0;
 			
-            foreach (Picture slide in curTask.picList)
+            foreach (Picture slide in curTask.MediaTask.picList)
             {
-                SetupPb(curTask.picList.IndexOf(slide));
+                SetupPb(curTask.MediaTask.picList.IndexOf(slide));
 				picCount++;
             }
         }
@@ -1002,10 +952,10 @@ namespace TaskLab
                 int index;
                 Int32.TryParse(texts[1], out index);
 				
-				curTask.picList[index].image = new Bitmap(file.FileName);
-				curTask.picList[index].address = file.FileName;
+				curTask.MediaTask.picList[index].image = new Bitmap(file.FileName);
+				curTask.MediaTask.picList[index].address = file.FileName;
 				
-				pbDesign.Image = curTask.picList[index].image;
+				pbDesign.Image = curTask.MediaTask.picList[index].image;
 				
 				SelectSlide(index);
 			}
@@ -1084,9 +1034,9 @@ namespace TaskLab
 			Int32.TryParse(s[1], out index);    // به دست اوردن اندیس
 			int time;
 			if (Int32.TryParse(txt.Text, out time))
-				curTask.picList[index].time = time;
+				curTask.MediaTask.picList[index].time = time;
 			else
-				txt.Text = curTask.picList[index].time.ToString();
+				txt.Text = curTask.MediaTask.picList[index].time.ToString();
 		}
 		
 		#endregion
@@ -1118,41 +1068,41 @@ namespace TaskLab
         {
             if (rbPFixate.Checked == true)
             {
-                UpdateCmbPriority('P');
+                //UpdateCmbPriority('P');
             }
         }
 
-        private void UpdateCmbPriority(char priority)
-        {
-            if (priority == 'P')
-            {
-                //foreach (FNode node in positiveFixates)
-                //{
-                //    if(node.priority != changedPriority)
-                //        positivePriority.Remove(node.priority.ToString());
-                //}
-                cmbPriority.Items.Clear();
-                foreach (string s in positivePriority)
-                {
-                    cmbPriority.Items.Add(s);
-                }
-                cmbPriority.SelectedIndex = 0;
-            }
-            else if(priority == 'N')
-            {
-                //foreach (FNode node in negativeFixates)
-                //{
-                //    if (node.priority != changedPriority)
-                //        negativePriority.Remove(node.priority.ToString());
-                //}
-                cmbPriority.Items.Clear();
-                foreach (string s in negativePriority)
-                {
-                    cmbPriority.Items.Add(s);
-                }
-                cmbPriority.SelectedIndex = 0;
-            }
-        }
+        //private void UpdateCmbPriority(char priority)
+        //{
+        //    if (priority == 'P')
+        //    {
+        //        //foreach (FNode node in positiveFixates)
+        //        //{
+        //        //    if(node.priority != changedPriority)
+        //        //        positivePriority.Remove(node.priority.ToString());
+        //        //}
+        //        cmbPriority.Items.Clear();
+        //        foreach (string s in positivePriority)
+        //        {
+        //            cmbPriority.Items.Add(s);
+        //        }
+        //        cmbPriority.SelectedIndex = 0;
+        //    }
+        //    else if(priority == 'N')
+        //    {
+        //        //foreach (FNode node in negativeFixates)
+        //        //{
+        //        //    if (node.priority != changedPriority)
+        //        //        negativePriority.Remove(node.priority.ToString());
+        //        //}
+        //        cmbPriority.Items.Clear();
+        //        foreach (string s in negativePriority)
+        //        {
+        //            cmbPriority.Items.Add(s);
+        //        }
+        //        cmbPriority.SelectedIndex = 0;
+        //    }
+        //}
 
         private void pnlSetting_MouseClick(object sender, MouseEventArgs e)
         {
@@ -1165,7 +1115,7 @@ namespace TaskLab
         {
             if (rbNFixate.Checked == true)
             {
-                UpdateCmbPriority('N');
+                //UpdateCmbPriority('N');
             }
         }
 		        
@@ -1180,25 +1130,20 @@ namespace TaskLab
 			e.Cancel = !CheckSave(true);
 		}
 
-		private void pbDesign_MouseMove(object sender, MouseEventArgs e)
-		{
-			lblC.Text = e.X.ToString();
-			lblR.Text = e.Y.ToString();
-		}
 		
 		private void tmrMain_Tick(object sender, EventArgs e)
 		{
-			if (curTask.type == TaskType.lab)
+			if (curTask.Type == TaskType.lab)
 			{
-				curTask.DrawMap();
+				curTask.PsycoTask.DrawMap();
 				DrawTree();
 				return;
 			}
-			if(curTask.type == TaskType.picture)
+			if(curTask.Type == TaskType.media)
 			{
 				if (selectedSlide != -1)
-					pbDesign.BackColor = curTask.picList[selectedSlide].bgColor;
-				pbDesign.Image = curTask.GetSlideImage(selectedSlide, pbDesign.Size);
+					pbDesign.BackColor = curTask.MediaTask.picList[selectedSlide].bgColor;
+				pbDesign.Image = curTask.GetFrameImage(selectedSlide, pbDesign.Size);
 			}
 		}
 
@@ -1211,21 +1156,21 @@ namespace TaskLab
 				int halfThickness = thickness / 2;
 				using (Pen pen = new Pen(Color.Black, thickness))
 				{
-					e.Graphics.DrawRectangle(pen, new Rectangle(halfThickness, halfThickness, p.ClientSize.Width - thickness, panel1.ClientSize.Height - thickness));
+					e.Graphics.DrawRectangle(pen, new Rectangle(halfThickness, halfThickness, p.ClientSize.Width - thickness, pnlTree.ClientSize.Height - thickness));
 				}
 			}
 		}
 
 		private void metroCheckBox1_CheckedChanged(object sender, EventArgs e)
 		{
-			if (metroCheckBox1.Checked)
+			if (chkboxChessDraw.Checked)
 			{
 				
-				curTask.drawChess = true;
+				curTask.MediaTask.drawChess = true;
 			}
 			else
 			{
-				curTask.drawChess = false;
+				curTask.MediaTask.drawChess = false;
 				
 			}
 		}
@@ -1273,14 +1218,14 @@ namespace TaskLab
 			if (chkSaveData.Checked)
 			{
 				if (curTask.SaveTask())
-					txtPath.Text = curTask.tskAddress;
+					txtPath.Text = curTask.Address;
 				else
 					chkSaveData.Checked = false;
 			}
 			else
 			{
 				txtPath.Text = "";
-				curTask.tskAddress = null;
+				curTask.UnSave();
 			}
 		}
 
@@ -1304,16 +1249,30 @@ namespace TaskLab
 				ColorDialog cd = new ColorDialog();
 				if (cd.ShowDialog() == DialogResult.OK)
 				{
-					curTask.transColor = cd.Color;
-					curTask.setTransparency = true;
+					curTask.MediaTask.transColor = cd.Color;
+					curTask.MediaTask.setTransparency = true;
 				}
 				else
 					chkbxMakTransprnt.Checked = false;
 
 			}
 			else
-				curTask.setTransparency = false;
+				curTask.MediaTask.setTransparency = false;
 		}
+
+		
+		private void btnHome_MouseEnter(object sender, EventArgs e)
+		{
+			btnHome.Style = MetroColorStyle.Red;
+			tltpHelp.IsBalloon = false;
+			tltpHelp.UseFading = true;
+		}
+
+		private void btnHome_MouseLeave(object sender, EventArgs e)
+		{
+			btnHome.Style = MetroColorStyle.White;
+		}
+
 	}
 	
 }

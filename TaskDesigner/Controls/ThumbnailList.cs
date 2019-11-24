@@ -14,68 +14,107 @@ namespace Controls
 {
 	public partial class ThumbnailList : UserControl
 	{
-		private List<PictureBox> thumbImages;
-		private List<MetroTextBox> thumbTexts;
-		private Label textDefiner;
-		
-		int horizontalMargin = 3, verticalMargin = 3;
-		int textboxWidth = 15, spaceInTextLabel = 4;
-		int itemHeight, pictureHeight, pictureWidth , textboxHeight;
-		public int selectedThumb = 0;
-		
-		public Color bgColor = Color.White;
-		public int MinSize = 30;
-
-		private void ThumbnailList_MouseClick(object sender, MouseEventArgs e)
-		{
-			Select();
-		}
-
+		List<Thumbnail> thumbs;
+		Label labelDefiner;
+		Operat _operat;
+		int _itemHorzMarg = 1, _itemVertMarg = 1;
+		int _picHorizontalMargin = 3, _picVerticalMargin = 3;
+		int textboxWidth = 15, textboxMinWidth = 3,spaceInTextLabel = 4;
+		int itemHeight, itemWeigth, pictureHeight, pictureWidth , textboxHeight;
+		int _selectedThumb = 0;
+		int _minWidth = 30;
 		bool showTips = true;
+		bool hasText = true;
 
-		public ThumbnailList(bool ShowTextbox, bool ShowTips, string LabelText)
+		public int ThumbMinWidth { get { return _minWidth; } set { _minWidth = Math.Max(labelDefiner.Size.Width + spaceInTextLabel + textboxMinWidth, value); } }
+
+		public int SelectedThumb { get { return _selectedThumb; } set { _selectedThumb = value; } }
+
+		public Image SlideBitmapSelected
+		{
+			get
+			{
+			
+				return thumbs[_selectedThumb]._img.Image;
+			}
+		}
+		
+		public ThumbnailList(bool ShowTextbox, bool ShowTips, string LabelText,Operat op)
 		{
 			InitializeComponent();
+			
+			_operat = op;
+
 			if (ShowTextbox)
 			{
-				textDefiner = new Label();
-				textDefiner.Text = LabelText;
-				textDefiner.Size = GetTextSize(textDefiner);
-				thumbTexts = new List<MetroTextBox>();
-				thumbTexts.Add(NewTextbox());
-				MinSize = textDefiner.Size.Width + spaceInTextLabel + textboxWidth;
+				hasText = true;
+				labelDefiner = new Label();
+				labelDefiner.Text = LabelText;
+				labelDefiner.Size = GetTextSize(labelDefiner);
+				_minWidth = labelDefiner.Size.Width + spaceInTextLabel + textboxWidth;
 			}
-			tltlpHelp.Active = ShowTips;
+			else
+				hasText = false;
+			
+				tltlpHelp.Active = ShowTips;
 					
-			thumbImages = new List<PictureBox>();
-			thumbImages.Add(NewPicturebox());
 		}
 		
-		public void DrawThumbs(string lblTxt)
+		public bool DrawThumbs(string lblTxt)
 		{
 			#region initialize params
-			textboxHeight = thumbTexts[0].Height;
-			pictureWidth = this.Width + 2 * horizontalMargin;
+			
+			itemWeigth = Width - 2 * _itemHorzMarg;
+			textboxHeight = thumbs[0]._text.Height;
+			pictureWidth = this.Width - 2 * _picHorizontalMargin;
 			pictureHeight = (int)(0.618 * pictureWidth);
-
-			if (thumbTexts != null)
-				itemHeight = 3 * verticalMargin + textboxHeight + pictureHeight;
+			if (pictureWidth < 3)
+				return false;
+			if (hasText)
+			{
+				textboxWidth = pictureWidth - labelDefiner.Size.Width - spaceInTextLabel;
+				if (textboxWidth < textboxMinWidth)
+					return false;
+				itemHeight = 3 * _picVerticalMargin + textboxHeight + pictureHeight;
+			}
 			else
-				itemHeight = 2 * verticalMargin + pictureHeight;
+				itemHeight = 2 * _picVerticalMargin + pictureHeight;
+			
+			#endregion
+
+			#region erase old controls
+
+			tblPnlThumb.Controls.Clear();
+
 			#endregion
 
 			#region draw thumb images and texts
-			for (int thCount = 0; thCount < thumbImages.Count; thCount++)
+
+			for (int thCount = 0; thCount < thumbs.Count; thCount++)
 			{
-				thumbImages[thCount].Location = new Point(horizontalMargin, itemHeight * thCount + verticalMargin);
-				if (thumbTexts != null)
+				Panel pnlThumbs = new Panel();
+				pnlThumbs.Location = new Point(1, thCount * itemHeight + 1);
+				pnlThumbs.Size = new Size(itemWeigth, itemHeight);
+				if (thCount == _selectedThumb)
+					ControlPaint.DrawBorder(pnlThumbs.CreateGraphics(), pnlThumbs.ClientRectangle, Color.Red, ButtonBorderStyle.Solid);
+				else
+					ControlPaint.DrawBorder(pnlThumbs.CreateGraphics(), pnlThumbs.ClientRectangle, Color.Gray, ButtonBorderStyle.Solid);
+				thumbs[thCount].Location = new Point(_picHorizontalMargin, itemHeight * thCount + _picVerticalMargin);
+				thumbs[thCount].Size = new Size(pictureWidth,pictureHeight);
+				pnlThumbs.Controls.Add(thumbs[thCount]);
+				if (hasText)
 				{
-					textDefiner.Location = new Point(horizontalMargin, itemHeight * thCount + verticalMargin + pictureHeight);
-					thumbTexts[thCount].Location = new Point(horizontalMargin + textDefiner.Size.Width + 7, itemHeight * thCount + verticalMargin + pictureHeight);
+					labelDefiner.Location = new Point(_picHorizontalMargin, itemHeight * thCount + _picVerticalMargin + pictureHeight);
+					pnlThumbs.Controls.Add(labelDefiner);
+					thumbs[thCount].Location = new Point(_picHorizontalMargin + labelDefiner.Size.Width + spaceInTextLabel, itemHeight * thCount + _picVerticalMargin + pictureHeight);
+					thumbs[thCount].Size = new Size(textboxWidth,textboxHeight);
+					pnlThumbs.Controls.Add(thumbs[thCount]);
 				}
+				tblPnlThumb.Controls.Add(pnlThumbs);
+				//tblPnlThumb.row
 			}
 			#endregion
-
+			return true;
 		}
 
 		private Size GetTextSize(Label l)
@@ -90,21 +129,103 @@ namespace Controls
 			}
 		}
 
-		private PictureBox NewPicturebox()
+		private void ThumbnailList_MouseClick(object sender, MouseEventArgs e)
+		{
+			Select();
+		}
+
+	}
+	 
+	public class Thumbnail : UserControl
+	{
+		bool hasTxt = true;
+		public PictureBox _img;
+		public MetroTextBox _text;
+		public Panel thumbItem;
+		public Color bgColor;
+		int id;
+		Operat _opera;
+		ThumbnailList parent;
+
+		public Thumbnail(ThumbnailList pr, int ind, bool hasText, Color bg, Operat op)
+		{
+			id = ind;
+			hasTxt = hasText;
+			_img = NewPicturebox(null);
+			bgColor = bg;
+			parent = pr;
+			if (hasText)
+				_text = NewTextbox(null);
+		}
+
+		public Thumbnail(ThumbnailList pr, int ind, bool hasText, Color bg, Operat op,Bitmap im)
+		{
+			id = ind;
+			hasTxt = hasText;
+			_img = NewPicturebox(im);
+			bgColor = bg;
+			parent = pr;
+			if (hasText)
+				_text = NewTextbox(null);
+		}
+
+		public Thumbnail(ThumbnailList pr, int ind, bool hasText, Color bg, Operat op, Bitmap im, string txt)
+		{
+			id = ind;
+			hasTxt = hasText;
+			_img = NewPicturebox(im);
+			bgColor = bg;
+			parent = pr;
+			if (hasText)
+				_text = NewTextbox(null);
+		}
+
+		private PictureBox NewPicturebox(Bitmap im)
 		{
 			PictureBox newPb = new PictureBox();
 			newPb.Anchor = (AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top);
-			
-			newPb.Image = BitmapData.PutText("Double Click To Add Image", bgColor, Brushes.Black, newPb.Size, 10);
+			if (im == null)
+				newPb.Image = BitmapData.PutText("", bgColor, Brushes.Black, newPb.Size, 10);
+			else
+				newPb.Image = im;
+			newPb.Click += new EventHandler(pb_Click);
+			newPb.DoubleClick += new EventHandler(pb_DoubleClick);
+			newPb.Name = id.ToString();
 			return newPb;
 		}
 
-		private MetroTextBox NewTextbox()
+		private MetroTextBox NewTextbox(string txt)
 		{
 			MetroTextBox mtTextbox = new MetroTextBox();
 			mtTextbox.Anchor = (AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top);
 			mtTextbox.Width = 15;
+			if (txt == null)
+				mtTextbox.Text = "10000";
+			else
+				mtTextbox.Text = txt;
 			return mtTextbox;
+		}
+
+		private void pb_DoubleClick(object sender, EventArgs e)
+		{
+			PictureBox pbTemp = (PictureBox)sender;
+			pb_Click(sender, e);
+			if (_opera == Operat.Media)
+			{
+				OpenFileDialog file = new OpenFileDialog();
+				file.Filter = "Media Files |*.png;*.jpg;";
+				if (file.ShowDialog() == DialogResult.OK)
+				{
+					pbTemp.Image = BitmapData.DrawOn(new Bitmap(file.FileName), pbTemp.Size, bgColor);
+
+				}
+			}
+		}
+		
+		private void pb_Click(object sender, EventArgs e)
+		{
+			PictureBox pbTemp = (PictureBox)sender;
+			parent.SelectedThumb = int.Parse(pbTemp.Name);
 		}
 	}
 }

@@ -212,7 +212,7 @@ namespace Psychophysics
 			this.txtbx_path2save.MaxLength = 32767;
 			this.txtbx_path2save.Name = "txtbx_path2save";
 			this.txtbx_path2save.PasswordChar = '\0';
-			this.txtbx_path2save.PromptText = "Enter a path 2 save";
+			this.txtbx_path2save.WaterMark = "Enter a path 2 save";
 			this.txtbx_path2save.ScrollBars = System.Windows.Forms.ScrollBars.None;
 			this.txtbx_path2save.SelectedText = "";
 			this.txtbx_path2save.SelectionLength = 0;
@@ -255,7 +255,7 @@ namespace Psychophysics
 			this.txbx_taskname.MaxLength = 32767;
 			this.txbx_taskname.Name = "txbx_taskname";
 			this.txbx_taskname.PasswordChar = '\0';
-			this.txbx_taskname.PromptText = "Enter Taskname";
+			this.txbx_taskname.WaterMark = "Enter Taskname";
 			this.txbx_taskname.ScrollBars = System.Windows.Forms.ScrollBars.None;
 			this.txbx_taskname.SelectedText = "";
 			this.txbx_taskname.SelectionLength = 0;

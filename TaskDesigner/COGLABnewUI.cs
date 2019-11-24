@@ -12,13 +12,27 @@ using Analyses;
 using Psychophysics;
 using TaskDesigner;
 using TaskRunning;
+using TaskLab;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace Basics
 {
 	public partial class COGLABnewUI : Form
 	{
 		public bool connected = false;
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct MARGINS
+		{
+			public int Left;
+			public int Right;
+			public int Top;
+			public int Bottom;
+		}
+
+		[DllImport("dwmapi.dll")]
+		public static extern int DwmExtendFrameIntoClientArea(IntPtr hWnd, ref MARGINS pMargins);
 		public const int WM_NCLBUTTONDOWN = 0xA1;
 		public const int HT_CAPTION = 0x2;
 
@@ -192,7 +206,7 @@ namespace Basics
 		{
 			try
 			{
-				Psychophysics.TaskPreview task = new Psychophysics.TaskPreview();
+				PsycoPhysicTask task = new PsycoPhysicTask();
 				task.FormClosed += delegate { Show(); Select();};
 				this.Hide();
 				task.Show();
@@ -213,24 +227,24 @@ namespace Basics
 
 		private void btn_psychology_Click(object sender, EventArgs e)
 		{
-			//try
-			//{
-			//	TaskLab.TaskGen taskLab = new TaskLab.TaskGen(TaskType.lab);
-			//	taskLab.FormClosed += delegate { Show(); Select(); };
-			//	this.Hide();
-			//	taskLab.Show();
-			//}
-			//catch(Exception)
-			//{
-			//	return;
-			//}
+			try
+			{
+				PsycologyDesigner taskLab = new PsycologyDesigner();
+				taskLab.FormClosed += delegate { Show(); Select(); };
+				this.Hide();
+				taskLab.Show();
+			}
+			catch (Exception)
+			{
+				return;
+			}
 		}
 
 		private void btn_linguistics_Click(object sender, EventArgs e)
 		{
 			try
 			{
-				TaskLab.TaskGen taskLab = new TaskLab.TaskGen(TaskType.picture);
+				TaskLab.TaskGen taskLab = new TaskLab.TaskGen(TaskType.media);
 				taskLab.FormClosed += delegate { Show(); Select(); };
 				this.Hide();
 				taskLab.Show();
@@ -300,6 +314,8 @@ namespace Basics
 		private void COGLABnewUI_Load(object sender, EventArgs e)
 		{
 			this.CenterToScreen();
+			MARGINS marg = new MARGINS() { Left = -1, Right = -1, Top = -1, Bottom = -1 };
+			DwmExtendFrameIntoClientArea(this.Handle, ref marg);
 		}
 		
 		public bool ThumbnailCallback()

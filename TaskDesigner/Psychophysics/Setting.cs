@@ -41,8 +41,8 @@ namespace Psychophysics
 
             //OutputEnable[0, TaskPreview.DOutIndex[0]] = 1;
             //OutputEnable[1, TaskPreview.DOutIndex[1]] = 1;
-            Debug.Write("AInIndex : " + TaskPreview.AInIndex[0] + " " + TaskPreview.AInIndex[1] + "\n");
-            if (TaskPreview.AInIndex[0] == 0)
+            Debug.Write("AInIndex : " + PsycoPhysicTask.AInIndex[0] + " " + PsycoPhysicTask.AInIndex[1] + "\n");
+            if (PsycoPhysicTask.AInIndex[0] == 0)
             {
                 InputSelect_CB0.SelectedIndex = 0;
             }
@@ -51,7 +51,7 @@ namespace Psychophysics
                 InputSelect_CB0.SelectedIndex = 1;
             }
 
-            if (TaskPreview.AInIndex[1] == 1)
+            if (PsycoPhysicTask.AInIndex[1] == 1)
             {
                 InputSelect_CB1.SelectedIndex = 1;
             }
@@ -87,9 +87,9 @@ namespace Psychophysics
                 LANPanel.Enabled = false;
             
             //Debug.Write();
-            PictureBox varselected = this.Controls.Find("pictureBox" + 0 + TaskPreview.DOutIndex[0], true).FirstOrDefault() as PictureBox;
+            PictureBox varselected = this.Controls.Find("pictureBox" + 0 + PsycoPhysicTask.DOutIndex[0], true).FirstOrDefault() as PictureBox;
             varselected.BackColor = Color.Green;
-            varselected = this.Controls.Find("pictureBox" + 1 + TaskPreview.DOutIndex[1], true).FirstOrDefault() as PictureBox;
+            varselected = this.Controls.Find("pictureBox" + 1 + PsycoPhysicTask.DOutIndex[1], true).FirstOrDefault() as PictureBox;
             varselected.BackColor = Color.Green;
 
             //List<Automation.BDaq.DeviceTreeNode> NameDevices = TaskPreview.instantAiCtrl.SupportedDevices;
@@ -101,23 +101,23 @@ namespace Psychophysics
             //}
 
             
-            if(TaskPreview.TypeDisplay == 1)
+            if(PsycoPhysicTask.TypeDisplay == 1)
             {
                 NormalDisplay_CB.Checked = true;
             }
-            else if(TaskPreview.TypeDisplay == 2)
+            else if(PsycoPhysicTask.TypeDisplay == 2)
             {
                 RandomDisplay_CB.Checked = true;
             }
-            Mute_CB.Checked = TaskPreview.SoundMute;
-            FailPath_ET.Text = TaskPreview.FailPath;
-            WinPath_ET.Text = TaskPreview.WinPath;
+            Mute_CB.Checked = PsycoPhysicTask.SoundMute;
+            FailPath_ET.Text = PsycoPhysicTask.FailPath;
+            WinPath_ET.Text = PsycoPhysicTask.WinPath;
 
-            SelectedInBt_ET.Text = TaskPreview.keyboardChar.ToString();
+            SelectedInBt_ET.Text = PsycoPhysicTask.keyboardChar.ToString();
 
-            UserDist_ET.Text = Convert.ToString(TaskPreview.userDistance);
-            MonitorWidth_ET.Text = Convert.ToString(TaskPreview.WidthM);
-            MonitorHeight_ET.Text = Convert.ToString(TaskPreview.HeightM);
+            UserDist_ET.Text = Convert.ToString(PsycoPhysicTask.userDistance);
+            MonitorWidth_ET.Text = Convert.ToString(PsycoPhysicTask.WidthM);
+            MonitorHeight_ET.Text = Convert.ToString(PsycoPhysicTask.HeightM);
 
                       
             //get user IP
@@ -136,7 +136,7 @@ namespace Psychophysics
         private XmlThemeLoader xtl = new XmlThemeLoader();
 
         //ValueRange InputValRange = ValueRange.V_0To1;
-        String DaqName = TaskPreview.DaqName;
+        String DaqName = PsycoPhysicTask.DaqName;
         // Analog input
         //InstantAiCtrl instantAiCtrl = new InstantAiCtrl();
         //int RangeOutDaq = 0;
@@ -242,15 +242,15 @@ namespace Psychophysics
 
                     ComboBox unselected = this.Controls.Find("InputSelect_CB" + 1, true).FirstOrDefault() as ComboBox;
                     unselected.SelectedIndex = 1;
-                    TaskPreview.AInIndex[0] = 0;
-                    TaskPreview.AInIndex[1] = 1;
+                    PsycoPhysicTask.AInIndex[0] = 0;
+                    PsycoPhysicTask.AInIndex[1] = 1;
                 }
                 else
                 {
                     ComboBox unselected = this.Controls.Find("InputSelect_CB" + 1, true).FirstOrDefault() as ComboBox;
                     unselected.SelectedIndex = 0;
-                    TaskPreview.AInIndex[0] = 1;
-                    TaskPreview.AInIndex[1] = 0;
+                    PsycoPhysicTask.AInIndex[0] = 1;
+                    PsycoPhysicTask.AInIndex[1] = 0;
                 }
             }
             else
@@ -259,15 +259,15 @@ namespace Psychophysics
                 {
                     ComboBox unselected = this.Controls.Find("InputSelect_CB" + 0, true).FirstOrDefault() as ComboBox;
                     unselected.SelectedIndex = 1;
-                    TaskPreview.AInIndex[0] = 1;
-                    TaskPreview.AInIndex[1] = 0;
+                    PsycoPhysicTask.AInIndex[0] = 1;
+                    PsycoPhysicTask.AInIndex[1] = 0;
                 }
                 else
                 {
                     ComboBox unselected = this.Controls.Find("InputSelect_CB" + 0, true).FirstOrDefault() as ComboBox;
                     unselected.SelectedIndex = 0;
-                    TaskPreview.AInIndex[0] = 0;
-                    TaskPreview.AInIndex[1] = 1;
+                    PsycoPhysicTask.AInIndex[0] = 0;
+                    PsycoPhysicTask.AInIndex[1] = 1;
                 }
 
             }
@@ -355,7 +355,7 @@ namespace Psychophysics
         {
             int Deviceindex = Devices_CB.SelectedIndex;
             if(Devices_CB.Items.Count>0)
-                TaskPreview.DaqName = Devices_CB.Items[Deviceindex].ToString();
+                PsycoPhysicTask.DaqName = Devices_CB.Items[Deviceindex].ToString();
            
             this.Close();
         }
@@ -365,12 +365,12 @@ namespace Psychophysics
             if(NormalDisplay_CB.Checked)
             {
                 RandomDisplay_CB.Checked = false;
-                TaskPreview.TypeDisplay = 1;
+                PsycoPhysicTask.TypeDisplay = 1;
             }
             else
             {
                 RandomDisplay_CB.Checked = true;
-                TaskPreview.TypeDisplay = 2;
+                PsycoPhysicTask.TypeDisplay = 2;
             }
         }
 
@@ -379,12 +379,12 @@ namespace Psychophysics
             if (RandomDisplay_CB.Checked)
             {
                 NormalDisplay_CB.Checked = false;
-                TaskPreview.TypeDisplay = 2;
+                PsycoPhysicTask.TypeDisplay = 2;
             }
             else
             {
                 NormalDisplay_CB.Checked = true;
-                TaskPreview.TypeDisplay = 1;
+                PsycoPhysicTask.TypeDisplay = 1;
             }
         }
 
@@ -421,7 +421,7 @@ namespace Psychophysics
             {
                 if(File.Exists(sfd.FileName))
                 { 
-                    TaskPreview.WinPath = sfd.FileName;
+                    PsycoPhysicTask.WinPath = sfd.FileName;
                     WinPath_ET.Text = sfd.FileName;
                 }
             }
@@ -436,7 +436,7 @@ namespace Psychophysics
             {
                 if (File.Exists(sfd.FileName))
                 {
-                    TaskPreview.FailPath = sfd.FileName;
+                    PsycoPhysicTask.FailPath = sfd.FileName;
                     FailPath_ET.Text = sfd.FileName;
                 }
             }
@@ -444,37 +444,37 @@ namespace Psychophysics
 
         private void Mute_CB_CheckedChanged(object sender, EventArgs e)
         {
-            TaskPreview.SoundMute = Mute_CB.Checked;
+            PsycoPhysicTask.SoundMute = Mute_CB.Checked;
         }
 
         private void Reset_BT_Click(object sender, EventArgs e)
         {
-            TaskPreview.FailPath = "./Resources/coin.wav";
-            FailPath_ET.Text = TaskPreview.FailPath;
-            TaskPreview.WinPath = "./Resources/fail.wav";
-            WinPath_ET.Text = TaskPreview.WinPath;
+            PsycoPhysicTask.FailPath = "./Resources/coin.wav";
+            FailPath_ET.Text = PsycoPhysicTask.FailPath;
+            PsycoPhysicTask.WinPath = "./Resources/fail.wav";
+            WinPath_ET.Text = PsycoPhysicTask.WinPath;
         }
 
         private void SelectedInBt_ET_TextChanged(object sender, EventArgs e)
         {
             string str = SelectedInBt_ET.Text;
             if (str.Length > 0)
-                TaskPreview.keyboardChar = str[0];
+                PsycoPhysicTask.keyboardChar = str[0];
         }
 
         private void UserDist_ET_TextChanged(object sender, EventArgs e)
         {
-            TaskPreview.userDistance = double.Parse(UserDist_ET.Text);
+            PsycoPhysicTask.userDistance = double.Parse(UserDist_ET.Text);
         }
 
         private void MonitorWidth_ET_TextChanged(object sender, EventArgs e)
         {
-            TaskPreview.WidthM = double.Parse(MonitorWidth_ET.Text);
+            PsycoPhysicTask.WidthM = double.Parse(MonitorWidth_ET.Text);
         }
 
         private void MonitorHeight_ET_TextChanged(object sender, EventArgs e)
         {
-            TaskPreview.HeightM = double.Parse(MonitorHeight_ET.Text);
+            PsycoPhysicTask.HeightM = double.Parse(MonitorHeight_ET.Text);
         }
 
         private void DaqEn_CB_CheckedChanged(object sender, EventArgs e)

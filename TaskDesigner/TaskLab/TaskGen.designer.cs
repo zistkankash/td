@@ -30,7 +30,7 @@ namespace TaskLab
         private void InitializeComponent()
         {
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Shapes");
+			System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Shapes");
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TaskGen));
 			this.lblR = new System.Windows.Forms.Label();
 			this.lblC = new System.Windows.Forms.Label();
@@ -46,14 +46,16 @@ namespace TaskLab
 			this.chkSaveData = new MetroFramework.Controls.MetroCheckBox();
 			this.cmbTheme = new MetroFramework.Controls.MetroComboBox();
 			this.cmbxSavMod = new MetroFramework.Controls.MetroComboBox();
-			this.metroCheckBox1 = new MetroFramework.Controls.MetroCheckBox();
+			this.chkboxChessDraw = new MetroFramework.Controls.MetroCheckBox();
 			this.txtPath = new MetroFramework.Controls.MetroTextBox();
 			this.panel2 = new System.Windows.Forms.Panel();
 			this.btnHome = new MetroFramework.Controls.MetroTile();
 			this.pnlSetButton = new System.Windows.Forms.Panel();
-			this.pnlguide = new System.Windows.Forms.Panel();
+			this.btnNewProject = new MetroFramework.Controls.MetroTile();
 			this.btnSetting = new MetroFramework.Controls.MetroTile();
-			this.panel1 = new System.Windows.Forms.Panel();
+			this.btnLoad = new MetroFramework.Controls.MetroTile();
+			this.btnStart = new MetroFramework.Controls.MetroTile();
+			this.pnlTree = new System.Windows.Forms.Panel();
 			this.btnCancel = new MaterialSkin.Controls.MaterialRaisedButton();
 			this.treObjects = new System.Windows.Forms.TreeView();
 			this.btnInsert = new MaterialSkin.Controls.MaterialRaisedButton();
@@ -61,11 +63,11 @@ namespace TaskLab
 			this.btnChange = new MaterialSkin.Controls.MaterialRaisedButton();
 			this.pnlTask = new System.Windows.Forms.Panel();
 			this.pnlShapeProp = new System.Windows.Forms.Panel();
+			this.numUpDownNode = new System.Windows.Forms.NumericUpDown();
 			this.Chkbx_prompt = new MetroFramework.Controls.MetroCheckBox();
 			this.txtPosX = new System.Windows.Forms.TextBox();
 			this.btnShapeColor = new System.Windows.Forms.Button();
 			this.label4 = new System.Windows.Forms.Label();
-			this.cmbNumber = new MetroFramework.Controls.MetroComboBox();
 			this.label5 = new System.Windows.Forms.Label();
 			this.chkROI = new MetroFramework.Controls.MetroCheckBox();
 			this.label6 = new System.Windows.Forms.Label();
@@ -78,9 +80,9 @@ namespace TaskLab
 			this.txtHeight = new System.Windows.Forms.TextBox();
 			this.label10 = new System.Windows.Forms.Label();
 			this.pnlFixation = new System.Windows.Forms.Panel();
+			this.numUpDownPriority = new System.Windows.Forms.NumericUpDown();
 			this.rbPFixate = new MetroFramework.Controls.MetroRadioButton();
 			this.rbNFixate = new MetroFramework.Controls.MetroRadioButton();
-			this.cmbPriority = new MetroFramework.Controls.MetroComboBox();
 			this.label27 = new System.Windows.Forms.Label();
 			this.label28 = new System.Windows.Forms.Label();
 			this.label18 = new System.Windows.Forms.Label();
@@ -95,9 +97,6 @@ namespace TaskLab
 			this.Lconnect = new MetroFramework.Controls.MetroLabel();
 			this.Ldisconnect = new MetroFramework.Controls.MetroLabel();
 			this.tltpHelp = new System.Windows.Forms.ToolTip(this.components);
-			this.btnNewProject = new MetroFramework.Controls.MetroTile();
-			this.btnStart = new MetroFramework.Controls.MetroTile();
-			this.btnLoad = new MetroFramework.Controls.MetroTile();
 			this.splitter1 = new System.Windows.Forms.Splitter();
 			this.pnlPics = new MetroFramework.Controls.MetroPanel();
 			this.pnlAddPic = new System.Windows.Forms.Panel();
@@ -107,14 +106,17 @@ namespace TaskLab
 			this.btnAddPic = new MetroFramework.Controls.MetroTile();
 			this.icndisconnect = new System.Windows.Forms.PictureBox();
 			this.icnconnect = new System.Windows.Forms.PictureBox();
+			this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pbDesign)).BeginInit();
 			this.pnlSetting.SuspendLayout();
 			this.pnlSetButton.SuspendLayout();
-			this.panel1.SuspendLayout();
+			this.pnlTree.SuspendLayout();
 			this.pnlTask.SuspendLayout();
 			this.pnlShapeProp.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numUpDownNode)).BeginInit();
 			this.pnlFixation.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numUpDownPriority)).BeginInit();
 			this.pnlShape.SuspendLayout();
 			this.pnlPics.SuspendLayout();
 			this.pnlAddPic.SuspendLayout();
@@ -166,15 +168,16 @@ namespace TaskLab
 			// 
 			this.btnSave.ActiveControl = null;
 			this.errorProvider1.SetIconAlignment(this.btnSave, System.Windows.Forms.ErrorIconAlignment.TopLeft);
-			this.btnSave.Location = new System.Drawing.Point(1100, 702);
+			this.btnSave.Location = new System.Drawing.Point(53, 4);
 			this.btnSave.Name = "btnSave";
 			this.btnSave.Size = new System.Drawing.Size(40, 40);
-			this.btnSave.Style = MetroFramework.MetroColorStyle.Pink;
+			this.btnSave.Style = MetroFramework.MetroColorStyle.White;
 			this.btnSave.TabIndex = 53;
 			this.btnSave.TileImage = global::TaskDesigner.Resource.save;
 			this.btnSave.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.btnSave.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
 			this.tltpHelp.SetToolTip(this.btnSave, "Save Project");
+			this.btnSave.UseCustomBackColor = true;
 			this.btnSave.UseSelectable = true;
 			this.btnSave.UseTileImage = true;
 			this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
@@ -182,10 +185,9 @@ namespace TaskLab
 			// pbDesign
 			// 
 			this.pbDesign.BackColor = System.Drawing.Color.Black;
-			this.pbDesign.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
 			this.pbDesign.Cursor = System.Windows.Forms.Cursors.NoMove2D;
 			this.errorProvider1.SetIconAlignment(this.pbDesign, System.Windows.Forms.ErrorIconAlignment.TopLeft);
-			this.pbDesign.Location = new System.Drawing.Point(228, 1);
+			this.pbDesign.Location = new System.Drawing.Point(226, 0);
 			this.pbDesign.Name = "pbDesign";
 			this.pbDesign.Size = new System.Drawing.Size(960, 600);
 			this.pbDesign.TabIndex = 5;
@@ -193,7 +195,6 @@ namespace TaskLab
 			this.pbDesign.Click += new System.EventHandler(this.pbDesign_Click);
 			this.pbDesign.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pbDesign_MouseClick);
 			this.pbDesign.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbDesign_MouseDown);
-			this.pbDesign.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbDesign_MouseMove);
 			this.pbDesign.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pbDesign_MouseUp);
 			// 
 			// tmrMain
@@ -232,11 +233,11 @@ namespace TaskLab
 			this.pnlSetting.Controls.Add(this.chkSaveData);
 			this.pnlSetting.Controls.Add(this.cmbTheme);
 			this.pnlSetting.Controls.Add(this.cmbxSavMod);
-			this.pnlSetting.Controls.Add(this.metroCheckBox1);
+			this.pnlSetting.Controls.Add(this.chkboxChessDraw);
 			this.pnlSetting.Controls.Add(this.txtPath);
-			this.pnlSetting.Location = new System.Drawing.Point(83, 656);
+			this.pnlSetting.Location = new System.Drawing.Point(227, 656);
 			this.pnlSetting.Name = "pnlSetting";
-			this.pnlSetting.Size = new System.Drawing.Size(451, 87);
+			this.pnlSetting.Size = new System.Drawing.Size(451, 86);
 			this.pnlSetting.TabIndex = 68;
 			this.pnlSetting.Visible = false;
 			this.pnlSetting.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pnlSetting_MouseClick);
@@ -292,17 +293,17 @@ namespace TaskLab
 			this.cmbxSavMod.UseSelectable = true;
 			this.cmbxSavMod.SelectedIndexChanged += new System.EventHandler(this.cmbxSavMod_SelectedIndexChanged);
 			// 
-			// metroCheckBox1
+			// chkboxChessDraw
 			// 
-			this.metroCheckBox1.Appearance = System.Windows.Forms.Appearance.Button;
-			this.metroCheckBox1.AutoSize = true;
-			this.metroCheckBox1.Location = new System.Drawing.Point(323, 19);
-			this.metroCheckBox1.Name = "metroCheckBox1";
-			this.metroCheckBox1.Size = new System.Drawing.Size(115, 15);
-			this.metroCheckBox1.TabIndex = 73;
-			this.metroCheckBox1.Text = "Chessboard Draw";
-			this.metroCheckBox1.UseSelectable = true;
-			this.metroCheckBox1.CheckedChanged += new System.EventHandler(this.metroCheckBox1_CheckedChanged);
+			this.chkboxChessDraw.Appearance = System.Windows.Forms.Appearance.Button;
+			this.chkboxChessDraw.AutoSize = true;
+			this.chkboxChessDraw.Location = new System.Drawing.Point(323, 19);
+			this.chkboxChessDraw.Name = "chkboxChessDraw";
+			this.chkboxChessDraw.Size = new System.Drawing.Size(115, 15);
+			this.chkboxChessDraw.TabIndex = 73;
+			this.chkboxChessDraw.Text = "Chessboard Draw";
+			this.chkboxChessDraw.UseSelectable = true;
+			this.chkboxChessDraw.CheckedChanged += new System.EventHandler(this.metroCheckBox1_CheckedChanged);
 			// 
 			// txtPath
 			// 
@@ -346,59 +347,110 @@ namespace TaskLab
 			// btnHome
 			// 
 			this.btnHome.ActiveControl = null;
-			this.btnHome.Location = new System.Drawing.Point(7, 41);
+			this.btnHome.BackColor = System.Drawing.Color.Transparent;
+			this.btnHome.Location = new System.Drawing.Point(7, 44);
 			this.btnHome.Name = "btnHome";
 			this.btnHome.Size = new System.Drawing.Size(40, 40);
-			this.btnHome.Style = MetroFramework.MetroColorStyle.Pink;
+			this.btnHome.Style = MetroFramework.MetroColorStyle.White;
 			this.btnHome.TabIndex = 63;
-			this.btnHome.TileImage = global::TaskDesigner.Resource.Home1;
+			this.btnHome.TileImage = global::TaskDesigner.Resource.Home;
 			this.btnHome.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.btnHome.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
+			this.tltpHelp.SetToolTip(this.btnHome, "Go to Home");
 			this.btnHome.UseSelectable = true;
 			this.btnHome.UseTileImage = true;
 			this.btnHome.Click += new System.EventHandler(this.btnHome_Click);
+			this.btnHome.MouseEnter += new System.EventHandler(this.btnHome_MouseEnter);
+			this.btnHome.MouseLeave += new System.EventHandler(this.btnHome_MouseLeave);
 			// 
 			// pnlSetButton
 			// 
-			this.pnlSetButton.Controls.Add(this.pnlguide);
 			this.pnlSetButton.Controls.Add(this.btnHome);
+			this.pnlSetButton.Controls.Add(this.btnNewProject);
 			this.pnlSetButton.Controls.Add(this.btnSetting);
+			this.pnlSetButton.Controls.Add(this.btnLoad);
+			this.pnlSetButton.Controls.Add(this.btnStart);
+			this.pnlSetButton.Controls.Add(this.btnSave);
 			this.pnlSetButton.Location = new System.Drawing.Point(15, 656);
 			this.pnlSetButton.Name = "pnlSetButton";
-			this.pnlSetButton.Size = new System.Drawing.Size(62, 86);
+			this.pnlSetButton.Size = new System.Drawing.Size(154, 86);
 			this.pnlSetButton.TabIndex = 73;
 			// 
-			// pnlguide
+			// btnNewProject
 			// 
-			this.pnlguide.BackColor = System.Drawing.Color.Gold;
-			this.pnlguide.Location = new System.Drawing.Point(50, 1);
-			this.pnlguide.Name = "pnlguide";
-			this.pnlguide.Size = new System.Drawing.Size(5, 40);
-			this.pnlguide.TabIndex = 65;
+			this.btnNewProject.ActiveControl = null;
+			this.btnNewProject.Location = new System.Drawing.Point(53, 50);
+			this.btnNewProject.Name = "btnNewProject";
+			this.btnNewProject.Size = new System.Drawing.Size(40, 31);
+			this.btnNewProject.Style = MetroFramework.MetroColorStyle.White;
+			this.btnNewProject.TabIndex = 74;
+			this.btnNewProject.TileImage = global::TaskDesigner.Properties.Resources.new_project;
+			this.btnNewProject.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.btnNewProject.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
+			this.tltpHelp.SetToolTip(this.btnNewProject, "Create New Project");
+			this.btnNewProject.UseCustomBackColor = true;
+			this.btnNewProject.UseSelectable = true;
+			this.btnNewProject.UseTileImage = true;
+			this.btnNewProject.Click += new System.EventHandler(this.btnNewProject_Click);
 			// 
 			// btnSetting
 			// 
 			this.btnSetting.ActiveControl = null;
-			this.btnSetting.Location = new System.Drawing.Point(7, 0);
+			this.btnSetting.Location = new System.Drawing.Point(101, 44);
 			this.btnSetting.Name = "btnSetting";
 			this.btnSetting.Size = new System.Drawing.Size(40, 40);
-			this.btnSetting.Style = MetroFramework.MetroColorStyle.Pink;
+			this.btnSetting.Style = MetroFramework.MetroColorStyle.White;
 			this.btnSetting.TabIndex = 61;
 			this.btnSetting.TileImage = global::TaskDesigner.Properties.Resources.setting;
 			this.btnSetting.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.btnSetting.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
+			this.tltpHelp.SetToolTip(this.btnSetting, "Setting");
 			this.btnSetting.UseSelectable = true;
 			this.btnSetting.UseTileImage = true;
 			this.btnSetting.Click += new System.EventHandler(this.btnSetting_Click);
 			// 
-			// panel1
+			// btnLoad
 			// 
-			this.panel1.Controls.Add(this.btnCancel);
-			this.panel1.Controls.Add(this.treObjects);
-			this.panel1.Location = new System.Drawing.Point(0, 394);
-			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(220, 159);
-			this.panel1.TabIndex = 30;
+			this.btnLoad.ActiveControl = null;
+			this.btnLoad.Location = new System.Drawing.Point(10, 3);
+			this.btnLoad.Name = "btnLoad";
+			this.btnLoad.Size = new System.Drawing.Size(40, 40);
+			this.btnLoad.Style = MetroFramework.MetroColorStyle.White;
+			this.btnLoad.TabIndex = 55;
+			this.btnLoad.TileImage = global::TaskDesigner.Properties.Resources.open;
+			this.btnLoad.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.btnLoad.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
+			this.tltpHelp.SetToolTip(this.btnLoad, "Open Project");
+			this.btnLoad.UseCustomBackColor = true;
+			this.btnLoad.UseSelectable = true;
+			this.btnLoad.UseTileImage = true;
+			this.btnLoad.Click += new System.EventHandler(this.btnLoad_Click);
+			// 
+			// btnStart
+			// 
+			this.btnStart.ActiveControl = null;
+			this.btnStart.Location = new System.Drawing.Point(101, 6);
+			this.btnStart.Name = "btnStart";
+			this.btnStart.Size = new System.Drawing.Size(40, 40);
+			this.btnStart.Style = MetroFramework.MetroColorStyle.White;
+			this.btnStart.TabIndex = 56;
+			this.btnStart.TileImage = global::TaskDesigner.Properties.Resources.stop;
+			this.btnStart.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.btnStart.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
+			this.tltpHelp.SetToolTip(this.btnStart, "Preview");
+			this.btnStart.UseCustomBackColor = true;
+			this.btnStart.UseSelectable = true;
+			this.btnStart.UseTileImage = true;
+			this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
+			// 
+			// pnlTree
+			// 
+			this.pnlTree.Controls.Add(this.btnCancel);
+			this.pnlTree.Controls.Add(this.treObjects);
+			this.pnlTree.Location = new System.Drawing.Point(0, 394);
+			this.pnlTree.Name = "pnlTree";
+			this.pnlTree.Size = new System.Drawing.Size(220, 159);
+			this.pnlTree.TabIndex = 30;
 			// 
 			// btnCancel
 			// 
@@ -419,11 +471,11 @@ namespace TaskLab
 			this.treObjects.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.treObjects.Location = new System.Drawing.Point(6, 15);
 			this.treObjects.Name = "treObjects";
-			treeNode2.Name = "nodeShapes";
-			treeNode2.Text = "Shapes";
+			treeNode1.Name = "nodeShapes";
+			treeNode1.Text = "Shapes";
 			this.treObjects.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode2});
-			this.treObjects.Size = new System.Drawing.Size(208, 148);
+            treeNode1});
+			this.treObjects.Size = new System.Drawing.Size(208, 173);
 			this.treObjects.TabIndex = 31;
 			this.treObjects.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treObjects_AfterSelect);
 			// 
@@ -473,7 +525,7 @@ namespace TaskLab
 			this.pnlTask.Controls.Add(this.pnlFixation);
 			this.pnlTask.Controls.Add(this.pnlShape);
 			this.pnlTask.Controls.Add(this.btnRemove);
-			this.pnlTask.Controls.Add(this.panel1);
+			this.pnlTask.Controls.Add(this.pnlTree);
 			this.pnlTask.Controls.Add(this.btnChange);
 			this.pnlTask.Controls.Add(this.btnInsert);
 			this.pnlTask.Location = new System.Drawing.Point(2, 0);
@@ -483,11 +535,11 @@ namespace TaskLab
 			// 
 			// pnlShapeProp
 			// 
+			this.pnlShapeProp.Controls.Add(this.numUpDownNode);
 			this.pnlShapeProp.Controls.Add(this.Chkbx_prompt);
 			this.pnlShapeProp.Controls.Add(this.txtPosX);
 			this.pnlShapeProp.Controls.Add(this.btnShapeColor);
 			this.pnlShapeProp.Controls.Add(this.label4);
-			this.pnlShapeProp.Controls.Add(this.cmbNumber);
 			this.pnlShapeProp.Controls.Add(this.label5);
 			this.pnlShapeProp.Controls.Add(this.chkROI);
 			this.pnlShapeProp.Controls.Add(this.label6);
@@ -503,6 +555,28 @@ namespace TaskLab
 			this.pnlShapeProp.Name = "pnlShapeProp";
 			this.pnlShapeProp.Size = new System.Drawing.Size(220, 163);
 			this.pnlShapeProp.TabIndex = 91;
+			// 
+			// numUpDownNode
+			// 
+			this.numUpDownNode.Location = new System.Drawing.Point(79, 87);
+			this.numUpDownNode.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+			this.numUpDownNode.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			this.numUpDownNode.Name = "numUpDownNode";
+			this.numUpDownNode.Size = new System.Drawing.Size(73, 20);
+			this.numUpDownNode.TabIndex = 93;
+			this.numUpDownNode.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
 			// 
 			// Chkbx_prompt
 			// 
@@ -527,9 +601,9 @@ namespace TaskLab
 			this.btnShapeColor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
 			this.btnShapeColor.FlatAppearance.BorderSize = 0;
 			this.btnShapeColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.btnShapeColor.Location = new System.Drawing.Point(172, 4);
+			this.btnShapeColor.Location = new System.Drawing.Point(169, 4);
 			this.btnShapeColor.Name = "btnShapeColor";
-			this.btnShapeColor.Size = new System.Drawing.Size(40, 23);
+			this.btnShapeColor.Size = new System.Drawing.Size(45, 18);
 			this.btnShapeColor.TabIndex = 77;
 			this.btnShapeColor.UseVisualStyleBackColor = false;
 			// 
@@ -541,80 +615,6 @@ namespace TaskLab
 			this.label4.Size = new System.Drawing.Size(17, 13);
 			this.label4.TabIndex = 78;
 			this.label4.Text = "X:";
-			// 
-			// cmbNumber
-			// 
-			this.cmbNumber.AutoCompleteCustomSource.AddRange(new string[] {
-            "",
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-            "8",
-            "9",
-            "10",
-            "11",
-            "12",
-            "13",
-            "14",
-            "15",
-            "16",
-            "17",
-            "18",
-            "19",
-            "20",
-            "21",
-            "22",
-            "23",
-            "24",
-            "25",
-            "26",
-            "27",
-            "28",
-            "29",
-            "30"});
-			this.cmbNumber.FormattingEnabled = true;
-			this.cmbNumber.ItemHeight = 23;
-			this.cmbNumber.Items.AddRange(new object[] {
-            "",
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-            "8",
-            "9",
-            "10",
-            "11",
-            "12",
-            "13",
-            "14",
-            "15",
-            "16",
-            "17",
-            "18",
-            "19",
-            "20",
-            "21",
-            "22",
-            "23",
-            "24",
-            "25",
-            "26",
-            "27",
-            "28",
-            "29",
-            "30"});
-			this.cmbNumber.Location = new System.Drawing.Point(49, 86);
-			this.cmbNumber.Name = "cmbNumber";
-			this.cmbNumber.Size = new System.Drawing.Size(121, 29);
-			this.cmbNumber.TabIndex = 91;
-			this.cmbNumber.UseSelectable = true;
 			// 
 			// label5
 			// 
@@ -630,10 +630,11 @@ namespace TaskLab
 			this.chkROI.AutoSize = true;
 			this.chkROI.Location = new System.Drawing.Point(6, 144);
 			this.chkROI.Name = "chkROI";
-			this.chkROI.Size = new System.Drawing.Size(42, 15);
+			this.chkROI.Size = new System.Drawing.Size(96, 15);
 			this.chkROI.TabIndex = 90;
-			this.chkROI.Text = "ROI";
+			this.chkROI.Text = "Fixation Node";
 			this.chkROI.UseSelectable = true;
+			this.chkROI.CheckedChanged += new System.EventHandler(this.chkROI_CheckedChanged);
 			// 
 			// label6
 			// 
@@ -676,7 +677,7 @@ namespace TaskLab
 			this.btnNumberColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.btnNumberColor.Location = new System.Drawing.Point(172, 86);
 			this.btnNumberColor.Name = "btnNumberColor";
-			this.btnNumberColor.Size = new System.Drawing.Size(40, 29);
+			this.btnNumberColor.Size = new System.Drawing.Size(40, 21);
 			this.btnNumberColor.TabIndex = 87;
 			this.btnNumberColor.UseVisualStyleBackColor = false;
 			// 
@@ -718,9 +719,9 @@ namespace TaskLab
 			// pnlFixation
 			// 
 			this.pnlFixation.BackColor = System.Drawing.SystemColors.Window;
+			this.pnlFixation.Controls.Add(this.numUpDownPriority);
 			this.pnlFixation.Controls.Add(this.rbPFixate);
 			this.pnlFixation.Controls.Add(this.rbNFixate);
-			this.pnlFixation.Controls.Add(this.cmbPriority);
 			this.pnlFixation.Controls.Add(this.label27);
 			this.pnlFixation.Controls.Add(this.label28);
 			this.pnlFixation.Controls.Add(this.label18);
@@ -732,6 +733,28 @@ namespace TaskLab
 			this.pnlFixation.Name = "pnlFixation";
 			this.pnlFixation.Size = new System.Drawing.Size(219, 119);
 			this.pnlFixation.TabIndex = 78;
+			// 
+			// numUpDownPriority
+			// 
+			this.numUpDownPriority.Location = new System.Drawing.Point(79, 64);
+			this.numUpDownPriority.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+			this.numUpDownPriority.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			this.numUpDownPriority.Name = "numUpDownPriority";
+			this.numUpDownPriority.Size = new System.Drawing.Size(73, 20);
+			this.numUpDownPriority.TabIndex = 83;
+			this.numUpDownPriority.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
 			// 
 			// rbPFixate
 			// 
@@ -748,52 +771,10 @@ namespace TaskLab
 			this.rbNFixate.AutoSize = true;
 			this.rbNFixate.Location = new System.Drawing.Point(105, 11);
 			this.rbNFixate.Name = "rbNFixate";
-			this.rbNFixate.Size = new System.Drawing.Size(88, 15);
+			this.rbNFixate.Size = new System.Drawing.Size(70, 15);
 			this.rbNFixate.TabIndex = 76;
-			this.rbNFixate.Text = "Near-misses";
+			this.rbNFixate.Text = "Negative";
 			this.rbNFixate.UseSelectable = true;
-			// 
-			// cmbPriority
-			// 
-			this.cmbPriority.AutoCompleteCustomSource.AddRange(new string[] {
-            "",
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-            "8",
-            "9",
-            "10",
-            "11",
-            "12",
-            "13",
-            "14",
-            "15",
-            "16",
-            "17",
-            "18",
-            "19",
-            "20",
-            "21",
-            "22",
-            "23",
-            "24",
-            "25",
-            "26",
-            "27",
-            "28",
-            "29",
-            "30"});
-			this.cmbPriority.FormattingEnabled = true;
-			this.cmbPriority.ItemHeight = 23;
-			this.cmbPriority.Location = new System.Drawing.Point(47, 58);
-			this.cmbPriority.Name = "cmbPriority";
-			this.cmbPriority.Size = new System.Drawing.Size(121, 29);
-			this.cmbPriority.TabIndex = 85;
-			this.cmbPriority.UseSelectable = true;
 			// 
 			// label27
 			// 
@@ -816,7 +797,7 @@ namespace TaskLab
 			// label18
 			// 
 			this.label18.AutoSize = true;
-			this.label18.Location = new System.Drawing.Point(144, 36);
+			this.label18.Location = new System.Drawing.Point(158, 37);
 			this.label18.Name = "label18";
 			this.label18.Size = new System.Drawing.Size(20, 13);
 			this.label18.TabIndex = 84;
@@ -824,17 +805,17 @@ namespace TaskLab
 			// 
 			// txtRadius
 			// 
-			this.txtRadius.Location = new System.Drawing.Point(55, 93);
+			this.txtRadius.Location = new System.Drawing.Point(79, 93);
 			this.txtRadius.Name = "txtRadius";
-			this.txtRadius.Size = new System.Drawing.Size(36, 20);
+			this.txtRadius.Size = new System.Drawing.Size(73, 20);
 			this.txtRadius.TabIndex = 80;
 			this.txtRadius.Text = "250";
 			// 
 			// txtFixationTime
 			// 
-			this.txtFixationTime.Location = new System.Drawing.Point(90, 33);
+			this.txtFixationTime.Location = new System.Drawing.Point(79, 34);
 			this.txtFixationTime.Name = "txtFixationTime";
-			this.txtFixationTime.Size = new System.Drawing.Size(48, 20);
+			this.txtFixationTime.Size = new System.Drawing.Size(73, 20);
 			this.txtFixationTime.TabIndex = 83;
 			this.txtFixationTime.Text = "1000";
 			// 
@@ -843,9 +824,9 @@ namespace TaskLab
 			this.btnFixationColor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
 			this.btnFixationColor.FlatAppearance.BorderSize = 0;
 			this.btnFixationColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.btnFixationColor.Location = new System.Drawing.Point(173, 58);
+			this.btnFixationColor.Location = new System.Drawing.Point(173, 64);
 			this.btnFixationColor.Name = "btnFixationColor";
-			this.btnFixationColor.Size = new System.Drawing.Size(40, 29);
+			this.btnFixationColor.Size = new System.Drawing.Size(40, 20);
 			this.btnFixationColor.TabIndex = 81;
 			this.btnFixationColor.UseVisualStyleBackColor = false;
 			// 
@@ -931,54 +912,6 @@ namespace TaskLab
 			this.tltpHelp.InitialDelay = 500;
 			this.tltpHelp.IsBalloon = true;
 			this.tltpHelp.ReshowDelay = 100;
-			// 
-			// btnNewProject
-			// 
-			this.btnNewProject.ActiveControl = null;
-			this.btnNewProject.Location = new System.Drawing.Point(1008, 702);
-			this.btnNewProject.Name = "btnNewProject";
-			this.btnNewProject.Size = new System.Drawing.Size(40, 40);
-			this.btnNewProject.Style = MetroFramework.MetroColorStyle.Pink;
-			this.btnNewProject.TabIndex = 74;
-			this.btnNewProject.TileImage = global::TaskDesigner.Properties.Resources.new_project;
-			this.btnNewProject.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.btnNewProject.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
-			this.tltpHelp.SetToolTip(this.btnNewProject, "Create New Project");
-			this.btnNewProject.UseSelectable = true;
-			this.btnNewProject.UseTileImage = true;
-			this.btnNewProject.Click += new System.EventHandler(this.btnNewProject_Click);
-			// 
-			// btnStart
-			// 
-			this.btnStart.ActiveControl = null;
-			this.btnStart.Location = new System.Drawing.Point(1146, 702);
-			this.btnStart.Name = "btnStart";
-			this.btnStart.Size = new System.Drawing.Size(40, 40);
-			this.btnStart.Style = MetroFramework.MetroColorStyle.Pink;
-			this.btnStart.TabIndex = 56;
-			this.btnStart.TileImage = global::TaskDesigner.Properties.Resources.stop;
-			this.btnStart.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.btnStart.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
-			this.tltpHelp.SetToolTip(this.btnStart, "Preview");
-			this.btnStart.UseSelectable = true;
-			this.btnStart.UseTileImage = true;
-			this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
-			// 
-			// btnLoad
-			// 
-			this.btnLoad.ActiveControl = null;
-			this.btnLoad.Location = new System.Drawing.Point(1054, 702);
-			this.btnLoad.Name = "btnLoad";
-			this.btnLoad.Size = new System.Drawing.Size(40, 40);
-			this.btnLoad.Style = MetroFramework.MetroColorStyle.Pink;
-			this.btnLoad.TabIndex = 55;
-			this.btnLoad.TileImage = global::TaskDesigner.Properties.Resources.open;
-			this.btnLoad.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.btnLoad.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
-			this.tltpHelp.SetToolTip(this.btnLoad, "Open Project");
-			this.btnLoad.UseSelectable = true;
-			this.btnLoad.UseTileImage = true;
-			this.btnLoad.Click += new System.EventHandler(this.btnLoad_Click);
 			// 
 			// splitter1
 			// 
@@ -1086,26 +1019,22 @@ namespace TaskLab
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.BackColor = System.Drawing.SystemColors.InactiveBorder;
+			this.BackColor = System.Drawing.Color.White;
 			this.ClientSize = new System.Drawing.Size(1188, 749);
 			this.ControlBox = false;
 			this.Controls.Add(this.splitter1);
-			this.Controls.Add(this.btnNewProject);
 			this.Controls.Add(this.pnlSetButton);
 			this.Controls.Add(this.panel2);
 			this.Controls.Add(this.btnBackgroundCol);
-			this.Controls.Add(this.btnStart);
-			this.Controls.Add(this.btnLoad);
-			this.Controls.Add(this.btnSave);
 			this.Controls.Add(this.pbDesign);
 			this.Controls.Add(this.lblR);
 			this.Controls.Add(this.lblC);
 			this.Controls.Add(this.label11);
 			this.Controls.Add(this.label12);
 			this.Controls.Add(this.pnlSetting);
-			this.Controls.Add(this.pnlPics);
 			this.Controls.Add(this.pnlTask);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+			this.Controls.Add(this.pnlPics);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.KeyPreview = true;
 			this.Name = "TaskGen";
@@ -1120,12 +1049,14 @@ namespace TaskLab
 			this.pnlSetting.ResumeLayout(false);
 			this.pnlSetting.PerformLayout();
 			this.pnlSetButton.ResumeLayout(false);
-			this.panel1.ResumeLayout(false);
+			this.pnlTree.ResumeLayout(false);
 			this.pnlTask.ResumeLayout(false);
 			this.pnlShapeProp.ResumeLayout(false);
 			this.pnlShapeProp.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numUpDownNode)).EndInit();
 			this.pnlFixation.ResumeLayout(false);
 			this.pnlFixation.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numUpDownPriority)).EndInit();
 			this.pnlShape.ResumeLayout(false);
 			this.pnlPics.ResumeLayout(false);
 			this.pnlAddPic.ResumeLayout(false);
@@ -1147,7 +1078,6 @@ namespace TaskLab
         private System.Windows.Forms.Timer tmrMain;
         private MetroFramework.Controls.MetroTile btnSave;
         private MetroFramework.Controls.MetroTile btnLoad;
-        private MetroFramework.Controls.MetroTile btnStart;
         private ns1.BunifuTileButton btnBackgroundCol;
         private MetroFramework.Controls.MetroTile btnHome;
         private System.Windows.Forms.Panel pnlSetting;
@@ -1158,7 +1088,7 @@ namespace TaskLab
         private MaterialSkin.Controls.MaterialRaisedButton btnChange;
         private MaterialSkin.Controls.MaterialRaisedButton btnRemove;
         private MaterialSkin.Controls.MaterialRaisedButton btnInsert;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel pnlTree;
         private MaterialSkin.Controls.MaterialRaisedButton btnCancel;
         private System.Windows.Forms.TreeView treObjects;
         private MetroFramework.Controls.MetroTile btnSetting;
@@ -1175,7 +1105,6 @@ namespace TaskLab
 		private System.Windows.Forms.Panel pnlFixation;
 		private MetroFramework.Controls.MetroRadioButton rbPFixate;
 		private MetroFramework.Controls.MetroRadioButton rbNFixate;
-		private MetroFramework.Controls.MetroComboBox cmbPriority;
 		private System.Windows.Forms.Label label27;
 		private System.Windows.Forms.Label label28;
 		private System.Windows.Forms.Label label18;
@@ -1186,14 +1115,12 @@ namespace TaskLab
 		private System.Windows.Forms.Panel pnlShape;
 		private System.Windows.Forms.Button btnRectangle;
 		private System.Windows.Forms.Button btnCircle;
-		private System.Windows.Forms.Panel pnlguide;
-		private MetroFramework.Controls.MetroCheckBox metroCheckBox1;
+		private MetroFramework.Controls.MetroCheckBox chkboxChessDraw;
 		private System.Windows.Forms.Panel pnlShapeProp;
 		public MetroFramework.Controls.MetroCheckBox Chkbx_prompt;
 		private System.Windows.Forms.TextBox txtPosX;
 		private System.Windows.Forms.Button btnShapeColor;
 		private System.Windows.Forms.Label label4;
-		private MetroFramework.Controls.MetroComboBox cmbNumber;
 		private System.Windows.Forms.Label label5;
 		private MetroFramework.Controls.MetroCheckBox chkROI;
 		private System.Windows.Forms.Label label6;
@@ -1213,6 +1140,10 @@ namespace TaskLab
 		private MetroFramework.Controls.MetroComboBox cmbxSavMod;
 		private MetroFramework.Controls.MetroCheckBox chkSaveData;
 		private MetroFramework.Controls.MetroCheckBox chkbxMakTransprnt;
+		private System.IO.Ports.SerialPort serialPort1;
+		private System.Windows.Forms.NumericUpDown numUpDownPriority;
+		private System.Windows.Forms.NumericUpDown numUpDownNode;
+		private MetroFramework.Controls.MetroTile btnStart;
 	}
 }
 

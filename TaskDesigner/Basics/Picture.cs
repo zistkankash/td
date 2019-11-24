@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Drawing;
 using Basics;
 
-namespace TaskLab
+namespace Basics
 {
 
     /// <summary>
