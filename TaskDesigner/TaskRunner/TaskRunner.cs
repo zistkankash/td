@@ -41,7 +41,7 @@ namespace TaskRunning
 		TaskOperator tsop;
 		int showedIndex;
 		//FNode goalNodeThrd, goalNodePrevius;
-		FNode goalNode = new FNode(100, new Point(0, 0), 100, 'C', -100);
+		//FNode goalNode = new FNode(100, new Point(0, 0), 100, -100);
 		
 		public Size secondMonit = new Size(0,0);
 		RunMod runMod = RunMod.stop;
@@ -255,7 +255,7 @@ namespace TaskRunning
 			int currentIndex = -1;
 			int oldIndex = -1;
 			int fixCounter = 0;
-			FNode currentNode = new FNode(10, new Point(-1, -1), 100, 'C', -100);
+			FNode currentNode = new FNode(-1,10, new Point(-1, -1), 100, -100);
 			//int roiCounter = 0;
 			int h = 0;
 			
@@ -268,8 +268,8 @@ namespace TaskRunning
 
 					if (curTsk.runConf.useCursor == false)       // گرفتن مختصات از روی خیرگی
 					{
-						currentNode = new FNode(10, new Point(-1, -1), 100, 'C', -100);
-						currentIndex = 0;
+						//currentNode = new FNode(10, new Point(-1, -1), 100, 'C', -100);
+						//currentIndex = 0;
 						//int score = 0;
 						//foreach (FNode node in TaskGen.positiveFixates)
 						//{
@@ -287,26 +287,26 @@ namespace TaskRunning
 						//		currentIndex = node.priority;
 						//	}
 						//}
-						if (currentIndex == oldIndex)
-						{
-							if (currentNode != goalNode)
-							{
-								fixCounter++;
-								if (currentNode.priority != -100)
-								{
-									if (fixCounter == currentNode.time / 8)
-									{
-										failSound.Play();
-										//score = -1;
-									}
-								}
-							}
-						}
-						else
-						{
-							fixCounter = 0;
-							oldIndex = currentIndex;
-						}
+						//if (currentIndex == oldIndex)
+						//{
+						//	if (currentNode != goalNode)
+						//	{
+						//		fixCounter++;
+						//		if (currentNode.priority != -100)
+						//		{
+						//			if (fixCounter == currentNode.time / 8)
+						//			{
+						//				failSound.Play();
+						//				//score = -1;
+						//			}
+						//		}
+						//	}
+						//}
+						//else
+						//{
+						//	fixCounter = 0;
+						//	oldIndex = currentIndex;
+						//}
 						//if (Math.Sqrt(Math.Pow(goalNode.pos.X - MappedSigs[0], 2) + Math.Pow(goalNode.pos.Y - MappedSigs[1], 2)) <= goalNode.radius)
 						//{
 						//	h++;
@@ -330,60 +330,53 @@ namespace TaskRunning
 						int mouseX = Cursor.Position.X + BasConfigs._monitor_resolution_x;
 						int mouseY = Cursor.Position.Y;
 						//currentFixate.priority = 0;
-						currentNode = new FNode(10, new Point(-1, -1), 100, 'C', -100);
+						currentNode = new FNode(-1,10, new Point(-1, -1), 100, -100);
 						currentIndex = 0;
 						//score = 0;
-						foreach (FNode node in curTsk.PsycoTask.positiveFixates)
-						{
-							if (Math.Sqrt(Math.Pow(Math.Abs(node.pos.X - mouseX), 2) + Math.Pow(Math.Abs(node.pos.Y - mouseY), 2)) <= node.radius)
-							{
-								currentNode = node;
-								currentIndex = node.priority;
-							}
-						}
-						foreach (FNode node in curTsk.PsycoTask.negativeFixates)
-						{
-							if (Math.Sqrt(Math.Pow(Math.Abs(node.pos.X - mouseX), 2) + Math.Pow(Math.Abs(node.pos.Y - mouseY), 2)) <= node.radius)
-							{
-								currentNode = node;
-								currentIndex = node.priority;
-							}
-						}
+						//foreach (FNode node in curTsk.Fixates)
+						//{
+						//	if (Math.Sqrt(Math.Pow(Math.Abs(node.pos.X - mouseX), 2) + Math.Pow(Math.Abs(node.pos.Y - mouseY), 2)) <= node.radius)
+						//	{
+						//		currentNode = node;
+						//		currentIndex = node.priority;
+						//	}
+						//}
+						
 
-						if (currentIndex == oldIndex)
-						{
-							if (currentNode != goalNode)
-							{
-								fixCounter++;
-								if (currentNode.priority != -100)
-								{
-									if (fixCounter == currentNode.time / 8)
-									{
-										failSound.Play();
-										//score = -1;
-									}
-								}
-							}
-						}
-						else
-						{
-							fixCounter = 0;
-							oldIndex = currentIndex;
-						}
-						if (Math.Sqrt(Math.Pow(goalNode.pos.X - mouseX, 2) + Math.Pow(goalNode.pos.Y - mouseY, 2)) <= goalNode.radius)
-						{
-							h++;
-							if (h >= goalNode.time / 8)
-							{
-								winSound.Play();
-								//score = 1;
-								int y = TLNormalSetGoalNode();
-								//if (y == -1)
-								//	StartStop();
-							}
-						}
-						else
-							h = 0;
+						//if (currentIndex == oldIndex)
+						//{
+						//	if (currentNode != goalNode)
+						//	{
+						//		fixCounter++;
+						//		if (currentNode.priority != -100)
+						//		{
+						//			if (fixCounter == currentNode.time / 8)
+						//			{
+						//				failSound.Play();
+						//				//score = -1;
+						//			}
+						//		}
+						//	}
+						//}
+						//else
+						//{
+						//	fixCounter = 0;
+						//	oldIndex = currentIndex;
+						//}
+						//if (Math.Sqrt(Math.Pow(goalNode.pos.X - mouseX, 2) + Math.Pow(goalNode.pos.Y - mouseY, 2)) <= goalNode.radius)
+						//{
+						//	h++;
+						//	if (h >= goalNode.time / 8)
+						//	{
+						//		winSound.Play();
+						//		//score = 1;
+						//		int y = TLNormalSetGoalNode();
+						//		//if (y == -1)
+						//		//	StartStop();
+						//	}
+						//}
+						//else
+						//	h = 0;
 						//savedStr = (Cursor.Position.X + 1440).ToString() + "," + Cursor.Position.Y.ToString() + "," + currentIndex.ToString() + "," + MappedSigs[3].ToString() + "," + score.ToString() + "\n";
 						//savedData += savedStr;
 						savedStr = "";

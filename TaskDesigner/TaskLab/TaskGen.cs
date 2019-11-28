@@ -182,68 +182,11 @@ namespace TaskLab
         
 		private void btnInsert_Click(object sender, EventArgs e)
         {
-            // شکل
-            if (circleSelected || rectSelected)
-            {
-				isManupulated = true;
-                CreateNode(-1);
-                if(curTask.PsycoTask.shapeList[curTask.PsycoTask.shapeList.Count - 1].ROI == true)
-					curTask.PsycoTask.AddFnode(curTask.PsycoTask.shapeList[curTask.PsycoTask.shapeList.Count - 1]);
-				//curTask.DrawNode(curTask.shapeList[curTask.shapeList.Count - 1]);
-                UpdateTree(0, curTask.PsycoTask.shapeList.Count - 1);
-            }
-            
-            //if (rbPFixate.Checked == true)
-            //    UpdateCmbPriority('P');
-            //else if (rbNFixate.Checked == true)
-            //    UpdateCmbPriority('N');
+          
         }
 
         //// ساختن گره
-        private void CreateNode(int index)
-        {
-            char shape = 'C';
-            if (circleSelected)
-                shape = 'C';
-            if(rectSelected)
-                shape = 'R';
-            int x, y, w, h;
-            int.TryParse(txtPosX.Text, out x);
-            int.TryParse(txtPosY.Text, out y);
-            int.TryParse(txtWidth.Text, out w);
-            int.TryParse(txtHeight.Text, out h);
-            Color sColor = btnShapeColor.BackColor;
-            int num = 0;
-           
-            Color numColor = btnNumberColor.BackColor;
-            if(chkROI.Checked == false)
-            {
-                if (index == -1)
-                    curTask.PsycoTask.shapeList.Add(new Node(0, x, y, shape, sColor, num, numColor, w, h));
-                else
-					curTask.PsycoTask.shapeList[index] = new Node(0, x, y, shape, sColor, num, numColor, w, h);
-            }
-            // فیکسیشن
-            else
-            {
-                char fType;
-                if (rbPFixate.Checked)
-                    fType = 'P';
-                else
-                    fType = 'N';
-                int fTime;
-                Int32.TryParse(txtFixationTime.Text, out fTime);
-                int priority;
-                //Int32.TryParse(cmbPriority.Text, out priority);
-                Color fColor = btnFixationColor.BackColor;
-                int fRadius;
-                Int32.TryParse(txtRadius.Text, out fRadius);
-     //           if (index == -1)
-					//curTask.PsycoTask.shapeList.Add(new Node(0,x, y, shape, sColor, num, numColor, w, h, fType, fTime, priority, fRadius, fColor));
-     //           else
-					//curTask.PsycoTask.shapeList[index] = new Node(0,x, y, shape, sColor, num, numColor, w, h, fType, fTime, priority, fRadius, fColor);
-            }
-        }
+       
         
 		void ShowNode(Node node)        //نمایش مشخصات گره
         {
@@ -286,19 +229,7 @@ namespace TaskLab
                 chkROI.Checked = false;
 
         }
-        
-		private void btnRemove_Click(object sender, EventArgs e)
-        {
-            btnRemove.Enabled = false;
-            string s = treObjects.SelectedNode.Text;
-            char[] s2 = s.ToCharArray();
-            int index = (int)s2[1] - 48;
-			curTask.PsycoTask.shapeList.RemoveAt(index);
-			curTask.PsycoTask.DrawMap();
-            DrawTree();
-			btnCancel_Click(sender, e);
-        }
-        
+               
 		private void btnBackGround_Click(object sender, EventArgs e)
         {
             ColorDialog cDilog = new ColorDialog();
@@ -324,26 +255,7 @@ namespace TaskLab
             }
         }
 				
-		private void btnNumberColor_Click(object sender, EventArgs e)
-        {
-            ColorDialog cDilog = new ColorDialog();
-            if (cDilog.ShowDialog() == DialogResult.OK)
-            {
-                btnNumberColor.BackColor = cDilog.Color;
-            }
-        }
-        
-		private void InsertDefultValue()
-        {
-            //cmbShape.SelectedIndex = 0;
-            btnShapeColor.BackColor = Color.Cyan;
-            txtWidth.Text = "30";
-            txtHeight.Text = "30";
-            //cmbNumber.SelectedIndex = 0;
-            //cmbPriority.SelectedIndex = 0;
-        }
-
-        private void btnSave_Click(object sender, EventArgs e)
+		private void btnSave_Click(object sender, EventArgs e)
         {
 			if (curTask.Address == null)
 				chkSaveData.Checked = true;
@@ -475,87 +387,21 @@ namespace TaskLab
             //treObjects.CollapseAll();
         }
 
-        private void btnChange_Click(object sender, EventArgs e)
-        {
-            string st = treObjects.SelectedNode.Text;
-            string[] text = st.Split('S');
-            int index;
-            Int32.TryParse(text[1], out index);
-            CreateNode(index);
-			curTask.PsycoTask.DrawMap();
-            DrawTree();
-            treObjects.SelectedNode.Text = st;
-            pbDesign.Image = map;
-            //if (chkROI.Checked == true)
-            //    Int32.TryParse(cmbPriority.Text, out changedPriority);
-            //else
-            //    changedPriority = 100;
-        }
-				
+       				
         //// انتخاب کردن اشیا جهت ادیت و حذف و جابجایی
         private void pbDesign_MouseDown(object sender, MouseEventArgs e)
         {
 		
-			if (curTask.Type == TaskType.lab)
-			{
-				foreach (Node n in curTask.PsycoTask.fixationList)
-				{
-					Point nodePose = n.pos;
-					double dist;
-					dist = Math.Sqrt(Math.Pow(Cursor.Position.X - nodePose.X, 2) + Math.Pow(Cursor.Position.Y - nodePose.Y, 2));
-					if (dist < n.width)
-					{
-						objectSelect = true;
-						//movementNode = n;
-						//treObjects.SelectedNode = treObjects.Nodes[1].Nodes[fixationList.IndexOf(n)];
-						return;
-					}
-				}
-				foreach (Node n in curTask.PsycoTask.shapeList)
-				{
-					Point nodePose = n.pos;
-					double dist;
-					dist = Math.Sqrt(Math.Pow(Cursor.Position.X - nodePose.X, 2) + Math.Pow(Cursor.Position.Y - nodePose.Y, 2));
-					if (dist < n.width)
-					{
-						objectSelect = true;
-						//movmentNode = n;
-						//treObjects.SelectedNode = treObjects.Nodes[0].Nodes[shapeList.IndexOf(n)];
-						return;
-					}
-				}
-			}
+		
         }
 
 		private void pbDesign_MouseUp(object sender, MouseEventArgs e)
 		{
-			if (curTask.Type == TaskType.lab)
-			{
-				objectSelect = false;
-				foreach (Node n in curTask.PsycoTask.shapeList)
-				{
-					Point nodePose = n.pos;
-					double dist;
-					dist = Math.Sqrt(Math.Pow(Cursor.Position.X - nodePose.X, 2) + Math.Pow(Cursor.Position.Y - nodePose.Y, 2));
-					if (dist < n.width)
-					{
-						treObjects.SelectedNode = treObjects.Nodes[0].Nodes[curTask.PsycoTask.shapeList.IndexOf(n)];
-						return;
-					}
-				}
-			}
+			
 		}
         //// کامل کردن نمایش درختی
         
-		private void DrawTree()
-        {
-            treObjects.Nodes[0].Nodes.Clear();
-            foreach (Node n in curTask.PsycoTask.shapeList)
-            {
-                UpdateTree(0, curTask.PsycoTask.shapeList.IndexOf(n));
-            }
-        }
-        
+		        
 		private void UpdateTree(int index, int label)
         {
             treObjects.Nodes[0].Nodes.Add("S" + label.ToString());
@@ -657,9 +503,7 @@ namespace TaskLab
 		{
 			if (e.KeyCode == Keys.Delete)
 			{
-				if (btnRemove.Visible == true)
-					btnRemove_Click(sender, e);
-				else if (pnlPics.Visible == true)
+				if (pnlPics.Visible == true)
 				{
 					RemoveSlide();
 					
@@ -1111,14 +955,6 @@ namespace TaskLab
            
         }
 
-		private void rbNFixate_CheckedChanged(object sender, EventArgs e)
-        {
-            if (rbNFixate.Checked == true)
-            {
-                //UpdateCmbPriority('N');
-            }
-        }
-		        
        	private void pbDesign_MouseClick(object sender, MouseEventArgs e)
 		{
 			txtPosX.Text = e.X.ToString();
@@ -1133,12 +969,6 @@ namespace TaskLab
 		
 		private void tmrMain_Tick(object sender, EventArgs e)
 		{
-			if (curTask.Type == TaskType.lab)
-			{
-				curTask.PsycoTask.DrawMap();
-				DrawTree();
-				return;
-			}
 			if(curTask.Type == TaskType.media)
 			{
 				if (selectedSlide != -1)

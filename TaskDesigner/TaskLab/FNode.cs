@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using System.Drawing;
 
-namespace Basics
+namespace TaskLab
 {
     public  class FNode
     {
@@ -17,14 +17,16 @@ namespace Basics
         public int priority;
         public bool seen;
 		public int color;
+
         public bool sound;  //کمکی
         public int count;   //کمکی
 
-        public FNode(int id,int r, Point p, int t, int priority)
+        public FNode(int r, Point p, int t, char type, int priority)
         {
             this.radius = r;
             this.pos = p;
             this.time = t;
+            this.type = type;
             this.priority = priority;
             seen = false;
         }

@@ -503,7 +503,7 @@ namespace TaskLab
 			this.btnRemove.TabIndex = 25;
 			this.btnRemove.Text = "Remove";
 			this.btnRemove.UseVisualStyleBackColor = true;
-			this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
+			
 			// 
 			// btnChange
 			// 
@@ -516,7 +516,7 @@ namespace TaskLab
 			this.btnChange.TabIndex = 52;
 			this.btnChange.Text = "CHANGE";
 			this.btnChange.UseVisualStyleBackColor = true;
-			this.btnChange.Click += new System.EventHandler(this.btnChange_Click);
+			
 			// 
 			// pnlTask
 			// 
