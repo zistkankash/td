@@ -27,7 +27,8 @@ namespace Basics
 		public List<List<int>> groupMembers = null;
 		public int groupCount = -1;
 
-		int prmptNodeShower = 0, prmptNodeMaxShower = 10;
+		bool prmptRecursive = false;
+		int prmptNodeShower = 0, prmptNodeMaxShower = 10; 
 		int prmptNodeId , prmptRadius = 0, prmptB = 10, prmptG = 235, prmptR = 255;
 		int arrowShower, arrowBeginNodeId, arrowEndNodeId, arrowThickness, arrowR, arrowG, arrowB;
 
@@ -215,10 +216,17 @@ namespace Basics
 		
 		private void RenderNode()
 		{
-			if (prmptNodeShower == 0 || prmptNodeMaxShower == 0)
+			if (prmptNodeMaxShower == 0)
+				return;
+			if (prmptNodeShower == 0 && !prmptRecursive )
 				return;
 
 			int alpha = Math.Min(((int)((float)(prmptNodeShower / prmptNodeMaxShower) * 255)), 255);
+			
+			prmptNodeShower--;
+			
+			if (prmptNodeShower == 0 && prmptRecursive)
+				prmptNodeShower = prmptNodeMaxShower;
 
 			if (shapeList[prmptNodeId].shape == Shape.Circle)
 			{
@@ -237,13 +245,19 @@ namespace Basics
 			CvInvoke.ArrowedLine(tskImg, shapeList[arrowBeginNodeId].pos, shapeList[arrowEndNodeId].pos, new MCvScalar(0, 0, 0, 125), arrowThickness);
 		}
 
-		public void DrawPrompt(int Max, int id, Color prCol)
+		public void DrawPrompt(int Max, int id, Color prCol, bool recursive)
 		{
 			prmptNodeShower = Max;
 			prmptNodeId = id;
 			prmptNodeMaxShower = Max;
 			prmptR = prCol.R; prmptG = prCol.G; prmptB = prCol.B;
+			prmptRecursive = recursive;
+		}
 
+		public void UndrawPrmpt()
+		{
+			prmptRecursive = false;
+			prmptNodeShower = 0;
 		}
 
 		public int[] FindStartShapes()
@@ -304,6 +318,27 @@ namespace Basics
 			return null;
 		}
 
+		public bool RemoveNode(int id)
+		{
+			if (id < shapeList.Count)
+			{
+				if (shapeList[id].fixationTime > 0 && RemoveFixNode(id))
+					shapeList.RemoveAt(id);
+				return true;
+			}
+			return false;
+		}
+
+		private bool RemoveFixNode(int id)
+		{
+			foreach (FNode n in fixationList)
+				if (n._id == id)
+				{
+					fixationList.Remove(n);
+					return true;
+				}
+			return false;
+		}
 		/// <summary>
 		/// Saving Psycology task in text file.
 		/// In future text was replaced with bin format.

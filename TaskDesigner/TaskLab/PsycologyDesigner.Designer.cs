@@ -176,6 +176,7 @@
 			this.btnRemoveNode.TabIndex = 91;
 			this.btnRemoveNode.Text = "Remove";
 			this.btnRemoveNode.UseVisualStyleBackColor = false;
+			this.btnRemoveNode.Click += new System.EventHandler(this.btnRemoveNode_Click);
 			// 
 			// btnChangeNode
 			// 
@@ -190,6 +191,7 @@
 			this.btnChangeNode.TabIndex = 90;
 			this.btnChangeNode.Text = "Change";
 			this.btnChangeNode.UseVisualStyleBackColor = false;
+			this.btnChangeNode.Click += new System.EventHandler(this.btnChangeNode_Click);
 			// 
 			// pnlFixate
 			// 
@@ -244,9 +246,9 @@
 			this.btnFixateColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.btnFixateColor.Font = new System.Drawing.Font("Humnst777 BlkCn BT", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.btnFixateColor.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-			this.btnFixateColor.Location = new System.Drawing.Point(138, 56);
+			this.btnFixateColor.Location = new System.Drawing.Point(123, 56);
 			this.btnFixateColor.Name = "btnFixateColor";
-			this.btnFixateColor.Size = new System.Drawing.Size(62, 20);
+			this.btnFixateColor.Size = new System.Drawing.Size(77, 20);
 			this.btnFixateColor.TabIndex = 94;
 			this.btnFixateColor.Text = "Color";
 			this.btnFixateColor.UseVisualStyleBackColor = false;
@@ -255,7 +257,7 @@
 			// numUpDownPriority
 			// 
 			this.numUpDownPriority.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.numUpDownPriority.Location = new System.Drawing.Point(77, 56);
+			this.numUpDownPriority.Location = new System.Drawing.Point(64, 57);
 			this.numUpDownPriority.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -331,7 +333,7 @@
 			// numUpDownNode
 			// 
 			this.numUpDownNode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.numUpDownNode.Location = new System.Drawing.Point(156, 16);
+			this.numUpDownNode.Location = new System.Drawing.Point(148, 16);
 			this.numUpDownNode.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -343,7 +345,7 @@
             0,
             0});
 			this.numUpDownNode.Name = "numUpDownNode";
-			this.numUpDownNode.Size = new System.Drawing.Size(44, 20);
+			this.numUpDownNode.Size = new System.Drawing.Size(52, 20);
 			this.numUpDownNode.TabIndex = 93;
 			this.numUpDownNode.Value = new decimal(new int[] {
             1,
@@ -356,7 +358,7 @@
 			this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label6.AutoSize = true;
 			this.label6.ForeColor = System.Drawing.Color.Black;
-			this.label6.Location = new System.Drawing.Point(107, 17);
+			this.label6.Location = new System.Drawing.Point(97, 18);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(47, 13);
 			this.label6.TabIndex = 80;
@@ -388,9 +390,9 @@
 			this.btnNumberColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.btnNumberColor.Font = new System.Drawing.Font("Humnst777 BlkCn BT", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.btnNumberColor.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-			this.btnNumberColor.Location = new System.Drawing.Point(138, 52);
+			this.btnNumberColor.Location = new System.Drawing.Point(148, 52);
 			this.btnNumberColor.Name = "btnNumberColor";
-			this.btnNumberColor.Size = new System.Drawing.Size(63, 20);
+			this.btnNumberColor.Size = new System.Drawing.Size(53, 20);
 			this.btnNumberColor.TabIndex = 87;
 			this.btnNumberColor.Text = "Number Color";
 			this.btnNumberColor.UseVisualStyleBackColor = false;

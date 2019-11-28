@@ -189,6 +189,7 @@
 			this.ClientSize = new System.Drawing.Size(655, 508);
 			this.Controls.Add(this.pnl_cntrl);
 			this.DoubleBuffered = true;
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.KeyPreview = true;
 			this.Name = "COGLABnewUI";

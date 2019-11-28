@@ -18,10 +18,11 @@ namespace Basics
         public bool seen;
 		public int color;
         public bool sound;  //کمکی
-        public int count;   //کمکی
+        public int _id;   //کمکی
 
         public FNode(int id,int r, Point p, int t, int priority)
         {
+			this._id = id;
             this.radius = r;
             this.pos = p;
             this.time = t;

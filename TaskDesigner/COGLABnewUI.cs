@@ -315,7 +315,7 @@ namespace Basics
 		{
 			this.CenterToScreen();
 			MARGINS marg = new MARGINS() { Left = -1, Right = -1, Top = -1, Bottom = -1 };
-			DwmExtendFrameIntoClientArea(this.Handle, ref marg);
+			//DwmExtendFrameIntoClientArea(this.Handle, ref marg);
 		}
 		
 		public bool ThumbnailCallback()
