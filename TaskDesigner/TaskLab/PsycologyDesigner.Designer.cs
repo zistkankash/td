@@ -381,6 +381,7 @@
 			this.txtWidth.Size = new System.Drawing.Size(41, 20);
 			this.txtWidth.TabIndex = 82;
 			this.txtWidth.Text = "30";
+			this.txtWidth.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtWidth_KeyPress);
 			// 
 			// btnNumberColor
 			// 
