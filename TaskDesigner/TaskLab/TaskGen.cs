@@ -161,74 +161,15 @@ namespace TaskLab
             //}
         }
         		       
-		private void RemoveNode(Node node, Point pos)
-        {
-            if (node.shape == 0)
-            {
-                CvInvoke.Circle(img, new Point(pos.X * 72 + 36, pos.Y * 60 + 30), 10, new MCvScalar(pbDesign.BackColor.R, pbDesign.BackColor.G, pbDesign.BackColor.B), -1);
-            }
-            else if (node.shape == 1)
-            {
-
-                CvInvoke.Rectangle(img, new Rectangle(new Point(pos.X * 72, pos.Y * 60), new Size(10, 10)), new MCvScalar(node.shapeColor.R, node.shapeColor.G, node.shapeColor.B), -1);
-            }
-            else if (node.shape == 2)
-            {
-                CvInvoke.Ellipse(img, new RotatedRect(new Point(pos.X * 72 + 20, pos.Y * 60 + 40), new Size(10, 20), 90), new MCvScalar(node.shapeColor.R, node.shapeColor.G, node.shapeColor.B), -1);
-            }
-            map = img.ToBitmap();
-        }
-        //// قراردادن شکل در تصویر
+	
         
 		private void btnInsert_Click(object sender, EventArgs e)
         {
           
         }
 
-        //// ساختن گره
-       
-        
-		void ShowNode(Node node)        //نمایش مشخصات گره
-        {
-            if (node.shape == 'C')
-                btnCircle.BackColor = Color.Cyan;
-            else if(node.shape == 'R')
-                btnRectangle.BackColor = Color.Cyan;
-            txtPosX.Text = node.pos.X.ToString();
-            txtPosY.Text = node.pos.Y.ToString();
-            txtWidth.Text = node.width.ToString();
-            txtHeight.Text = node.height.ToString();
-            btnShapeColor.BackColor = node.shapeColor;
-            //cmbNumber.Text = node.number.ToString();
-            btnNumberColor.BackColor = node.textColor;
-            if (node.ROI == true)
-            {
-                chkROI.Checked = true;
-                if (node.fixationType == 'P')
-                {
-                    changedPriority = node.priority;
-                    //positivePriority.Add(node.priority.ToString());
-                    rbPFixate.Checked = false;
-                    rbPFixate.Checked = true;
-                    //cmbPriority.SelectedIndex = positivePriority.IndexOf(changedPriority.ToString());
-                }
-                else if (node.fixationType == 'N')
-                {
-                    changedPriority = node.priority;
-                    //negativePriority.Add(node.priority.ToString());
-                    rbNFixate.Checked = false;
-                    rbNFixate.Checked = true;
-                   // cmbPriority.SelectedIndex = negativePriority.IndexOf(changedPriority.ToString());
-                }
-                txtFixationTime.Text = node.fixationTime.ToString();
-                //cmbPriority.Text = node.priority.ToString();
-                btnFixationColor.BackColor = node.fixationColor;
-                txtRadius.Text = node.fixationRadius.ToString();
-            }
-            else
-                chkROI.Checked = false;
-
-        }
+            
+		
                
 		private void btnBackGround_Click(object sender, EventArgs e)
         {

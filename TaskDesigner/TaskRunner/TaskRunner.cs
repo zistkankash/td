@@ -44,7 +44,7 @@ namespace TaskRunning
 		//FNode goalNode = new FNode(100, new Point(0, 0), 100, -100);
 		
 		public Size secondMonit = new Size(0,0);
-		RunMod runMod = RunMod.stop;
+		RunMod runMod = RunMod.Stop;
 		
 		string savedStr = "";
 		bool _getGaz = false;
@@ -428,13 +428,13 @@ namespace TaskRunning
 
 		public bool RunTask(bool getGaz)
 		{
-			if (runMod == RunMod.running)       // هنگام اجرای برنامه
+			if (runMod == RunMod.Running)       // هنگام اجرای برنامه
 			{
 				return false;
 			}
 			_getGaz = getGaz;
 			runnerThread = new Thread(new ThreadStart(InitRunningTask));
-			runMod = RunMod.running;
+			runMod = RunMod.Running;
 			runnerThread.Start();
 
 			return true;
@@ -444,13 +444,13 @@ namespace TaskRunning
 		public bool StopTask()
 		{
 			CleanMap();
-			if (runMod == RunMod.stop)       // هنگام اجرای برنامه
+			if (runMod == RunMod.Stop)       // هنگام اجرای برنامه
 			{
 				return true;
 			}
 			brake = true;
 			runnerThread.Abort();
-			runMod = RunMod.stop;
+			runMod = RunMod.Stop;
 			Invoke((Action)delegate { Hide(); });
 			if (_getGaz)
 			{
@@ -468,7 +468,7 @@ namespace TaskRunning
 		{
 			if (curTsk.Type == TaskType.media)
 			{
-				if (runMod == RunMod.running)
+				if (runMod == RunMod.Running)
 				{
 					if (brake)
 					{

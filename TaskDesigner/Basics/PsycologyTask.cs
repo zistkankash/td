@@ -39,7 +39,7 @@ namespace Basics
 		{
 			fixationList = new List<FNode>();
 			shapeList = new List<Node>();
-			backColor = Color.White;
+			backColor = Color.Silver;
 			DrawMap();
 		}
 
@@ -48,93 +48,10 @@ namespace Basics
 			base._taskIsReady = false;
 			shapeList = null;
 			fixationList = null;
-			backColor = Color.White;
-		}
-
-		public bool Load(string[] lines)
-		{
-			shapeList = new List<Node>();
-			//// تنظیم رنگ پس زمینه
-
-			string[] bg = lines[2].Split(',');
-			int r, g, b;
-			Int32.TryParse(bg[1], out r);
-			Int32.TryParse(bg[2], out g);
-			Int32.TryParse(bg[3], out b);
-			backColor = Color.FromArgb(r, g, b);
-			int R, G, B;
-			int x, y;
-			int width;
-			int height;
-			int number;
-			int textR, textG, textB;
-			char fType;
-			int fTime;
-			int priority;
-			int radius;
-			Color fixationColor;
-			////خواندن اشکال و کشیدن آن روی تصویر
-
-			string[] Number = lines[3].Split(',');
-			int shapeNumber;
-			Int32.TryParse(Number[1], out shapeNumber);
-			#region خواندن اشکال
-			for (int i = 4; i < 4 + shapeNumber; i++)
-			{
-				string[] s = lines[i].Split(',');
-				char shape;
-				shape = s[0].First();
-				
-				Int32.TryParse(s[1], out R);
-				Int32.TryParse(s[2], out G);
-				Int32.TryParse(s[3], out B);
-				Int32.TryParse(s[4], out x);
-				Int32.TryParse(s[5], out y);
-				Int32.TryParse(s[6], out width);
-				Int32.TryParse(s[7], out height);
-				Int32.TryParse(s[8], out number);
-				Color shapeColor = Color.FromArgb(R, G, B);
-				Int32.TryParse(s[9], out textR);
-				Int32.TryParse(s[10], out textG);
-				Int32.TryParse(s[11], out textB);
-				Color textColor = Color.FromArgb(textR, textG, textB);
-
-				if (s.Length > 12 && s[12] == "True")
-				{
-					fType = s[13].First();
-					
-					Int32.TryParse(s[14], out fTime);
-					
-					Int32.TryParse(s[15], out priority);
-					
-					Int32.TryParse(s[16], out radius);
-					int fColorR, fColorG, fColorB;
-					Int32.TryParse(s[17], out fColorR);
-					Int32.TryParse(s[18], out fColorG);
-					Int32.TryParse(s[19], out fColorB);
-					fixationColor = Color.FromArgb(fColorR, fColorG, fColorB);
-					shapeList.Add(new Node(i - 4, x, y, shape, shapeColor, number, textColor, width, height, fType, fTime, priority, radius, fixationColor));
-				}
-				else
-				{
-					shapeList.Add(new Node(i - 4, x, y, shape, shapeColor, number, textColor, width, height));
-				}
-			}
-			#endregion
-			// اضافه کردن فیکسیشن ها
-			
-			foreach (Node node in shapeList)
-			{
-				if (node.ROI == true)
-				{
-					AddFixateNode(node, node.fixationTime, node.fixationColor, node.fixationRadius, node.priority);
-				}
-			}
+			backColor = Color.Silver;
 			DrawMap();
-			
-			return true;
 		}
-
+		
 		public bool Load()
 		{
 			LoadFile(true);
@@ -166,23 +83,37 @@ namespace Basics
 			tskImg = tskTempImg;
 		}
 
-		public Node CreateNode(int index, char shape, int num, int x, int y, int w, int h, Color sColor, Color numColor)
+		public Node CreateNode(int index, Shape shape, int num, int x, int y, int w, int h, Color sColor, Color numColor, int fixTime, int priorit, Color fixCol)
 		{
-			Node newNode;
+			Node newNode = new Node(-1, x, y, shape, sColor, num, numColor, w, h);
 			if (index == -1)
-				shapeList.Add(new Node(0, x, y, shape, sColor, num, numColor, w, h));
+			{
+				newNode._id = shapeList.Count;
+				shapeList.Add(newNode);
+			}
 			else
-				shapeList[index] = new Node(0, x, y, shape, sColor, num, numColor, w, h);
+				shapeList[index] = newNode;
+			
+			if (fixTime > 0)
+				AddFixateNode(newNode);
+			return newNode; 
 		}
 
-		public void CreateFixateNode(int index, char shape, int num, int x, int y, int w, int h, Color sColor, Color numColor, int fTime , int fColor , int fRadius)
+		public Node CreateNode(Node newNode)
 		{
-			CreateNode(index, shape, num, x, y, w, h, sColor, numColor);
-			//add Fnode
-
+			if (newNode._id == -1)
+			{
+				newNode._id = shapeList.Count;
+				shapeList.Add(newNode);
+			}
+			else
+				shapeList[newNode._id] = newNode;
+			if (newNode.fixationTime > 0)
+				AddFixateNode(newNode);
+			return newNode;
 		}
 
-        public void AddFixateNode(Node n)
+		public void AddFixateNode(Node n)
         {
             fixationList.Add(new FNode(n._id, n.fixationRadius, n.pos, n.fixationTime, n.priority));
 
@@ -190,11 +121,11 @@ namespace Basics
 
         private void DrawNode(Node node)
 		{
-			if (node.shape == 'C')
+			if (node.shape == Shape.Circle)
 			{
 				CvInvoke.Circle(tskImg, new Point(node.pos.X, node.pos.Y), node.width / 2, new MCvScalar(node.shapeColor.R, node.shapeColor.G, node.shapeColor.B), -1);
 			}
-			else if (node.shape == 'R')
+			else if (node.shape == Shape.Rectangle)
 			{
 				CvInvoke.Rectangle(tskImg, new Rectangle(new Point(node.pos.X - node.width / 2, node.pos.Y - node.height / 2), new Size(node.width, node.height)), new MCvScalar(node.shapeColor.R, node.shapeColor.G, node.shapeColor.B), -1);
 			}
@@ -205,7 +136,7 @@ namespace Basics
 				int posOffsetX = 7;
 				int posOffsetY = 5;
 				int thickness = 5;
-				if (node.shape == 'C')        // تنظیم شماره برای دایره
+				if (node.shape == Shape.Circle)        // تنظیم شماره برای دایره
 				{
 					if (node.width <= 45)
 						thickness = 2;
@@ -220,7 +151,7 @@ namespace Basics
 						posOffsetY = (int)(node.width * 0.2);
 					}
 				}
-				else if (node.shape == 'R')        // تنظیم شماره برای مستطیل
+				else if (node.shape == Shape.Rectangle)        // تنظیم شماره برای مستطیل
 				{
 					numSize = Math.Min(node.height, node.width) * 0.02;
 					if (Math.Min(node.height, node.width) <= 45)
@@ -281,19 +212,19 @@ namespace Basics
 		/// <summary>
 		/// This methode draws a circle on a node in lab tasks.
 		/// </summary>
-		public void DrawCircle()
+		
+		private void RenderNode()
 		{
-
-			if (prmptCircleShower == 0)
+			if (prmptNodeShower == 0 || prmptNodeMaxShower == 0)
 				return;
 
 			int alpha = Math.Min(((int)((float)(prmptNodeShower / prmptNodeMaxShower) * 255)), 255);
 
-			if (shapeList[prmptNodeId].shape == 'C')
+			if (shapeList[prmptNodeId].shape == Shape.Circle)
 			{
 				CvInvoke.Circle(tskImg, new Point(shapeList[prmptNodeId].pos.X, shapeList[prmptNodeId].pos.Y), shapeList[prmptNodeId].width / 2, new MCvScalar(prmptB, prmptG, prmptR, alpha), -1);
 			}
-			else if (shapeList[prmptNodeId].shape == 'R')
+			else if (shapeList[prmptNodeId].shape == Shape.Rectangle)
 			{
 				CvInvoke.Rectangle(tskImg, new Rectangle(new Point(shapeList[prmptNodeId].pos.X - shapeList[prmptNodeId].width / 2, shapeList[prmptNodeId].pos.Y - shapeList[prmptNodeId].height / 2), new Size(shapeList[prmptNodeId].width, shapeList[prmptNodeId].height)), new MCvScalar(prmptB, prmptG, prmptR, alpha), -1);
 			}
@@ -304,6 +235,15 @@ namespace Basics
 			if (arrowShower == 0)
 				return;
 			CvInvoke.ArrowedLine(tskImg, shapeList[arrowBeginNodeId].pos, shapeList[arrowEndNodeId].pos, new MCvScalar(0, 0, 0, 125), arrowThickness);
+		}
+
+		public void DrawPrompt(int Max, int id, Color prCol)
+		{
+			prmptNodeShower = Max;
+			prmptNodeId = id;
+			prmptNodeMaxShower = Max;
+			prmptR = prCol.R; prmptG = prCol.G; prmptB = prCol.B;
+
 		}
 
 		public int[] FindStartShapes()
@@ -327,6 +267,41 @@ namespace Basics
 				}
 			}
 			return res;
+		}
+		
+		public Bitmap RenderTask()
+		{
+			DrawMap();
+			RenderNode();
+			RenderArrow();
+			return tskImg.ToBitmap();
+		}
+
+		public Node findNode(int x, int y)
+		{
+			foreach (Node node in shapeList)
+				if (node.shape == Shape.Circle)
+				{
+					if (Math.Sqrt(Math.Pow(Math.Abs(node.pos.X - x), 2) + Math.Pow(Math.Abs(node.pos.Y - y), 2)) <= node.width)
+					{
+						return node;
+					}
+				}
+				else
+				{
+					if (Math.Abs(x - node.pos.X) < node.width / 2 && Math.Abs(y - node.pos.Y) < node.height / 2)
+					{
+						return node;
+					}
+				}
+			return null;
+		}
+
+		public Node findNodeByID(int id)
+		{
+			if (id > -1 && id < shapeList.Count)
+				return shapeList[id];
+			return null;
 		}
 
 		/// <summary>
@@ -367,7 +342,11 @@ namespace Basics
 				lines.Add("Shapes:" + "," + shapeList.Count.ToString());
 				for (i = 0; i < shapeList.Count; i++)
 				{
-					char shape = shapeList[i].shape;
+					char shape = 'c';
+					if (shapeList[i].shape == Shape.Circle)
+						shape = 'c';
+					if (shapeList[i].shape == Shape.Rectangle)
+						shape = 'r';
 					int shapecolorR = shapeList[i].shapeColor.R;
 					int shapecolorG = shapeList[i].shapeColor.G;
 					int shapecolorB = shapeList[i].shapeColor.B;
@@ -380,7 +359,7 @@ namespace Basics
 					int textcolorG = shapeList[i].textColor.G;
 					int textcolorB = shapeList[i].textColor.B;
 
-					if (shapeList[i].ROI == true)
+					if (shapeList[i].fixationTime > 0)
 					{
 						bool roi = true;
 						char fType = shapeList[i].fixationType;
@@ -416,39 +395,91 @@ namespace Basics
 			}
 		}
 
-		public Bitmap RenderTask()
+		public bool Load(string[] lines)
 		{
-			DrawMap();
-			RenderNode();
-			RenderArrow();
-			return tskImg.ToBitmap();
-		}
+			shapeList = new List<Node>();
+			//// تنظیم رنگ پس زمینه
 
-		public Node findNode(int x, int y)
-		{
-			foreach (Node node in shapeList)
-				if (node.shape == 'c')
+			string[] bg = lines[2].Split(',');
+			int r, g, b;
+			Int32.TryParse(bg[1], out r);
+			Int32.TryParse(bg[2], out g);
+			Int32.TryParse(bg[3], out b);
+			backColor = Color.FromArgb(r, g, b);
+			int R, G, B;
+			int x, y;
+			int width;
+			int height;
+			int number;
+			int textR, textG, textB;
+			char fType;
+			int fTime;
+			int priority;
+			int radius;
+			Color fixationColor;
+			////خواندن اشکال و کشیدن آن روی تصویر
+
+			string[] Number = lines[3].Split(',');
+			int shapeNumber;
+			Int32.TryParse(Number[1], out shapeNumber);
+			#region خواندن اشکال
+			for (int i = 4; i < 4 + shapeNumber; i++)
+			{
+				string[] s = lines[i].Split(',');
+				char shape;
+				shape = s[0].First();
+				Shape shp = Shape.Circle;
+				if (shape == 'c')
+					shp = Shape.Circle;
+				if (shape == 'r')
+					shp = Shape.Rectangle;
+				Int32.TryParse(s[1], out R);
+				Int32.TryParse(s[2], out G);
+				Int32.TryParse(s[3], out B);
+				Int32.TryParse(s[4], out x);
+				Int32.TryParse(s[5], out y);
+				Int32.TryParse(s[6], out width);
+				Int32.TryParse(s[7], out height);
+				Int32.TryParse(s[8], out number);
+				Color shapeColor = Color.FromArgb(R, G, B);
+				Int32.TryParse(s[9], out textR);
+				Int32.TryParse(s[10], out textG);
+				Int32.TryParse(s[11], out textB);
+				Color textColor = Color.FromArgb(textR, textG, textB);
+
+				if (s.Length > 12 && s[12] == "True")
 				{
-					if (Math.Sqrt(Math.Pow(Math.Abs(node.pos.X - x), 2) + Math.Pow(Math.Abs(node.pos.Y - y), 2)) <= node.width)
-					{
-						return node;
-					}
+					fType = s[13].First();
+
+					Int32.TryParse(s[14], out fTime);
+
+					Int32.TryParse(s[15], out priority);
+
+					Int32.TryParse(s[16], out radius);
+					int fColorR, fColorG, fColorB;
+					Int32.TryParse(s[17], out fColorR);
+					Int32.TryParse(s[18], out fColorG);
+					Int32.TryParse(s[19], out fColorB);
+					fixationColor = Color.FromArgb(fColorR, fColorG, fColorB);
+					shapeList.Add(new Node(i - 4, x, y, shp, shapeColor, number, textColor, width, height, fType, fTime, priority, radius, fixationColor));
 				}
 				else
 				{
-					if (Math.Abs(x - node.pos.X) < node.width / 2 && Math.Abs(y - node.pos.Y) < node.height / 2)
-					{
-						return node;
-					}
+					shapeList.Add(new Node(i - 4, x, y, shp, shapeColor, number, textColor, width, height));
 				}
-			return null;
-		}
+			}
+			#endregion
+			// اضافه کردن فیکسیشن ها
 
-		public Node findNodeByID(int id)
-		{
-			if (id > -1 && id < shapeList.Count)
-				return shapeList[id];
-			return null;
+			foreach (Node node in shapeList)
+			{
+				if (node.fixationTime > 0)
+				{
+					AddFixateNode(node);
+				}
+			}
+			DrawMap();
+			return true;
 		}
 	}
 }

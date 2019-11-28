@@ -90,8 +90,10 @@ namespace Basics
 		}
 	}
 
-	public enum RunMod { running, stop }
+	public enum RunMod { Running, Stop }
 
 	public enum Operat { Media, GraphicsMap }
+
+	public enum Shape { Circle, Rectangle}
 
 }

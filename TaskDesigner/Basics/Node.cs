@@ -14,7 +14,7 @@ namespace Basics
         public bool enable;     ////  کمکی هنوز استفاده نشده
         public int type;        //// مشخص کننده نوع گره
 
-        public char shape;       //// شکل گره را مشخص می کند
+        public Shape shape;       //// شکل گره را مشخص می کند
         public Color shapeColor;
         public Point pos;
         public int width;
@@ -22,7 +22,6 @@ namespace Basics
         public int number;
         public Color textColor;
 
-        public bool ROI;
         public char fixationType;
         public int fixationTime;
         public int priority;
@@ -31,10 +30,8 @@ namespace Basics
 
         public Point next;      //// کمکی هنوز استفاده نشده
 
-
-
         // سازنده شکل بدون فیکسیشن
-        public Node(int id,int x, int y, char s, Color sColor, int num, Color tColor, int w, int h)
+        public Node(int id,int x, int y, Shape s, Color sColor, int num, Color tColor, int w, int h)
         {
 			_id = id;
             this.pos.X = x;
@@ -45,11 +42,11 @@ namespace Basics
             this.textColor = tColor;
             this.width = w;
             this.height = h;
-            this.ROI = false;
+           
         }
 
         // سازنده فیکسیشن با فیکسیشن
-        public Node(int id, int x, int y, char s, Color sColor, int num, Color tColor, int w, int h, char fType, int fTime, int p, int fRadius, Color fColor)
+        public Node(int id, int x, int y, Shape s, Color sColor, int num, Color tColor, int w, int h, char fType, int fTime, int p, int fRadius, Color fColor)
         {
 			_id = id;
             this.pos.X = x;
@@ -60,7 +57,7 @@ namespace Basics
             this.textColor = tColor;
             this.width = w;
             this.height = h;
-            this.ROI = true;
+           
 
             this.fixationType = fType;
             this.fixationTime = fTime;
