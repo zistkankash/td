@@ -251,18 +251,14 @@ namespace TaskLab
 
 		void btnNewProject_Click(object sender, EventArgs e)
 		{
-			if (!CheckSave(true))
-				return;
-			if (refreshTimer.Enabled)
-				refreshTimer.Stop();
-			_curTask = new PsycologyTask();
-			pnlShapVis = true;
-			pnlbackVis = true;
-			PanelModer();
-			btnSetting.Enabled = true;
-			refreshTimer.Enabled = true;
-			refreshTimer.Start();
-		}
+			int x, y, w, h;
+			Color sColor;
+			int.TryParse(txtWidth.Text, out w);
+			int.TryParse(txtHeight.Text, out h);
+			if (CircSel)
+				sColor = pnlBtnCircle.BackColor;
+			if (RectSel)
+				sColor = pnlBtnRect.BackColor;
 
 		void btnNumberColor_Click(object sender, EventArgs e)
 		{
@@ -273,7 +269,32 @@ namespace TaskLab
 			}
 		}
 
-		void btnFixateColor_Click(object sender, EventArgs e)
+		private void chkboxBackImage_CheckedChanged(object sender, EventArgs e)
+		{
+			_curTask.PsycoTask.useBackImage = chkboxBackImage.Checked;
+			if (chkboxBackImage.Checked)
+			{
+				btnTaskBackColor.Text = "Task Background";
+				OpenFileDialog of = new OpenFileDialog();
+				of.Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png";
+				DialogResult dr = of.ShowDialog();
+				if (dr == DialogResult.OK)
+					_curTask.PsycoTask.backImage = BitmapData.DrawOn(new Bitmap(of.FileName),new Size(BasConfigs._monitor_resolution_x,BasConfigs._monitor_resolution_y), _curTask.PsycoTask.backColor);
+			}
+			else
+				btnTaskBackColor.Text = "Task Back Color";
+		}
+
+		private void btnNumberColor_Click(object sender, EventArgs e)
+		{
+			ColorDialog cDilog = new ColorDialog();
+			if (cDilog.ShowDialog() == DialogResult.OK)
+			{
+				btnNumberColor.ForeColor = cDilog.Color;
+			}
+		}
+
+		private void btnFixateColor_Click(object sender, EventArgs e)
 		{
 			ColorDialog cDilog = new ColorDialog();
 			if (cDilog.ShowDialog() == DialogResult.OK)
@@ -282,178 +303,7 @@ namespace TaskLab
 			}
 		}
 
-		void btnTaskBackColor_Click(object sender, EventArgs e)
-		{
-			ColorDialog cDilog = new ColorDialog();
-			if (cDilog.ShowDialog() == DialogResult.OK)
-			{
-				_curTask.backColor = cDilog.Color;
-				btnTaskBackColor.ForeColor = cDilog.Color;
-			}
-
-		}
-
-		void chkSaveData_CheckedChanged(object sender, EventArgs e)
-		{
-			cmbxSavMod.Enabled = chkSaveData.Checked;
-			txtPath.Visible = chkSaveData.Checked;
-			if (chkSaveData.Checked)
-			{
-				cmbxSavMod.DroppedDown = true;
-			}
-			else
-			{
-				txtPath.Text = "";
-			}
-		}
-
-		void btnBackImage_Click(object sender, EventArgs e)
-		{
-			OpenFileDialog of = new OpenFileDialog();
-			of.Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png";
-			DialogResult dr = of.ShowDialog();
-			if (dr == DialogResult.OK)
-			{
-				_curTask.useBackImage = true;
-				_curTask.backImage = BitmapData.DrawOn(new Bitmap(of.FileName), new Size(BasConfigs._monitor_resolution_x, BasConfigs._monitor_resolution_y), _curTask.backColor);
-			}
-			else
-			{
-				_curTask.useBackImage = false;
-			}
-		}
-
-		void chkboxUseBackImage_CheckedChanged(object sender, EventArgs e)
-		{
-			btnBackImage.Visible = chkboxUseBackImage.Checked;
-
-			if (!chkboxUseBackImage.Checked)
-			{
-				_curTask.useBackImage = false;
-				_curTask.backImage = null;
-			}
-		}
-
-		void cmbxSavMod_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			_curTask.SavingMode = SaveMod.txt;
-		}
-
-		void refreshTimer_Tick(object sender, EventArgs e)
-		{
-			ScreenModer();
-			if (_curTask != null)
-				pbDesign.Image = _curTask.RenderTask();
-		}
-
-		void btnSave_Click(object sender, EventArgs e)
-		{
-			CheckSave(false);
-		}
-
-		void btnChangeNode_Click(object sender, EventArgs e)
-		{
-            if (designerState == DesignState.onInsert)
-            {
-				GiveNode();
-            }
-            if(designerState == DesignState.onChange)
-            {
-
-            }
-		}
-
-		void ShowNode(Node node)        //نمایش مشخصات گره
-		{
-			if (node.shape == 'c')
-			{
-				pnlBtnCircle.BackColor = node.shapeColor;
-				txtHeight.Enabled = false;
-			}
-			else if (node.shape == 'r')
-			{
-				txtHeight.Text = node.height.ToString();
-				pnlBtnRect.BackColor = node.shapeColor;
-			}
-			txtWidth.Text = node.width.ToString();
-			numUpDownNode.Value = node.number;
-			//cmbNumber.Text = node.number.ToString();
-			btnNumberColor.ForeColor = node.textColor;
-			if (node.fixationTime > 0)
-			{
-				chboxFixate.Checked = true;
-
-				numUpDownPriority.Value = node.priority;
-
-				txtFixationTime.Text = node.fixationTime.ToString();
-
-				btnFixateColor.ForeColor = node.fixationColor;
-				txtRadius.Text = node.fixationRadius.ToString();
-			}
-			
-		}
-
-        void GiveNode(int x,int y)
-        {
-            int w, h = 0;
-            char shape = 'c';
-            Color sColor = Color.Red;
-            int.TryParse(txtWidth.Text, out w);
-            if (CircSel)
-            {
-                sColor = pnlBtnCircle.BackColor;
-            }
-            if (RectSel)
-            {
-                shape = 'r';
-                sColor = pnlBtnRect.BackColor;
-                int.TryParse(txtHeight.Text, out h);
-            }
-            
-            if (!chboxFixate.Checked)
-                _curTask.CreateNode(-1, shape, (int)numUpDownNode.Value, x, y, w, h, sColor, btnNumberColor.ForeColor);
-            else
-            {
-                int fTm, radFix;
-                int.TryParse(txtFixationTime.Text, out fTm);
-                int.TryParse(txtRadius.Text, out radFix);
-                _curTask.CreateFixateNode(-1, shape, (int)numUpDownNode.Value, x, y, w, h, sColor, btnNumberColor.ForeColor, fTm, btnFixateColor.ForeColor, radFix, (int)numUpDownPriority.Value);
-            }
-        }
-
-        void GiveNode()
-        {
-            Random r = new Random(1);
-
-            int w, h = 0;
-            char shape = 'c';
-            Color sColor = Color.Red;
-            int x = r.Next() * BasConfigs._monitor_resolution_x;
-            int y = r.Next() * BasConfigs._monitor_resolution_y;
-            int.TryParse(txtWidth.Text, out w);
-            if (CircSel)
-            {
-                sColor = pnlBtnCircle.BackColor;
-            }
-            if (RectSel)
-            {
-                shape = 'r';
-                sColor = pnlBtnRect.BackColor;
-                int.TryParse(txtHeight.Text, out h);
-            }
-
-            if (!chboxFixate.Checked)
-                _curTask.CreateNode(-1, shape, (int)numUpDownNode.Value, x, y, w, h, sColor, btnNumberColor.ForeColor);
-            else
-            {
-                int fTm, radFix;
-                int.TryParse(txtFixationTime.Text, out fTm);
-                int.TryParse(txtRadius.Text, out radFix);
-                _curTask.CreateFixateNode(-1, shape, (int)numUpDownNode.Value, x, y, w, h, sColor, btnNumberColor.ForeColor, fTm, btnFixateColor.ForeColor, radFix, (int)numUpDownPriority.Value);
-            }
-        }
-
-        void btnHome_Click(object sender, EventArgs e)
+		private void btnHome_Click(object sender, EventArgs e)
 		{
 			Close();
 		}
@@ -494,50 +344,12 @@ namespace TaskLab
 			}
 			else
 				return true;
-
+			return false;
 		}
+	}
 
-		void ScreenModer()
-		{
-			switch (designerState)
-			{
-				case DesignState.idle:
-					{
-						pbDesign.BackColor = Color.Transparent;
-						btnSetting.Enabled = false;
-						pnlSetting.Visible = false;
-						pnlShapVis = false; pnlShapPropVis = false; pnlDetalsVis = false; pnlbackVis = false; pnlFixVis = false;
-						PanelModer();
-						break;
-					}
-				case DesignState.onDesign:
-					{
-						btnSetting.Enabled = true;
-						pnlShapVis = true; pnlShapPropVis = false; pnlDetalsVis = false; pnlbackVis = true; pnlFixVis = false;
-						PanelModer();
-						pbDesign.Cursor = Cursors.Default;
-						break;
-					}
-				case DesignState.onInsert:
-					{
-						pnlShapVis = true; pnlShapPropVis = true; pnlDetalsVis = true; pnlbackVis = true;
-						PanelModer();
-						pbDesign.Cursor = Cursors.Hand;
-						btnChangeNode.Text = "Insert";
-                        btnRemoveNode.Text = "Cancel";
-						break;
-					}
-				case DesignState.onChange:
-					{
-						pnlShapVis = true; pnlShapPropVis = true; pnlDetalsVis = true; pnlbackVis = true;
-						PanelModer();
-						pbDesign.Cursor = Cursors.Hand;
-						btnChangeNode.Text = "Change";
-                        btnRemoveNode.Text = "Remove";
-						break;
-					}
-			}
-		}
+	public static class LabTaskUtils
+	{
 
 	}
 

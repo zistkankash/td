@@ -170,47 +170,16 @@ namespace Basics
 		{
 			Node newNode;
 			if (index == -1)
-			{
-				newNode = new Node(shapeList.Count, x, y, shape, sColor, num, numColor, w, h);
-				shapeList.Add(newNode);
-			}
+				shapeList.Add(new Node(0, x, y, shape, sColor, num, numColor, w, h));
 			else
-			{
-				newNode = new Node(index, x, y, shape, sColor, num, numColor, w, h);
-				shapeList[index] = newNode;
-			}
-			return newNode;
+				shapeList[index] = new Node(0, x, y, shape, sColor, num, numColor, w, h);
 		}
 
-        public Node CreateNode(Node n)
-        {
-            if (n._id == -1)
-            {
-                n._id = shapeList.Count;
-                shapeList.Add(n);
-            }
-            else
-            {
-               shapeList[n._id] = n;
-            }
-            if (n.fixationTime > 0)
-                AddFixateNode(n);
-            return n;
-        }
-
-        public void CreateFixateNode(int index, char shape, int num, int x, int y, int w, int h, Color sColor, Color numColor, int fTime, Color fColor, int fRadius,int priority)
+		public void CreateFixateNode(int index, char shape, int num, int x, int y, int w, int h, Color sColor, Color numColor, int fTime , int fColor , int fRadius)
 		{
-			Node n = CreateNode(index, shape, num, x, y, w, h, sColor, numColor);
-			n.ROI = true;
-			n.type = 1;
-			AddFixateNode(n, fTime, fColor, fRadius, priority);
-		}
+			CreateNode(index, shape, num, x, y, w, h, sColor, numColor);
+			//add Fnode
 
-		public void AddFixateNode(Node n, int fTime , Color fColor , int fRadius,int priority)
-		{
-
-			fixationList.Add(new FNode(n._id,fRadius, n.pos, fTime, priority));
-			
 		}
 
         public void AddFixateNode(Node n)
@@ -312,26 +281,10 @@ namespace Basics
 		/// <summary>
 		/// This methode draws a circle on a node in lab tasks.
 		/// </summary>
-		public void DrawPrompt(int Max, int id, Color prCol)
+		public void DrawCircle()
 		{
-			prmptNodeShower = Max;
-			prmptNodeId = id;
-			prmptNodeMaxShower = Max;
-			prmptR = prCol.R; prmptG = prCol.G; prmptB = prCol.B;
 
-		}
-		
-		public void DrawArrow(int beginNodeId,int endNodeId, Color arrowColor,int thickness)
-		{
-			arrowBeginNodeId = beginNodeId;
-			arrowEndNodeId = endNodeId;
-			arrowThickness = thickness;
-			arrowR = arrowColor.R; arrowG = arrowColor.G; arrowB = arrowColor.B;
-		}
-
-		private void RenderNode()
-		{
-			if (prmptNodeShower == 0 || prmptNodeMaxShower == 0)
+			if (prmptCircleShower == 0)
 				return;
 
 			int alpha = Math.Min(((int)((float)(prmptNodeShower / prmptNodeMaxShower) * 255)), 255);
