@@ -64,7 +64,7 @@
 			this.splitterItems.Location = new System.Drawing.Point(0, 0);
 			this.splitterItems.Name = "splitterItems";
 			this.splitterItems.Size = new System.Drawing.Size(1182, 510);
-			this.splitterItems.SplitterDistance = 243;
+			this.splitterItems.SplitterDistance = 242;
 			this.splitterItems.TabIndex = 0;
 			// 
 			// imageList1

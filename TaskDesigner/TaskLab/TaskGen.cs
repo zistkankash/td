@@ -33,7 +33,7 @@ namespace TaskLab
 		
 		private bool isManupulated = false;
 		
-		private TaskData curTask = new TaskData();
+		private TaskClient curTask = new TaskClient();
 
 		private int movementNode;
         private bool objectSelect;
@@ -76,14 +76,14 @@ namespace TaskLab
 				case TaskType.lab:
 					{
 						
-						curTask = new TaskData(TaskType.lab);
+						curTask = new TaskClient(TaskType.lab);
 						
 						break;
 					}
 				case TaskType.media:
 					{
 						
-						curTask = new TaskData(TaskType.media);
+						curTask = new TaskClient(TaskType.media);
 						
 						break;
 					}
@@ -695,7 +695,7 @@ namespace TaskLab
 				isManupulated = false;
 				oldTaskType = curTask.Type;
 				selectedSlide = -1;
-				curTask = new TaskData(oldTaskType);
+				curTask = new TaskClient(oldTaskType);
 				TaskDesignConfig();
 			}
 				
@@ -1231,10 +1231,10 @@ namespace TaskLab
 
 		private void cmbxSavMod_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			if (cmbxSavMod.SelectedIndex == 0)
-				curTask.tskSavMod = SaveMod.bin;
-			if (cmbxSavMod.SelectedIndex == 1)
-				curTask.tskSavMod = SaveMod.txt;
+			if (cmbxSavMod.SelectedIndex == 0) ;
+				//curTask.tskSavMod = SaveMod.bin;
+				if (cmbxSavMod.SelectedIndex == 1) ;
+				//curTask.tskSavMod = SaveMod.txt;
 		}
 
 		private void cmbTheme_SelectedIndexChanged(object sender, EventArgs e)

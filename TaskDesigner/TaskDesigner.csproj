@@ -137,6 +137,7 @@
     <Compile Include="Basics\FileName.cs" />
     <Compile Include="Basics\MediaTask.cs" />
     <Compile Include="Basics\PsycologyTask.cs" />
+    <Compile Include="Basics\TaskClient.cs" />
     <Compile Include="Basics\TaskData.cs" />
     <Compile Include="COGLABnewUI.cs">
       <SubType>Form</SubType>
