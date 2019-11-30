@@ -108,7 +108,7 @@ namespace TaskLab
 		{
 			if (spltContner.SplitterDistance == 0)
 			{
-				spltContner.SplitterDistance = 160;
+				spltContner.SplitterDistance = 210;
 			}
 			else
 			{
@@ -117,27 +117,25 @@ namespace TaskLab
 			}
 		}
 
-		#endregion
+        void PsycologyDesigner_Load(object sender, EventArgs e)
+        {
+            MARGINS marg = new MARGINS() { Left = -1, Right = -1, Top = -1, Bottom = -1 };
+            DwmExtendFrameIntoClientArea(this.Handle, ref marg);
+            designerState = LabDesignState.idle;
+            ScreenModer();
+        }
 
-		
-		
-		#region pbdesign
+        void PsycologyDesigner_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!CheckSave(true))
+                e.Cancel = true;
+        }
 
-		void PsycologyDesigner_Load(object sender, EventArgs e)
-		{
-			MARGINS marg = new MARGINS() { Left = -1, Right = -1, Top = -1, Bottom = -1 };
-			DwmExtendFrameIntoClientArea(this.Handle, ref marg);
-			designerState = LabDesignState.idle;
-			ScreenModer();
-		}
+        #endregion
 
-		void PsycologyDesigner_FormClosing(object sender, FormClosingEventArgs e)
-		{
-			if (!CheckSave(true))
-				e.Cancel = true;
-		}
+        #region pbdesign
 
-		void pbDesign_MouseUp(object sender, MouseEventArgs e)
+        void pbDesign_MouseUp(object sender, MouseEventArgs e)
 		{
 			if (_curTask == null)
 				return;
@@ -214,7 +212,7 @@ namespace TaskLab
 
 		private void btnChangeNode_Click(object sender, EventArgs e)
 		{
-			GiveNode(true);
+			GiveNode(true, inserNode.enable);
 			
 		}
 
@@ -249,55 +247,37 @@ namespace TaskLab
 
 		}
 
-		void btnCircle_Click(object sender, EventArgs e)
-		{
-			if (designerState == LabDesignState.onDesign)
-			{
-				CircSel = !_circSel;
-				if (_circSel)
-				{
-					RectSel = false;
-					GiveNode(false); // To update insert Node
-					designerState = LabDesignState.onInsert;
-				}
-				return;
-			}
-			if(designerState == LabDesignState.onInsert)
-			{
-				CircSel = !_circSel;
-				if (_circSel)
-				{
-					RectSel = false;
-					GiveNode(false); // To update insert Node
-				}
-				return;
-			}
-		}
+        void btnCircle_Click(object sender, EventArgs e)
+        {
+            CircSel = !_circSel;
+            if (_circSel)
+            {
+                if (designerState == LabDesignState.onDesign)
+                {
+                    designerState = LabDesignState.onInsert;
+                }
+                RectSel = false;
+                GiveNode(false, false); // To update insert Node
+            }
+            return;
+        }
 
-		void btnRect_Click(object sender, EventArgs e)
-		{
-			if (designerState == LabDesignState.onDesign)
-			{
-				RectSel = !_rectSel;
-				if (_rectSel)
-				{
-					CircSel = false;
-					GiveNode(false); // To update inset Node
-					designerState = LabDesignState.onInsert;
-				}
-				return;
-			}
-			if (designerState == LabDesignState.onInsert)
-			{
-				RectSel = !_rectSel;
-				if (_rectSel)
-				{
-					CircSel = false;
-					GiveNode(false); // To update insert Node
-				}
-				return;
-			}
-		}
+        void btnRect_Click(object sender, EventArgs e)
+        {
+            RectSel = !_rectSel;
+           
+            if (_rectSel)
+            {
+                if (designerState == LabDesignState.onDesign)
+                {
+                    designerState = LabDesignState.onInsert;
+                }
+                CircSel = false;
+                GiveNode(false, false); // To update insert Node
+            }
+            return;
+
+        }
 
 		void btnNumberColor_Click(object sender, EventArgs e)
 		{
@@ -462,7 +442,7 @@ namespace TaskLab
 
 		}
 
-		Node GiveNode(bool MusbBeEnabled)
+		Node GiveNode(bool MusbBeEnabled, bool RandXY)
 		{
 			Random r = new Random();
 			int w, h = 0;
@@ -527,12 +507,12 @@ namespace TaskLab
 					{
 						if (_circSel)
 						{
-							pnlBtnRect.BackColor = SystemColors.ActiveCaption;
+							pnlBtnRect.BackColor = Color.Transparent;
 							txtHeight.Enabled = false;
 						}
 						if (_rectSel)
 						{
-							pnlBtnCircle.BackColor = SystemColors.ActiveCaption;
+							pnlBtnCircle.BackColor = Color.Transparent;
 							txtHeight.Enabled = true;
 						}
 						btnSetting.Enabled = true;
@@ -546,12 +526,12 @@ namespace TaskLab
 					{
 						if (_circSel)
 						{
-							pnlBtnRect.BackColor = SystemColors.ActiveCaption;
+							pnlBtnRect.BackColor = Color.Transparent;
 							txtHeight.Enabled = false;
 						}
 						if (_rectSel)
 						{
-							pnlBtnCircle.BackColor = SystemColors.ActiveCaption;
+							pnlBtnCircle.BackColor = Color.Transparent;
 							txtHeight.Enabled = true;
 						}
 						pnlShapVis = true; pnlShapPropVis = true; pnlDetalsVis = true; pnlbackVis = true;
