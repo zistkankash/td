@@ -274,8 +274,9 @@ namespace TaskLab
             {
                 if (lastState == LabDesignState.onDesign)
                 {
-                    designerState = LabDesignState.onInsert;
+                   
 					GiveNode(false);
+					designerState = LabDesignState.onInsert;
 				}
                 RectSel = false;
 				// To update  Node
@@ -295,8 +296,9 @@ namespace TaskLab
             {
                 if (lastState == LabDesignState.onDesign)
                 {
-                    designerState = LabDesignState.onInsert;
+                   
 					GiveNode(false);
+					designerState = LabDesignState.onInsert;
 				}
                 CircSel = false;
                  // To update  Node

@@ -238,11 +238,11 @@ namespace Basics
 			else
 				prmptNodeShower++;
 
-			if (prmptNodeShower == 0 && prmptRecursive)
+			if (prmptNodeShower < 1 && prmptRecursive)
 			{
 				prmptRecursiveShowerDirect = true;
 			}
-			if (prmptNodeShower == prmptNodeMaxShower && prmptRecursive)
+			if (prmptNodeShower > prmptNodeMaxShower && prmptRecursive)
 			{
 				prmptRecursiveShowerDirect = false;
 			}
