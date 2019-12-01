@@ -573,7 +573,7 @@ namespace TaskLab
         
 		private void AddPicture(Size slidSize)
         {
-			Bitmap b = BitmapData.PutText("Double Click To Add Image", btnBackgroundCol.BackColor, Brushes.Black, slidSize,15);
+			Bitmap b = BitmapManager.TextBitmap("Double Click To Add Image", btnBackgroundCol.BackColor, Brushes.Black, slidSize,15);
 			
             Picture p = new Picture(b, null, slideTime);
             p.bgColor = btnBackgroundCol.BackColor;
@@ -599,7 +599,7 @@ namespace TaskLab
 
             p.Size = btnAddPic.Size;
 			p.Visible = true;
-			p.Image = BitmapData.PutText("Double Click To Add Image",btnBackgroundCol.BackColor, Brushes.Black, p.Size,15);
+			p.Image = BitmapManager.TextBitmap("Double Click To Add Image",btnBackgroundCol.BackColor, Brushes.Black, p.Size,15);
 
             p.Location = new Point(10, 4);
             p.SizeMode = PictureBoxSizeMode.StretchImage;

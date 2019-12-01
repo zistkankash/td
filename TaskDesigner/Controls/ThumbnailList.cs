@@ -185,7 +185,7 @@ namespace Controls
 			PictureBox newPb = new PictureBox();
 			newPb.Anchor = (AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top);
 			if (im == null)
-				newPb.Image = BitmapData.PutText("", bgColor, Brushes.Black, newPb.Size, 10);
+				newPb.Image = BitmapManager.TextBitmap("", bgColor, Brushes.Black, newPb.Size, 10);
 			else
 				newPb.Image = im;
 			newPb.Click += new EventHandler(pb_Click);
@@ -216,7 +216,7 @@ namespace Controls
 				file.Filter = "Media Files |*.png;*.jpg;";
 				if (file.ShowDialog() == DialogResult.OK)
 				{
-					pbTemp.Image = BitmapData.DrawOn(new Bitmap(file.FileName), pbTemp.Size, bgColor);
+					pbTemp.Image = BitmapManager.DrawOn(new Bitmap(file.FileName), pbTemp.Size, bgColor);
 
 				}
 			}

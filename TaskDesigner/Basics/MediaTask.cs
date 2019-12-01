@@ -30,6 +30,7 @@ namespace Basics
 			base._taskIsReady = false;
 			picList = new List<Picture>();
 			showedIndex = -1;
+			tskImg = new Image<Rgb, byte>(BasConfigs._monitor_resolution_x,BasConfigs._monitor_resolution_y);
 		}
 
 		public void Clear()
@@ -47,9 +48,9 @@ namespace Basics
 				return b;
 
 			if (picList[selSlide].address != null)
-				b = BitmapData.DrawOn(picList[selSlide].image, pbSize, picList[selSlide].bgColor);
+				b = BitmapManager.DrawOn(picList[selSlide].image, pbSize, picList[selSlide].bgColor);
 			else
-				b = BitmapData.DrawOn(null, pbSize, picList[selSlide].bgColor);
+				b = BitmapManager.DrawOn(null, pbSize, picList[selSlide].bgColor);
 
 			if (setTransparency)
 				b.MakeTransparent(transColor);
@@ -57,7 +58,7 @@ namespace Basics
 
 			if (drawChess)
 			{
-				BitmapData.ChessboardDraw(ref b);
+				BitmapManager.ChessboardDraw(ref b);
 
 			}
 

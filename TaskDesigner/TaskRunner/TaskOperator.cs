@@ -89,7 +89,7 @@ namespace TaskRunning
 			if (tsk.Type == TaskType.media)
 				b = tsk.GetFrameImage(_slideNum, pbOper.Size);
 			if (tsk.Type == TaskType.cognitive)
-				b = BitmapData.DrawOn(shFrame.flag, pbOper.Size, Color.White);
+				b = BitmapManager.DrawOn(shFrame.flag, pbOper.Size, Color.White);
 
 			Graphics flagGraphics = Graphics.FromImage(b);
 			flagGraphics.FillEllipse(Brushes.Black, (float)gzX * pbOper.Width / secondMonit.Width - Marker_Radius / 2,(float) gzY * pbOper.Height / secondMonit.Height - Marker_Radius / 2, Marker_Radius, Marker_Radius);
@@ -331,7 +331,7 @@ namespace TaskRunning
 			_slideNum = 0;
 			gzX = 0; gzY = 0;
 			refTimer.Stop();
-			pbOper.Image = Basics.BitmapData.PutText("اتمام تسک", Color.Black, Brushes.White, pbOper.Size,46);
+			pbOper.Image = Basics.BitmapManager.TextBitmap("اتمام تسک", Color.Black, Brushes.White, pbOper.Size,46);
 			SetControlsOpened();
 			txtbxTask.Enabled = true;
 			txtSavPath.Enabled = true;

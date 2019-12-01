@@ -66,6 +66,7 @@ namespace Basics
 		{
 			_taskIsReady = false;
 			_tskAddress = null;
+			
 		}
 
 		protected bool LoadFile(bool newTask)

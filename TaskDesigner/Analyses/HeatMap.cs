@@ -309,7 +309,7 @@ namespace Analyses
             else
             {
                 Bitmap temp = new Bitmap(txtHeatPic.Text);
-                pic = Basics.BitmapData.DrawOn(temp,new Size(BasConfigs._monitor_resolution_x,BasConfigs._monitor_resolution_y), Color.White);
+                pic = Basics.BitmapManager.DrawOn(temp,new Size(BasConfigs._monitor_resolution_x,BasConfigs._monitor_resolution_y), Color.White);
             }
             Image<Bgr, byte> img = new Image<Bgr, byte>(pic);
             StreamReader s = new StreamReader(txtHeatPath.Text);
@@ -379,7 +379,7 @@ namespace Analyses
             else
                 path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\CogLab Data";
 			
-			Bitmap imRes = Basics.BitmapData.DrawOn(img.Bitmap, pbHeat.Size, Color.White);
+			Bitmap imRes = Basics.BitmapManager.DrawOn(img.Bitmap, pbHeat.Size, Color.White);
             imRes.Save(path + "\\HeatCharts\\" + outputImageFileName + ".jpg");
             pbHeat.SizeMode = PictureBoxSizeMode.StretchImage;
 			pbHeat.Image = imRes;
@@ -675,8 +675,8 @@ namespace Analyses
 			pic = CreateIntensityMask(pic, HeatPoints);
 			Bitmap output = Colorize(pic, 125);
 
-			Bitmap jp = Basics.BitmapData.DrawOn(jPic, pbHeat.Size, Color.White); 
-			Bitmap target = Basics.BitmapData.DrawOn(output, jp);
+			Bitmap jp = Basics.BitmapManager.DrawOn(jPic, pbHeat.Size, Color.White); 
+			Bitmap target = Basics.BitmapManager.DrawOn(output, jp);
 			
 			string path;
             if (chkSave.Checked)

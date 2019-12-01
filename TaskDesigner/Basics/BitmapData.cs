@@ -13,7 +13,7 @@ using Emgu.CV.Structure;
 
 namespace Basics
 {
-	public static class BitmapData
+	public static class BitmapManager
 	{
 		
 		public static void ChessboardDraw(ref Bitmap input)
@@ -38,7 +38,7 @@ namespace Basics
 
 		}
 
-		public static Bitmap PutText(string st, Color bc, Brush bs, Size sz,short fontSize)
+		public static Bitmap TextBitmap(string st, Color bc, Brush bs, Size sz,short fontSize)
 		{
 			Bitmap bmp = new Bitmap(sz.Width, sz.Height);
 
@@ -103,7 +103,7 @@ namespace Basics
 			using (var graphics = Graphics.FromImage(image2))
 			{
 				graphics.CompositingMode = CompositingMode.SourceOver;
-				graphics.CompositingQuality = CompositingQuality.HighQuality;
+				graphics.CompositingQuality = CompositingQuality.GammaCorrected;
 				graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
 				graphics.SmoothingMode = SmoothingMode.HighQuality;
 				graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
@@ -119,6 +119,40 @@ namespace Basics
 			return image2;
 		}
 
+
+		/// <summary>
+		/// Make a source over of input bitmap (iamge1) to bitmap image2 with opacity applied to image1.
+		/// </summary>
+		/// <param name="image"></param>
+		/// <param name="s"></param>
+		/// <returns></returns>
+		public static Bitmap DrawOn(Bitmap image1, Bitmap image2,float opacity)
+		{
+			var destRect = new Rectangle(0, 0, image2.Width, image2.Height);
+			ColorMatrix matrix = new ColorMatrix();
+			//set the opacity  
+			matrix.Matrix33 = opacity;
+			using (var graphics = Graphics.FromImage(image2))
+			{
+				graphics.CompositingMode = CompositingMode.SourceOver;
+				graphics.CompositingQuality = CompositingQuality.GammaCorrected;
+				graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+				graphics.SmoothingMode = SmoothingMode.HighQuality;
+				graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+				//image1.SetResolution(image2.HorizontalResolution, image2.VerticalResolution);
+				using (var wrapMode = new ImageAttributes())
+				{
+					wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+					wrapMode.SetColorMatrix(matrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
+					graphics.DrawImage(image1, destRect, 0, 0, image1.Width, image1.Height, GraphicsUnit.Pixel, wrapMode);
+				}
+
+			}
+			return image2;
+		}
+		
+		
 		public static Bitmap TakeBlurSnapshot(Form form)
 		{
 			Bitmap bmp = new Bitmap(form.Size.Width, form.Size.Height);
@@ -128,6 +162,7 @@ namespace Basics
 			CvInvoke.GaussianBlur(btmp, btmp, new Size(7,7), 20);
 			return btmp.Bitmap;
 		}
+
 
 	}
 }

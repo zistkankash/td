@@ -18,22 +18,25 @@ namespace Basics
 		public Color backColor;
 		List<Node> shapeList;
 		List<FNode> fixationList;
-		Image<Rgb, byte> tskImg;
-		//In design mode temp image used to compose some feature (for example chessboard grid) with task image.
-		//In running mode temp image used to save original task map to improve running speed. 
-		Image<Rgb, byte> tskTempImg;
+
+		bool _repaint = true;
+		Image<Rgba, byte> tskImg;
 		
+		Bitmap _taskFrame;
+		Image<Rgba, byte> prmpts;
+		Bitmap overlayer;
 		public int[] colorGroups = null;
 		public List<List<int>> groupMembers = null;
 		public int groupCount = -1;
 
 		bool prmptRecursive = false;
+		bool prmptRecursiveShowerDirect = false;
 		int prmptNodeShower = 0, prmptNodeMaxShower = 10; 
 		int prmptNodeId , prmptRadius = 0, prmptB = 10, prmptG = 235, prmptR = 255;
 		int arrowShower, arrowBeginNodeId, arrowEndNodeId, arrowThickness, arrowR, arrowG, arrowB;
 
-
-		public Image<Rgb, byte> GetTaskImage { get { return tskImg; } }
+		
+		public Bitmap GetTaskImage { get { return tskImg.Bitmap; } }
 
 		
 		public PsycologyTask() : base(TaskType.lab)
@@ -41,7 +44,9 @@ namespace Basics
 			fixationList = new List<FNode>();
 			shapeList = new List<Node>();
 			backColor = Color.Silver;
+			
 			DrawMap();
+
 		}
 
 		public void Clear()
@@ -50,6 +55,7 @@ namespace Basics
 			shapeList = null;
 			fixationList = null;
 			backColor = Color.Silver;
+			_repaint = true;
 			DrawMap();
 		}
 		
@@ -66,6 +72,7 @@ namespace Basics
 			{
 				DrawNode(n);
 			}
+			_taskFrame = tskImg.Bitmap;
 		}
 		
 		private void ChangeBackGround()
@@ -73,15 +80,14 @@ namespace Basics
 			if (tskImg != null)
 				tskImg.Dispose();
 
-			if (tskTempImg != null)
-				tskTempImg.Dispose();
+			if (tskImg != null)
+				tskImg.Dispose();
 
 			if (useBackImage)
-				tskTempImg = new Image<Rgb, byte>(backImage);
+				tskImg = new Image<Rgba, byte>(backImage);
 			else
-				tskTempImg = new Image<Rgb, byte>(BasConfigs._monitor_resolution_x, BasConfigs._monitor_resolution_y, new Rgb(backColor));
+				tskImg = new Image<Rgba, byte>(BasConfigs._monitor_resolution_x, BasConfigs._monitor_resolution_y, new Rgba(backColor.R,backColor.G,backColor.B,1));
 			
-			tskImg = tskTempImg;
 		}
 
 		public Node CreateNode(int index, Shape shape, int num, int x, int y, int w, int h, Color sColor, Color numColor, int fixTime, int priorit, Color fixCol)
@@ -97,6 +103,7 @@ namespace Basics
 			
 			if (fixTime > 0)
 				AddFixateNode(newNode);
+			_repaint = true;
 			return newNode; 
 		}
 
@@ -111,17 +118,19 @@ namespace Basics
 				shapeList[newNode._id] = newNode;
 			if (newNode.fixationTime > 0)
 				AddFixateNode(newNode);
+			_repaint = true;
 			return newNode;
 		}
 
 		public void AddFixateNode(Node n)
         {
             fixationList.Add(new FNode(n._id, n.fixationRadius, n.pos, n.fixationTime, n.priority));
-
+			_repaint = true;
         }
 
         private void DrawNode(Node node)
 		{
+		
 			if (node.shape == Shape.Circle)
 			{
 				CvInvoke.Circle(tskImg, new Point(node.pos.X, node.pos.Y), node.width / 2, new MCvScalar(node.shapeColor.R, node.shapeColor.G, node.shapeColor.B), -1);
@@ -173,8 +182,9 @@ namespace Basics
 				CvInvoke.PutText(tskImg, node.number.ToString(), new Point(node.pos.X - posOffsetX, node.pos.Y + posOffsetY), new Emgu.CV.CvEnum.FontFace(), numSize, new MCvScalar(node.textColor.R, node.textColor.G, node.textColor.B), thickness);
 			}
 			// کشیدن فیکسیشن
-			CvInvoke.Circle(tskImg, node.pos, node.fixationRadius, new MCvScalar(node.fixationColor.R, node.fixationColor.G, node.fixationColor.B));
-			//map = img.ToBitmap();
+			if (node.fixationTime > 0)
+				CvInvoke.Circle(tskImg, node.pos, node.fixationRadius, new MCvScalar(node.fixationColor.R, node.fixationColor.G, node.fixationColor.B));
+			
 		}
 
 		/// <summary>
@@ -214,39 +224,49 @@ namespace Basics
 		/// This methode draws a circle on a node in lab tasks.
 		/// </summary>
 		
-		private void RenderNode()
+		private void RenderPrompt()
 		{
 			if (prmptNodeMaxShower == 0)
 				return;
 			if (prmptNodeShower == 0 && !prmptRecursive )
 				return;
+					
+			float alpha = ((float)prmptNodeShower / prmptNodeMaxShower);
+			
+			if (!prmptRecursiveShowerDirect)
+				prmptNodeShower--;
+			else
+				prmptNodeShower++;
 
-			int alpha = Math.Min(((int)((float)(prmptNodeShower / prmptNodeMaxShower) * 255)), 255);
-			
-			prmptNodeShower--;
-			
 			if (prmptNodeShower == 0 && prmptRecursive)
-				prmptNodeShower = prmptNodeMaxShower;
+			{
+				prmptRecursiveShowerDirect = true;
+			}
+			if (prmptNodeShower == prmptNodeMaxShower && prmptRecursive)
+			{
+				prmptRecursiveShowerDirect = false;
+			}
 
 			if (shapeList[prmptNodeId].shape == Shape.Circle)
 			{
-				CvInvoke.Circle(tskImg, new Point(shapeList[prmptNodeId].pos.X, shapeList[prmptNodeId].pos.Y), shapeList[prmptNodeId].width / 2, new MCvScalar(prmptB, prmptG, prmptR, alpha), -1);
+				CvInvoke.Circle(prmpts, new Point(shapeList[prmptNodeId].pos.X, shapeList[prmptNodeId].pos.Y), shapeList[prmptNodeId].width / 2 + 3, new MCvScalar(prmptR, prmptG, prmptB,255), -1);
 			}
 			else if (shapeList[prmptNodeId].shape == Shape.Rectangle)
 			{
-				CvInvoke.Rectangle(tskImg, new Rectangle(new Point(shapeList[prmptNodeId].pos.X - shapeList[prmptNodeId].width / 2, shapeList[prmptNodeId].pos.Y - shapeList[prmptNodeId].height / 2), new Size(shapeList[prmptNodeId].width, shapeList[prmptNodeId].height)), new MCvScalar(prmptB, prmptG, prmptR, alpha), -1);
+				CvInvoke.Rectangle(prmpts, new Rectangle(new Point(shapeList[prmptNodeId].pos.X - shapeList[prmptNodeId].width / 2 - 3, shapeList[prmptNodeId].pos.Y - shapeList[prmptNodeId].height / 2  - 3), new Size(shapeList[prmptNodeId].width + 6, shapeList[prmptNodeId].height  + 6)), new MCvScalar(prmptR, prmptG, prmptB), -1);
 			}
-		}
+			if (arrowShower > 0)
+				CvInvoke.ArrowedLine(prmpts, shapeList[arrowBeginNodeId].pos, shapeList[arrowEndNodeId].pos, new MCvScalar(0, 0, 0), arrowThickness);
 
-		private void RenderArrow()
-		{
-			if (arrowShower == 0)
-				return;
-			CvInvoke.ArrowedLine(tskImg, shapeList[arrowBeginNodeId].pos, shapeList[arrowEndNodeId].pos, new MCvScalar(0, 0, 0, 125), arrowThickness);
+			overlayer = prmpts.Bitmap;
+			overlayer.MakeTransparent(Color.Black);
+			_taskFrame = tskImg.Bitmap;
+			BitmapManager.DrawOn(overlayer, _taskFrame, alpha);
 		}
 
 		public void DrawPrompt(int Max, int id, Color prCol, bool recursive)
 		{
+			prmpts = new Image<Rgba, byte>(BasConfigs._monitor_resolution_x, BasConfigs._monitor_resolution_y, new Rgba(0, 0, 0, 0));
 			prmptNodeShower = Max;
 			prmptNodeId = id;
 			prmptNodeMaxShower = Max;
@@ -258,6 +278,11 @@ namespace Basics
 		{
 			prmptRecursive = false;
 			prmptNodeShower = 0;
+			arrowShower = 0;
+			if (prmpts != null)
+				prmpts.Dispose();
+			DrawMap();
+			_taskFrame = tskImg.Bitmap;
 		}
 
 		public int[] FindStartShapes()
@@ -285,10 +310,13 @@ namespace Basics
 		
 		public Bitmap RenderTask()
 		{
-			DrawMap();
-			RenderNode();
-			RenderArrow();
-			return tskImg.ToBitmap();
+			if (_repaint)
+			{
+				DrawMap();
+				_repaint = false;
+			}
+			RenderPrompt();
+			return _taskFrame;
 		}
 
 		public Node findNode(int x, int y)
@@ -322,8 +350,10 @@ namespace Basics
 		{
 			if (id < shapeList.Count)
 			{
-				if (shapeList[id].fixationTime > 0 && RemoveFixNode(id))
-					shapeList.RemoveAt(id);
+				if (shapeList[id].fixationTime > 0)
+					RemoveFixNode(id);
+				shapeList.RemoveAt(id);
+				_repaint = true;
 				return true;
 			}
 			return false;
@@ -337,13 +367,15 @@ namespace Basics
 					fixationList.Remove(n);
 					return true;
 				}
-			return false;
+			return true;
 		}
+		
 		/// <summary>
 		/// Saving Psycology task in text file.
 		/// In future text was replaced with bin format.
 		/// </summary>
 		/// <returns></returns>
+		
 		public bool Save()
 		{
 			int i;
@@ -515,6 +547,11 @@ namespace Basics
 			}
 			DrawMap();
 			return true;
+		}
+
+		public void Invalidate()
+		{
+			_repaint = true;
 		}
 	}
 }

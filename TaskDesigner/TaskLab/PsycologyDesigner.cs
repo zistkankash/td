@@ -37,7 +37,7 @@ namespace TaskLab
 		float screenPictureboxRatioX;
 		float screenPictureboxRatioY;
 		PsycologyTask _curTask;
-		LabDesignState designerState;
+		LabDesignState designerState, lastState;
 
 		public bool RectSel
 		{
@@ -121,7 +121,7 @@ namespace TaskLab
         {
             MARGINS marg = new MARGINS() { Left = -1, Right = -1, Top = -1, Bottom = -1 };
             DwmExtendFrameIntoClientArea(this.Handle, ref marg);
-            designerState = LabDesignState.idle;
+            designerState = LabDesignState.start;
             ScreenModer();
         }
 
@@ -143,22 +143,23 @@ namespace TaskLab
 			
 			Color sColor = Color.Black;
 			#region moving node
-			if (designerState == LabDesignState.onChange && selectedNode != null)
+			if (lastState == LabDesignState.onChange && selectedNode != null)
 			{
 				UpdateRatio(e, out x, out y);
-				GiveNode(x, y);
+				UpdateNode(x, y);
 				selectedNode.enable = false;
+				designerState = LabDesignState.onChange;
                 return;	
 			}
             #endregion
             #region add node
-            if (designerState == LabDesignState.onInsert)
+            if (lastState == LabDesignState.onInsert)
             {
 				if (!inserNode.enable)
 				{
 					UpdateRatio(e, out x, out y);
 					GiveNode(x, y);
-					_curTask.DrawPrompt(500, inserNode._id, Color.Yellow, true);
+					designerState = LabDesignState.onInsert;
 				}  
 
             }
@@ -171,36 +172,47 @@ namespace TaskLab
 			int x, y;
 			if (_curTask == null)
 				return;
+			
+			UpdateRatio(e, out x, out y);
+			Node tempSel = _curTask.findNode(x, y);
+			pnlSetting.Visible = false;
 
-			if (designerState == LabDesignState.onChange)
+			if (lastState == LabDesignState.onDesign)
 			{
-				UpdateRatio(e, out x, out y);
-				selectedNode = _curTask.findNode(x, y);
-				
-				if (selectedNode == null)
+				if (tempSel != null)
 				{
-					designerState = LabDesignState.onDesign;
-					_curTask.UndrawPrmpt();
-				}
-				else
-				{
+					designerState = LabDesignState.onChange;
+					selectedNode = tempSel;
 					selectedNode.enable = true;
 					ShowNode(selectedNode);
-					_curTask.DrawPrompt(500, selectedNode._id, Color.Yellow, true);
+					
 				}
 				return;
 			}
-			if (designerState == LabDesignState.onInsert)
+			if(lastState == LabDesignState.onChange)
 			{
-				UpdateRatio(e, out x, out y);
-				selectedNode = _curTask.findNode(x, y);
-				if (selectedNode == null)
+				if (tempSel == null)
+				{
+					
+					designerState = LabDesignState.onDesign;
+				}
+				else
+				{
+					selectedNode = tempSel;
+					selectedNode.enable = true;
+					ShowNode(selectedNode);
+					
+				}
+			}
+			if (lastState == LabDesignState.onInsert)
+			{
+				if (tempSel == null)
 					return;
-				if (selectedNode._id == inserNode._id)
+				if (tempSel._id == inserNode._id)
 				{
 					inserNode.enable = false;
 				}
-				selectedNode = null;
+				
 				return;
 			}
 
@@ -212,14 +224,22 @@ namespace TaskLab
 
 		private void btnChangeNode_Click(object sender, EventArgs e)
 		{
-			GiveNode(true, inserNode.enable);
+			GiveNode(true);
 			
+			CircSel = false;
+			RectSel = false;
+			inserNode = null;
+			selectedNode = null;
+
+			designerState = LabDesignState.onDesign;
 		}
 
 		private void btnRemoveNode_Click(object sender, EventArgs e)
 		{
-			_curTask.UndrawPrmpt();
-			if (designerState == LabDesignState.onInsert)
+			
+			CircSel = false;
+			RectSel = false;
+			if (lastState == LabDesignState.onInsert)
 			{
 				if(inserNode.enable)
 				{
@@ -228,9 +248,9 @@ namespace TaskLab
 				inserNode = null;
 			}
 
-			if (designerState == LabDesignState.onChange)
+			if (lastState == LabDesignState.onChange)
 			{
-				_curTask.RemoveNode(inserNode._id);
+				_curTask.RemoveNode(selectedNode._id);
 				selectedNode = null;
 			}
 			designerState = LabDesignState.onDesign;
@@ -244,7 +264,7 @@ namespace TaskLab
 		void chboxFixate_CheckedChanged(object sender, EventArgs e)
 		{
 			pnlFixVis = chboxFixate.Checked;
-
+			
 		}
 
         void btnCircle_Click(object sender, EventArgs e)
@@ -252,13 +272,18 @@ namespace TaskLab
             CircSel = !_circSel;
             if (_circSel)
             {
-                if (designerState == LabDesignState.onDesign)
+                if (lastState == LabDesignState.onDesign)
                 {
                     designerState = LabDesignState.onInsert;
-                }
+					GiveNode(false);
+				}
                 RectSel = false;
-                GiveNode(false, false); // To update insert Node
-            }
+				// To update  Node
+				if(lastState == LabDesignState.onChange)
+				{
+					UpdateNode(-1,-1);
+				}
+			}
             return;
         }
 
@@ -268,13 +293,18 @@ namespace TaskLab
            
             if (_rectSel)
             {
-                if (designerState == LabDesignState.onDesign)
+                if (lastState == LabDesignState.onDesign)
                 {
                     designerState = LabDesignState.onInsert;
-                }
+					GiveNode(false);
+				}
                 CircSel = false;
-                GiveNode(false, false); // To update insert Node
-            }
+                 // To update  Node
+				if (lastState == LabDesignState.onChange)
+				{
+					UpdateNode(-1,-1);
+				}
+			}
             return;
 
         }
@@ -284,7 +314,7 @@ namespace TaskLab
 			ColorDialog cDilog = new ColorDialog();
 			if (cDilog.ShowDialog() == DialogResult.OK)
 			{
-				btnNumberColor.ForeColor = cDilog.Color;
+				btnNumberColor.BackColor = cDilog.Color;
 			}
 		}
 		
@@ -293,7 +323,7 @@ namespace TaskLab
 			ColorDialog cDilog = new ColorDialog();
 			if (cDilog.ShowDialog() == DialogResult.OK)
 			{
-				btnFixateColor.ForeColor = cDilog.Color;
+				btnFixateColor.BackColor = cDilog.Color;
 			}
 		}
 
@@ -308,6 +338,40 @@ namespace TaskLab
 			{
 				btnTaskBackColor.ForeColor = cDilog.Color;
 				_curTask.backColor = cDilog.Color;
+				_curTask.Invalidate();
+			}
+		}
+
+		private void txtWidth_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+			{
+				e.Handled = true;
+			}
+
+		}
+
+		private void txtHeight_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+			{
+				e.Handled = true;
+			}
+		}
+
+		private void txtFixationTime_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+			{
+				e.Handled = true;
+			}
+		}
+
+		private void txtRadius_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+			{
+				e.Handled = true;
 			}
 		}
 
@@ -329,7 +393,8 @@ namespace TaskLab
 			if (dr == DialogResult.OK)
 			{
 				
-				_curTask.backImage = BitmapData.DrawOn(new Bitmap(of.FileName), new Size(BasConfigs._monitor_resolution_x, BasConfigs._monitor_resolution_y), _curTask.backColor);
+				_curTask.backImage = BitmapManager.DrawOn(new Bitmap(of.FileName), new Size(BasConfigs._monitor_resolution_x, BasConfigs._monitor_resolution_y), _curTask.backColor);
+				_curTask.Invalidate();
 			}
 			else
 			if(_curTask.backImage == null)
@@ -415,12 +480,13 @@ namespace TaskLab
 			}
 			if (inserNode == null)
 			{
-				inserNode = new Node(-1, 0, 0, shp, sColor, (int)numUpDownNode.Value, btnNumberColor.ForeColor, w, h);
+				inserNode = new Node(-1, x, y, shp, sColor, (int)numUpDownNode.Value, btnNumberColor.BackColor, w, h);
 			}
 			inserNode.pos.X = x;
 			inserNode.pos.Y = y;
 			//inserted node is modified so is ready to add to map.
 			inserNode.enable = true;
+
 			if (!chboxFixate.Checked) // add normal node to map
 				_curTask.CreateNode(inserNode);
 			else // add fixate node to map.
@@ -433,23 +499,16 @@ namespace TaskLab
 			}
 		}
 
-		private void txtWidth_KeyPress(object sender, KeyPressEventArgs e)
-		{
-			if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
-			{
-				e.Handled = true;
-			}
-
-		}
-
-		Node GiveNode(bool MusbBeEnabled, bool RandXY)
+		Node GiveNode(bool MusbBeEnabled)
 		{
 			Random r = new Random();
-			int w, h = 0;
+			int w, h = 0, x, y;
 			Shape shp = Shape.Circle;
 			Color sColor = Color.Red;
-			int x = r.Next(0, BasConfigs._monitor_resolution_x);
-			int y = r.Next(0, BasConfigs._monitor_resolution_y);
+
+			x = r.Next(0, BasConfigs._monitor_resolution_x);
+			y = r.Next(0, BasConfigs._monitor_resolution_y);
+
 			int.TryParse(txtWidth.Text, out w);
 			if (CircSel)
 			{
@@ -464,18 +523,21 @@ namespace TaskLab
 
 			//create new node for modify in designer not for add to map.
 			if (inserNode == null)
-				inserNode = new Node(-1, x, y, shp, sColor, (int)numUpDownNode.Value, btnNumberColor.ForeColor, w, h);
+				inserNode = new Node(-1, x, y, shp, sColor, (int)numUpDownNode.Value, btnNumberColor.BackColor, w, h);
 			else
 			{
 				inserNode.shape = shp;
-				inserNode.pos = new Point(x,y);
 				inserNode.height = h; inserNode.width = w; inserNode.number = (int)numUpDownNode.Value;
 			}
-			if (MusbBeEnabled)
+			if (MusbBeEnabled && !inserNode.enable)
+			{
 				inserNode.enable = true;
+
+			}
 			if (inserNode.enable)
 			{
 				//inserted node is modified so is ready to add to map.
+
 				if (!chboxFixate.Checked) // add normal node to map
 					_curTask.CreateNode(inserNode);
 				else // add fixate node to map.
@@ -486,8 +548,46 @@ namespace TaskLab
 					inserNode.priority = (int)numUpDownPriority.Value;
 					_curTask.CreateNode(inserNode);
 				}
+
 			}
 			return inserNode;
+		}
+
+		void UpdateNode(int x, int y)
+		{
+			int w, h = 0;
+			Shape shp = Shape.Circle;
+			Color sColor = Color.Red;
+			int.TryParse(txtWidth.Text, out w);
+
+			if (CircSel)
+			{
+				sColor = pnlBtnCircle.BackColor;
+			}
+			if (RectSel)
+			{
+				shp = Shape.Rectangle;
+				sColor = pnlBtnRect.BackColor;
+				int.TryParse(txtHeight.Text, out h);
+			}
+			selectedNode.shape = shp;
+			selectedNode.height = h; selectedNode.width = w; selectedNode.number = (int)numUpDownNode.Value;
+			
+			if (x != -1)
+				selectedNode.pos.X = x;
+			if (y != -1)
+				selectedNode.pos.Y = y;
+
+			if (!chboxFixate.Checked) // add normal node to map
+				_curTask.CreateNode(selectedNode);
+			else // add fixate node to map.
+			{
+				int.TryParse(txtFixationTime.Text, out inserNode.fixationTime);
+				int.TryParse(txtRadius.Text, out inserNode.fixationRadius);
+				selectedNode.fixationColor = btnFixateColor.ForeColor;
+				selectedNode.priority = (int)numUpDownPriority.Value;
+				_curTask.CreateNode(selectedNode);
+			}
 		}
 
 		void ScreenModer()
@@ -496,42 +596,54 @@ namespace TaskLab
 			{
 				case LabDesignState.idle:
 					{
+						PanelModer();
+						break;
+					}
+				case LabDesignState.start:
+					{
 						pbDesign.BackColor = Color.Transparent;
 						btnSetting.Enabled = false;
 						pnlSetting.Visible = false;
 						pnlShapVis = false; pnlShapPropVis = false; pnlDetalsVis = false; pnlbackVis = false; pnlFixVis = false;
 						PanelModer();
+						designerState = LabDesignState.idle;
 						break;
 					}
 				case LabDesignState.onDesign:
 					{
 						if (_circSel)
 						{
-							pnlBtnRect.BackColor = Color.Transparent;
 							txtHeight.Enabled = false;
 						}
+						else
+							pnlBtnCircle.BackColor = SystemColors.ActiveCaption;
 						if (_rectSel)
 						{
-							pnlBtnCircle.BackColor = Color.Transparent;
+							
 							txtHeight.Enabled = true;
 						}
+						else
+							pnlBtnRect.BackColor = SystemColors.ActiveCaption;
 						btnSetting.Enabled = true;
 						pnlShapVis = true; pnlShapPropVis = false; pnlDetalsVis = false; pnlbackVis = true; pnlFixVis = false;
 						chboxFixate.Checked = false;
 						PanelModer();
 						pbDesign.Cursor = Cursors.Default;
+						_curTask.UndrawPrmpt();
+						lastState = LabDesignState.onDesign;
+						designerState = LabDesignState.idle;
 						break;
 					}
 				case LabDesignState.onInsert:
 					{
 						if (_circSel)
 						{
-							pnlBtnRect.BackColor = Color.Transparent;
+							pnlBtnRect.BackColor = SystemColors.ActiveCaption;
 							txtHeight.Enabled = false;
 						}
 						if (_rectSel)
 						{
-							pnlBtnCircle.BackColor = Color.Transparent;
+							pnlBtnCircle.BackColor = SystemColors.ActiveCaption;
 							txtHeight.Enabled = true;
 						}
 						pnlShapVis = true; pnlShapPropVis = true; pnlDetalsVis = true; pnlbackVis = true;
@@ -540,8 +652,12 @@ namespace TaskLab
 							pbDesign.Cursor = Cursors.Default;
 						else
 							pbDesign.Cursor = Cursors.Hand;
+						if (inserNode.enable)
+							_curTask.DrawPrompt(10, inserNode._id, Color.AliceBlue, true);
 						btnChangeNode.Text = "Insert";
 						btnRemoveNode.Text = "Cancel";
+						lastState = LabDesignState.onInsert;
+						designerState = LabDesignState.idle;
 						break;
 					}
 				case LabDesignState.onChange:
@@ -562,9 +678,11 @@ namespace TaskLab
 							pbDesign.Cursor = Cursors.Hand;
 						else
 							pbDesign.Cursor = Cursors.Default;
-					
+						_curTask.DrawPrompt(10, selectedNode._id, Color.AliceBlue, true);
 						btnChangeNode.Text = "Change";
 						btnRemoveNode.Text = "Remove";
+						lastState = LabDesignState.onChange;
+						designerState = LabDesignState.idle;
 						break;
 					}
 			}
@@ -631,12 +749,12 @@ namespace TaskLab
 			screenPictureboxRatioX = BasConfigs._monitor_resolution_x / pbDesign.Size.Width;
 			screenPictureboxRatioY = BasConfigs._monitor_resolution_y / pbDesign.Size.Height;
 
-			x = (int)screenPictureboxRatioX * e.X;
-			y = (int)screenPictureboxRatioY * e.Y;
+			x = Math.Max((int)screenPictureboxRatioX * e.X,  10);
+			y = Math.Max((int)screenPictureboxRatioY * e.Y, 10);
 		}
 
 		#endregion
 	}
 
-	public enum LabDesignState { onInsert, onChange, onDesign, idle }
+	public enum LabDesignState { onInsert, onChange, onDesign, idle , start }
 }

@@ -101,7 +101,7 @@ namespace Basics
 				ofd.CustomPlaces.Add(@"C:\");
 				ofd.CustomPlaces.Add(@"C:\Program Files\");
 				ofd.CustomPlaces.Add(@"C:\Documents\");
-				ofd.Filter = "Task File (*.bin , *.txt)|*.bin, *.txt";
+				ofd.Filter = "Task File (*.bin , *.txt)|*.bin;*.txt";
 				if (ofd.ShowDialog() == DialogResult.OK)
 					_tskAddress = ofd.FileName;
 				else
@@ -166,6 +166,8 @@ namespace Basics
 
 					if (tsktyp == (short)TaskType.media)
 					{
+						_type = TaskType.media;
+						mediaTask = new MediaTask();
 						if (mediaTask.Load(tskFile, readIndex))
 							_taskIsReady = true;
 					}
@@ -188,7 +190,7 @@ namespace Basics
 			Bitmap b = new Bitmap(100, 100);
 			if (Type == TaskType.media)
 			{
-
+				return mediaTask.GetFrame(selSlide, pbSize);
 			}
 
 			return b;
