@@ -82,7 +82,7 @@ namespace Basics
 					ofd.CustomPlaces.Add(@"C:\");
 					ofd.CustomPlaces.Add(@"C:\Program Files\");
 					ofd.CustomPlaces.Add(@"C:\Documents\");
-					ofd.Filter = "Task File (*.bin , *.txt)|*.bin, *.txt";
+					ofd.Filter = "Task File (*.bin , *.txt)|*.bin; *.txt";
 					if (ofd.ShowDialog() == DialogResult.OK)
 						_tskAddress = ofd.FileName;
 					else
@@ -99,7 +99,7 @@ namespace Basics
 
 						return false;
 					}
-
+					return true;
 				}
 				#endregion
 				#region bin format loader

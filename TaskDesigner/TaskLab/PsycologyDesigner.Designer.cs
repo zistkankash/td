@@ -36,6 +36,7 @@
 			this.btnRemoveNode = new System.Windows.Forms.Button();
 			this.btnChangeNode = new System.Windows.Forms.Button();
 			this.pnlFixate = new System.Windows.Forms.Panel();
+			this.label10 = new System.Windows.Forms.Label();
 			this.label4 = new System.Windows.Forms.Label();
 			this.label3 = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
@@ -44,6 +45,7 @@
 			this.txtRadius = new System.Windows.Forms.TextBox();
 			this.txtFixationTime = new System.Windows.Forms.TextBox();
 			this.pnlShapeProp = new System.Windows.Forms.Panel();
+			this.label8 = new System.Windows.Forms.Label();
 			this.chboxFixate = new MetroFramework.Controls.MetroCheckBox();
 			this.numUpDownNode = new System.Windows.Forms.NumericUpDown();
 			this.label6 = new System.Windows.Forms.Label();
@@ -78,8 +80,6 @@
 			this.pbDesign = new System.Windows.Forms.PictureBox();
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
 			this.refreshTimer = new System.Windows.Forms.Timer(this.components);
-			this.label8 = new System.Windows.Forms.Label();
-			this.label10 = new System.Windows.Forms.Label();
 			this.pnlBackGround.SuspendLayout();
 			this.pnlBody.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.spltContner)).BeginInit();
@@ -215,6 +215,15 @@
 			this.pnlFixate.TabIndex = 107;
 			this.pnlFixate.Visible = false;
 			// 
+			// label10
+			// 
+			this.label10.AutoSize = true;
+			this.label10.Location = new System.Drawing.Point(126, 16);
+			this.label10.Name = "label10";
+			this.label10.Size = new System.Drawing.Size(34, 13);
+			this.label10.TabIndex = 70;
+			this.label10.Text = "Color:";
+			// 
 			// label4
 			// 
 			this.label4.AutoSize = true;
@@ -320,6 +329,15 @@
 			this.pnlShapeProp.Size = new System.Drawing.Size(210, 114);
 			this.pnlShapeProp.TabIndex = 106;
 			this.pnlShapeProp.Visible = false;
+			// 
+			// label8
+			// 
+			this.label8.AutoSize = true;
+			this.label8.Location = new System.Drawing.Point(89, 51);
+			this.label8.Name = "label8";
+			this.label8.Size = new System.Drawing.Size(74, 13);
+			this.label8.TabIndex = 70;
+			this.label8.Text = "Number Color:";
 			// 
 			// chboxFixate
 			// 
@@ -641,6 +659,7 @@
 			this.btnSave.UseCustomBackColor = true;
 			this.btnSave.UseSelectable = true;
 			this.btnSave.UseTileImage = true;
+			this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
 			// 
 			// pnlSetting
 			// 
@@ -724,6 +743,7 @@
 			this.chkSaveData.Text = "Save";
 			this.chkSaveData.UseCustomBackColor = true;
 			this.chkSaveData.UseSelectable = true;
+			this.chkSaveData.CheckedChanged += new System.EventHandler(this.chkSaveData_CheckedChanged);
 			// 
 			// cmbxSavMod
 			// 
@@ -741,6 +761,7 @@
 			this.cmbxSavMod.TabIndex = 74;
 			this.cmbxSavMod.UseCustomBackColor = true;
 			this.cmbxSavMod.UseSelectable = true;
+			this.cmbxSavMod.SelectedIndexChanged += new System.EventHandler(this.cmbxSavMod_SelectedIndexChanged);
 			// 
 			// txtPath
 			// 
@@ -794,24 +815,6 @@
 			// 
 			this.refreshTimer.Interval = 30;
 			this.refreshTimer.Tick += new System.EventHandler(this.refreshTimer_Tick);
-			// 
-			// label8
-			// 
-			this.label8.AutoSize = true;
-			this.label8.Location = new System.Drawing.Point(89, 51);
-			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(74, 13);
-			this.label8.TabIndex = 70;
-			this.label8.Text = "Number Color:";
-			// 
-			// label10
-			// 
-			this.label10.AutoSize = true;
-			this.label10.Location = new System.Drawing.Point(126, 16);
-			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(34, 13);
-			this.label10.TabIndex = 70;
-			this.label10.Text = "Color:";
 			// 
 			// PsycologyDesigner
 			// 

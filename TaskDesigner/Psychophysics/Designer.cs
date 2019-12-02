@@ -641,7 +641,7 @@ namespace Psychophysics.Old
 		private void Next_PB_Click(object sender, EventArgs e)
         {
             FrameProperties[] AddedFrame = new FrameProperties[PicBCnt];
-            List<Basics.FrameProperties> ListAddedFrame = new List<Basics.FrameProperties>();
+            List<FrameProperties> ListAddedFrame = new List<FrameProperties>();
 
             for (int i = 0; i < PicBCnt; i++)
             {
@@ -677,61 +677,61 @@ namespace Psychophysics.Old
                 FixationPts FixationVar = new FixationPts();
                 FixationVar.SetFixationPts(fixationList[i].Xloc, fixationList[i].Yloc, fixationList[i].Width, fixationList[i].Height, fixationList[i].Type, fixationList[i].ColorPt);
 
-                List<ShowFr> BoxesList = new List<ShowFr>();
-                for (int k = 0; k < ShowBoxes.Count; k++)
-                {
-                    if (FrameIndexes[k] == i + 1)
-                    {
-                        ShowFr VarShowFr = new ShowFr();
-                        VarShowFr.SetShowFrameProp(ShowBoxes[k].CenterX, ShowBoxes[k].CenterY, ShowBoxes[k].Width, ShowBoxes[k].Height, 20, ShowBoxes[k].ColorBox);
-                        BoxesList.Add(VarShowFr);
-                    }
-                }
+                //List<ShowFr> BoxesList = new List<ShowFr>();
+                //for (int k = 0; k < ShowBoxes.Count; k++)
+                //{
+                //    if (FrameIndexes[k] == i + 1)
+                //    {
+                //        ShowFr VarShowFr = new ShowFr();
+                //        VarShowFr.SetShowFrameProp(ShowBoxes[k].CenterX, ShowBoxes[k].CenterY, ShowBoxes[k].Width, ShowBoxes[k].Height, 20, ShowBoxes[k].ColorBox);
+                //        BoxesList.Add(VarShowFr);
+                //    }
+                //}
 
-                ShowFr[] ShowFrameArray;
-                int numbox = 1;
-                if (BoxesList.Count > 0)
-                {
-                    numbox = BoxesList.Count;
-                    ShowFrameArray = new ShowFr[BoxesList.Count];
-                }
-                else
-                {
-                    numbox = 1;
-                    ShowFrameArray = new ShowFr[1];
-                    ShowFrameArray[0] = new ShowFr();
-                }
-                for (int k = 0; k < BoxesList.Count; k++)
-                {
-                    ShowFrameArray[k] = new ShowFr();
-                    ShowFrameArray[k].SetShowFrameProp(BoxesList[k].CenterX, BoxesList[k].CenterY, BoxesList[k].Width, BoxesList[k].Height, BoxesList[k].Thickness, BoxesList[k].ColorBox);
-                }
+                //ShowFr[] ShowFrameArray;
+                //int numbox = 1;
+                //if (BoxesList.Count > 0)
+                //{
+                //    numbox = BoxesList.Count;
+                //    ShowFrameArray = new ShowFr[BoxesList.Count];
+                //}
+                //else
+                //{
+                //    numbox = 1;
+                //    ShowFrameArray = new ShowFr[1];
+                //    ShowFrameArray[0] = new ShowFr();
+                //}
+                //for (int k = 0; k < BoxesList.Count; k++)
+                //{
+                //    ShowFrameArray[k] = new ShowFr();
+                //    ShowFrameArray[k].SetShowFrameProp(BoxesList[k].CenterX, BoxesList[k].CenterY, BoxesList[k].Width, BoxesList[k].Height, BoxesList[k].Thickness, BoxesList[k].ColorBox);
+                //}
 
-                HintForm VarHint = new HintForm();
-                for (int k = 0; k < AddedHintsbyFrameTool.Count; k++)
-                {
-                    if (HintIndexes[k] == i + 1)
-                    {
-                        if (AddedHintsbyFrameTool[k].BoxRatio == 1)
-                        {
-                            VarHint.SetArrowProp(AddedHintsbyFrameTool[k].ArrowLocY, AddedHintsbyFrameTool[k].ArrowLocX0, AddedHintsbyFrameTool[k].ArrowLocX1, AddedHintsbyFrameTool[k].Valid, AddedHintsbyFrameTool[k].ArrowColor);
-                            VarHint.type = AddedHintsbyFrameTool[k].type;
-                            VarHint.ArrowWidth = AddedHintsbyFrameTool[k].ArrowWidth;
-                        }
-                        if (AddedHintsbyFrameTool[k].BoxRatio != 1)
-                        {
-                            VarHint.SetBoxProp(1, AddedHintsbyFrameTool[k].BoxRatio, AddedHintsbyFrameTool[k].BoxColor);
-                            VarHint.type = AddedHintsbyFrameTool[k].type;
-                        }
-                    }
-                }
+                //HintForm VarHint = new HintForm();
+                //for (int k = 0; k < AddedHintsbyFrameTool.Count; k++)
+                //{
+                //    if (HintIndexes[k] == i + 1)
+                //    {
+                //        if (AddedHintsbyFrameTool[k].BoxRatio == 1)
+                //        {
+                //            VarHint.SetArrowProp(AddedHintsbyFrameTool[k].ArrowLocY, AddedHintsbyFrameTool[k].ArrowLocX0, AddedHintsbyFrameTool[k].ArrowLocX1, AddedHintsbyFrameTool[k].Valid, AddedHintsbyFrameTool[k].ArrowColor);
+                //            VarHint.type = AddedHintsbyFrameTool[k].type;
+                //            VarHint.ArrowWidth = AddedHintsbyFrameTool[k].ArrowWidth;
+                //        }
+                //        if (AddedHintsbyFrameTool[k].BoxRatio != 1)
+                //        {
+                //            VarHint.SetBoxProp(1, AddedHintsbyFrameTool[k].BoxRatio, AddedHintsbyFrameTool[k].BoxColor);
+                //            VarHint.type = AddedHintsbyFrameTool[k].type;
+                //        }
+                //    }
+                //}
 
-                AddedFrame[i].SetProperties(frameList[i].frameColor, frameList[i].Time, FixationVar, fixationList[i].Time, NumStimulus, StimulusVar, Reward[i], VarHint, numbox, ShowFrameArray);
+                AddedFrame[i].SetProperties(frameList[i].frameColor, frameList[i].Time, FixationVar, fixationList[i].Time, NumStimulus, StimulusVar, Reward[i], null, 0, null);
                 
-                if (RepeatedFrame[i] > 0)
-                    AddedFrame[i].RepeatInfo.SetProperties(true, RepeatedFrame[i], RepeatationLength[i], RepeatedRandomLocation[i]);
-                else
-                    AddedFrame[i].RepeatInfo.SetProperties(false, RepeatedFrame[i], RepeatationLength[i], RepeatedRandomLocation[i]);
+                //if (RepeatedFrame[i] > 0)
+                //    AddedFrame[i].RepeatInfo.SetProperties(true, RepeatedFrame[i], RepeatationLength[i], RepeatedRandomLocation[i]);
+                //else
+                //    AddedFrame[i].RepeatInfo.SetProperties(false, RepeatedFrame[i], RepeatationLength[i], RepeatedRandomLocation[i]);
            }
             
             for (int i = 0; i < AddedFrame.Length; i++)
@@ -1105,7 +1105,7 @@ namespace Psychophysics.Old
 		private void UpdateTreeView(int index)
         {
             Objects_TV.Nodes[0].Nodes.Clear();
-            Objects_TV.Nodes[0].Nodes.Add("Fx");
+            //Objects_TV.Nodes[0].Nodes.Add("Fx");
 
             Objects_TV.Nodes[1].Nodes.Clear();
             int id = 0;
@@ -1627,31 +1627,31 @@ namespace Psychophysics.Old
 
             for (int i = 0; i < PicBCnt; i++)
             {
-                if (PsycoPhysicTask.AllLevelProp[index][i].ShowFrame.Length > 1)
-                {
-                    for (int j = 0; j < PsycoPhysicTask.AllLevelProp[index][i].ShowFrame.Length; j++)
-                    {
-                        ShowFr varshowfr = new ShowFr();
-                        varshowfr.SetShowFrameProp(PsycoPhysicTask.AllLevelProp[index][i].ShowFrame[j].CenterX, PsycoPhysicTask.AllLevelProp[index][i].ShowFrame[j].CenterY, PsycoPhysicTask.AllLevelProp[index][i].ShowFrame[j].Width, PsycoPhysicTask.AllLevelProp[index][i].ShowFrame[j].Height, PsycoPhysicTask.AllLevelProp[index][i].ShowFrame[j].Thickness, PsycoPhysicTask.AllLevelProp[index][i].ShowFrame[j].ColorBox);
-                        ShowBoxes.Add(varshowfr);
-                        FrameIndexes.Add(i + 1);
-                    }
-                }
+                //if (PsycoPhysicTask.AllLevelProp[index][i].ShowFrame.Length > 1)
+                //{
+                //    for (int j = 0; j < PsycoPhysicTask.AllLevelProp[index][i].ShowFrame.Length; j++)
+                //    {
+                //        ShowFr varshowfr = new ShowFr();
+                //        varshowfr.SetShowFrameProp(PsycoPhysicTask.AllLevelProp[index][i].ShowFrame[j].CenterX, PsycoPhysicTask.AllLevelProp[index][i].ShowFrame[j].CenterY, PsycoPhysicTask.AllLevelProp[index][i].ShowFrame[j].Width, PsycoPhysicTask.AllLevelProp[index][i].ShowFrame[j].Height, PsycoPhysicTask.AllLevelProp[index][i].ShowFrame[j].Thickness, PsycoPhysicTask.AllLevelProp[index][i].ShowFrame[j].ColorBox);
+                //        ShowBoxes.Add(varshowfr);
+                //        FrameIndexes.Add(i + 1);
+                //    }
+                //}
             }
 
-            for (int i = 0; i < PicBCnt; i++)
-            {
-                if (PsycoPhysicTask.AllLevelProp[index][i].Cue.type != 0)
-                {
-                    HintForm varhintform = new HintForm();
-                    varhintform.SetArrowProp(PsycoPhysicTask.AllLevelProp[index][i].Cue.ArrowLocY, PsycoPhysicTask.AllLevelProp[index][i].Cue.ArrowLocX0, PsycoPhysicTask.AllLevelProp[index][i].Cue.ArrowLocX1, PsycoPhysicTask.AllLevelProp[index][i].Cue.Valid, PsycoPhysicTask.AllLevelProp[index][i].Cue.ArrowColor);
-                    varhintform.SetBoxProp(PsycoPhysicTask.AllLevelProp[index][i].Cue.BoxThickness,PsycoPhysicTask.AllLevelProp[index][i].Cue.BoxRatio, PsycoPhysicTask.AllLevelProp[index][i].Cue.BoxColor);
-                    varhintform.type = PsycoPhysicTask.AllLevelProp[index][i].Cue.type;
-                    varhintform.ArrowWidth = PsycoPhysicTask.AllLevelProp[index][i].Cue.ArrowWidth;
-                    AddedHintsbyFrameTool.Add(varhintform);
-                    HintIndexes.Add(i + 1);
-                }
-            }
+            //for (int i = 0; i < PicBCnt; i++)
+            //{
+            //    if (PsycoPhysicTask.AllLevelProp[index][i].Cue.type != 0)
+            //    {
+            //        HintForm varhintform = new HintForm();
+            //        varhintform.SetArrowProp(PsycoPhysicTask.AllLevelProp[index][i].Cue.ArrowLocY, PsycoPhysicTask.AllLevelProp[index][i].Cue.ArrowLocX0, PsycoPhysicTask.AllLevelProp[index][i].Cue.ArrowLocX1, PsycoPhysicTask.AllLevelProp[index][i].Cue.Valid, PsycoPhysicTask.AllLevelProp[index][i].Cue.ArrowColor);
+            //        varhintform.SetBoxProp(PsycoPhysicTask.AllLevelProp[index][i].Cue.BoxThickness,PsycoPhysicTask.AllLevelProp[index][i].Cue.BoxRatio, PsycoPhysicTask.AllLevelProp[index][i].Cue.BoxColor);
+            //        varhintform.type = PsycoPhysicTask.AllLevelProp[index][i].Cue.type;
+            //        varhintform.ArrowWidth = PsycoPhysicTask.AllLevelProp[index][i].Cue.ArrowWidth;
+            //        AddedHintsbyFrameTool.Add(varhintform);
+            //        HintIndexes.Add(i + 1);
+            //    }
+            //}
             ActivePicB = PicBCnt;
 
             // Panel Graphic setting

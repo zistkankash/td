@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -181,11 +178,11 @@ namespace TaskLab
 			{
 				if (tempSel != null)
 				{
-					designerState = LabDesignState.onChange;
+					
 					selectedNode = tempSel;
 					selectedNode.enable = true;
 					ShowNode(selectedNode);
-					
+					designerState = LabDesignState.onChange;
 				}
 				return;
 			}
@@ -201,7 +198,7 @@ namespace TaskLab
 					selectedNode = tempSel;
 					selectedNode.enable = true;
 					ShowNode(selectedNode);
-					
+					designerState = LabDesignState.onChange;
 				}
 			}
 			if (lastState == LabDesignState.onInsert)
@@ -211,6 +208,7 @@ namespace TaskLab
 				if (tempSel._id == inserNode._id)
 				{
 					inserNode.enable = false;
+
 				}
 				
 				return;
@@ -224,8 +222,10 @@ namespace TaskLab
 
 		private void btnChangeNode_Click(object sender, EventArgs e)
 		{
-			GiveNode(true);
-			
+			if (lastState == LabDesignState.onInsert)
+				GiveNode(true);
+			if (lastState == LabDesignState.onChange)
+				UpdateNode(-1, -1);
 			CircSel = false;
 			RectSel = false;
 			inserNode = null;
@@ -254,11 +254,6 @@ namespace TaskLab
 				selectedNode = null;
 			}
 			designerState = LabDesignState.onDesign;
-		}
-
-		void btnSetting_Click(object sender, EventArgs e)
-		{
-			pnlSetting.Visible = !pnlSetting.Visible;
 		}
 
 		void chboxFixate_CheckedChanged(object sender, EventArgs e)
@@ -338,7 +333,7 @@ namespace TaskLab
 			ColorDialog cDilog = new ColorDialog();
 			if (cDilog.ShowDialog() == DialogResult.OK)
 			{
-				btnTaskBackColor.ForeColor = cDilog.Color;
+				btnTaskBackColor.BackColor = cDilog.Color;
 				_curTask.backColor = cDilog.Color;
 				_curTask.Invalidate();
 			}
@@ -425,12 +420,55 @@ namespace TaskLab
 		{
 			if (refreshTimer.Enabled)
 				refreshTimer.Stop();
+			if (_curTask == null)
+				_curTask = new PsycologyTask();
 			if (_curTask.Load())
 			{
+				LoadTaskDesigner();
 				designerState = LabDesignState.onDesign;
 				refreshTimer.Start();
 
 			}
+		}
+
+		void btnSetting_Click(object sender, EventArgs e)
+		{
+			pnlSetting.Visible = !pnlSetting.Visible;
+		}
+
+		private void cmbxSavMod_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			if (cmbxSavMod.SelectedIndex == 0)
+			{
+				_curTask.SavingMode = SaveMod.txt;
+				_curTask.Save();
+				if (_curTask.Address != null)
+					txtPath.Text = _curTask.Address;
+			}
+		}
+
+		private void chkSaveData_CheckedChanged(object sender, EventArgs e)
+		{
+			if (!chkSaveData.Checked)
+			{
+				_curTask.UnSave();
+				txtPath.Text = "";
+			}
+			else
+				cmbxSavMod.DroppedDown = true;
+			
+		}
+
+		private void btnSave_Click(object sender, EventArgs e)
+		{
+			if (!chkSaveData.Checked)
+			{
+				chkSaveData.Checked = true;
+				pnlSetting.Visible = true;
+				cmbxSavMod.DroppedDown = true;
+			}
+			else
+				CheckSave(false);
 		}
 
 		#endregion
@@ -443,16 +481,18 @@ namespace TaskLab
 			{
 				pnlBtnCircle.BackColor = node.shapeColor;
 				txtHeight.Enabled = false;
+				_circSel = true;
 			}
 			else if (node.shape == Shape.Rectangle)
 			{
+				_rectSel = true;
 				txtHeight.Text = node.height.ToString();
 				pnlBtnRect.BackColor = node.shapeColor;
 			}
 			txtWidth.Text = node.width.ToString();
 			numUpDownNode.Value = node.number;
 			//cmbNumber.Text = node.number.ToString();
-			btnNumberColor.ForeColor = node.textColor;
+			btnNumberColor.BackColor = node.textColor;
 			if (node.fixationTime > 0)
 			{
 				chboxFixate.Checked = true;
@@ -480,16 +520,15 @@ namespace TaskLab
 				sColor = pnlBtnRect.BackColor;
 				int.TryParse(txtHeight.Text, out h);
 			}
-			if (inserNode == null)
-			{
-				inserNode = new Node(-1, x, y, shp, sColor, (int)numUpDownNode.Value, btnNumberColor.BackColor, w, h);
-			}
+		
 			inserNode.pos.X = x;
 			inserNode.pos.Y = y;
-			//inserted node is modified so is ready to add to map.
+			
+			//inserted node is drawed on image so is ready to add to map.
 			inserNode.enable = true;
 
-			if (!chboxFixate.Checked) // add normal node to map
+			// add normal node to map
+			if (!chboxFixate.Checked) 
 				_curTask.CreateNode(inserNode);
 			else // add fixate node to map.
 			{
@@ -529,7 +568,7 @@ namespace TaskLab
 			else
 			{
 				inserNode.shape = shp;
-				inserNode.height = h; inserNode.width = w; inserNode.number = (int)numUpDownNode.Value;
+				inserNode.height = h; inserNode.width = w; inserNode.number = (int)numUpDownNode.Value; inserNode.textColor = btnNumberColor.BackColor;
 			}
 			if (MusbBeEnabled && !inserNode.enable)
 			{
@@ -555,6 +594,13 @@ namespace TaskLab
 			return inserNode;
 		}
 
+		
+		/// <summary>
+		/// update node features for example  width or height.
+		/// use  input x and y  -1 to avoid update node position.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
 		void UpdateNode(int x, int y)
 		{
 			int w, h = 0;
@@ -608,26 +654,18 @@ namespace TaskLab
 						pnlSetting.Visible = false;
 						pnlShapVis = false; pnlShapPropVis = false; pnlDetalsVis = false; pnlbackVis = false; pnlFixVis = false;
 						PanelModer();
+						lastState = LabDesignState.start;
 						designerState = LabDesignState.idle;
 						break;
 					}
 				case LabDesignState.onDesign:
 					{
-						if (_circSel)
-						{
-							txtHeight.Enabled = false;
-						}
-						else
-							pnlBtnCircle.BackColor = SystemColors.ActiveCaption;
-						if (_rectSel)
-						{
-							
-							txtHeight.Enabled = true;
-						}
-						else
-							pnlBtnRect.BackColor = SystemColors.ActiveCaption;
+						_rectSel = false;
+						_circSel = false;
+						pnlBtnCircle.BackColor = SystemColors.ActiveCaption;
+						pnlBtnRect.BackColor = SystemColors.ActiveCaption;
 						btnSetting.Enabled = true;
-						pnlShapVis = true; pnlShapPropVis = false; pnlDetalsVis = false; pnlbackVis = true; pnlFixVis = false;
+						pnlShapVis = true; pnlShapPropVis = false; pnlDetalsVis = false; pnlbackVis = false; pnlFixVis = false;
 						chboxFixate.Checked = false;
 						PanelModer();
 						pbDesign.Cursor = Cursors.Default;
@@ -648,7 +686,7 @@ namespace TaskLab
 							pnlBtnCircle.BackColor = SystemColors.ActiveCaption;
 							txtHeight.Enabled = true;
 						}
-						pnlShapVis = true; pnlShapPropVis = true; pnlDetalsVis = true; pnlbackVis = true;
+						pnlShapVis = true; pnlShapPropVis = true; pnlDetalsVis = true; pnlbackVis = false;
 						PanelModer();
 						if (inserNode.enable)
 							pbDesign.Cursor = Cursors.Default;
@@ -674,7 +712,7 @@ namespace TaskLab
 							pnlBtnCircle.BackColor = SystemColors.ActiveCaption;
 							txtHeight.Enabled = true;
 						}
-						pnlShapVis = true; pnlShapPropVis = true; pnlDetalsVis = true; pnlbackVis = true;
+						pnlShapVis = true; pnlShapPropVis = true; pnlDetalsVis = true; pnlbackVis = false;
 						PanelModer();
 						if (selectedNode.enable)
 							pbDesign.Cursor = Cursors.Hand;
@@ -725,9 +763,9 @@ namespace TaskLab
 			pnlPictureDesign.Visible = pnlbackVis;
 		}
 
-		bool CheckSave(bool showDialog)
+		bool CheckSave(bool showDialogtoContinue)
 		{
-			if (!showDialog)
+			if (!showDialogtoContinue)
 			{
 				return _curTask == null || _curTask.Save();
 			}
@@ -753,6 +791,22 @@ namespace TaskLab
 
 			x = Math.Max((int)screenPictureboxRatioX * e.X,  10);
 			y = Math.Max((int)screenPictureboxRatioY * e.Y, 10);
+		}
+
+		void LoadTaskDesigner()
+		{
+			if (_curTask == null)
+				return;
+			if (_curTask.useBackImage)
+				chkboxUseBackImage.Checked = true;
+			if (_curTask.Address != null)
+			{
+				chkSaveData.Checked = true;
+				txtPath.Text = _curTask.Address;
+			}
+			btnTaskBackColor.BackColor = _curTask.backColor;
+			
+
 		}
 
 		#endregion

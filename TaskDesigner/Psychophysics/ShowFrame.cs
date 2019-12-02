@@ -40,7 +40,7 @@ namespace Psychophysics
 		int counter = 0;
 		int level = 0;
 		int frame = 0;
-		int timelimit = 0;
+		
 		int framelimit = 0;
 		int repeat;
 		int baseframe = 0;
@@ -196,7 +196,7 @@ namespace Psychophysics
 					_eventData += "t," + trialCounter.ToString() + ",C," + (level + 1).ToString() + ",FN," + (frame + 1).ToString() + ", ," + _eventMicSW.ElapsedMicroseconds.ToString() + "\n";
 				
 			} 
-			timelimit = PsycoPhysicTask.AllLevelProp[level][frame].FrameTime;
+			Timer1.Interval = PsycoPhysicTask.AllLevelProp[level][frame].FrameTime;
 			framelimit = PsycoPhysicTask.AllLevelProp[level].Count;
 			
 			
@@ -515,14 +515,7 @@ namespace Psychophysics
 
 				this.BeginInvoke(new MethodInvoker(Close));
 			}
-
 				
-
-			if (sw.ElapsedMilliseconds < timelimit && !fixatehappened)
-			{
-				
-				return;
-			}
 			
 			sw.Stop();
 			microTimer.Stop();
@@ -1018,7 +1011,7 @@ namespace Psychophysics
 						_eventData += "t," + trialCounter.ToString() + ",C," + (level + 1).ToString() + ",FN," + (frame + 1).ToString() + ", ," + _eventMicSW.ElapsedMicroseconds.ToString() + "\n";
 
 				}
-				timelimit = PsycoPhysicTask.AllLevelProp[level][frame].FrameTime;
+				Timer1.Interval = PsycoPhysicTask.AllLevelProp[level][frame].FrameTime;
 				FixationRewardType = PsycoPhysicTask.AllLevelProp[level][frame].RewardType;
 
 				return true;
@@ -1045,7 +1038,7 @@ namespace Psychophysics
 				else
 					_eventData += "t," + trialCounter.ToString() + ",C," + (level + 1).ToString() + ",FN," + (frame + 1).ToString() + ", ," + _eventMicSW.ElapsedMicroseconds.ToString() + "\n";
 			}
-			timelimit = PsycoPhysicTask.AllLevelProp[level][frame].FrameTime;
+			Timer1.Interval = PsycoPhysicTask.AllLevelProp[level][frame].FrameTime;
 			framelimit = PsycoPhysicTask.AllLevelProp[level].Count;
 			FixationRewardType = PsycoPhysicTask.AllLevelProp[level][frame].RewardType;
 
@@ -1126,27 +1119,27 @@ namespace Psychophysics
 			#endregion
 
 			#region check dist fixate
-			if (dist < FixationCenterWidth * FixationCenterWidth && timelimit > 0)
+			if (dist < FixationCenterWidth * FixationCenterWidth)
 			{
 				if (!InROI)
 				{
 					InROI = true;
-					//Debug.Write("fix entered\n");
+					
 					FixationCenterTime = PsycoPhysicTask.AllLevelProp[level][frame].FixationTime;
 					FixationSW.Restart();
 					if (_useGaz)
-						_eventData += "t," + trialCounter.ToString() + ",C," + (level + 1).ToString() + ",F," + (frame + 1).ToString() + ",FIXENTERED," + _eventMicSW.ElapsedMicroseconds.ToString() + "\n";
+						_eventData += _eventMicSW.ElapsedMicroseconds.ToString() + "\n";
 
 				}
 				else
 				{
-					//Debug.Write("fix continued, fix time is "  + FixationSW.ElapsedMilliseconds.ToString()  + " and  dist is :" + dist.ToString() + "\n");
+					
 					if (FixationSW.ElapsedMilliseconds >= FixationCenterTime)
 					{
 						microTimer.Stop();
-						//Debug.Write("fix holded, fix time is " + FixationSW.ElapsedMilliseconds.ToString() + " and  dist is :" + dist.ToString() + "\n");
+						
 						if (_useGaz)
-							_eventData += "t," + trialCounter.ToString() + ",C," + (level + 1).ToString() + ",F," + (frame + 1).ToString() + ",FIXHOLDED," + _eventMicSW.ElapsedMicroseconds.ToString() + "\n";
+							_eventData +=  _eventMicSW.ElapsedMicroseconds.ToString() + "\n";
 						fixatehappened = true;
 						FixationSW.Reset();
 						
@@ -1159,12 +1152,12 @@ namespace Psychophysics
 			#region else check fixate
 			else
 			{
-				//Debug.Write("fix failed, dist is :" + dist.ToString() + "\n");
+				
 				if (InROI && FixationSW.ElapsedMilliseconds < FixationCenterTime)
 				{
-					//Debug.Write("fix not holded, dist is :" + dist.ToString() + "\n");
+					
 					if (_useGaz)
-						_eventData += "t," + trialCounter.ToString() + ",C," + (level + 1).ToString() + ",F," + (frame + 1).ToString() + ",FIXDISPOSED," + _eventMicSW.ElapsedMicroseconds.ToString() + "\n";
+						_eventData +=  _eventMicSW.ElapsedMicroseconds.ToString() + "\n";
 					InROI = false;
 					fixatehappened = false;
 					FirstTimeInRoi = true;

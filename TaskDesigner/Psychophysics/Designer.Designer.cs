@@ -274,9 +274,9 @@ namespace Psychophysics.Old
 			// 
 			this.panel7.BackColor = System.Drawing.Color.DimGray;
 			this.panel7.Controls.Add(this.label1);
-			this.panel7.Location = new System.Drawing.Point(0, 275);
+			this.panel7.Location = new System.Drawing.Point(2, 275);
 			this.panel7.Name = "panel7";
-			this.panel7.Size = new System.Drawing.Size(159, 27);
+			this.panel7.Size = new System.Drawing.Size(155, 27);
 			this.panel7.TabIndex = 2;
 			// 
 			// label1
@@ -331,7 +331,7 @@ namespace Psychophysics.Old
 			this.panel5.Controls.Add(this.cmbtrigger);
 			this.panel5.Location = new System.Drawing.Point(2, 275);
 			this.panel5.Name = "panel5";
-			this.panel5.Size = new System.Drawing.Size(158, 109);
+			this.panel5.Size = new System.Drawing.Size(155, 109);
 			this.panel5.TabIndex = 5;
 			// 
 			// label20
@@ -510,9 +510,9 @@ namespace Psychophysics.Old
 			this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label14.Location = new System.Drawing.Point(7, 36);
 			this.label14.Name = "label14";
-			this.label14.Size = new System.Drawing.Size(44, 13);
+			this.label14.Size = new System.Drawing.Size(49, 13);
 			this.label14.TabIndex = 24;
-			this.label14.Text = "Height";
+			this.label14.Text = "Y(pixel)";
 			// 
 			// label15
 			// 
@@ -520,9 +520,9 @@ namespace Psychophysics.Old
 			this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label15.Location = new System.Drawing.Point(7, 10);
 			this.label15.Name = "label15";
-			this.label15.Size = new System.Drawing.Size(40, 13);
+			this.label15.Size = new System.Drawing.Size(49, 13);
 			this.label15.TabIndex = 22;
-			this.label15.Text = "Width";
+			this.label15.Text = "X(pixel)";
 			// 
 			// Y_Fixation_Location_ET
 			// 
@@ -546,19 +546,19 @@ namespace Psychophysics.Old
 			this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label12.Location = new System.Drawing.Point(7, 90);
 			this.label12.Name = "label12";
-			this.label12.Size = new System.Drawing.Size(15, 13);
+			this.label12.Size = new System.Drawing.Size(62, 13);
 			this.label12.TabIndex = 20;
-			this.label12.Text = "Y";
+			this.label12.Text = "Y(degree)";
 			// 
 			// label10
 			// 
 			this.label10.AutoSize = true;
 			this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label10.Location = new System.Drawing.Point(7, 64);
+			this.label10.Location = new System.Drawing.Point(2, 64);
 			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(15, 13);
+			this.label10.Size = new System.Drawing.Size(62, 13);
 			this.label10.TabIndex = 18;
-			this.label10.Text = "X";
+			this.label10.Text = "X(degree)";
 			// 
 			// StimulusPanel
 			// 

@@ -49,22 +49,6 @@ namespace Basics
 
 		}
 
-		public void Clear()
-		{
-			base._taskIsReady = false;
-			shapeList = null;
-			fixationList = null;
-			backColor = Color.Silver;
-			_repaint = true;
-			DrawMap();
-		}
-		
-		public bool Load()
-		{
-			LoadFile(true);
-			return Load(lines);
-		}
-				
 		public void DrawMap()
 		{
 			ChangeBackGround();
@@ -410,8 +394,6 @@ namespace Basics
 				for (i = 0; i < shapeList.Count; i++)
 				{
 					char shape = 'c';
-					if (shapeList[i].shape == Shape.Circle)
-						shape = 'c';
 					if (shapeList[i].shape == Shape.Rectangle)
 						shape = 'r';
 					int shapecolorR = shapeList[i].shapeColor.R;
@@ -547,6 +529,24 @@ namespace Basics
 			}
 			DrawMap();
 			return true;
+		}
+
+		public void Clear()
+		{
+			base._taskIsReady = false;
+			shapeList = null;
+			fixationList = null;
+			backColor = Color.Silver;
+			_repaint = true;
+			DrawMap();
+		}
+
+		public bool Load()
+		{
+			if (LoadFile(true))
+				return Load(lines);
+			else
+				return false;
 		}
 
 		public void Invalidate()

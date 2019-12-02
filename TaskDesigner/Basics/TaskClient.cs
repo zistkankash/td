@@ -143,6 +143,7 @@ namespace Basics
 
 						else if (lines[0] == "Number Of Levels")
 						{
+							psycoPhysicsTask = new PsycoPhysicTask();
 							if (psycoPhysicsTask.LoadTaskFromFile(false, _tskAddress))
 							{
 								_type = TaskType.cognitive;
