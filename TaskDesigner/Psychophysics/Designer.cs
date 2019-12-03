@@ -166,8 +166,8 @@ namespace Psychophysics.Old
             FrameIndexes.Clear();
             DeletedFrames.Clear();
 
-            MonitorWidth_TB.Enabled = false;
-            MonitorHeight_TB.Enabled = false;
+            X_TB.Enabled = false;
+            Y_TB.Enabled = false;
 			#region new desidn mod
 			if (mode == 1) //A: new designer
             {
@@ -176,9 +176,9 @@ namespace Psychophysics.Old
                 // Frame Initialization
                 FrameProp frm = new FrameProp();
                 frameList.Add(frm);
-                MonitorWidth_TB.Text = Convert.ToString(frameList[0].frameWidth);
+                X_TB.Text = Convert.ToString(frameList[0].frameWidth);
 
-                MonitorHeight_TB.Text = Convert.ToString(frameList[0].frameHeight);
+                Y_TB.Text = Convert.ToString(frameList[0].frameHeight);
 
                 FrameTime_ET.Text = Convert.ToString(frameList[0].Time);
 
@@ -247,11 +247,11 @@ namespace Psychophysics.Old
 																					          //A:didnt use it later?!just showing it!
 			X_Fixation_Location_ET.Text = Convert.ToString(X); //A: shows it on the text box
             Y_Fixation_Location_ET.Text = Convert.ToString(Y);
-
-
+            X_TB.Text = e.X.ToString();
+            Y_TB.Text = e.Y.ToString();
             if(moveObject)
             {
-                Debug.Write("indexMoveObject " + indexMoveObject + "\n");
+                
                 stimulusList[indexMoveObject].Xloc += (Convert.ToInt16(initX * 100 / ViewSize) - moveObjectX);
                 stimulusList[indexMoveObject].Yloc += (Convert.ToInt16(initY * 100 / ViewSize) - moveObjectY);
                 stimulusList[indexMoveObject].ConvertToDeg();
@@ -525,8 +525,8 @@ namespace Psychophysics.Old
             // Frame setting
             FrameProp newFrame = new FrameProp();
             frameList.Add(newFrame);
-            MonitorWidth_TB.Text = Convert.ToString(frameList[ActivePicB - 1].frameWidth);
-            MonitorHeight_TB.Text = Convert.ToString(frameList[ActivePicB - 1].frameHeight);
+            X_TB.Text = Convert.ToString(frameList[ActivePicB - 1].frameWidth);
+            Y_TB.Text = Convert.ToString(frameList[ActivePicB - 1].frameHeight);
             FrameTime_ET.Text = Convert.ToString(frameList[ActivePicB - 1].Time);
 
             // Fixation setting
@@ -780,9 +780,10 @@ namespace Psychophysics.Old
                 FixationTime_ET.Enabled = true;
             else
                 FixationTime_ET.Enabled = false;
-            Debug.Write("Debug Rew: "+ Reward[ActivePicB - 1] + "\n");
+
             //SelectRewardType_CB.SelectedIndex = Reward[ActivePicB - 1];
             //RewardType_LB.Text = Reward[ActivePicB - 1].ToString();
+            cmbtrigger.SelectedIndex = 0;
             UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList);
             UpdateTreeView(ActivePicB - 1);
 		}                              //A:DONE
