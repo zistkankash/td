@@ -50,8 +50,8 @@ namespace Basics
 		List<int> a = new List<int>();
 		private XmlThemeLoader xtl = new XmlThemeLoader();
 		// Save Parameters
-		public static bool Savetask = false;
-		public static string DataPath = "";
+		public bool Savetask = false;
+		public string DataPath = "";
 		// Keyboard
 		public static char keyboardChar = ' ';
 
@@ -161,96 +161,7 @@ namespace Basics
 					SettingFrm.Show();
 					break;
 				case 3:
-					SaveFileDialog sfd = new SaveFileDialog();
-					sfd.Filter = "Text Files (*.txt)|*.txt";
-
-					if (sfd.ShowDialog() == DialogResult.OK)
-					{
-						// Text File
-						String SaveText = "";
-						SaveText += "Number Of Levels\n";
-						int levelcnt = AllLevelProp.Count;
-						SaveText += levelcnt + "\n";
-						for (int i = 0; i < levelcnt; i++)
-						{
-							SaveText += "___Name\n";
-							SaveText += "___" + AllLevelName[i] + "\n";
-							SaveText += "___Number Of Repeatation\n";
-							int repeatnum = NumerRepeat[i];
-							SaveText += "___" + repeatnum + "\n";
-							SaveText += "___Number Of Frames\n";
-							int framecnt = AllLevelProp[i].Count;
-							SaveText += "___" + framecnt + "\n";
-							for (int j = 0; j < framecnt; j++)
-							{
-								SaveText += "______Frame" + j + "\n______" + AllLevelProp[i][j].FrameTime + " " + AllLevelProp[i][j].BGColor.R + " " + AllLevelProp[i][j].BGColor.G + " " + AllLevelProp[i][j].BGColor.B + "\n";
-								SaveText += "_________Fixation\n";
-								SaveText += "_________" + AllLevelProp[i][j].Fixation.Xloc + " " + AllLevelProp[i][j].Fixation.Yloc + " " + AllLevelProp[i][j].Fixation.Width + " " + AllLevelProp[i][j].Fixation.Type + " " + AllLevelProp[i][j].FixationTime + " " + AllLevelProp[i][j].Fixation.ColorPt.R + " " + AllLevelProp[i][j].Fixation.ColorPt.G + " " + AllLevelProp[i][j].Fixation.ColorPt.B + "\n";
-								int stimuluscnt = AllLevelProp[i][j].NumberSaccade;
-								SaveText += "_________Number Of Stimulus\n";
-								SaveText += "_________" + stimuluscnt + "\n";
-								for (int k = 0; k < stimuluscnt; k++)
-								{
-									SaveText += "_________Stimulus\n";
-									if (AllLevelProp[i][j].Stimulus[k].Type == 1 || AllLevelProp[i][j].Stimulus[k].Type == 5 || AllLevelProp[i][j].Stimulus[k].Type == 9)
-									{
-										SaveText += "_________" + AllLevelProp[i][j].Stimulus[k].Type + " " + AllLevelProp[i][j].Stimulus[k].Xloc + " " + AllLevelProp[i][j].Stimulus[k].Yloc + " " + AllLevelProp[i][j].Stimulus[k].Width + " " + AllLevelProp[i][j].Stimulus[k].Height + " " + AllLevelProp[i][j].Stimulus[k].ColorPt.R + " " + AllLevelProp[i][j].Stimulus[k].ColorPt.G + " " + AllLevelProp[i][j].Stimulus[k].ColorPt.B + " " + AllLevelProp[i][j].Stimulus[k].Contrast + "\n";
-									}
-									if (AllLevelProp[i][j].Stimulus[k].Type == 2 || AllLevelProp[i][j].Stimulus[k].Type == 6 || AllLevelProp[i][j].Stimulus[k].Type == 10)
-									{
-										SaveText += "_________" + AllLevelProp[i][j].Stimulus[k].Type + " " + AllLevelProp[i][j].Stimulus[k].Xloc + " " + AllLevelProp[i][j].Stimulus[k].Yloc + " " + AllLevelProp[i][j].Stimulus[k].Width + " " + AllLevelProp[i][j].Stimulus[k].Height + " " + AllLevelProp[i][j].Stimulus[k].ColorPt.R + " " + AllLevelProp[i][j].Stimulus[k].ColorPt.G + " " + AllLevelProp[i][j].Stimulus[k].ColorPt.B + " " + AllLevelProp[i][j].Stimulus[k].Contrast + "\n";
-									}
-									if (AllLevelProp[i][j].Stimulus[k].Type == 3 || AllLevelProp[i][j].Stimulus[k].Type == 7 || AllLevelProp[i][j].Stimulus[k].Type == 11)
-									{
-										SaveText += "_________" + AllLevelProp[i][j].Stimulus[k].Type + " " + AllLevelProp[i][j].Stimulus[k].Xloc + " " + AllLevelProp[i][j].Stimulus[k].Yloc + " " + AllLevelProp[i][j].Stimulus[k].Width + " " + AllLevelProp[i][j].Stimulus[k].Height + " " + AllLevelProp[i][j].Stimulus[k].ColorPt.R + " " + AllLevelProp[i][j].Stimulus[k].ColorPt.G + " " + AllLevelProp[i][j].Stimulus[k].ColorPt.B + " " + AllLevelProp[i][j].Stimulus[k].Contrast + "\n";
-									}
-									if (AllLevelProp[i][j].Stimulus[k].Type == 4 || AllLevelProp[i][j].Stimulus[k].Type == 8 || AllLevelProp[i][j].Stimulus[k].Type == 12)
-									{
-										if (File.Exists(AllLevelProp[i][j].Stimulus[k].PathPic))
-										{
-											Uri uriFilePath = new Uri(@AllLevelProp[i][j].Stimulus[k].PathPic);
-											SaveText += "_________" + AllLevelProp[i][j].Stimulus[k].Type + " " + AllLevelProp[i][j].Stimulus[k].Xloc + " " + AllLevelProp[i][j].Stimulus[k].Yloc + " " + AllLevelProp[i][j].Stimulus[k].Width + " " + AllLevelProp[i][j].Stimulus[k].Height + "\n_________" + AllLevelProp[i][j].Stimulus[k].PathPic + "\n";
-										}
-									}
-								}
-
-								SaveText += "_________Showframe\n";
-								int showframecnt = AllLevelProp[i][j].ShowFrame.Length;
-								SaveText += "_________" + showframecnt + "\n";
-								for (int k = 0; k < showframecnt; k++)
-								{
-									SaveText += "_________Showframe" + k + "\n";
-									SaveText += "_________" + AllLevelProp[i][j].ShowFrame[k].CenterX + " " + AllLevelProp[i][j].ShowFrame[k].CenterY + " " + AllLevelProp[i][j].ShowFrame[k].Width + " " + AllLevelProp[i][j].ShowFrame[k].Height + " " + AllLevelProp[i][j].ShowFrame[k].Thickness + " " + AllLevelProp[i][j].ShowFrame[k].ColorBox.R + " " + AllLevelProp[i][j].ShowFrame[k].ColorBox.R + " " + AllLevelProp[i][j].ShowFrame[k].ColorBox.R + "\n";
-								}
-
-								SaveText += "_________Cue\n";
-								if (AllLevelProp[i][j].Cue.type == 1)
-								{
-									SaveText += "_________" + AllLevelProp[i][j].Cue.type + " " + AllLevelProp[i][j].Cue.ArrowLocX0 + " " + AllLevelProp[i][j].Cue.ArrowLocX1 + " " + AllLevelProp[i][j].Cue.ArrowLocY + " " + AllLevelProp[i][j].Cue.Valid + " " + AllLevelProp[i][j].Cue.ArrowColor.R + " " + AllLevelProp[i][j].Cue.ArrowColor.G + " " + AllLevelProp[i][j].Cue.ArrowColor.B + " " + AllLevelProp[i][j].Cue.ArrowWidth + "\n";
-								}
-								else if (AllLevelProp[i][j].Cue.type == 2)
-								{
-									SaveText += "_________" + AllLevelProp[i][j].Cue.type + " " + AllLevelProp[i][j].Cue.BoxRatio + "\n";
-								}
-								else
-								{
-									SaveText += "_________" + AllLevelProp[i][j].Cue.type + "\n";
-								}
-
-								SaveText += "_________Reward\n";
-								SaveText += "_________" + AllLevelProp[i][j].RewardType + "\n";
-
-								SaveText += "_________RepeatInfo\n";
-								SaveText += "_________" + AllLevelProp[i][j].RepeatInfo.Active + " " + AllLevelProp[i][j].RepeatInfo.RepeatationNumber + " " + AllLevelProp[i][j].RepeatInfo.Length + " " + AllLevelProp[i][j].RepeatInfo.RandomLocation + "\n";
-							}
-						}
-						SaveText += "Distance " + userDistance + "\n";
-						SaveText += "MoniTorWidth(m) " + WidthM + "\n";
-						SaveText += "MoniTorHeight(m) " + HeightM + "\n";
-						SaveText += "MoniTorWidth(pixel) " + WidthP + "\n";
-						SaveText += "MoniTorHeight(pixel) " + HeightP + "\n";
-						File.WriteAllText(sfd.FileName, SaveText);
-					}
+					SavePsycoPhysicTask(true);
 					break;
 				case 2:
 					{
@@ -265,6 +176,85 @@ namespace Basics
 
 		}
 
+		public bool SavePsycoPhysicTask(bool ShowMessage)
+		{
+			if (DataPath == "")
+			{
+				if (ShowMessage)
+				{
+					SaveFileDialog sfd = new SaveFileDialog();
+					sfd.Filter = "Text Files (*.txt)|*.txt";
+					if (sfd.ShowDialog() == DialogResult.Cancel)
+						return false;
+					DataPath = sfd.FileName;
+				}
+				else
+					return false;
+			}	
+			String SaveText = "";
+			SaveText += "Number Of Levels\n";
+			int levelcnt = AllLevelProp.Count;
+			SaveText += levelcnt + "\n";
+			for (int i = 0; i < levelcnt; i++)
+			{
+				SaveText += "___Name\n";
+				SaveText += "___" + AllLevelName[i] + "\n";
+				SaveText += "___Number Of Repeatation\n";
+				int repeatnum = NumerRepeat[i];
+				SaveText += "___" + repeatnum + "\n";
+				SaveText += "___Number Of Frames\n";
+				int framecnt = AllLevelProp[i].Count;
+				SaveText += "___" + framecnt + "\n";
+				for (int j = 0; j < framecnt; j++)
+				{
+					SaveText += "______Frame" + j + "\n______" + AllLevelProp[i][j].FrameTime + " " + AllLevelProp[i][j].BGColor.R + " " + AllLevelProp[i][j].BGColor.G + " " + AllLevelProp[i][j].BGColor.B + "\n";
+					SaveText += "_________Fixation\n";
+					SaveText += "_________" + AllLevelProp[i][j].Fixation.Xloc + " " + AllLevelProp[i][j].Fixation.Yloc + " " + AllLevelProp[i][j].Fixation.Width + " " + AllLevelProp[i][j].Fixation.Type + " " + AllLevelProp[i][j].FixationTime + " " + AllLevelProp[i][j].Fixation.ColorPt.R + " " + AllLevelProp[i][j].Fixation.ColorPt.G + " " + AllLevelProp[i][j].Fixation.ColorPt.B + "\n";
+					int stimuluscnt = AllLevelProp[i][j].NumberSaccade;
+					SaveText += "_________Number Of Stimulus\n";
+					SaveText += "_________" + stimuluscnt + "\n";
+					for (int k = 0; k < stimuluscnt; k++)
+					{
+						SaveText += "_________Stimulus\n";
+						if (AllLevelProp[i][j].Stimulus[k].Type == 1 || AllLevelProp[i][j].Stimulus[k].Type == 5 || AllLevelProp[i][j].Stimulus[k].Type == 9)
+						{
+							SaveText += "_________" + AllLevelProp[i][j].Stimulus[k].Type + " " + AllLevelProp[i][j].Stimulus[k].Xloc + " " + AllLevelProp[i][j].Stimulus[k].Yloc + " " + AllLevelProp[i][j].Stimulus[k].Width + " " + AllLevelProp[i][j].Stimulus[k].Height + " " + AllLevelProp[i][j].Stimulus[k].ColorPt.R + " " + AllLevelProp[i][j].Stimulus[k].ColorPt.G + " " + AllLevelProp[i][j].Stimulus[k].ColorPt.B + " " + AllLevelProp[i][j].Stimulus[k].Contrast + "\n";
+						}
+						if (AllLevelProp[i][j].Stimulus[k].Type == 2 || AllLevelProp[i][j].Stimulus[k].Type == 6 || AllLevelProp[i][j].Stimulus[k].Type == 10)
+						{
+							SaveText += "_________" + AllLevelProp[i][j].Stimulus[k].Type + " " + AllLevelProp[i][j].Stimulus[k].Xloc + " " + AllLevelProp[i][j].Stimulus[k].Yloc + " " + AllLevelProp[i][j].Stimulus[k].Width + " " + AllLevelProp[i][j].Stimulus[k].Height + " " + AllLevelProp[i][j].Stimulus[k].ColorPt.R + " " + AllLevelProp[i][j].Stimulus[k].ColorPt.G + " " + AllLevelProp[i][j].Stimulus[k].ColorPt.B + " " + AllLevelProp[i][j].Stimulus[k].Contrast + "\n";
+						}
+						if (AllLevelProp[i][j].Stimulus[k].Type == 3 || AllLevelProp[i][j].Stimulus[k].Type == 7 || AllLevelProp[i][j].Stimulus[k].Type == 11)
+						{
+							SaveText += "_________" + AllLevelProp[i][j].Stimulus[k].Type + " " + AllLevelProp[i][j].Stimulus[k].Xloc + " " + AllLevelProp[i][j].Stimulus[k].Yloc + " " + AllLevelProp[i][j].Stimulus[k].Width + " " + AllLevelProp[i][j].Stimulus[k].Height + " " + AllLevelProp[i][j].Stimulus[k].ColorPt.R + " " + AllLevelProp[i][j].Stimulus[k].ColorPt.G + " " + AllLevelProp[i][j].Stimulus[k].ColorPt.B + " " + AllLevelProp[i][j].Stimulus[k].Contrast + "\n";
+						}
+						if (AllLevelProp[i][j].Stimulus[k].Type == 4 || AllLevelProp[i][j].Stimulus[k].Type == 8 || AllLevelProp[i][j].Stimulus[k].Type == 12)
+						{
+							if (File.Exists(AllLevelProp[i][j].Stimulus[k].PathPic))
+							{
+								Uri uriFilePath = new Uri(@AllLevelProp[i][j].Stimulus[k].PathPic);
+								SaveText += "_________" + AllLevelProp[i][j].Stimulus[k].Type + " " + AllLevelProp[i][j].Stimulus[k].Xloc + " " + AllLevelProp[i][j].Stimulus[k].Yloc + " " + AllLevelProp[i][j].Stimulus[k].Width + " " + AllLevelProp[i][j].Stimulus[k].Height + "\n_________" + AllLevelProp[i][j].Stimulus[k].PathPic + "\n";
+							}
+						}
+					}
+
+					
+
+					SaveText += "_________Reward\n";
+					SaveText += "_________" + AllLevelProp[i][j].RewardType + "\n";
+
+
+
+				}
+			}
+			SaveText += "Distance " + userDistance + "\n";
+			SaveText += "MoniTorWidth(m) " + WidthM + "\n";
+			SaveText += "MoniTorHeight(m) " + HeightM + "\n";
+			SaveText += "MoniTorWidth(pixel) " + WidthP + "\n";
+			SaveText += "MoniTorHeight(pixel) " + HeightP + "\n";
+			File.WriteAllText(DataPath, SaveText);
+			return true;
+		}
 
 		public bool LoadTaskFromFile(bool _getAddress, string address)
 		{

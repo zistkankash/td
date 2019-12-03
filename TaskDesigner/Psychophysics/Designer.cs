@@ -1811,7 +1811,7 @@ namespace Psychophysics.Old
         {
             public int frameWidth, frameHeight, Time;
             public Color frameColor;
-
+			int[] eventCode = new int[15];
             public FrameProp()
             {
                 Screen[] availableScreen = Screen.AllScreens;
@@ -1992,8 +1992,7 @@ namespace Psychophysics.Old
             double ValY = Math.Atan((Yp - PsycoPhysicTask.HeightP / 2) * PsycoPhysicTask.HeightM / (PsycoPhysicTask.HeightP * PsycoPhysicTask.userDistance));
             return ValY;
         }
-
-
+		
         private void Designer_Move(object sender, EventArgs e)
         {
             UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList);
@@ -2007,6 +2006,14 @@ namespace Psychophysics.Old
 		private void cmbtrigger_SelectedIndexChanged(object sender, EventArgs e)
 		{
 
+		}
+
+		private void txtEvent_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+			{
+				e.Handled = true;
+			}
 		}
 
 		private int ConvertPixelX(double Xd)

@@ -55,7 +55,7 @@ namespace Psychophysics.Old
 			this.panel5 = new System.Windows.Forms.Panel();
 			this.label20 = new System.Windows.Forms.Label();
 			this.label19 = new System.Windows.Forms.Label();
-			this.txtTrigger = new System.Windows.Forms.TextBox();
+			this.txtEvent = new System.Windows.Forms.TextBox();
 			this.cmbtrigger = new System.Windows.Forms.ComboBox();
 			this.FixationPanel = new System.Windows.Forms.Panel();
 			this.FixationSetting_BT = new System.Windows.Forms.Button();
@@ -327,7 +327,7 @@ namespace Psychophysics.Old
 			this.panel5.BackColor = System.Drawing.Color.LightCyan;
 			this.panel5.Controls.Add(this.label20);
 			this.panel5.Controls.Add(this.label19);
-			this.panel5.Controls.Add(this.txtTrigger);
+			this.panel5.Controls.Add(this.txtEvent);
 			this.panel5.Controls.Add(this.cmbtrigger);
 			this.panel5.Location = new System.Drawing.Point(2, 275);
 			this.panel5.Name = "panel5";
@@ -354,24 +354,27 @@ namespace Psychophysics.Old
 			this.label19.TabIndex = 23;
 			this.label19.Text = "Event";
 			// 
-			// txtTrigger
+			// txtEvent
 			// 
-			this.txtTrigger.Location = new System.Drawing.Point(66, 76);
-			this.txtTrigger.Name = "txtTrigger";
-			this.txtTrigger.Size = new System.Drawing.Size(81, 20);
-			this.txtTrigger.TabIndex = 1;
+			this.txtEvent.Location = new System.Drawing.Point(66, 76);
+			this.txtEvent.Name = "txtEvent";
+			this.txtEvent.Size = new System.Drawing.Size(81, 20);
+			this.txtEvent.TabIndex = 1;
+			this.txtEvent.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtEvent_KeyPress);
 			// 
 			// cmbtrigger
 			// 
+			this.cmbtrigger.DropDownWidth = 120;
 			this.cmbtrigger.FormattingEnabled = true;
 			this.cmbtrigger.Items.AddRange(new object[] {
-            "Condition",
             "Trial Start",
+            "Condition",
             "Trial End",
             "Fixation Point On",
             "Fixation Point Off",
             "Enter Fixation Window",
             "Abort Fixation Window",
+            "Enter Target Window",
             "Stimulus On",
             "Stimulus Off",
             "Saccad Ini",
@@ -508,7 +511,7 @@ namespace Psychophysics.Old
 			// 
 			this.label14.AutoSize = true;
 			this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label14.Location = new System.Drawing.Point(7, 36);
+			this.label14.Location = new System.Drawing.Point(2, 37);
 			this.label14.Name = "label14";
 			this.label14.Size = new System.Drawing.Size(49, 13);
 			this.label14.TabIndex = 24;
@@ -518,7 +521,7 @@ namespace Psychophysics.Old
 			// 
 			this.label15.AutoSize = true;
 			this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label15.Location = new System.Drawing.Point(7, 10);
+			this.label15.Location = new System.Drawing.Point(2, 10);
 			this.label15.Name = "label15";
 			this.label15.Size = new System.Drawing.Size(49, 13);
 			this.label15.TabIndex = 22;
@@ -544,7 +547,7 @@ namespace Psychophysics.Old
 			// 
 			this.label12.AutoSize = true;
 			this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label12.Location = new System.Drawing.Point(7, 90);
+			this.label12.Location = new System.Drawing.Point(2, 90);
 			this.label12.Name = "label12";
 			this.label12.Size = new System.Drawing.Size(62, 13);
 			this.label12.TabIndex = 20;
@@ -1097,7 +1100,7 @@ namespace Psychophysics.Old
 		private System.Windows.Forms.Button FixationSetting_BT;
 		private System.Windows.Forms.Label RewardType_LB;
 		private System.Windows.Forms.Panel panel5;
-		private System.Windows.Forms.TextBox txtTrigger;
+		private System.Windows.Forms.TextBox txtEvent;
 		private System.Windows.Forms.ComboBox cmbtrigger;
 		private System.Windows.Forms.Panel panel7;
 		private System.Windows.Forms.Label label1;
