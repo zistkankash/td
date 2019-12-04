@@ -356,7 +356,7 @@ namespace Psychophysics
                             int reward = int.Parse(line.Substring(9));
                             ////Debug.Write("Load Debug " + line.Substring(9) + "\n");
 
-                            varFrame.SetProperties(BGColor, FrameTime, varFixation, fixationtime, NumberStimulus, varStimulus, reward, varCue, NumberShowFrame, varShowFrame);
+                           // varFrame.SetProperties(BGColor, FrameTime, varFixation, fixationtime, NumberStimulus, varStimulus, reward, varCue, NumberShowFrame, varShowFrame);
                             Debug.Write("FixTime1 : " + varFrame.FixationTime + "\n");
 
                             line = reader.ReadLine();

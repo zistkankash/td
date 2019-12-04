@@ -283,7 +283,7 @@ namespace Psychophysics
 		{
 			public int frameWidth, frameHeight, Time;
 			public Color frameColor;
-
+			public TriggerEvents events;
 			public FrameProp()
 			{
 				Screen[] availableScreen = Screen.AllScreens;
@@ -818,7 +818,7 @@ namespace Psychophysics
 					}
 				}
 
-				AddedFrame[i].SetProperties(frameList[i].frameColor, frameList[i].Time, FixationVar, fixationList[i].Time, NumStimulus, StimulusVar, Reward[i], VarHint, numbox, ShowFrameArray);
+				//AddedFrame[i].SetProperties(frameList[i].frameColor, frameList[i].Time, FixationVar, fixationList[i].Time, NumStimulus, StimulusVar, Reward[i], VarHint, numbox, ShowFrameArray, frameList[i].);
 
 				if (RepeatedFrame[i] > 0)
 					AddedFrame[i].RepeatInfo.SetProperties(true, RepeatedFrame[i], RepeatationLength[i], RepeatedRandomLocation[i]);

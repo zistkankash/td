@@ -15,7 +15,140 @@ namespace Psychophysics.Old
 {
     public partial class Designer : XCoolForm.XCoolForm 
     {
-        public Designer(int mode, int index)  //A:loading the new designer
+		#region Variables
+		// Number and Size of Screens
+		Screen[] screen = Screen.AllScreens;
+		public static int ScreenWidth = 0, ScreenHeight = 0;
+		float ViewSize = 80; //A: main white box size in the midddle of task designer
+		bool startPaint = false;
+		Graphics g, gr;
+		//nullable int for storing Null value
+		int? initX = null;
+		int? initY = null;
+		bool drawSquare = false;
+		bool drawRectangle = false;
+		bool drawCircle = false;
+		bool drawImage = false;
+		bool moveObject = false;
+		int moveObjectX = 0, moveObjectY = 0;
+		int indexMoveObject = -1;
+		bool firstbackgr = false;
+		int PicBCnt = 1, ActivePicB = 1;
+		bool FixationSelected = false;
+		String ImagePath = " ";
+		public static List<Bitmap> BitmapPicB = new List<Bitmap>();
+		public static List<int> DeletedFrames = new List<int>();
+		public static List<int> Reward = new List<int>();
+
+		// ShowFrame
+		public static List<ShowFr> ShowBoxes = new List<ShowFr>();
+		public static List<int> FrameIndexes = new List<int>();
+
+		// Hint Arrow Added By FrameTool
+		public static List<HintForm> AddedHintsbyFrameTool = new List<HintForm>();
+		public static List<int> HintIndexes = new List<int>();
+
+		// Repeat 
+		public static List<int> RepeatedFrame = new List<int>();
+		public static List<int> RepeatationLength = new List<int>();
+		public static List<int> RepeatedRandomLocation = new List<int>();
+		// Update
+		Bitmap bmpvarforUpdate;
+		#endregion
+		#region Lists
+		public static List<ObjectProp> stimulusList = new List<ObjectProp>();
+		public static List<ObjectProp> fixationList = new List<ObjectProp>();
+		// Type 
+		const int filledSquareType = 1;
+		const int filledRectangleType = 2;
+		const int filledCircleType = 3;
+		const int PictureType = 4;
+		//// for fixation areas 
+		const int SquareType = 1;
+		const int RectangleType = 2;
+		const int CircleType = 3;
+
+		//Edit Vars
+		public int EditedIndex = 0;
+		public int Mode = 0;
+		// Global Vars
+		public static List<FrameProp> frameList = new List<FrameProp>();
+		#endregion
+		#region Theme
+		private XmlThemeLoader xtl = new XmlThemeLoader();
+		// this function just sets a theme for the application
+
+		private void SetTheme() //A:we dont need it in metroform
+		{
+			this.Border.BorderStyle = XCoolForm.X3DBorderPrimitive.XBorderStyle.Flat;
+
+			this.TitleBar.TitleBarBackImage = Resource.engineer;
+			this.TitleBar.TitleBarCaption = "CogLAB";
+			this.TitleBar.TitleBarButtons[2].ButtonFillMode = XCoolForm.XTitleBarButton.XButtonFillMode.None;
+			this.TitleBar.TitleBarButtons[1].ButtonFillMode = XCoolForm.XTitleBarButton.XButtonFillMode.None;
+			this.TitleBar.TitleBarButtons[0].ButtonFillMode = XCoolForm.XTitleBarButton.XButtonFillMode.None;
+			this.TitleBar.TitleBarType = XCoolForm.XTitleBar.XTitleBarType.Angular;
+			this.TitleBar.TitleBarFill = XCoolForm.XTitleBar.XTitleBarFill.UpperGlow;
+
+			this.MenuIcon = Resource.brain.GetThumbnailImage(25, 25, null, IntPtr.Zero);
+			this.StatusBar.BarHeight = 1;
+			this.StatusBar.EllipticalGlow = false;
+			this.StatusBar.BarImageAlign = XCoolForm.XStatusBar.XStatusBarBackImageAlign.Left;
+			this.StatusBar.BarItems[1].BarItemText = "";
+			this.StatusBar.BarItems[1].ItemTextAlign = StringAlignment.Center;
+
+			xtl.ApplyTheme(Path.Combine(Environment.CurrentDirectory, @"Themes\BlueWinterTheme.xml"));
+		}
+
+		private void DesignerForm_Load(object sender, EventArgs e)
+		{
+
+			//this.IconHolder.HolderButtons.Add(new XCoolForm.XTitleBarIconHolder.XHolderButton(TaskDesigner.Properties.Resources.reset.GetThumbnailImage(20, 20, null, IntPtr.Zero), "Reset"));
+			//this.IconHolder.HolderButtons.Add(new XCoolForm.XTitleBarIconHolder.XHolderButton(TaskDesigner.Properties.Resources.setting.GetThumbnailImage(20, 20, null, IntPtr.Zero), "Setting"));
+			//this.IconHolder.HolderButtons.Add(new XCoolForm.XTitleBarIconHolder.XHolderButton(TaskDesigner.Properties.Resources.help.GetThumbnailImage(20, 20, null, IntPtr.Zero), "Help"));
+			//this.IconHolder.HolderButtons.Add(new XCoolForm.XTitleBarIconHolder.XHolderButton(TaskDesigner.Properties.Resources.exit.GetThumbnailImage(20, 20, null, IntPtr.Zero), "Exit"));
+
+			//this.IconHolder.HolderButtons[0].FrameBackImage = TaskDesigner.Properties.Resources.exit.GetThumbnailImage(48, 48, null, IntPtr.Zero);
+			//this.IconHolder.HolderButtons[1].FrameBackImage = TaskDesigner.Properties.Resources.setting.GetThumbnailImage(48, 48, null, IntPtr.Zero);
+			//this.IconHolder.HolderButtons[2].FrameBackImage = TaskDesigner.Properties.Resources.exit.GetThumbnailImage(48, 48, null, IntPtr.Zero);
+			//this.IconHolder.HolderButtons[1].FrameBackImage = TaskDesigner.Properties.Resources.help.GetThumbnailImage(48, 48, null, IntPtr.Zero);
+
+			this.StatusBar.BarItems.Add(new XCoolForm.XStatusBar.XBarItem(60));
+			this.StatusBar.BarItems.Add(new XCoolForm.XStatusBar.XBarItem(200, "INS"));
+			this.StatusBar.BarItems.Add(new XCoolForm.XStatusBar.XBarItem(80, "Done"));
+			this.StatusBar.EllipticalGlow = false;
+
+			//this.XCoolFormHolderButtonClick += new XCoolFormHolderButtonClickHandler(frmCoolForm_XCoolFormHolderButtonClick);
+			xtl.ThemeForm = this;
+			SetTheme();
+		}  //A:this is also used for the theme and we dont need it in metroform
+
+
+		//private void frmCoolForm_XCoolFormHolderButtonClick(XCoolForm.XCoolForm.XCoolFormHolderButtonClickArgs e)//A: what is its use? so i commented it!
+		//{
+		//    switch (e.ButtonIndex)
+		//    {
+		//        case 1:
+
+		//            break;
+		//        case 2:
+		//            //NormalPageSetting SettingFrm = new NormalPageSetting();
+		//            //SettingFrm.PageCount = PicBCnt;
+		//            //SettingFrm.FormClosing += delegate { this.Show(); this.UpdateChangesByFrameTool(); };
+		//            //this.Hide();
+		//            //SettingFrm.Show();
+		//            break;
+		//        case 3:
+		//            break;
+		//        case 0:
+		//            //this.Close();
+		//            break;
+		//    }
+
+		//}
+		#endregion
+
+		public Designer(int mode, int index)  //A:loading the new designer
         {
             InitializeComponent();
 
@@ -97,139 +230,7 @@ namespace Psychophysics.Old
             SelectedPage_LB.Text = "Selected Page : " + Convert.ToString(ActivePicB);
 
         }
-        #region Variables
-        // Number and Size of Screens
-        Screen[] screen = Screen.AllScreens;
-        public static int ScreenWidth = 0, ScreenHeight = 0;
-        float ViewSize = 80; //A: main white box size in the midddle of task designer
-        bool startPaint = false;
-        Graphics g, gr;
-        //nullable int for storing Null value
-        int? initX = null;
-        int? initY = null;
-        bool drawSquare = false;
-        bool drawRectangle = false;
-        bool drawCircle = false;
-        bool drawImage = false;
-        bool moveObject = false;
-        int moveObjectX = 0, moveObjectY = 0;
-        int indexMoveObject = -1;
-        bool firstbackgr = false;
-        int PicBCnt = 1, ActivePicB = 1;
-        bool FixationSelected = false;
-        String ImagePath = " ";
-        public static List<Bitmap> BitmapPicB = new List<Bitmap>();
-        public static List<int> DeletedFrames = new List<int>();
-        public static List<int> Reward = new List<int>();
-
-        // ShowFrame
-        public static List<ShowFr> ShowBoxes = new List<ShowFr>();
-        public static List<int> FrameIndexes = new List<int>();
-
-        // Hint Arrow Added By FrameTool
-        public static List<HintForm> AddedHintsbyFrameTool = new List<HintForm>();
-        public static List<int> HintIndexes = new List<int>();
-
-        // Repeat 
-        public static List<int> RepeatedFrame = new List<int>();
-        public static List<int> RepeatationLength = new List<int>();
-        public static List<int> RepeatedRandomLocation = new List<int>();
-        // Update
-        Bitmap bmpvarforUpdate;
-        #endregion
-        #region Lists
-        public static List<ObjectProp> stimulusList = new List<ObjectProp>();
-        public static List<ObjectProp> fixationList = new List<ObjectProp>();
-        // Type 
-        const int filledSquareType = 1;
-        const int filledRectangleType = 2;
-        const int filledCircleType = 3;
-        const int PictureType = 4;
-        //// for fixation areas 
-        const int SquareType = 1;
-        const int RectangleType = 2;
-        const int CircleType = 3;
-
-        //Edit Vars
-        public int EditedIndex = 0;
-        public int Mode = 0;
-        // Global Vars
-        public static List<FrameProp> frameList = new List<FrameProp>();
-        #endregion
-        #region Theme
-        private XmlThemeLoader xtl = new XmlThemeLoader();
-        // this function just sets a theme for the application
-        
-		private void SetTheme() //A:we dont need it in metroform
-        {
-            this.Border.BorderStyle = XCoolForm.X3DBorderPrimitive.XBorderStyle.Flat;
-
-            this.TitleBar.TitleBarBackImage = Resource.engineer;
-            this.TitleBar.TitleBarCaption = "CogLAB";
-            this.TitleBar.TitleBarButtons[2].ButtonFillMode = XCoolForm.XTitleBarButton.XButtonFillMode.None;
-            this.TitleBar.TitleBarButtons[1].ButtonFillMode = XCoolForm.XTitleBarButton.XButtonFillMode.None;
-            this.TitleBar.TitleBarButtons[0].ButtonFillMode = XCoolForm.XTitleBarButton.XButtonFillMode.None;
-            this.TitleBar.TitleBarType = XCoolForm.XTitleBar.XTitleBarType.Angular;
-            this.TitleBar.TitleBarFill = XCoolForm.XTitleBar.XTitleBarFill.UpperGlow;
-
-            this.MenuIcon = Resource.brain.GetThumbnailImage(25, 25, null, IntPtr.Zero);
-
-            this.StatusBar.EllipticalGlow = false;
-            this.StatusBar.BarImageAlign = XCoolForm.XStatusBar.XStatusBarBackImageAlign.Left;
-            this.StatusBar.BarItems[1].BarItemText = "";
-            this.StatusBar.BarItems[1].ItemTextAlign = StringAlignment.Center;
-
-            xtl.ApplyTheme(Path.Combine(Environment.CurrentDirectory, @"Themes\BlueWinterTheme.xml"));
-        }
-        
-		private void DesignerForm_Load(object sender, EventArgs e)
-        {
-
-            //this.IconHolder.HolderButtons.Add(new XCoolForm.XTitleBarIconHolder.XHolderButton(TaskDesigner.Properties.Resources.reset.GetThumbnailImage(20, 20, null, IntPtr.Zero), "Reset"));
-            //this.IconHolder.HolderButtons.Add(new XCoolForm.XTitleBarIconHolder.XHolderButton(TaskDesigner.Properties.Resources.setting.GetThumbnailImage(20, 20, null, IntPtr.Zero), "Setting"));
-            //this.IconHolder.HolderButtons.Add(new XCoolForm.XTitleBarIconHolder.XHolderButton(TaskDesigner.Properties.Resources.help.GetThumbnailImage(20, 20, null, IntPtr.Zero), "Help"));
-            //this.IconHolder.HolderButtons.Add(new XCoolForm.XTitleBarIconHolder.XHolderButton(TaskDesigner.Properties.Resources.exit.GetThumbnailImage(20, 20, null, IntPtr.Zero), "Exit"));
-
-            //this.IconHolder.HolderButtons[0].FrameBackImage = TaskDesigner.Properties.Resources.exit.GetThumbnailImage(48, 48, null, IntPtr.Zero);
-            //this.IconHolder.HolderButtons[1].FrameBackImage = TaskDesigner.Properties.Resources.setting.GetThumbnailImage(48, 48, null, IntPtr.Zero);
-            //this.IconHolder.HolderButtons[2].FrameBackImage = TaskDesigner.Properties.Resources.exit.GetThumbnailImage(48, 48, null, IntPtr.Zero);
-            //this.IconHolder.HolderButtons[1].FrameBackImage = TaskDesigner.Properties.Resources.help.GetThumbnailImage(48, 48, null, IntPtr.Zero);
-
-            this.StatusBar.BarItems.Add(new XCoolForm.XStatusBar.XBarItem(60));
-            this.StatusBar.BarItems.Add(new XCoolForm.XStatusBar.XBarItem(200, "INS"));
-            this.StatusBar.BarItems.Add(new XCoolForm.XStatusBar.XBarItem(80, "Done"));
-            this.StatusBar.EllipticalGlow = false;
-
-            //this.XCoolFormHolderButtonClick += new XCoolFormHolderButtonClickHandler(frmCoolForm_XCoolFormHolderButtonClick);
-            xtl.ThemeForm = this;
-            SetTheme();
-        }  //A:this is also used for the theme and we dont need it in metroform
-
-
-        //private void frmCoolForm_XCoolFormHolderButtonClick(XCoolForm.XCoolForm.XCoolFormHolderButtonClickArgs e)//A: what is its use? so i commented it!
-        //{
-        //    switch (e.ButtonIndex)
-        //    {
-        //        case 1:
-
-        //            break;
-        //        case 2:
-        //            //NormalPageSetting SettingFrm = new NormalPageSetting();
-        //            //SettingFrm.PageCount = PicBCnt;
-        //            //SettingFrm.FormClosing += delegate { this.Show(); this.UpdateChangesByFrameTool(); };
-        //            //this.Hide();
-        //            //SettingFrm.Show();
-        //            break;
-        //        case 3:
-        //            break;
-        //        case 0:
-        //            //this.Close();
-        //            break;
-        //    }
-
-        //}
-        #endregion
-
+       
         static Color SetTransparency(int A, Color color)
         {
             return Color.FromArgb(A, color.R, color.G, color.B);
@@ -674,64 +675,15 @@ namespace Psychophysics.Old
                         indexVar++;
                     }
                 }
-                FixationPts FixationVar = new FixationPts();
+                
+				FixationPts FixationVar = new FixationPts();
                 FixationVar.SetFixationPts(fixationList[i].Xloc, fixationList[i].Yloc, fixationList[i].Width, fixationList[i].Height, fixationList[i].Type, fixationList[i].ColorPt);
 
-                //List<ShowFr> BoxesList = new List<ShowFr>();
-                //for (int k = 0; k < ShowBoxes.Count; k++)
-                //{
-                //    if (FrameIndexes[k] == i + 1)
-                //    {
-                //        ShowFr VarShowFr = new ShowFr();
-                //        VarShowFr.SetShowFrameProp(ShowBoxes[k].CenterX, ShowBoxes[k].CenterY, ShowBoxes[k].Width, ShowBoxes[k].Height, 20, ShowBoxes[k].ColorBox);
-                //        BoxesList.Add(VarShowFr);
-                //    }
-                //}
+              
 
-                //ShowFr[] ShowFrameArray;
-                //int numbox = 1;
-                //if (BoxesList.Count > 0)
-                //{
-                //    numbox = BoxesList.Count;
-                //    ShowFrameArray = new ShowFr[BoxesList.Count];
-                //}
-                //else
-                //{
-                //    numbox = 1;
-                //    ShowFrameArray = new ShowFr[1];
-                //    ShowFrameArray[0] = new ShowFr();
-                //}
-                //for (int k = 0; k < BoxesList.Count; k++)
-                //{
-                //    ShowFrameArray[k] = new ShowFr();
-                //    ShowFrameArray[k].SetShowFrameProp(BoxesList[k].CenterX, BoxesList[k].CenterY, BoxesList[k].Width, BoxesList[k].Height, BoxesList[k].Thickness, BoxesList[k].ColorBox);
-                //}
-
-                //HintForm VarHint = new HintForm();
-                //for (int k = 0; k < AddedHintsbyFrameTool.Count; k++)
-                //{
-                //    if (HintIndexes[k] == i + 1)
-                //    {
-                //        if (AddedHintsbyFrameTool[k].BoxRatio == 1)
-                //        {
-                //            VarHint.SetArrowProp(AddedHintsbyFrameTool[k].ArrowLocY, AddedHintsbyFrameTool[k].ArrowLocX0, AddedHintsbyFrameTool[k].ArrowLocX1, AddedHintsbyFrameTool[k].Valid, AddedHintsbyFrameTool[k].ArrowColor);
-                //            VarHint.type = AddedHintsbyFrameTool[k].type;
-                //            VarHint.ArrowWidth = AddedHintsbyFrameTool[k].ArrowWidth;
-                //        }
-                //        if (AddedHintsbyFrameTool[k].BoxRatio != 1)
-                //        {
-                //            VarHint.SetBoxProp(1, AddedHintsbyFrameTool[k].BoxRatio, AddedHintsbyFrameTool[k].BoxColor);
-                //            VarHint.type = AddedHintsbyFrameTool[k].type;
-                //        }
-                //    }
-                //}
-
-                AddedFrame[i].SetProperties(frameList[i].frameColor, frameList[i].Time, FixationVar, fixationList[i].Time, NumStimulus, StimulusVar, Reward[i], null, 0, null);
+                AddedFrame[i].SetProperties(frameList[i].frameColor, frameList[i].Time, FixationVar, fixationList[i].Time, NumStimulus, StimulusVar, Reward[i], null, 0, null,frameList[i].events);
                 
-                //if (RepeatedFrame[i] > 0)
-                //    AddedFrame[i].RepeatInfo.SetProperties(true, RepeatedFrame[i], RepeatationLength[i], RepeatedRandomLocation[i]);
-                //else
-                //    AddedFrame[i].RepeatInfo.SetProperties(false, RepeatedFrame[i], RepeatationLength[i], RepeatedRandomLocation[i]);
+             
            }
             
             for (int i = 0; i < AddedFrame.Length; i++)
@@ -1553,7 +1505,7 @@ namespace Psychophysics.Old
             {
                 // Frame setting
                 FrameProp newFrame = new FrameProp();
-                newFrame.setFrameProp(newFrame.frameWidth, newFrame.frameHeight, PsycoPhysicTask.AllLevelProp[index][i].FrameTime, PsycoPhysicTask.AllLevelProp[index][i].BGColor);
+                newFrame.setFrameProp(newFrame.frameWidth, newFrame.frameHeight, PsycoPhysicTask.AllLevelProp[index][i].FrameTime, PsycoPhysicTask.AllLevelProp[index][i].BGColor, PsycoPhysicTask.AllLevelProp[index][i].events);
                 frameList.Add(newFrame);
 
                 Reward.Add(PsycoPhysicTask.AllLevelProp[index][i].RewardType);
@@ -1624,34 +1576,7 @@ namespace Psychophysics.Old
                     stimulusList.Add(stimulusProp);
                 }
             }
-
-            for (int i = 0; i < PicBCnt; i++)
-            {
-                //if (PsycoPhysicTask.AllLevelProp[index][i].ShowFrame.Length > 1)
-                //{
-                //    for (int j = 0; j < PsycoPhysicTask.AllLevelProp[index][i].ShowFrame.Length; j++)
-                //    {
-                //        ShowFr varshowfr = new ShowFr();
-                //        varshowfr.SetShowFrameProp(PsycoPhysicTask.AllLevelProp[index][i].ShowFrame[j].CenterX, PsycoPhysicTask.AllLevelProp[index][i].ShowFrame[j].CenterY, PsycoPhysicTask.AllLevelProp[index][i].ShowFrame[j].Width, PsycoPhysicTask.AllLevelProp[index][i].ShowFrame[j].Height, PsycoPhysicTask.AllLevelProp[index][i].ShowFrame[j].Thickness, PsycoPhysicTask.AllLevelProp[index][i].ShowFrame[j].ColorBox);
-                //        ShowBoxes.Add(varshowfr);
-                //        FrameIndexes.Add(i + 1);
-                //    }
-                //}
-            }
-
-            //for (int i = 0; i < PicBCnt; i++)
-            //{
-            //    if (PsycoPhysicTask.AllLevelProp[index][i].Cue.type != 0)
-            //    {
-            //        HintForm varhintform = new HintForm();
-            //        varhintform.SetArrowProp(PsycoPhysicTask.AllLevelProp[index][i].Cue.ArrowLocY, PsycoPhysicTask.AllLevelProp[index][i].Cue.ArrowLocX0, PsycoPhysicTask.AllLevelProp[index][i].Cue.ArrowLocX1, PsycoPhysicTask.AllLevelProp[index][i].Cue.Valid, PsycoPhysicTask.AllLevelProp[index][i].Cue.ArrowColor);
-            //        varhintform.SetBoxProp(PsycoPhysicTask.AllLevelProp[index][i].Cue.BoxThickness,PsycoPhysicTask.AllLevelProp[index][i].Cue.BoxRatio, PsycoPhysicTask.AllLevelProp[index][i].Cue.BoxColor);
-            //        varhintform.type = PsycoPhysicTask.AllLevelProp[index][i].Cue.type;
-            //        varhintform.ArrowWidth = PsycoPhysicTask.AllLevelProp[index][i].Cue.ArrowWidth;
-            //        AddedHintsbyFrameTool.Add(varhintform);
-            //        HintIndexes.Add(i + 1);
-            //    }
-            //}
+           
             ActivePicB = PicBCnt;
 
             // Panel Graphic setting
@@ -1811,7 +1736,8 @@ namespace Psychophysics.Old
         {
             public int frameWidth, frameHeight, Time;
             public Color frameColor;
-			int[] eventCode = new int[15];
+			public TriggerEvents events;
+
             public FrameProp()
             {
                 Screen[] availableScreen = Screen.AllScreens;
@@ -1827,14 +1753,16 @@ namespace Psychophysics.Old
                 }
                 Time = 1000; // default value
                 frameColor = Color.White;
+				events = new TriggerEvents();
             }
 
-            public void setFrameProp(int w, int h, int t, Color c)
+            public void setFrameProp(int w, int h, int t, Color c, TriggerEvents ev)
             {
                 frameWidth = w;
                 frameHeight = h;
                 Time = t;
                 frameColor = c;
+				events = ev;
             }
 
         }
@@ -2005,7 +1933,18 @@ namespace Psychophysics.Old
 
 		private void cmbtrigger_SelectedIndexChanged(object sender, EventArgs e)
 		{
-
+			if (cmbtrigger.SelectedIndex == 0)
+			{
+				txtEvent.Text = "";
+				txtEvent.Enabled = false;
+			}
+			else
+			{
+				txtEvent.Text = frameList[ActivePicB - 1].events.GetEvent(cmbtrigger.SelectedIndex).ToString();
+				if (txtEvent.Text == "-1")
+					txtEvent.Text = "";
+				txtEvent.Enabled = true;
+			}
 		}
 
 		private void txtEvent_KeyPress(object sender, KeyPressEventArgs e)
@@ -2014,6 +1953,16 @@ namespace Psychophysics.Old
 			{
 				e.Handled = true;
 			}
+		}
+
+		private void txtEvent_TextChanged(object sender, EventArgs e)
+		{
+			if (cmbtrigger.SelectedIndex == 0)
+				return;
+			if (txtEvent.Text == "")
+				frameList[ActivePicB - 1].events.SetEvent(cmbtrigger.SelectedIndex, -1);
+			else
+				frameList[ActivePicB - 1].events.SetEvent(cmbtrigger.SelectedIndex, int.Parse(txtEvent.Text));
 		}
 
 		private int ConvertPixelX(double Xd)

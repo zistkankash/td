@@ -25,7 +25,7 @@ namespace Basics
         
         public HintForm Cue;
         public ShowFr[] ShowFrame;
-
+		public TriggerEvents events;
         public RepeatLinkFrame RepeatInfo;
 
         public FrameProperties()
@@ -46,11 +46,11 @@ namespace Basics
 
             Cue = new HintForm();
             ShowFrame = new ShowFr[1];
-
+			events = new TriggerEvents();
             RepeatInfo = new RepeatLinkFrame();
         }
 
-        public void SetProperties(Color BGC,int FrameT, FixationPts FixationProp, int FixationT, int  NumSaccade, FixationPts[] StimulusProp, int Reward, HintForm cue, int NumBox ,ShowFr[] ShowBox)
+        public void SetProperties(Color BGC,int FrameT, FixationPts FixationProp, int FixationT, int  NumSaccade, FixationPts[] StimulusProp, int Reward, HintForm cue, int NumBox ,ShowFr[] ShowBox, TriggerEvents ev)
         {
             BGColor = BGC;
             FrameTime = FrameT;
@@ -62,7 +62,7 @@ namespace Basics
             {
                 Stimulus[i] = new FixationPts();
                 Stimulus[i] = StimulusProp[i];
-                Debug.Write("Stim Set :" + Stimulus[i].Xloc + " " + i + " \n");
+                
             }
             RewardType = Reward;
             Cue = cue;
@@ -71,6 +71,7 @@ namespace Basics
             {
                 ShowFrame[i] = ShowBox[i];
             }
+			events = ev;
         }
 
 
