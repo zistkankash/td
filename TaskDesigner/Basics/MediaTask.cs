@@ -65,9 +65,9 @@ namespace Basics
 			return b;
 		}
 
-		public bool Load(string[] lines)
+		public bool LoadFromText(string[] lines)
 		{
-			
+			SavingMode = SaveMod.txt;
 				picList = new List<Picture>();
 				
 				string[] temp = lines[2].Split(' ');
@@ -105,38 +105,36 @@ namespace Basics
 			return true;
 		}
 
-		public bool Load(byte[] tskFile, int readIndex)
+		public bool LoadFromBin(byte[] binTaskFile, int binReadIndex)
 		{
-
-			long longVar = BitConverter.ToInt64(tskFile, readIndex);
-			readIndex += sizeof(Int64);
-			//DateTime dateTimeVar = new DateTime(1980, 1, 1).AddMilliseconds(longVar);
+			SavingMode = SaveMod.bin;
+			binReadIndex = 0;
+			long longVar = BitConverter.ToInt64(binTaskFile, binReadIndex);
+			binReadIndex += sizeof(Int64);
 			DateTime dateTimeVar = DateTime.FromBinary(longVar);
-
-
-			int count = BitConverter.ToInt32(tskFile, readIndex);
-			readIndex += sizeof(Int32);
+			int count = BitConverter.ToInt32(binTaskFile, binReadIndex);
+			binReadIndex += sizeof(Int32);
 			ImageConverter imConverter = new ImageConverter();
 
 			picList = new List<Picture>();
 
 			for (int i = 0; i < count; i++)
 			{
-				int length = BitConverter.ToInt32(tskFile, readIndex);
-				readIndex += sizeof(Int32);
+				int length = BitConverter.ToInt32(binTaskFile, binReadIndex);
+				binReadIndex += sizeof(Int32);
 				byte[] compImg = new byte[length];
-				Buffer.BlockCopy(tskFile, readIndex, compImg, 0, length);
+				Buffer.BlockCopy(binTaskFile, binReadIndex, compImg, 0, length);
 
 				Bitmap x = (Bitmap)imConverter.ConvertFrom(ByteManager.Decompress(compImg));
-				readIndex += length;
-				byte R = tskFile[readIndex];
-				byte G = tskFile[readIndex + 2];
-				byte B = tskFile[readIndex + 4];
+				binReadIndex += length;
+				byte R = binTaskFile[binReadIndex];
+				byte G = binTaskFile[binReadIndex + 2];
+				byte B = binTaskFile[binReadIndex + 4];
 
-				readIndex += 6;
+				binReadIndex += 6;
 
-				int time = BitConverter.ToInt32(tskFile, readIndex);
-				readIndex += sizeof(Int32);
+				int time = BitConverter.ToInt32(binTaskFile, binReadIndex);
+				binReadIndex += sizeof(Int32);
 				picList.Add(new Picture(x, Color.FromArgb(R, G, B), time, "image address"));
 			}
 			tskImg.Bitmap = picList[0].image;
@@ -144,7 +142,18 @@ namespace Basics
 			return true;
 		}
 
-		private bool BinImageWrite()
+		public bool Load()
+		{
+			if (Load(true))
+				if (SavingMode == SaveMod.txt)
+					return LoadFromText(lines);
+				else
+					return LoadFromBin(binTaskFile, binReadIndex);
+			else
+				return false;
+		}
+
+		bool BinImageWrite()
 		{
 			List<byte> lines = new List<byte>();
 			byte[] imgByts;
@@ -218,7 +227,7 @@ namespace Basics
 
 		}
 
-		private bool TextImageWrite()
+		bool TextImageWrite()
 		{
 			return false;
 		}

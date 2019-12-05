@@ -444,7 +444,7 @@ namespace Basics
 			}
 		}
 
-		public bool Load(string[] lines)
+		bool LoadFromText()
 		{
 			shapeList = new List<Node>();
 			//// تنظیم رنگ پس زمینه
@@ -543,8 +543,8 @@ namespace Basics
 
 		public bool Load()
 		{
-			if (LoadFile(true))
-				return Load(lines);
+			if (Load(true))
+				return LoadFromText();
 			else
 				return false;
 		}

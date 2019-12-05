@@ -1058,9 +1058,12 @@ namespace Psychophysics.Old
 		private void UpdateTreeView(int index)
         {
             Objects_TV.Nodes[0].Nodes.Clear();
-            //Objects_TV.Nodes[0].Nodes.Add("Fx");
-
-            Objects_TV.Nodes[1].Nodes.Clear();
+           
+			if(fixationList[index].Xloc != -1)
+			{
+				Objects_TV.Nodes[0].Nodes.Add("Fix area");
+			}
+			Objects_TV.Nodes[1].Nodes.Clear();
             int id = 0;
             for (int i = 0; i < stimulusList.Count(); i++)
             {

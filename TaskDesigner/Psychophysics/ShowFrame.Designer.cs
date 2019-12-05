@@ -66,7 +66,6 @@
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ShowFrame_FormClosed);
 			this.Load += new System.EventHandler(this.ShowFrame_Load);
 			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ShowFrame_KeyDown);
-			this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ShowFrame_KeyPress);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
 			this.ResumeLayout(false);
 

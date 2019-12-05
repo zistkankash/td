@@ -21,8 +21,9 @@ namespace Basics
 		protected RunConfig runConf;
 		protected SaveMod tskSavMod;
 		protected DateTime tskLastDateEdited;
-		protected byte[] tskFile;
+		protected byte[] binTaskFile;
 		protected string[] lines;
+		protected int binReadIndex = 0;
 
 		public bool IsReady { get { return _taskIsReady; } }
 
@@ -69,7 +70,7 @@ namespace Basics
 			
 		}
 
-		protected bool LoadFile(bool newTask)
+		protected bool Load(bool newTask)
 		{
 			try
 			{
@@ -99,23 +100,25 @@ namespace Basics
 
 						return false;
 					}
+					SavingMode = SaveMod.txt;
 					return true;
+					
 				}
 				#endregion
 				#region bin format loader
 				if (suffix == ".bin")
 				{
-					tskFile = ByteManager.ReadBinFile(_tskAddress);
-					if (tskFile == null)
+					binTaskFile = ByteManager.ReadBinFile(_tskAddress);
+					if (binTaskFile == null)
 						return false;
-
+					binReadIndex += sizeof(short);
+					SavingMode = SaveMod.bin;
 					return true;
 				}
 				#endregion
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
-
 				_tskAddress = null;
 				return false;
 			}

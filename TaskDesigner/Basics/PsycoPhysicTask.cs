@@ -88,7 +88,7 @@ namespace Basics
 			cmbSiz = SelectTask_CB0.Size;
 		}
 
-		private void SetTheme()
+		void SetTheme()
 		{
 			this.Border.BorderStyle = XCoolForm.X3DBorderPrimitive.XBorderStyle.Flat;
 			this.TitleBar.TitleBarBackImage = TaskDesigner.Properties.Resources.engineer;
@@ -112,7 +112,7 @@ namespace Basics
 			xtl.ApplyTheme(Path.Combine(Environment.CurrentDirectory, @"Themes\BlueWinterTheme.xml"));
 		}
 		
-		private void TaskPreview_Load(object sender, EventArgs e)
+		void TaskPreview_Load(object sender, EventArgs e)
 		{
 			this.IconHolder.HolderButtons.Add(new XCoolForm.XTitleBarIconHolder.XHolderButton(TaskDesigner.Properties.Resources.file.GetThumbnailImage(20, 20, null, IntPtr.Zero), "File"));
 			this.IconHolder.HolderButtons.Add(new XCoolForm.XTitleBarIconHolder.XHolderButton(TaskDesigner.Properties.Resources.add.GetThumbnailImage(20, 20, null, IntPtr.Zero), "Add"));
@@ -139,7 +139,7 @@ namespace Basics
             eventLock = true;
 		}
 		
-		private void frmCoolForm_XCoolFormHolderButtonClick(XCoolForm.XCoolForm.XCoolFormHolderButtonClickArgs e)
+		void frmCoolForm_XCoolFormHolderButtonClick(XCoolForm.XCoolForm.XCoolFormHolderButtonClickArgs e)
 		{
 			switch (e.ButtonIndex)
 			{
@@ -412,7 +412,7 @@ namespace Basics
 			}
 		}
 
-        private void FillTaskTable()
+        void FillTaskTable()
         {
             Task_Table.RowStyles.Clear();
             Task_Table.Controls.Clear();
@@ -428,16 +428,18 @@ namespace Basics
                 //namebox.Size = namTxt;
                 namebox.Text = AllLevelName[i];
                 Task_Table.Controls.Add(namebox, 0, this.Task_Table.RowCount);
-                Debug.Write(" Hellp" + "\n");
+               
 
                 var Combox = new ComboBox();
                 Combox.Items.Add(" ");
-                Combox.Items.Add("Design");
-                //Combox.Items.Add("MGS");
-                //Combox.Items.Add("VGS");
-                //Combox.Items.Add("Posner");
-                Combox.Items.Add("Delete");
-                Combox.Name = "SelectTask_CB" + (Task_Table.RowCount);
+                
+				//Combox.Items.Add("MGS");
+				//Combox.Items.Add("VGS");
+				//Combox.Items.Add("Posner");
+				Combox.Items.Add("Edit");
+				Combox.Items.Add("Delete");
+				Combox.Items.Add("Copy");
+				Combox.Name = "SelectTask_CB" + (Task_Table.RowCount);
                 //Debug.Write(" Combo" + Combox.Name + "\n");
                 Combox.SelectedIndexChanged += new System.EventHandler(this.SelectTask_CB_SelectedIndexChanged);
                 //Combox.Size = cmbSiz;
@@ -456,7 +458,7 @@ namespace Basics
             }
         }
 
-        private void SelectTask_CB_SelectedIndexChanged(object sender, EventArgs e)
+        void SelectTask_CB_SelectedIndexChanged(object sender, EventArgs e)
 		{
             if (!eventLock)
                 return;
@@ -467,8 +469,7 @@ namespace Basics
             ActiveCol = index + 1;
 			int selectedIndex = cmb.SelectedIndex;
 			String selectedText = cmb.Text;
-			Debug.Write(this.Name + selectedIndex + "\n");
-
+			
 			switch (selectedText)
 			{
 				case "VGS":
@@ -482,6 +483,9 @@ namespace Basics
 					this.Hide();
 					NormalFrm.Show();
 					break;
+				case "Copy":
+					AddCondition(false, index);
+					break; 
 				case "Posner":
 					break;
 				case "Discrimination":
@@ -530,19 +534,38 @@ namespace Basics
 			UpdateData(ActiveCol);
 		}
 
-		private void Add_PB_Click(object sender, EventArgs e)
+		void Add_PB_Click(object sender, EventArgs e)
 		{
             eventLock = false;
 			//add a new RowStyle as a copy of the previous one
+			AddCondition(true, -1);
+            eventLock = true;
+		}
+
+		void AddCondition(bool newCond, int id)
+		{
 			this.Task_Table.RowStyles.Add(new RowStyle(SaveRowStyle.SizeType, SaveRowStyle.Height));
 			this.Task_Table.RowCount++;
+
+			string name = "", repeat = "1";
+			if (newCond)
+				name = "Untitled" + TaskName;
+				
+			else
+			{
+				name = AllLevelName[id];
+				AllLevelProp.Add(FrameProperties.Copy(AllLevelProp[id]));
+				EnabledTask.Add(2);
+				repeat = NumerRepeat[id].ToString();
+			}
+
 			var namebox = new TextBox();
 			namebox.Name = "NameTask_TB" + (Task_Table.RowCount - 1);
 			namebox.TextChanged += new System.EventHandler(this.NameTask_TB_TextChanged);
 
-			AllLevelName.Add("Untitled" + TaskName);
+			AllLevelName.Add(name);
 			BaseIndex.Add(0);
-			namebox.Text = "Untitled" + TaskName;
+			namebox.Text = name;
 			namebox.Size = namTxt;
 			Task_Table.Controls.Add(namebox, 0, this.Task_Table.RowCount - 1);
 
@@ -550,24 +573,33 @@ namespace Basics
 			var Combox = new ComboBox();
 			Combox.Size = cmbSiz;
 			Combox.Items.Add(" ");
-			Combox.Items.Add("Design");
-			//Combox.Items.Add("Load");
+			if (newCond)
+				Combox.Items.Add("Design");
+			else
+			{
+				Combox.Items.Add("Delete");
+				Combox.Items.Add("Edit");
+				Combox.Items.Add("Copy");
+			}
+			
 
 			Combox.Name = "SelectTask_CB" + (Task_Table.RowCount - 1);
 			Combox.SelectedIndexChanged += new System.EventHandler(this.SelectTask_CB_SelectedIndexChanged);
 			this.Task_Table.Controls.Add(Combox, 1, this.Task_Table.RowCount - 1);
 			var txbox = new TextBox();
-			txbox.Text = "1";
+			txbox.Text = repeat;
 			txbox.Name = "NumTrial_TB" + (Task_Table.RowCount - 1);
 			txbox.TextChanged += new System.EventHandler(this.NumTrial_TB_TextChanged);
 			txbox.Size = numTrilTxt;
 			Task_Table.Controls.Add(txbox, 2, this.Task_Table.RowCount - 1);
+			
 			Task_Table.Controls.Add(new Label() { Text = "0", Name = "TotalTime_LB" + (Task_Table.RowCount - 1) }, 3, this.Task_Table.RowCount - 1);
 			Task_Table.Controls.Add(new Label() { Text = "0", Name = "FramePerTask_LB" + (Task_Table.RowCount - 1) }, 4, this.Task_Table.RowCount - 1);
-            eventLock = true;
+			if(!newCond)
+				UpdateData(Task_Table.RowCount);
 		}
 
-		private void UpdateData(int Index)
+		void UpdateData(int Index)
 		{
 			int time = 0;
 			if (AllLevelProp.Count > 0)
@@ -614,17 +646,17 @@ namespace Basics
 
 		}
 		
-		private void Stop_PB_Click(object sender, EventArgs e)
+		void Stop_PB_Click(object sender, EventArgs e)
 		{
 			brake = true;
 		}
 
-		private void Task_Table_Scroll(object sender, ScrollEventArgs e)
+		void Task_Table_Scroll(object sender, ScrollEventArgs e)
 		{
 			return;
 		}
 
-		private void NumTrial_TB_TextChanged(object sender, EventArgs e)
+		void NumTrial_TB_TextChanged(object sender, EventArgs e)
 		{
             if (!eventLock)
                 return;
@@ -646,7 +678,7 @@ namespace Basics
             UpdateData(index + 1);
         }
 
-		private void Start_PB_Click(object sender, EventArgs e)
+		void Start_PB_Click(object sender, EventArgs e)
 		{
 			if (AllLevelProp.Count == 0)
 			{
@@ -664,7 +696,7 @@ namespace Basics
 			ShFrame.Show();
 		}
 
-		private void UpdateComboBox(int index)
+		void UpdateComboBox(int index)
 		{
 			if (EnabledTask[index] == 2)
 			{
@@ -672,10 +704,11 @@ namespace Basics
 				comb.Items.Clear();
 				comb.Items.Add("Delete");
 				comb.Items.Add("Edit");
+				comb.Items.Add("Copy");
 			}
 		}
 
-		private void TaskPreview_FormClosing(object sender, FormClosingEventArgs e)
+		void TaskPreview_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			//Application.Exit();
 			//Application.ExitThread();
@@ -685,14 +718,13 @@ namespace Basics
 			//        Proc.Kill();
 		}
 
-		private void NameTask_TB_TextChanged(object sender, EventArgs e)
+		void NameTask_TB_TextChanged(object sender, EventArgs e)
 		{
             if (!eventLock)
                 return;
 			TextBox cmb = (TextBox)sender;
 			String cmbName = cmb.Name;
 			int index = (int)Char.GetNumericValue(cmbName[(cmbName.Length - 1)]);
-			Debug.Write("Helpppppp " + AllLevelName.Count + " \n");
 			AllLevelName[index] = cmb.Text;
 		}
 

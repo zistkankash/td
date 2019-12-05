@@ -126,14 +126,14 @@ namespace Basics
 
 						if (lines[0] == "TaskLabPics")      // تسک های تصویری
 						{
-							if (mediaTask.Load(lines))
+							if (mediaTask.Load())
 								_taskIsReady = true;
 							_type = TaskType.media;
 						}
 
 						else if (lines[0] == "TaskLab")     // تسک های روانشناختی
 						{
-							if (psycoTask.Load(lines))
+							if (psycoTask.Load())
 								_taskIsReady = true;
 							_type = TaskType.lab;
 
@@ -169,7 +169,7 @@ namespace Basics
 					{
 						_type = TaskType.media;
 						mediaTask = new MediaTask();
-						if (mediaTask.Load(tskFile, readIndex))
+						if (mediaTask.LoadFromBin(tskFile, readIndex))
 							_taskIsReady = true;
 					}
 

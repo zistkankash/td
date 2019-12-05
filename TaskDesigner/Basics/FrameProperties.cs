@@ -8,74 +8,80 @@ using System.Threading.Tasks;
 
 namespace Basics
 {
-    public class FrameProperties
-    {
-        public Color BGColor;
-        public int FrameTime;
-        //public int FixationWidth;
-        //public int FixationHeight;
-        public FixationPts Fixation = new FixationPts();
-        public int FixationTime;
-        public int NumberSaccade;
-        //public int[] SaccadeWidth;
-        //public int[] SaccadeHeight;
-        public FixationPts[] Stimulus;
-        public Color[] StimulusColor;
-        public int RewardType;
-        
-        public HintForm Cue;
-        public ShowFr[] ShowFrame;
+	public class FrameProperties
+	{
+		public Color BGColor;
+		public int FrameTime;
+		//public int FixationWidth;
+		//public int FixationHeight;
+		public FixationPts Fixation = new FixationPts();
+		public int FixationTime;
+		public int NumberSaccade;
+		//public int[] SaccadeWidth;
+		//public int[] SaccadeHeight;
+		public FixationPts[] Stimulus;
+		public Color[] StimulusColor;
+		public int RewardType;
+
+		public HintForm Cue;
+		public ShowFr[] ShowFrame;
 		public TriggerEvents events;
-        public RepeatLinkFrame RepeatInfo;
+		public RepeatLinkFrame RepeatInfo;
 
-        public FrameProperties()
-        {
-            BGColor = Color.Black;
-            FrameTime = 0;
-            Fixation.Width = 0;
-            Fixation.Xloc = 0 ;
-            Fixation.Yloc = 0;
-            FixationTime = 0;
-            NumberSaccade = 1 ;
-            Stimulus = new FixationPts[NumberSaccade];
-            Stimulus[0] = new FixationPts();
-            Stimulus[0].Width = 0;
-            Stimulus[0].Xloc = 0;
-            Stimulus[0].Yloc = 0;
-            RewardType = 0;
+		public FrameProperties()
+		{
+			BGColor = Color.Black;
+			FrameTime = 0;
+			Fixation.Width = 0;
+			Fixation.Xloc = 0;
+			Fixation.Yloc = 0;
+			FixationTime = 0;
+			NumberSaccade = 1;
+			Stimulus = new FixationPts[NumberSaccade];
+			Stimulus[0] = new FixationPts();
+			Stimulus[0].Width = 0;
+			Stimulus[0].Xloc = 0;
+			Stimulus[0].Yloc = 0;
+			RewardType = 0;
 
-            Cue = new HintForm();
-            ShowFrame = new ShowFr[1];
+			Cue = new HintForm();
+			ShowFrame = new ShowFr[1];
 			events = new TriggerEvents();
-            RepeatInfo = new RepeatLinkFrame();
-        }
+			RepeatInfo = new RepeatLinkFrame();
+		}
 
-        public void SetProperties(Color BGC,int FrameT, FixationPts FixationProp, int FixationT, int  NumSaccade, FixationPts[] StimulusProp, int Reward, HintForm cue, int NumBox ,ShowFr[] ShowBox, TriggerEvents ev)
-        {
-            BGColor = BGC;
-            FrameTime = FrameT;
-            Fixation = FixationProp;
-            FixationTime = FixationT;
-            NumberSaccade = NumSaccade;
-            Stimulus = new FixationPts[NumSaccade];
-            for (int i = 0; i < NumSaccade; i++)
-            {
-                Stimulus[i] = new FixationPts();
-                Stimulus[i] = StimulusProp[i];
-                
-            }
-            RewardType = Reward;
-            Cue = cue;
-            ShowFrame = new ShowFr[NumBox];
-            for (int i = 0; i < NumBox; i++)
-            {
-                ShowFrame[i] = ShowBox[i];
-            }
+		public void SetProperties(Color BGC, int FrameT, FixationPts FixationProp, int FixationT, int NumSaccade, FixationPts[] StimulusProp, int Reward, HintForm cue, int NumBox, ShowFr[] ShowBox, TriggerEvents ev)
+		{
+			BGColor = BGC;
+			FrameTime = FrameT;
+			Fixation = FixationProp;
+			FixationTime = FixationT;
+			NumberSaccade = NumSaccade;
+			Stimulus = new FixationPts[NumSaccade];
+			for (int i = 0; i < NumSaccade; i++)
+			{
+				Stimulus[i] = new FixationPts();
+				Stimulus[i] = StimulusProp[i];
+
+			}
+			RewardType = Reward;
+			Cue = cue;
+			ShowFrame = new ShowFr[NumBox];
+			for (int i = 0; i < NumBox; i++)
+			{
+				ShowFrame[i] = ShowBox[i];
+			}
 			events = ev;
-        }
+		}
 
-
-    }
+		public static List<FrameProperties> Copy(List<FrameProperties> listIn)
+		{
+			FrameProperties[] frIn = new FrameProperties[listIn.Count];
+			for (int i = 0; i < listIn.Count; i++)
+				frIn[i] = listIn[i];
+			return frIn.ToList();
+		}
+	}
 
 
     public class FixationPts

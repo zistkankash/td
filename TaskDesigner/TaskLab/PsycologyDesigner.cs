@@ -523,7 +523,8 @@ namespace TaskLab
 		
 			inserNode.pos.X = x;
 			inserNode.pos.Y = y;
-			
+			inserNode.shape = shp;
+			inserNode.height = h; inserNode.width = w; inserNode.number = (int)numUpDownNode.Value; inserNode.textColor = btnNumberColor.BackColor;
 			//inserted node is drawed on image so is ready to add to map.
 			inserNode.enable = true;
 
