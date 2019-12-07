@@ -133,7 +133,7 @@ namespace TaskRunning
 						shFrame = new ShowFrame(st);
 						shFrame.pupilDataPath = txtSavPath.Text;
 						shFrame.eventDataPath = FileName.UpdateFileName(txtSavPath.Text, "events");
-						//shFrame.Show();
+						shFrame.Show();
 					}
 					else
 					{
