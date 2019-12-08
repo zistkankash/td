@@ -56,7 +56,7 @@ namespace Basics
 			// 
 			// panel1
 			// 
-			this.panel1.AutoSize = true;
+			this.panel1.AutoScroll = true;
 			this.panel1.BackColor = System.Drawing.Color.Transparent;
 			this.panel1.Controls.Add(this.label3);
 			this.panel1.Controls.Add(this.Task_Table);
@@ -97,7 +97,7 @@ namespace Basics
 			this.Task_Table.Name = "Task_Table";
 			this.Task_Table.RowCount = 1;
 			this.Task_Table.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.Task_Table.Size = new System.Drawing.Size(637, 37);
+			this.Task_Table.Size = new System.Drawing.Size(637, 30);
 			this.Task_Table.TabIndex = 3;
 			this.Task_Table.Scroll += new System.Windows.Forms.ScrollEventHandler(this.Task_Table_Scroll);
 			// 
@@ -127,7 +127,7 @@ namespace Basics
             "Design"});
 			this.SelectTask_CB0.Location = new System.Drawing.Point(167, 3);
 			this.SelectTask_CB0.Name = "SelectTask_CB0";
-			this.SelectTask_CB0.Size = new System.Drawing.Size(101, 21);
+			this.SelectTask_CB0.Size = new System.Drawing.Size(94, 21);
 			this.SelectTask_CB0.TabIndex = 4;
 			this.SelectTask_CB0.SelectedIndexChanged += new System.EventHandler(this.SelectTask_CB_SelectedIndexChanged);
 			// 
@@ -135,7 +135,7 @@ namespace Basics
 			// 
 			this.NumTrial_TB0.Location = new System.Drawing.Point(336, 3);
 			this.NumTrial_TB0.Name = "NumTrial_TB0";
-			this.NumTrial_TB0.Size = new System.Drawing.Size(74, 20);
+			this.NumTrial_TB0.Size = new System.Drawing.Size(56, 20);
 			this.NumTrial_TB0.TabIndex = 4;
 			this.NumTrial_TB0.Text = "1";
 			this.NumTrial_TB0.TextChanged += new System.EventHandler(this.NumTrial_TB_TextChanged);
@@ -144,7 +144,7 @@ namespace Basics
 			// 
 			this.NameTask_TB0.Location = new System.Drawing.Point(3, 3);
 			this.NameTask_TB0.Name = "NameTask_TB0";
-			this.NameTask_TB0.Size = new System.Drawing.Size(126, 20);
+			this.NameTask_TB0.Size = new System.Drawing.Size(104, 20);
 			this.NameTask_TB0.TabIndex = 0;
 			this.NameTask_TB0.Text = "1";
 			this.NameTask_TB0.TextChanged += new System.EventHandler(this.NameTask_TB_TextChanged);
@@ -238,7 +238,7 @@ namespace Basics
 			this.chkRandom.Text = "Make Random Repeat";
 			this.chkRandom.UseVisualStyleBackColor = true;
 			// 
-			// TaskPreview
+			// PsycoPhysicTask
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -249,7 +249,7 @@ namespace Basics
 			this.Controls.Add(this.panel1);
 			this.Controls.Add(this.Start_PB);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-			this.Name = "TaskPreview";
+			this.Name = "PsycoPhysicTask";
 			this.Tag = "TaskP";
 			this.Text = "TaskPreview";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TaskPreview_FormClosing);

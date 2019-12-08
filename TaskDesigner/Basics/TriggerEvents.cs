@@ -25,29 +25,29 @@ namespace Basics
 		{
 			if (events.Length == 0)
 				ClearEvents();
-			if (events.Length == 1)
+			if (events.Length >= 1)
 				condition = events[0];
-			if (events.Length == 2)
+			if (events.Length >= 2)
 				trialStart = events[1];
-			if (events.Length == 3)
+			if (events.Length >= 3)
 				trialEnd = events[2];
-			if (events.Length == 4)
+			if (events.Length >= 4)
 				fixOn = events[3];
-			if (events.Length == 5)
+			if (events.Length >= 5)
 				fixOff = events[4];
-			if (events.Length == 6)
+			if (events.Length >= 6)
 				stimOn = events[5];
-			if (events.Length == 7)
+			if (events.Length >= 7)
 				stimOff = events[6];
-			if (events.Length == 8)
+			if (events.Length >= 8)
 				enterFixWindow = events[7];
-			if (events.Length == 9)
+			if (events.Length >= 9)
 				abortFixWindow = events[8];
-			if (events.Length == 10)
+			if (events.Length >= 10)
 				enterTargetWindow = events[9];
-			if (events.Length == 11)
+			if (events.Length >= 11)
 				saccadInit = events[10];
-			if (events.Length == 12)
+			if (events.Length >= 12)
 				saccadLand = events[11];
 		}
 
@@ -66,6 +66,8 @@ namespace Basics
 		{
 			if (EvId > 12 || EvId < 1)
 				return false;
+			if (Value == 0)
+				Value = -1;
 			if (EvId == 1)
 				condition = Value;
 			if (EvId == 2)
@@ -121,6 +123,11 @@ namespace Basics
 			if (EvId == 12)
 				return saccadLand;
 			return -1;
+		}
+
+		public TriggerEvents NewInstant()
+		{
+			return  new TriggerEvents(condition,trialStart,trialEnd,fixOn,fixOff,stimOn,stimOff,enterFixWindow,abortFixWindow,enterTargetWindow,saccadInit,saccadLand);
 		}
 	}
 }

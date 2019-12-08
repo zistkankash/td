@@ -162,14 +162,14 @@ namespace Basics
 					break;
 				case 3:
 					{
-						SavePsycoPhysicTask(true);
-						MessageBox.Show("Selected task saved successfully!", "Save Task");
+						if (SavePsycoPhysicTask(true))
+							MessageBox.Show("Selected task saved successfully!", "Save Task");
 					}
 					break;
 				case 2:
 					{
-						LoadTaskFromFile(true, null);
-						MessageBox.Show("Selected task loaded successfully!","Load Task");
+						if (LoadTaskFromFile(true, null))
+							MessageBox.Show("Selected task loaded successfully!", "Load Task");
 					}
 					break;
 				case 5:
@@ -425,7 +425,7 @@ namespace Basics
                 var namebox = new TextBox();
                 namebox.Name = "NameTask_TB" + (Task_Table.RowCount);
                 namebox.TextChanged += new System.EventHandler(this.NameTask_TB_TextChanged);
-                //namebox.Size = namTxt;
+                namebox.Size = namTxt;
                 namebox.Text = AllLevelName[i];
                 Task_Table.Controls.Add(namebox, 0, this.Task_Table.RowCount);
                
@@ -442,13 +442,13 @@ namespace Basics
 				Combox.Name = "SelectTask_CB" + (Task_Table.RowCount);
                 //Debug.Write(" Combo" + Combox.Name + "\n");
                 Combox.SelectedIndexChanged += new System.EventHandler(this.SelectTask_CB_SelectedIndexChanged);
-                //Combox.Size = cmbSiz;
+                Combox.Size = cmbSiz;
                 this.Task_Table.Controls.Add(Combox, 1, this.Task_Table.RowCount);
                 var txbox = new TextBox();
                 txbox.Text = Convert.ToString(NumerRepeat[i]);
                 txbox.Name = "NumTrial_TB" + (Task_Table.RowCount);
                 txbox.TextChanged += new System.EventHandler(this.NumTrial_TB_TextChanged);
-                //txbox.Size = numTrilTxt;
+                txbox.Size = numTrilTxt;
                 Task_Table.Controls.Add(txbox, 2, this.Task_Table.RowCount);
                 Task_Table.Controls.Add(new Label() { Text = "0", Name = "TotalTime_LB" + (Task_Table.RowCount).ToString() }, 3, this.Task_Table.RowCount);
                 Task_Table.Controls.Add(new Label() { Text = "0", Name = "FramePerTask_LB" + (Task_Table.RowCount).ToString() }, 4, this.Task_Table.RowCount);
@@ -485,26 +485,28 @@ namespace Basics
 					break;
 				case "Copy":
 					AddCondition(false, index);
+					NameTask_TB0.Select();
 					break; 
 				case "Posner":
 					break;
 				case "Discrimination":
 					break;
 				case "Delete":
-					
-					if (AllLevelProp.Count > 0)//&& AllLevelProp[index - 1].Count > 1
+					if (MessageBox.Show("Do you want to delete this condition?", "Question", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
 					{
-												
-						AllLevelProp.RemoveAt(index);
-						AllLevelName.RemoveAt(index);
-						NumerRepeat.RemoveAt(index);
-						EnabledTask.RemoveAt(index);
-						BaseIndex.RemoveAt(index);
-						
-                        FillTaskTable();
-					}
-					
+						if (AllLevelProp.Count > 0)//&& AllLevelProp[index - 1].Count > 1
+						{
 
+							AllLevelProp.RemoveAt(index);
+							AllLevelName.RemoveAt(index);
+							NumerRepeat.RemoveAt(index);
+							EnabledTask.RemoveAt(index);
+							BaseIndex.RemoveAt(index);
+
+							FillTaskTable();
+						}
+					}
+					NameTask_TB0.Select();
 					break;
 
 				case "Edit":
@@ -525,8 +527,10 @@ namespace Basics
 
 		public void TaskPreview_VisibleChanged(object sender, EventArgs e)
 		{
-			if (!ChangeHappened || !eventLock)
+			if (!ChangeHappened || !eventLock || !this.Visible)
 				return;
+			NameTask_TB0.Select();
+			
 			ChangeHappened = false;
 
 			Label FrCountLB = Controls.Find("FramePerTask_LB" + (ActiveCol-1), true).FirstOrDefault() as Label;

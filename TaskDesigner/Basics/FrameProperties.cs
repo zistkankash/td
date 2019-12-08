@@ -50,6 +50,13 @@ namespace Basics
 			RepeatInfo = new RepeatLinkFrame();
 		}
 
+		public FrameProperties Copy()
+		{
+			FrameProperties fr = new FrameProperties();
+			fr.SetProperties(BGColor, FrameTime, Fixation, FixationTime, NumberSaccade, Stimulus, RewardType,null, 0, null, events.NewInstant());
+			return fr;
+		}
+
 		public void SetProperties(Color BGC, int FrameT, FixationPts FixationProp, int FixationT, int NumSaccade, FixationPts[] StimulusProp, int Reward, HintForm cue, int NumBox, ShowFr[] ShowBox, TriggerEvents ev)
 		{
 			BGColor = BGC;
@@ -74,16 +81,15 @@ namespace Basics
 			events = ev;
 		}
 
-		public static List<FrameProperties> Copy(List<FrameProperties> listIn)
+		public static List<FrameProperties> Copy(List<FrameProperties> listin)
 		{
-			FrameProperties[] frIn = new FrameProperties[listIn.Count];
-			for (int i = 0; i < listIn.Count; i++)
-				frIn[i] = listIn[i];
+			FrameProperties[] frIn = new FrameProperties[listin.Count];
+			for (int i = 0; i < listin.Count; i++)
+				frIn[i] = listin[i].Copy();
 			return frIn.ToList();
 		}
 	}
-
-
+	
     public class FixationPts
     {
         public int Xloc, Yloc, Width, Height,Type;
