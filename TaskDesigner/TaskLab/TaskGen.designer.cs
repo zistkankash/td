@@ -67,7 +67,7 @@ namespace TaskLab
 			this.txtPath = new MetroFramework.Controls.MetroTextBox();
 			this.MainMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-			this.vlcControl1 = new Vlc.DotNet.Forms.VlcControl();
+			
 			((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pbDesign)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.icndisconnect)).BeginInit();
@@ -81,7 +81,7 @@ namespace TaskLab
 			this.pnlSetting.SuspendLayout();
 			this.pnlSetButton.SuspendLayout();
 			this.MainMenu.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.vlcControl1)).BeginInit();
+		
 			this.SuspendLayout();
 			// 
 			// errorProvider1
@@ -323,7 +323,7 @@ namespace TaskLab
 			// 
 			// splitContainer1.Panel2
 			// 
-			this.splitContainer1.Panel2.Controls.Add(this.vlcControl1);
+			
 			this.splitContainer1.Panel2.Controls.Add(this.pnlSetting);
 			this.splitContainer1.Panel2.Controls.Add(this.pbDesign);
 			this.splitContainer1.Size = new System.Drawing.Size(1185, 749);
@@ -560,16 +560,7 @@ namespace TaskLab
 			// 
 			// vlcControl1
 			// 
-			this.vlcControl1.BackColor = System.Drawing.Color.Black;
-			this.vlcControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.vlcControl1.Location = new System.Drawing.Point(0, 0);
-			this.vlcControl1.Name = "vlcControl1";
-			this.vlcControl1.Size = new System.Drawing.Size(964, 747);
-			this.vlcControl1.Spu = -1;
-			this.vlcControl1.TabIndex = 91;
-			this.vlcControl1.Text = "vlcControl1";
-			this.vlcControl1.VlcLibDirectory = null;
-			this.vlcControl1.VlcMediaplayerOptions = null;
+			
 			// 
 			// TaskGen
 			// 
@@ -605,7 +596,7 @@ namespace TaskLab
 			this.pnlSetting.PerformLayout();
 			this.pnlSetButton.ResumeLayout(false);
 			this.MainMenu.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.vlcControl1)).EndInit();
+		
 			this.ResumeLayout(false);
 
         }
@@ -647,7 +638,7 @@ namespace TaskLab
 		private MetroFramework.Controls.MetroComboBox cmbxSavMod;
 		private MetroFramework.Controls.MetroCheckBox chkboxChessDraw;
 		private MetroFramework.Controls.MetroTextBox txtPath;
-		private Vlc.DotNet.Forms.VlcControl vlcControl1;
+		
 	}
 }
 
