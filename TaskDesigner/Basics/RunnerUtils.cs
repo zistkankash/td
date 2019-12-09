@@ -10,7 +10,7 @@ namespace Basics
 {
 	public static class RunnerUtils
 	{
-		public static int GazeSmoothPots = 11;
+		public static int GazeSmoothPots = 1;
 		static int _counter = 0;
 		static double[,] pts = new double[2, GazeSmoothPots];
 		
@@ -69,7 +69,7 @@ namespace Basics
 
 		public static bool EndGaze()
 		{
-			if (BasConfigs.server != null && BasConfigs.server.IsCalibrated == ETStatus.ready)
+			if (BasConfigs.server != null && !BasConfigs.server._endGaze)
 			{
 				return BasConfigs.server.EndGaze();
 			}

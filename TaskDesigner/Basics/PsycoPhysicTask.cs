@@ -465,7 +465,7 @@ namespace Basics
 			ComboBox cmb = (ComboBox)sender;
 
 			String cmbName = cmb.Name;
-			int index = (int)Char.GetNumericValue(cmbName[(cmbName.Length - 1)]);
+			int index = int.Parse(cmbName.Substring(13));
             ActiveCol = index + 1;
 			int selectedIndex = cmb.SelectedIndex;
 			String selectedText = cmb.Text;
@@ -667,8 +667,8 @@ namespace Basics
 			TextBox cmb = (TextBox)sender;
 
 			String cmbName = cmb.Name;
-			int index = (int)Char.GetNumericValue(cmbName[(cmbName.Length - 1)]);
-            try
+			int index = int.Parse(cmbName.Substring(11));
+			try
             {
                 NumerRepeat[index] = int.Parse(cmb.Text);
                 
@@ -695,7 +695,7 @@ namespace Basics
 			else
 				TypeDisplay = 1;
 
-			ShowFrame ShFrame = new ShowFrame(false);
+			ShowFrame ShFrame = new ShowFrame(false, 0 ,0);
 
 			ShFrame.Show();
 		}
@@ -728,7 +728,7 @@ namespace Basics
                 return;
 			TextBox cmb = (TextBox)sender;
 			String cmbName = cmb.Name;
-			int index = (int)Char.GetNumericValue(cmbName[(cmbName.Length - 1)]);
+			int index = int.Parse(cmbName.Substring(11));
 			AllLevelName[index] = cmb.Text;
 		}
 

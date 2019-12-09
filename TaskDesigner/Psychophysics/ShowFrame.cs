@@ -20,12 +20,13 @@ namespace Psychophysics
 		// ROI
 		bool InROI = false;
 		public bool _useGaz = false, _userClosed = true;
-		bool _ans, ETW, EFW, AFW, sacIni;
+		bool ETW, EFW, AFW;
 		int level = -1;
-		int frame = -1;
-		int framelimit;
+		int frame = -1, lastFrame;
+		int framelimit, timeLimit;
 		bool fixatehappened = false;
-		public Bitmap flag, opFlag;
+		public Bitmap flag, opFlag, opFlagTemp;
+		public int opFlagWidth, opFlagHeight;
 		Graphics flagGraphics, opFlagGraphics;
 		FixationPts stimulus;
 		FixationPts fixationstimulus;
@@ -38,7 +39,7 @@ namespace Psychophysics
 		double preFixationCenterX, preFixationCenterY, preFixationCenterWidth;
 		int FixationCenterTime = 0;
 		int FixationRewardType = 0;
-		Stopwatch FixationSW = new Stopwatch();
+		Stopwatch FixationSW = new Stopwatch(), LoopWatch = new Stopwatch();
 		public int[] RandForTaskLevel;
 		int indexRandForTaskLevel = -1;
 		int trialCounter;
@@ -47,9 +48,9 @@ namespace Psychophysics
 		MicroLibrary.MicroTimer microTimer;
 		MicroLibrary.MicroStopwatch _eventMicSW = new MicroLibrary.MicroStopwatch();
 		GazeTriple gz;
-		StringBuilder _pupilStringBiulder;
+		StringBuilder _pupilStringBiulder = new StringBuilder(1000000);
 
-		public ShowFrame(bool getGaze)
+		public ShowFrame(bool getGaze, int operWidth, int operHeight)
 		{
 			InitializeComponent();
 			
@@ -65,6 +66,8 @@ namespace Psychophysics
 				
 				_useGaz = true;
 			}
+			opFlagWidth = operWidth;
+			opFlagHeight = operHeight;
 			ScreenConfig();
 			failSound.Load();
 			winSound.Load();
@@ -87,87 +90,94 @@ namespace Psychophysics
 				this.WindowState = FormWindowState.Maximized;
 				flag = new Bitmap(screen[0].Bounds.Width, screen[0].Bounds.Height);
 			}
-            opFlag = new Bitmap(flag.Width, flag.Height);
-			opFlagGraphics = Graphics.FromImage(opFlag);
+            if(_useGaz)
+			{
+				opFlagTemp = new Bitmap(flag.Width, flag.Height);
+				opFlag = new Bitmap(opFlagWidth, opFlagHeight);
+				opFlagGraphics = Graphics.FromImage(opFlagTemp);
+			}
 			flagGraphics = Graphics.FromImage(flag);	
 		}
-		
+
+		void ShowFrame_Load(object sender, EventArgs e)
+		{
+			NextTrial();
+					
+			MicroTimerEnable();
+			Timer1.Enabled = true;
+			Timer1.Start();
+			LoopWatch.Start();
+			if (_useGaz)
+			{
+				RunnerUtils.StartGaze();
+				_eventMicSW.Start();
+				RunnerUtils.ETGaze();
+
+			}
+		}
+
 		void Timer1_Tick(object sender, EventArgs e)
 		{
+			
+			if (!(fixatehappened || LoopWatch.ElapsedMilliseconds > timeLimit))
+				return;
+
 			if (PsycoPhysicTask.brake)
 			{
-				SaveData();
-				this.BeginInvoke(new MethodInvoker(Close));
-				Close();
+				StopRun(true);
+				return;
 			}
-						
+
 			microTimer.Stop();
-			Timer1.Stop();
+			
 
 			#region fixatehappened
-			
+
 			if (!_useGaz)
 			{
-				_ans = NextFrame();
-				
-				if (!_ans)
-                    return;
-				else
-					AllocateFrame();
+				if (!NextFrame())
+					return;
 			}
-			
+
 			else
 			{
 				if (FixationRewardType == 0)
 				{
-					_ans = NextFrame();
-					
-					if (!_ans)
-					
+
+					if (!NextFrame())
+
 						return;
-					
-					else
-					{
-						AllocateFrame();
-						GenFrameEvents();
-					}
-                }
+
+				}
 				else
 				{
 					if (fixatehappened)
 					{
-						if (FixationRewardType == 3 || FixationRewardType == 4)
+						if (FixationRewardType == 2 || FixationRewardType == 4)
 							winSound.Play();
 
-						_ans = NextFrame();
 
-						if (!_ans)
+						if (!NextFrame())
 							return;
-						else
-						{
-							AllocateFrame();
-							GenFrameEvents();
-						}
+
 
 					}
 					else
 					{
 						if (FixationRewardType == 3 || FixationRewardType == 4)
 							failSound.Play();
-						_ans = NextTrial();
-						AllocateFrame();
-						GenFrameEvents();
-						if (!_ans)
+
+						if (!NextTrial())
 							return;
+
 					}
 				}
 			}
-										
+
 			#endregion
-			          
+
 			fixatehappened = false;
-			InROI = false;
-			Timer1.Start();
+			LoopWatch.Restart();			
 			microTimer.Start();
 			
 			return;
@@ -176,30 +186,40 @@ namespace Psychophysics
 		bool NextFrame()
 		{
 			frame++;
+			
 			if (frame < framelimit)
 			{
-
-				Timer1.Interval = PsycoPhysicTask.AllLevelProp[level][frame].FrameTime;
+				AllocateFrame();
+				GenFrameEvents();
+				timeLimit = PsycoPhysicTask.AllLevelProp[level][frame].FrameTime;
 				FixationRewardType = PsycoPhysicTask.AllLevelProp[level][frame].RewardType;
 
 				return true;
 			}
 			else
+			{
+				frame--;
 				return NextTrial();
+			}
 		}
 
 		bool NextTrial()
 		{
 			indexRandForTaskLevel++;
-			if (indexRandForTaskLevel >= RandForTaskLevel.Length)
+			if (indexRandForTaskLevel == RandForTaskLevel.Length)
 			{
+				int preLevel = RandForTaskLevel[indexRandForTaskLevel - 1];
+				if (PsycoPhysicTask.AllLevelProp[preLevel][lastFrame].events.trialEnd != -1)
+				{
+					AppendEventData(PsycoPhysicTask.AllLevelProp[preLevel][frame].events.trialEnd.ToString());
+				}
 				_userClosed = false;
 				StopRun(true);
 				return false;
 			}
 			level = RandForTaskLevel[indexRandForTaskLevel];
+			lastFrame = frame;
 			frame = -1;
-			
 			//trialCounter++;
 			framelimit = PsycoPhysicTask.AllLevelProp[level].Count;
 			NextFrame();
@@ -211,9 +231,9 @@ namespace Psychophysics
 			if (indexRandForTaskLevel > 0)
 			{
 				int preLevel = RandForTaskLevel[indexRandForTaskLevel - 1];
-				if (PsycoPhysicTask.AllLevelProp[preLevel][frame - 1].events.trialEnd != -1)
+				if (PsycoPhysicTask.AllLevelProp[preLevel][lastFrame].events.trialEnd != -1)
 				{
-					AppendEventData(PsycoPhysicTask.AllLevelProp[preLevel][frame - 1].events.trialEnd.ToString());
+					AppendEventData(PsycoPhysicTask.AllLevelProp[preLevel][frame].events.trialEnd.ToString());
 				}
 			}
 			if (indexRandForTaskLevel < RandForTaskLevel.Length)
@@ -226,6 +246,7 @@ namespace Psychophysics
 				{
 					AppendEventData(PsycoPhysicTask.AllLevelProp[level][frame].events.condition.ToString());
 				}
+				
 				if (PsycoPhysicTask.AllLevelProp[level][frame].events.fixOn != -1)
 				{
 					AppendEventData(PsycoPhysicTask.AllLevelProp[level][frame].events.fixOn.ToString());
@@ -273,7 +294,7 @@ namespace Psychophysics
 		void AllocateFrame()
 		{
 			flagGraphics.Clear(PsycoPhysicTask.AllLevelProp[level][frame].BGColor);
-			opFlagGraphics.Clear(PsycoPhysicTask.AllLevelProp[level][frame].BGColor);
+			
 			numberstimulus = PsycoPhysicTask.AllLevelProp[level][frame].Stimulus.Length;
 
 			#region add stimulus
@@ -287,20 +308,23 @@ namespace Psychophysics
 				if (stimulus.Type == 1)
 				{
 					flagGraphics.FillRectangle(sb, stimulus.Xloc - stimulus.Width / 2, stimulus.Yloc - stimulus.Width / 2, stimulus.Width, stimulus.Width);
-                    opFlagGraphics.FillRectangle(sb, stimulus.Xloc - stimulus.Width / 2, stimulus.Yloc - stimulus.Width / 2, stimulus.Width, stimulus.Width);
+					if(_useGaz)
+						opFlagGraphics.FillRectangle(sb, stimulus.Xloc - stimulus.Width / 2, stimulus.Yloc - stimulus.Width / 2, stimulus.Width, stimulus.Width);
                 }
 
 				if (stimulus.Type == 2)
 				{
 					flagGraphics.FillRectangle(sb, stimulus.Xloc - stimulus.Width / 2, stimulus.Yloc - stimulus.Width / 2, stimulus.Width, stimulus.Width);
-                    opFlagGraphics.FillRectangle(sb, stimulus.Xloc - stimulus.Width / 2, stimulus.Yloc - stimulus.Width / 2, stimulus.Width, stimulus.Width);
+					if(_useGaz)
+						opFlagGraphics.FillRectangle(sb, stimulus.Xloc - stimulus.Width / 2, stimulus.Yloc - stimulus.Width / 2, stimulus.Width, stimulus.Width);
 
                 }
 
                 if (stimulus.Type == 3)
 				{
 					flagGraphics.FillEllipse(sb, stimulus.Xloc - stimulus.Width / 2, stimulus.Yloc - stimulus.Width / 2, stimulus.Width, stimulus.Width);
-                    opFlagGraphics.FillEllipse(sb, stimulus.Xloc - stimulus.Width / 2, stimulus.Yloc - stimulus.Width / 2, stimulus.Width, stimulus.Width);
+					if(_useGaz)
+						opFlagGraphics.FillEllipse(sb, stimulus.Xloc - stimulus.Width / 2, stimulus.Yloc - stimulus.Width / 2, stimulus.Width, stimulus.Width);
 
                 }
                
@@ -311,7 +335,8 @@ namespace Psychophysics
 						bmpvar = new Bitmap(stimulus.PathPic);
 						bmpvar = new Bitmap(bmpvar, new Size(stimulus.Width, stimulus.Height));
 						flagGraphics.DrawImage(bmpvar, new Point(stimulus.Xloc - stimulus.Width / 2, stimulus.Yloc - stimulus.Width / 2));
-                        opFlagGraphics.DrawImage(bmpvar, new Point(stimulus.Xloc - stimulus.Width / 2, stimulus.Yloc - stimulus.Width / 2));
+						if(_useGaz)
+							opFlagGraphics.DrawImage(bmpvar, new Point(stimulus.Xloc - stimulus.Width / 2, stimulus.Yloc - stimulus.Width / 2));
 
                     }
 
@@ -319,30 +344,33 @@ namespace Psychophysics
 				}
 
 			}
-			#endregion
-			
-			#region add fixation
-
 			flagGraphics.Flush();
-            
-			fixationstimulus = PsycoPhysicTask.AllLevelProp[level][frame].Fixation;
-			//Use Solid Brush for filling the graphic shapes
-			fixationp = new Pen(fixationstimulus.ColorPt);
-			
-			if (fixationstimulus.Type == 3)
+			#endregion
+			if (_useGaz)
 			{
-				containfixation = true;
-				preFixationCenterX = FixationCenterX;
-				FixationCenterX = fixationstimulus.Xloc;
-				preFixationCenterY = FixationCenterY;
-				FixationCenterY = fixationstimulus.Yloc;
-				preFixationCenterWidth = FixationCenterWidth;
-				FixationCenterWidth = fixationstimulus.Width;
-				FixationCenterTime = PsycoPhysicTask.AllLevelProp[level][frame].FixationTime;
+				#region add fixation
+				opFlagGraphics.Clear(PsycoPhysicTask.AllLevelProp[level][frame].BGColor);
+				
 
-				opFlagGraphics.DrawEllipse(fixationp, fixationstimulus.Xloc - fixationstimulus.Width / 2, fixationstimulus.Yloc - fixationstimulus.Width / 2, fixationstimulus.Width, fixationstimulus.Width);
+				fixationstimulus = PsycoPhysicTask.AllLevelProp[level][frame].Fixation;
+				//Use Solid Brush for filling the graphic shapes
+				fixationp = new Pen(fixationstimulus.ColorPt);
+
+				if (fixationstimulus.Type == 3)
+				{
+					containfixation = true;
+					preFixationCenterX = FixationCenterX;
+					FixationCenterX = fixationstimulus.Xloc;
+					preFixationCenterY = FixationCenterY;
+					FixationCenterY = fixationstimulus.Yloc;
+					preFixationCenterWidth = FixationCenterWidth;
+					FixationCenterWidth = fixationstimulus.Width;
+					FixationCenterTime = PsycoPhysicTask.AllLevelProp[level][frame].FixationTime;
+
+					opFlagGraphics.DrawEllipse(fixationp, fixationstimulus.Xloc - fixationstimulus.Width / 2, fixationstimulus.Yloc - fixationstimulus.Width / 2, fixationstimulus.Width, fixationstimulus.Width);
+					opFlag = BitmapManager.DrawOn(opFlagTemp, new Size(opFlagWidth, opFlagHeight), Color.White);
+				}
 			}
-
 			#endregion
 			pictureBox1.Image = flag;
 		}
@@ -363,24 +391,6 @@ namespace Psychophysics
 			}
 		}
 
-		void ShowFrame_Load(object sender, EventArgs e)
-		{
-			NextTrial();
-			AllocateFrame();
-			GenFrameEvents();
-			MicroTimerEnable();
-			Timer1.Enabled = true;
-			Timer1.Start();
-
-			if (_useGaz)
-			{
-				RunnerUtils.StartGaze();
-				_eventMicSW.Start();
-				RunnerUtils.ETGaze();
-
-			}
-		}
-
 		void StopRun(bool toClose)
 		{
 			if (_useGaz)
@@ -397,13 +407,10 @@ namespace Psychophysics
             Timer1.Enabled = false;
            
 			TaskOperator._stopped = true;
-			if (_useGaz)
-			{
-				RunnerUtils.EndGaze();
-			}
+			
 			if (toClose)
 			{
-				this.BeginInvoke(new MethodInvoker(Close));
+				//this.BeginInvoke(new MethodInvoker(Close));
 				Close();
 				
 			}
@@ -411,20 +418,23 @@ namespace Psychophysics
 
 		void CheckPointInROI(double[] Point)
 		{
-			microTimer.Stop();
+			
 			double dist1 = 0, dist2;
 			dist1 = (Point[0] - FixationCenterX) * (Point[0] - FixationCenterX) + (Point[1] - FixationCenterY) * (Point[1] - FixationCenterY);
 			if (ETW)
 			{
+				Debug.Write("d2" + dist1.ToString() + "\n");
 				dist2 = (Point[0] - preFixationCenterX) * (Point[0] - preFixationCenterX) + (Point[1] - preFixationCenterY) * (Point[1] - preFixationCenterY);
 				if (dist2 > preFixationCenterWidth * preFixationCenterWidth)
 				{
 					AppendEventData(PsycoPhysicTask.AllLevelProp[level][frame].events.saccadInit.ToString());
 				}
 			}
+			
 			#region check dist fixate
 			if (dist1 < FixationCenterWidth * FixationCenterWidth)
 			{
+				Debug.Write("in : d1 " + dist1.ToString() + "\n");
 				if (!InROI)
 				{
 					InROI = true;
@@ -446,7 +456,7 @@ namespace Psychophysics
 						fixatehappened = true;
 						FixationSW.Reset();
 						InROI = false;
-						Timer1_Tick(new object(), new EventArgs());
+						return;
 					}
 
 				}
@@ -455,6 +465,7 @@ namespace Psychophysics
 			#region else check fixate
 			else
 			{
+				Debug.Write("out : d1 " + dist1.ToString() + "\n");
 				if (InROI && FixationSW.ElapsedMilliseconds < FixationCenterTime)
 				{
 					if (AFW)
@@ -466,8 +477,7 @@ namespace Psychophysics
 
 			}
 			#endregion
-
-			microTimer.Start();
+			
 		}
 
 		void ShowFrame_KeyDown(object sender, KeyEventArgs e)
@@ -511,13 +521,16 @@ namespace Psychophysics
 					_pupilStringBiulder.Append(","); _pupilStringBiulder.Append(gz.pupilSize.ToString()); _pupilStringBiulder.Append(",");
 					_pupilStringBiulder.Append(gz.time.ToString());
 					_dataTask.AppendLine(_pupilStringBiulder.ToString());
+					if (containfixation)
+					{
+						CheckPointInROI(new double[] { gz.x, gz.y });
+						//CheckPointInROI(new double[] { 720, 450 });
+					}
 				}
+				
 				else
 					return;
-				if (containfixation)
-				{
-					CheckPointInROI(new double[] { gz.x, gz.y });
-				}
+				
 			}
 			
 		}

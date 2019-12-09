@@ -79,7 +79,7 @@ namespace TaskRunning
 			InitializeComponent();
 						
 			Screen[] screens = Screen.AllScreens;
-			secondMonit = new Size(screens[screens.Length-1].Bounds.Width, screens[screens.Length-1].Bounds.Height);
+			secondMonit = new Size(screens[1].Bounds.Width, screens[1].Bounds.Height);
 			tsk = new TaskClient();
 		}
 		
@@ -89,7 +89,7 @@ namespace TaskRunning
 			if (tsk.Type == TaskType.media)
 				b = tsk.GetFrameImage(_slideNum, pbOper.Size);
 			if (tsk.Type == TaskType.cognitive)
-				b = BitmapManager.DrawOn(shFrame.opFlag, pbOper.Size, Color.White);
+				b = shFrame.opFlag;
 
 			Graphics flagGraphics = Graphics.FromImage(b);
 			flagGraphics.FillEllipse(Brushes.Black, (float)gzX * pbOper.Width / secondMonit.Width - Marker_Radius / 2,(float) gzY * pbOper.Height / secondMonit.Height - Marker_Radius / 2, Marker_Radius, Marker_Radius);
@@ -130,7 +130,7 @@ namespace TaskRunning
 							st = false;
 						_stopped = false;
 											
-						shFrame = new ShowFrame(st);
+						shFrame = new ShowFrame(true,pbOper.Width, pbOper.Height);
 						shFrame.pupilDataPath = txtSavPath.Text;
 						shFrame.eventDataPath = FileName.UpdateFileName(txtSavPath.Text, "events");
 						shFrame.Show();
@@ -166,8 +166,12 @@ namespace TaskRunning
 		private bool GetETStat()
 		{
 			if (BasConfigs.server != null)
-				_etStat = BasConfigs.server.IsCalibrated;
-
+			{
+				if (BasConfigs.server.serverDisposed)
+					_etStat = ETStatus.disconnected;
+				else
+					_etStat = BasConfigs.server.IsCalibrated;
+			}
 			if (_etStat == ETStatus.disconnected || _etStat == ETStatus.listening)
 			{
 				DialogResult dt = MetroMessageBox.Show((IWin32Window)this, "ET was not connected. Run in offline mode?", "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);

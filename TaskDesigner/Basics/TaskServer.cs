@@ -20,7 +20,7 @@ namespace Basics
 		private int _calibStat;
 		private NetSettingForm par;
 		public bool _endGaze = true;
-		public bool serverDisposed = false, serverListening = false;
+		public bool serverDisposed = true, serverListening = false;
 		
 
 		public GazeTriple getGaze
@@ -42,7 +42,7 @@ namespace Basics
 		{
 			get
 			{
-				if (GazeTracker == null && !GazeTracker.Connected)
+				if (serverDisposed || GazeTracker == null && !GazeTracker.Connected)
 				{
 					return ETStatus.disconnected;
 				}
@@ -98,12 +98,14 @@ namespace Basics
 			}
 			catch (Exception)
 			{
-				MessageBox.Show("Send Error");
+				//MessageBox.Show("Send Error");
+				//Dispose();
 			}
 		}
 
 		public bool ReceivComnd()
 		{
+			Array.Clear(comBuffer, 0, comBuffer.Length);
 			try
 			{
 				GazeTracker.BeginReceive(comBuffer, 0, sizeof(Int16), SocketFlags.None, ReceiveCallback, null);
@@ -113,6 +115,7 @@ namespace Basics
 			catch
 			{
 				//MessageBox.Show("receive error");
+				//Dispose();
 				return false;
 			}
 		}
@@ -181,14 +184,14 @@ namespace Basics
 				else
 				{
 					//MetroMessageBox.Show((IWin32Window)this, "ET Was Disconnected", "ET Connection", MessageBoxButtons.OK, MessageBoxIcon.Stop, 100);
-
+					Dispose();
 				}
 				ReceivComnd();
 			}
 			catch(Exception)
 			{
-				MessageBox.Show("Connection was interrupted in ET", "ET Connection", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-				
+				//MessageBox.Show("Connection was interrupted in ET", "ET Connection", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+				Dispose();
 				
 			}
 		}
@@ -207,6 +210,7 @@ namespace Basics
 		
 		private Int16 GetComnd()
 		{
+			Array.Clear(comBuffer, 0, comBuffer.Length);
 			GazeTracker.Receive(comBuffer, sizeof(Int16), SocketFlags.None);
 			return Convert.ToInt16(comBuffer[0]);
 		}
@@ -235,6 +239,7 @@ namespace Basics
 
 		public void Dispose()
 		{
+			
 			if (GazeTracker != null && GazeTracker.Connected)
 			{
 				serverDisposed = true;

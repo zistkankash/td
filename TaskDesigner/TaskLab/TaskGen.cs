@@ -297,7 +297,7 @@ namespace TaskLab
         
 		void AddPicture(Size slidSize)
         {
-			Bitmap b = BitmapManager.TextBitmap("Double Click To Add Image", btnBackgroundCol.BackColor, Brushes.Black, slidSize,15);
+			Bitmap b = BitmapManager.TextBitmap("Double Click To Add Media", btnBackgroundCol.BackColor, Brushes.Black, slidSize,15);
 			
             Picture p = new Picture(b, null, slideTime);
             p.bgColor = btnBackgroundCol.BackColor;

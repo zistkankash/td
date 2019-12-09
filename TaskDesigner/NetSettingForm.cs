@@ -127,7 +127,10 @@ namespace Basics
 				btnConct.Text = "Disconnect";
 
 				if (_conectMessageShowed == 3)
+				{
+					coglabRefrshForm.Stop();
 					Close();
+				}
 			}
 			
 			return;

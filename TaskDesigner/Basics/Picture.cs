@@ -24,20 +24,32 @@ namespace Basics
         public int time;
         public string name;
         public Color bgColor;
+		public MediaType medType = MediaType.Image;
 		
 		public Picture(Bitmap im, string add, int t)
         {
             this.image = im;
             this.address = add;
             this.time = t;
+			this.medType = MediaType.Image;
         }
-		
+
+		public Picture(string add, int t)
+		{
+			medType = MediaType.Video;
+
+			this.address = add;
+			this.time = t;
+		}
+
 		public Picture(Bitmap x, Color color, int time, string add)
 		{
+			medType = MediaType.Image;
 			image = x;
 			bgColor = color;
 			address = add;
 			this.time = time;
 		}
 	}
+	public enum MediaType { Image , Video  }
 }

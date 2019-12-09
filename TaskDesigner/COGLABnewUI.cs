@@ -424,18 +424,18 @@ namespace Basics
 
 		private void btn_psychology_MouseEnter(object sender, EventArgs e)
 		{
-			//if (connected)
-			//	pnl_cntrl.BackgroundImage = Resource.main3_psycologyselected_green;
-			//else
-			//	pnl_cntrl.BackgroundImage = Resource.main3_psycologyselected;
+			if (connected)
+				pnl_cntrl.BackgroundImage = Resource.main3_psycologyselected_green;
+			else
+				pnl_cntrl.BackgroundImage = Resource.main3_psycologyselected;
 		}
 
 		private void btn_psychology_MouseLeave(object sender, EventArgs e)
 		{
-			//if (connected)
-			//	pnl_cntrl.BackgroundImage = Resource.main3_connected;
-			//else
-			//	pnl_cntrl.BackgroundImage = Resource.main3_final;
+			if (connected)
+				pnl_cntrl.BackgroundImage = Resource.main3_connected;
+			else
+				pnl_cntrl.BackgroundImage = Resource.main3_final;
 		}
 
 		private void btn_psychophysics_MouseEnter(object sender, EventArgs e)
