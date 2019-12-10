@@ -14,13 +14,13 @@ namespace Basics
 {
 	public class MediaTask : TaskData
 	{
-		public List<Picture> picList;
+		public List<MediaEelement> picList;
 		public int showedIndex;
 		public Color backColor;
 		public bool setTransparency = false;
 		public bool drawChess = false;
 		public Color transColor;
-
+		MediaType TaskMediaType = MediaType.Image;
 		private Image<Rgb, byte> tskImg;
 
 		public Image<Rgb, byte> GetTaskImage { get { return tskImg; } }
@@ -28,7 +28,7 @@ namespace Basics
 		public MediaTask()
 		{
 			base._taskIsReady = false;
-			picList = new List<Picture>();
+			picList = new List<MediaEelement>();
 			showedIndex = -1;
 			tskImg = new Image<Rgb, byte>(BasConfigs._monitor_resolution_x,BasConfigs._monitor_resolution_y);
 		}
@@ -68,39 +68,45 @@ namespace Basics
 		public bool LoadFromText(string[] lines)
 		{
 			SavingMode = SaveMod.txt;
-				picList = new List<Picture>();
-				
-				string[] temp = lines[2].Split(' ');
-				int count;
-				Int32.TryParse(temp[2], out count);
-				for (int i = 0; i < count; i++)
+			picList = new List<MediaEelement>();
+
+			string[] temp = lines[2].Split(' ');
+			int count;
+			Int32.TryParse(temp[2], out count);
+			for (int i = 0; i < count; i++)
+			{
+				string[] s = lines[i + 3].Split(',');
+				if (s[0] == "BackGround: ")
 				{
-					string[] s = lines[i + 3].Split(',');
-					if (s[0] == "BackGround: ")
-					{
-						int r, g, b;
-						Int32.TryParse(s[1], out r);
-						Int32.TryParse(s[2], out g);
-						Int32.TryParse(s[3], out b);
-						Color bg = Color.FromArgb(r, g, b);
-						int time;
-						Int32.TryParse(s[4], out time);
-						Picture pic = new Picture(null, null, time);
-						pic.bgColor = bg;
-						picList.Add(pic);
-					}
-					else
-					{
-						string address = s[0];
-						int time;
-						Int32.TryParse(s[1], out time);
-						Bitmap bit = new Bitmap(address);
-						Picture pic = new Picture(bit, address, time);
-						picList.Add(pic);
-					}
+					int r, g, b;
+					Int32.TryParse(s[1], out r);
+					Int32.TryParse(s[2], out g);
+					Int32.TryParse(s[3], out b);
+					Color bg = Color.FromArgb(r, g, b);
+					int time;
+					Int32.TryParse(s[4], out time);
+					MediaEelement pic = new MediaEelement(null, null, time);
+					pic.bgColor = bg;
+					picList.Add(pic);
 				}
-				
-				tskImg.Bitmap = picList[0].image;
+				if (s[0] == "Image: ")
+				{
+					string address = s[1];
+					int time;
+					Int32.TryParse(s[1], out time);
+					Bitmap bit = new Bitmap(address);
+					MediaEelement pic = new MediaEelement(bit, address, time);
+					picList.Add(pic);
+				}
+				if (s[0] == "Video: ")
+				{
+					MediaEelement pic = new MediaEelement(s[1], int.Parse(s[2]));
+					picList.Add(pic);
+					TaskMediaType = MediaType.Video;
+				}
+			}
+
+			tskImg.Bitmap = picList[0].image;
 
 			return true;
 		}
@@ -116,7 +122,7 @@ namespace Basics
 			binReadIndex += sizeof(Int32);
 			ImageConverter imConverter = new ImageConverter();
 
-			picList = new List<Picture>();
+			picList = new List<MediaEelement>();
 
 			for (int i = 0; i < count; i++)
 			{
@@ -135,7 +141,7 @@ namespace Basics
 
 				int time = BitConverter.ToInt32(binTaskFile, binReadIndex);
 				binReadIndex += sizeof(Int32);
-				picList.Add(new Picture(x, Color.FromArgb(R, G, B), time, "image address"));
+				picList.Add(new MediaEelement(x, Color.FromArgb(R, G, B), time, "image address"));
 			}
 			tskImg.Bitmap = picList[0].image;
 
@@ -162,7 +168,7 @@ namespace Basics
 			lines.AddRange(BitConverter.GetBytes(picList.Count));
 
 			ImageConverter im = new ImageConverter();
-			foreach (Picture slide in picList)
+			foreach (MediaEelement slide in picList)
 			{
 				//converting image to bytes.
 				imgByts = (byte[])im.ConvertTo(slide.image, typeof(byte[]));
@@ -182,6 +188,19 @@ namespace Basics
 			return true;
 		}
 
+		public MediaType GetTaskMediaType()
+		{
+			foreach (MediaEelement pic in picList)
+			{
+				if (pic.medType == MediaType.Video)
+				{
+					TaskMediaType = MediaType.Video;
+					return MediaType.Video;
+				}
+			}
+			return MediaType.Image;
+		}
+
 		/// <summary>
 		/// Saving Image task in bin file 
 		/// </summary>
@@ -190,6 +209,9 @@ namespace Basics
 		{
 			if (base._tskAddress == null)
 			{
+				GetTaskMediaType();
+				if (TaskMediaType == MediaType.Video)
+					tskSavMod = SaveMod.txt;
 				SaveFileDialog path = new SaveFileDialog();
 				if (tskSavMod == SaveMod.txt)
 				{

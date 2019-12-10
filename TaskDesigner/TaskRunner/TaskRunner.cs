@@ -55,6 +55,7 @@ namespace TaskRunning
 		{
 			InitializeComponent();
 			tsop = pr;
+			runMod = RunMod.Stop;
 			curTsk = cs;
 			InitForm();
 		}
@@ -63,6 +64,7 @@ namespace TaskRunning
 		{
 			InitializeComponent();
 			silentMode = true;
+			runMod = RunMod.Stop;
 			curTsk = cs;
 			InitForm();
 		}

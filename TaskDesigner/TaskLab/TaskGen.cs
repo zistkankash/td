@@ -21,6 +21,9 @@ using MetroFramework;
 using Basics;
 using TaskDesigner;
 using System.Runtime.InteropServices;
+using Accord.Video;
+using Accord.Controls;
+using Accord.Video.DirectShow;
 
 namespace TaskLab
 {
@@ -53,8 +56,7 @@ namespace TaskLab
 
 		int selectedSlide = 0, slideTime ,picCount;
         
-		Point currentLocation;
-
+	
 		public TaskGen(TaskType mod)
         {
             InitializeComponent();
@@ -105,13 +107,13 @@ namespace TaskLab
 			if (cDilog.ShowDialog() == DialogResult.OK)
             {
 				//backGround = cDilog.Color;
-				btnBackgroundCol.color = cDilog.Color;
+				btnBackgroundCol.BackColor = cDilog.Color;
 				if (curTask.Type == TaskType.media)
 				{
 					//pbDesign.BackColor = btnBackgroundCol.color;
 					if (selectedSlide != -1)
-						curTask.picList[selectedSlide].bgColor = btnBackgroundCol.color;
-					DrawSlides();
+						curTask.picList[selectedSlide].bgColor = btnBackgroundCol.BackColor;
+					ResetSlides();
 
 				}
             }
@@ -263,7 +265,7 @@ namespace TaskLab
 				pnlPics.Visible = true;
 			
 				selectedSlide = -1;
-				DrawSlides();
+				ResetSlides();
 				tmrMain.Start();
 			}
 			if (curTask.Type == TaskType.cognitive)
@@ -274,35 +276,39 @@ namespace TaskLab
 
 		#region Picture Task
 
+		/// <summary>
+		/// Clears all panels in pnlpic and resets piccount to 0 and selSlide to -1;
+		/// </summary>
 		void PicturePanelReset()
 		{
 			selectedSlide = -1;
+			picCount = 0;
 			for (int i = pnlPics.Controls.Count - 1; i > 0; i--)
 			{
 				if (pnlPics.Controls[i].Name.Contains("pnl") && pnlPics.Controls[i].Name != "pnlAddPic")
 					pnlPics.Controls.Remove(pnlPics.Controls[i]);
 			}
-			
+
 			pnlAddPic.Location = new Point(3 + pnlPics.AutoScrollPosition.X, 5 + pnlPics.AutoScrollPosition.Y);
 		}
 
         void btnAddPic_Click(object sender, EventArgs e)
         {
-            Size s = SetupPb(picCount);
-            AddPicture(s);
-			picCount++;
-			SelectSlide(picCount - 1);
-            isManupulated = true;
-        }
+			AddPicture();
+		}
         
-		void AddPicture(Size slidSize)
+		void AddPicture()
         {
-			Bitmap b = BitmapManager.TextBitmap("Double Click To Add Media", btnBackgroundCol.BackColor, Brushes.Black, slidSize,15);
-			
-            Picture p = new Picture(b, null, slideTime);
+			//create empty bitmap with defined color.
+			Size slidSize = SetupPb(picCount);
+			Bitmap b = BitmapManager.TextBitmap("", btnBackgroundCol.BackColor, Brushes.Black, slidSize, 15);
+			MediaEelement p = new MediaEelement(b, null, slideTime);
             p.bgColor = btnBackgroundCol.BackColor;
             p.name = "pic" + picCount.ToString();
-            curTask.picList.Add(p);
+			SelectSlide(picCount);
+			picCount++;
+			isManupulated = true;
+			curTask.picList.Add(p);
         }
         
 		Size SetupPb(int index)
@@ -312,10 +318,10 @@ namespace TaskLab
             pnl.Location = pnlAddPic.Location;
             pnl.Size = pnlAddPic.Size;
             pnl.Click += new EventHandler(pnlPic_Click);
-			pnl.BorderStyle = BorderStyle.FixedSingle;
-           
+			pnl.BorderStyle = BorderStyle.None;
+			pnl.BackColor = Color.AliceBlue;
 
-            PictureBox p = new PictureBox();
+			System.Windows.Forms.PictureBox p = new System.Windows.Forms.PictureBox();
             Label l = new Label();
             Label lblNumber = new Label();
             TextBox txt = new TextBox();
@@ -323,7 +329,7 @@ namespace TaskLab
 
             p.Size = btnAddPic.Size;
 			p.Visible = true;
-			p.Image = BitmapManager.TextBitmap("Double Click To Add Image",btnBackgroundCol.BackColor, Brushes.Black, p.Size,15);
+			
 
             p.Location = new Point(10, 4);
             p.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -362,7 +368,7 @@ namespace TaskLab
             txt.Name = "txtPicTime" + index;
 
             pnlAddPic.Location = new Point(pnlAddPic.Location.X, pnlAddPic.Location.Y + 160);
-            currentLocation = pnlAddPic.Location;
+           
 			return p.Size;
 		}
         
@@ -377,7 +383,8 @@ namespace TaskLab
                 if (pnl.Name == "pnlPic" + selectedSlide.ToString())
                 {
 					curTask.picList.RemoveAt(selectedSlide);
-					DrawSlides();
+					picCount--;
+					ResetSlides();
 					SelectSlide(selectedSlide - 1);
 					break;
                 }
@@ -385,56 +392,23 @@ namespace TaskLab
         }
         // رسم اسلایدها درون پنل 
         
-		void DrawSlides()
+		void ResetSlides()
         {
 			PicturePanelReset();
 			picCount = 0;
 			
-            foreach (Picture slide in curTask.picList)
+            foreach (MediaEelement slide in curTask.picList)
             {
                 SetupPb(curTask.picList.IndexOf(slide));
 				picCount++;
             }
         }
        
-		 //// رسم کردن اسلاید اضاقه کردن
-        //private void DrawAddSlide()
-        //{
-        //    Panel pnl = new Panel();
-        //    MetroFramework.Controls.MetroTile mTile = new MetroFramework.Controls.MetroTile();
-        //    Label l = new Label();
-        //    TextBox txt = new TextBox();
-
-        //    pnlPics.Controls.Add(pnl);
-        //    pnl.Size = new Size(200, 150);
-        //    pnl.Location = new Point(3, 5);
-        //    pnl.Name = "pnlAddPic";
-        //    pnl.Controls.Add(mTile);
-        //    pnl.Controls.Add(l);
-        //    pnl.Controls.Add(txt);
-
-        //    mTile.Size = new Size(180, 112);
-        //    mTile.Location = new Point(10, 4);
-        //    mTile.Text = "ADD";
-        //    mTile.TileImage = Resource.addpic;
-        //    mTile.Style = MetroFramework.MetroColorStyle.Pink;
-        //    mTile.Click += new EventHandler(btnAddPic_Click);
-
-        //    txt.Size = new Size(100, 20);
-        //    txt.Location = new Point(89, 122);
-        //    txt.Text = curTask.picList[curTask.picList.Count - 1].time.ToString();
-        //    txt.TextChanged += new EventHandler(txtPicTime_TextChanged);
-        //    txt.Name = "txtPicTime";
-
-        //    l.Text = "Time:";
-        //    l.Size = new Size(33, 13);
-        //    l.Location = new Point(9, 124);
-        //}
-
+		
         //// هنگام کلیک بر روی تصویر
         void pb_Click(object sender, EventArgs e)
         {
-            PictureBox pbTemp = (PictureBox)sender;
+			System.Windows.Forms.PictureBox pbTemp = (System.Windows.Forms.PictureBox)sender;
 
 			int ind;
             string name = pbTemp.Name;
@@ -449,22 +423,21 @@ namespace TaskLab
         void pb_DoubleClick(object sender, EventArgs e)
         {
             OpenFileDialog file = new OpenFileDialog();
-            file.Filter = "Image Files |*.png;*.jpg";
+            //file.Filter = "Media Files |*.png;*.jpg;*.mp4;*.avi";
             if (file.ShowDialog() == DialogResult.OK)
             {
-                PictureBox pbTemp = (PictureBox)sender;
+				System.Windows.Forms.PictureBox pbTemp = (System.Windows.Forms.PictureBox)sender;
                 pbTemp.SizeMode = PictureBoxSizeMode.StretchImage;
-                pbTemp.Image = new Bitmap(file.FileName);
 
+				FileVideoSource vidSource = new FileVideoSource();
                 string name = pbTemp.Name;
                 string[] texts = name.Split('b');
-                int index;
+                int index = -1;
                 Int32.TryParse(texts[1], out index);
 				
-				curTask.picList[index].image = new Bitmap(file.FileName);
+				//curTask.picList[index].image = new Bitmap(file.FileName);
 				curTask.picList[index].address = file.FileName;
-				
-				pbDesign.Image = curTask.picList[index].image;
+				//pbDesign.Image = curTask.picList[index].image;
 				
 				SelectSlide(index);
 			}
@@ -566,6 +539,8 @@ namespace TaskLab
 			{
 				if (selectedSlide != -1)
 					pbDesign.BackColor = curTask.picList[selectedSlide].bgColor;
+					if(curTask.picList[selectedSlide])
+					if(curTask.picList[selectedSlide].medType)
 				pbDesign.Image = curTask.GetFrame(selectedSlide, pbDesign.Size);
 			}
 		}

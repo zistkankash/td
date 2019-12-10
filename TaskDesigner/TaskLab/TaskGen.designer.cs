@@ -40,7 +40,7 @@ namespace TaskLab
 			this.Lconnect = new MetroFramework.Controls.MetroLabel();
 			this.Ldisconnect = new MetroFramework.Controls.MetroLabel();
 			this.tltpHelp = new System.Windows.Forms.ToolTip(this.components);
-			this.btnBackgroundCol = new ns1.BunifuTileButton();
+			this.btnBackgroundCol = new System.Windows.Forms.Button();
 			this.btnStart = new MetroFramework.Controls.MetroTile();
 			this.btnLoad = new MetroFramework.Controls.MetroTile();
 			this.btnSetting = new MetroFramework.Controls.MetroTile();
@@ -67,7 +67,8 @@ namespace TaskLab
 			this.txtPath = new MetroFramework.Controls.MetroTextBox();
 			this.MainMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-			
+			this.videoPlayer = new Accord.Controls.VideoSourcePlayer();
+			this.playerButton = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pbDesign)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.icndisconnect)).BeginInit();
@@ -81,7 +82,6 @@ namespace TaskLab
 			this.pnlSetting.SuspendLayout();
 			this.pnlSetButton.SuspendLayout();
 			this.MainMenu.SuspendLayout();
-		
 			this.SuspendLayout();
 			// 
 			// errorProvider1
@@ -170,17 +170,10 @@ namespace TaskLab
 			// 
 			this.btnBackgroundCol.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnBackgroundCol.BackColor = System.Drawing.Color.White;
-			this.btnBackgroundCol.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.btnBackgroundCol.color = System.Drawing.Color.White;
-			this.btnBackgroundCol.colorActive = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
 			this.btnBackgroundCol.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.btnBackgroundCol.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.btnBackgroundCol.Font = new System.Drawing.Font("Century Gothic", 15.75F);
 			this.btnBackgroundCol.ForeColor = System.Drawing.Color.Black;
-			this.btnBackgroundCol.Image = null;
-			this.btnBackgroundCol.ImagePosition = 20;
-			this.btnBackgroundCol.ImageZoom = 50;
-			this.btnBackgroundCol.LabelPosition = 41;
-			this.btnBackgroundCol.LabelText = "";
 			this.btnBackgroundCol.Location = new System.Drawing.Point(912, 47);
 			this.btnBackgroundCol.Margin = new System.Windows.Forms.Padding(6);
 			this.btnBackgroundCol.Name = "btnBackgroundCol";
@@ -188,6 +181,7 @@ namespace TaskLab
 			this.btnBackgroundCol.TabIndex = 89;
 			this.btnBackgroundCol.Tag = "";
 			this.tltpHelp.SetToolTip(this.btnBackgroundCol, "Change BackGround of Task");
+			this.btnBackgroundCol.UseVisualStyleBackColor = false;
 			this.btnBackgroundCol.Click += new System.EventHandler(this.btnBackGround_Click);
 			// 
 			// btnStart
@@ -323,7 +317,8 @@ namespace TaskLab
 			// 
 			// splitContainer1.Panel2
 			// 
-			
+			this.splitContainer1.Panel2.Controls.Add(this.playerButton);
+			this.splitContainer1.Panel2.Controls.Add(this.videoPlayer);
 			this.splitContainer1.Panel2.Controls.Add(this.pnlSetting);
 			this.splitContainer1.Panel2.Controls.Add(this.pbDesign);
 			this.splitContainer1.Size = new System.Drawing.Size(1185, 749);
@@ -377,7 +372,7 @@ namespace TaskLab
 			// 
 			// txtPicTime
 			// 
-			this.txtPicTime.Location = new System.Drawing.Point(98, 119);
+			this.txtPicTime.Location = new System.Drawing.Point(94, 120);
 			this.txtPicTime.Name = "txtPicTime";
 			this.txtPicTime.Size = new System.Drawing.Size(92, 20);
 			this.txtPicTime.TabIndex = 3;
@@ -388,7 +383,7 @@ namespace TaskLab
 			// lblPicTime
 			// 
 			this.lblPicTime.AutoSize = true;
-			this.lblPicTime.Location = new System.Drawing.Point(44, 122);
+			this.lblPicTime.Location = new System.Drawing.Point(38, 123);
 			this.lblPicTime.Name = "lblPicTime";
 			this.lblPicTime.Size = new System.Drawing.Size(52, 13);
 			this.lblPicTime.TabIndex = 72;
@@ -448,7 +443,7 @@ namespace TaskLab
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(782, 74);
+			this.label1.Location = new System.Drawing.Point(806, 74);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(97, 13);
 			this.label1.TabIndex = 92;
@@ -558,9 +553,26 @@ namespace TaskLab
 			this.toolStripMenuItem1.Size = new System.Drawing.Size(111, 22);
 			this.toolStripMenuItem1.Text = "Setting";
 			// 
-			// vlcControl1
+			// videoPlayer
 			// 
-			
+			this.videoPlayer.BackColor = System.Drawing.Color.Black;
+			this.videoPlayer.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.videoPlayer.Location = new System.Drawing.Point(0, 0);
+			this.videoPlayer.Name = "videoPlayer";
+			this.videoPlayer.Size = new System.Drawing.Size(964, 747);
+			this.videoPlayer.TabIndex = 91;
+			this.videoPlayer.Text = "videoSourcePlayer1";
+			this.videoPlayer.VideoSource = null;
+			// 
+			// playerButton
+			// 
+			this.playerButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.playerButton.Location = new System.Drawing.Point(456, 351);
+			this.playerButton.Name = "playerButton";
+			this.playerButton.Size = new System.Drawing.Size(75, 23);
+			this.playerButton.TabIndex = 92;
+			this.playerButton.UseVisualStyleBackColor = true;
+			this.playerButton.Visible = false;
 			// 
 			// TaskGen
 			// 
@@ -596,7 +608,6 @@ namespace TaskLab
 			this.pnlSetting.PerformLayout();
 			this.pnlSetButton.ResumeLayout(false);
 			this.MainMenu.ResumeLayout(false);
-		
 			this.ResumeLayout(false);
 
         }
@@ -605,7 +616,8 @@ namespace TaskLab
         private System.Windows.Forms.ErrorProvider errorProvider1;
         private System.Windows.Forms.Timer tmrMain;
         private System.Windows.Forms.Panel panel2;
-        public System.Windows.Forms.PictureBox icndisconnect;
+		
+		public System.Windows.Forms.PictureBox icndisconnect;
         public MetroFramework.Controls.MetroLabel Ldisconnect;
         public MetroFramework.Controls.MetroLabel Lconnect;
         public System.Windows.Forms.PictureBox icnconnect;
@@ -633,12 +645,13 @@ namespace TaskLab
 		private MetroFramework.Controls.MetroTile btnSave;
 		private System.Windows.Forms.Label label1;
 		private MetroFramework.Controls.MetroCheckBox chkbxMakTransprnt;
-		private ns1.BunifuTileButton btnBackgroundCol;
+		private System.Windows.Forms.Button btnBackgroundCol;
 		private MetroFramework.Controls.MetroCheckBox chkSaveData;
 		private MetroFramework.Controls.MetroComboBox cmbxSavMod;
 		private MetroFramework.Controls.MetroCheckBox chkboxChessDraw;
 		private MetroFramework.Controls.MetroTextBox txtPath;
-		
+		private Accord.Controls.VideoSourcePlayer videoPlayer;
+		private System.Windows.Forms.Button playerButton;
 	}
 }
 
