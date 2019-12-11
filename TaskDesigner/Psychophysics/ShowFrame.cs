@@ -19,6 +19,7 @@ namespace Psychophysics
 					
 		// ROI
 		bool InROI = false;
+		bool sacInAppend;
 		public bool _useGaz = false, _userClosed = true;
 		bool ETW, EFW, AFW;
 		int level = -1;
@@ -34,7 +35,7 @@ namespace Psychophysics
 		SolidBrush sb;
 		Bitmap bmpvar;
 		int numberstimulus;
-		readonly object timerLock = new object();
+		readonly object timerLock = new object(), eventLock = new object();
 		bool containfixation = false;
 		double FixationCenterX = 0, FixationCenterY = 0, FixationCenterWidth = 0;
 		double preFixationCenterX, preFixationCenterY, preFixationCenterWidth;
@@ -191,10 +192,7 @@ namespace Psychophysics
 		{
 			frame++;
 			Debug.Write(level.ToString() + " " + frame.ToString() + "\n");
-			if(frame == 3)
-			{
-				frame = 3;
-			}
+			
 			if (frame < framelimit)
 			{
 
@@ -232,14 +230,14 @@ namespace Psychophysics
 
 		bool NextTrial()
 		{
+			if (indexRandForTaskLevel > 0)
+				if (PsycoPhysicTask.AllLevelProp[level][lastFrame].events.trialEnd != -1)
+				{
+					AppendEventData("TEnd", PsycoPhysicTask.AllLevelProp[level][frame].events.trialEnd.ToString());
+				}
 			indexRandForTaskLevel++;
 			if (indexRandForTaskLevel == RandForTaskLevel.Length)
 			{
-				int preLevel = RandForTaskLevel[indexRandForTaskLevel - 1];
-				if (PsycoPhysicTask.AllLevelProp[preLevel][lastFrame].events.trialEnd != -1)
-				{
-					AppendEventData(PsycoPhysicTask.AllLevelProp[preLevel][frame].events.trialEnd.ToString());
-				}
 				_userClosed = false;
 				StopRun(true);
 				return false;
@@ -288,40 +286,32 @@ namespace Psychophysics
 
 		void GenFrameEvents()
 		{
-			if (indexRandForTaskLevel > 0)
-			{
-				int preLevel = RandForTaskLevel[indexRandForTaskLevel - 1];
-				if (PsycoPhysicTask.AllLevelProp[preLevel][lastFrame].events.trialEnd != -1)
-				{
-					AppendEventData(PsycoPhysicTask.AllLevelProp[preLevel][frame].events.trialEnd.ToString());
-				}
-			}
 			if (indexRandForTaskLevel < RandForTaskLevel.Length)
 			{
 				if (PsycoPhysicTask.AllLevelProp[level][frame].events.trialStart != -1)
 				{
-					AppendEventData(PsycoPhysicTask.AllLevelProp[level][frame].events.trialStart.ToString());
+					AppendEventData("TStart",PsycoPhysicTask.AllLevelProp[level][frame].events.trialStart.ToString());
 				}
 				if (PsycoPhysicTask.AllLevelProp[level][frame].events.condition != -1)
 				{
-					AppendEventData(PsycoPhysicTask.AllLevelProp[level][frame].events.condition.ToString());
+					AppendEventData("Cond",PsycoPhysicTask.AllLevelProp[level][frame].events.condition.ToString());
 				}
 				
 				if (PsycoPhysicTask.AllLevelProp[level][frame].events.fixOn != -1)
 				{
-					AppendEventData(PsycoPhysicTask.AllLevelProp[level][frame].events.fixOn.ToString());
+					AppendEventData("FixOn",PsycoPhysicTask.AllLevelProp[level][frame].events.fixOn.ToString());
 				}
 				if (PsycoPhysicTask.AllLevelProp[level][frame].events.fixOff != -1)
 				{
-					AppendEventData(PsycoPhysicTask.AllLevelProp[level][frame].events.fixOff.ToString());
+					AppendEventData("FixOff",PsycoPhysicTask.AllLevelProp[level][frame].events.fixOff.ToString());
 				}
 				if (PsycoPhysicTask.AllLevelProp[level][frame].events.stimOn != -1)
 				{
-					AppendEventData(PsycoPhysicTask.AllLevelProp[level][frame].events.stimOn.ToString());
+					AppendEventData("StimOn",PsycoPhysicTask.AllLevelProp[level][frame].events.stimOn.ToString());
 				}
 				if (PsycoPhysicTask.AllLevelProp[level][frame].events.stimOff != -1)
 				{
-					AppendEventData(PsycoPhysicTask.AllLevelProp[level][frame].events.stimOff.ToString());
+					AppendEventData("StimOff",PsycoPhysicTask.AllLevelProp[level][frame].events.stimOff.ToString());
 				}
 				if (PsycoPhysicTask.AllLevelProp[level][frame].events.enterFixWindow != -1)
 					EFW = true;
@@ -334,21 +324,28 @@ namespace Psychophysics
 				if (PsycoPhysicTask.AllLevelProp[level][frame].events.enterTargetWindow != -1)
 				{
 					ETW = true;
+					sacInAppend = true;
 				}
 				else
 				{ 
 					ETW = false;
+					sacInAppend = false;
 				}
 			}
 		}
 
-		void AppendEventData(string eventCode)
+		void AppendEventData(string eventName, string eventCode)
 		{
-			temp.Clear();
-			temp.Append(eventCode);
-			temp.Append(",");
-			temp.Append(_eventMicSW.ElapsedMicroseconds.ToString());
-			_eventData.AppendLine(temp.ToString());
+			lock (eventLock)
+			{
+				temp.Clear();
+				temp.Append(eventName);
+				temp.Append(",");
+				temp.Append(eventCode);
+				temp.Append(",");
+				temp.Append(_eventMicSW.ElapsedMicroseconds.ToString());
+				_eventData.AppendLine(temp.ToString());
+			}
 		}
 
 		void AllocateFrame()
@@ -504,13 +501,14 @@ namespace Psychophysics
 
 				double dist1 = 0, dist2;
 				dist1 = (Point[0] - FixationCenterX) * (Point[0] - FixationCenterX) + (Point[1] - FixationCenterY) * (Point[1] - FixationCenterY);
-				if (ETW)
+				if (sacInAppend)
 				{
 					Debug.Write("d2" + dist1.ToString() + "\n");
 					dist2 = (Point[0] - preFixationCenterX) * (Point[0] - preFixationCenterX) + (Point[1] - preFixationCenterY) * (Point[1] - preFixationCenterY);
 					if (dist2 > preFixationCenterWidth * preFixationCenterWidth)
 					{
-						AppendEventData(PsycoPhysicTask.AllLevelProp[level][frame].events.saccadInit.ToString());
+						sacInAppend = false;
+						AppendEventData("Sac In",PsycoPhysicTask.AllLevelProp[level][frame].events.saccadInit.ToString());
 					}
 				}
 
@@ -525,9 +523,9 @@ namespace Psychophysics
 						FixationCenterTime = PsycoPhysicTask.AllLevelProp[level][frame].FixationTime;
 						FixationSW.Restart();
 						if (ETW)
-							AppendEventData(PsycoPhysicTask.AllLevelProp[level][frame].events.enterTargetWindow.ToString());
+							AppendEventData("ETW",PsycoPhysicTask.AllLevelProp[level][frame].events.enterTargetWindow.ToString());
 						if (EFW)
-							AppendEventData(PsycoPhysicTask.AllLevelProp[level][frame].events.enterFixWindow.ToString());
+							AppendEventData("EFW",PsycoPhysicTask.AllLevelProp[level][frame].events.enterFixWindow.ToString());
 					}
 					else
 					{
@@ -536,11 +534,10 @@ namespace Psychophysics
 						{
 							Debug.Write("hold " + level.ToString() + " " + frame.ToString() + "\n");
 							if (ETW)
-								AppendEventData(PsycoPhysicTask.AllLevelProp[level][frame].events.saccadLand.ToString());
+								AppendEventData("Sac Lan",PsycoPhysicTask.AllLevelProp[level][frame].events.saccadLand.ToString());
 							fixatehappened = true;
 							FixationSW.Reset();
 							InROI = false;
-							//Timer1_Tick(null, null);
 							return;
 						}
 
@@ -554,7 +551,7 @@ namespace Psychophysics
 					if (InROI && FixationSW.ElapsedMilliseconds < FixationCenterTime)
 					{
 						if (AFW)
-							AppendEventData(PsycoPhysicTask.AllLevelProp[level][frame].events.abortFixWindow.ToString());
+							AppendEventData("AFW",PsycoPhysicTask.AllLevelProp[level][frame].events.abortFixWindow.ToString());
 						InROI = false;
 						fixatehappened = false;
 						FixationSW.Reset();
@@ -590,9 +587,7 @@ namespace Psychophysics
 				StopRun(false);
 			
 		}
-
 		
-
 		void MakeRandomRepeat(int DisplayType)
 		{
 			int totalRepeat = 0;

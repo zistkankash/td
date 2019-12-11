@@ -535,13 +535,14 @@ namespace TaskLab
 				
 		void tmrMain_Tick(object sender, EventArgs e)
 		{
-			if(curTask.Type == TaskType.media)
+			if (curTask.Type == TaskType.media)
 			{
 				if (selectedSlide != -1)
 					pbDesign.BackColor = curTask.picList[selectedSlide].bgColor;
-					if(curTask.picList[selectedSlide])
-					if(curTask.picList[selectedSlide].medType)
+
 				pbDesign.Image = curTask.GetFrame(selectedSlide, pbDesign.Size);
+
+
 			}
 		}
 

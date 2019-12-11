@@ -42,7 +42,7 @@ namespace Basics
 
 		public Bitmap GetFrame(int selSlide, Size pbSize)
 		{
-			Bitmap b = new Bitmap(100, 100);
+			Bitmap b = new Bitmap(5, 5);
 
 			if (selSlide == -1 || picList == null || picList.Count == 0 || selSlide == picList.Count)
 				return b;

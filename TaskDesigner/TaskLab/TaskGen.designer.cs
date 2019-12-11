@@ -32,24 +32,20 @@ namespace TaskLab
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TaskGen));
 			this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
-			this.pbDesign = new System.Windows.Forms.PictureBox();
-			this.btnSave = new MetroFramework.Controls.MetroTile();
 			this.tmrMain = new System.Windows.Forms.Timer(this.components);
 			this.panel2 = new System.Windows.Forms.Panel();
 			this.pnlconnect = new MetroFramework.Controls.MetroPanel();
 			this.Lconnect = new MetroFramework.Controls.MetroLabel();
 			this.Ldisconnect = new MetroFramework.Controls.MetroLabel();
 			this.tltpHelp = new System.Windows.Forms.ToolTip(this.components);
-			this.btnBackgroundCol = new System.Windows.Forms.Button();
-			this.btnStart = new MetroFramework.Controls.MetroTile();
-			this.btnLoad = new MetroFramework.Controls.MetroTile();
-			this.btnSetting = new MetroFramework.Controls.MetroTile();
-			this.btnNewProject = new MetroFramework.Controls.MetroTile();
-			this.btnHome = new MetroFramework.Controls.MetroTile();
 			this.splitter1 = new System.Windows.Forms.Splitter();
 			this.icndisconnect = new System.Windows.Forms.PictureBox();
 			this.icnconnect = new System.Windows.Forms.PictureBox();
 			this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
+			this.MainMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+			this.panel1 = new System.Windows.Forms.Panel();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.pnlPics = new MetroFramework.Controls.MetroPanel();
 			this.pnlAddPic = new System.Windows.Forms.Panel();
@@ -59,20 +55,25 @@ namespace TaskLab
 			this.btnAddPic = new MetroFramework.Controls.MetroTile();
 			this.pnlSetting = new System.Windows.Forms.Panel();
 			this.pnlSetButton = new System.Windows.Forms.Panel();
+			this.btnHome = new MetroFramework.Controls.MetroTile();
+			this.btnNewProject = new MetroFramework.Controls.MetroTile();
+			this.btnSetting = new MetroFramework.Controls.MetroTile();
+			this.btnLoad = new MetroFramework.Controls.MetroTile();
+			this.btnStart = new MetroFramework.Controls.MetroTile();
+			this.btnSave = new MetroFramework.Controls.MetroTile();
 			this.label1 = new System.Windows.Forms.Label();
 			this.chkbxMakTransprnt = new MetroFramework.Controls.MetroCheckBox();
+			this.btnBackgroundCol = new System.Windows.Forms.Button();
 			this.chkSaveData = new MetroFramework.Controls.MetroCheckBox();
 			this.cmbxSavMod = new MetroFramework.Controls.MetroComboBox();
 			this.chkboxChessDraw = new MetroFramework.Controls.MetroCheckBox();
 			this.txtPath = new MetroFramework.Controls.MetroTextBox();
-			this.MainMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-			this.videoPlayer = new Accord.Controls.VideoSourcePlayer();
-			this.playerButton = new System.Windows.Forms.Button();
+			this.pbDesign = new System.Windows.Forms.PictureBox();
 			((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.pbDesign)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.icndisconnect)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.icnconnect)).BeginInit();
+			this.MainMenu.SuspendLayout();
+			this.panel1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
@@ -81,43 +82,12 @@ namespace TaskLab
 			this.pnlAddPic.SuspendLayout();
 			this.pnlSetting.SuspendLayout();
 			this.pnlSetButton.SuspendLayout();
-			this.MainMenu.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.pbDesign)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// errorProvider1
 			// 
 			this.errorProvider1.ContainerControl = this;
-			// 
-			// pbDesign
-			// 
-			this.pbDesign.BackColor = System.Drawing.Color.Transparent;
-			this.pbDesign.Cursor = System.Windows.Forms.Cursors.NoMove2D;
-			this.pbDesign.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.errorProvider1.SetIconAlignment(this.pbDesign, System.Windows.Forms.ErrorIconAlignment.TopLeft);
-			this.pbDesign.Location = new System.Drawing.Point(0, 0);
-			this.pbDesign.Name = "pbDesign";
-			this.pbDesign.Size = new System.Drawing.Size(964, 747);
-			this.pbDesign.TabIndex = 84;
-			this.pbDesign.TabStop = false;
-			this.pbDesign.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbDesign_MouseMove);
-			// 
-			// btnSave
-			// 
-			this.btnSave.ActiveControl = null;
-			this.errorProvider1.SetIconAlignment(this.btnSave, System.Windows.Forms.ErrorIconAlignment.TopLeft);
-			this.btnSave.Location = new System.Drawing.Point(160, 52);
-			this.btnSave.Name = "btnSave";
-			this.btnSave.Size = new System.Drawing.Size(38, 38);
-			this.btnSave.Style = MetroFramework.MetroColorStyle.White;
-			this.btnSave.TabIndex = 53;
-			this.btnSave.TileImage = global::TaskDesigner.Resource.save;
-			this.btnSave.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.btnSave.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
-			this.tltpHelp.SetToolTip(this.btnSave, "Save Project");
-			this.btnSave.UseSelectable = true;
-			this.btnSave.UseStyleColors = true;
-			this.btnSave.UseTileImage = true;
-			this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
 			// 
 			// tmrMain
 			// 
@@ -127,7 +97,7 @@ namespace TaskLab
 			// panel2
 			// 
 			this.panel2.BackColor = System.Drawing.Color.Yellow;
-			this.panel2.Location = new System.Drawing.Point(7, 600);
+			this.panel2.Location = new System.Drawing.Point(0, 744);
 			this.panel2.Name = "panel2";
 			this.panel2.Size = new System.Drawing.Size(1180, 5);
 			this.panel2.TabIndex = 70;
@@ -166,118 +136,6 @@ namespace TaskLab
 			this.tltpHelp.IsBalloon = true;
 			this.tltpHelp.ReshowDelay = 100;
 			// 
-			// btnBackgroundCol
-			// 
-			this.btnBackgroundCol.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnBackgroundCol.BackColor = System.Drawing.Color.White;
-			this.btnBackgroundCol.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.btnBackgroundCol.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.btnBackgroundCol.Font = new System.Drawing.Font("Century Gothic", 15.75F);
-			this.btnBackgroundCol.ForeColor = System.Drawing.Color.Black;
-			this.btnBackgroundCol.Location = new System.Drawing.Point(912, 47);
-			this.btnBackgroundCol.Margin = new System.Windows.Forms.Padding(6);
-			this.btnBackgroundCol.Name = "btnBackgroundCol";
-			this.btnBackgroundCol.Size = new System.Drawing.Size(40, 40);
-			this.btnBackgroundCol.TabIndex = 89;
-			this.btnBackgroundCol.Tag = "";
-			this.tltpHelp.SetToolTip(this.btnBackgroundCol, "Change BackGround of Task");
-			this.btnBackgroundCol.UseVisualStyleBackColor = false;
-			this.btnBackgroundCol.Click += new System.EventHandler(this.btnBackGround_Click);
-			// 
-			// btnStart
-			// 
-			this.btnStart.ActiveControl = null;
-			this.btnStart.BackColor = System.Drawing.Color.Transparent;
-			this.btnStart.Location = new System.Drawing.Point(160, 9);
-			this.btnStart.Name = "btnStart";
-			this.btnStart.Size = new System.Drawing.Size(38, 38);
-			this.btnStart.Style = MetroFramework.MetroColorStyle.White;
-			this.btnStart.TabIndex = 56;
-			this.btnStart.TileImage = global::TaskDesigner.Properties.Resources.stop;
-			this.btnStart.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.btnStart.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
-			this.tltpHelp.SetToolTip(this.btnStart, "Preview");
-			this.btnStart.UseCustomBackColor = true;
-			this.btnStart.UseSelectable = true;
-			this.btnStart.UseStyleColors = true;
-			this.btnStart.UseTileImage = true;
-			// 
-			// btnLoad
-			// 
-			this.btnLoad.ActiveControl = null;
-			this.btnLoad.BackColor = System.Drawing.Color.Transparent;
-			this.btnLoad.Location = new System.Drawing.Point(85, 11);
-			this.btnLoad.Name = "btnLoad";
-			this.btnLoad.Size = new System.Drawing.Size(38, 38);
-			this.btnLoad.Style = MetroFramework.MetroColorStyle.White;
-			this.btnLoad.TabIndex = 55;
-			this.btnLoad.TileImage = global::TaskDesigner.Properties.Resources.open;
-			this.btnLoad.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.btnLoad.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
-			this.tltpHelp.SetToolTip(this.btnLoad, "Open Project");
-			this.btnLoad.UseCustomBackColor = true;
-			this.btnLoad.UseSelectable = true;
-			this.btnLoad.UseStyleColors = true;
-			this.btnLoad.UseTileImage = true;
-			this.btnLoad.Click += new System.EventHandler(this.btnLoad_Click);
-			// 
-			// btnSetting
-			// 
-			this.btnSetting.ActiveControl = null;
-			this.btnSetting.BackColor = System.Drawing.Color.Transparent;
-			this.btnSetting.Location = new System.Drawing.Point(15, 11);
-			this.btnSetting.Name = "btnSetting";
-			this.btnSetting.Size = new System.Drawing.Size(38, 38);
-			this.btnSetting.Style = MetroFramework.MetroColorStyle.White;
-			this.btnSetting.TabIndex = 61;
-			this.btnSetting.TileImage = global::TaskDesigner.Properties.Resources.setting;
-			this.btnSetting.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.btnSetting.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
-			this.tltpHelp.SetToolTip(this.btnSetting, "Setting");
-			this.btnSetting.UseCustomBackColor = true;
-			this.btnSetting.UseSelectable = true;
-			this.btnSetting.UseStyleColors = true;
-			this.btnSetting.UseTileImage = true;
-			this.btnSetting.Click += new System.EventHandler(this.btnSetting_Click);
-			// 
-			// btnNewProject
-			// 
-			this.btnNewProject.ActiveControl = null;
-			this.btnNewProject.BackColor = System.Drawing.Color.Transparent;
-			this.btnNewProject.Location = new System.Drawing.Point(85, 52);
-			this.btnNewProject.Name = "btnNewProject";
-			this.btnNewProject.Size = new System.Drawing.Size(38, 38);
-			this.btnNewProject.Style = MetroFramework.MetroColorStyle.White;
-			this.btnNewProject.TabIndex = 74;
-			this.btnNewProject.TileImage = global::TaskDesigner.Properties.Resources.new_project;
-			this.btnNewProject.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.btnNewProject.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
-			this.tltpHelp.SetToolTip(this.btnNewProject, "Create New Project");
-			this.btnNewProject.UseCustomBackColor = true;
-			this.btnNewProject.UseSelectable = true;
-			this.btnNewProject.UseStyleColors = true;
-			this.btnNewProject.UseTileImage = true;
-			this.btnNewProject.Click += new System.EventHandler(this.btnNewProject_Click);
-			// 
-			// btnHome
-			// 
-			this.btnHome.ActiveControl = null;
-			this.btnHome.BackColor = System.Drawing.Color.Transparent;
-			this.btnHome.Location = new System.Drawing.Point(15, 52);
-			this.btnHome.Name = "btnHome";
-			this.btnHome.Size = new System.Drawing.Size(38, 38);
-			this.btnHome.Style = MetroFramework.MetroColorStyle.White;
-			this.btnHome.TabIndex = 63;
-			this.btnHome.TileImage = global::TaskDesigner.Resource.Home;
-			this.btnHome.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.btnHome.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
-			this.tltpHelp.SetToolTip(this.btnHome, "Go to Home");
-			this.btnHome.UseCustomBackColor = true;
-			this.btnHome.UseSelectable = true;
-			this.btnHome.UseStyleColors = true;
-			this.btnHome.UseTileImage = true;
-			this.btnHome.Click += new System.EventHandler(this.btnHome_Click);
-			// 
 			// splitter1
 			// 
 			this.splitter1.Location = new System.Drawing.Point(0, 0);
@@ -302,13 +160,45 @@ namespace TaskLab
 			this.icnconnect.TabIndex = 0;
 			this.icnconnect.TabStop = false;
 			// 
+			// MainMenu
+			// 
+			this.MainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem1});
+			this.MainMenu.Name = "MainMenu";
+			this.MainMenu.Size = new System.Drawing.Size(112, 26);
+			this.MainMenu.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.MainMenu_ItemClicked);
+			// 
+			// toolStripMenuItem1
+			// 
+			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+			this.toolStripMenuItem1.Size = new System.Drawing.Size(111, 22);
+			this.toolStripMenuItem1.Text = "Setting";
+			// 
+			// statusStrip1
+			// 
+			this.statusStrip1.BackColor = System.Drawing.Color.AliceBlue;
+			this.statusStrip1.Location = new System.Drawing.Point(3, 727);
+			this.statusStrip1.Name = "statusStrip1";
+			this.statusStrip1.Size = new System.Drawing.Size(1185, 22);
+			this.statusStrip1.TabIndex = 84;
+			this.statusStrip1.Text = "statusStrip1";
+			// 
+			// panel1
+			// 
+			this.panel1.Controls.Add(this.splitContainer1);
+			this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.panel1.Location = new System.Drawing.Point(3, 0);
+			this.panel1.Name = "panel1";
+			this.panel1.Size = new System.Drawing.Size(1185, 727);
+			this.panel1.TabIndex = 85;
+			// 
 			// splitContainer1
 			// 
 			this.splitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
 			this.splitContainer1.IsSplitterFixed = true;
-			this.splitContainer1.Location = new System.Drawing.Point(3, 0);
+			this.splitContainer1.Location = new System.Drawing.Point(0, 0);
 			this.splitContainer1.Name = "splitContainer1";
 			// 
 			// splitContainer1.Panel1
@@ -317,13 +207,11 @@ namespace TaskLab
 			// 
 			// splitContainer1.Panel2
 			// 
-			this.splitContainer1.Panel2.Controls.Add(this.playerButton);
-			this.splitContainer1.Panel2.Controls.Add(this.videoPlayer);
 			this.splitContainer1.Panel2.Controls.Add(this.pnlSetting);
 			this.splitContainer1.Panel2.Controls.Add(this.pbDesign);
-			this.splitContainer1.Size = new System.Drawing.Size(1185, 749);
+			this.splitContainer1.Size = new System.Drawing.Size(1185, 727);
 			this.splitContainer1.SplitterDistance = 215;
-			this.splitContainer1.TabIndex = 83;
+			this.splitContainer1.TabIndex = 84;
 			// 
 			// pnlPics
 			// 
@@ -338,7 +226,7 @@ namespace TaskLab
 			this.pnlPics.HorizontalScrollbarSize = 10;
 			this.pnlPics.Location = new System.Drawing.Point(0, 0);
 			this.pnlPics.Name = "pnlPics";
-			this.pnlPics.Size = new System.Drawing.Size(213, 747);
+			this.pnlPics.Size = new System.Drawing.Size(213, 725);
 			this.pnlPics.Style = MetroFramework.MetroColorStyle.Silver;
 			this.pnlPics.TabIndex = 86;
 			this.pnlPics.UseCustomBackColor = true;
@@ -357,7 +245,7 @@ namespace TaskLab
 			this.pnlAddPic.Controls.Add(this.btnAddPic);
 			this.pnlAddPic.Location = new System.Drawing.Point(6, 7);
 			this.pnlAddPic.Name = "pnlAddPic";
-			this.pnlAddPic.Size = new System.Drawing.Size(200, 150);
+			this.pnlAddPic.Size = new System.Drawing.Size(200, 148);
 			this.pnlAddPic.TabIndex = 78;
 			// 
 			// lblSlideNumber
@@ -378,7 +266,6 @@ namespace TaskLab
 			this.txtPicTime.TabIndex = 3;
 			this.txtPicTime.Text = "1000";
 			this.txtPicTime.Visible = false;
-			this.txtPicTime.TextChanged += new System.EventHandler(this.txtPicTime_Leave);
 			// 
 			// lblPicTime
 			// 
@@ -419,11 +306,10 @@ namespace TaskLab
 			this.pnlSetting.Controls.Add(this.cmbxSavMod);
 			this.pnlSetting.Controls.Add(this.chkboxChessDraw);
 			this.pnlSetting.Controls.Add(this.txtPath);
-			this.pnlSetting.Location = new System.Drawing.Point(4, 649);
+			this.pnlSetting.Location = new System.Drawing.Point(4, 627);
 			this.pnlSetting.Name = "pnlSetting";
 			this.pnlSetting.Size = new System.Drawing.Size(961, 95);
 			this.pnlSetting.TabIndex = 90;
-			this.pnlSetting.Visible = false;
 			// 
 			// pnlSetButton
 			// 
@@ -439,6 +325,118 @@ namespace TaskLab
 			this.pnlSetButton.Name = "pnlSetButton";
 			this.pnlSetButton.Size = new System.Drawing.Size(214, 95);
 			this.pnlSetButton.TabIndex = 93;
+			// 
+			// btnHome
+			// 
+			this.btnHome.ActiveControl = null;
+			this.btnHome.BackColor = System.Drawing.Color.Transparent;
+			this.btnHome.Location = new System.Drawing.Point(15, 52);
+			this.btnHome.Name = "btnHome";
+			this.btnHome.Size = new System.Drawing.Size(38, 38);
+			this.btnHome.Style = MetroFramework.MetroColorStyle.White;
+			this.btnHome.TabIndex = 63;
+			this.btnHome.TileImage = global::TaskDesigner.Resource.Home;
+			this.btnHome.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.btnHome.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
+			this.tltpHelp.SetToolTip(this.btnHome, "Go to Home");
+			this.btnHome.UseCustomBackColor = true;
+			this.btnHome.UseSelectable = true;
+			this.btnHome.UseStyleColors = true;
+			this.btnHome.UseTileImage = true;
+			this.btnHome.Click += new System.EventHandler(this.btnHome_Click);
+			// 
+			// btnNewProject
+			// 
+			this.btnNewProject.ActiveControl = null;
+			this.btnNewProject.BackColor = System.Drawing.Color.Transparent;
+			this.btnNewProject.Location = new System.Drawing.Point(85, 52);
+			this.btnNewProject.Name = "btnNewProject";
+			this.btnNewProject.Size = new System.Drawing.Size(38, 38);
+			this.btnNewProject.Style = MetroFramework.MetroColorStyle.White;
+			this.btnNewProject.TabIndex = 74;
+			this.btnNewProject.TileImage = global::TaskDesigner.Properties.Resources.new_project;
+			this.btnNewProject.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.btnNewProject.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
+			this.tltpHelp.SetToolTip(this.btnNewProject, "Create New Project");
+			this.btnNewProject.UseCustomBackColor = true;
+			this.btnNewProject.UseSelectable = true;
+			this.btnNewProject.UseStyleColors = true;
+			this.btnNewProject.UseTileImage = true;
+			this.btnNewProject.Click += new System.EventHandler(this.btnNewProject_Click);
+			// 
+			// btnSetting
+			// 
+			this.btnSetting.ActiveControl = null;
+			this.btnSetting.BackColor = System.Drawing.Color.Transparent;
+			this.btnSetting.Location = new System.Drawing.Point(15, 11);
+			this.btnSetting.Name = "btnSetting";
+			this.btnSetting.Size = new System.Drawing.Size(38, 38);
+			this.btnSetting.Style = MetroFramework.MetroColorStyle.White;
+			this.btnSetting.TabIndex = 61;
+			this.btnSetting.TileImage = global::TaskDesigner.Properties.Resources.setting;
+			this.btnSetting.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.btnSetting.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
+			this.tltpHelp.SetToolTip(this.btnSetting, "Setting");
+			this.btnSetting.UseCustomBackColor = true;
+			this.btnSetting.UseSelectable = true;
+			this.btnSetting.UseStyleColors = true;
+			this.btnSetting.UseTileImage = true;
+			this.btnSetting.Click += new System.EventHandler(this.btnSetting_Click);
+			// 
+			// btnLoad
+			// 
+			this.btnLoad.ActiveControl = null;
+			this.btnLoad.BackColor = System.Drawing.Color.Transparent;
+			this.btnLoad.Location = new System.Drawing.Point(85, 11);
+			this.btnLoad.Name = "btnLoad";
+			this.btnLoad.Size = new System.Drawing.Size(38, 38);
+			this.btnLoad.Style = MetroFramework.MetroColorStyle.White;
+			this.btnLoad.TabIndex = 55;
+			this.btnLoad.TileImage = global::TaskDesigner.Properties.Resources.open;
+			this.btnLoad.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.btnLoad.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
+			this.tltpHelp.SetToolTip(this.btnLoad, "Open Project");
+			this.btnLoad.UseCustomBackColor = true;
+			this.btnLoad.UseSelectable = true;
+			this.btnLoad.UseStyleColors = true;
+			this.btnLoad.UseTileImage = true;
+			this.btnLoad.Click += new System.EventHandler(this.btnLoad_Click);
+			// 
+			// btnStart
+			// 
+			this.btnStart.ActiveControl = null;
+			this.btnStart.BackColor = System.Drawing.Color.Transparent;
+			this.btnStart.Location = new System.Drawing.Point(160, 9);
+			this.btnStart.Name = "btnStart";
+			this.btnStart.Size = new System.Drawing.Size(38, 38);
+			this.btnStart.Style = MetroFramework.MetroColorStyle.White;
+			this.btnStart.TabIndex = 56;
+			this.btnStart.TileImage = global::TaskDesigner.Properties.Resources.stop;
+			this.btnStart.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.btnStart.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
+			this.tltpHelp.SetToolTip(this.btnStart, "Preview");
+			this.btnStart.UseCustomBackColor = true;
+			this.btnStart.UseSelectable = true;
+			this.btnStart.UseStyleColors = true;
+			this.btnStart.UseTileImage = true;
+			// 
+			// btnSave
+			// 
+			this.btnSave.ActiveControl = null;
+			this.errorProvider1.SetIconAlignment(this.btnSave, System.Windows.Forms.ErrorIconAlignment.TopLeft);
+			this.btnSave.Location = new System.Drawing.Point(160, 52);
+			this.btnSave.Name = "btnSave";
+			this.btnSave.Size = new System.Drawing.Size(38, 38);
+			this.btnSave.Style = MetroFramework.MetroColorStyle.White;
+			this.btnSave.TabIndex = 53;
+			this.btnSave.TileImage = global::TaskDesigner.Resource.save;
+			this.btnSave.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.btnSave.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
+			this.tltpHelp.SetToolTip(this.btnSave, "Save Project");
+			this.btnSave.UseSelectable = true;
+			this.btnSave.UseStyleColors = true;
+			this.btnSave.UseTileImage = true;
+			this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
 			// 
 			// label1
 			// 
@@ -461,6 +459,24 @@ namespace TaskLab
 			this.chkbxMakTransprnt.UseCustomBackColor = true;
 			this.chkbxMakTransprnt.UseSelectable = true;
 			this.chkbxMakTransprnt.CheckedChanged += new System.EventHandler(this.chkbxMakTransprnt_CheckedChanged);
+			// 
+			// btnBackgroundCol
+			// 
+			this.btnBackgroundCol.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnBackgroundCol.BackColor = System.Drawing.Color.White;
+			this.btnBackgroundCol.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.btnBackgroundCol.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.btnBackgroundCol.Font = new System.Drawing.Font("Century Gothic", 15.75F);
+			this.btnBackgroundCol.ForeColor = System.Drawing.Color.Black;
+			this.btnBackgroundCol.Location = new System.Drawing.Point(912, 47);
+			this.btnBackgroundCol.Margin = new System.Windows.Forms.Padding(6);
+			this.btnBackgroundCol.Name = "btnBackgroundCol";
+			this.btnBackgroundCol.Size = new System.Drawing.Size(40, 40);
+			this.btnBackgroundCol.TabIndex = 89;
+			this.btnBackgroundCol.Tag = "";
+			this.tltpHelp.SetToolTip(this.btnBackgroundCol, "Change BackGround of Task");
+			this.btnBackgroundCol.UseVisualStyleBackColor = false;
+			this.btnBackgroundCol.Click += new System.EventHandler(this.btnBackGround_Click);
 			// 
 			// chkSaveData
 			// 
@@ -492,6 +508,7 @@ namespace TaskLab
 			this.cmbxSavMod.TabIndex = 74;
 			this.cmbxSavMod.UseCustomBackColor = true;
 			this.cmbxSavMod.UseSelectable = true;
+			this.cmbxSavMod.SelectedIndexChanged += new System.EventHandler(this.cmbxSavMod_SelectedIndexChanged);
 			// 
 			// chkboxChessDraw
 			// 
@@ -539,40 +556,17 @@ namespace TaskLab
 			this.txtPath.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
 			this.txtPath.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
 			// 
-			// MainMenu
+			// pbDesign
 			// 
-			this.MainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem1});
-			this.MainMenu.Name = "MainMenu";
-			this.MainMenu.Size = new System.Drawing.Size(112, 26);
-			this.MainMenu.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.MainMenu_ItemClicked);
-			// 
-			// toolStripMenuItem1
-			// 
-			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-			this.toolStripMenuItem1.Size = new System.Drawing.Size(111, 22);
-			this.toolStripMenuItem1.Text = "Setting";
-			// 
-			// videoPlayer
-			// 
-			this.videoPlayer.BackColor = System.Drawing.Color.Black;
-			this.videoPlayer.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.videoPlayer.Location = new System.Drawing.Point(0, 0);
-			this.videoPlayer.Name = "videoPlayer";
-			this.videoPlayer.Size = new System.Drawing.Size(964, 747);
-			this.videoPlayer.TabIndex = 91;
-			this.videoPlayer.Text = "videoSourcePlayer1";
-			this.videoPlayer.VideoSource = null;
-			// 
-			// playerButton
-			// 
-			this.playerButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.playerButton.Location = new System.Drawing.Point(456, 351);
-			this.playerButton.Name = "playerButton";
-			this.playerButton.Size = new System.Drawing.Size(75, 23);
-			this.playerButton.TabIndex = 92;
-			this.playerButton.UseVisualStyleBackColor = true;
-			this.playerButton.Visible = false;
+			this.pbDesign.BackColor = System.Drawing.Color.Transparent;
+			this.pbDesign.Cursor = System.Windows.Forms.Cursors.NoMove2D;
+			this.pbDesign.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.errorProvider1.SetIconAlignment(this.pbDesign, System.Windows.Forms.ErrorIconAlignment.TopLeft);
+			this.pbDesign.Location = new System.Drawing.Point(0, 0);
+			this.pbDesign.Name = "pbDesign";
+			this.pbDesign.Size = new System.Drawing.Size(964, 725);
+			this.pbDesign.TabIndex = 84;
+			this.pbDesign.TabStop = false;
 			// 
 			// TaskGen
 			// 
@@ -581,7 +575,8 @@ namespace TaskLab
 			this.BackColor = System.Drawing.SystemColors.ActiveCaption;
 			this.ClientSize = new System.Drawing.Size(1188, 749);
 			this.ContextMenuStrip = this.MainMenu;
-			this.Controls.Add(this.splitContainer1);
+			this.Controls.Add(this.panel1);
+			this.Controls.Add(this.statusStrip1);
 			this.Controls.Add(this.splitter1);
 			this.Controls.Add(this.panel2);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -594,9 +589,10 @@ namespace TaskLab
 			this.Load += new System.EventHandler(this.TaskGen_Load);
 			this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyUp);
 			((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.pbDesign)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.icndisconnect)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.icnconnect)).EndInit();
+			this.MainMenu.ResumeLayout(false);
+			this.panel1.ResumeLayout(false);
 			this.splitContainer1.Panel1.ResumeLayout(false);
 			this.splitContainer1.Panel2.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
@@ -607,8 +603,9 @@ namespace TaskLab
 			this.pnlSetting.ResumeLayout(false);
 			this.pnlSetting.PerformLayout();
 			this.pnlSetButton.ResumeLayout(false);
-			this.MainMenu.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.pbDesign)).EndInit();
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
         }
 
@@ -625,6 +622,9 @@ namespace TaskLab
 		private System.Windows.Forms.ToolTip tltpHelp;
 		private System.Windows.Forms.Splitter splitter1;
 		private System.IO.Ports.SerialPort serialPort1;
+		private System.Windows.Forms.ContextMenuStrip MainMenu;
+		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+		private System.Windows.Forms.Panel panel1;
 		private System.Windows.Forms.SplitContainer splitContainer1;
 		private MetroFramework.Controls.MetroPanel pnlPics;
 		private System.Windows.Forms.Panel pnlAddPic;
@@ -632,9 +632,6 @@ namespace TaskLab
 		private System.Windows.Forms.TextBox txtPicTime;
 		private System.Windows.Forms.Label lblPicTime;
 		private MetroFramework.Controls.MetroTile btnAddPic;
-		private System.Windows.Forms.PictureBox pbDesign;
-		private System.Windows.Forms.ContextMenuStrip MainMenu;
-		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
 		private System.Windows.Forms.Panel pnlSetting;
 		private System.Windows.Forms.Panel pnlSetButton;
 		private MetroFramework.Controls.MetroTile btnHome;
@@ -650,8 +647,8 @@ namespace TaskLab
 		private MetroFramework.Controls.MetroComboBox cmbxSavMod;
 		private MetroFramework.Controls.MetroCheckBox chkboxChessDraw;
 		private MetroFramework.Controls.MetroTextBox txtPath;
-		private Accord.Controls.VideoSourcePlayer videoPlayer;
-		private System.Windows.Forms.Button playerButton;
+		private System.Windows.Forms.PictureBox pbDesign;
+		private System.Windows.Forms.StatusStrip statusStrip1;
 	}
 }
 

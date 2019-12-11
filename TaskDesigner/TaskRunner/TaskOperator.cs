@@ -85,7 +85,7 @@ namespace TaskRunning
 		
 		public void RefreshPctBx()
 		{
-			Bitmap b = new Bitmap(pbOper.Size.Width,pbOper.Size.Height);
+			Bitmap b = new Bitmap(pbOper.Size.Width, pbOper.Size.Height);
 			if (tsk.Type == TaskType.media)
 				b = tsk.GetFrameImage(_slideNum, pbOper.Size);
 			if (tsk.Type == TaskType.cognitive)
@@ -94,6 +94,7 @@ namespace TaskRunning
 			Graphics flagGraphics = Graphics.FromImage(b);
 			flagGraphics.FillEllipse(Brushes.Black, (float)gzX * pbOper.Width / secondMonit.Width - Marker_Radius / 2,(float) gzY * pbOper.Height / secondMonit.Height - Marker_Radius / 2, Marker_Radius, Marker_Radius);
 			flagGraphics.Flush();
+			//pbOper.Image.Dispose();
 			pbOper.Image = b;
 		}
 
@@ -129,8 +130,8 @@ namespace TaskRunning
 						else
 							st = false;
 						_stopped = false;
-											
-						shFrame = new ShowFrame(true,pbOper.Width, pbOper.Height);
+						PsycoPhysicTask.TypeDisplay = 2;
+						shFrame = new ShowFrame(st ,pbOper.Width, pbOper.Height);
 						shFrame.pupilDataPath = txtSavPath.Text;
 						shFrame.eventDataPath = FileName.UpdateFileName(txtSavPath.Text, "events");
 						shFrame.Show();
