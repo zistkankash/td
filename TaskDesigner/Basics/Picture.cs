@@ -1,9 +1,9 @@
 ﻿using System.Drawing;
 using System.IO;
 using Accord.Video.FFMPEG;
-using Vlc.DotNet.Forms;
-using DirectShowLib;
-using DirectShowLib.DES;
+using WMPLib;
+using System;
+
 namespace Basics
 {
 
@@ -90,16 +90,11 @@ namespace Basics
 			r.Open(address);
 			image = r.ReadVideoFrame((int)r.FrameCount / 2);
 			r.Dispose();
-			var mediaDet = (IMediaDet)new MediaDet();
-			DsError.ThrowExceptionForHR(mediaDet.put_Filename(address));
-			double mediaLength;
-			mediaDet.get_StreamLength(out mediaLength);
-			double frameRate;
-			mediaDet.get_FrameRate(out frameRate);
-			var frameCount = (int)(frameRate * mediaLength);
-			time = (int)((double)frameCount / frameRate);
-			
-			return image;
+            var player = new WindowsMediaPlayer();
+            var clip = player.newMedia(address);
+            time = (int)TimeSpan.FromSeconds(clip.duration).TotalSeconds + 1;
+
+            return image;
 		}
 
 	}
