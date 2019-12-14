@@ -106,14 +106,6 @@
       <HintPath>..\packages\Accord.Video.FFMPEG.x64.3.8.0\lib\net46\Accord.Video.FFMPEG.x64.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Automation.BDaq4, Version=4.0.0.0, Culture=neutral, PublicKeyToken=463f5928d60183a0, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\x64\Debug\Automation.BDaq4.dll</HintPath>
-    </Reference>
-    <Reference Include="Automation.BDaq4.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=463f5928d60183a0, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\x64\Debug\Automation.BDaq4.Design.dll</HintPath>
-    </Reference>
     <Reference Include="Emgu.CV.DebuggerVisualizers.VS2015, Version=3.4.3.3016, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\x64\Debug\Emgu.CV.DebuggerVisualizers.VS2015.dll</HintPath>

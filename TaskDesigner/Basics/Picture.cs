@@ -15,15 +15,21 @@ namespace Basics
 	/// </summary>
 	public class MediaEelement
     {
-		bool havMedia;
-		public Bitmap image = null;
+        bool havMedia;
+
+        public bool HaveMedia
+        {
+            get { return havMedia; }
+            
+        }
+
+        public Bitmap image = null;
         public string address;
         public int time;
         public string name;
         public Color bgColor;
 		public MediaType medType = MediaType.Image;
-		
-		
+				
 		public MediaEelement(Bitmap im, string add, int t)
         {
             this.image = im;

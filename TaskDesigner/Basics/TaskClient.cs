@@ -19,7 +19,7 @@ namespace Basics
 		string _tskAddress = null;
 		SaveMod tskSavMod;
 		DateTime tskLastDateEdited;
-
+        
 		public RunConfig runConf;
 
 		public PsycoPhysicTask PsycoPhysicsTask { get { return psycoPhysicsTask; } }

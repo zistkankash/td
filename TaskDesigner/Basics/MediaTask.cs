@@ -21,16 +21,18 @@ namespace Basics
 		public bool drawChess = false;
 		public Color transColor;
 		MediaType TaskMediaType = MediaType.Image;
-		private Image<Rgb, byte> tskImg;
+		Bitmap taskSlide, operTaskImg;
+        int curOperSlide = -1;
+        Size operationSize;
 
-		public Image<Rgb, byte> GetTaskImage { get { return tskImg; } }
-
-		public MediaTask()
+		public MediaTask(Size oper)
 		{
+            operationSize = oper;
 			base._taskIsReady = false;
 			picList = new List<MediaEelement>();
 			showedIndex = -1;
-			tskImg = new Image<Rgb, byte>(BasConfigs._monitor_resolution_x,BasConfigs._monitor_resolution_y);
+            operTaskImg = new Bitmap(operationSize.Width,operationSize.Height);
+            taskSlide = new Bitmap(BasConfigs._monitor_resolution_x, BasConfigs._monitor_resolution_y);
 		}
 
 		public void Clear()
@@ -40,29 +42,29 @@ namespace Basics
 				picList.Clear();
 		}
 
-		public Bitmap GetFrame(int selSlide, Size pbSize)
+		public Bitmap GetFrame(bool Refresh, int selSlide)
 		{
-			Bitmap b = new Bitmap(5, 5);
-
 			if (selSlide == -1 || picList == null || picList.Count == 0 || selSlide == picList.Count)
-				return b;
-
-			if (picList[selSlide].address != null)
-				b = BitmapManager.DrawOn(picList[selSlide].image, pbSize, picList[selSlide].bgColor);
-			else
-				b = BitmapManager.DrawOn(null, pbSize, picList[selSlide].bgColor);
-
+				return operTaskImg;
+            if (Refresh || curOperSlide != selSlide)
+            {
+                curOperSlide = selSlide;
+                if (picList[selSlide].HaveMedia)
+                    operTaskImg = BitmapManager.DrawOn(picList[selSlide].image, operationSize, picList[selSlide].bgColor);
+               
+                else
+                    operTaskImg = BitmapManager.DrawOn(null, operationSize, picList[selSlide].bgColor);
+            }
 			if (setTransparency)
-				b.MakeTransparent(transColor);
-
-
+				operTaskImg.MakeTransparent(transColor);
+            
 			if (drawChess)
 			{
-				BitmapManager.ChessboardDraw(ref b);
+				BitmapManager.ChessboardDraw(ref operTaskImg);
 
 			}
 
-			return b;
+			return operTaskImg;
 		}
 
 		public bool LoadFromText(string[] lines)
@@ -106,7 +108,7 @@ namespace Basics
 				}
 			}
 
-			tskImg.Bitmap = picList[0].image;
+			//operTaskImg = picList[0].image;
 
 			return true;
 		}
@@ -143,7 +145,7 @@ namespace Basics
 				binReadIndex += sizeof(Int32);
 				picList.Add(new MediaEelement(x, Color.FromArgb(R, G, B), time, "image address"));
 			}
-			tskImg.Bitmap = picList[0].image;
+			//tskImg.Bitmap = picList[0].image;
 
 			return true;
 		}

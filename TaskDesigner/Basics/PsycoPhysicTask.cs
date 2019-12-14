@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using Automation.BDaq;
 using System.IO;
 using Psychophysics;
 using Psychophysics.Old;
@@ -32,7 +31,7 @@ namespace Basics
 		int TaskName = 1;
 		//// DAQ
 		public static int FrameRate = 125;
-		public static ValueRange InputValRange = ValueRange.V_Neg5To5;
+		//public static ValueRange InputValRange = ValueRange.V_Neg5To5;
 		public static String DaqName = "USB-4704,BID#0";
 		// Analog input
 		//public static InstantAiCtrl instantAiCtrl = new InstantAiCtrl();
