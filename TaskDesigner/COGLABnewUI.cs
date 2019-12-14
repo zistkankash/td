@@ -249,7 +249,7 @@ namespace Basics
 				this.Hide();
 				taskLab.Show();
 			}
-			catch(Exception)
+			catch(Exception ex)
 			{
 				return;
 			}

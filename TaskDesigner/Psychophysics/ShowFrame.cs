@@ -192,7 +192,9 @@ namespace Psychophysics
 		{
 			frame++;
 			Debug.Write(level.ToString() + " " + frame.ToString() + "\n");
-			
+			InROI = false;
+			fixatehappened = false;
+
 			if (frame < framelimit)
 			{
 
@@ -499,7 +501,7 @@ namespace Psychophysics
 				if (fixatehappened)
 					return;
 
-				double dist1 = 0, dist2;
+				double dist1, dist2;
 				dist1 = (Point[0] - FixationCenterX) * (Point[0] - FixationCenterX) + (Point[1] - FixationCenterY) * (Point[1] - FixationCenterY);
 				if (sacInAppend)
 				{
@@ -508,7 +510,7 @@ namespace Psychophysics
 					if (dist2 > preFixationCenterWidth * preFixationCenterWidth)
 					{
 						sacInAppend = false;
-						AppendEventData("Sac In",PsycoPhysicTask.AllLevelProp[level][frame].events.saccadInit.ToString());
+						AppendEventData("SacIn",PsycoPhysicTask.AllLevelProp[level][frame].events.saccadInit.ToString());
 					}
 				}
 
@@ -518,10 +520,10 @@ namespace Psychophysics
 					Debug.Write("in : d1 " + dist1.ToString() + "\n");
 					if (!InROI)
 					{
+						Debug.Write("ROI false" + dist1.ToString() + "\n");
 						InROI = true;
-
 						FixationCenterTime = PsycoPhysicTask.AllLevelProp[level][frame].FixationTime;
-						FixationSW.Restart();
+						FixationSW.Start();
 						if (ETW)
 							AppendEventData("ETW",PsycoPhysicTask.AllLevelProp[level][frame].events.enterTargetWindow.ToString());
 						if (EFW)
@@ -529,12 +531,12 @@ namespace Psychophysics
 					}
 					else
 					{
-
+						Debug.Write("ROI true" + dist1.ToString() + "\n");
 						if (FixationSW.ElapsedMilliseconds >= FixationCenterTime)
 						{
 							Debug.Write("hold " + level.ToString() + " " + frame.ToString() + "\n");
 							if (ETW)
-								AppendEventData("Sac Lan",PsycoPhysicTask.AllLevelProp[level][frame].events.saccadLand.ToString());
+								AppendEventData("SacLan",PsycoPhysicTask.AllLevelProp[level][frame].events.saccadLand.ToString());
 							fixatehappened = true;
 							FixationSW.Reset();
 							InROI = false;

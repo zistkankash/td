@@ -21,9 +21,7 @@ using MetroFramework;
 using Basics;
 using TaskDesigner;
 using System.Runtime.InteropServices;
-using Accord.Video;
-using Accord.Controls;
-using Accord.Video.DirectShow;
+
 
 namespace TaskLab
 {
@@ -90,14 +88,14 @@ namespace TaskLab
 			DwmExtendFrameIntoClientArea(this.Handle, ref marg);
 			this.StartPosition = FormStartPosition.Manual;
 			pbDesign.SizeMode = PictureBoxSizeMode.StretchImage;
-			             
+			curTask.operationSize = pbDesign.Size;    
         }
 
 		void pbDesign_MouseMove(object sender, MouseEventArgs e)
 		{
-			//lblX.Text = e.X.ToString();
-			//lblY.Text = e.Y.ToString();
-			
+			lblX.Text = e.X.ToString();
+			lblY.Text = e.Y.ToString();
+
 		}
 				
 		void btnBackGround_Click(object sender, EventArgs e)
@@ -305,11 +303,11 @@ namespace TaskLab
 			MediaEelement p = new MediaEelement(b, null, slideTime);
             p.bgColor = btnBackgroundCol.BackColor;
             p.name = "pic" + picCount.ToString();
-			SelectSlide(picCount);
 			picCount++;
 			isManupulated = true;
 			curTask.picList.Add(p);
-        }
+			SelectSlide(picCount - 1);
+		}
         
 		Size SetupPb(int index)
         {
@@ -423,22 +421,24 @@ namespace TaskLab
         void pb_DoubleClick(object sender, EventArgs e)
         {
             OpenFileDialog file = new OpenFileDialog();
-            //file.Filter = "Media Files |*.png;*.jpg;*.mp4;*.avi";
+            file.Filter = "Image Files |*.png;*.jpg;*.jpeg;*.bmp | Video Files |*.mp4;*.avi;*.wmv;*.mpeg";
             if (file.ShowDialog() == DialogResult.OK)
             {
 				System.Windows.Forms.PictureBox pbTemp = (System.Windows.Forms.PictureBox)sender;
                 pbTemp.SizeMode = PictureBoxSizeMode.StretchImage;
-
-				FileVideoSource vidSource = new FileVideoSource();
+								
                 string name = pbTemp.Name;
                 string[] texts = name.Split('b');
                 int index = -1;
                 Int32.TryParse(texts[1], out index);
-				
-				//curTask.picList[index].image = new Bitmap(file.FileName);
 				curTask.picList[index].address = file.FileName;
-				//pbDesign.Image = curTask.picList[index].image;
-				
+				MediaType type = curTask.picList[index].ReformInAddress();
+				if(type == MediaType.Video)
+				{
+					TextBox text = (TextBox)pnlPics.Controls.Find("txtPicTime" + index.ToString(),true)[0];
+					text.Enabled = false;
+					text.Text = curTask.picList[index].time.ToString();
+				}
 				SelectSlide(index);
 			}
         }
@@ -535,15 +535,13 @@ namespace TaskLab
 				
 		void tmrMain_Tick(object sender, EventArgs e)
 		{
+			if (selectedSlide != -1)
+				pbDesign.BackColor = curTask.picList[selectedSlide].bgColor;
+
 			if (curTask.Type == TaskType.media)
-			{
-				if (selectedSlide != -1)
-					pbDesign.BackColor = curTask.picList[selectedSlide].bgColor;
-
-				pbDesign.Image = curTask.GetFrame(selectedSlide, pbDesign.Size);
-
-
-			}
+			
+				pbDesign.Image = curTask.GetOperationFrame(true, selectedSlide);
+							
 		}
 
 		void pnlPics_Paint(object sender, PaintEventArgs e)
@@ -592,9 +590,9 @@ namespace TaskLab
 
 		void cmbxSavMod_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			if (cmbxSavMod.SelectedIndex == 0) ;
+			if (cmbxSavMod.SelectedIndex == 0) 
 				curTask.SavingMode = SaveMod.bin;
-				if (cmbxSavMod.SelectedIndex == 1) ;
+				if (cmbxSavMod.SelectedIndex == 1)
 				curTask.SavingMode = SaveMod.txt;
 		}
 
@@ -619,6 +617,11 @@ namespace TaskLab
 		private void MainMenu_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
 		{
 			pnlSetting.Visible = !pnlSetting.Visible;
+		}
+
+		private void TaskGen_SizeChanged(object sender, EventArgs e)
+		{
+			curTask.operationSize = pbDesign.Size;
 		}
 
 		void btnHome_MouseEnter(object sender, EventArgs e)

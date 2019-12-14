@@ -165,7 +165,7 @@
 			this.txtbxTask.MaxLength = 32767;
 			this.txtbxTask.Name = "txtbxTask";
 			this.txtbxTask.PasswordChar = '\0';
-			this.txtbxTask.PromptText = "Select the Task";
+			this.txtbxTask.WaterMark = "Select the Task";
 			this.txtbxTask.ScrollBars = System.Windows.Forms.ScrollBars.None;
 			this.txtbxTask.SelectedText = "";
 			this.txtbxTask.SelectionLength = 0;
@@ -198,7 +198,7 @@
 			this.txtSavPath.MaxLength = 32767;
 			this.txtSavPath.Name = "txtSavPath";
 			this.txtSavPath.PasswordChar = '\0';
-			this.txtSavPath.PromptText = "Path to save eye tracker data";
+			this.txtSavPath.WaterMark = "Path to save eye tracker data";
 			this.txtSavPath.ScrollBars = System.Windows.Forms.ScrollBars.None;
 			this.txtSavPath.SelectedText = "";
 			this.txtSavPath.SelectionLength = 0;

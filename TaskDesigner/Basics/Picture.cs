@@ -1,14 +1,16 @@
 ﻿using System.Drawing;
 using System.IO;
 using Accord.Video.FFMPEG;
-
+using Vlc.DotNet.Forms;
+using DirectShowLib;
+using DirectShowLib.DES;
 namespace Basics
 {
 
     /// <summary>
-	/// Data class for save slides in picture tasks.
+	/// Data class for save slides in media tasks.
 	/// image saves bitmap of slide.
-	/// address saves system file address of slide picture.
+	/// address saves system file address of slide media.
 	/// time saves slide show time of slide.
 	/// name saves an id name for slide to find in slides.
 	/// bgColor saves background color of image in bitmap. Use Color.FromArgb to set this color using alpha channel.
@@ -28,6 +30,8 @@ namespace Basics
         public int time;
         public string name;
         public Color bgColor;
+		public bool UseTransparency;
+		public Color TransColor;
 		public MediaType medType = MediaType.Image;
 				
 		public MediaEelement(Bitmap im, string add, int t)
@@ -41,7 +45,6 @@ namespace Basics
 		public MediaEelement(string add, int t)
 		{
 			medType = MediaType.Video;
-
 			this.address = add;
 			this.time = t;
 		}
@@ -55,34 +58,46 @@ namespace Basics
 			this.time = time;
 		}
 
-		public void Reform()
+		public MediaType ReformInAddress()
 		{
 			if (address == null)
 			{
 				havMedia = false;
-				return;
+				medType = MediaType.Image;
+				
 			}
-			if(Path.GetExtension(address) == "png" || Path.GetExtension(address) == "jpg" || Path.GetExtension(address) == "jpeg" || Path.GetExtension(address) == "bmp")
+			if(Path.GetExtension(address) == ".png" || Path.GetExtension(address) == ".jpg" || Path.GetExtension(address) == ".jpeg" || Path.GetExtension(address) == ".bmp")
 			{
 				havMedia = true;
 				medType = MediaType.Image;
 				image = new Bitmap(BasConfigs._monitor_resolution_x, BasConfigs._monitor_resolution_y);
 			}
-			if (Path.GetExtension(address) == "mp4" || Path.GetExtension(address) == "avi" || Path.GetExtension(address) == "mov" || Path.GetExtension(address) == "asf")
+			if (Path.GetExtension(address) == ".mp4" || Path.GetExtension(address) == ".avi" || Path.GetExtension(address) == ".mov" || Path.GetExtension(address) == ".asf" || Path.GetExtension(address) == ".wmv")
 			{
 				havMedia = true;
 				medType = MediaType.Video;
+				GetVideoFrame();
 			}
+			return medType;
 		}
 
 		public Bitmap GetVideoFrame()
 		{
 			if (!havMedia || medType == MediaType.Image)
 				return null;
-
+			
 			VideoFileReader r = new VideoFileReader();
 			r.Open(address);
 			image = r.ReadVideoFrame((int)r.FrameCount / 2);
+			r.Dispose();
+			var mediaDet = (IMediaDet)new MediaDet();
+			DsError.ThrowExceptionForHR(mediaDet.put_Filename(address));
+			double mediaLength;
+			mediaDet.get_StreamLength(out mediaLength);
+			double frameRate;
+			mediaDet.get_FrameRate(out frameRate);
+			var frameCount = (int)(frameRate * mediaLength);
+			time = (int)((double)frameCount / frameRate);
 			
 			return image;
 		}

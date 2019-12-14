@@ -186,12 +186,12 @@ namespace Basics
 			return false;
 		}
 
-		public Bitmap GetFrameImage(int selSlide, Size pbSize)
+		public Bitmap GetFrameImage(bool Refresh, int SelSlide)
 		{
 			Bitmap b = new Bitmap(100, 100);
 			if (Type == TaskType.media)
 			{
-				return mediaTask.GetFrame(selSlide, pbSize);
+				return mediaTask.GetOperationFrame(Refresh, SelSlide);
 			}
 
 			return b;

@@ -1,19 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Basics
 {
 	public static class RunnerUtils
 	{
-		public static int GazeSmoothPots = 1;
+		public static int _gazeSmoothPots = 1;
 		static int _counter = 0;
-		static double[,] pts = new double[2, GazeSmoothPots];
-		
+		static double[,] pts;
+
 		public static MicroLibrary.MicroStopwatch microTimerLive;
 		
 		public static double twoDist(double px, double py, double ox, double oy)
@@ -32,18 +29,20 @@ namespace Basics
 		public static double MeanPts(short row)
 		{
 			double res = 0;
-			for (int i = 0; i < GazeSmoothPots; i++)
+			for (int i = 0; i < _gazeSmoothPots; i++)
 			{
 				if (pts[row, i] != 0)
 					res += pts[row, i];	
 			}
-			return res / GazeSmoothPots;
+			return res / _gazeSmoothPots;
 		}
 
 		public static bool StartGaze()
 		{
 			if (BasConfigs.server != null && BasConfigs.server.IsCalibrated == ETStatus.ready)
 			{
+				pts = new double[2, _gazeSmoothPots];
+				_counter = 0;
 				return  BasConfigs.server.StartGaze();
 			}
 			return false;
@@ -55,10 +54,9 @@ namespace Basics
 			GazeTriple gzTemp = BasConfigs.server.getGaze;
 			if (gzTemp.time != -1)
 			{
-				
 				pts[0, _counter] = gzTemp.x;
 				pts[1, _counter] = gzTemp.y;
-				_counter = (_counter + 1) % GazeSmoothPots;
+				_counter = (_counter + 1) % _gazeSmoothPots;
 			}
 			else
 				return null;
@@ -80,6 +78,16 @@ namespace Basics
 		{
 			_counter = 0;
 			Array.Clear(pts, 0, pts.Length);
+		}
+
+		public static Bitmap MediaPictureRenderer(Color BgColor, Bitmap Image, Size PicSize, bool SetTransparent, Color TransBGColor,bool ChessDraw)
+		{
+			Bitmap outMap = BitmapManager.DrawOn(Image, PicSize, BgColor);
+			if (SetTransparent)
+				outMap.MakeTransparent(TransBGColor);
+			if (ChessDraw)
+				BitmapManager.ChessboardDraw(ref outMap);
+			return outMap;
 		}
 	}
 }

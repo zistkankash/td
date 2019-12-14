@@ -21,18 +21,16 @@ namespace Basics
 		public bool drawChess = false;
 		public Color transColor;
 		MediaType TaskMediaType = MediaType.Image;
-		Bitmap taskSlide, operTaskImg;
+		Bitmap operTaskImg;
         int curOperSlide = -1;
-        Size operationSize;
+        public Size operationSize;
 
-		public MediaTask(Size oper)
+		public MediaTask()
 		{
-            operationSize = oper;
-			base._taskIsReady = false;
+            base._taskIsReady = false;
 			picList = new List<MediaEelement>();
 			showedIndex = -1;
-            operTaskImg = new Bitmap(operationSize.Width,operationSize.Height);
-            taskSlide = new Bitmap(BasConfigs._monitor_resolution_x, BasConfigs._monitor_resolution_y);
+           
 		}
 
 		public void Clear()
@@ -40,30 +38,23 @@ namespace Basics
 			base._taskIsReady = false;
 			if (picList != null)
 				picList.Clear();
+			operationSize = new Size();
+			if (operTaskImg != null)
+				operTaskImg.Dispose();
+			
 		}
 
-		public Bitmap GetFrame(bool Refresh, int selSlide)
+		public Bitmap GetOperationFrame(bool Refresh, int selSlide)
 		{
 			if (selSlide == -1 || picList == null || picList.Count == 0 || selSlide == picList.Count)
 				return operTaskImg;
-            if (Refresh || curOperSlide != selSlide)
-            {
-                curOperSlide = selSlide;
-                if (picList[selSlide].HaveMedia)
-                    operTaskImg = BitmapManager.DrawOn(picList[selSlide].image, operationSize, picList[selSlide].bgColor);
-               
-                else
-                    operTaskImg = BitmapManager.DrawOn(null, operationSize, picList[selSlide].bgColor);
-            }
-			if (setTransparency)
-				operTaskImg.MakeTransparent(transColor);
-            
-			if (drawChess)
+			if (Refresh || curOperSlide != selSlide)
 			{
-				BitmapManager.ChessboardDraw(ref operTaskImg);
-
+				curOperSlide = selSlide;
+				
+				operTaskImg = RunnerUtils.MediaPictureRenderer(picList[selSlide].bgColor, picList[selSlide].image, operationSize, picList[selSlide].UseTransparency, picList[selSlide].TransColor, drawChess);
+				
 			}
-
 			return operTaskImg;
 		}
 

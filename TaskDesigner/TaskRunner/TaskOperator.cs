@@ -29,7 +29,7 @@ namespace TaskRunning
 		ETStatus _etStat = ETStatus.disconnected;
 		public static float gzX, gzY;
 		public TaskClient tsk;
-		int Marker_Radius = 10;
+		int Marker_Radius = 5;
 		private Size secondMonit;
 		int _slideNum = 0;
 		public static bool _stopped = false;
@@ -81,13 +81,14 @@ namespace TaskRunning
 			Screen[] screens = Screen.AllScreens;
 			secondMonit = new Size(screens[1].Bounds.Width, screens[1].Bounds.Height);
 			tsk = new TaskClient();
+			
 		}
 		
 		public void RefreshPctBx()
 		{
 			Bitmap b = new Bitmap(pbOper.Size.Width, pbOper.Size.Height);
 			if (tsk.Type == TaskType.media)
-				b = tsk.GetFrameImage(_slideNum, pbOper.Size);
+				b = tsk.GetFrameImage(false, _slideNum);
 			if (tsk.Type == TaskType.cognitive)
 				b = shFrame.opFlag;
 
@@ -138,9 +139,9 @@ namespace TaskRunning
 					}
 					else
 					{
-						runner = new TaskRunner(tsk, this);
+						
 						tsk.runConf = getRunConfigs;
-						runner.Show();
+						
 						if (_etStat == ETStatus.ready)
 							runner.RunTask(true);
 						else
@@ -221,6 +222,8 @@ namespace TaskRunning
 		
 		private void TaskOperator_Load(object sender, EventArgs e)
 		{
+			runner = new TaskRunner(tsk, this);
+			runner.Show();
 			BringToFront();
 			txtbxTask.Select();
 			this.KeyDown += new KeyEventHandler(TaskOperator_KeyDown);
@@ -248,7 +251,7 @@ namespace TaskRunning
 			{
 				txtbxTask.Text = tsk.Address;
 				pbOper.SizeMode = PictureBoxSizeMode.StretchImage;
-				pbOper.Image = tsk.GetFrameImage(0,pbOper.Size);
+				pbOper.Image = tsk.GetFrameImage(false, 0);
 				btnStart.Enabled = true;
 			}
 			else
@@ -283,7 +286,7 @@ namespace TaskRunning
 			{
 				PsycoPhysicTask.brake = true;
 				Stop();
-				return;
+				
 			}
 			if (runner.StopTask())
 			{
@@ -301,8 +304,9 @@ namespace TaskRunning
 			RefreshPctBx();
 		}
 
-		public void SetNextSlide(int num)
+		public void SetNextSlide()
 		{
+			int num = tsk.MediaTask.showedIndex;
 			if (num == 0)
 			{
 				txtSavPath.Text = FileName.AddNumToCSVFileName(true, txtSavPath.Text);

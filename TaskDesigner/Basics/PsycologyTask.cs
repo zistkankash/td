@@ -32,10 +32,11 @@ namespace Basics
 		bool prmptRecursive = false;
 		bool prmptRecursiveShowerDirect = false;
 		int prmptNodeShower = 0, prmptNodeMaxShower = 10; 
-		int prmptNodeId , prmptRadius = 0, prmptB = 10, prmptG = 235, prmptR = 255;
-		int arrowShower, arrowBeginNodeId, arrowEndNodeId, arrowThickness, arrowR, arrowG, arrowB;
+		int prmptNodeId , prmptB = 10, prmptG = 235, prmptR = 255;
+		int arrowBeginNodeId, arrowEndNodeId, arrowThickness, arrowR, arrowG, arrowB;
+		bool arrowShower;
 
-		
+
 		public Bitmap GetTaskImage { get { return tskImg.Bitmap; } }
 
 		
@@ -239,8 +240,8 @@ namespace Basics
 			{
 				CvInvoke.Rectangle(prmpts, new Rectangle(new Point(shapeList[prmptNodeId].pos.X - shapeList[prmptNodeId].width / 2 - 3, shapeList[prmptNodeId].pos.Y - shapeList[prmptNodeId].height / 2  - 3), new Size(shapeList[prmptNodeId].width + 6, shapeList[prmptNodeId].height  + 6)), new MCvScalar(prmptR, prmptG, prmptB), -1);
 			}
-			if (arrowShower > 0)
-				CvInvoke.ArrowedLine(prmpts, shapeList[arrowBeginNodeId].pos, shapeList[arrowEndNodeId].pos, new MCvScalar(0, 0, 0), arrowThickness);
+			if (arrowShower)
+				CvInvoke.ArrowedLine(prmpts, shapeList[arrowBeginNodeId].pos, shapeList[arrowEndNodeId].pos, new MCvScalar(arrowR, arrowG, arrowB), arrowThickness);
 
 			overlayer = prmpts.Bitmap;
 			overlayer.MakeTransparent(Color.Black);
@@ -258,11 +259,23 @@ namespace Basics
 			prmptRecursive = recursive;
 		}
 
+		public void DrawArrow(int Max, int id1, int id2, Color prCol, bool recursive, int ArrowThickess)
+		{
+			prmpts = new Image<Rgba, byte>(BasConfigs._monitor_resolution_x, BasConfigs._monitor_resolution_y, new Rgba(0, 0, 0, 0));
+			arrowShower = true;
+			arrowThickness = ArrowThickess;
+			arrowBeginNodeId = id1;
+			arrowEndNodeId = id2;
+			prmptNodeMaxShower = Max;
+			prmptR = prCol.R; prmptG = prCol.G; prmptB = prCol.B;
+			prmptRecursive = recursive;
+		}
+
 		public void UndrawPrmpt()
 		{
 			prmptRecursive = false;
 			prmptNodeShower = 0;
-			arrowShower = 0;
+			arrowShower = false;
 			if (prmpts != null)
 				prmpts.Dispose();
 			DrawMap();

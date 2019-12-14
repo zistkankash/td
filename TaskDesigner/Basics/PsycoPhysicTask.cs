@@ -265,149 +265,161 @@ namespace Basics
 
 		public bool LoadTaskFromFile(bool _getAddress, string address)
 		{
-			DialogResult dt = DialogResult.Cancel;
-			OpenFileDialog theDialog = new OpenFileDialog();
-			if (_getAddress)
+			try
 			{
-				theDialog.Title = "Open Text File";
-				theDialog.Filter = "Text Files (*.txt)|*.txt";
-				theDialog.InitialDirectory = @"..";
-				dt = theDialog.ShowDialog();
-				if (dt == DialogResult.Cancel)
-					return false;
-			}
-			else
-			{
-				theDialog.FileName = address;
-			}
-			eventLock = false;
-
-			AllLevelProp.Clear();
-			AllLevelName.Clear();
-			BaseIndex.Clear();
-			NumerRepeat.Clear();
-			EnabledTask.Clear();
-			
-			using (var fs = File.OpenRead(theDialog.FileName))
-			using (var reader = new StreamReader(fs))
-			{
-				var line = reader.ReadLine();
-				line = reader.ReadLine();
-				int NumberLevel = int.Parse(line);
-				for (int i = 0; i < NumberLevel; i++)
+				DialogResult dt = DialogResult.Cancel;
+				OpenFileDialog theDialog = new OpenFileDialog();
+				if (_getAddress)
 				{
-					BaseIndex.Add(0);
-					List<FrameProperties> ListAddedFrame = new List<FrameProperties>();
+					theDialog.Title = "Open Text File";
+					theDialog.Filter = "Text Files (*.txt)|*.txt";
+					theDialog.InitialDirectory = @"..";
+					dt = theDialog.ShowDialog();
+					if (dt == DialogResult.Cancel)
+						return false;
+				}
+				else
+				{
+					theDialog.FileName = address;
+				}
+				eventLock = false;
 
-					line = reader.ReadLine();
-					line = reader.ReadLine();
-					AllLevelName.Add(line.Substring(3));
+				AllLevelProp.Clear();
+				AllLevelName.Clear();
+				BaseIndex.Clear();
+				NumerRepeat.Clear();
+				EnabledTask.Clear();
 
+				using (var fs = File.OpenRead(theDialog.FileName))
+				using (var reader = new StreamReader(fs))
+				{
+					var line = reader.ReadLine();
 					line = reader.ReadLine();
-					line = reader.ReadLine();
-					int repeatnumber = int.Parse(line.Substring(3));
-					NumerRepeat.Add(repeatnumber);
-					EnabledTask.Add(2);
-
-					line = reader.ReadLine();
-					line = reader.ReadLine();
-					int NumberFrame = int.Parse(line.Substring(3));
-
-					for (int j = 0; j < NumberFrame; j++)
+					int NumberLevel = int.Parse(line);
+					for (int i = 0; i < NumberLevel; i++)
 					{
-						FrameProperties varFrame = new FrameProperties();
+						BaseIndex.Add(0);
+						List<FrameProperties> ListAddedFrame = new List<FrameProperties>();
 
 						line = reader.ReadLine();
 						line = reader.ReadLine();
-						var values = line.Substring(6).Split(' ');
-						int FrameTime = int.Parse(values[0]);
-						//Debug.Write("Load Debug " + line.Substring(6) + " " + values[0] + "\n");
-						Color BGColor = Color.FromArgb(255, int.Parse(values[1]), int.Parse(values[2]), int.Parse(values[3]));
+						AllLevelName.Add(line.Substring(3));
 
 						line = reader.ReadLine();
 						line = reader.ReadLine();
-						values = line.Substring(9).Split(' ');
-						FixationPts varFixation = new FixationPts();
-						//varFixation.SetFixationPts(int.Parse(), int.Parse(), int.Parse(), int.Parse(),Color.FromArgb(255, int.Parse(), int.Parse(), int.Parse()));
-						Color fixationColor = Color.FromArgb(255, int.Parse(values[5]), int.Parse(values[6]), int.Parse(values[7]));
-						varFixation.SetFixationPts(int.Parse(values[0]), int.Parse(values[1]), int.Parse(values[2]), int.Parse(values[3]), fixationColor);
-						int fixationtime = int.Parse(values[4]);
-						line = reader.ReadLine();
-						line = reader.ReadLine();
-						//Debug.Write("Load Debug " + line.Substring(9)+ "\n");
-						int NumberStimulus = int.Parse(line.Substring(9));
-						FixationPts[] varStimulus = new FixationPts[NumberStimulus];
+						int repeatnumber = int.Parse(line.Substring(3));
+						NumerRepeat.Add(repeatnumber);
+						EnabledTask.Add(2);
 
-						for (int k = 0; k < NumberStimulus; k++)
+						line = reader.ReadLine();
+						line = reader.ReadLine();
+						int NumberFrame = int.Parse(line.Substring(3));
+
+						for (int j = 0; j < NumberFrame; j++)
 						{
+							FrameProperties varFrame = new FrameProperties();
+
+							line = reader.ReadLine();
+							line = reader.ReadLine();
+							var values = line.Substring(6).Split(' ');
+							int FrameTime = int.Parse(values[0]);
+							//Debug.Write("Load Debug " + line.Substring(6) + " " + values[0] + "\n");
+							Color BGColor = Color.FromArgb(255, int.Parse(values[1]), int.Parse(values[2]), int.Parse(values[3]));
+
 							line = reader.ReadLine();
 							line = reader.ReadLine();
 							values = line.Substring(9).Split(' ');
-							
+							FixationPts varFixation = new FixationPts();
+							//varFixation.SetFixationPts(int.Parse(), int.Parse(), int.Parse(), int.Parse(),Color.FromArgb(255, int.Parse(), int.Parse(), int.Parse()));
+							Color fixationColor = Color.FromArgb(255, int.Parse(values[5]), int.Parse(values[6]), int.Parse(values[7]));
+							varFixation.SetFixationPts(int.Parse(values[0]), int.Parse(values[1]), int.Parse(values[2]), int.Parse(values[3]), fixationColor);
+							int fixationtime = int.Parse(values[4]);
+							line = reader.ReadLine();
+							line = reader.ReadLine();
+							//Debug.Write("Load Debug " + line.Substring(9)+ "\n");
+							int NumberStimulus = int.Parse(line.Substring(9));
+							FixationPts[] varStimulus = new FixationPts[NumberStimulus];
 
-							varStimulus[k] = new FixationPts();
-							if (int.Parse(values[0]) == 4 || int.Parse(values[0]) == 8 || int.Parse(values[0]) == 12)
+							for (int k = 0; k < NumberStimulus; k++)
 							{
 								line = reader.ReadLine();
-								varStimulus[k].SetPicture(int.Parse(values[1]), int.Parse(values[2]), int.Parse(values[3]), int.Parse(values[4]), int.Parse(values[0]), line.Substring(9));
+								line = reader.ReadLine();
+								values = line.Substring(9).Split(' ');
+
+
+								varStimulus[k] = new FixationPts();
+								if (int.Parse(values[0]) == 4 || int.Parse(values[0]) == 8 || int.Parse(values[0]) == 12)
+								{
+									line = reader.ReadLine();
+									varStimulus[k].SetPicture(int.Parse(values[1]), int.Parse(values[2]), int.Parse(values[3]), int.Parse(values[4]), int.Parse(values[0]), line.Substring(9));
+								}
+								else
+								{
+									Color stimulusColor = Color.FromArgb(255, int.Parse(values[5]), int.Parse(values[6]), int.Parse(values[7]));
+									varStimulus[k].SetFixationPts(int.Parse(values[1]), int.Parse(values[2]), int.Parse(values[3]), int.Parse(values[4]), int.Parse(values[0]), stimulusColor);
+									varStimulus[k].SetContrastPts(int.Parse(values[8]));
+								}
 							}
-							else
+
+							line = reader.ReadLine();
+							line = reader.ReadLine();
+							int reward = int.Parse(line.Substring(9));
+
+							line = reader.ReadLine();
+							line = reader.ReadLine();
+							int eventNum = int.Parse(line.Substring(9));
+
+							line = reader.ReadLine();
+							line = reader.ReadLine();
+							string[] events = line.Split(' ');
+							TriggerEvents tg = new TriggerEvents();
+							int ev, subFirst = 9;
+							for (int evCount = 0; evCount < eventNum; evCount++)
 							{
-								Color stimulusColor = Color.FromArgb(255, int.Parse(values[5]), int.Parse(values[6]), int.Parse(values[7]));
-								varStimulus[k].SetFixationPts(int.Parse(values[1]), int.Parse(values[2]), int.Parse(values[3]), int.Parse(values[4]), int.Parse(values[0]), stimulusColor);
-								varStimulus[k].SetContrastPts(int.Parse(values[8]));
+								int.TryParse(events[evCount].Substring(subFirst), out ev);
+								subFirst = 0;
+								tg.SetEvent(evCount + 1, ev);
 							}
+							varFrame.SetProperties(BGColor, FrameTime, varFixation, fixationtime, NumberStimulus, varStimulus, reward, null, 0, null, tg);
+
+							ListAddedFrame.Add(varFrame);
 						}
-												
-						line = reader.ReadLine();
-						line = reader.ReadLine();
-						int reward = int.Parse(line.Substring(9));
-						
-						line = reader.ReadLine();
-						line = reader.ReadLine();
-						int eventNum = int.Parse(line.Substring(9));
-						
-						line = reader.ReadLine();
-						line = reader.ReadLine();
-						string[] events = line.Split(' ');
-						TriggerEvents tg = new TriggerEvents();
-						int ev, subFirst = 9;
-						for (int evCount = 0; evCount < eventNum; evCount++)
-						{
-							int.TryParse(events[evCount].Substring(subFirst), out ev);
-							subFirst = 0;
-							tg.SetEvent(evCount + 1, ev);
-						}
-						varFrame.SetProperties(BGColor, FrameTime, varFixation, fixationtime, NumberStimulus, varStimulus, reward, null, 0, null,tg);
-					
-						ListAddedFrame.Add(varFrame);
+						AllLevelProp.Add(ListAddedFrame);
 					}
-					AllLevelProp.Add(ListAddedFrame);
+					line = reader.ReadLine();
+					var value = line.Split(' ');
+					userDistance = double.Parse(value[1]);
+
+					line = reader.ReadLine();
+					value = line.Split(' ');
+					WidthM = double.Parse(value[1]);
+
+					line = reader.ReadLine();
+					value = line.Split(' ');
+					HeightM = double.Parse(value[1]);
+
+					line = reader.ReadLine();
+					value = line.Split(' ');
+					WidthP = double.Parse(value[1]);
+
+					line = reader.ReadLine();
+					value = line.Split(' ');
+					HeightP = double.Parse(value[1]);
+									
+
+					eventLock = true;
+					return true;
 				}
-				line = reader.ReadLine();
-				var value = line.Split(' ');
-				userDistance = double.Parse(value[1]);
-
-				line = reader.ReadLine();
-				value = line.Split(' ');
-				WidthM = double.Parse(value[1]);
-
-				line = reader.ReadLine();
-				value = line.Split(' ');
-				HeightM = double.Parse(value[1]);
-
-				line = reader.ReadLine();
-				value = line.Split(' ');
-				WidthP = double.Parse(value[1]);
-
-				line = reader.ReadLine();
-				value = line.Split(' ');
-				HeightP = double.Parse(value[1]);
-
+			}
+			catch(Exception)
+			{
+				address = null;
+				MessageBox.Show("Wrong or corrupted task file");
+				return false;
+			}
+			finally
+			{
 				FillTaskTable();
-
-				eventLock = true;
-				return true;
 			}
 		}
 

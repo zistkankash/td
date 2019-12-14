@@ -782,7 +782,7 @@
 			this.txtPath.MaxLength = 32767;
 			this.txtPath.Name = "txtPath";
 			this.txtPath.PasswordChar = '\0';
-			this.txtPath.PromptText = "Task Address";
+			this.txtPath.WaterMark = "Task Address";
 			this.txtPath.ScrollBars = System.Windows.Forms.ScrollBars.None;
 			this.txtPath.SelectedText = "";
 			this.txtPath.SelectionLength = 0;
