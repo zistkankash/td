@@ -70,7 +70,7 @@ namespace Basics
 			{
 				havMedia = true;
 				medType = MediaType.Image;
-				image = new Bitmap(BasConfigs._monitor_resolution_x, BasConfigs._monitor_resolution_y);
+				image = new Bitmap(address);
 			}
 			if (Path.GetExtension(address) == ".mp4" || Path.GetExtension(address) == ".avi" || Path.GetExtension(address) == ".mov" || Path.GetExtension(address) == ".asf" || Path.GetExtension(address) == ".wmv")
 			{
@@ -88,11 +88,11 @@ namespace Basics
 			
 			VideoFileReader r = new VideoFileReader();
 			r.Open(address);
-			image = r.ReadVideoFrame((int)r.FrameCount / 2);
+			image = r.ReadVideoFrame(10);
 			r.Dispose();
             var player = new WindowsMediaPlayer();
             var clip = player.newMedia(address);
-            time = (int)TimeSpan.FromSeconds(clip.duration).TotalSeconds + 1;
+            time = (int)TimeSpan.FromSeconds(clip.duration).TotalMilliseconds;
 
             return image;
 		}

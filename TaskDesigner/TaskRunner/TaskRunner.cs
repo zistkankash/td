@@ -40,12 +40,12 @@ namespace TaskRunning
 		int _timeLimit;
 		Thread runnerThread;
 		TaskOperator tsop;
-		
+		Bitmap _runnerBitmap; 
 		//FNode goalNodeThrd, goalNodePrevius;
 		//FNode goalNode = new FNode(100, new Point(0, 0), 100, -100);
 		
 		public Size secondMonit = new Size(0,0);
-		RunMod runMod = RunMod.Stop;
+		public RunMod runMod = RunMod.Stop;
 				
 		bool _getGaz = false;
 		static bool _mouseClicked = false;
@@ -57,6 +57,7 @@ namespace TaskRunning
 			tsop = pr;
 			runMod = RunMod.Stop;
 			curTsk = cs;
+			
 			InitForm();
 		}
 		
@@ -66,35 +67,28 @@ namespace TaskRunning
 			silentMode = true;
 			runMod = RunMod.Stop;
 			curTsk = cs;
+			
 			InitForm();
 		}
 
 		void InitForm()
 		{
+			screens = Screen.AllScreens;
+			WindowState = FormWindowState.Maximized;
 			FormBorderStyle = FormBorderStyle.None;
 			StartPosition = FormStartPosition.Manual;
-            pctbxFrm.SizeMode = PictureBoxSizeMode.StretchImage;
-            screens = Screen.AllScreens;
-			if (screens.Length == 2)
-			{
-				// for fullscreen
-				WindowState = FormWindowState.Maximized;
-				this.Location = new Point(screens[1].Bounds.X, screens[1].Bounds.Y);
-				pctbxFrm.Size = new Size(screens[1].Bounds.Width, screens[1].Bounds.Height);
-				
-			}
-			else
-			{
-				if (screens.Length == 1)
-				{
-                    if (!silentMode)
-                        MessageBox.Show("Can not find second screen. Using primary screen.", "Task Runner");
-                    WindowState = FormWindowState.Normal;
-                }
-			}
-			
+			pctbxFrm.SizeMode = PictureBoxSizeMode.StretchImage;
+			LocateForm();
 		}
-				
+			
+		void LocateForm()
+		{
+			Location = new Point(screens[BasConfigs._triableMonitor].Bounds.X, 0);
+			//pctbxFrm.Image.Dispose();
+			_runnerBitmap = new Bitmap(BasConfigs._monitor_resolution_x, BasConfigs._monitor_resolution_y);
+			BringToFront();
+		}	
+
 		/// <summary>
 		/// This methode perform initializations for running current task.
 		/// for example set starting goal node.
@@ -125,20 +119,21 @@ namespace TaskRunning
 				{
 					//SetGoalNode();
 				}
-
-
+				
 				return;
 			}
 			#endregion
 			if (curTsk.Type == TaskType.media)
 			{
 				curTsk.MediaTask.showedIndex = 0;
-				SetNextMediaSlide();
-				Invoke((Action)delegate { tsop.SetNextSlide(); });
+				Invoke((Action)delegate { LocateForm(); SetNextMediaSlide(); tsop.SetNextSlide(); });
+				
 				tskWatch.Start();
 								
 				while (curTsk.MediaTask.showedIndex < curTsk.MediaTask.picList.Count)
 				{
+					if (runMod == RunMod.Stop)
+						return;
 					//If gaze was enabled use gaze values to save in file and update pointer in operator.
 					if (_getGaz)
 					{
@@ -158,8 +153,12 @@ namespace TaskRunning
 					{
 						_mouseClicked = false;
 						curTsk.MediaTask.showedIndex++;
-						SetNextMediaSlide();
 						Invoke((Action)delegate { tsop.SetNextSlide(); });
+						
+						if (curTsk.MediaTask.showedIndex == curTsk.MediaTask.picList.Count)
+							break;
+						Invoke((Action)delegate { SetNextMediaSlide();  });
+						
 						tskWatch.Restart();
 					}
 				}
@@ -167,8 +166,7 @@ namespace TaskRunning
 				
 				return;
 			}
-
-			
+						
 			return;
 		}
 		
@@ -186,12 +184,14 @@ namespace TaskRunning
 			}
 			else
 			{
+				
 				vlcControl1.Visible = false;
 				pctbxFrm.Visible = true;
-				pctbxFrm.Image = RunnerUtils.MediaPictureRenderer(pic.bgColor, pic.image, pctbxFrm.Size, pic.UseTransparency, pic.TransColor, false);
+				RunnerUtils.MediaPictureRenderer(pic.bgColor, pic.image,pic.UseTransparency, pic.TransColor, false, ref _runnerBitmap);
+				pctbxFrm.Image = _runnerBitmap;
 				_timeLimit = pic.time;
 			}
-			return false;
+			return true;
 		}
 
 		private void VlcControl1_EndReached(object sender, Vlc.DotNet.Core.VlcMediaPlayerEndReachedEventArgs e)
@@ -460,10 +460,11 @@ namespace TaskRunning
 			if (!curTsk.IsReady)
 				return false;
 			_getGaz = getGaz;
-			runnerThread = new Thread(new ThreadStart(InitRunningTask));
+			
 			runMod = RunMod.Running;
+			runnerThread = new Thread(new ThreadStart(InitRunningTask));
 			runnerThread.Start();
-
+			
 			return true;
 
 		}
@@ -475,14 +476,15 @@ namespace TaskRunning
 			{
 				return true;
 			}
-			
-			runnerThread.Abort();
+			//if(ThreadAbort && runnerThread.ThreadState == System.Threading.ThreadState.Running)
+			//	Invoke((Action)delegate { runnerThread.Abort(); });
 			runMod = RunMod.Stop;
 			
 			if (_getGaz)
 			{
 				RunnerUtils.EndGaze();
 			}
+			Invoke((Action)delegate { Close(); });
 			return true;
 		}
 

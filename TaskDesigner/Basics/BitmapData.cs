@@ -65,6 +65,8 @@ namespace Basics
 		/// <returns></returns>
 		public static Bitmap DrawOn(Bitmap image, Size s, Color bgColor)
 		{
+			if (s.Width == 0)
+				return new Bitmap(2,2);
 			var destRect = new Rectangle(0, 0, s.Width, s.Height);
 			var destImage = new Bitmap(s.Width, s.Height);
 			

@@ -17,9 +17,9 @@ namespace Basics
 		public List<MediaEelement> picList;
 		public int showedIndex;
 		public Color backColor;
-		public bool setTransparency = false;
+		
 		public bool drawChess = false;
-		public Color transColor;
+		
 		MediaType TaskMediaType = MediaType.Image;
 		Bitmap operTaskImg;
         int curOperSlide = -1;
@@ -30,7 +30,7 @@ namespace Basics
             base._taskIsReady = false;
 			picList = new List<MediaEelement>();
 			showedIndex = -1;
-           
+			
 		}
 
 		public void Clear()
@@ -48,14 +48,26 @@ namespace Basics
 		{
 			if (selSlide == -1 || picList == null || picList.Count == 0 || selSlide == picList.Count)
 				return operTaskImg;
+
+			if (operTaskImg == null && operationSize.Width != 0)
+				operTaskImg = new Bitmap(operationSize.Width,operationSize.Height);
+
 			if (Refresh || curOperSlide != selSlide)
 			{
 				curOperSlide = selSlide;
-				
-				operTaskImg = RunnerUtils.MediaPictureRenderer(picList[selSlide].bgColor, picList[selSlide].image, operationSize, picList[selSlide].UseTransparency, picList[selSlide].TransColor, drawChess);
-				
+				RunnerUtils.MediaPictureRenderer(picList[selSlide].bgColor, picList[selSlide].image, picList[selSlide].UseTransparency, picList[selSlide].TransColor, drawChess, ref operTaskImg);
 			}
 			return operTaskImg;
+		}
+
+		public bool GetOperationFrame(int selSlide, ref Bitmap BitIn)
+		{
+			if (selSlide == -1 || picList == null || picList.Count == 0 || selSlide == picList.Count)
+				return false;
+							
+			RunnerUtils.MediaPictureRenderer(picList[selSlide].bgColor, picList[selSlide].image, picList[selSlide].UseTransparency, picList[selSlide].TransColor, drawChess, ref BitIn);
+			
+			return true;
 		}
 
 		public bool LoadFromText(string[] lines)
@@ -104,10 +116,10 @@ namespace Basics
 			return true;
 		}
 
-		public bool LoadFromBin(byte[] binTaskFile, int binReadIndex)
+		public bool LoadFromBin(byte[] binTaskFile)
 		{
 			SavingMode = SaveMod.bin;
-			binReadIndex = 0;
+			binReadIndex = 2;
 			long longVar = BitConverter.ToInt64(binTaskFile, binReadIndex);
 			binReadIndex += sizeof(Int64);
 			DateTime dateTimeVar = DateTime.FromBinary(longVar);
@@ -147,7 +159,7 @@ namespace Basics
 				if (SavingMode == SaveMod.txt)
 					return LoadFromText(lines);
 				else
-					return LoadFromBin(binTaskFile, binReadIndex);
+					return LoadFromBin(binTaskFile);
 			else
 				return false;
 		}

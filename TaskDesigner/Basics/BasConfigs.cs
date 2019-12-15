@@ -12,18 +12,21 @@ namespace Basics
 		public static int _monitor_resolution_x = 1440;
 		public static int _monitor_resolution_y = 900;
 		public static TaskServer server;
+		public static int _triableMonitor;
 
-		public static bool GetScreenConfigs()
+		public static bool GetScreenConfigs(int TriableMonitor)
 		{
+			_triableMonitor = TriableMonitor;
 			Screen[] screen = Screen.AllScreens;
 			if (screen.Length == 2)
 			{
-				_monitor_resolution_x = screen[1].Bounds.Width;
-				_monitor_resolution_y = screen[1].Bounds.Height;
+				_monitor_resolution_x = screen[TriableMonitor].Bounds.Width;
+				_monitor_resolution_y = screen[TriableMonitor].Bounds.Height;
 				
 			}
 			if (screen.Length == 1)
 			{
+				_triableMonitor = 0;
 				_monitor_resolution_x = screen[0].Bounds.Width;
 				_monitor_resolution_y = screen[0].Bounds.Height;
 				MessageBox.Show("Second screen not detected. This cause some features not working well!","Information",MessageBoxButtons.OK,MessageBoxIcon.Information);

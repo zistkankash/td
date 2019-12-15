@@ -169,7 +169,7 @@ namespace Basics
 					{
 						_type = TaskType.media;
 						mediaTask = new MediaTask();
-						if (mediaTask.LoadFromBin(tskFile, readIndex))
+						if (mediaTask.LoadFromBin(tskFile))
 							_taskIsReady = true;
 					}
 
@@ -186,15 +186,14 @@ namespace Basics
 			return false;
 		}
 
-		public Bitmap GetFrameImage(bool Refresh, int SelSlide)
+		public bool GetFrameImage(int SelSlide, ref Bitmap BIn)
 		{
-			Bitmap b = new Bitmap(100, 100);
 			if (Type == TaskType.media)
 			{
-				return mediaTask.GetOperationFrame(Refresh, SelSlide);
+				return mediaTask.GetOperationFrame(SelSlide, ref BIn);
 			}
 
-			return b;
+			return false;
 		}
 
 		public bool SaveTask()

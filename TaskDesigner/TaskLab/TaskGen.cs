@@ -48,7 +48,7 @@ namespace TaskLab
         
 		Image<Rgb, Byte> img = new Image<Rgb, byte>(BasConfigs._monitor_resolution_x, BasConfigs._monitor_resolution_y);
 		
-		bool isManupulated = false;
+		bool isManupulated = false, reDraw = false;
 		
 		MediaTask curTask = new MediaTask();
 
@@ -139,6 +139,7 @@ namespace TaskLab
         void btnStart_Click(object sender, EventArgs e)
         {
 			btnStart.TileImage = Resource.stop;
+			vlcControl1.Play(new FileInfo(curTask.picList[selectedSlide].address));
 		}
 		
         void btnHome_Click(object sender, EventArgs e)
@@ -306,7 +307,13 @@ namespace TaskLab
 			picCount++;
 			isManupulated = true;
 			curTask.picList.Add(p);
+			reDraw = true;
 			SelectSlide(picCount - 1);
+			if (!tmrMain.Enabled)
+			{
+				tmrMain.Enabled = true;
+				tmrMain.Start();
+			}
 		}
         
 		Size SetupPb(int index)
@@ -376,6 +383,7 @@ namespace TaskLab
         {
 			if (picCount == 0)
 				return;
+			reDraw = true;
             foreach (Control pnl in pnlPics.Controls)
             {
                 if (pnl.Name == "pnlPic" + selectedSlide.ToString())
@@ -412,7 +420,7 @@ namespace TaskLab
             string name = pbTemp.Name;
             string[] index = name.Split('b');
             Int32.TryParse(index[1], out ind);
-
+			reDraw = true;
 			SelectSlide(ind);
 
         }
@@ -454,7 +462,7 @@ namespace TaskLab
 			if (newSel == -1)
 			{
 				if (picCount > 0)
-					selectedSlide = 0;
+					selectedSlide = picCount - 1;
 				else
 				{
 					selectedSlide = -1;
@@ -471,7 +479,7 @@ namespace TaskLab
 					selectedSlide = newSel;
 				}
 			}
-			
+			reDraw = true;
 			 
 			foreach (Control c in pnlPics.Controls)
 			{
@@ -492,8 +500,13 @@ namespace TaskLab
         //// هنگام کلیک بر روی تکست باکس زمان
         void txtPicTime_TextChanged(object sender, EventArgs e)
         {
-            pnlPic_Click(sender, e);
-        }
+			TextBox txt = (TextBox)sender;
+			string[] s = txt.Name.Split('e');
+			int index;
+			Int32.TryParse(s[1], out index);
+			SelectSlide(index);
+			txt.Select();
+		}
         
 		//// هنگام کلیک بر روی پنل تصاویر
         void pnlPic_Click(object sender, EventArgs e)
@@ -525,7 +538,7 @@ namespace TaskLab
 		      
         void pnlSetting_MouseClick(object sender, MouseEventArgs e)
         {
-          
+			pnlSetting.Visible = false;
         }
 
 		void TaskGen_FormClosing(object sender, FormClosingEventArgs e)
@@ -535,13 +548,36 @@ namespace TaskLab
 				
 		void tmrMain_Tick(object sender, EventArgs e)
 		{
-			if (selectedSlide != -1)
-				pbDesign.BackColor = curTask.picList[selectedSlide].bgColor;
+			if (!reDraw)
+				return;
+			if (selectedSlide == -1)
+			{
+				pbDesign.BackColor = SystemColors.ActiveCaption;
+				tmrMain.Enabled = false;
+				return;
+			}
 
-			if (curTask.Type == TaskType.media)
-			
-				pbDesign.Image = curTask.GetOperationFrame(true, selectedSlide);
-							
+			PictureBox picB = (PictureBox)pnlPics.Controls.Find("pb" + selectedSlide.ToString(), true)[0];
+			if (vlcControl1.IsPlaying)
+				vlcControl1.Stop();
+			if (curTask.picList[selectedSlide].medType == MediaType.Image)
+			{
+				vlcControl1.Visible = false;
+				pbDesign.Visible = true;
+				btnStart.Enabled = false;
+				pbDesign.Image = curTask.GetOperationFrame(reDraw, selectedSlide);
+				picB.Image = pbDesign.Image;
+			}
+			else
+			{
+				vlcControl1.Visible = true;
+				pbDesign.Visible = false;
+				btnStart.Enabled = true;
+				vlcControl1.BackgroundImageLayout = ImageLayout.Stretch;
+				vlcControl1.BackgroundImage = curTask.GetOperationFrame(reDraw, selectedSlide);
+				picB.Image = vlcControl1.BackgroundImage;				
+			}
+			reDraw = false;	
 		}
 
 		void pnlPics_Paint(object sender, PaintEventArgs e)
@@ -570,6 +606,7 @@ namespace TaskLab
 				curTask.drawChess = false;
 				
 			}
+			reDraw = true;
 		}
 				
 		void chkSaveData_CheckedChanged_1(object sender, EventArgs e)
@@ -603,15 +640,16 @@ namespace TaskLab
 				ColorDialog cd = new ColorDialog();
 				if (cd.ShowDialog() == DialogResult.OK)
 				{
-					curTask.transColor = cd.Color;
-					curTask.setTransparency = true;
+					curTask.picList[selectedSlide].TransColor = cd.Color;
+					curTask.picList[selectedSlide].UseTransparency = true;
 				}
 				else
 					chkbxMakTransprnt.Checked = false;
 
 			}
 			else
-				curTask.setTransparency = false;
+				curTask.picList[selectedSlide].UseTransparency = false;
+			reDraw = true;
 		}
 
 		private void MainMenu_ItemClicked(object sender, ToolStripItemClickedEventArgs e)

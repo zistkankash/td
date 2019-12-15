@@ -54,9 +54,9 @@
 			this.pnlNetSetting.HorizontalScrollbarBarColor = true;
 			this.pnlNetSetting.HorizontalScrollbarHighlightOnWheel = false;
 			this.pnlNetSetting.HorizontalScrollbarSize = 10;
-			this.pnlNetSetting.Location = new System.Drawing.Point(6, 28);
+			this.pnlNetSetting.Location = new System.Drawing.Point(4, 13);
 			this.pnlNetSetting.Name = "pnlNetSetting";
-			this.pnlNetSetting.Size = new System.Drawing.Size(524, 119);
+			this.pnlNetSetting.Size = new System.Drawing.Size(524, 118);
 			this.pnlNetSetting.Style = MetroFramework.MetroColorStyle.Blue;
 			this.pnlNetSetting.TabIndex = 64;
 			this.pnlNetSetting.UseCustomBackColor = true;
@@ -72,7 +72,7 @@
 			// 
 			// 
 			this.TxtbxLIP.CustomButton.Image = null;
-			this.TxtbxLIP.CustomButton.Location = new System.Drawing.Point(116, 1);
+			this.TxtbxLIP.CustomButton.Location = new System.Drawing.Point(95, 1);
 			this.TxtbxLIP.CustomButton.Name = "";
 			this.TxtbxLIP.CustomButton.Size = new System.Drawing.Size(21, 21);
 			this.TxtbxLIP.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
@@ -83,7 +83,7 @@
 			this.TxtbxLIP.Enabled = false;
 			this.TxtbxLIP.ForeColor = System.Drawing.Color.Black;
 			this.TxtbxLIP.Lines = new string[0];
-			this.TxtbxLIP.Location = new System.Drawing.Point(114, 24);
+			this.TxtbxLIP.Location = new System.Drawing.Point(135, 24);
 			this.TxtbxLIP.MaxLength = 32767;
 			this.TxtbxLIP.Name = "TxtbxLIP";
 			this.TxtbxLIP.PasswordChar = '\0';
@@ -92,7 +92,7 @@
 			this.TxtbxLIP.SelectionLength = 0;
 			this.TxtbxLIP.SelectionStart = 0;
 			this.TxtbxLIP.ShortcutsEnabled = true;
-			this.TxtbxLIP.Size = new System.Drawing.Size(138, 23);
+			this.TxtbxLIP.Size = new System.Drawing.Size(117, 23);
 			this.TxtbxLIP.TabIndex = 78;
 			this.ToolTipHelp.SetToolTip(this.TxtbxLIP, "Enter this  IP address in Coglab address field in ET");
 			this.TxtbxLIP.UseCustomBackColor = true;
@@ -108,7 +108,7 @@
 			// 
 			// 
 			this.txtbxLport.CustomButton.Image = null;
-			this.txtbxLport.CustomButton.Location = new System.Drawing.Point(97, 1);
+			this.txtbxLport.CustomButton.Location = new System.Drawing.Point(95, 1);
 			this.txtbxLport.CustomButton.Name = "";
 			this.txtbxLport.CustomButton.Size = new System.Drawing.Size(21, 21);
 			this.txtbxLport.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
@@ -127,7 +127,7 @@
 			this.txtbxLport.SelectionLength = 0;
 			this.txtbxLport.SelectionStart = 0;
 			this.txtbxLport.ShortcutsEnabled = true;
-			this.txtbxLport.Size = new System.Drawing.Size(119, 23);
+			this.txtbxLport.Size = new System.Drawing.Size(117, 23);
 			this.txtbxLport.TabIndex = 80;
 			this.ToolTipHelp.SetToolTip(this.txtbxLport, "Enter this  Port address in Coglab Port address field in ET");
 			this.txtbxLport.UseCustomBackColor = true;
@@ -222,7 +222,7 @@
 			// NetSettingForm
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(533, 155);
+			this.ClientSize = new System.Drawing.Size(533, 142);
 			this.Controls.Add(this.pnlNetSetting);
 			this.Font = new System.Drawing.Font("Marlett", 20.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(2)), true);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

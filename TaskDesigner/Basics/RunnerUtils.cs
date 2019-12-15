@@ -80,14 +80,16 @@ namespace Basics
 			Array.Clear(pts, 0, pts.Length);
 		}
 
-		public static Bitmap MediaPictureRenderer(Color BgColor, Bitmap Image, Size PicSize, bool SetTransparent, Color TransBGColor,bool ChessDraw)
+		public static bool MediaPictureRenderer(Color BgColor, Bitmap Image, bool SetTransparent, Color TransBGColor,bool ChessDraw, ref Bitmap BitIn)
 		{
-			Bitmap outMap = BitmapManager.DrawOn(Image, PicSize, BgColor);
+			if (BitIn == null)
+				return false;
+			BitIn = BitmapManager.DrawOn(Image, BitIn.Size, BgColor);
 			if (SetTransparent)
-				outMap.MakeTransparent(TransBGColor);
+				BitIn.MakeTransparent(TransBGColor);
 			if (ChessDraw)
-				BitmapManager.ChessboardDraw(ref outMap);
-			return outMap;
+				BitmapManager.ChessboardDraw(ref BitIn);
+			return true;
 		}
 	}
 }

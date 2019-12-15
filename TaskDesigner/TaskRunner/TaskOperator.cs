@@ -24,8 +24,9 @@ namespace TaskRunning
 	public partial class TaskOperator : MetroForm
 	{
 		SaveFileDialog sfd = null;
-		OpenFileDialog ofd = null;
 		TaskRunner runner = null;
+		Bitmap _operationBitmap;
+		Graphics flagGraphics;
 		ETStatus _etStat = ETStatus.disconnected;
 		public static float gzX, gzY;
 		public TaskClient tsk;
@@ -81,22 +82,23 @@ namespace TaskRunning
 			Screen[] screens = Screen.AllScreens;
 			secondMonit = new Size(screens[1].Bounds.Width, screens[1].Bounds.Height);
 			tsk = new TaskClient();
+			_operationBitmap = new Bitmap(pbOper.Width, pbOper.Height);
+			flagGraphics = Graphics.FromImage(_operationBitmap);
 			
 		}
 		
 		public void RefreshPctBx()
 		{
-			Bitmap b = new Bitmap(pbOper.Size.Width, pbOper.Size.Height);
+			
 			if (tsk.Type == TaskType.media)
-				b = tsk.GetFrameImage(false, _slideNum);
+				tsk.GetFrameImage(_slideNum, ref _operationBitmap);
 			if (tsk.Type == TaskType.cognitive)
-				b = shFrame.opFlag;
+				_operationBitmap = shFrame.opFlag;
 
-			Graphics flagGraphics = Graphics.FromImage(b);
 			flagGraphics.FillEllipse(Brushes.Black, (float)gzX * pbOper.Width / secondMonit.Width - Marker_Radius / 2,(float) gzY * pbOper.Height / secondMonit.Height - Marker_Radius / 2, Marker_Radius, Marker_Radius);
 			flagGraphics.Flush();
 			//pbOper.Image.Dispose();
-			pbOper.Image = b;
+			pbOper.Image = _operationBitmap;
 		}
 
 		private void txtPath_Click(object sender, EventArgs e)
@@ -141,18 +143,22 @@ namespace TaskRunning
 					{
 						
 						tsk.runConf = getRunConfigs;
-						
+						SetControlsLocked();
+						btStop.Enabled = true;
+						txtSavPath.Enabled = false;
+						txtbxTask.Enabled = false;
+						refTimer.Start();
+						runner = new TaskRunner(tsk, this);
+						runner.Show();
 						if (_etStat == ETStatus.ready)
 							runner.RunTask(true);
+						
 						else
 							runner.RunTask(false);
+						
 					}
 						
-					SetControlsLocked();
-					btStop.Enabled = true;
-					txtSavPath.Enabled = false;
-					txtbxTask.Enabled = false;
-					refTimer.Start();
+					
 				}
 			}
 			catch(Exception)
@@ -221,9 +227,7 @@ namespace TaskRunning
 		}
 		
 		private void TaskOperator_Load(object sender, EventArgs e)
-		{
-			runner = new TaskRunner(tsk, this);
-			runner.Show();
+		{			
 			BringToFront();
 			txtbxTask.Select();
 			this.KeyDown += new KeyEventHandler(TaskOperator_KeyDown);
@@ -251,7 +255,8 @@ namespace TaskRunning
 			{
 				txtbxTask.Text = tsk.Address;
 				pbOper.SizeMode = PictureBoxSizeMode.StretchImage;
-				pbOper.Image = tsk.GetFrameImage(false, 0);
+				tsk.GetFrameImage(0, ref _operationBitmap);
+				pbOper.Image = _operationBitmap;
 				btnStart.Enabled = true;
 			}
 			else
@@ -333,6 +338,11 @@ namespace TaskRunning
 		private void TaskOperator_Paint(object sender, PaintEventArgs e)
 		{
 			Select();
+		}
+
+		private void cmbTriableScreen_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			BasConfigs.GetScreenConfigs(cmbTriableScreen.SelectedIndex);
 		}
 
 		public void Stop()

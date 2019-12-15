@@ -54,7 +54,6 @@
 			// 
 			this.frameUpdater.Enabled = true;
 			this.frameUpdater.Interval = 1000;
-			
 			// 
 			// vlcControl1
 			// 
@@ -73,17 +72,16 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+			this.BackColor = System.Drawing.Color.Black;
 			this.ClientSize = new System.Drawing.Size(284, 262);
 			this.Controls.Add(this.vlcControl1);
 			this.Controls.Add(this.pctbxFrm);
-			this.Cursor = System.Windows.Forms.Cursors.No;
+			this.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "TaskRunner";
 			this.Text = "TaskRunner";
 			this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-			
 			this.Load += new System.EventHandler(this.TaskRunner_Load);
 			this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TaskRunner_KeyUp);
 			((System.ComponentModel.ISupportInitialize)(this.pctbxFrm)).EndInit();

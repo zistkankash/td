@@ -53,6 +53,10 @@ namespace TaskLab
 			this.MainMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+			this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+			this.lblX = new System.Windows.Forms.ToolStripStatusLabel();
+			this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
+			this.lblY = new System.Windows.Forms.ToolStripStatusLabel();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.pnlPics = new MetroFramework.Controls.MetroPanel();
@@ -69,10 +73,6 @@ namespace TaskLab
 			this.cmbxSavMod = new MetroFramework.Controls.MetroComboBox();
 			this.chkboxChessDraw = new MetroFramework.Controls.MetroCheckBox();
 			this.txtPath = new MetroFramework.Controls.MetroTextBox();
-			this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-			this.lblX = new System.Windows.Forms.ToolStripStatusLabel();
-			this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
-			this.lblY = new System.Windows.Forms.ToolStripStatusLabel();
 			this.vlcControl1 = new Vlc.DotNet.Forms.VlcControl();
 			((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pbDesign)).BeginInit();
@@ -266,6 +266,7 @@ namespace TaskLab
 			this.btnStart.UseSelectable = true;
 			this.btnStart.UseStyleColors = true;
 			this.btnStart.UseTileImage = true;
+			this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
 			// 
 			// btnBackgroundCol
 			// 
@@ -337,6 +338,28 @@ namespace TaskLab
 			this.statusStrip1.TabIndex = 84;
 			this.statusStrip1.Text = "statusStrip1";
 			// 
+			// toolStripStatusLabel1
+			// 
+			this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+			this.toolStripStatusLabel1.Size = new System.Drawing.Size(23, 17);
+			this.toolStripStatusLabel1.Text = "X:  ";
+			// 
+			// lblX
+			// 
+			this.lblX.Name = "lblX";
+			this.lblX.Size = new System.Drawing.Size(0, 17);
+			// 
+			// toolStripStatusLabel3
+			// 
+			this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
+			this.toolStripStatusLabel3.Size = new System.Drawing.Size(26, 17);
+			this.toolStripStatusLabel3.Text = ", Y: ";
+			// 
+			// lblY
+			// 
+			this.lblY.Name = "lblY";
+			this.lblY.Size = new System.Drawing.Size(0, 17);
+			// 
 			// panel1
 			// 
 			this.panel1.Controls.Add(this.splitContainer1);
@@ -361,9 +384,9 @@ namespace TaskLab
 			// 
 			// splitContainer1.Panel2
 			// 
-			this.splitContainer1.Panel2.Controls.Add(this.vlcControl1);
 			this.splitContainer1.Panel2.Controls.Add(this.pnlSetting);
 			this.splitContainer1.Panel2.Controls.Add(this.pbDesign);
+			this.splitContainer1.Panel2.Controls.Add(this.vlcControl1);
 			this.splitContainer1.Size = new System.Drawing.Size(1185, 727);
 			this.splitContainer1.SplitterDistance = 215;
 			this.splitContainer1.TabIndex = 84;
@@ -580,28 +603,6 @@ namespace TaskLab
 			this.txtPath.UseSelectable = true;
 			this.txtPath.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
 			this.txtPath.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
-			// 
-			// toolStripStatusLabel1
-			// 
-			this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-			this.toolStripStatusLabel1.Size = new System.Drawing.Size(23, 17);
-			this.toolStripStatusLabel1.Text = "X:  ";
-			// 
-			// lblX
-			// 
-			this.lblX.Name = "lblX";
-			this.lblX.Size = new System.Drawing.Size(0, 17);
-			// 
-			// toolStripStatusLabel3
-			// 
-			this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
-			this.toolStripStatusLabel3.Size = new System.Drawing.Size(26, 17);
-			this.toolStripStatusLabel3.Text = ", Y: ";
-			// 
-			// lblY
-			// 
-			this.lblY.Name = "lblY";
-			this.lblY.Size = new System.Drawing.Size(0, 17);
 			// 
 			// vlcControl1
 			// 
