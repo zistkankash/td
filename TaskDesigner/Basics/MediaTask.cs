@@ -75,13 +75,13 @@ namespace Basics
 			SavingMode = SaveMod.txt;
 			picList = new List<MediaEelement>();
 
-			string[] temp = lines[2].Split(' ');
+			string[] temp = lines[1].Split(' ');
 			int count;
-			Int32.TryParse(temp[2], out count);
+			Int32.TryParse(temp[0], out count);
 			for (int i = 0; i < count; i++)
 			{
-				string[] s = lines[i + 3].Split(',');
-				if (s[0] == "BackGround: ")
+				string[] s = lines[i + 2].Split(',');
+				if (s[0] == "BackGround:")
 				{
 					int r, g, b;
 					Int32.TryParse(s[1], out r);
@@ -94,7 +94,7 @@ namespace Basics
 					pic.bgColor = bg;
 					picList.Add(pic);
 				}
-				if (s[0] == "Image: ")
+				if (s[0] == "Image:")
 				{
 					string address = s[1];
 					int time;
@@ -103,15 +103,13 @@ namespace Basics
 					MediaEelement pic = new MediaEelement(bit, address, time);
 					picList.Add(pic);
 				}
-				if (s[0] == "Video: ")
+				if (s[0] == "Video:")
 				{
-					MediaEelement pic = new MediaEelement(s[1], int.Parse(s[2]));
+					MediaEelement pic = new MediaEelement(s[1]);
 					picList.Add(pic);
 					TaskMediaType = MediaType.Video;
 				}
 			}
-
-			//operTaskImg = picList[0].image;
 
 			return true;
 		}
@@ -232,6 +230,17 @@ namespace Basics
 				if (path.ShowDialog() == DialogResult.OK)
 				{
 					base._tskAddress = path.FileName;
+                    StringBuilder savFile = new StringBuilder(10000);
+                    savFile.AppendLine("TaskLabMedia");
+                    savFile.AppendLine(picList.Count.ToString());
+                    for(int i=0;i < picList.Count; i++)
+                    {
+                        if(!picList[i].HaveMedia)
+                        {
+                            savFile.AppendLine("Background: " + picList[i].bgColor.R.ToString() + " " + picList[i].bgColor.R.ToString() + " " + picList[i].bgColor.G.ToString() + " " + picList[i].bgColor.B.ToString() + " " + picList[i].time.ToString() + " ");
+                        }
+
+                    }
 				}
 				else
 					return false;

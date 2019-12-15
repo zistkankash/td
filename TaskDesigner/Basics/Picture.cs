@@ -40,13 +40,19 @@ namespace Basics
             this.address = add;
             this.time = t;
 			this.medType = MediaType.Image;
+            if (im == null)
+                havMedia = false;
         }
 
-		public MediaEelement(string add, int t)
+		/// <summary>
+        /// This constructor used for creating video elements.
+        /// </summary>
+        /// <param name="add"> address of video element.</param>
+        public MediaEelement(string add)
 		{
 			medType = MediaType.Video;
-			this.address = add;
-			this.time = t;
+			address = add;
+			image = GetVideoFrame();
 		}
 
 		public MediaEelement(Bitmap x, Color color, int time, string add)
@@ -88,7 +94,7 @@ namespace Basics
 			
 			VideoFileReader r = new VideoFileReader();
 			r.Open(address);
-			image = r.ReadVideoFrame(10);
+			image = r.ReadVideoFrame(5);
 			r.Dispose();
             var player = new WindowsMediaPlayer();
             var clip = player.newMedia(address);

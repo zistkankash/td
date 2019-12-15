@@ -115,7 +115,7 @@ namespace Basics
 				if (suffix == ".txt")
 				{
 					string[] lines = File.ReadAllLines(_tskAddress, Encoding.UTF8);
-					if (lines[0] != "TaskLabPics" && lines[0] != "TaskLab" && lines[0] != "Number Of Levels")
+					if (lines[0] != "TaskLabMedia" && lines[0] != "PsycoTaskLab" && lines[0] != "Number Of Levels")
 					{
 
 						return false;
@@ -123,15 +123,15 @@ namespace Basics
 					else
 					{
 						_taskIsReady = false;
-
-						if (lines[0] == "TaskLabPics")      // تسک های تصویری
+                        tskSavMod = SaveMod.txt;
+						if (lines[0] == "TaskLabMedia")      // تسک های تصویری
 						{
-							if (mediaTask.Load())
+							if (mediaTask.LoadFromText(lines))
 								_taskIsReady = true;
 							_type = TaskType.media;
 						}
 
-						else if (lines[0] == "TaskLab")     // تسک های روانشناختی
+						else if (lines[0] == "PsycoTaskLab")     // تسک های روانشناختی
 						{
 							if (psycoTask.Load())
 								_taskIsReady = true;

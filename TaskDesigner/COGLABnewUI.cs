@@ -41,7 +41,8 @@ namespace Basics
 		[System.Runtime.InteropServices.DllImport("user32.dll")]
 		public static extern bool ReleaseCapture();
 
-		public COGLABnewUI()
+        
+        public COGLABnewUI()
 		{
 			InitializeComponent();
 			Select();
@@ -314,9 +315,10 @@ namespace Basics
 		private void COGLABnewUI_Load(object sender, EventArgs e)
 		{
 			this.CenterToScreen();
-			MARGINS marg = new MARGINS() { Left = -1, Right = -1, Top = -1, Bottom = -1 };
-			//DwmExtendFrameIntoClientArea(this.Handle, ref marg);
-		}
+            //MARGINS marg = new MARGINS() { Left = -1, Right = -1, Top = -1, Bottom = -1 };
+            //DwmExtendFrameIntoClientArea(this.Handle, ref marg);
+            
+        }
 		
 		public bool ThumbnailCallback()
 		{
@@ -491,4 +493,5 @@ namespace Basics
 			this.WindowState = FormWindowState.Minimized;
 		}
 	}
+    
 }
