@@ -21,6 +21,11 @@ namespace Basics
 	public partial class COGLABnewUI : Form
 	{
 		public bool connected = false;
+		NetSettingForm nt;
+		PsycoPhysicTask task;
+		PsycologyDesigner taskLab;
+		TaskGen imageLab;
+		TaskOperator runner;
 
 		[StructLayout(LayoutKind.Sequential)]
 		public struct MARGINS
@@ -207,7 +212,7 @@ namespace Basics
 		{
 			try
 			{
-				PsycoPhysicTask task = new PsycoPhysicTask();
+				task = new PsycoPhysicTask();
 				task.FormClosed += delegate { Show(); Select();};
 				this.Hide();
 				task.Show();
@@ -220,7 +225,7 @@ namespace Basics
 
 		private void btn_setting_Click(object sender, EventArgs e)
 		{
-			NetSettingForm nt = new NetSettingForm();
+			nt = new NetSettingForm();
 			nt.FormClosed += delegate { Show(); Select(); };
 			Hide();
 			nt.ShowDialog();
@@ -230,7 +235,7 @@ namespace Basics
 		{
 			try
 			{
-				PsycologyDesigner taskLab = new PsycologyDesigner();
+				taskLab = new PsycologyDesigner();
 				taskLab.FormClosed += delegate { Show(); Select(); };
 				this.Hide();
 				taskLab.Show();
@@ -245,10 +250,10 @@ namespace Basics
 		{
 			try
 			{
-				TaskLab.TaskGen taskLab = new TaskLab.TaskGen(TaskType.media);
-				taskLab.FormClosed += delegate { Show(); Select(); };
+				imageLab = new TaskLab.TaskGen(TaskType.media);
+				imageLab.FormClosed += delegate { Show(); Select(); };
 				this.Hide();
-				taskLab.Show();
+				imageLab.Show();
 			}
 			catch(Exception ex)
 			{
@@ -275,7 +280,7 @@ namespace Basics
 		{
 			try
 			{
-				TaskOperator runner;
+				
 				ETStatus ns = BasConfigs.GetNetStatus();
 				if (ns == ETStatus.listening)
 				{

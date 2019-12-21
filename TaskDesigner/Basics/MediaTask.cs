@@ -17,9 +17,7 @@ namespace Basics
 		public List<MediaEelement> picList;
 		public int showedIndex;
 		public Color backColor;
-		
 		public bool drawChess = false;
-		
 		MediaType TaskMediaType = MediaType.Image;
 		Bitmap operTaskImg;
         int curOperSlide = -1;
@@ -74,9 +72,7 @@ namespace Basics
 		{
 			try
 			{
-				SavingMode = SaveMod.txt;
 				picList = new List<MediaEelement>();
-
 				string[] temp = lines[1].Split(' ');
 				int count;
 				Int32.TryParse(temp[0], out count);
@@ -117,7 +113,7 @@ namespace Basics
 						TaskMediaType = MediaType.Video;
 					}
 				}
-
+				SavingMode = SaveMod.txt;
 				return true;
 			}
 			catch(Exception ex)
@@ -129,7 +125,6 @@ namespace Basics
 
 		public bool LoadFromBin(byte[] binTaskFile)
 		{
-			SavingMode = SaveMod.bin;
 			binReadIndex = 2;
 			long longVar = BitConverter.ToInt64(binTaskFile, binReadIndex);
 			binReadIndex += sizeof(Int64);
@@ -160,13 +155,13 @@ namespace Basics
 				picList.Add(new MediaEelement(x, Color.FromArgb(R, G, B), time, "image address"));
 			}
 			//tskImg.Bitmap = picList[0].image;
-
+			SavingMode = SaveMod.bin;
 			return true;
 		}
 
 		public bool Load()
 		{
-			if (Load(true))
+			if (Load(true, TaskType.media).result == ResultState.OK)
 				if (SavingMode == SaveMod.txt)
 					return LoadFromText(lines);
 				else
@@ -203,7 +198,7 @@ namespace Basics
 			File.WriteAllBytes(base._tskAddress, lines.ToArray());
 			return true;
 		}
-
+		
 		public MediaType GetTaskMediaType()
 		{
 			foreach (MediaEelement pic in picList)

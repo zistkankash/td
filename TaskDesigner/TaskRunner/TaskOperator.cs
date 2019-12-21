@@ -33,8 +33,8 @@ namespace TaskRunning
 		private Size triableScreen;
 		int _slideNum = 0;
 		public static bool _stopped = false;
-		ShowFrame shFrame;
-
+		PsycophysicsRunner shFrame;
+		int i = 0;
 		public static string savedData = BasConfigs._monitor_resolution_x.ToString() + "," + BasConfigs._monitor_resolution_y.ToString() + "\n";
 
 		public string getSavPath { get { return txtSavPath.Text; } }
@@ -82,20 +82,22 @@ namespace TaskRunning
 			triableScreen = new Size(screens[BasConfigs._triableMonitor].Bounds.Width, screens[BasConfigs._triableMonitor].Bounds.Height);
 			tsk = new TaskClient();
 			_operationBitmap = new Bitmap(pbOper.Width, pbOper.Height);
-			
-			
+
+			//flagGraphics = Graphics.FromImage(_operationBitmap);
 		}
 
 		public void RefreshPctBx()
 		{
-					
+			i++;
+			gzX = (float)i % pbOper.Width;
+			gzY = (float)i % pbOper.Height;
 			if (tsk.Type == TaskType.media)
 				tsk.GetFrameImage(_slideNum, ref _operationBitmap);
 
 			if (tsk.Type == TaskType.cognitive && shFrame.opFlag != null)
 			{
-				//_operationBitmap = shFrame.opFlag;
-				_operationBitmap = BitmapManager.DrawOn(shFrame.opFlag, pbOper.Size, Color.White);
+				_operationBitmap = shFrame.opFlag;
+				//_operationBitmap = BitmapManager.DrawOn(shFrame.opFlag, pbOper.Size, Color.White);
 			}
 			Graphics flagGraphics = Graphics.FromImage(_operationBitmap);
 			flagGraphics.FillEllipse(Brushes.Red, (float)gzX * pbOper.Width / triableScreen.Width - Marker_Radius / 2, (float)gzY * pbOper.Height / triableScreen.Height - Marker_Radius / 2, Marker_Radius, Marker_Radius);
@@ -132,15 +134,15 @@ namespace TaskRunning
 					refTimer.Start();
 					if (tsk.Type == TaskType.cognitive)
 					{
-						PsycoPhysicTask.brake = false;
+						tsk.PsycoPhysicsTask.Brake = false;
 						bool st;
 						if (_etStat == ETStatus.ready)
 							st = true;
 						else
 							st = false;
 						_stopped = false;
-						PsycoPhysicTask.TypeDisplay = 2;
-						shFrame = new ShowFrame(true ,pbOper.Width, pbOper.Height);
+						
+						shFrame = new PsycophysicsRunner(true ,pbOper.Width, pbOper.Height, tsk.PsycoPhysicsTask, null);
 						shFrame.pupilDataPath = txtSavPath.Text;
 						shFrame.eventDataPath = FileName.UpdateFileName(txtSavPath.Text, "events");
 																	
@@ -297,7 +299,7 @@ namespace TaskRunning
 		{
 			if (tsk.Type == TaskType.cognitive)
 			{
-				PsycoPhysicTask.brake = true;
+				tsk.PsycoPhysicsTask.Brake = true;
 				Stop();
 
 			}

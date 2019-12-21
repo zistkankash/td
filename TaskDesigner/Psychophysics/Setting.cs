@@ -60,25 +60,7 @@ namespace Psychophysics
             this.InputSelect_CB0.SelectedIndexChanged += new System.EventHandler(this.InputSelect_CB_SelectedIndexChanged);
             this.InputSelect_CB1.SelectedIndexChanged += new System.EventHandler(this.InputSelect_CB_SelectedIndexChanged);
             Debug.Write("InputSelect_CB0.SelectedIndex : " + InputSelect_CB0.SelectedIndex + " " + InputSelect_CB0.SelectedIndex + "\n");
-            //switch (TaskPreview.InputValRange)
-            //{
-            //    case ValueRange.V_0To5:
-            //        SelectDaqVol_CB.SelectedIndex = 0;
-            //        break;
-            //    case ValueRange.V_0To10:
-            //        SelectDaqVol_CB.SelectedIndex = 1;
-            //        break;
-            //    case ValueRange.V_Neg5To5:
-            //        SelectDaqVol_CB.SelectedIndex = 2;
-            //        break;
-            //    case ValueRange.V_Neg10To10:
-            //        SelectDaqVol_CB.SelectedIndex = 3;
-            //        break;
-            //    default:
-            //        SelectDaqVol_CB.SelectedIndex = 4;
-            //        break;
-            //}
-			
+           
             
                 DaqEn_CB.Checked = true;
                 DAQPanel.Enabled = true;
@@ -89,33 +71,24 @@ namespace Psychophysics
             varselected.BackColor = Color.Green;
             varselected = this.Controls.Find("pictureBox" + 1 + PsycoPhysicTask.DOutIndex[1], true).FirstOrDefault() as PictureBox;
             varselected.BackColor = Color.Green;
-
-            //List<Automation.BDaq.DeviceTreeNode> NameDevices = TaskPreview.instantAiCtrl.SupportedDevices;
-            //Devices_CB.Items.Add("");
-            //for (int i = 0; i < NameDevices.Count; i++)
-            //{
-            //    Devices_CB.Items.Add(NameDevices[i].Description);
-            //    Devices_CB.SelectedIndex = 0;
-            //}
-
             
-            if(PsycoPhysicTask.TypeDisplay == 1)
-            {
-                NormalDisplay_CB.Checked = true;
-            }
-            else if(PsycoPhysicTask.TypeDisplay == 2)
-            {
-                RandomDisplay_CB.Checked = true;
-            }
+            //if(PsycoPhysicTask.SeqRandTaskRunner == 1)
+            //{
+            //    NormalDisplay_CB.Checked = true;
+            //}
+            //else if(PsycoPhysicTask.SeqRandTaskRunner == 2)
+            //{
+            //    RandomDisplay_CB.Checked = true;
+            //}
             Mute_CB.Checked = PsycoPhysicTask.SoundMute;
             FailPath_ET.Text = PsycoPhysicTask.FailPath;
             WinPath_ET.Text = PsycoPhysicTask.WinPath;
 
-            SelectedInBt_ET.Text = PsycoPhysicTask.keyboardChar.ToString();
+            //SelectedInBt_ET.Text = PsycoPhysicTask.keyboardChar.ToString();
 
-            UserDist_ET.Text = Convert.ToString(PsycoPhysicTask.userDistance);
-            MonitorWidth_ET.Text = Convert.ToString(PsycoPhysicTask.WidthM);
-            MonitorHeight_ET.Text = Convert.ToString(PsycoPhysicTask.HeightM);
+            UserDist_ET.Text = Convert.ToString(BasConfigs.userDistance);
+            MonitorWidth_ET.Text = Convert.ToString(BasConfigs.WidthM);
+            MonitorHeight_ET.Text = Convert.ToString(BasConfigs.HeightM);
 
                       
             //get user IP
@@ -202,31 +175,6 @@ namespace Psychophysics
                 break;
             }
         }
-
-
-
-        //private void SelectDaqVol_CB_SelectedIndexChanged(object sender, EventArgs e)
-        //{
-        //    int index = SelectDaqVol_CB.SelectedIndex;
-        //    switch (index)
-        //    {
-        //        case 0:
-        //            TaskPreview.InputValRange = ValueRange.V_0To5;
-        //            break;
-        //        case 1:
-        //            TaskPreview.InputValRange = ValueRange.V_0To10;
-        //            break;
-        //        case 2:
-        //            TaskPreview.InputValRange = ValueRange.V_Neg5To5;
-        //            break;
-        //        case 3:
-        //            TaskPreview.InputValRange = ValueRange.V_Neg10To10;
-        //            break;
-        //        default:
-        //            TaskPreview.InputValRange = ValueRange.V_0To1pt25;
-        //            break;
-        //    }
-        //}
 
         private void InputSelect_CB_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -363,12 +311,12 @@ namespace Psychophysics
             if(NormalDisplay_CB.Checked)
             {
                 RandomDisplay_CB.Checked = false;
-                PsycoPhysicTask.TypeDisplay = 1;
+                //PsycoPhysicTask.TypeDisplay = 1;
             }
             else
             {
                 RandomDisplay_CB.Checked = true;
-                PsycoPhysicTask.TypeDisplay = 2;
+                //PsycoPhysicTask.TypeDisplay = 2;
             }
         }
 
@@ -377,12 +325,12 @@ namespace Psychophysics
             if (RandomDisplay_CB.Checked)
             {
                 NormalDisplay_CB.Checked = false;
-                PsycoPhysicTask.TypeDisplay = 2;
+                //PsycoPhysicTask.TypeDisplay = 2;
             }
             else
             {
                 NormalDisplay_CB.Checked = true;
-                PsycoPhysicTask.TypeDisplay = 1;
+                //PsycoPhysicTask.TypeDisplay = 1;
             }
         }
 
@@ -456,23 +404,46 @@ namespace Psychophysics
         private void SelectedInBt_ET_TextChanged(object sender, EventArgs e)
         {
             string str = SelectedInBt_ET.Text;
-            if (str.Length > 0)
-                PsycoPhysicTask.keyboardChar = str[0];
+            //if (str.Length > 0)
+            //    PsycoPhysicTask.keyboardChar = str[0];
         }
 
         private void UserDist_ET_TextChanged(object sender, EventArgs e)
         {
-            PsycoPhysicTask.userDistance = double.Parse(UserDist_ET.Text);
+			try
+			{
+				BasConfigs.userDistance = double.Parse(UserDist_ET.Text);
+			}
+			catch(Exception)
+			{
+				return;
+			}
         }
 
         private void MonitorWidth_ET_TextChanged(object sender, EventArgs e)
         {
-            PsycoPhysicTask.WidthM = double.Parse(MonitorWidth_ET.Text);
+			try
+			{
+				BasConfigs.WidthM = double.Parse(MonitorWidth_ET.Text);
+			}
+			catch (Exception)
+			{
+				return;
+			}
+			
         }
 
         private void MonitorHeight_ET_TextChanged(object sender, EventArgs e)
         {
-            PsycoPhysicTask.HeightM = double.Parse(MonitorHeight_ET.Text);
+			try
+			{
+				BasConfigs.HeightM = double.Parse(MonitorHeight_ET.Text);
+			}
+			catch (Exception)
+			{
+				return;
+			}
+			
         }
 
         private void DaqEn_CB_CheckedChanged(object sender, EventArgs e)

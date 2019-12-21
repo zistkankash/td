@@ -556,7 +556,7 @@ namespace Basics
 
 		public bool Load()
 		{
-			if (Load(true))
+			if (Load(true, TaskType.lab).result == ResultState.OK)
 				return LoadFromText();
 			else
 				return false;

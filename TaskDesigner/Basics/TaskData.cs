@@ -9,7 +9,7 @@ using TaskLab;
 using Emgu.CV.Structure;
 using Emgu.CV;
 using Psychophysics;
-
+using MetroFramework;
 
 namespace Basics
 {
@@ -70,7 +70,7 @@ namespace Basics
 			
 		}
 
-		protected bool Load(bool newTask)
+		protected ResultForm Load(bool newTask, TaskType newTaskType)
 		{
 			try
 			{
@@ -87,7 +87,7 @@ namespace Basics
 					if (ofd.ShowDialog() == DialogResult.OK)
 						_tskAddress = ofd.FileName;
 					else
-						return false;
+						return new ResultForm(ResultState.Cancel);
 				}
 
 				string suffix = Path.GetExtension(_tskAddress);
@@ -97,12 +97,24 @@ namespace Basics
 					lines = File.ReadAllLines(_tskAddress, Encoding.UTF8);
 					if (lines[0] != "TaskLabMedia" && lines[0] != "TaskLab" && lines[0] != "Number Of Levels")
 					{
-
-						return false;
+						MessageBox.Show("Wrong task file selected","Task File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+						return new ResultForm(ResultState.Error);
 					}
-					SavingMode = SaveMod.txt;
-					return true;
 					
+					short type = 0;
+					if (lines[0] == "TaskLabMedia")
+					{
+						type = (short)TaskType.media;
+					}
+					if (lines[0] == "TaskLab")
+					{
+						type = (short)TaskType.lab;
+					}
+					if (lines[0] == "Number Of Levels")
+					{
+						type = (short)TaskType.cognitive;
+					}
+					return TaskFormatCheck(newTaskType, type);
 				}
 				#endregion
 				#region bin format loader
@@ -110,21 +122,69 @@ namespace Basics
 				{
 					binTaskFile = ByteManager.ReadBinFile(_tskAddress);
 					if (binTaskFile == null)
-						return false;
-					binReadIndex += sizeof(short);
-					SavingMode = SaveMod.bin;
-					return true;
+						return new ResultForm(ResultState.Error);
+					
+					short type = BitConverter.ToInt16(binTaskFile, 0);
+					return TaskFormatCheck(newTaskType, type);
+
 				}
 				#endregion
 			}
 			catch (Exception)
 			{
 				_tskAddress = null;
-				return false;
+				return new ResultForm(ResultState.Error);
 			}
-			return false;
+			return new ResultForm(ResultState.Cancel);
 		}
-						
+		
+		ResultForm TaskFormatCheck(TaskType newTaskType, short type)
+		{
+			if (newTaskType == TaskType.media && type == (short)TaskType.cognitive)
+			{
+				if (MetroMessageBox.Show((IWin32Window)this, "A psycophysic task selected! do you want to work on it?", "Open Task", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+					return new ResultForm(ResultState.Cancel, TaskType.cognitive);
+				else
+					return new ResultForm(ResultState.Mismath, TaskType.cognitive);
+			}
+			if (newTaskType == TaskType.media && type == (short)TaskType.lab)
+			{
+				if (MetroMessageBox.Show((IWin32Window)this, "A psycology task selected! do you want to work on it?", "Open Task", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+					return new ResultForm(ResultState.Cancel, TaskType.lab);
+				else
+					return new ResultForm(ResultState.Mismath, TaskType.lab);
+
+			}
+			if (newTaskType == TaskType.lab && type == (short)TaskType.cognitive)
+			{
+				if (MetroMessageBox.Show((IWin32Window)this, "A psycophysic task selected! do you want to work on it?", "Open Task", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+					return new ResultForm(ResultState.Cancel, TaskType.cognitive);
+				else
+					return new ResultForm(ResultState.Mismath, TaskType.cognitive);
+			}
+			if (newTaskType == TaskType.lab && type == (short)TaskType.media)
+			{
+				if (MetroMessageBox.Show((IWin32Window)this, "A media task selected! do you want to work on it?", "Open Task", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+					return new ResultForm(ResultState.Cancel, TaskType.media);
+				else
+					return new ResultForm(ResultState.Mismath, TaskType.media);
+			}
+			if (newTaskType == TaskType.cognitive && type == (short)TaskType.lab)
+			{
+				if (MetroMessageBox.Show((IWin32Window)this, "A psycophysic task selected! do you want to work on it?", "Open Task", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+					return new ResultForm(ResultState.Cancel, TaskType.lab);
+				else
+					return new ResultForm(ResultState.Mismath, TaskType.lab);
+			}
+			if (newTaskType == TaskType.cognitive && type == (short)TaskType.media)
+			{
+				if (MetroMessageBox.Show((IWin32Window)this, "A media task selected! do you want to work on it?", "Open Task", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+					return new ResultForm(ResultState.Cancel, TaskType.media);
+				else
+					return new ResultForm(ResultState.Mismath, TaskType.media);
+			}
+			return new ResultForm(ResultState.OK);
+		}			
 		
 	}
 }

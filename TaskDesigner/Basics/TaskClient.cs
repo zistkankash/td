@@ -12,7 +12,7 @@ namespace Basics
 	public class TaskClient
 	{
 		TaskType _type;
-		PsycoPhysicTask psycoPhysicsTask;
+		PsycophysicTasks psycoPhysicsTask;
 		MediaTask mediaTask;
 		PsycologyTask psycoTask;
 		bool _taskIsReady = false;
@@ -22,7 +22,7 @@ namespace Basics
         
 		public RunConfig runConf;
 
-		public PsycoPhysicTask PsycoPhysicsTask { get { return psycoPhysicsTask; } }
+		public PsycophysicTasks PsycoPhysicsTask { get { return psycoPhysicsTask; } }
 
 		public MediaTask MediaTask { get { return mediaTask; } }
 
@@ -41,6 +41,7 @@ namespace Basics
 
 		public TaskClient()
 		{
+			_tskAddress = null;
 
 		}
 
@@ -66,7 +67,7 @@ namespace Basics
 			if (tk == TaskType.cognitive)
 			{
 				_type = TaskType.cognitive;
-				psycoPhysicsTask = new PsycoPhysicTask();
+				psycoPhysicsTask = new PsycophysicTasks(0);
 				tskSavMod = SaveMod.txt;
 				return;
 			}
@@ -97,11 +98,11 @@ namespace Basics
 				OpenFileDialog ofd = new OpenFileDialog();
 				string TaskFolder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 				ofd.InitialDirectory = TaskFolder;
-				ofd.Title = "Pick a valid task file...";
+				ofd.Title = "Pick a valid task file";
 				ofd.CustomPlaces.Add(@"C:\");
 				ofd.CustomPlaces.Add(@"C:\Program Files\");
 				ofd.CustomPlaces.Add(@"C:\Documents\");
-				ofd.Filter = "Task File (*.bin , *.txt)|*.bin;*.txt";
+				ofd.Filter = "Task File (*.bin , *.txt)|*.bin;*.txt;";
 				if (ofd.ShowDialog() == DialogResult.OK)
 					_tskAddress = ofd.FileName;
 				else
@@ -146,7 +147,8 @@ namespace Basics
 
 						else if (lines[0] == "Number Of Levels")
 						{
-							psycoPhysicsTask = new PsycoPhysicTask();
+							psycoPhysicsTask = new PsycophysicTasks(0);
+							
 							if (psycoPhysicsTask.LoadTaskFromFile(false, _tskAddress))
 							{
 								_type = TaskType.cognitive;

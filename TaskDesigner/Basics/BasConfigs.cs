@@ -11,6 +11,9 @@ namespace Basics
 	{
 		public static int _monitor_resolution_x = 1440;
 		public static int _monitor_resolution_y = 900;
+		public static double userDistance = 0.5;
+		public static double WidthM = 0.42, HeightM = 0.26;
+		
 		public static TaskServer server;
 		public static int _triableMonitor;
 		public static object graphicsLock = new object();
@@ -98,5 +101,22 @@ namespace Basics
 	public enum Operat { Media, GraphicsMap }
 
 	public enum Shape { Circle, Rectangle}
+
+	public enum ResultState { OK, Cancel, Error, Mismath}
+
+	public class ResultForm
+	{
+		public ResultState result;
+		public TaskType type;
+		public ResultForm(ResultState st)
+		{
+			result = st;
+		}
+		public ResultForm(ResultState st, TaskType tp)
+		{
+			result = st;
+			type = tp;
+		}
+	}
 
 }
