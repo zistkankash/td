@@ -41,7 +41,7 @@ namespace Basics
 
 		public static bool StartGaze(bool EventualGaze)
 		{
-			if (BasConfigs.server != null && BasConfigs.server.IsCalibrated == ETStatus.ready)
+			if (BasConfigs.server != null)// && BasConfigs.server.IsCalibrated == ETStatus.ready)
 			{
 				pts = new double[2, _gazeSmoothPots];
 				_counter = 0;
@@ -57,12 +57,12 @@ namespace Basics
 
 		}
 
-		public static void EventGaze(object sender, EventArgs args)
+		public static void EventGaze(object sender, GazeTriple gzTemp)
 		{
-			GazeTriple gzTemp = null;
+			//GazeTriple gzTemp = null;
 			if (BasConfigs.server != null && BasConfigs.server.getGaze != null)
 			{
-				gzTemp = BasConfigs.server.getGaze;
+				//gzTemp = BasConfigs.server.getGaze;
 				if (gzTemp.time != -1)
 				{
 					pts[0, _counter] = gzTemp.x;

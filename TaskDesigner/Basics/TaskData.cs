@@ -87,7 +87,7 @@ namespace Basics
 					if (ofd.ShowDialog() == DialogResult.OK)
 						_tskAddress = ofd.FileName;
 					else
-						return new ResultForm(ResultState.Cancel);
+						return new ResultForm(ResultState.Cancel, SaveMod.bin);
 				}
 
 				string suffix = Path.GetExtension(_tskAddress);
@@ -98,7 +98,7 @@ namespace Basics
 					if (lines[0] != "TaskLabMedia" && lines[0] != "TaskLab" && lines[0] != "Number Of Levels")
 					{
 						MessageBox.Show("Wrong task file selected","Task File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-						return new ResultForm(ResultState.Error);
+						return new ResultForm(ResultState.Error, SaveMod.txt);
 					}
 					
 					short type = 0;
@@ -114,7 +114,7 @@ namespace Basics
 					{
 						type = (short)TaskType.cognitive;
 					}
-					return TaskFormatCheck(newTaskType, type);
+					return TaskFormatCheck(newTaskType, type, SaveMod.txt);
 				}
 				#endregion
 				#region bin format loader
@@ -122,10 +122,10 @@ namespace Basics
 				{
 					binTaskFile = ByteManager.ReadBinFile(_tskAddress);
 					if (binTaskFile == null)
-						return new ResultForm(ResultState.Error);
+						return new ResultForm(ResultState.Error, SaveMod.bin);
 					
 					short type = BitConverter.ToInt16(binTaskFile, 0);
-					return TaskFormatCheck(newTaskType, type);
+					return TaskFormatCheck(newTaskType, type, SaveMod.bin);
 
 				}
 				#endregion
@@ -133,12 +133,12 @@ namespace Basics
 			catch (Exception)
 			{
 				_tskAddress = null;
-				return new ResultForm(ResultState.Error);
+				return new ResultForm(ResultState.Error, SaveMod.txt);
 			}
-			return new ResultForm(ResultState.Cancel);
+			return new ResultForm(ResultState.Cancel, SaveMod.txt);
 		}
 		
-		ResultForm TaskFormatCheck(TaskType newTaskType, short type)
+		ResultForm TaskFormatCheck(TaskType newTaskType, short type, SaveMod mode)
 		{
 			if (newTaskType == TaskType.media && type == (short)TaskType.cognitive)
 			{
@@ -183,7 +183,7 @@ namespace Basics
 				else
 					return new ResultForm(ResultState.Mismath, TaskType.media);
 			}
-			return new ResultForm(ResultState.OK);
+			return new ResultForm(ResultState.OK, mode);
 		}			
 		
 	}

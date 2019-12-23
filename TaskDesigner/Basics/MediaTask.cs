@@ -161,8 +161,9 @@ namespace Basics
 
 		public bool Load()
 		{
-			if (Load(true, TaskType.media).result == ResultState.OK)
-				if (SavingMode == SaveMod.txt)
+			ResultForm res = Load(true, TaskType.media);
+			if (res.Result == ResultState.OK)
+				if (res.FileMode == SaveMod.txt)
 					return LoadFromText(lines);
 				else
 					return LoadFromBin(binTaskFile);

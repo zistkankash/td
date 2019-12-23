@@ -116,7 +116,7 @@ namespace Basics
 					_tskAddress = TaskAddress;
 				else
 				{
-					if (Load(true, TaskType.cognitive).result != ResultState.OK)
+					if (Load(true, TaskType.cognitive).Result != ResultState.OK)
 						return false;
 				}
 				AllLevelProp.Clear();

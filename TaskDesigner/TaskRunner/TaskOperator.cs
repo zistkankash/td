@@ -29,7 +29,7 @@ namespace TaskRunning
 		ETStatus _etStat = ETStatus.disconnected;
 		public static float gzX, gzY;
 		public TaskClient tsk;
-		int Marker_Radius = 8;
+		int Marker_Radius = 5;
 		private Size triableScreen;
 		int _slideNum = 0;
 		public static bool _stopped = false;
@@ -88,9 +88,9 @@ namespace TaskRunning
 
 		public void RefreshPctBx()
 		{
-			i++;
-			gzX = (float)i % pbOper.Width;
-			gzY = (float)i % pbOper.Height;
+			//i++;
+			//gzX = (float)i % pbOper.Width;
+			//gzY = (float)i % pbOper.Height;
 			if (tsk.Type == TaskType.media)
 				tsk.GetFrameImage(_slideNum, ref _operationBitmap);
 
@@ -148,9 +148,6 @@ namespace TaskRunning
 					}
 					else
 					{
-						
-						
-						
 						runner = new TaskRunner(tsk, this);
 						runner.Show();
 						if (_etStat == ETStatus.ready)

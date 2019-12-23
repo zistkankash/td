@@ -397,7 +397,7 @@ namespace TaskRunning
 			try
 			{
 				flagGraphics.Clear(_task.AllLevelProp[level][frame].BGColor);
-				
+				opFlagGraphics.Clear(_task.AllLevelProp[level][frame].BGColor);
 				numberstimulus = _task.AllLevelProp[level][frame].Stimulus.Length;
 
 				#region add stimulus and fixation

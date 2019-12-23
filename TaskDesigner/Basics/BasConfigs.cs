@@ -106,16 +106,18 @@ namespace Basics
 
 	public class ResultForm
 	{
-		public ResultState result;
-		public TaskType type;
-		public ResultForm(ResultState st)
+		public ResultState Result;
+		public TaskType Type;
+		public SaveMod FileMode;
+		public ResultForm(ResultState st, SaveMod fileMode)
 		{
-			result = st;
+			Result = st;
+			FileMode = fileMode;
 		}
 		public ResultForm(ResultState st, TaskType tp)
 		{
-			result = st;
-			type = tp;
+			Result = st;
+			Type = tp;
 		}
 	}
 

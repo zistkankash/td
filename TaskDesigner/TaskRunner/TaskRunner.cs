@@ -101,7 +101,8 @@ namespace TaskRunning
 			tskWatch = new Stopwatch(); //Get a watch for timing operations.
 			if (_getGaz)
 			{
-				RunnerUtils.StartGaze(false);
+				RunnerUtils.GazeReady += GetMediaGaze;
+				RunnerUtils.StartGaze(true);
 			}
 			else
 				Cursor.Position = new Point(BasConfigs._monitor_resolution_x + BasConfigs._monitor_resolution_x / 2, BasConfigs._monitor_resolution_y / 2);
@@ -134,17 +135,11 @@ namespace TaskRunning
 				{
 					if (runMod == RunMod.Stop)
 						return;
-					//If gaze was enabled use gaze values to save in file and update pointer in operator.
-					if (_getGaz)
-					{
-						//Check gaze validity and add it to the end of csv file.
-						GetPictureGaze(false);
-						
-					}
+					//If gaze was enabled use gaze values to save in file and update pointer in operator in the gaze event.
 					//Else if pointer was enabled add the pointer position in file.
-					else
+					if(curTsk.runConf.useCursor)
 					{
-						GetPictureGaze(curTsk.runConf.useCursor);
+						GetMediaCursor();
 						
 					}
 					
@@ -154,12 +149,9 @@ namespace TaskRunning
 						_mouseClicked = false;
 						curTsk.MediaTask.showedIndex++;
 						Invoke((Action)delegate { tsop.SetNextSlide(); });
-						
 						if (curTsk.MediaTask.showedIndex == curTsk.MediaTask.picList.Count)
 							break;
-						Invoke((Action)delegate { SetNextMediaSlide();  });
-						
-						tskWatch.Restart();
+						Invoke((Action)delegate { SetNextMediaSlide();  });						
 					}
 				}
 				StopTask();
@@ -180,17 +172,20 @@ namespace TaskRunning
 				vlcControl1.Visible = true;
 				vlcControl1.Play(new FileInfo(pic.address));
 				vlcControl1.EndReached += VlcControl1_EndReached;
-				_timeLimit = pic.time;
+				
 			}
 			else
 			{
-				
+				if (vlcControl1.IsPlaying)
+					vlcControl1.Stop();
 				vlcControl1.Visible = false;
 				pctbxFrm.Visible = true;
 				RunnerUtils.MediaPictureRenderer(pic.bgColor, pic.image,pic.UseTransparency, pic.TransColor, false, ref _runnerBitmap);
 				pctbxFrm.Image = _runnerBitmap;
-				_timeLimit = pic.time;
+				
 			}
+			_timeLimit = pic.time;
+			tskWatch.Restart();
 			return true;
 		}
 
@@ -199,28 +194,24 @@ namespace TaskRunning
 			brake = true;
 		}
 
-		bool GetPictureGaze(bool useCursor)
+		void GetMediaGaze(object sender, GazeTriple gzTemp)
 		{
-			GazeTriple gzTemp;
-			if (useCursor)
-			{
-				TaskOperator.savedData += _mousX.ToString() + "," + _mousY.ToString() + "," + 0.ToString() + "," + tskWatch.ElapsedMilliseconds.ToString() + "\n";
-				TaskOperator.gzX = (float)_mousX;
-				TaskOperator.gzY = (float)_mousY;
-				return true;
-			}
-			if (!_getGaz)
-				return false;
-			gzTemp = RunnerUtils.ETGaze();
+						
 			if (gzTemp != null)
 			{
 				TaskOperator.savedData += gzTemp.x.ToString() + "," + gzTemp.y.ToString() + "," + gzTemp.pupilSize.ToString() + "," + gzTemp.time.ToString()  + "\n";
 				TaskOperator.gzX = (float)gzTemp.x;
 				TaskOperator.gzY = (float)gzTemp.y;
-				return true;
+				return;
 			}
-			else
-				return false;
+			
+		}
+
+		void GetMediaCursor()
+		{
+			TaskOperator.savedData += _mousX.ToString() + "," + _mousY.ToString() + "," + 0.ToString() + "," + tskWatch.ElapsedMilliseconds.ToString() + "\n";
+			TaskOperator.gzX = (float)_mousX;
+			TaskOperator.gzY = (float)_mousY;
 		}
 
 		public static bool SetCurrentFixate()
