@@ -101,7 +101,7 @@ namespace TaskRunning
 			tskWatch = new Stopwatch(); //Get a watch for timing operations.
 			if (_getGaz)
 			{
-				RunnerUtils.StartGaze();
+				RunnerUtils.StartGaze(false);
 			}
 			else
 				Cursor.Position = new Point(BasConfigs._monitor_resolution_x + BasConfigs._monitor_resolution_x / 2, BasConfigs._monitor_resolution_y / 2);

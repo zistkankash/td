@@ -67,7 +67,7 @@ namespace Basics
 
 	enum Comnd { Close = 5, CalibStat = 2, SendGaz = 8, EndGaz = 9 , WatRest = 11 }
 	
-	public class GazeTriple
+	public class GazeTriple : EventArgs
 	{
 		public double x;
 		public double y;

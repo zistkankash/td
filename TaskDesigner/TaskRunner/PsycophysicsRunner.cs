@@ -43,7 +43,7 @@ namespace TaskRunning
 		double preFixationCenterX, preFixationCenterY, preFixationCenterWidth;
 		int FixationCenterTime = 0;
 		int FixationRewardType = 0;
-		Stopwatch FixationSW = new Stopwatch(), LoopWatch = new Stopwatch();
+		Stopwatch FixationSW = new Stopwatch();// LoopWatch = new Stopwatch();
 		public int[] RandForTaskLevel;
 		int indexRandForTaskLevel = -1;
 		//int trialCounter;
@@ -68,8 +68,9 @@ namespace TaskRunning
 			if (getGaze)
 			{
 				_useGaz = true;
+				opFlagGraphics = OperatorGraphics;
 			}
-			opFlagGraphics = OperatorGraphics;
+			
 			opFlagWidth = operWidth;
 			opFlagHeight = operHeight;
 			ScreenConfig();
@@ -84,11 +85,17 @@ namespace TaskRunning
 			WindowState = FormWindowState.Maximized;
 			Location = new Point(screen[BasConfigs._triableMonitor].Bounds.X, 0);
 			flag = new Bitmap(screen[BasConfigs._triableMonitor].Bounds.Width, screen[BasConfigs._triableMonitor].Bounds.Height);
-		    opFlag = new Bitmap(opFlagWidth, opFlagHeight);
+			if(_useGaz)
+			{
+				opFlag = new Bitmap(opFlagWidth, opFlagHeight);
+				opFlagGraphics = Graphics.FromImage(opFlag);
+				
+			}
+		    
 			_screenRationX = (float)opFlagWidth / (float)screen[BasConfigs._triableMonitor].Bounds.Width;
 			_screenRatioY = (float)opFlagHeight / (float)screen[BasConfigs._triableMonitor].Bounds.Height;
 			flagGraphics = Graphics.FromImage(flag);
-			opFlagGraphics = Graphics.FromImage(opFlag);
+			
 		}
 
 		void ShowFrame_Load(object sender, EventArgs e)
@@ -98,18 +105,17 @@ namespace TaskRunning
 			
 			NextTrial();
 
-			MicroTimerEnable();
+			//MicroTimerEnable();
 			Timer1.Enabled = true;
 			Timer1.Start();
-			LoopWatch.Start();
+			//LoopWatch.Start();
 			
 			if (_useGaz)
 			{
-				
-				RunnerUtils.StartGaze();
+				RunnerUtils.GazeReady += OnRunnerGazeReady;
+				RunnerUtils.StartGaze(true);
 				_eventMicSW.Start();
-				RunnerUtils.ETGaze();
-
+				
 			}
 		}
 
@@ -124,19 +130,19 @@ namespace TaskRunning
 
 		void Timer1_Tick(object sender, EventArgs e)
 		{
+			Timer1.Stop();
+			Timer1.Enabled = false;
 			lock (timerLock)
 			{
-
-				if (!(fixatehappened || LoopWatch.ElapsedMilliseconds > timeLimit))
-					return;
+				//if (!fixatehappened || LoopWatch.ElapsedMilliseconds > timeLimit))
+				//	return;
 
 				if (_task.Brake)
 				{
 					StopRun(true);
 					return;
 				}
-
-
+				
 				#region fixatehappened
 
 				if (!_useGaz)
@@ -159,7 +165,7 @@ namespace TaskRunning
 					{
 						if (fixatehappened)
 						{
-							Debug.Write("fixate falsed");
+							Debug.Write("true fixate falsed");
 							fixatehappened = false;
 							if (FixationRewardType == 2 || FixationRewardType == 4)
 								winSound.Play();
@@ -183,10 +189,11 @@ namespace TaskRunning
 				}
 
 				#endregion
-
-
-				LoopWatch.Restart();
+				Timer1.Start();
+				Timer1.Enabled = true;
+				//LoopWatch.Restart();
 			}
+			
 			return;
 		}
 
@@ -199,7 +206,7 @@ namespace TaskRunning
 
 			if (frame < framelimit)
 			{
-				timeLimit = _task.AllLevelProp[level][frame].FrameTime;
+				Timer1.Interval = _task.AllLevelProp[level][frame].FrameTime;
 				FixationRewardType = _task.AllLevelProp[level][frame].RewardType;
 				fixationstimulus = _task.AllLevelProp[level][frame].Fixation;
 				if (fixationstimulus.Xloc != -1)
@@ -221,8 +228,6 @@ namespace TaskRunning
 					containfixation = false;
 				AllocateFrame();
 				GenFrameEvents();
-				
-
 				return true;
 			}
 			else
@@ -261,6 +266,39 @@ namespace TaskRunning
 			if (_useGaz)
 			{
 				gz = RunnerUtils.ETGaze();
+				if (gz != null)
+				{
+					TaskOperator.gzX = (float)gz.x;
+					TaskOperator.gzY = (float)gz.y;
+					_pupilStringBiulder.Clear();
+					_pupilStringBiulder.Append(gz.x.ToString()); _pupilStringBiulder.Append(","); _pupilStringBiulder.Append(gz.y.ToString());
+					_pupilStringBiulder.Append(","); _pupilStringBiulder.Append(gz.pupilSize.ToString()); _pupilStringBiulder.Append(",");
+					_pupilStringBiulder.Append(gz.time.ToString());
+					_dataTask.AppendLine(_pupilStringBiulder.ToString());
+					if (containfixation)
+					{
+						CheckPointInROI(new double[] { gz.x, gz.y });
+						//CheckPointInROI(new double[] { 720, 450 });
+					}
+				}
+				//if (containfixation)
+				//{
+				//	CheckPointInROI(new double[] { gz.x, gz.y });
+				//	CheckPointInROI(new double[] { 720, 450 });
+				//	TaskOperator.gzX = (float)100;
+				//	TaskOperator.gzY = (float)100;
+				//}
+				else
+					return;
+
+			}
+
+		}
+
+		void OnRunnerGazeReady(object sender,  GazeTriple gz)
+		{
+			if (_useGaz)
+			{
 				if (gz != null)
 				{
 					TaskOperator.gzX = (float)gz.x;

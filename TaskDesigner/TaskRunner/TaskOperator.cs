@@ -141,11 +141,9 @@ namespace TaskRunning
 						else
 							st = false;
 						_stopped = false;
-						
 						shFrame = new PsycophysicsRunner(true ,pbOper.Width, pbOper.Height, tsk.PsycoPhysicsTask, null);
 						shFrame.pupilDataPath = txtSavPath.Text;
 						shFrame.eventDataPath = FileName.UpdateFileName(txtSavPath.Text, "events");
-																	
 						shFrame.Show();
 					}
 					else

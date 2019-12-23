@@ -16,7 +16,14 @@ namespace Basics
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new COGLABnewUI());
+			try
+			{
+				Application.Run(new COGLABnewUI());
+			}
+			catch(Exception)
+			{
+
+			}
         }
     }
 }

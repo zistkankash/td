@@ -21,7 +21,7 @@ namespace Basics
 		private NetSettingForm par;
 		public bool _endGaze = true;
 		public bool serverDisposed = true, serverListening = false;
-		
+		public event EventHandler OnGaze;
 
 		public GazeTriple getGaze
 		{
@@ -148,8 +148,7 @@ namespace Basics
 					{
 					    GazeTriple gazTemp = new GazeTriple();
 						gazPnt.Clear();
-
-						
+											
 						_endGaze = false;
 
 						while (!_endGaze)
@@ -160,7 +159,10 @@ namespace Basics
 							gazTemp.y = BitConverter.ToDouble(parBuffer, sizeof(double));
 							gazTemp.time = BitConverter.ToInt64(parBuffer, 2 * sizeof(double));
 							gazTemp.pupilSize = BitConverter.ToDouble(parBuffer, 2 * sizeof(double) + sizeof(long));
-							gazPnt.Enqueue(gazTemp);
+							if (OnGaze != null)
+								OnGaze(this, new EventArgs());
+							else
+								gazPnt.Enqueue(gazTemp);
 							_comnd = GetComnd();
 							if ( _comnd == (short)Comnd.EndGaz || _comnd == (short)Comnd.Close)
 							{
