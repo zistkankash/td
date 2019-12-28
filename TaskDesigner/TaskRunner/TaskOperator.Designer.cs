@@ -30,160 +30,124 @@
 		{
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TaskOperator));
-			this.TabControl_taskoperator = new MetroFramework.Controls.MetroTabControl();
-			this.Tabtask = new MetroFramework.Controls.MetroTabPage();
-			this.btStop = new MetroFramework.Controls.MetroButton();
-			this.btnStart = new MetroFramework.Controls.MetroButton();
-			this.txtbxTask = new MetroFramework.Controls.MetroTextBox();
+			this.refTimer = new System.Windows.Forms.Timer(this.components);
+			this.krbTabControl2 = new KRBTabControl.KRBTabControl();
+			this.tabPageEx1 = new KRBTabControl.TabPageEx();
+			this.btnStop = new System.Windows.Forms.Button();
+			this.btnStart = new System.Windows.Forms.Button();
 			this.txtSavPath = new MetroFramework.Controls.MetroTextBox();
+			this.txtbxTask = new MetroFramework.Controls.MetroTextBox();
 			this.pbOper = new System.Windows.Forms.PictureBox();
-			this.Tabsetting = new MetroFramework.Controls.MetroTabPage();
-			this.groupBox1 = new System.Windows.Forms.GroupBox();
-			this.metroLabel11 = new MetroFramework.Controls.MetroLabel();
-			this.cmbTriableScreen = new System.Windows.Forms.ComboBox();
-			this.metroLabel9 = new MetroFramework.Controls.MetroLabel();
-			this.metroLabel10 = new MetroFramework.Controls.MetroLabel();
-			this.pnlGen = new System.Windows.Forms.GroupBox();
-			this.metroLabel7 = new MetroFramework.Controls.MetroLabel();
-			this.pnlPsycophysics = new MetroFramework.Controls.MetroPanel();
-			this.chbuseMouseNextFrm = new MetroFramework.Controls.MetroCheckBox();
-			this.metroLabel12 = new MetroFramework.Controls.MetroLabel();
-			this.chbx_useMouseGaze = new MetroFramework.Controls.MetroCheckBox();
-			this.txtNumGazeSmth = new System.Windows.Forms.TextBox();
-			this.metroLabel8 = new MetroFramework.Controls.MetroLabel();
-			this.pnlRunMod = new System.Windows.Forms.GroupBox();
-			this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
-			this.metroPanel1 = new MetroFramework.Controls.MetroPanel();
-			this.rbtn_ccttask = new MetroFramework.Controls.MetroRadioButton();
-			this.rbtn_normalreward = new MetroFramework.Controls.MetroRadioButton();
-			this.metroLabel2 = new MetroFramework.Controls.MetroLabel();
-			this.pnlPsycology = new System.Windows.Forms.GroupBox();
-			this.metroLabel5 = new MetroFramework.Controls.MetroLabel();
-			this.pnlErr2 = new MetroFramework.Controls.MetroPanel();
-			this.chkb_nmsSound = new System.Windows.Forms.CheckBox();
-			this.chkb_nmsPrompt = new System.Windows.Forms.CheckBox();
-			this.chbx_NMshowarrow = new System.Windows.Forms.CheckBox();
-			this.metroLabel6 = new MetroFramework.Controls.MetroLabel();
-			this.metroLabel3 = new MetroFramework.Controls.MetroLabel();
-			this.metroLabel4 = new MetroFramework.Controls.MetroLabel();
+			this.tabPageEx4 = new KRBTabControl.TabPageEx();
+			this.groupBox2 = new System.Windows.Forms.GroupBox();
+			this.metroLabel15 = new MetroFramework.Controls.MetroLabel();
+			this.metroLabel16 = new MetroFramework.Controls.MetroLabel();
 			this.pnlErr1 = new MetroFramework.Controls.MetroPanel();
 			this.chbx_sound = new System.Windows.Forms.CheckBox();
 			this.chbx_showarrow = new System.Windows.Forms.CheckBox();
 			this.chBx_prompt = new System.Windows.Forms.CheckBox();
-			this.refTimer = new System.Windows.Forms.Timer(this.components);
-			this.TabControl_taskoperator.SuspendLayout();
-			this.Tabtask.SuspendLayout();
+			this.groupBox3 = new System.Windows.Forms.GroupBox();
+			this.metroLabel17 = new MetroFramework.Controls.MetroLabel();
+			this.metroPanel1 = new MetroFramework.Controls.MetroPanel();
+			this.chbuseMouseNextFrm = new MetroFramework.Controls.MetroCheckBox();
+			this.chbx_useMouseGaze = new MetroFramework.Controls.MetroCheckBox();
+			this.metroLabel18 = new MetroFramework.Controls.MetroLabel();
+			this.groupBox4 = new System.Windows.Forms.GroupBox();
+			this.metroLabel19 = new MetroFramework.Controls.MetroLabel();
+			this.cmbTriableScreen = new System.Windows.Forms.ComboBox();
+			this.metroLabel20 = new MetroFramework.Controls.MetroLabel();
+			this.metroLabel21 = new MetroFramework.Controls.MetroLabel();
+			this.metroLabel22 = new MetroFramework.Controls.MetroLabel();
+			this.txtNumGazeSmth = new System.Windows.Forms.TextBox();
+			this.groupBox5 = new System.Windows.Forms.GroupBox();
+			this.metroLabel23 = new MetroFramework.Controls.MetroLabel();
+			this.pnlRunMode = new MetroFramework.Controls.MetroPanel();
+			this.metroRadioButton1 = new MetroFramework.Controls.MetroRadioButton();
+			this.metroRadioButton2 = new MetroFramework.Controls.MetroRadioButton();
+			this.metroLabel24 = new MetroFramework.Controls.MetroLabel();
+			this.chkb_nmsPrompt = new System.Windows.Forms.CheckBox();
+			this.krbTabControl2.SuspendLayout();
+			this.tabPageEx1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pbOper)).BeginInit();
-			this.Tabsetting.SuspendLayout();
-			this.groupBox1.SuspendLayout();
-			this.pnlGen.SuspendLayout();
-			this.pnlPsycophysics.SuspendLayout();
-			this.pnlRunMod.SuspendLayout();
-			this.metroPanel1.SuspendLayout();
-			this.pnlPsycology.SuspendLayout();
-			this.pnlErr2.SuspendLayout();
+			this.tabPageEx4.SuspendLayout();
+			this.groupBox2.SuspendLayout();
 			this.pnlErr1.SuspendLayout();
+			this.groupBox3.SuspendLayout();
+			this.metroPanel1.SuspendLayout();
+			this.groupBox4.SuspendLayout();
+			this.groupBox5.SuspendLayout();
+			this.pnlRunMode.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// TabControl_taskoperator
+			// refTimer
 			// 
-			this.TabControl_taskoperator.Controls.Add(this.Tabtask);
-			this.TabControl_taskoperator.Controls.Add(this.Tabsetting);
-			this.TabControl_taskoperator.Location = new System.Drawing.Point(-1, 4);
-			this.TabControl_taskoperator.Name = "TabControl_taskoperator";
-			this.TabControl_taskoperator.SelectedIndex = 1;
-			this.TabControl_taskoperator.Size = new System.Drawing.Size(486, 482);
-			this.TabControl_taskoperator.TabIndex = 5;
-			this.TabControl_taskoperator.UseSelectable = true;
+			this.refTimer.Interval = 30;
+			this.refTimer.Tick += new System.EventHandler(this.refTimer_Tick);
 			// 
-			// Tabtask
+			// krbTabControl2
 			// 
-			this.Tabtask.BackColor = System.Drawing.Color.Maroon;
-			this.Tabtask.Controls.Add(this.btStop);
-			this.Tabtask.Controls.Add(this.btnStart);
-			this.Tabtask.Controls.Add(this.txtbxTask);
-			this.Tabtask.Controls.Add(this.txtSavPath);
-			this.Tabtask.Controls.Add(this.pbOper);
-			this.Tabtask.HorizontalScrollbarBarColor = true;
-			this.Tabtask.HorizontalScrollbarHighlightOnWheel = false;
-			this.Tabtask.HorizontalScrollbarSize = 10;
-			this.Tabtask.Location = new System.Drawing.Point(4, 38);
-			this.Tabtask.Name = "Tabtask";
-			this.Tabtask.Size = new System.Drawing.Size(478, 440);
-			this.Tabtask.TabIndex = 0;
-			this.Tabtask.Text = "Task Selector";
-			this.Tabtask.VerticalScrollbarBarColor = true;
-			this.Tabtask.VerticalScrollbarHighlightOnWheel = false;
-			this.Tabtask.VerticalScrollbarSize = 10;
+			this.krbTabControl2.Alignment = System.Windows.Forms.TabAlignment.Bottom;
+			this.krbTabControl2.Alignments = KRBTabControl.KRBTabControl.TabAlignments.Bottom;
+			this.krbTabControl2.AllowDrop = true;
+			this.krbTabControl2.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(216)))), ((int)(((byte)(201)))));
+			this.krbTabControl2.BackgroundHatcher.HatchType = System.Drawing.Drawing2D.HatchStyle.DashedVertical;
+			this.krbTabControl2.Controls.Add(this.tabPageEx1);
+			this.krbTabControl2.Controls.Add(this.tabPageEx4);
+			this.krbTabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.krbTabControl2.IsCaptionVisible = false;
+			this.krbTabControl2.IsDrawTabSeparator = true;
+			this.krbTabControl2.ItemSize = new System.Drawing.Size(0, 26);
+			this.krbTabControl2.Location = new System.Drawing.Point(0, 0);
+			this.krbTabControl2.Name = "krbTabControl2";
+			this.krbTabControl2.SelectedIndex = 1;
+			this.krbTabControl2.Size = new System.Drawing.Size(489, 490);
+			this.krbTabControl2.TabGradient.ColorEnd = System.Drawing.Color.Gainsboro;
+			this.krbTabControl2.TabIndex = 34;
+			this.krbTabControl2.UpDownStyle = KRBTabControl.KRBTabControl.UpDown32Style.BlackGlass;
 			// 
-			// btStop
+			// tabPageEx1
 			// 
-			this.btStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btStop.BackColor = System.Drawing.SystemColors.ActiveCaption;
-			this.btStop.Enabled = false;
-			this.btStop.ForeColor = System.Drawing.Color.Black;
-			this.btStop.Location = new System.Drawing.Point(275, 409);
-			this.btStop.Name = "btStop";
-			this.btStop.Size = new System.Drawing.Size(111, 28);
-			this.btStop.Style = MetroFramework.MetroColorStyle.White;
-			this.btStop.TabIndex = 9;
-			this.btStop.Text = "Stop Task";
-			this.btStop.UseCustomBackColor = true;
-			this.btStop.UseCustomForeColor = true;
-			this.btStop.UseSelectable = true;
-			this.btStop.UseStyleColors = true;
-			this.btStop.Click += new System.EventHandler(this.btStop_Click);
+			this.tabPageEx1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(216)))), ((int)(((byte)(201)))));
+			this.tabPageEx1.Controls.Add(this.btnStop);
+			this.tabPageEx1.Controls.Add(this.btnStart);
+			this.tabPageEx1.Controls.Add(this.txtSavPath);
+			this.tabPageEx1.Controls.Add(this.txtbxTask);
+			this.tabPageEx1.Controls.Add(this.pbOper);
+			this.tabPageEx1.Font = new System.Drawing.Font("Ebrima", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.tabPageEx1.IsClosable = false;
+			this.tabPageEx1.Location = new System.Drawing.Point(1, 1);
+			this.tabPageEx1.Name = "tabPageEx1";
+			this.tabPageEx1.Size = new System.Drawing.Size(487, 457);
+			this.tabPageEx1.TabIndex = 2;
+			this.tabPageEx1.Text = "Runner";
+			// 
+			// btnStop
+			// 
+			this.btnStop.BackColor = System.Drawing.Color.White;
+			this.btnStop.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+			this.btnStop.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+			this.btnStop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.btnStop.Location = new System.Drawing.Point(277, 406);
+			this.btnStop.Name = "btnStop";
+			this.btnStop.Size = new System.Drawing.Size(108, 34);
+			this.btnStop.TabIndex = 4;
+			this.btnStop.Text = "Stop Task";
+			this.btnStop.UseVisualStyleBackColor = false;
+			this.btnStop.Click += new System.EventHandler(this.btStop_Click);
 			// 
 			// btnStart
 			// 
-			this.btnStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.btnStart.BackColor = System.Drawing.SystemColors.ActiveCaption;
-			this.btnStart.Enabled = false;
-			this.btnStart.ForeColor = System.Drawing.Color.Black;
-			this.btnStart.Location = new System.Drawing.Point(81, 409);
+			this.btnStart.BackColor = System.Drawing.Color.White;
+			this.btnStart.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+			this.btnStart.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+			this.btnStart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.btnStart.Location = new System.Drawing.Point(86, 406);
 			this.btnStart.Name = "btnStart";
-			this.btnStart.Size = new System.Drawing.Size(111, 28);
-			this.btnStart.Style = MetroFramework.MetroColorStyle.White;
-			this.btnStart.TabIndex = 7;
-			this.btnStart.Text = "Run Task";
-			this.btnStart.UseCustomBackColor = true;
-			this.btnStart.UseCustomForeColor = true;
-			this.btnStart.UseSelectable = true;
-			this.btnStart.UseStyleColors = true;
+			this.btnStart.Size = new System.Drawing.Size(108, 34);
+			this.btnStart.TabIndex = 3;
+			this.btnStart.Text = "Start Task";
+			this.btnStart.UseVisualStyleBackColor = false;
 			this.btnStart.Click += new System.EventHandler(this.btnStart_Click_1);
-			// 
-			// txtbxTask
-			// 
-			// 
-			// 
-			// 
-			this.txtbxTask.CustomButton.Image = null;
-			this.txtbxTask.CustomButton.Location = new System.Drawing.Point(450, 1);
-			this.txtbxTask.CustomButton.Name = "";
-			this.txtbxTask.CustomButton.Size = new System.Drawing.Size(21, 21);
-			this.txtbxTask.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-			this.txtbxTask.CustomButton.TabIndex = 1;
-			this.txtbxTask.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-			this.txtbxTask.CustomButton.UseSelectable = true;
-			this.txtbxTask.CustomButton.Visible = false;
-			this.txtbxTask.Lines = new string[0];
-			this.txtbxTask.Location = new System.Drawing.Point(3, 311);
-			this.txtbxTask.MaxLength = 32767;
-			this.txtbxTask.Name = "txtbxTask";
-			this.txtbxTask.PasswordChar = '\0';
-			this.txtbxTask.PromptText = "Select the Task";
-			this.txtbxTask.ScrollBars = System.Windows.Forms.ScrollBars.None;
-			this.txtbxTask.SelectedText = "";
-			this.txtbxTask.SelectionLength = 0;
-			this.txtbxTask.SelectionStart = 0;
-			this.txtbxTask.ShortcutsEnabled = true;
-			this.txtbxTask.Size = new System.Drawing.Size(472, 23);
-			this.txtbxTask.TabIndex = 8;
-			this.txtbxTask.UseSelectable = true;
-			this.txtbxTask.WaterMark = "Select the Task";
-			this.txtbxTask.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-			this.txtbxTask.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
-			this.txtbxTask.Click += new System.EventHandler(this.txtbxTask_Click);
 			// 
 			// txtSavPath
 			// 
@@ -191,7 +155,7 @@
 			// 
 			// 
 			this.txtSavPath.CustomButton.Image = null;
-			this.txtSavPath.CustomButton.Location = new System.Drawing.Point(450, 1);
+			this.txtSavPath.CustomButton.Location = new System.Drawing.Point(458, 1);
 			this.txtSavPath.CustomButton.Name = "";
 			this.txtSavPath.CustomButton.Size = new System.Drawing.Size(21, 21);
 			this.txtSavPath.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
@@ -200,152 +164,214 @@
 			this.txtSavPath.CustomButton.UseSelectable = true;
 			this.txtSavPath.CustomButton.Visible = false;
 			this.txtSavPath.Lines = new string[0];
-			this.txtSavPath.Location = new System.Drawing.Point(2, 353);
+			this.txtSavPath.Location = new System.Drawing.Point(3, 366);
 			this.txtSavPath.MaxLength = 32767;
 			this.txtSavPath.Name = "txtSavPath";
 			this.txtSavPath.PasswordChar = '\0';
-			this.txtSavPath.PromptText = "Path to save eye tracker data";
+			this.txtSavPath.PromptText = "Select Output";
 			this.txtSavPath.ScrollBars = System.Windows.Forms.ScrollBars.None;
 			this.txtSavPath.SelectedText = "";
 			this.txtSavPath.SelectionLength = 0;
 			this.txtSavPath.SelectionStart = 0;
 			this.txtSavPath.ShortcutsEnabled = true;
-			this.txtSavPath.Size = new System.Drawing.Size(472, 23);
-			this.txtSavPath.TabIndex = 6;
+			this.txtSavPath.Size = new System.Drawing.Size(480, 23);
+			this.txtSavPath.TabIndex = 2;
+			this.txtSavPath.UseCustomBackColor = true;
 			this.txtSavPath.UseSelectable = true;
-			this.txtSavPath.WaterMark = "Path to save eye tracker data";
+			this.txtSavPath.WaterMark = "Select Output";
 			this.txtSavPath.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
 			this.txtSavPath.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
-			this.txtSavPath.Click += new System.EventHandler(this.txtSavPath_Click);
+			this.txtSavPath.TextChanged += new System.EventHandler(this.txtPath_Click);
+			this.txtSavPath.Click += new System.EventHandler(this.txtPath_Click);
+			// 
+			// txtbxTask
+			// 
+			// 
+			// 
+			// 
+			this.txtbxTask.CustomButton.Image = null;
+			this.txtbxTask.CustomButton.Location = new System.Drawing.Point(458, 1);
+			this.txtbxTask.CustomButton.Name = "";
+			this.txtbxTask.CustomButton.Size = new System.Drawing.Size(21, 21);
+			this.txtbxTask.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+			this.txtbxTask.CustomButton.TabIndex = 1;
+			this.txtbxTask.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+			this.txtbxTask.CustomButton.UseSelectable = true;
+			this.txtbxTask.CustomButton.Visible = false;
+			this.txtbxTask.Lines = new string[0];
+			this.txtbxTask.Location = new System.Drawing.Point(3, 324);
+			this.txtbxTask.MaxLength = 32767;
+			this.txtbxTask.Name = "txtbxTask";
+			this.txtbxTask.PasswordChar = '\0';
+			this.txtbxTask.PromptText = "Select Task";
+			this.txtbxTask.ScrollBars = System.Windows.Forms.ScrollBars.None;
+			this.txtbxTask.SelectedText = "";
+			this.txtbxTask.SelectionLength = 0;
+			this.txtbxTask.SelectionStart = 0;
+			this.txtbxTask.ShortcutsEnabled = true;
+			this.txtbxTask.Size = new System.Drawing.Size(480, 23);
+			this.txtbxTask.TabIndex = 1;
+			this.txtbxTask.UseCustomBackColor = true;
+			this.txtbxTask.UseSelectable = true;
+			this.txtbxTask.WaterMark = "Select Task";
+			this.txtbxTask.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+			this.txtbxTask.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+			this.txtbxTask.TextChanged += new System.EventHandler(this.txtbxTask_Click);
+			this.txtbxTask.Click += new System.EventHandler(this.txtbxTask_Click);
 			// 
 			// pbOper
 			// 
 			this.pbOper.BackColor = System.Drawing.Color.Gray;
-			this.pbOper.Location = new System.Drawing.Point(3, 16);
+			this.pbOper.Location = new System.Drawing.Point(3, 3);
 			this.pbOper.Name = "pbOper";
-			this.pbOper.Size = new System.Drawing.Size(472, 273);
-			this.pbOper.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-			this.pbOper.TabIndex = 5;
+			this.pbOper.Size = new System.Drawing.Size(480, 300);
+			this.pbOper.TabIndex = 0;
 			this.pbOper.TabStop = false;
 			// 
-			// Tabsetting
+			// tabPageEx4
 			// 
-			this.Tabsetting.Controls.Add(this.groupBox1);
-			this.Tabsetting.Controls.Add(this.pnlGen);
-			this.Tabsetting.Controls.Add(this.pnlRunMod);
-			this.Tabsetting.Controls.Add(this.pnlPsycology);
-			this.Tabsetting.HorizontalScrollbarBarColor = true;
-			this.Tabsetting.HorizontalScrollbarHighlightOnWheel = false;
-			this.Tabsetting.HorizontalScrollbarSize = 10;
-			this.Tabsetting.Location = new System.Drawing.Point(4, 38);
-			this.Tabsetting.Name = "Tabsetting";
-			this.Tabsetting.Size = new System.Drawing.Size(478, 440);
-			this.Tabsetting.Style = MetroFramework.MetroColorStyle.Black;
-			this.Tabsetting.TabIndex = 1;
-			this.Tabsetting.Text = "Task Setting";
-			this.Tabsetting.VerticalScrollbarBarColor = true;
-			this.Tabsetting.VerticalScrollbarHighlightOnWheel = false;
-			this.Tabsetting.VerticalScrollbarSize = 10;
+			this.tabPageEx4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(216)))), ((int)(((byte)(201)))));
+			this.tabPageEx4.Controls.Add(this.groupBox2);
+			this.tabPageEx4.Controls.Add(this.groupBox3);
+			this.tabPageEx4.Controls.Add(this.groupBox4);
+			this.tabPageEx4.Controls.Add(this.groupBox5);
+			this.tabPageEx4.Font = new System.Drawing.Font("Ebrima", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.tabPageEx4.IsClosable = false;
+			this.tabPageEx4.Location = new System.Drawing.Point(1, 1);
+			this.tabPageEx4.Name = "tabPageEx4";
+			this.tabPageEx4.Size = new System.Drawing.Size(487, 457);
+			this.tabPageEx4.TabIndex = 1;
+			this.tabPageEx4.Text = "Settings";
 			// 
-			// groupBox1
+			// groupBox2
 			// 
-			this.groupBox1.BackColor = System.Drawing.Color.White;
-			this.groupBox1.Controls.Add(this.metroLabel11);
-			this.groupBox1.Controls.Add(this.cmbTriableScreen);
-			this.groupBox1.Controls.Add(this.metroLabel9);
-			this.groupBox1.Controls.Add(this.metroLabel10);
-			this.groupBox1.Location = new System.Drawing.Point(238, 6);
-			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(229, 154);
-			this.groupBox1.TabIndex = 28;
-			this.groupBox1.TabStop = false;
+			this.groupBox2.BackColor = System.Drawing.Color.Transparent;
+			this.groupBox2.Controls.Add(this.metroLabel15);
+			this.groupBox2.Controls.Add(this.metroLabel16);
+			this.groupBox2.Controls.Add(this.pnlErr1);
+			this.groupBox2.Enabled = false;
+			this.groupBox2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.groupBox2.Font = new System.Drawing.Font("Ebrima", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.groupBox2.Location = new System.Drawing.Point(247, 138);
+			this.groupBox2.Name = "groupBox2";
+			this.groupBox2.Size = new System.Drawing.Size(238, 183);
+			this.groupBox2.TabIndex = 29;
+			this.groupBox2.TabStop = false;
+			this.groupBox2.Visible = false;
 			// 
-			// metroLabel11
+			// metroLabel15
 			// 
-			this.metroLabel11.AutoSize = true;
-			this.metroLabel11.FontSize = MetroFramework.MetroLabelSize.Small;
-			this.metroLabel11.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-			this.metroLabel11.Location = new System.Drawing.Point(7, 58);
-			this.metroLabel11.Name = "metroLabel11";
-			this.metroLabel11.Size = new System.Drawing.Size(83, 15);
-			this.metroLabel11.Style = MetroFramework.MetroColorStyle.Blue;
-			this.metroLabel11.TabIndex = 84;
-			this.metroLabel11.Text = "Triable Screen:";
-			this.metroLabel11.TextAlign = System.Drawing.ContentAlignment.TopRight;
-			this.metroLabel11.UseCustomBackColor = true;
+			this.metroLabel15.AutoSize = true;
+			this.metroLabel15.FontWeight = MetroFramework.MetroLabelWeight.Regular;
+			this.metroLabel15.Location = new System.Drawing.Point(11, 12);
+			this.metroLabel15.Name = "metroLabel15";
+			this.metroLabel15.Size = new System.Drawing.Size(86, 19);
+			this.metroLabel15.TabIndex = 31;
+			this.metroLabel15.Text = "Error Setting";
+			this.metroLabel15.UseCustomBackColor = true;
 			// 
-			// cmbTriableScreen
+			// metroLabel16
 			// 
-			this.cmbTriableScreen.Font = new System.Drawing.Font("Marlett", 8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(2)), true);
-			this.cmbTriableScreen.FormattingEnabled = true;
-			this.cmbTriableScreen.Items.AddRange(new object[] {
-            "1",
-            "2"});
-			this.cmbTriableScreen.Location = new System.Drawing.Point(145, 52);
-			this.cmbTriableScreen.Name = "cmbTriableScreen";
-			this.cmbTriableScreen.Size = new System.Drawing.Size(70, 25);
-			this.cmbTriableScreen.TabIndex = 83;
-			this.cmbTriableScreen.SelectedIndexChanged += new System.EventHandler(this.cmbTriableScreen_SelectedIndexChanged);
+			this.metroLabel16.AutoSize = true;
+			this.metroLabel16.FontSize = MetroFramework.MetroLabelSize.Tall;
+			this.metroLabel16.FontWeight = MetroFramework.MetroLabelWeight.Bold;
+			this.metroLabel16.Location = new System.Drawing.Point(7, 12);
+			this.metroLabel16.Name = "metroLabel16";
+			this.metroLabel16.Size = new System.Drawing.Size(222, 25);
+			this.metroLabel16.TabIndex = 32;
+			this.metroLabel16.Text = "______________________________";
+			this.metroLabel16.UseCustomBackColor = true;
 			// 
-			// metroLabel9
+			// pnlErr1
 			// 
-			this.metroLabel9.AutoSize = true;
-			this.metroLabel9.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-			this.metroLabel9.Location = new System.Drawing.Point(3, 12);
-			this.metroLabel9.Name = "metroLabel9";
-			this.metroLabel9.Size = new System.Drawing.Size(49, 19);
-			this.metroLabel9.TabIndex = 17;
-			this.metroLabel9.Text = "Screen";
+			this.pnlErr1.Controls.Add(this.chkb_nmsPrompt);
+			this.pnlErr1.Controls.Add(this.chbx_sound);
+			this.pnlErr1.Controls.Add(this.chbx_showarrow);
+			this.pnlErr1.Controls.Add(this.chBx_prompt);
+			this.pnlErr1.Font = new System.Drawing.Font("Ebrima", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.pnlErr1.HorizontalScrollbarBarColor = true;
+			this.pnlErr1.HorizontalScrollbarHighlightOnWheel = false;
+			this.pnlErr1.HorizontalScrollbarSize = 10;
+			this.pnlErr1.Location = new System.Drawing.Point(0, 40);
+			this.pnlErr1.Name = "pnlErr1";
+			this.pnlErr1.Size = new System.Drawing.Size(197, 118);
+			this.pnlErr1.TabIndex = 30;
+			this.pnlErr1.UseCustomBackColor = true;
+			this.pnlErr1.VerticalScrollbarBarColor = true;
+			this.pnlErr1.VerticalScrollbarHighlightOnWheel = false;
+			this.pnlErr1.VerticalScrollbarSize = 10;
 			// 
-			// metroLabel10
+			// chbx_sound
 			// 
-			this.metroLabel10.AutoSize = true;
-			this.metroLabel10.FontSize = MetroFramework.MetroLabelSize.Tall;
-			this.metroLabel10.FontWeight = MetroFramework.MetroLabelWeight.Bold;
-			this.metroLabel10.Location = new System.Drawing.Point(3, 12);
-			this.metroLabel10.Name = "metroLabel10";
-			this.metroLabel10.Size = new System.Drawing.Size(222, 25);
-			this.metroLabel10.TabIndex = 18;
-			this.metroLabel10.Text = "______________________________";
+			this.chbx_sound.AutoSize = true;
+			this.chbx_sound.BackColor = System.Drawing.Color.Transparent;
+			this.chbx_sound.Location = new System.Drawing.Point(15, 82);
+			this.chbx_sound.Name = "chbx_sound";
+			this.chbx_sound.Size = new System.Drawing.Size(98, 19);
+			this.chbx_sound.TabIndex = 10;
+			this.chbx_sound.Text = "Enable Sound";
+			this.chbx_sound.UseVisualStyleBackColor = false;
 			// 
-			// pnlGen
+			// chbx_showarrow
 			// 
-			this.pnlGen.BackColor = System.Drawing.Color.White;
-			this.pnlGen.Controls.Add(this.metroLabel7);
-			this.pnlGen.Controls.Add(this.pnlPsycophysics);
-			this.pnlGen.Controls.Add(this.metroLabel8);
-			this.pnlGen.Location = new System.Drawing.Point(3, 6);
-			this.pnlGen.Name = "pnlGen";
-			this.pnlGen.Size = new System.Drawing.Size(229, 154);
-			this.pnlGen.TabIndex = 27;
-			this.pnlGen.TabStop = false;
+			this.chbx_showarrow.AutoSize = true;
+			this.chbx_showarrow.BackColor = System.Drawing.Color.Transparent;
+			this.chbx_showarrow.Location = new System.Drawing.Point(15, 57);
+			this.chbx_showarrow.Name = "chbx_showarrow";
+			this.chbx_showarrow.Size = new System.Drawing.Size(96, 19);
+			this.chbx_showarrow.TabIndex = 9;
+			this.chbx_showarrow.Text = "Enable Arrow";
+			this.chbx_showarrow.UseVisualStyleBackColor = false;
 			// 
-			// metroLabel7
+			// chBx_prompt
 			// 
-			this.metroLabel7.AutoSize = true;
-			this.metroLabel7.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-			this.metroLabel7.Location = new System.Drawing.Point(3, 12);
-			this.metroLabel7.Name = "metroLabel7";
-			this.metroLabel7.Size = new System.Drawing.Size(56, 19);
-			this.metroLabel7.TabIndex = 17;
-			this.metroLabel7.Text = "General";
+			this.chBx_prompt.AutoSize = true;
+			this.chBx_prompt.BackColor = System.Drawing.Color.Transparent;
+			this.chBx_prompt.Location = new System.Drawing.Point(15, 9);
+			this.chBx_prompt.Name = "chBx_prompt";
+			this.chBx_prompt.Size = new System.Drawing.Size(103, 19);
+			this.chBx_prompt.TabIndex = 8;
+			this.chBx_prompt.Text = "Enable Prompt";
+			this.chBx_prompt.UseVisualStyleBackColor = false;
 			// 
-			// pnlPsycophysics
+			// groupBox3
 			// 
-			this.pnlPsycophysics.Controls.Add(this.chbuseMouseNextFrm);
-			this.pnlPsycophysics.Controls.Add(this.metroLabel12);
-			this.pnlPsycophysics.Controls.Add(this.chbx_useMouseGaze);
-			this.pnlPsycophysics.Controls.Add(this.txtNumGazeSmth);
-			this.pnlPsycophysics.HorizontalScrollbarBarColor = true;
-			this.pnlPsycophysics.HorizontalScrollbarHighlightOnWheel = false;
-			this.pnlPsycophysics.HorizontalScrollbarSize = 10;
-			this.pnlPsycophysics.Location = new System.Drawing.Point(11, 40);
-			this.pnlPsycophysics.Name = "pnlPsycophysics";
-			this.pnlPsycophysics.Size = new System.Drawing.Size(205, 105);
-			this.pnlPsycophysics.TabIndex = 16;
-			this.pnlPsycophysics.VerticalScrollbarBarColor = true;
-			this.pnlPsycophysics.VerticalScrollbarHighlightOnWheel = false;
-			this.pnlPsycophysics.VerticalScrollbarSize = 10;
+			this.groupBox3.BackColor = System.Drawing.Color.Transparent;
+			this.groupBox3.Controls.Add(this.metroLabel17);
+			this.groupBox3.Controls.Add(this.metroPanel1);
+			this.groupBox3.Controls.Add(this.metroLabel18);
+			this.groupBox3.Location = new System.Drawing.Point(247, 3);
+			this.groupBox3.Name = "groupBox3";
+			this.groupBox3.Size = new System.Drawing.Size(238, 129);
+			this.groupBox3.TabIndex = 31;
+			this.groupBox3.TabStop = false;
+			// 
+			// metroLabel17
+			// 
+			this.metroLabel17.AutoSize = true;
+			this.metroLabel17.FontWeight = MetroFramework.MetroLabelWeight.Regular;
+			this.metroLabel17.Location = new System.Drawing.Point(3, 12);
+			this.metroLabel17.Name = "metroLabel17";
+			this.metroLabel17.Size = new System.Drawing.Size(98, 19);
+			this.metroLabel17.TabIndex = 17;
+			this.metroLabel17.Text = "Data Acuistion";
+			this.metroLabel17.UseCustomBackColor = true;
+			// 
+			// metroPanel1
+			// 
+			this.metroPanel1.Controls.Add(this.chbuseMouseNextFrm);
+			this.metroPanel1.Controls.Add(this.chbx_useMouseGaze);
+			this.metroPanel1.HorizontalScrollbarBarColor = true;
+			this.metroPanel1.HorizontalScrollbarHighlightOnWheel = false;
+			this.metroPanel1.HorizontalScrollbarSize = 10;
+			this.metroPanel1.Location = new System.Drawing.Point(15, 40);
+			this.metroPanel1.Name = "metroPanel1";
+			this.metroPanel1.Size = new System.Drawing.Size(205, 73);
+			this.metroPanel1.TabIndex = 16;
+			this.metroPanel1.UseCustomBackColor = true;
+			this.metroPanel1.VerticalScrollbarBarColor = true;
+			this.metroPanel1.VerticalScrollbarHighlightOnWheel = false;
+			this.metroPanel1.VerticalScrollbarSize = 10;
 			// 
 			// chbuseMouseNextFrm
 			// 
@@ -355,21 +381,8 @@
 			this.chbuseMouseNextFrm.Size = new System.Drawing.Size(198, 15);
 			this.chbuseMouseNextFrm.TabIndex = 19;
 			this.chbuseMouseNextFrm.Text = "Use mouse click to go next frame";
+			this.chbuseMouseNextFrm.UseCustomBackColor = true;
 			this.chbuseMouseNextFrm.UseSelectable = true;
-			// 
-			// metroLabel12
-			// 
-			this.metroLabel12.AutoSize = true;
-			this.metroLabel12.FontSize = MetroFramework.MetroLabelSize.Small;
-			this.metroLabel12.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-			this.metroLabel12.Location = new System.Drawing.Point(4, 75);
-			this.metroLabel12.Name = "metroLabel12";
-			this.metroLabel12.Size = new System.Drawing.Size(125, 15);
-			this.metroLabel12.Style = MetroFramework.MetroColorStyle.Blue;
-			this.metroLabel12.TabIndex = 85;
-			this.metroLabel12.Text = "Points to smooth gaze";
-			this.metroLabel12.TextAlign = System.Drawing.ContentAlignment.TopRight;
-			this.metroLabel12.UseCustomBackColor = true;
 			// 
 			// chbx_useMouseGaze
 			// 
@@ -379,343 +392,266 @@
 			this.chbx_useMouseGaze.Size = new System.Drawing.Size(151, 15);
 			this.chbx_useMouseGaze.TabIndex = 19;
 			this.chbx_useMouseGaze.Text = "Use mouse to feed gaze ";
+			this.chbx_useMouseGaze.UseCustomBackColor = true;
 			this.chbx_useMouseGaze.UseSelectable = true;
+			// 
+			// metroLabel18
+			// 
+			this.metroLabel18.AutoSize = true;
+			this.metroLabel18.FontSize = MetroFramework.MetroLabelSize.Tall;
+			this.metroLabel18.FontWeight = MetroFramework.MetroLabelWeight.Bold;
+			this.metroLabel18.Location = new System.Drawing.Point(3, 12);
+			this.metroLabel18.Name = "metroLabel18";
+			this.metroLabel18.Size = new System.Drawing.Size(222, 25);
+			this.metroLabel18.TabIndex = 18;
+			this.metroLabel18.Text = "______________________________";
+			this.metroLabel18.UseCustomBackColor = true;
+			// 
+			// groupBox4
+			// 
+			this.groupBox4.BackColor = System.Drawing.Color.Transparent;
+			this.groupBox4.Controls.Add(this.metroLabel19);
+			this.groupBox4.Controls.Add(this.cmbTriableScreen);
+			this.groupBox4.Controls.Add(this.metroLabel20);
+			this.groupBox4.Controls.Add(this.metroLabel21);
+			this.groupBox4.Controls.Add(this.metroLabel22);
+			this.groupBox4.Controls.Add(this.txtNumGazeSmth);
+			this.groupBox4.Location = new System.Drawing.Point(3, 3);
+			this.groupBox4.Name = "groupBox4";
+			this.groupBox4.Size = new System.Drawing.Size(238, 129);
+			this.groupBox4.TabIndex = 32;
+			this.groupBox4.TabStop = false;
+			// 
+			// metroLabel19
+			// 
+			this.metroLabel19.AutoSize = true;
+			this.metroLabel19.FontSize = MetroFramework.MetroLabelSize.Small;
+			this.metroLabel19.FontWeight = MetroFramework.MetroLabelWeight.Regular;
+			this.metroLabel19.Location = new System.Drawing.Point(7, 58);
+			this.metroLabel19.Name = "metroLabel19";
+			this.metroLabel19.Size = new System.Drawing.Size(83, 15);
+			this.metroLabel19.Style = MetroFramework.MetroColorStyle.Blue;
+			this.metroLabel19.TabIndex = 84;
+			this.metroLabel19.Text = "Triable Screen:";
+			this.metroLabel19.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.metroLabel19.UseCustomBackColor = true;
+			// 
+			// cmbTriableScreen
+			// 
+			this.cmbTriableScreen.Font = new System.Drawing.Font("Marlett", 8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(2)), true);
+			this.cmbTriableScreen.FormattingEnabled = true;
+			this.cmbTriableScreen.Items.AddRange(new object[] {
+            "1",
+            "2"});
+			this.cmbTriableScreen.Location = new System.Drawing.Point(172, 52);
+			this.cmbTriableScreen.Name = "cmbTriableScreen";
+			this.cmbTriableScreen.Size = new System.Drawing.Size(43, 25);
+			this.cmbTriableScreen.TabIndex = 83;
+			this.cmbTriableScreen.SelectedIndexChanged += new System.EventHandler(this.cmbTriableScreen_SelectedIndexChanged);
+			// 
+			// metroLabel20
+			// 
+			this.metroLabel20.AutoSize = true;
+			this.metroLabel20.FontWeight = MetroFramework.MetroLabelWeight.Regular;
+			this.metroLabel20.Location = new System.Drawing.Point(3, 12);
+			this.metroLabel20.Name = "metroLabel20";
+			this.metroLabel20.Size = new System.Drawing.Size(49, 19);
+			this.metroLabel20.TabIndex = 17;
+			this.metroLabel20.Text = "Screen";
+			this.metroLabel20.UseCustomBackColor = true;
+			// 
+			// metroLabel21
+			// 
+			this.metroLabel21.AutoSize = true;
+			this.metroLabel21.FontSize = MetroFramework.MetroLabelSize.Small;
+			this.metroLabel21.FontWeight = MetroFramework.MetroLabelWeight.Regular;
+			this.metroLabel21.Location = new System.Drawing.Point(10, 95);
+			this.metroLabel21.Name = "metroLabel21";
+			this.metroLabel21.Size = new System.Drawing.Size(125, 15);
+			this.metroLabel21.Style = MetroFramework.MetroColorStyle.Blue;
+			this.metroLabel21.TabIndex = 85;
+			this.metroLabel21.Text = "Points to smooth gaze";
+			this.metroLabel21.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			this.metroLabel21.UseCustomBackColor = true;
+			// 
+			// metroLabel22
+			// 
+			this.metroLabel22.AutoSize = true;
+			this.metroLabel22.FontSize = MetroFramework.MetroLabelSize.Tall;
+			this.metroLabel22.FontWeight = MetroFramework.MetroLabelWeight.Bold;
+			this.metroLabel22.Location = new System.Drawing.Point(3, 12);
+			this.metroLabel22.Name = "metroLabel22";
+			this.metroLabel22.Size = new System.Drawing.Size(222, 25);
+			this.metroLabel22.TabIndex = 18;
+			this.metroLabel22.Text = "______________________________";
+			this.metroLabel22.UseCustomBackColor = true;
 			// 
 			// txtNumGazeSmth
 			// 
-			this.txtNumGazeSmth.Location = new System.Drawing.Point(150, 70);
+			this.txtNumGazeSmth.Location = new System.Drawing.Point(172, 90);
 			this.txtNumGazeSmth.Name = "txtNumGazeSmth";
-			this.txtNumGazeSmth.Size = new System.Drawing.Size(43, 22);
+			this.txtNumGazeSmth.Size = new System.Drawing.Size(43, 23);
 			this.txtNumGazeSmth.TabIndex = 16;
 			// 
-			// metroLabel8
+			// groupBox5
 			// 
-			this.metroLabel8.AutoSize = true;
-			this.metroLabel8.FontSize = MetroFramework.MetroLabelSize.Tall;
-			this.metroLabel8.FontWeight = MetroFramework.MetroLabelWeight.Bold;
-			this.metroLabel8.Location = new System.Drawing.Point(3, 12);
-			this.metroLabel8.Name = "metroLabel8";
-			this.metroLabel8.Size = new System.Drawing.Size(222, 25);
-			this.metroLabel8.TabIndex = 18;
-			this.metroLabel8.Text = "______________________________";
+			this.groupBox5.BackColor = System.Drawing.Color.Transparent;
+			this.groupBox5.Controls.Add(this.metroLabel23);
+			this.groupBox5.Controls.Add(this.pnlRunMode);
+			this.groupBox5.Controls.Add(this.metroLabel24);
+			this.groupBox5.Enabled = false;
+			this.groupBox5.Location = new System.Drawing.Point(3, 138);
+			this.groupBox5.Name = "groupBox5";
+			this.groupBox5.Size = new System.Drawing.Size(238, 183);
+			this.groupBox5.TabIndex = 30;
+			this.groupBox5.TabStop = false;
+			this.groupBox5.Visible = false;
 			// 
-			// pnlRunMod
+			// metroLabel23
 			// 
-			this.pnlRunMod.BackColor = System.Drawing.Color.White;
-			this.pnlRunMod.Controls.Add(this.metroLabel1);
-			this.pnlRunMod.Controls.Add(this.metroPanel1);
-			this.pnlRunMod.Controls.Add(this.metroLabel2);
-			this.pnlRunMod.Enabled = false;
-			this.pnlRunMod.Location = new System.Drawing.Point(3, 166);
-			this.pnlRunMod.Name = "pnlRunMod";
-			this.pnlRunMod.Size = new System.Drawing.Size(229, 271);
-			this.pnlRunMod.TabIndex = 26;
-			this.pnlRunMod.TabStop = false;
-			this.pnlRunMod.Visible = false;
+			this.metroLabel23.AutoSize = true;
+			this.metroLabel23.FontWeight = MetroFramework.MetroLabelWeight.Regular;
+			this.metroLabel23.Location = new System.Drawing.Point(7, 12);
+			this.metroLabel23.Name = "metroLabel23";
+			this.metroLabel23.Size = new System.Drawing.Size(100, 19);
+			this.metroLabel23.TabIndex = 6;
+			this.metroLabel23.Text = "Running Mode";
+			this.metroLabel23.UseCustomBackColor = true;
 			// 
-			// metroLabel1
+			// pnlRunMode
 			// 
-			this.metroLabel1.AutoSize = true;
-			this.metroLabel1.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-			this.metroLabel1.Location = new System.Drawing.Point(7, 12);
-			this.metroLabel1.Name = "metroLabel1";
-			this.metroLabel1.Size = new System.Drawing.Size(100, 19);
-			this.metroLabel1.TabIndex = 6;
-			this.metroLabel1.Text = "Running Mode";
+			this.pnlRunMode.Controls.Add(this.metroRadioButton1);
+			this.pnlRunMode.Controls.Add(this.metroRadioButton2);
+			this.pnlRunMode.HorizontalScrollbarBarColor = true;
+			this.pnlRunMode.HorizontalScrollbarHighlightOnWheel = false;
+			this.pnlRunMode.HorizontalScrollbarSize = 10;
+			this.pnlRunMode.Location = new System.Drawing.Point(11, 40);
+			this.pnlRunMode.Name = "pnlRunMode";
+			this.pnlRunMode.Size = new System.Drawing.Size(200, 78);
+			this.pnlRunMode.TabIndex = 5;
+			this.pnlRunMode.UseCustomBackColor = true;
+			this.pnlRunMode.VerticalScrollbarBarColor = true;
+			this.pnlRunMode.VerticalScrollbarHighlightOnWheel = false;
+			this.pnlRunMode.VerticalScrollbarSize = 10;
 			// 
-			// metroPanel1
+			// metroRadioButton1
 			// 
-			this.metroPanel1.Controls.Add(this.rbtn_ccttask);
-			this.metroPanel1.Controls.Add(this.rbtn_normalreward);
-			this.metroPanel1.HorizontalScrollbarBarColor = true;
-			this.metroPanel1.HorizontalScrollbarHighlightOnWheel = false;
-			this.metroPanel1.HorizontalScrollbarSize = 10;
-			this.metroPanel1.Location = new System.Drawing.Point(11, 40);
-			this.metroPanel1.Name = "metroPanel1";
-			this.metroPanel1.Size = new System.Drawing.Size(200, 105);
-			this.metroPanel1.TabIndex = 5;
-			this.metroPanel1.VerticalScrollbarBarColor = true;
-			this.metroPanel1.VerticalScrollbarHighlightOnWheel = false;
-			this.metroPanel1.VerticalScrollbarSize = 10;
+			this.metroRadioButton1.AutoSize = true;
+			this.metroRadioButton1.Location = new System.Drawing.Point(3, 43);
+			this.metroRadioButton1.Name = "metroRadioButton1";
+			this.metroRadioButton1.Size = new System.Drawing.Size(118, 15);
+			this.metroRadioButton1.TabIndex = 4;
+			this.metroRadioButton1.Text = "Recursive running";
+			this.metroRadioButton1.UseCustomBackColor = true;
+			this.metroRadioButton1.UseSelectable = true;
 			// 
-			// rbtn_ccttask
+			// metroRadioButton2
 			// 
-			this.rbtn_ccttask.AutoSize = true;
-			this.rbtn_ccttask.Location = new System.Drawing.Point(6, 57);
-			this.rbtn_ccttask.Name = "rbtn_ccttask";
-			this.rbtn_ccttask.Size = new System.Drawing.Size(118, 15);
-			this.rbtn_ccttask.TabIndex = 4;
-			this.rbtn_ccttask.Text = "Recursive running";
-			this.rbtn_ccttask.UseSelectable = true;
+			this.metroRadioButton2.AutoSize = true;
+			this.metroRadioButton2.Location = new System.Drawing.Point(3, 13);
+			this.metroRadioButton2.Name = "metroRadioButton2";
+			this.metroRadioButton2.Size = new System.Drawing.Size(108, 15);
+			this.metroRadioButton2.TabIndex = 3;
+			this.metroRadioButton2.Text = "Normal Reward ";
+			this.metroRadioButton2.UseCustomBackColor = true;
+			this.metroRadioButton2.UseSelectable = true;
 			// 
-			// rbtn_normalreward
+			// metroLabel24
 			// 
-			this.rbtn_normalreward.AutoSize = true;
-			this.rbtn_normalreward.Location = new System.Drawing.Point(6, 27);
-			this.rbtn_normalreward.Name = "rbtn_normalreward";
-			this.rbtn_normalreward.Size = new System.Drawing.Size(105, 15);
-			this.rbtn_normalreward.TabIndex = 3;
-			this.rbtn_normalreward.Text = "Normal reward ";
-			this.rbtn_normalreward.UseSelectable = true;
-			// 
-			// metroLabel2
-			// 
-			this.metroLabel2.AutoSize = true;
-			this.metroLabel2.FontSize = MetroFramework.MetroLabelSize.Tall;
-			this.metroLabel2.FontWeight = MetroFramework.MetroLabelWeight.Bold;
-			this.metroLabel2.Location = new System.Drawing.Point(7, 12);
-			this.metroLabel2.Name = "metroLabel2";
-			this.metroLabel2.Size = new System.Drawing.Size(222, 25);
-			this.metroLabel2.TabIndex = 7;
-			this.metroLabel2.Text = "______________________________";
-			// 
-			// pnlPsycology
-			// 
-			this.pnlPsycology.BackColor = System.Drawing.Color.White;
-			this.pnlPsycology.Controls.Add(this.metroLabel5);
-			this.pnlPsycology.Controls.Add(this.pnlErr2);
-			this.pnlPsycology.Controls.Add(this.metroLabel6);
-			this.pnlPsycology.Controls.Add(this.metroLabel3);
-			this.pnlPsycology.Controls.Add(this.metroLabel4);
-			this.pnlPsycology.Controls.Add(this.pnlErr1);
-			this.pnlPsycology.Enabled = false;
-			this.pnlPsycology.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.pnlPsycology.Font = new System.Drawing.Font("Ebrima", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.pnlPsycology.Location = new System.Drawing.Point(238, 166);
-			this.pnlPsycology.Name = "pnlPsycology";
-			this.pnlPsycology.Size = new System.Drawing.Size(240, 274);
-			this.pnlPsycology.TabIndex = 25;
-			this.pnlPsycology.TabStop = false;
-			this.pnlPsycology.Visible = false;
-			// 
-			// metroLabel5
-			// 
-			this.metroLabel5.AutoSize = true;
-			this.metroLabel5.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-			this.metroLabel5.Location = new System.Drawing.Point(19, 158);
-			this.metroLabel5.Name = "metroLabel5";
-			this.metroLabel5.Size = new System.Drawing.Size(85, 19);
-			this.metroLabel5.TabIndex = 34;
-			this.metroLabel5.Text = "Near_Misses";
-			// 
-			// pnlErr2
-			// 
-			this.pnlErr2.Controls.Add(this.chkb_nmsSound);
-			this.pnlErr2.Controls.Add(this.chkb_nmsPrompt);
-			this.pnlErr2.Controls.Add(this.chbx_NMshowarrow);
-			this.pnlErr2.Font = new System.Drawing.Font("Ebrima", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.pnlErr2.HorizontalScrollbarBarColor = true;
-			this.pnlErr2.HorizontalScrollbarHighlightOnWheel = false;
-			this.pnlErr2.HorizontalScrollbarSize = 10;
-			this.pnlErr2.Location = new System.Drawing.Point(19, 186);
-			this.pnlErr2.Name = "pnlErr2";
-			this.pnlErr2.Size = new System.Drawing.Size(196, 75);
-			this.pnlErr2.TabIndex = 33;
-			this.pnlErr2.VerticalScrollbarBarColor = true;
-			this.pnlErr2.VerticalScrollbarHighlightOnWheel = false;
-			this.pnlErr2.VerticalScrollbarSize = 10;
-			// 
-			// chkb_nmsSound
-			// 
-			this.chkb_nmsSound.AutoSize = true;
-			this.chkb_nmsSound.BackColor = System.Drawing.Color.White;
-			this.chkb_nmsSound.Location = new System.Drawing.Point(18, 53);
-			this.chkb_nmsSound.Name = "chkb_nmsSound";
-			this.chkb_nmsSound.Size = new System.Drawing.Size(97, 19);
-			this.chkb_nmsSound.TabIndex = 12;
-			this.chkb_nmsSound.Text = "Enable sound";
-			this.chkb_nmsSound.UseVisualStyleBackColor = false;
+			this.metroLabel24.AutoSize = true;
+			this.metroLabel24.FontSize = MetroFramework.MetroLabelSize.Tall;
+			this.metroLabel24.FontWeight = MetroFramework.MetroLabelWeight.Bold;
+			this.metroLabel24.Location = new System.Drawing.Point(7, 12);
+			this.metroLabel24.Name = "metroLabel24";
+			this.metroLabel24.Size = new System.Drawing.Size(222, 25);
+			this.metroLabel24.TabIndex = 7;
+			this.metroLabel24.Text = "______________________________";
+			this.metroLabel24.UseCustomBackColor = true;
 			// 
 			// chkb_nmsPrompt
 			// 
 			this.chkb_nmsPrompt.AutoSize = true;
-			this.chkb_nmsPrompt.BackColor = System.Drawing.Color.White;
-			this.chkb_nmsPrompt.Location = new System.Drawing.Point(18, 7);
+			this.chkb_nmsPrompt.BackColor = System.Drawing.Color.Transparent;
+			this.chkb_nmsPrompt.Location = new System.Drawing.Point(15, 33);
 			this.chkb_nmsPrompt.Name = "chkb_nmsPrompt";
-			this.chkb_nmsPrompt.Size = new System.Drawing.Size(103, 19);
-			this.chkb_nmsPrompt.TabIndex = 11;
-			this.chkb_nmsPrompt.Text = "Enable prompt";
+			this.chkb_nmsPrompt.Size = new System.Drawing.Size(169, 19);
+			this.chkb_nmsPrompt.TabIndex = 12;
+			this.chkb_nmsPrompt.Text = "Enable Near Misses Prompt";
 			this.chkb_nmsPrompt.UseVisualStyleBackColor = false;
-			// 
-			// chbx_NMshowarrow
-			// 
-			this.chbx_NMshowarrow.AutoSize = true;
-			this.chbx_NMshowarrow.BackColor = System.Drawing.Color.White;
-			this.chbx_NMshowarrow.Location = new System.Drawing.Point(18, 30);
-			this.chbx_NMshowarrow.Name = "chbx_NMshowarrow";
-			this.chbx_NMshowarrow.Size = new System.Drawing.Size(88, 19);
-			this.chbx_NMshowarrow.TabIndex = 8;
-			this.chbx_NMshowarrow.Text = "Show arrow";
-			this.chbx_NMshowarrow.UseVisualStyleBackColor = false;
-			// 
-			// metroLabel6
-			// 
-			this.metroLabel6.AutoSize = true;
-			this.metroLabel6.FontSize = MetroFramework.MetroLabelSize.Tall;
-			this.metroLabel6.FontWeight = MetroFramework.MetroLabelWeight.Bold;
-			this.metroLabel6.Location = new System.Drawing.Point(11, 158);
-			this.metroLabel6.Name = "metroLabel6";
-			this.metroLabel6.Size = new System.Drawing.Size(187, 25);
-			this.metroLabel6.TabIndex = 35;
-			this.metroLabel6.Text = "_________________________";
-			// 
-			// metroLabel3
-			// 
-			this.metroLabel3.AutoSize = true;
-			this.metroLabel3.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-			this.metroLabel3.Location = new System.Drawing.Point(10, 26);
-			this.metroLabel3.Name = "metroLabel3";
-			this.metroLabel3.Size = new System.Drawing.Size(86, 19);
-			this.metroLabel3.TabIndex = 31;
-			this.metroLabel3.Text = "Error Setting";
-			// 
-			// metroLabel4
-			// 
-			this.metroLabel4.AutoSize = true;
-			this.metroLabel4.FontSize = MetroFramework.MetroLabelSize.Tall;
-			this.metroLabel4.FontWeight = MetroFramework.MetroLabelWeight.Bold;
-			this.metroLabel4.Location = new System.Drawing.Point(10, 26);
-			this.metroLabel4.Name = "metroLabel4";
-			this.metroLabel4.Size = new System.Drawing.Size(222, 25);
-			this.metroLabel4.TabIndex = 32;
-			this.metroLabel4.Text = "______________________________";
-			// 
-			// pnlErr1
-			// 
-			this.pnlErr1.Controls.Add(this.chbx_sound);
-			this.pnlErr1.Controls.Add(this.chbx_showarrow);
-			this.pnlErr1.Controls.Add(this.chBx_prompt);
-			this.pnlErr1.Font = new System.Drawing.Font("Ebrima", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.pnlErr1.HorizontalScrollbarBarColor = true;
-			this.pnlErr1.HorizontalScrollbarHighlightOnWheel = false;
-			this.pnlErr1.HorizontalScrollbarSize = 10;
-			this.pnlErr1.Location = new System.Drawing.Point(18, 54);
-			this.pnlErr1.Name = "pnlErr1";
-			this.pnlErr1.Size = new System.Drawing.Size(197, 91);
-			this.pnlErr1.TabIndex = 30;
-			this.pnlErr1.VerticalScrollbarBarColor = true;
-			this.pnlErr1.VerticalScrollbarHighlightOnWheel = false;
-			this.pnlErr1.VerticalScrollbarSize = 10;
-			// 
-			// chbx_sound
-			// 
-			this.chbx_sound.AutoSize = true;
-			this.chbx_sound.BackColor = System.Drawing.Color.White;
-			this.chbx_sound.Location = new System.Drawing.Point(18, 59);
-			this.chbx_sound.Name = "chbx_sound";
-			this.chbx_sound.Size = new System.Drawing.Size(97, 19);
-			this.chbx_sound.TabIndex = 10;
-			this.chbx_sound.Text = "Enable sound";
-			this.chbx_sound.UseVisualStyleBackColor = false;
-			// 
-			// chbx_showarrow
-			// 
-			this.chbx_showarrow.AutoSize = true;
-			this.chbx_showarrow.BackColor = System.Drawing.Color.White;
-			this.chbx_showarrow.Location = new System.Drawing.Point(18, 36);
-			this.chbx_showarrow.Name = "chbx_showarrow";
-			this.chbx_showarrow.Size = new System.Drawing.Size(94, 19);
-			this.chbx_showarrow.TabIndex = 9;
-			this.chbx_showarrow.Text = "Enable arrow";
-			this.chbx_showarrow.UseVisualStyleBackColor = false;
-			// 
-			// chBx_prompt
-			// 
-			this.chBx_prompt.AutoSize = true;
-			this.chBx_prompt.BackColor = System.Drawing.Color.White;
-			this.chBx_prompt.Location = new System.Drawing.Point(18, 13);
-			this.chBx_prompt.Name = "chBx_prompt";
-			this.chBx_prompt.Size = new System.Drawing.Size(103, 19);
-			this.chBx_prompt.TabIndex = 8;
-			this.chBx_prompt.Text = "Enable prompt";
-			this.chBx_prompt.UseVisualStyleBackColor = false;
-			// 
-			// refTimer
-			// 
-			this.refTimer.Interval = 30;
-			this.refTimer.Tick += new System.EventHandler(this.refTimer_Tick);
 			// 
 			// TaskOperator
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(486, 487);
-			this.Controls.Add(this.TabControl_taskoperator);
+			this.ClientSize = new System.Drawing.Size(489, 490);
+			this.Controls.Add(this.krbTabControl2);
 			this.Font = new System.Drawing.Font("Ebrima", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.KeyPreview = true;
 			this.Name = "TaskOperator";
-			this.Resizable = false;
 			this.Text = "Task Runner Operator";
 			this.Load += new System.EventHandler(this.TaskOperator_Load);
 			this.Paint += new System.Windows.Forms.PaintEventHandler(this.TaskOperator_Paint);
 			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TaskOperator_KeyDown);
-			this.TabControl_taskoperator.ResumeLayout(false);
-			this.Tabtask.ResumeLayout(false);
+			this.krbTabControl2.ResumeLayout(false);
+			this.tabPageEx1.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.pbOper)).EndInit();
-			this.Tabsetting.ResumeLayout(false);
-			this.groupBox1.ResumeLayout(false);
-			this.groupBox1.PerformLayout();
-			this.pnlGen.ResumeLayout(false);
-			this.pnlGen.PerformLayout();
-			this.pnlPsycophysics.ResumeLayout(false);
-			this.pnlPsycophysics.PerformLayout();
-			this.pnlRunMod.ResumeLayout(false);
-			this.pnlRunMod.PerformLayout();
-			this.metroPanel1.ResumeLayout(false);
-			this.metroPanel1.PerformLayout();
-			this.pnlPsycology.ResumeLayout(false);
-			this.pnlPsycology.PerformLayout();
-			this.pnlErr2.ResumeLayout(false);
-			this.pnlErr2.PerformLayout();
+			this.tabPageEx4.ResumeLayout(false);
+			this.groupBox2.ResumeLayout(false);
+			this.groupBox2.PerformLayout();
 			this.pnlErr1.ResumeLayout(false);
 			this.pnlErr1.PerformLayout();
+			this.groupBox3.ResumeLayout(false);
+			this.groupBox3.PerformLayout();
+			this.metroPanel1.ResumeLayout(false);
+			this.metroPanel1.PerformLayout();
+			this.groupBox4.ResumeLayout(false);
+			this.groupBox4.PerformLayout();
+			this.groupBox5.ResumeLayout(false);
+			this.groupBox5.PerformLayout();
+			this.pnlRunMode.ResumeLayout(false);
+			this.pnlRunMode.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
 
 		#endregion
-
-		private MetroFramework.Controls.MetroTabControl TabControl_taskoperator;
-		private MetroFramework.Controls.MetroTabPage Tabtask;
-		private MetroFramework.Controls.MetroButton btnStart;
-		private MetroFramework.Controls.MetroTextBox txtbxTask;
-		private MetroFramework.Controls.MetroTextBox txtSavPath;
-		private System.Windows.Forms.PictureBox pbOper;
-		private MetroFramework.Controls.MetroTabPage Tabsetting;
-		private MetroFramework.Controls.MetroButton btStop;
 		private System.Windows.Forms.Timer refTimer;
-		private System.Windows.Forms.GroupBox pnlPsycology;
-		private MetroFramework.Controls.MetroLabel metroLabel5;
-		private MetroFramework.Controls.MetroPanel pnlErr2;
-		public System.Windows.Forms.CheckBox chkb_nmsSound;
-		public System.Windows.Forms.CheckBox chkb_nmsPrompt;
-		public System.Windows.Forms.CheckBox chbx_NMshowarrow;
-		private MetroFramework.Controls.MetroLabel metroLabel6;
-		private MetroFramework.Controls.MetroLabel metroLabel3;
-		private MetroFramework.Controls.MetroLabel metroLabel4;
+		private KRBTabControl.KRBTabControl krbTabControl2;
+		private KRBTabControl.TabPageEx tabPageEx4;
+		private System.Windows.Forms.GroupBox groupBox2;
+		private MetroFramework.Controls.MetroLabel metroLabel15;
+		private MetroFramework.Controls.MetroLabel metroLabel16;
 		private MetroFramework.Controls.MetroPanel pnlErr1;
 		public System.Windows.Forms.CheckBox chbx_sound;
 		public System.Windows.Forms.CheckBox chbx_showarrow;
 		public System.Windows.Forms.CheckBox chBx_prompt;
-		private System.Windows.Forms.GroupBox pnlRunMod;
-		private MetroFramework.Controls.MetroLabel metroLabel1;
+		private System.Windows.Forms.GroupBox groupBox3;
+		private MetroFramework.Controls.MetroLabel metroLabel17;
 		private MetroFramework.Controls.MetroPanel metroPanel1;
-		public MetroFramework.Controls.MetroRadioButton rbtn_ccttask;
-		public MetroFramework.Controls.MetroRadioButton rbtn_normalreward;
-		private MetroFramework.Controls.MetroLabel metroLabel2;
-		private System.Windows.Forms.GroupBox pnlGen;
-		private MetroFramework.Controls.MetroLabel metroLabel7;
-		private MetroFramework.Controls.MetroPanel pnlPsycophysics;
-		private System.Windows.Forms.TextBox txtNumGazeSmth;
-		private MetroFramework.Controls.MetroLabel metroLabel8;
-		private System.Windows.Forms.GroupBox groupBox1;
-		private MetroFramework.Controls.MetroLabel metroLabel9;
-		private MetroFramework.Controls.MetroLabel metroLabel10;
-		private MetroFramework.Controls.MetroLabel metroLabel11;
-		private System.Windows.Forms.ComboBox cmbTriableScreen;
-		private MetroFramework.Controls.MetroCheckBox chbx_useMouseGaze;
-		private MetroFramework.Controls.MetroLabel metroLabel12;
 		private MetroFramework.Controls.MetroCheckBox chbuseMouseNextFrm;
+		private MetroFramework.Controls.MetroCheckBox chbx_useMouseGaze;
+		private MetroFramework.Controls.MetroLabel metroLabel18;
+		private System.Windows.Forms.GroupBox groupBox4;
+		private MetroFramework.Controls.MetroLabel metroLabel19;
+		private System.Windows.Forms.ComboBox cmbTriableScreen;
+		private MetroFramework.Controls.MetroLabel metroLabel20;
+		private MetroFramework.Controls.MetroLabel metroLabel21;
+		private MetroFramework.Controls.MetroLabel metroLabel22;
+		private System.Windows.Forms.TextBox txtNumGazeSmth;
+		private System.Windows.Forms.GroupBox groupBox5;
+		private MetroFramework.Controls.MetroLabel metroLabel23;
+		private MetroFramework.Controls.MetroPanel pnlRunMode;
+		public MetroFramework.Controls.MetroRadioButton metroRadioButton1;
+		public MetroFramework.Controls.MetroRadioButton metroRadioButton2;
+		private MetroFramework.Controls.MetroLabel metroLabel24;
+		private KRBTabControl.TabPageEx tabPageEx1;
+		private System.Windows.Forms.PictureBox pbOper;
+		private System.Windows.Forms.Button btnStop;
+		private System.Windows.Forms.Button btnStart;
+		private MetroFramework.Controls.MetroTextBox txtSavPath;
+		private MetroFramework.Controls.MetroTextBox txtbxTask;
+		public System.Windows.Forms.CheckBox chkb_nmsPrompt;
 	}
 }

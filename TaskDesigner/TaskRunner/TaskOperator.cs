@@ -20,7 +20,7 @@ namespace TaskRunning
 	/// Operator can set task running configurtion in setting tab.
 	/// Taskrunner called when start run button pressed.
 	/// </summary>
-	public partial class TaskOperator : MetroForm
+	public partial class TaskOperator : Form
 	{
 		SaveFileDialog sfd = null;
 		TaskRunner runner = null;
@@ -53,17 +53,11 @@ namespace TaskRunning
 				if (chbx_sound.Checked)
 					r.useSound = true;
 
-				if (chkb_nmsSound.Checked)
-					r.nmsUseSound = true;
-
 				if (chbx_useMouseGaze.Checked)
 					r.useCursor = true;
 
 				if (chbx_showarrow.Checked)
 					r.showArrow = true;
-
-				if (chbx_NMshowarrow.Checked)
-					r.nmsShowArrow = true;
 
 				if (chbuseMouseNextFrm.Checked)
 					r.useCursorNextFrm = true;
@@ -119,7 +113,7 @@ namespace TaskRunning
 			{
 				if (!tsk.IsReady)
 				{
-					MetroMessageBox.Show((IWin32Window)this, "Please select correct task!", "Task Runner", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+					MetroMessageBox.Show((IWin32Window)this, "Please select correct task!", "Task Runner", MessageBoxButtons.OK, MessageBoxIcon.Hand, 100);
 					return;
 				}
 				if (txtSavPath.Text == "")
@@ -159,7 +153,7 @@ namespace TaskRunning
 					}
 					tsk.runConf = getRunConfigs;
 					SetControlsLocked();
-					btStop.Enabled = true;
+					btnStop.Enabled = true;
 					txtSavPath.Enabled = false;
 					txtbxTask.Enabled = false;
 					
@@ -219,16 +213,14 @@ namespace TaskRunning
 		{
 			metroPanel1.Enabled = false;
 			pnlErr1.Enabled = false;
-			pnlErr2.Enabled = false;
-			pnlPsycophysics.Enabled = false;
+			pnlRunMode.Enabled = false;
 		}
 
 		private void SetControlsOpened()
 		{
 			metroPanel1.Enabled = true;
 			pnlErr1.Enabled = true;
-			pnlErr2.Enabled = true;
-			pnlPsycophysics.Enabled = true;
+			pnlRunMode.Enabled = true;
 		}
 		
 		private void TaskOperator_Load(object sender, EventArgs e)
@@ -276,11 +268,6 @@ namespace TaskRunning
 			setTextTask();
 		}
 
-		private void txtSavPath_Click(object sender, EventArgs e)
-		{
-			txtSavPath.Text = CrtSaveFile();
-		}
-
 		private void TaskOperator_KeyDown(object sender, KeyEventArgs e)
 		{
 			if (e.KeyCode == Keys.Escape)
@@ -300,7 +287,7 @@ namespace TaskRunning
 			}
 			else
 			{
-				if (runner.StopTask())
+				if (runner != null && runner.StopTask())
 				{
 					Stop();
 				}
@@ -363,7 +350,7 @@ namespace TaskRunning
 			txtbxTask.Enabled = true;
 			txtSavPath.Enabled = true;
 			btnStart.Enabled = true;
-			btStop.Enabled = false;
+			btnStop.Enabled = false;
 			Select();
 		}
 	}

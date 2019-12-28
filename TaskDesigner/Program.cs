@@ -22,7 +22,7 @@ namespace Basics
 			}
 			catch(Exception)
 			{
-
+				MessageBox.Show("System Error!");
 			}
         }
     }
