@@ -43,6 +43,7 @@
 			this.metroLabel15 = new MetroFramework.Controls.MetroLabel();
 			this.metroLabel16 = new MetroFramework.Controls.MetroLabel();
 			this.pnlErr1 = new MetroFramework.Controls.MetroPanel();
+			this.chkb_nmsPrompt = new System.Windows.Forms.CheckBox();
 			this.chbx_sound = new System.Windows.Forms.CheckBox();
 			this.chbx_showarrow = new System.Windows.Forms.CheckBox();
 			this.chBx_prompt = new System.Windows.Forms.CheckBox();
@@ -65,7 +66,6 @@
 			this.metroRadioButton1 = new MetroFramework.Controls.MetroRadioButton();
 			this.metroRadioButton2 = new MetroFramework.Controls.MetroRadioButton();
 			this.metroLabel24 = new MetroFramework.Controls.MetroLabel();
-			this.chkb_nmsPrompt = new System.Windows.Forms.CheckBox();
 			this.krbTabControl2.SuspendLayout();
 			this.tabPageEx1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pbOper)).BeginInit();
@@ -99,7 +99,7 @@
 			this.krbTabControl2.ItemSize = new System.Drawing.Size(0, 26);
 			this.krbTabControl2.Location = new System.Drawing.Point(0, 0);
 			this.krbTabControl2.Name = "krbTabControl2";
-			this.krbTabControl2.SelectedIndex = 1;
+			this.krbTabControl2.SelectedIndex = 0;
 			this.krbTabControl2.Size = new System.Drawing.Size(489, 490);
 			this.krbTabControl2.TabGradient.ColorEnd = System.Drawing.Color.Gainsboro;
 			this.krbTabControl2.TabIndex = 34;
@@ -123,11 +123,11 @@
 			// 
 			// btnStop
 			// 
-			this.btnStop.BackColor = System.Drawing.Color.White;
-			this.btnStop.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+			this.btnStop.BackColor = System.Drawing.Color.Red;
+			this.btnStop.FlatAppearance.BorderColor = System.Drawing.Color.BlanchedAlmond;
 			this.btnStop.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
 			this.btnStop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.btnStop.Location = new System.Drawing.Point(277, 406);
+			this.btnStop.Location = new System.Drawing.Point(292, 406);
 			this.btnStop.Name = "btnStop";
 			this.btnStop.Size = new System.Drawing.Size(108, 34);
 			this.btnStop.TabIndex = 4;
@@ -137,8 +137,8 @@
 			// 
 			// btnStart
 			// 
-			this.btnStart.BackColor = System.Drawing.Color.White;
-			this.btnStart.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+			this.btnStart.BackColor = System.Drawing.Color.MediumSpringGreen;
+			this.btnStart.FlatAppearance.BorderColor = System.Drawing.Color.BlanchedAlmond;
 			this.btnStart.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
 			this.btnStart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.btnStart.Location = new System.Drawing.Point(86, 406);
@@ -300,6 +300,17 @@
 			this.pnlErr1.VerticalScrollbarBarColor = true;
 			this.pnlErr1.VerticalScrollbarHighlightOnWheel = false;
 			this.pnlErr1.VerticalScrollbarSize = 10;
+			// 
+			// chkb_nmsPrompt
+			// 
+			this.chkb_nmsPrompt.AutoSize = true;
+			this.chkb_nmsPrompt.BackColor = System.Drawing.Color.Transparent;
+			this.chkb_nmsPrompt.Location = new System.Drawing.Point(15, 33);
+			this.chkb_nmsPrompt.Name = "chkb_nmsPrompt";
+			this.chkb_nmsPrompt.Size = new System.Drawing.Size(169, 19);
+			this.chkb_nmsPrompt.TabIndex = 12;
+			this.chkb_nmsPrompt.Text = "Enable Near Misses Prompt";
+			this.chkb_nmsPrompt.UseVisualStyleBackColor = false;
 			// 
 			// chbx_sound
 			// 
@@ -567,17 +578,6 @@
 			this.metroLabel24.TabIndex = 7;
 			this.metroLabel24.Text = "______________________________";
 			this.metroLabel24.UseCustomBackColor = true;
-			// 
-			// chkb_nmsPrompt
-			// 
-			this.chkb_nmsPrompt.AutoSize = true;
-			this.chkb_nmsPrompt.BackColor = System.Drawing.Color.Transparent;
-			this.chkb_nmsPrompt.Location = new System.Drawing.Point(15, 33);
-			this.chkb_nmsPrompt.Name = "chkb_nmsPrompt";
-			this.chkb_nmsPrompt.Size = new System.Drawing.Size(169, 19);
-			this.chkb_nmsPrompt.TabIndex = 12;
-			this.chkb_nmsPrompt.Text = "Enable Near Misses Prompt";
-			this.chkb_nmsPrompt.UseVisualStyleBackColor = false;
 			// 
 			// TaskOperator
 			// 
