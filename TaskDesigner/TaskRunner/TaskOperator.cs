@@ -1,16 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Basics;
 using MetroFramework;
-using MetroFramework.Forms;
 
 namespace TaskRunning
 {
@@ -340,6 +333,12 @@ namespace TaskRunning
 			BasConfigs.GetScreenConfigs(cmbTriableScreen.SelectedIndex);
 		}
 
+		private void tabPageEx1_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+		{
+
+		}
+
+		
 		public void Stop()
 		{
 			_slideNum = 0;

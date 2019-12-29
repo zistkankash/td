@@ -81,7 +81,7 @@
 			// 
 			// refTimer
 			// 
-			this.refTimer.Interval = 30;
+			this.refTimer.Interval = 15;
 			this.refTimer.Tick += new System.EventHandler(this.refTimer_Tick);
 			// 
 			// krbTabControl2
@@ -120,10 +120,12 @@
 			this.tabPageEx1.Size = new System.Drawing.Size(487, 457);
 			this.tabPageEx1.TabIndex = 2;
 			this.tabPageEx1.Text = "Runner";
+			this.tabPageEx1.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.tabPageEx1_PreviewKeyDown);
 			// 
 			// btnStop
 			// 
 			this.btnStop.BackColor = System.Drawing.Color.Red;
+			this.btnStop.Enabled = false;
 			this.btnStop.FlatAppearance.BorderColor = System.Drawing.Color.BlanchedAlmond;
 			this.btnStop.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
 			this.btnStop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -138,6 +140,7 @@
 			// btnStart
 			// 
 			this.btnStart.BackColor = System.Drawing.Color.MediumSpringGreen;
+			this.btnStart.Enabled = false;
 			this.btnStart.FlatAppearance.BorderColor = System.Drawing.Color.BlanchedAlmond;
 			this.btnStart.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
 			this.btnStart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -175,13 +178,12 @@
 			this.txtSavPath.SelectionStart = 0;
 			this.txtSavPath.ShortcutsEnabled = true;
 			this.txtSavPath.Size = new System.Drawing.Size(480, 23);
-			this.txtSavPath.TabIndex = 2;
+			this.txtSavPath.TabIndex = 101;
 			this.txtSavPath.UseCustomBackColor = true;
 			this.txtSavPath.UseSelectable = true;
 			this.txtSavPath.WaterMark = "Select Output";
 			this.txtSavPath.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
 			this.txtSavPath.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
-			this.txtSavPath.TextChanged += new System.EventHandler(this.txtPath_Click);
 			this.txtSavPath.Click += new System.EventHandler(this.txtPath_Click);
 			// 
 			// txtbxTask
@@ -210,13 +212,12 @@
 			this.txtbxTask.SelectionStart = 0;
 			this.txtbxTask.ShortcutsEnabled = true;
 			this.txtbxTask.Size = new System.Drawing.Size(480, 23);
-			this.txtbxTask.TabIndex = 1;
+			this.txtbxTask.TabIndex = 100;
 			this.txtbxTask.UseCustomBackColor = true;
 			this.txtbxTask.UseSelectable = true;
 			this.txtbxTask.WaterMark = "Select Task";
 			this.txtbxTask.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
 			this.txtbxTask.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
-			this.txtbxTask.TextChanged += new System.EventHandler(this.txtbxTask_Click);
 			this.txtbxTask.Click += new System.EventHandler(this.txtbxTask_Click);
 			// 
 			// pbOper
