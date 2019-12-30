@@ -61,6 +61,13 @@ namespace TaskRunning
 			}
 		}
 
+		[System.Runtime.InteropServices.DllImport("user32.dll")]
+		public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+		[System.Runtime.InteropServices.DllImport("user32.dll")]
+		public static extern bool ReleaseCapture();
+		public const int WM_NCLBUTTONDOWN = 0xA1;
+		public const int HT_CAPTION = 0x2;
+		
 		public TaskOperator()
 		{
 			InitializeComponent();
@@ -97,7 +104,7 @@ namespace TaskRunning
 
 		private void txtPath_Click(object sender, EventArgs e)
 		{
-			CrtSaveFile();
+			txtSavPath.Text = CrtSaveFile();
 		}
 
 		private void btnStart_Click_1(object sender, EventArgs e)
@@ -128,7 +135,7 @@ namespace TaskRunning
 						else
 							st = false;
 						_stopped = false;
-						shFrame = new PsycophysicsRunner(true ,pbOper.Width, pbOper.Height, tsk.PsycoPhysicsTask, null);
+						shFrame = new PsycophysicsRunner(st ,pbOper.Width, pbOper.Height, tsk.PsycoPhysicsTask, null);
 						shFrame.pupilDataPath = txtSavPath.Text;
 						shFrame.eventDataPath = FileName.UpdateFileName(txtSavPath.Text, "events");
 						shFrame.Show();
@@ -157,6 +164,7 @@ namespace TaskRunning
 				refTimer.Stop();
 				return;
 			}
+			Activate();
 		}
 
 		/// <summary>
@@ -217,10 +225,8 @@ namespace TaskRunning
 		}
 		
 		private void TaskOperator_Load(object sender, EventArgs e)
-		{			
+		{
 			BringToFront();
-			txtbxTask.Select();
-			this.KeyDown += new KeyEventHandler(TaskOperator_KeyDown);
 		}
 
 		private string CrtSaveFile()
@@ -252,7 +258,6 @@ namespace TaskRunning
 			else
 			{
 				MetroMessageBox.Show((IWin32Window)this, "Wrong or Corrupted Task File", "Error", 100);
-				Select();
 			}
 		}
 		
@@ -265,6 +270,11 @@ namespace TaskRunning
 		{
 			if (e.KeyCode == Keys.Escape)
 			{
+				if (!btnStart.Enabled && btnStop.Enabled)
+				{
+					MetroMessageBox.Show((IWin32Window)this, "Please press Stop Task first!");
+					return;
+				}
 				this.Close();
 				e.Handled = true;
 			}
@@ -272,6 +282,7 @@ namespace TaskRunning
 
 		private void btStop_Click(object sender, EventArgs e)
 		{
+			Activate();
 			if (tsk.Type == TaskType.cognitive)
 			{
 				tsk.PsycoPhysicsTask.Brake = true;
@@ -322,23 +333,67 @@ namespace TaskRunning
 				Stop();
 			}
 		}
-
-		private void TaskOperator_Paint(object sender, PaintEventArgs e)
-		{
-			Select();
-		}
-
+		
 		private void cmbTriableScreen_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			BasConfigs.GetScreenConfigs(cmbTriableScreen.SelectedIndex);
 		}
-
-		private void tabPageEx1_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+		
+		private void krbTabControl2_MouseDown(object sender, MouseEventArgs e)
 		{
-
+			if (e.Button == MouseButtons.Left)
+			{
+				ReleaseCapture();
+				SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+			}
 		}
 
+		private void krbTabControl2_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Escape)
+			{
+				if (!btnStart.Enabled && btnStop.Enabled)
+				{
+					MetroMessageBox.Show((IWin32Window)this, "Please press Stop Task first!");
+					return;
+				}
+				this.Close();
+				e.Handled = true;
+			}
+		}
+
+		private void tabPageEx1_MouseDown(object sender, MouseEventArgs e)
+		{
+			if (e.Button == MouseButtons.Left)
+			{
+				ReleaseCapture();
+				SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+			}
+		}
+
+		private void tabPageEx4_MouseDown(object sender, MouseEventArgs e)
+		{
+			if (e.Button == MouseButtons.Left)
+			{
+				ReleaseCapture();
+				SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+			}
+		}
 		
+		private void krbTabControl2_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+		{
+			if (e.KeyCode == Keys.Escape)
+			{
+				if (!btnStart.Enabled && btnStop.Enabled)
+				{
+					MetroMessageBox.Show((IWin32Window)this, "Please press Stop Task first!");
+					return;
+				}
+				this.Close();
+				
+			}
+		}
+
 		public void Stop()
 		{
 			_slideNum = 0;
@@ -350,7 +405,7 @@ namespace TaskRunning
 			txtSavPath.Enabled = true;
 			btnStart.Enabled = true;
 			btnStop.Enabled = false;
-			Select();
+			//Select();
 		}
 	}
 

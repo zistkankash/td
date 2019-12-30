@@ -33,11 +33,11 @@
 			this.refTimer = new System.Windows.Forms.Timer(this.components);
 			this.krbTabControl2 = new KRBTabControl.KRBTabControl();
 			this.tabPageEx1 = new KRBTabControl.TabPageEx();
+			this.pbOper = new System.Windows.Forms.PictureBox();
 			this.btnStop = new System.Windows.Forms.Button();
 			this.btnStart = new System.Windows.Forms.Button();
 			this.txtSavPath = new MetroFramework.Controls.MetroTextBox();
 			this.txtbxTask = new MetroFramework.Controls.MetroTextBox();
-			this.pbOper = new System.Windows.Forms.PictureBox();
 			this.tabPageEx4 = new KRBTabControl.TabPageEx();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.metroLabel15 = new MetroFramework.Controls.MetroLabel();
@@ -95,32 +95,46 @@
 			this.krbTabControl2.Controls.Add(this.tabPageEx4);
 			this.krbTabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.krbTabControl2.IsCaptionVisible = false;
-			this.krbTabControl2.IsDrawTabSeparator = true;
+			this.krbTabControl2.IsDocumentTabStyle = true;
 			this.krbTabControl2.ItemSize = new System.Drawing.Size(0, 26);
 			this.krbTabControl2.Location = new System.Drawing.Point(0, 0);
 			this.krbTabControl2.Name = "krbTabControl2";
 			this.krbTabControl2.SelectedIndex = 0;
 			this.krbTabControl2.Size = new System.Drawing.Size(489, 490);
+			this.krbTabControl2.TabBorderColor = System.Drawing.Color.Gray;
 			this.krbTabControl2.TabGradient.ColorEnd = System.Drawing.Color.Gainsboro;
-			this.krbTabControl2.TabIndex = 34;
+			this.krbTabControl2.TabIndex = 110;
+			this.krbTabControl2.TabStyles = KRBTabControl.KRBTabControl.TabStyle.VS2010;
 			this.krbTabControl2.UpDownStyle = KRBTabControl.KRBTabControl.UpDown32Style.BlackGlass;
+			this.krbTabControl2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.krbTabControl2_KeyDown);
+			this.krbTabControl2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.krbTabControl2_MouseDown);
+			this.krbTabControl2.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.krbTabControl2_PreviewKeyDown);
 			// 
 			// tabPageEx1
 			// 
 			this.tabPageEx1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(216)))), ((int)(((byte)(201)))));
+			this.tabPageEx1.Controls.Add(this.pbOper);
 			this.tabPageEx1.Controls.Add(this.btnStop);
 			this.tabPageEx1.Controls.Add(this.btnStart);
 			this.tabPageEx1.Controls.Add(this.txtSavPath);
 			this.tabPageEx1.Controls.Add(this.txtbxTask);
-			this.tabPageEx1.Controls.Add(this.pbOper);
 			this.tabPageEx1.Font = new System.Drawing.Font("Ebrima", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.tabPageEx1.IsClosable = false;
-			this.tabPageEx1.Location = new System.Drawing.Point(1, 1);
+			this.tabPageEx1.Location = new System.Drawing.Point(1, 5);
 			this.tabPageEx1.Name = "tabPageEx1";
-			this.tabPageEx1.Size = new System.Drawing.Size(487, 457);
+			this.tabPageEx1.Size = new System.Drawing.Size(487, 453);
 			this.tabPageEx1.TabIndex = 2;
 			this.tabPageEx1.Text = "Runner";
-			this.tabPageEx1.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.tabPageEx1_PreviewKeyDown);
+			this.tabPageEx1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tabPageEx1_MouseDown);
+			// 
+			// pbOper
+			// 
+			this.pbOper.BackColor = System.Drawing.Color.Gray;
+			this.pbOper.Location = new System.Drawing.Point(3, 3);
+			this.pbOper.Name = "pbOper";
+			this.pbOper.Size = new System.Drawing.Size(480, 300);
+			this.pbOper.TabIndex = 0;
+			this.pbOper.TabStop = false;
 			// 
 			// btnStop
 			// 
@@ -147,7 +161,7 @@
 			this.btnStart.Location = new System.Drawing.Point(86, 406);
 			this.btnStart.Name = "btnStart";
 			this.btnStart.Size = new System.Drawing.Size(108, 34);
-			this.btnStart.TabIndex = 3;
+			this.btnStart.TabIndex = 1;
 			this.btnStart.Text = "Start Task";
 			this.btnStart.UseVisualStyleBackColor = false;
 			this.btnStart.Click += new System.EventHandler(this.btnStart_Click_1);
@@ -179,6 +193,7 @@
 			this.txtSavPath.ShortcutsEnabled = true;
 			this.txtSavPath.Size = new System.Drawing.Size(480, 23);
 			this.txtSavPath.TabIndex = 101;
+			this.txtSavPath.TabStop = false;
 			this.txtSavPath.UseCustomBackColor = true;
 			this.txtSavPath.UseSelectable = true;
 			this.txtSavPath.WaterMark = "Select Output";
@@ -212,22 +227,13 @@
 			this.txtbxTask.SelectionStart = 0;
 			this.txtbxTask.ShortcutsEnabled = true;
 			this.txtbxTask.Size = new System.Drawing.Size(480, 23);
-			this.txtbxTask.TabIndex = 100;
+			this.txtbxTask.TabIndex = 1;
 			this.txtbxTask.UseCustomBackColor = true;
 			this.txtbxTask.UseSelectable = true;
 			this.txtbxTask.WaterMark = "Select Task";
 			this.txtbxTask.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
 			this.txtbxTask.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
 			this.txtbxTask.Click += new System.EventHandler(this.txtbxTask_Click);
-			// 
-			// pbOper
-			// 
-			this.pbOper.BackColor = System.Drawing.Color.Gray;
-			this.pbOper.Location = new System.Drawing.Point(3, 3);
-			this.pbOper.Name = "pbOper";
-			this.pbOper.Size = new System.Drawing.Size(480, 300);
-			this.pbOper.TabIndex = 0;
-			this.pbOper.TabStop = false;
 			// 
 			// tabPageEx4
 			// 
@@ -238,11 +244,12 @@
 			this.tabPageEx4.Controls.Add(this.groupBox5);
 			this.tabPageEx4.Font = new System.Drawing.Font("Ebrima", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.tabPageEx4.IsClosable = false;
-			this.tabPageEx4.Location = new System.Drawing.Point(1, 1);
+			this.tabPageEx4.Location = new System.Drawing.Point(1, 5);
 			this.tabPageEx4.Name = "tabPageEx4";
-			this.tabPageEx4.Size = new System.Drawing.Size(487, 457);
+			this.tabPageEx4.Size = new System.Drawing.Size(487, 453);
 			this.tabPageEx4.TabIndex = 1;
 			this.tabPageEx4.Text = "Settings";
+			this.tabPageEx4.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tabPageEx4_MouseDown);
 			// 
 			// groupBox2
 			// 
@@ -589,11 +596,9 @@
 			this.Font = new System.Drawing.Font("Ebrima", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-			this.KeyPreview = true;
 			this.Name = "TaskOperator";
 			this.Text = "Task Runner Operator";
 			this.Load += new System.EventHandler(this.TaskOperator_Load);
-			this.Paint += new System.Windows.Forms.PaintEventHandler(this.TaskOperator_Paint);
 			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TaskOperator_KeyDown);
 			this.krbTabControl2.ResumeLayout(false);
 			this.tabPageEx1.ResumeLayout(false);

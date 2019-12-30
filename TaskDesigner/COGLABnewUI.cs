@@ -338,12 +338,7 @@ namespace Basics
 				SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
 			}
 		}
-
-		private void backUpdater_Tick(object sender, EventArgs e)
-		{
-			
-		}
-
+		
 		private void COGLABnewUI_Paint(object sender, PaintEventArgs e)
 		{
 			if (BasConfigs.GetNetStatus() == ETStatus.Connected)

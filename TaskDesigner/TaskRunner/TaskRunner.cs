@@ -519,7 +519,7 @@ namespace TaskRunning
 		{
 			if (e.KeyCode == Keys.Escape)
 			{
-				//this.Close();
+				this.Close();
 			}
 		}
 

@@ -28,9 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(COGLABnewUI));
-			this.backUpdater = new System.Windows.Forms.Timer(this.components);
 			this.pnl_cntrl = new System.Windows.Forms.Panel();
 			this.btnMinmiz = new System.Windows.Forms.Button();
 			this.btnCls = new System.Windows.Forms.Button();
@@ -42,11 +40,6 @@
 			this.btn_psychophysics = new System.Windows.Forms.Button();
 			this.pnl_cntrl.SuspendLayout();
 			this.SuspendLayout();
-			// 
-			// backUpdater
-			// 
-			this.backUpdater.Interval = 40;
-			this.backUpdater.Tick += new System.EventHandler(this.backUpdater_Tick);
 			// 
 			// pnl_cntrl
 			// 
@@ -206,7 +199,6 @@
 		}
 
 		#endregion
-		private System.Windows.Forms.Timer backUpdater;
 		public System.Windows.Forms.Button btn_psychophysics;
 		public System.Windows.Forms.Button btn_setting;
 		public System.Windows.Forms.Button btn_psychology;
