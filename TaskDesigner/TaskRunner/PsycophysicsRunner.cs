@@ -54,7 +54,7 @@ namespace TaskRunning
 		GazeTriple gz;
 		StringBuilder _pupilStringBiulder = new StringBuilder(1000000);
 
-		public PsycophysicsRunner(bool getGaze, int operWidth, int operHeight, PsycophysicTasks RunningTask, Graphics OperatorGraphics)
+		public PsycophysicsRunner(bool getGaze, int operWidth, int operHeight, PsycophysicTasks RunningTask)
 		{
 			InitializeComponent();
 			
@@ -65,11 +65,7 @@ namespace TaskRunning
 				return;
 			}
 			_task = RunningTask;
-			if (getGaze)
-			{
-				_useGaz = true;
-				opFlagGraphics = OperatorGraphics;
-			}
+			_useGaz = getGaze;
 			
 			opFlagWidth = operWidth;
 			opFlagHeight = operHeight;
@@ -511,16 +507,16 @@ namespace TaskRunning
 		void StopRun(bool toClose)
 		{
 			if (_useGaz)
+			{
 				SaveData();
-            if (microTimer != null)
-            {
-                microTimer.Enabled = false;
-                if (_useGaz)
-                {
-                    RunnerUtils.EndGaze();
-                    _eventMicSW.Reset();
-                }
-            }
+				RunnerUtils.EndGaze();
+				_eventMicSW.Reset();
+			}
+			if (microTimer != null)
+			{
+				microTimer.Enabled = false;
+				microTimer.Stop();
+			}
             Timer1.Enabled = false;
            
 			TaskOperator._stopped = true;

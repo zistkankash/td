@@ -47,11 +47,13 @@ namespace Basics
 					return ETStatus.disconnected;
 				}
 				_calibStat = 2;
-				Send((short)Comnd.CalibStat);
-				while (_calibStat == 2)
-				{
-					continue;
-				}
+				if (Send((short)Comnd.CalibStat))
+					while (_calibStat == 2)
+					{
+						continue;
+					}
+				else
+					return ETStatus.disconnected;
 				if (_calibStat == 1)
 					return ETStatus.ready;
 				else
@@ -242,7 +244,7 @@ namespace Basics
 		public void Dispose()
 		{
 			
-			if (GazeTracker != null && GazeTracker.Connected)
+			if (GazeTracker != null)
 			{
 				serverDisposed = true;
 				GazeTracker.Close();
@@ -285,7 +287,8 @@ namespace Basics
 			}
 			catch (SocketException)
 			{
-				MessageBox.Show("TD Sending problem, command is" + cmnd.ToString());
+				MessageBox.Show("TD Sending problem, command is " + cmnd.ToString() + ". Connection Terminated.");
+				Dispose();
 				return false;
 			}
 		}
@@ -297,14 +300,14 @@ namespace Basics
 			try
 			{
 				b1 = BitConverter.GetBytes(cmnd);
-				
 				//Send the message to the server we are currently connected to.
 				GazeTracker.Send(b1);
 				return true;
 			}
 			catch (SocketException)
 			{
-				MessageBox.Show("TD Sending problem, command is" + cmnd.ToString());
+				MessageBox.Show("TD Sending problem, command is " + cmnd.ToString() + ". Connection Terminated.");
+				Dispose();
 				return false;
 			}
 		}	

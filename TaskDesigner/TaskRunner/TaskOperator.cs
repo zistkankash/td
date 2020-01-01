@@ -135,7 +135,7 @@ namespace TaskRunning
 						else
 							st = false;
 						_stopped = false;
-						shFrame = new PsycophysicsRunner(st ,pbOper.Width, pbOper.Height, tsk.PsycoPhysicsTask, null);
+						shFrame = new PsycophysicsRunner(st ,pbOper.Width, pbOper.Height, tsk.PsycoPhysicsTask);
 						shFrame.pupilDataPath = txtSavPath.Text;
 						shFrame.eventDataPath = FileName.UpdateFileName(txtSavPath.Text, "events");
 						shFrame.Show();
@@ -164,7 +164,7 @@ namespace TaskRunning
 				refTimer.Stop();
 				return;
 			}
-			Activate();
+			krbTabControl2.Select();
 		}
 
 		/// <summary>
@@ -226,7 +226,7 @@ namespace TaskRunning
 		
 		private void TaskOperator_Load(object sender, EventArgs e)
 		{
-			BringToFront();
+			krbTabControl2.SelectedIndex = 0;
 		}
 
 		private string CrtSaveFile()
@@ -382,6 +382,11 @@ namespace TaskRunning
 		
 		private void krbTabControl2_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
 		{
+		if(krbTabControl2.SelectedIndex == 1)
+		{
+				krbTabControl2.SelectedIndex = 0;
+				return;
+		}
 			if (e.KeyCode == Keys.Escape)
 			{
 				if (!btnStart.Enabled && btnStop.Enabled)
@@ -392,6 +397,23 @@ namespace TaskRunning
 				this.Close();
 				
 			}
+		}
+
+		private void tabPageEx1_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+		{
+			if (e.IsInputKey)
+				return;
+			if (!btnStart.Enabled && btnStop.Enabled)
+			{
+				MetroMessageBox.Show((IWin32Window)this, "Please press Stop Task first!");
+				return;
+			}
+			this.Close();
+		}
+
+		private void tabPageEx4_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+		{
+			krbTabControl2.SelectedIndex = 0;
 		}
 
 		public void Stop()

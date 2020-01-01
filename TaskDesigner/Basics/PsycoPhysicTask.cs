@@ -447,7 +447,7 @@ namespace Basics
 			else
 				_tsk.SeqRandTaskRunner = 1;
 
-			PsycophysicsRunner ShFrame = new PsycophysicsRunner(false, 0 ,0, _tsk, null);
+			PsycophysicsRunner ShFrame = new PsycophysicsRunner(false, 0 ,0, _tsk);
 
 			ShFrame.Show();
 		}

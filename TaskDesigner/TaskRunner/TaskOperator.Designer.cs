@@ -99,7 +99,7 @@
 			this.krbTabControl2.ItemSize = new System.Drawing.Size(0, 26);
 			this.krbTabControl2.Location = new System.Drawing.Point(0, 0);
 			this.krbTabControl2.Name = "krbTabControl2";
-			this.krbTabControl2.SelectedIndex = 0;
+			this.krbTabControl2.SelectedIndex = 1;
 			this.krbTabControl2.Size = new System.Drawing.Size(489, 490);
 			this.krbTabControl2.TabBorderColor = System.Drawing.Color.Gray;
 			this.krbTabControl2.TabGradient.ColorEnd = System.Drawing.Color.Gainsboro;
@@ -126,6 +126,7 @@
 			this.tabPageEx1.TabIndex = 2;
 			this.tabPageEx1.Text = "Runner";
 			this.tabPageEx1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tabPageEx1_MouseDown);
+			this.tabPageEx1.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.tabPageEx1_PreviewKeyDown);
 			// 
 			// pbOper
 			// 
@@ -250,6 +251,7 @@
 			this.tabPageEx4.TabIndex = 1;
 			this.tabPageEx4.Text = "Settings";
 			this.tabPageEx4.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tabPageEx4_MouseDown);
+			this.tabPageEx4.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.tabPageEx4_PreviewKeyDown);
 			// 
 			// groupBox2
 			// 
