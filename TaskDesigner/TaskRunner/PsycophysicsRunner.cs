@@ -100,7 +100,9 @@ namespace TaskRunning
 			//	opFlagGraphics = Graphics.FromImage(opFlag);
 			
 			NextTrial();
-
+			_dataTask.Clear();
+			_eventData.Clear();
+			_dataTask.AppendLine(BasConfigs._monitor_resolution_x.ToString() + "," + BasConfigs._monitor_resolution_y + ";");
 			//MicroTimerEnable();
 			Timer1.Enabled = true;
 			Timer1.Start();
@@ -607,8 +609,7 @@ namespace TaskRunning
 			if (!e.Handled)
 				if (e.KeyCode == Keys.Escape)
 				{
-					e.Handled = true;
-					Close();
+					StopRun(true);
 				}
 		}
        

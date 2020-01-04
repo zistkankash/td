@@ -229,9 +229,15 @@ namespace Basics
 				_calibStat = 0;
 		}
 		
+		/// <summary>
+		/// Clear gaze buffer and send start gaze command to ET.
+		/// </summary>
+		/// <returns></returns>
 		public bool StartGaze()
 		{
 			_endGaze = false;
+			if (GazeTracker.Available > 0)
+				GazeTracker.Receive(parBuffer);
 			return (Send((short)Comnd.SendGaz));
 		}
 
