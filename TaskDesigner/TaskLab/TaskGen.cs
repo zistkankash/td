@@ -58,7 +58,6 @@ namespace TaskLab
 		public TaskGen()
         {
             InitializeComponent();
-			ResetSlides(-1);
 		}
      
         void TaskGen_Load(object sender, EventArgs e)
@@ -89,6 +88,7 @@ namespace TaskLab
 				if (selectedSlide != -1)
 				{
 					curTask.picList[selectedSlide].BGColor = btnBackgroundCol.BackColor;
+                    pbDesign.Image = curTask.GetOperationFrame(false, selectedSlide);
 
 				}
 			}
@@ -109,7 +109,6 @@ namespace TaskLab
 				return;
 			
 			curTask.Load();
-			TaskDesignConfig();
            
         }
 
@@ -179,14 +178,11 @@ namespace TaskLab
         //// ایجاد پروژه جدید
         void btnNewProject_Click(object sender, EventArgs e)
         {
-			TaskType oldTaskType;
 			if (CheckSave(true))
 			{
 				isManupulated = false;
-				oldTaskType = curTask.Type;
-				selectedSlide = -1;
 				curTask = new MediaTask();
-				TaskDesignConfig();
+                PicturePanelReset(-1);
 			}
 				
         }
@@ -229,32 +225,28 @@ namespace TaskLab
 			}
 		}
 
-        void TaskDesignConfig()
-        {
-             ResetSlides(-1);
-            
-        }
-
 		/// <summary>
 		/// Clears  panels in pnlpic from end to slide with offset id itself and resets piccount to number of slides and selSlide to picCount;
 		/// </summary>
 		void PicturePanelReset(int Offset)
 		{
-			if (picCount == 0)
-				return;
-
+			
 			int i = picCount - 1;
 			{
-				foreach (Control cont in pnlPics.Controls)
-					if (pnlPics.Controls[i].Name.Contains("pnl") && pnlPics.Controls[i].Name != "pnlAddPic")
-					{
-						pnlPics.Controls.Remove(pnlPics.Controls[i]);
-						i--;
-						if (i == Offset)
-							break;
-					}
+				for (; i > Offset;)
+                {
+                    Panel pnl = (Panel)pnlPics.Controls.Find("pnl" + selectedSlide.ToString(), false)[0];
+                    pnlPics.Controls.Remove(pnl);
+                }
+					
 			}
-			picCount = Offset;
+			picCount = Offset + 1;
+            selectedSlide = Offset;
+            while(curTask.picList.Count > picCount)
+            {
+                SetupPb(picCount);
+                picCount++;
+            }
 			pnlAddPic.Location = new Point(5 , 155 * picCount + 5);
 		}
 
@@ -266,17 +258,15 @@ namespace TaskLab
 		void AddPicture()
         {
 			//create empty bitmap with defined color.
-			SetupPb(picCount);
-			
 			MediaEelement p = new MediaEelement(btnBackgroundCol.BackColor, 0); 
-                       
-			picCount++;
+            
 			isManupulated = true;
 			curTask.picList.Add(p);
-			reDraw = true;
-			SelectSlide(picCount - 1);
-			
-		}
+            SetupPb(picCount);
+            pnlAddPic.Location = new Point(pnlAddPic.Location.X,  5 + 155 * (picCount + 1));
+            SelectSlide(picCount);
+            picCount++;
+        }
         
 		bool SetupPb(int index)
         {
@@ -285,7 +275,7 @@ namespace TaskLab
             pnl.Location = pnlAddPic.Location;
             pnl.Size = pnlAddPic.Size;
             pnl.MouseDown += new MouseEventHandler(pnlPic_Click);
-			pnl.BorderStyle = BorderStyle.None;
+            pnl.BorderStyle = BorderStyle.FixedSingle;
 			pnl.BackColor = Color.FromArgb(232,216,201);
             pnl.ContextMenuStrip = ThumbPicsMenu;
 
@@ -323,15 +313,20 @@ namespace TaskLab
             txt.Leave += new EventHandler(txtPicTime_Leave);
             Int32.TryParse(txtPicTime.Text, out slideTime);
 
-            pnl.Name = "pnlPic" + index;
+            pnl.Name = "pnl" + index;
             p.Name = "pb" + index;
             txt.Name = "txtPicTime" + index;
-
-            pnlAddPic.Location = new Point(pnlAddPic.Location.X, pnlAddPic.Location.Y + 160);
+            
            
 			return true;
 		}
-        
+
+        bool UpdateThumbList()
+        {
+            PictureBox pic = (PictureBox)pnlPics.Controls.Find("pb" + selectedSlide.ToString(), false)[0];
+            pic.Image = curTask.picList[selectedSlide].Image;
+            return true;
+        }
 		// پاک کردن اسلایدها
         void RemoveSlide()
         {
@@ -343,26 +338,14 @@ namespace TaskLab
                 if (pnl.Name == "pnlPic" + selectedSlide.ToString())
                 {
 					curTask.picList.RemoveAt(selectedSlide);
-					ResetSlides(selectedSlide - 1);
-					if (picCount > 0)
-						SelectSlide(picCount - 1);
+					SelectSlide(picCount - 1);
 					
 					break;
                 }
             }
         }
                 
-		void ResetSlides(int SlideOffset)
-        {
-			PicturePanelReset(SlideOffset);
-						
-            for (int slide = SlideOffset; slide < curTask.picList.Count; slide++)
-            {
-                SetupPb(slide);
-				picCount++;
-            }
-        }
-       		
+		       		
         //// هنگام کلیک بر روی تصویر
         void pb_Click(object sender, EventArgs e)
         {
@@ -432,8 +415,37 @@ namespace TaskLab
 				}
 			}
 			reDraw = true;
-			 
-			foreach (Control c in pnlPics.Controls)
+			if(curTask.picList[selectedSlide].MediaTaskType == MediaType.Empty)
+            {
+                pbDesign.Visible = true;
+                webBrowser.Visible = false;
+                vlcControl1.Visible = false;
+                pbDesign.Image = curTask.picList[selectedSlide].Image;
+            }
+            if (curTask.picList[selectedSlide].MediaTaskType == MediaType.Image)
+            {
+                pbDesign.Visible = true;
+                webBrowser.Visible = false;
+                vlcControl1.Visible = false;
+                pbDesign.Image = curTask.picList[selectedSlide].Image;
+            }
+            if (curTask.picList[selectedSlide].MediaTaskType == MediaType.Video)
+            {
+                pbDesign.Visible = false;
+                webBrowser.Visible = false;
+                vlcControl1.Visible = true;
+                vlcControl1.BackgroundImage = curTask.picList[selectedSlide].Image;
+            }
+            if (curTask.picList[selectedSlide].MediaTaskType == MediaType.Web)
+            {
+                pbDesign.Visible = true;
+                webBrowser.Visible = true;
+                vlcControl1.Visible = false;
+                
+                webBrowser.BringToFront();
+                webBrowser.Navigate(curTask.picList[selectedSlide].URL);
+            }
+            foreach (Control c in pnlPics.Controls)
 			{
 				if (c.Name == "pnlPic" + oldInd.ToString())
 				{

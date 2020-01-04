@@ -19,7 +19,7 @@ namespace Basics
 		public Color backColor;
 		public bool drawChess = false;
 		
-		Bitmap operTaskImg;
+		public Bitmap operTaskImg;
         int curOperSlide = -1;
         public Size operationSize;
 

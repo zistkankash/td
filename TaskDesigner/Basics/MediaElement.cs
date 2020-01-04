@@ -87,7 +87,7 @@ namespace Basics
 			}
 			if(Path.GetExtension(Address) == ".png" || Path.GetExtension(Address) == ".jpg" || Path.GetExtension(Address) == ".jpeg" || Path.GetExtension(Address) == ".bmp")
 			{
-			if(checkImage())
+			if(CheckImage())
 				medType = MediaType.Image;
 			}
 			if (Path.GetExtension(Address) == ".mp4" || Path.GetExtension(Address) == ".avi" || Path.GetExtension(Address) == ".mov" || Path.GetExtension(Address) == ".asf" || Path.GetExtension(Address) == ".wmv")
@@ -117,7 +117,7 @@ namespace Basics
 			}
 		}
 
-		bool checkImage()
+		bool CheckImage()
 		{
 			try
 			{
@@ -139,6 +139,19 @@ namespace Basics
             havMedia = true;
 			medType = MediaType.Web;
         }
+
+        /// <summary>
+        /// Rendering Image and Empty Media Tasks and update Image variable.
+        /// </summary>
+        public void RenderImage()
+        {
+            if (medType == MediaType.Image)
+                RunnerUtils.MediaPictureRenderer(BGColor, Image, UseTransparency, TransColor, false, ref Image);
+            if (medType == MediaType.Empty)
+                Graphics.FromImage(Image).Clear(BGColor);
+            
+        }
+
 	}
 	public enum MediaType { Empty, Image, Video , Web }
 }
