@@ -117,59 +117,58 @@ namespace TaskRunning
 		{
 			Timer1.Stop();
 			Timer1.Enabled = false;
-			lock (timerLock)
-			{
-				if (_task.Brake)
-				{
-					StopRun(true);
-					return;
-				}
-				
-				#region fixatehappened
 
-				if (!_useGaz)
+			if (_task.Brake)
+			{
+				StopRun(true);
+				return;
+			}
+
+			#region fixatehappened
+
+			if (!_useGaz)
+			{
+				if (!NextFrame())
+					return;
+			}
+
+			else
+			{
+				if (!containfixation)
 				{
 					if (!NextFrame())
 						return;
 				}
-
 				else
 				{
-					if (!containfixation)
+					if (fixatehappened)
 					{
-                        if (!NextFrame())
-                            return;
+						Debug.Write("true fixate falsed");
+						fixatehappened = false;
+						if (FixationRewardType == 2 || FixationRewardType == 4)
+							winSound.Play();
+
+						if (!NextFrame())
+							return;
 					}
 					else
 					{
-						if (fixatehappened)
-						{
-							Debug.Write("true fixate falsed");
-							fixatehappened = false;
-							if (FixationRewardType == 2 || FixationRewardType == 4)
-								winSound.Play();
-                            
-							if (!NextFrame())
-								return;
-						}
-						else
-						{
-							if (FixationRewardType == 3 || FixationRewardType == 4)
-								failSound.Play();
+						if (FixationRewardType == 3 || FixationRewardType == 4)
+							failSound.Play();
 
-							if (!NextTrial())
-								return;
+						if (!NextTrial())
+							return;
 
-						}
 					}
 				}
-
-				#endregion
-				Timer1.Start();
-				Timer1.Enabled = true;
-				//LoopWatch.Restart();
 			}
-			
+
+			#endregion
+			Timer1.Start();
+			Timer1.Enabled = true;
+			//LoopWatch.Restart();
+
+
 			return;
 		}
 
@@ -550,7 +549,7 @@ namespace TaskRunning
 					else
 					{
 						Debug.Write("ROI true" + FixationSW.ElapsedMilliseconds.ToString() + "  " + FixationCenterTime + " " + dist1.ToString() + "\n");
-						
+
 						if (FixationSW.ElapsedMilliseconds >= FixationCenterTime)
 						{
 							Debug.Write("hold " + level.ToString() + " " + frame.ToString() + "\n");
@@ -559,6 +558,8 @@ namespace TaskRunning
 							fixatehappened = true;
 							FixationSW.Reset();
 							InROI = false;
+							Timer1_Tick(null, null);
+
 							return;
 						}
 
@@ -568,16 +569,19 @@ namespace TaskRunning
 				#region else check fixate
 				else
 				{
-					Debug.Write("out : d1 " + FixationSW.ElapsedMilliseconds + " " + FixationCenterTime  + " "+ dist1.ToString() + "\n");
+					Debug.Write("out : d1 " + FixationSW.ElapsedMilliseconds + " " + FixationCenterTime + " " + dist1.ToString() + "\n");
 					if (InROI && FixationSW.ElapsedMilliseconds < FixationCenterTime)
 					{
 						if (AFW)
 							AppendEventData("AFW", _task.AllLevelProp[level][frame].events.abortFixWindow.ToString());
 						InROI = false;
-						
+						fixatehappened = false;
+						FixationSW.Reset();
+						Timer1_Tick(null, null);
+						return;
 					}
-					fixatehappened = false;
-					FixationSW.Reset();
+					
+					
 				}
 				#endregion
 			}

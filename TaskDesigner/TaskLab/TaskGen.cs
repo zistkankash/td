@@ -55,31 +55,10 @@ namespace TaskLab
 		int selectedSlide = 0, slideTime ,picCount;
         
 	
-		public TaskGen(TaskType mod)
+		public TaskGen()
         {
             InitializeComponent();
-			
-			switch (mod)
-			{
-				case TaskType.lab:
-					{
-
-						return;
-						
-					}
-				case TaskType.media:
-					{
-						
-						curTask = new MediaTask();
-						
-						break;
-					}
-				case TaskType.cognitive:
-					{
-						break;
-					}
-			}
-			TaskDesignConfig();
+			ResetSlides(-1);
 		}
      
         void TaskGen_Load(object sender, EventArgs e)
@@ -101,20 +80,18 @@ namespace TaskLab
 		void btnBackGround_Click(object sender, EventArgs e)
         {
             ColorDialog cDilog = new ColorDialog();
-			
+
 			if (cDilog.ShowDialog() == DialogResult.OK)
-            {
+			{
 				//backGround = cDilog.Color;
 				btnBackgroundCol.BackColor = cDilog.Color;
-				if (curTask.Type == TaskType.media)
+
+				if (selectedSlide != -1)
 				{
-					//pbDesign.BackColor = btnBackgroundCol.color;
-					if (selectedSlide != -1)
-						curTask.picList[selectedSlide].BGColor = btnBackgroundCol.BackColor;
-					ResetSlides();
+					curTask.picList[selectedSlide].BGColor = btnBackgroundCol.BackColor;
 
 				}
-            }
+			}
         }
 				
 		void btnSave_Click(object sender, EventArgs e)
@@ -130,7 +107,7 @@ namespace TaskLab
         {
 			if (!CheckSave(true))
 				return;
-			PicturePanelReset();
+			
 			curTask.Load();
 			TaskDesignConfig();
            
@@ -254,26 +231,31 @@ namespace TaskLab
 
         void TaskDesignConfig()
         {
-            pnlPics.Visible = true;
-            selectedSlide = -1;
-            ResetSlides();
-            tmrMain.Start();
+             ResetSlides(-1);
+            
         }
 
 		/// <summary>
-		/// Clears all panels in pnlpic and resets piccount to 0 and selSlide to -1;
+		/// Clears  panels in pnlpic from end to slide with offset id itself and resets piccount to number of slides and selSlide to picCount;
 		/// </summary>
-		void PicturePanelReset()
+		void PicturePanelReset(int Offset)
 		{
-			selectedSlide = -1;
-			picCount = 0;
-			for (int i = pnlPics.Controls.Count - 1; i > 0; i--)
-			{
-				if (pnlPics.Controls[i].Name.Contains("pnl") && pnlPics.Controls[i].Name != "pnlAddPic")
-					pnlPics.Controls.Remove(pnlPics.Controls[i]);
-			}
+			if (picCount == 0)
+				return;
 
-			pnlAddPic.Location = new Point(3 + pnlPics.AutoScrollPosition.X, 5 + pnlPics.AutoScrollPosition.Y);
+			int i = picCount - 1;
+			{
+				foreach (Control cont in pnlPics.Controls)
+					if (pnlPics.Controls[i].Name.Contains("pnl") && pnlPics.Controls[i].Name != "pnlAddPic")
+					{
+						pnlPics.Controls.Remove(pnlPics.Controls[i]);
+						i--;
+						if (i == Offset)
+							break;
+					}
+			}
+			picCount = Offset;
+			pnlAddPic.Location = new Point(5 , 155 * picCount + 5);
 		}
 
         void btnAddPic_Click(object sender, EventArgs e)
@@ -284,48 +266,41 @@ namespace TaskLab
 		void AddPicture()
         {
 			//create empty bitmap with defined color.
-			Size slidSize = SetupPb(picCount);
-			Bitmap b = BitmapManager.TextBitmap("", btnBackgroundCol.BackColor, Brushes.Black, slidSize, 15);
-			MediaEelement p = new MediaEelement(b, null, slideTime);
-            p.BGColor = btnBackgroundCol.BackColor;
-            p.Name = "pic" + picCount.ToString();
+			SetupPb(picCount);
+			
+			MediaEelement p = new MediaEelement(btnBackgroundCol.BackColor, 0); 
+                       
 			picCount++;
 			isManupulated = true;
 			curTask.picList.Add(p);
 			reDraw = true;
 			SelectSlide(picCount - 1);
-			if (!tmrMain.Enabled)
-			{
-				tmrMain.Enabled = true;
-				tmrMain.Start();
-			}
+			
 		}
         
-		Size SetupPb(int index)
+		bool SetupPb(int index)
         {
             Panel pnl = new Panel();
             pnlPics.Controls.Add(pnl);
             pnl.Location = pnlAddPic.Location;
             pnl.Size = pnlAddPic.Size;
-            pnl.Click += new EventHandler(pnlPic_Click);
+            pnl.MouseDown += new MouseEventHandler(pnlPic_Click);
 			pnl.BorderStyle = BorderStyle.None;
-			pnl.BackColor = Color.AliceBlue;
+			pnl.BackColor = Color.FromArgb(232,216,201);
             pnl.ContextMenuStrip = ThumbPicsMenu;
 
-			PictureBox p = new System.Windows.Forms.PictureBox();
+			PictureBox p = new PictureBox();
             Label l = new Label();
             Label lblNumber = new Label();
             TextBox txt = new TextBox();
             
-
             p.Size = btnAddPic.Size;
 			p.Visible = true;
-			
-
-            p.Location = new Point(10, 4);
+			p.Location = new Point(10, 4);
             p.SizeMode = PictureBoxSizeMode.StretchImage;
-            p.Click += new EventHandler(pb_Click);
+            p.MouseDown += new MouseEventHandler(pb_Click);
             p.DoubleClick += new EventHandler(pb_DoubleClick);
+			p.Image = curTask.picList[index].Image;
 			pnl.Controls.Add(p);
 			
             l.Text = "Time:(ms)";
@@ -340,15 +315,9 @@ namespace TaskLab
             lblNumber.Size = new Size(39, 13);
             pnl.Controls.Add(txt);
             txt.Size = txtPicTime.Size;
-			if (curTask.picList.Count > index && curTask.picList[index].Address != null)
-			{
-				txt.Text = curTask.picList[index].Time.ToString();
-				p.Image = curTask.picList[index].Image;
-			}
-			else
-				txt.Text = txtPicTime.Text;
-            
-            txt.Location = txtPicTime.Location;
+			
+			txt.Text = curTask.picList[index].Time.ToString();
+			txt.Location = txtPicTime.Location;
             txt.Click += new EventHandler(txtPicTime_TextChanged);
             
             txt.Leave += new EventHandler(txtPicTime_Leave);
@@ -360,12 +329,11 @@ namespace TaskLab
 
             pnlAddPic.Location = new Point(pnlAddPic.Location.X, pnlAddPic.Location.Y + 160);
            
-			return p.Size;
+			return true;
 		}
         
 		// پاک کردن اسلایدها
-        
-		void RemoveSlide()
+        void RemoveSlide()
         {
 			if (picCount == 0)
 				return;
@@ -375,33 +343,30 @@ namespace TaskLab
                 if (pnl.Name == "pnlPic" + selectedSlide.ToString())
                 {
 					curTask.picList.RemoveAt(selectedSlide);
-					picCount--;
-					ResetSlides();
-                    
-					SelectSlide(picCount - 1);
+					ResetSlides(selectedSlide - 1);
+					if (picCount > 0)
+						SelectSlide(picCount - 1);
+					
 					break;
                 }
             }
         }
-        // رسم اسلایدها درون پنل 
-        
-		void ResetSlides()
+                
+		void ResetSlides(int SlideOffset)
         {
-			PicturePanelReset();
-			picCount = 0;
-			
-            foreach (MediaEelement slide in curTask.picList)
+			PicturePanelReset(SlideOffset);
+						
+            for (int slide = SlideOffset; slide < curTask.picList.Count; slide++)
             {
-                SetupPb(curTask.picList.IndexOf(slide));
+                SetupPb(slide);
 				picCount++;
             }
         }
-       
-		
+       		
         //// هنگام کلیک بر روی تصویر
         void pb_Click(object sender, EventArgs e)
         {
-			System.Windows.Forms.PictureBox pbTemp = (System.Windows.Forms.PictureBox)sender;
+			PictureBox pbTemp = (PictureBox)sender;
 
 			int ind;
             string name = pbTemp.Name;
@@ -427,7 +392,7 @@ namespace TaskLab
                 int index = -1;
                 Int32.TryParse(texts[1], out index);
 				curTask.picList[index].Address = file.FileName;
-				MediaType type = curTask.picList[index].ReformInAddress();
+				MediaType type = curTask.picList[index].VerifyElement();
 				if(type == MediaType.Video)
 				{
 					TextBox text = (TextBox)pnlPics.Controls.Find("txtPicTime" + index.ToString(),true)[0];
@@ -521,11 +486,6 @@ namespace TaskLab
 				txt.Text = curTask.picList[index].Time.ToString();
 		}
 		
-		void pnlSetting_MouseClick(object sender, MouseEventArgs e)
-        {
-			pnlSetting.Visible = false;
-        }
-
 		void TaskGen_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			e.Cancel = !CheckSave(true);
@@ -538,14 +498,14 @@ namespace TaskLab
 			if (selectedSlide == -1)
 			{
 				pbDesign.BackColor = SystemColors.ActiveCaption;
-				tmrMain.Enabled = false;
+				
 				return;
 			}
 
 			PictureBox picB = (PictureBox)pnlPics.Controls.Find("pb" + selectedSlide.ToString(), true)[0];
-			if (vlcControl1.IsPlaying)
-				vlcControl1.Stop();
-			if (curTask.picList[selectedSlide].medType == MediaType.Image)
+			//if (vlcControl1.IsPlaying)
+			//	vlcControl1.Stop();
+			if (curTask.picList[selectedSlide].MediaTaskType == MediaType.Image)
 			{
 				vlcControl1.Visible = false;
 				pbDesign.Visible = true;
@@ -636,34 +596,29 @@ namespace TaskLab
 				curTask.picList[selectedSlide].UseTransparency = false;
 			reDraw = true;
 		}
-
-        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+		
+		private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
             pnlSetting.Visible = true;
         }
 
         private void enterWebURLToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+			URLInput url = new URLInput();
+			if(url.ShowDialog() == DialogResult.OK)
+			{
+				curTask.picList[selectedSlide].MediaTaskType = MediaType.Web;
+				curTask.picList[selectedSlide].URL = url.txtbxURL.Text;
+				url.Dispose(); url = null;
+			}
         }
 
         private void TaskGen_SizeChanged(object sender, EventArgs e)
 		{
 			curTask.operationSize = pbDesign.Size;
+			pnlSetting.Width = pbDesign.Size.Width - 10;
 		}
-
-		void btnHome_MouseEnter(object sender, EventArgs e)
-		{
-			btnHome.Style = MetroColorStyle.Red;
-			tltpHelp.IsBalloon = false;
-			tltpHelp.UseFading = true;
-		}
-
-		void btnHome_MouseLeave(object sender, EventArgs e)
-		{
-			btnHome.Style = MetroColorStyle.White;
-		}
-
+		
 	}
 	
 }

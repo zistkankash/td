@@ -250,7 +250,7 @@ namespace Basics
 		{
 			try
 			{
-				imageLab = new TaskLab.TaskGen(TaskType.media);
+				imageLab = new TaskLab.TaskGen();
 				imageLab.FormClosed += delegate { Show(); Select(); };
 				this.Hide();
 				imageLab.Show();

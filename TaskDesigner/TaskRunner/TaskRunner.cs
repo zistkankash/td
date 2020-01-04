@@ -166,7 +166,7 @@ namespace TaskRunning
 		{
 			brake = false;
 			MediaEelement pic = curTsk.MediaTask.picList[curTsk.MediaTask.showedIndex];
-			if (pic.medType == MediaType.Video)
+			if (pic.MediaTaskType == MediaType.Video)
 			{
 				pctbxFrm.Visible = false;
 				vlcControl1.Visible = true;

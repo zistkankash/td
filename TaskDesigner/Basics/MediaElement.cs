@@ -24,90 +24,112 @@ namespace Basics
             get { return havMedia; }
             
         }
-
-        public Bitmap Image = null;
+		public Bitmap Image = null;
         public string Address;
         public string URL;
         public int Time;
-        public string Name;
-        public Color BGColor;
+		public Color BGColor;
 		public bool UseTransparency;
 		public Color TransColor;
-		public MediaType medType = MediaType.Image;
-				
-		public MediaEelement(Bitmap im, string add, int t)
+		MediaType medType = MediaType.Image;
+		
+		public MediaType MediaTaskType { get { return medType; }  set { medType = value; } }
+
+		public MediaEelement(Bitmap im, Color BackGroundColor, string add, int t)
         {
             this.Image = im;
             this.Address = add;
             this.Time = t;
+			BGColor = BackGroundColor;
 			this.medType = MediaType.Image;
             if (im == null)
                 havMedia = false;
         }
 
 		/// <summary>
-        /// This constructor used for creating video elements.
-        /// </summary>
-        /// <param name="add"> address of video element.</param>
-        public MediaEelement(string add)
+		/// This constructor used for creating video elements.
+		/// </summary>
+		/// <param name="add"> address of video element.</param>
+		public MediaEelement(string add)
 		{
-			medType = MediaType.Video;
-			Address = add;
-			havMedia = true;
-			Image = GetVideoFrame();
+
+			if (CheckVideo())
+			{
+				medType = MediaType.Video;
+				Address = add;
+				havMedia = true;
+			}
+			else
+			{
+				medType = MediaType.Empty;
+				havMedia = false;
+			}
 		}
 
-		public MediaEelement(Color color, int time, string add)
+		public MediaEelement(Color color, int FrameTime)
 		{
 			medType = MediaType.Image;
             Image = new Bitmap(BasConfigs._monitor_resolution_x, BasConfigs._monitor_resolution_y);
             using (Graphics g = Graphics.FromImage(Image))
                 g.Clear(color);
+			Time = FrameTime;
             BGColor = color;
-			Address = add;
-			Time = time;
-            havMedia = false;
+			havMedia = false;
 		}
 
-		public MediaType ReformInAddress()
+		public MediaType VerifyElement()
 		{
 			if (Address == null)
 			{
 				havMedia = false;
-				medType = MediaType.Image;
+				medType = MediaType.Empty;
 				
 			}
 			if(Path.GetExtension(Address) == ".png" || Path.GetExtension(Address) == ".jpg" || Path.GetExtension(Address) == ".jpeg" || Path.GetExtension(Address) == ".bmp")
 			{
-				havMedia = true;
+			if(checkImage())
 				medType = MediaType.Image;
-				Image = new Bitmap(Address);
 			}
 			if (Path.GetExtension(Address) == ".mp4" || Path.GetExtension(Address) == ".avi" || Path.GetExtension(Address) == ".mov" || Path.GetExtension(Address) == ".asf" || Path.GetExtension(Address) == ".wmv")
 			{
-				havMedia = true;
-				medType = MediaType.Video;
-				GetVideoFrame();
+				CheckVideo();
 			}
 			return medType;
 		}
 
-		public Bitmap GetVideoFrame()
+		bool CheckVideo()
 		{
-			if (!havMedia || medType == MediaType.Image)
-				return null;
-			
-			VideoFileReader r = new VideoFileReader();
-			r.Open(Address);
+			try
+			{
+				VideoFileReader r = new VideoFileReader();
+				r.Open(Address);
+				Image = r.ReadVideoFrame(5);
+				r.Close();
+				r.Dispose();
+				var player = new WindowsMediaPlayer();
+				var clip = player.newMedia(Address);
+				Time = (int)TimeSpan.FromSeconds(clip.duration).TotalMilliseconds;
+				return true;
+			}
+			catch (Exception)
+			{
+				return false;
+			}
+		}
 
-			Image = r.ReadVideoFrame(5);
-			r.Close();
-			r.Dispose();
-            var player = new WindowsMediaPlayer();
-            var clip = player.newMedia(Address);
-            Time = (int)TimeSpan.FromSeconds(clip.duration).TotalMilliseconds;
-
-            return Image;
+		bool checkImage()
+		{
+			try
+			{
+				Image = new Bitmap(Address);
+				havMedia = true;
+				medType = MediaType.Image;
+				return true;
+			}
+			catch(Exception)
+			{
+				return false;
+			}
 		}
 
         public MediaEelement(string URL, int Time)
@@ -115,7 +137,8 @@ namespace Basics
             this.URL = URL;
             this.Time = Time;
             havMedia = true;
+			medType = MediaType.Web;
         }
 	}
-	public enum MediaType { Image , Video , Web  }
+	public enum MediaType { Empty, Image, Video , Web }
 }

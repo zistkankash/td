@@ -18,7 +18,7 @@ namespace Basics
 		public int showedIndex;
 		public Color backColor;
 		public bool drawChess = false;
-		MediaType TaskMediaType = MediaType.Image;
+		
 		Bitmap operTaskImg;
         int curOperSlide = -1;
         public Size operationSize;
@@ -88,7 +88,7 @@ namespace Basics
 						Color bg = Color.FromArgb(r, g, b);
 						int time;
 						Int32.TryParse(s[4], out time);
-						MediaEelement pic = new MediaEelement(null, null, time);
+						MediaEelement pic = new MediaEelement(bg, time);
 						pic.BGColor = bg;
 						picList.Add(pic);
 					}
@@ -102,15 +102,14 @@ namespace Basics
 						Int32.TryParse(s[4], out g);
 						Int32.TryParse(s[5], out b);
 						Color bg = Color.FromArgb(r, g, b);
-						Bitmap bit = new Bitmap(address);
-						MediaEelement pic = new MediaEelement(bit, address, time);
+						MediaEelement pic = new MediaEelement(address, time);
 						picList.Add(pic);
 					}
 					if (s[0] == "Video:")
 					{
 						MediaEelement pic = new MediaEelement(s[1]);
 						picList.Add(pic);
-						TaskMediaType = MediaType.Video;
+						
 					}
 				}
 				SavingMode = SaveMod.txt;
@@ -152,7 +151,7 @@ namespace Basics
 
 				int time = BitConverter.ToInt32(binTaskFile, binReadIndex);
 				binReadIndex += sizeof(Int32);
-				picList.Add(new MediaEelement(x, Color.FromArgb(R, G, B), time, "image address"));
+				picList.Add(new MediaEelement(Color.FromArgb(R, G, B), time));
 			}
 			//tskImg.Bitmap = picList[0].image;
 			SavingMode = SaveMod.bin;
@@ -200,19 +199,6 @@ namespace Basics
 			return true;
 		}
 		
-		public MediaType GetTaskMediaType()
-		{
-			foreach (MediaEelement pic in picList)
-			{
-				if (pic.medType == MediaType.Video)
-				{
-					TaskMediaType = MediaType.Video;
-					return MediaType.Video;
-				}
-			}
-			return MediaType.Image;
-		}
-
 		/// <summary>
 		/// Saving Image task in bin file 
 		/// </summary>
@@ -223,9 +209,6 @@ namespace Basics
 			{
 				if (base._tskAddress == null)
 				{
-					GetTaskMediaType();
-					if (TaskMediaType == MediaType.Video)
-						tskSavMod = SaveMod.txt;
 					SaveFileDialog path = new SaveFileDialog();
 					if (tskSavMod == SaveMod.txt)
 					{
@@ -254,7 +237,7 @@ namespace Basics
 					}
 					else
 					{
-						if (picList[i].medType == MediaType.Image)
+						if (picList[i].MediaTaskType == MediaType.Image)
 						{
 							savFile.AppendLine("Image:," + picList[i].Address + "," + picList[i].Time.ToString() + "," + picList[i].BGColor.R.ToString() + "," + picList[i].BGColor.G.ToString() + "," + picList[i].BGColor.B.ToString());
 						}

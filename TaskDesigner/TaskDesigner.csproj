@@ -62,11 +62,11 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Accord, Version=3.8.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+    <Reference Include="Accord">
       <HintPath>..\packages\Accord.3.8.0\lib\net45\Accord.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Accord.Video, Version=3.8.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+    <Reference Include="Accord.Video">
       <HintPath>..\packages\Accord.Video.3.8.0\lib\net45\Accord.Video.dll</HintPath>
       <Private>True</Private>
     </Reference>
@@ -456,6 +456,7 @@
     <None Include="Resources\main3-setting_selected_green.png" />
     <None Include="Resources\main3-psycologyselected-green.png" />
     <None Include="Resources\MAINWINDOWBROWN-BIG.png" />
+    <None Include="Resources\lingu-icon-nocolor.png" />
     <Content Include="Resources\netdisconnected.png" />
     <Content Include="Resources\new project.png" />
     <Content Include="Resources\next %282%29.png" />
@@ -464,12 +465,15 @@
     <Content Include="Resources\open.png" />
     <Content Include="Resources\palette.jpg" />
     <Content Include="Resources\picture.png" />
+    <None Include="Resources\psycho-icon-nocolor.png" />
+    <None Include="Resources\psychophy-icon-nocolor.png" />
     <Content Include="Resources\rect2.png" />
     <Content Include="Resources\rectangle %286%29.png" />
     <None Include="Resources\rectangle-psychology_1.png" />
     <Content Include="Resources\rectangle.png" />
     <Content Include="Resources\reset.png" />
     <Content Include="Resources\right-arrow.png" />
+    <None Include="Resources\Run.png" />
     <Content Include="Resources\save.png" />
     <Content Include="Resources\setting.png" />
     <Content Include="Resources\shape.png" />
