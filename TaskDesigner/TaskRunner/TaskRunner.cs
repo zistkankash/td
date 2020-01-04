@@ -170,7 +170,7 @@ namespace TaskRunning
 			{
 				pctbxFrm.Visible = false;
 				vlcControl1.Visible = true;
-				vlcControl1.Play(new FileInfo(pic.address));
+				vlcControl1.Play(new FileInfo(pic.Address));
 				vlcControl1.EndReached += VlcControl1_EndReached;
 				
 			}
@@ -180,11 +180,11 @@ namespace TaskRunning
 					vlcControl1.Stop();
 				vlcControl1.Visible = false;
 				pctbxFrm.Visible = true;
-				RunnerUtils.MediaPictureRenderer(pic.bgColor, pic.image,pic.UseTransparency, pic.TransColor, false, ref _runnerBitmap);
+				RunnerUtils.MediaPictureRenderer(pic.BGColor, pic.Image,pic.UseTransparency, pic.TransColor, false, ref _runnerBitmap);
 				pctbxFrm.Image = _runnerBitmap;
 				
 			}
-			_timeLimit = pic.time;
+			_timeLimit = pic.Time;
 			tskWatch.Restart();
 			return true;
 		}

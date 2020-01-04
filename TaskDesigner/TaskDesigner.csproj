@@ -63,16 +63,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accord, Version=3.8.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\x64\Debug\Accord.dll</HintPath>
+      <HintPath>..\packages\Accord.3.8.0\lib\net45\Accord.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Accord.Video, Version=3.8.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\x64\Debug\Accord.Video.dll</HintPath>
+      <HintPath>..\packages\Accord.Video.3.8.0\lib\net45\Accord.Video.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Accord.Video.FFMPEG.x64, Version=3.8.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\x64\Debug\Accord.Video.FFMPEG.x64.dll</HintPath>
+      <HintPath>..\packages\Accord.Video.FFMPEG.x64.3.8.0\lib\net45\Accord.Video.FFMPEG.x64.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Emgu.CV.DebuggerVisualizers.VS2015, Version=3.4.3.3016, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -234,6 +234,12 @@
     <Compile Include="TaskLab\PsycologyDesigner.Designer.cs">
       <DependentUpon>PsycologyDesigner.cs</DependentUpon>
     </Compile>
+    <Compile Include="TaskLab\URLInput.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TaskLab\URLInput.Designer.cs">
+      <DependentUpon>URLInput.cs</DependentUpon>
+    </Compile>
     <Compile Include="TaskRunner\TaskOperator.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -273,7 +279,7 @@
       <DependentUpon>TaskGen.cs</DependentUpon>
     </Compile>
     <Compile Include="Basics\Node.cs" />
-    <Compile Include="Basics\Picture.cs" />
+    <Compile Include="Basics\MediaElement.cs" />
     <Compile Include="Basics\PsycoPhysicTask.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -321,6 +327,9 @@
     <EmbeddedResource Include="Psychophysics\Setting.resx">
       <DependentUpon>Setting.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="TaskLab\URLInput.resx">
+      <DependentUpon>URLInput.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TaskRunner\PsycophysicsRunner.resx">
       <DependentUpon>PsycophysicsRunner.cs</DependentUpon>
     </EmbeddedResource>
@@ -342,6 +351,7 @@
     <EmbeddedResource Include="TaskRunner\TaskRunner.resx">
       <DependentUpon>TaskRunner.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -493,6 +503,15 @@
     </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\Accord.3.8.0\build\Accord.targets" Condition="Exists('..\packages\Accord.3.8.0\build\Accord.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Accord.3.8.0\build\Accord.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Accord.3.8.0\build\Accord.targets'))" />
+    <Error Condition="!Exists('..\packages\Accord.Video.FFMPEG.x64.3.8.0\build\Accord.Video.FFMPEG.x64.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Accord.Video.FFMPEG.x64.3.8.0\build\Accord.Video.FFMPEG.x64.targets'))" />
+  </Target>
+  <Import Project="..\packages\Accord.Video.FFMPEG.x64.3.8.0\build\Accord.Video.FFMPEG.x64.targets" Condition="Exists('..\packages\Accord.Video.FFMPEG.x64.3.8.0\build\Accord.Video.FFMPEG.x64.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

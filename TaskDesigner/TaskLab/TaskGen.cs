@@ -110,7 +110,7 @@ namespace TaskLab
 				{
 					//pbDesign.BackColor = btnBackgroundCol.color;
 					if (selectedSlide != -1)
-						curTask.picList[selectedSlide].bgColor = btnBackgroundCol.BackColor;
+						curTask.picList[selectedSlide].BGColor = btnBackgroundCol.BackColor;
 					ResetSlides();
 
 				}
@@ -139,7 +139,7 @@ namespace TaskLab
         void btnStart_Click(object sender, EventArgs e)
         {
 			btnStart.TileImage = Resource.stop;
-			vlcControl1.Play(new FileInfo(curTask.picList[selectedSlide].address));
+			vlcControl1.Play(new FileInfo(curTask.picList[selectedSlide].Address));
 		}
 		
         void btnHome_Click(object sender, EventArgs e)
@@ -252,28 +252,13 @@ namespace TaskLab
 			}
 		}
 
-		void TaskDesignConfig()
-		{
-			if (curTask.Type == TaskType.lab)
-			{
-				
-				
-			}
-			if (curTask.Type == TaskType.media)
-			{
-				pnlPics.Visible = true;
-			
-				selectedSlide = -1;
-				ResetSlides();
-				tmrMain.Start();
-			}
-			if (curTask.Type == TaskType.cognitive)
-			{
-				Close();
-			}
-		}
-
-		#region Picture Task
+        void TaskDesignConfig()
+        {
+            pnlPics.Visible = true;
+            selectedSlide = -1;
+            ResetSlides();
+            tmrMain.Start();
+        }
 
 		/// <summary>
 		/// Clears all panels in pnlpic and resets piccount to 0 and selSlide to -1;
@@ -302,8 +287,8 @@ namespace TaskLab
 			Size slidSize = SetupPb(picCount);
 			Bitmap b = BitmapManager.TextBitmap("", btnBackgroundCol.BackColor, Brushes.Black, slidSize, 15);
 			MediaEelement p = new MediaEelement(b, null, slideTime);
-            p.bgColor = btnBackgroundCol.BackColor;
-            p.name = "pic" + picCount.ToString();
+            p.BGColor = btnBackgroundCol.BackColor;
+            p.Name = "pic" + picCount.ToString();
 			picCount++;
 			isManupulated = true;
 			curTask.picList.Add(p);
@@ -325,8 +310,9 @@ namespace TaskLab
             pnl.Click += new EventHandler(pnlPic_Click);
 			pnl.BorderStyle = BorderStyle.None;
 			pnl.BackColor = Color.AliceBlue;
+            pnl.ContextMenuStrip = ThumbPicsMenu;
 
-			System.Windows.Forms.PictureBox p = new System.Windows.Forms.PictureBox();
+			PictureBox p = new System.Windows.Forms.PictureBox();
             Label l = new Label();
             Label lblNumber = new Label();
             TextBox txt = new TextBox();
@@ -354,10 +340,10 @@ namespace TaskLab
             lblNumber.Size = new Size(39, 13);
             pnl.Controls.Add(txt);
             txt.Size = txtPicTime.Size;
-			if (curTask.picList.Count > index && curTask.picList[index].address != null)
+			if (curTask.picList.Count > index && curTask.picList[index].Address != null)
 			{
-				txt.Text = curTask.picList[index].time.ToString();
-				p.Image = curTask.picList[index].image;
+				txt.Text = curTask.picList[index].Time.ToString();
+				p.Image = curTask.picList[index].Image;
 			}
 			else
 				txt.Text = txtPicTime.Text;
@@ -391,7 +377,8 @@ namespace TaskLab
 					curTask.picList.RemoveAt(selectedSlide);
 					picCount--;
 					ResetSlides();
-					SelectSlide(selectedSlide - 1);
+                    
+					SelectSlide(picCount - 1);
 					break;
                 }
             }
@@ -439,13 +426,13 @@ namespace TaskLab
                 string[] texts = name.Split('b');
                 int index = -1;
                 Int32.TryParse(texts[1], out index);
-				curTask.picList[index].address = file.FileName;
+				curTask.picList[index].Address = file.FileName;
 				MediaType type = curTask.picList[index].ReformInAddress();
 				if(type == MediaType.Video)
 				{
 					TextBox text = (TextBox)pnlPics.Controls.Find("txtPicTime" + index.ToString(),true)[0];
 					text.Enabled = false;
-					text.Text = curTask.picList[index].time.ToString();
+					text.Text = curTask.picList[index].Time.ToString();
 				}
 				SelectSlide(index);
 			}
@@ -529,14 +516,12 @@ namespace TaskLab
 			Int32.TryParse(s[1], out index);    // به دست اوردن اندیس
 			int time;
 			if (Int32.TryParse(txt.Text, out time))
-				curTask.picList[index].time = time;
+				curTask.picList[index].Time = time;
 			else
-				txt.Text = curTask.picList[index].time.ToString();
+				txt.Text = curTask.picList[index].Time.ToString();
 		}
 		
-		#endregion
-		      
-        void pnlSetting_MouseClick(object sender, MouseEventArgs e)
+		void pnlSetting_MouseClick(object sender, MouseEventArgs e)
         {
 			pnlSetting.Visible = false;
         }
@@ -652,12 +637,17 @@ namespace TaskLab
 			reDraw = true;
 		}
 
-		private void MainMenu_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-		{
-			pnlSetting.Visible = !pnlSetting.Visible;
-		}
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            pnlSetting.Visible = true;
+        }
 
-		private void TaskGen_SizeChanged(object sender, EventArgs e)
+        private void enterWebURLToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void TaskGen_SizeChanged(object sender, EventArgs e)
 		{
 			curTask.operationSize = pbDesign.Size;
 		}
