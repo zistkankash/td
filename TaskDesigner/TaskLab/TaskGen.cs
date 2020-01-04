@@ -263,7 +263,7 @@ namespace TaskLab
 			isManupulated = true;
 			curTask.picList.Add(p);
             SetupPb(picCount);
-            pnlAddPic.Location = new Point(pnlAddPic.Location.X,  5 + 155 * (picCount + 1));
+            pnlAddPic.Location = new Point(pnlAddPic.Location.X,  5 + pnlAddPic.Height * (picCount + 1));
             SelectSlide(picCount);
             picCount++;
         }
