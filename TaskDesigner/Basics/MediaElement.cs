@@ -25,20 +25,21 @@ namespace Basics
             
         }
 
-        public Bitmap image = null;
-        public string address;
-        public int time;
-        public string name;
-        public Color bgColor;
+        public Bitmap Image = null;
+        public string Address;
+        public string URL;
+        public int Time;
+        public string Name;
+        public Color BGColor;
 		public bool UseTransparency;
 		public Color TransColor;
 		public MediaType medType = MediaType.Image;
 				
 		public MediaEelement(Bitmap im, string add, int t)
         {
-            this.image = im;
-            this.address = add;
-            this.time = t;
+            this.Image = im;
+            this.Address = add;
+            this.Time = t;
 			this.medType = MediaType.Image;
             if (im == null)
                 havMedia = false;
@@ -51,35 +52,38 @@ namespace Basics
         public MediaEelement(string add)
 		{
 			medType = MediaType.Video;
-			address = add;
+			Address = add;
 			havMedia = true;
-			image = GetVideoFrame();
+			Image = GetVideoFrame();
 		}
 
-		public MediaEelement(Bitmap x, Color color, int time, string add)
+		public MediaEelement(Color color, int time, string add)
 		{
 			medType = MediaType.Image;
-			image = x;
-			bgColor = color;
-			address = add;
-			this.time = time;
+            Image = new Bitmap(BasConfigs._monitor_resolution_x, BasConfigs._monitor_resolution_y);
+            using (Graphics g = Graphics.FromImage(Image))
+                g.Clear(color);
+            BGColor = color;
+			Address = add;
+			Time = time;
+            havMedia = false;
 		}
 
 		public MediaType ReformInAddress()
 		{
-			if (address == null)
+			if (Address == null)
 			{
 				havMedia = false;
 				medType = MediaType.Image;
 				
 			}
-			if(Path.GetExtension(address) == ".png" || Path.GetExtension(address) == ".jpg" || Path.GetExtension(address) == ".jpeg" || Path.GetExtension(address) == ".bmp")
+			if(Path.GetExtension(Address) == ".png" || Path.GetExtension(Address) == ".jpg" || Path.GetExtension(Address) == ".jpeg" || Path.GetExtension(Address) == ".bmp")
 			{
 				havMedia = true;
 				medType = MediaType.Image;
-				image = new Bitmap(address);
+				Image = new Bitmap(Address);
 			}
-			if (Path.GetExtension(address) == ".mp4" || Path.GetExtension(address) == ".avi" || Path.GetExtension(address) == ".mov" || Path.GetExtension(address) == ".asf" || Path.GetExtension(address) == ".wmv")
+			if (Path.GetExtension(Address) == ".mp4" || Path.GetExtension(Address) == ".avi" || Path.GetExtension(Address) == ".mov" || Path.GetExtension(Address) == ".asf" || Path.GetExtension(Address) == ".wmv")
 			{
 				havMedia = true;
 				medType = MediaType.Video;
@@ -94,18 +98,24 @@ namespace Basics
 				return null;
 			
 			VideoFileReader r = new VideoFileReader();
-			r.Open(address);
+			r.Open(Address);
 
-			image = r.ReadVideoFrame(5);
+			Image = r.ReadVideoFrame(5);
 			r.Close();
 			r.Dispose();
             var player = new WindowsMediaPlayer();
-            var clip = player.newMedia(address);
-            time = (int)TimeSpan.FromSeconds(clip.duration).TotalMilliseconds;
+            var clip = player.newMedia(Address);
+            Time = (int)TimeSpan.FromSeconds(clip.duration).TotalMilliseconds;
 
-            return image;
+            return Image;
 		}
 
+        public MediaEelement(string URL, int Time)
+        {
+            this.URL = URL;
+            this.Time = Time;
+            havMedia = true;
+        }
 	}
-	public enum MediaType { Image , Video  }
+	public enum MediaType { Image , Video , Web  }
 }

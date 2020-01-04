@@ -71,13 +71,10 @@ namespace TaskRunning
 		public TaskOperator()
 		{
 			InitializeComponent();
-						
 			Screen[] screens = Screen.AllScreens;
 			triableScreen = new Size(screens[BasConfigs._triableMonitor].Bounds.Width, screens[BasConfigs._triableMonitor].Bounds.Height);
 			tsk = new TaskClient();
 			_operationBitmap = new Bitmap(pbOper.Width, pbOper.Height);
-
-			//flagGraphics = Graphics.FromImage(_operationBitmap);
 		}
 
 		public void RefreshPctBx()
@@ -164,7 +161,8 @@ namespace TaskRunning
 				refTimer.Stop();
 				return;
 			}
-			krbTabControl2.Select();
+            Application.OpenForms[this.Name].Select();
+			//krbTabControl2.Select();
 		}
 
 		/// <summary>

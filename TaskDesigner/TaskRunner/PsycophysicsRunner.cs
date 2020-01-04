@@ -23,9 +23,8 @@ namespace TaskRunning
 		public bool _useGaz = false, _userClosed = true;
 		bool ETW, EFW, AFW;
 		int level = -1;
-		int frame = -1;
-		int framelimit, timeLimit;
-		bool fixatehappened = false;
+		int frame = -1, framelimit;
+        bool fixatehappened = false, fixateBreak = false;
 		public Bitmap flag, opFlag;
 		public int opFlagWidth, opFlagHeight;
 		Graphics flagGraphics;
@@ -57,9 +56,6 @@ namespace TaskRunning
 		public PsycophysicsRunner(bool getGaze, int operWidth, int operHeight, PsycophysicTasks RunningTask)
 		{
 			InitializeComponent();
-			
-			//trialCounter = 0;
-
 			if (RunningTask.AllLevelProp.Count == 0)
 			{
 				return;
@@ -81,7 +77,7 @@ namespace TaskRunning
 			WindowState = FormWindowState.Maximized;
 			Location = new Point(screen[BasConfigs._triableMonitor].Bounds.X, 0);
 			flag = new Bitmap(screen[BasConfigs._triableMonitor].Bounds.Width, screen[BasConfigs._triableMonitor].Bounds.Height);
-			if(_useGaz)
+			if(opFlagWidth != 0)
 			{
 				opFlag = new Bitmap(opFlagWidth, opFlagHeight);
 				opFlagGraphics = Graphics.FromImage(opFlag);
@@ -117,24 +113,12 @@ namespace TaskRunning
 			}
 		}
 
-		void RunTask()
-		{
-
-		while(true)
-		{
-
-		}
-		}
-
 		void Timer1_Tick(object sender, EventArgs e)
 		{
 			Timer1.Stop();
 			Timer1.Enabled = false;
 			lock (timerLock)
 			{
-				//if (!fixatehappened || LoopWatch.ElapsedMilliseconds > timeLimit))
-				//	return;
-
 				if (_task.Brake)
 				{
 					StopRun(true);
@@ -153,11 +137,8 @@ namespace TaskRunning
 				{
 					if (!containfixation)
 					{
-
-						if (!NextFrame())
-
-							return;
-
+                        if (!NextFrame())
+                            return;
 					}
 					else
 					{
@@ -167,12 +148,9 @@ namespace TaskRunning
 							fixatehappened = false;
 							if (FixationRewardType == 2 || FixationRewardType == 4)
 								winSound.Play();
-
-
+                            
 							if (!NextFrame())
 								return;
-
-
 						}
 						else
 						{
@@ -395,7 +373,8 @@ namespace TaskRunning
 			try
 			{
 				flagGraphics.Clear(_task.AllLevelProp[level][frame].BGColor);
-				opFlagGraphics.Clear(_task.AllLevelProp[level][frame].BGColor);
+                if (opFlagWidth != 0)
+                    opFlagGraphics.Clear(_task.AllLevelProp[level][frame].BGColor);
 				numberstimulus = _task.AllLevelProp[level][frame].Stimulus.Length;
 
 				#region add stimulus and fixation
@@ -409,14 +388,14 @@ namespace TaskRunning
 					if (stimulus.Type == 1)
 					{
 						flagGraphics.FillRectangle(sb, stimulus.Xloc - stimulus.Width / 2, _screenRatioY * (stimulus.Yloc - stimulus.Width / 2), stimulus.Width, stimulus.Width);
-						if (_useGaz)
+						if (opFlagWidth != 0)
 							opFlagGraphics.FillRectangle(sb, _screenRationX * (stimulus.Xloc - stimulus.Width / 2), _screenRatioY * (stimulus.Yloc - stimulus.Width / 2), _screenRationX * stimulus.Width, _screenRatioY * stimulus.Width);
 					}
 
 					if (stimulus.Type == 2)
 					{
 						flagGraphics.FillRectangle(sb, stimulus.Xloc - stimulus.Width / 2, stimulus.Yloc - stimulus.Width / 2, stimulus.Width, stimulus.Width);
-						if (_useGaz)
+						if (opFlagWidth != 0)
 							opFlagGraphics.FillRectangle(sb, _screenRationX * (stimulus.Xloc - stimulus.Width / 2), _screenRatioY * (stimulus.Yloc - stimulus.Width / 2), _screenRationX * stimulus.Width, _screenRatioY * stimulus.Width);
 
 					}
@@ -424,7 +403,7 @@ namespace TaskRunning
 					if (stimulus.Type == 3)
 					{
 						flagGraphics.FillEllipse(sb, stimulus.Xloc - stimulus.Width / 2, stimulus.Yloc - stimulus.Width / 2, stimulus.Width, stimulus.Width);
-						if (_useGaz)
+						if (opFlagWidth != 0)
 							opFlagGraphics.FillEllipse(sb, _screenRationX * (stimulus.Xloc - stimulus.Width / 2), _screenRatioY * (stimulus.Yloc - stimulus.Width / 2), _screenRationX * stimulus.Width, _screenRatioY * stimulus.Width);
 
 					}
@@ -436,7 +415,7 @@ namespace TaskRunning
 							bmpvar = new Bitmap(stimulus.PathPic);
 							bmpvar = new Bitmap(bmpvar, new Size(stimulus.Width, stimulus.Height));
 							flagGraphics.DrawImage(bmpvar, new Point(stimulus.Xloc - stimulus.Width / 2, stimulus.Yloc - stimulus.Width / 2));
-							if (_useGaz)
+							if (opFlagWidth != 0)
 							{
 								bmpvarOp = new Bitmap(bmpvar, new Size((int)_screenRationX * stimulus.Width, (int)(_screenRatioY * stimulus.Height)));
 								opFlagGraphics.DrawImage(bmpvarOp, new Point(stimulus.Xloc - stimulus.Width / 2, (int)_screenRatioY * (stimulus.Yloc - stimulus.Width / 2)));
