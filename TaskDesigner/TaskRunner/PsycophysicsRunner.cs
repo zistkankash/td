@@ -95,11 +95,13 @@ namespace TaskRunning
 			//if (_useGaz)
 			//	opFlagGraphics = Graphics.FromImage(opFlag);
 			
-			NextTrial();
+			
 			_dataTask.Clear();
 			_eventData.Clear();
-			_dataTask.AppendLine(BasConfigs._monitor_resolution_x.ToString() + "," + BasConfigs._monitor_resolution_y + ";");
+			_dataTask.AppendLine(BasConfigs._monitor_resolution_x.ToString() + "," + BasConfigs._monitor_resolution_y);
+			NextTrial();
 			//MicroTimerEnable();
+
 			Timer1.Enabled = true;
 			Timer1.Start();
 			//LoopWatch.Start();
@@ -117,57 +119,58 @@ namespace TaskRunning
 		{
 			Timer1.Stop();
 			Timer1.Enabled = false;
-
-			if (_task.Brake)
+			lock (timerLock)
 			{
-				StopRun(true);
-				return;
-			}
-
-			#region fixatehappened
-
-			if (!_useGaz)
-			{
-				if (!NextFrame())
+				if (_task.Brake)
+				{
+					StopRun(true);
 					return;
-			}
+				}
 
-			else
-			{
-				if (!containfixation)
+				#region fixatehappened
+
+				if (!_useGaz)
 				{
 					if (!NextFrame())
 						return;
 				}
+
 				else
 				{
-					if (fixatehappened)
+					if (!containfixation)
 					{
-						Debug.Write("true fixate falsed");
-						fixatehappened = false;
-						if (FixationRewardType == 2 || FixationRewardType == 4)
-							winSound.Play();
-
 						if (!NextFrame())
 							return;
 					}
 					else
 					{
-						if (FixationRewardType == 3 || FixationRewardType == 4)
-							failSound.Play();
+						if (fixatehappened)
+						{
+							Debug.Write("true fixate falsed");
+							fixatehappened = false;
+							if (FixationRewardType == 2 || FixationRewardType == 4)
+								winSound.Play();
 
-						if (!NextTrial())
-							return;
+							if (!NextFrame())
+								return;
+						}
+						else
+						{
+							if (FixationRewardType == 3 || FixationRewardType == 4)
+								failSound.Play();
 
+							if (!NextTrial())
+								return;
+
+						}
 					}
 				}
+
+				#endregion
+				Timer1.Start();
+				Timer1.Enabled = true;
+				//LoopWatch.Restart();
 			}
-
-			#endregion
-			Timer1.Start();
-			Timer1.Enabled = true;
-			//LoopWatch.Restart();
-
 
 			return;
 		}
@@ -558,7 +561,7 @@ namespace TaskRunning
 							fixatehappened = true;
 							FixationSW.Reset();
 							InROI = false;
-							Timer1_Tick(null, null);
+							//Timer1_Tick(null, null);
 
 							return;
 						}
@@ -577,7 +580,7 @@ namespace TaskRunning
 						InROI = false;
 						fixatehappened = false;
 						FixationSW.Reset();
-						Timer1_Tick(null, null);
+						//Timer1_Tick(null, null);
 						return;
 					}
 					

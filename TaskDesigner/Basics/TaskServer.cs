@@ -47,11 +47,16 @@ namespace Basics
 					return ETStatus.disconnected;
 				}
 				_calibStat = 2;
+				
+				//ReceivComnd();
 				if (Send((short)Comnd.CalibStat))
+				{
+
 					while (_calibStat == 2)
 					{
 						continue;
 					}
+				}
 				else
 					return ETStatus.disconnected;
 				if (_calibStat == 1)
@@ -82,7 +87,7 @@ namespace Basics
 				serverDisposed = false;
 				return true;
 			}
-			catch (Exception)
+			catch (Exception ex)
 			{
 				return false;
 				
@@ -141,14 +146,16 @@ namespace Basics
 
 					if (_comnd == (short)Comnd.CalibStat)
 					{
-						
 						GazeTracker.Receive(parBuffer, paramBufferSize, SocketFlags.None);
 						SetCalibStat();
+						ReceivComnd();
+						
 					}
 
 					if (_comnd == (short)Comnd.SendGaz)
 					{
-					    GazeTriple gazTemp = new GazeTriple();
+						
+						GazeTriple gazTemp = new GazeTriple();
 						gazPnt.Clear();
 											
 						_endGaze = false;
@@ -178,6 +185,13 @@ namespace Basics
 								_comnd = GetComnd();
 							}
 						}
+						//clear buffer
+						if (GazeTracker.Available > 0)
+						{
+							GazeTracker.Receive(parBuffer);
+						}
+						ReceivComnd();
+						//GazeTracker.EndReceive(AR);
 					}
 					//if close command received run dispose methode.
 					if (_comnd == (short)Comnd.Close)
@@ -190,14 +204,15 @@ namespace Basics
 					//MetroMessageBox.Show((IWin32Window)this, "ET Was Disconnected", "ET Connection", MessageBoxButtons.OK, MessageBoxIcon.Stop, 100);
 					Dispose();
 				}
-				ReceivComnd();
+				
 			}
 			catch(Exception)
 			{
 				//MessageBox.Show("Connection was interrupted in ET", "ET Connection", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-				Dispose();
-				
+				//Dispose();
+				//ReceivComnd();
 			}
+			
 		}
 		
 		public static string GetLocalIP()
@@ -236,8 +251,7 @@ namespace Basics
 		public bool StartGaze()
 		{
 			_endGaze = false;
-			if (GazeTracker.Available > 0)
-				GazeTracker.Receive(parBuffer);
+			
 			return (Send((short)Comnd.SendGaz));
 		}
 
@@ -308,6 +322,7 @@ namespace Basics
 				b1 = BitConverter.GetBytes(cmnd);
 				//Send the message to the server we are currently connected to.
 				GazeTracker.Send(b1);
+				
 				return true;
 			}
 			catch (SocketException)
