@@ -168,10 +168,8 @@ namespace Basics
 							gazTemp.time = BitConverter.ToInt64(parBuffer, 2 * sizeof(double));
 							gazTemp.pupilSize = BitConverter.ToDouble(parBuffer, 2 * sizeof(double) + sizeof(long));
 							gazPnt.Enqueue(gazTemp);
-							if (OnGaze != null)
-								OnGaze(this, gazTemp);
-							else
-								gazPnt.Enqueue(gazTemp);
+							OnGaze?.Invoke(this, gazTemp);
+
 							_comnd = GetComnd();
 							if ( _comnd == (short)Comnd.EndGaz || _comnd == (short)Comnd.Close)
 							{

@@ -270,7 +270,7 @@ namespace TaskRunning
 			{
 				if (!btnStart.Enabled && btnStop.Enabled)
 				{
-					MetroMessageBox.Show((IWin32Window)this, "Please press Stop Task first!");
+					MetroMessageBox.Show((IWin32Window)this, "Please press \"Stop Task\" first!");
 					return;
 				}
 				this.Close();
@@ -280,7 +280,6 @@ namespace TaskRunning
 
 		private void btStop_Click(object sender, EventArgs e)
 		{
-			Activate();
 			if (tsk.Type == TaskType.cognitive)
 			{
 				tsk.PsycoPhysicsTask.Brake = true;
@@ -418,7 +417,7 @@ namespace TaskRunning
 		{
 			_slideNum = 0;
 			gzX = 0; gzY = 0;
-			refTimer.Stop();
+			//refTimer.Stop();
 			pbOper.Image = Basics.BitmapManager.TextBitmap("اتمام تسک", Color.Black, Brushes.White, pbOper.Size,46);
 			SetControlsOpened();
 			txtbxTask.Enabled = true;
