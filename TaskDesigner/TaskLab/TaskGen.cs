@@ -1,26 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using Emgu.CV;
-using Emgu.Util;
 using Emgu.CV.Structure;
-using System.Net.Sockets;
-using System.Net;
-using System.Diagnostics;
-using System.Threading;
-using System.Media;
-using Psychophysics;
 using MetroFramework;
 using Basics;
 using TaskDesigner;
 using System.Runtime.InteropServices;
+using 
 
 
 namespace TaskLab
@@ -283,15 +272,22 @@ namespace TaskLab
 				btnStart.Enabled = false;
 				pbDesign.Visible = true;
                 webBrowser.Visible = true;
+                webBrowser.BringToFront();
                 vlcControl1.Visible = false;
                 //webBrowser.BringToFront();
                 webBrowser.Navigate(curTask.picList[selectedSlide].URL);
+                webBrowser.DocumentCompleted += WebBrowser_DocumentCompleted;
             }
 			if (oldInd > -1)
 				DrawBorderPanels(oldInd);
 			DrawBorderPanels(selectedSlide);
 		}
-		        
+
+        private void WebBrowser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+        {
+            
+        }
+
         void txtPicTime_TextChanged(object sender, EventArgs e)
         {
 			TextBox txt = (TextBox)sender;
@@ -339,7 +335,7 @@ namespace TaskLab
 			TextBox txt = (TextBox)sender;
 			string[] s = txt.Name.Split('e');
 			int index;
-			Int32.TryParse(s[1], out index);    // به دست اوردن اندیس
+			Int32.TryParse(s[1], out index);   
 			int time;
 			if (Int32.TryParse(txt.Text, out time))
 				curTask.picList[index].Time = time;
