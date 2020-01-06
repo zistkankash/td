@@ -388,7 +388,7 @@ namespace TaskRunning
 			{
 				if (!btnStart.Enabled && btnStop.Enabled)
 				{
-					MetroMessageBox.Show((IWin32Window)this, "Please press Stop Task first!");
+					MetroMessageBox.Show((IWin32Window)this, "Please press \"Stop Task\" first!");
 					return;
 				}
 				this.Close();
