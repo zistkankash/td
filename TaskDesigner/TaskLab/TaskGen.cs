@@ -628,7 +628,7 @@ namespace TaskLab
         private void TaskGen_SizeChanged(object sender, EventArgs e)
 		{
 			curTask.operationSize = pbDesign.Size;
-			pnlSetting.Width = pbDesign.Size.Width - 10;
+			pnlSetting.Width = pbDesign.Size.Width - 14;
 		}
 		
 	}
