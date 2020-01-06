@@ -9,7 +9,8 @@ using MetroFramework;
 using Basics;
 using TaskDesigner;
 using System.Runtime.InteropServices;
-using 
+using CefSharp;
+using CefSharp.WinForms;
 
 
 namespace TaskLab
@@ -38,10 +39,21 @@ namespace TaskLab
 		int selectedSlide = -1, slideTime , picCount, oldInd;
 		List<Panel> thumbs = new List<Panel>();
 		Color _formBackColor = Color.FromArgb(232, 216, 201);
-		
-		public TaskGen()
+        public ChromiumWebBrowser webBrowser;
+
+        public void InitBrowser()
+        {
+            Cef.Initialize(new CefSettings());
+            webBrowser = new ChromiumWebBrowser("www.google.com");
+            splitContainer1.Panel2.Controls.Add(webBrowser);
+            webBrowser.Dock = DockStyle.Fill;
+            //browser.Visible = false;
+        }
+
+        public TaskGen()
         {
             InitializeComponent();
+            InitBrowser();
 		}
             
 		/// <summary>
@@ -275,8 +287,8 @@ namespace TaskLab
                 webBrowser.BringToFront();
                 vlcControl1.Visible = false;
                 //webBrowser.BringToFront();
-                webBrowser.Navigate(curTask.picList[selectedSlide].URL);
-                webBrowser.DocumentCompleted += WebBrowser_DocumentCompleted;
+                webBrowser.Load(curTask.picList[selectedSlide].URL);
+                //webBrowser.DocumentCompleted += WebBrowser_DocumentCompleted;
             }
 			if (oldInd > -1)
 				DrawBorderPanels(oldInd);
