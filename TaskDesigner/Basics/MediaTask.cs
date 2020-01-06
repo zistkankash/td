@@ -21,7 +21,9 @@ namespace Basics
 		
 		public Bitmap operTaskImg;
         int curOperSlide = -1;
-        public Size operationSize;
+        Size _operationSize;
+
+		public Size OperationalImageSize { get { return _operationSize; } set { _operationSize = value; operTaskImg = new Bitmap(_operationSize.Width, _operationSize.Height); } }
 
 		public MediaTask()
 		{
@@ -36,7 +38,7 @@ namespace Basics
 			base._taskIsReady = false;
 			if (picList != null)
 				picList.Clear();
-			operationSize = new Size();
+			_operationSize = new Size(500,500);
 			if (operTaskImg != null)
 				operTaskImg.Dispose();
 			
@@ -47,8 +49,8 @@ namespace Basics
 			if (selSlide == -1 || picList == null || picList.Count == 0 || selSlide == picList.Count)
 				return operTaskImg;
 
-			if (operTaskImg == null && operationSize.Width != 0)
-				operTaskImg = new Bitmap(operationSize.Width,operationSize.Height);
+			if (operTaskImg == null && _operationSize.Width != 0)
+				operTaskImg = new Bitmap(_operationSize.Width, _operationSize.Height);
 
 			if (Refresh || curOperSlide != selSlide)
 			{

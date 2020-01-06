@@ -119,7 +119,7 @@ namespace Basics
 			try
 			{
 				var player = new WindowsMediaPlayer();
-				var clip = player.newMedia(Address);
+				var clip = player.newMedia(add);
 				Time = (int)TimeSpan.FromSeconds(clip.duration).TotalMilliseconds;
 
 				var ffMpeg = new NReco.VideoConverter.FFMpegConverter();

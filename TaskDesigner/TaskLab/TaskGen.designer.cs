@@ -43,7 +43,6 @@ namespace TaskLab
 			this.btnNewProject = new MetroFramework.Controls.MetroTile();
 			this.btnSetting = new MetroFramework.Controls.MetroTile();
 			this.btnLoad = new MetroFramework.Controls.MetroTile();
-			this.btnStart = new MetroFramework.Controls.MetroTile();
 			this.btnBackgroundCol = new System.Windows.Forms.Button();
 			this.splitter1 = new System.Windows.Forms.Splitter();
 			this.icndisconnect = new System.Windows.Forms.PictureBox();
@@ -66,6 +65,7 @@ namespace TaskLab
 			this.btnAddPic = new MetroFramework.Controls.MetroTile();
 			this.pnlSetting = new System.Windows.Forms.Panel();
 			this.pnlSetButton = new System.Windows.Forms.Panel();
+			this.btnStart = new System.Windows.Forms.Button();
 			this.label1 = new System.Windows.Forms.Label();
 			this.chkbxMakTransprnt = new MetroFramework.Controls.MetroCheckBox();
 			this.chkSaveData = new MetroFramework.Controls.MetroCheckBox();
@@ -247,25 +247,6 @@ namespace TaskLab
 			this.btnLoad.UseStyleColors = true;
 			this.btnLoad.UseTileImage = true;
 			this.btnLoad.Click += new System.EventHandler(this.btnLoad_Click);
-			// 
-			// btnStart
-			// 
-			this.btnStart.ActiveControl = null;
-			this.btnStart.BackColor = System.Drawing.Color.Transparent;
-			this.btnStart.Location = new System.Drawing.Point(160, 9);
-			this.btnStart.Name = "btnStart";
-			this.btnStart.Size = new System.Drawing.Size(38, 38);
-			this.btnStart.Style = MetroFramework.MetroColorStyle.White;
-			this.btnStart.TabIndex = 56;
-			this.btnStart.TileImage = global::TaskDesigner.Properties.Resources.stop;
-			this.btnStart.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.btnStart.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
-			this.tltpHelp.SetToolTip(this.btnStart, "Preview");
-			this.btnStart.UseCustomBackColor = true;
-			this.btnStart.UseSelectable = true;
-			this.btnStart.UseStyleColors = true;
-			this.btnStart.UseTileImage = true;
-			this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
 			// 
 			// btnBackgroundCol
 			// 
@@ -494,16 +475,29 @@ namespace TaskLab
 			// 
 			this.pnlSetButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.pnlSetButton.BackColor = System.Drawing.Color.Transparent;
+			this.pnlSetButton.Controls.Add(this.btnStart);
 			this.pnlSetButton.Controls.Add(this.btnHome);
 			this.pnlSetButton.Controls.Add(this.btnNewProject);
 			this.pnlSetButton.Controls.Add(this.btnSetting);
 			this.pnlSetButton.Controls.Add(this.btnLoad);
-			this.pnlSetButton.Controls.Add(this.btnStart);
 			this.pnlSetButton.Controls.Add(this.btnSave);
 			this.pnlSetButton.Location = new System.Drawing.Point(-1, -1);
 			this.pnlSetButton.Name = "pnlSetButton";
 			this.pnlSetButton.Size = new System.Drawing.Size(214, 95);
 			this.pnlSetButton.TabIndex = 93;
+			// 
+			// btnStart
+			// 
+			this.btnStart.BackgroundImage = global::TaskDesigner.Resource.Run;
+			this.btnStart.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			this.btnStart.FlatAppearance.BorderSize = 0;
+			this.btnStart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.btnStart.Location = new System.Drawing.Point(159, 11);
+			this.btnStart.Name = "btnStart";
+			this.btnStart.Size = new System.Drawing.Size(38, 38);
+			this.btnStart.TabIndex = 75;
+			this.btnStart.UseVisualStyleBackColor = true;
+			this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
 			// 
 			// label1
 			// 
@@ -611,7 +605,6 @@ namespace TaskLab
 			// vlcControl1
 			// 
 			this.vlcControl1.BackColor = System.Drawing.Color.Black;
-			this.vlcControl1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.vlcControl1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.vlcControl1.Location = new System.Drawing.Point(0, 0);
 			this.vlcControl1.Name = "vlcControl1";
@@ -664,7 +657,6 @@ namespace TaskLab
 			this.TransparencyKey = System.Drawing.SystemColors.ActiveCaption;
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TaskGen_FormClosing);
 			this.Load += new System.EventHandler(this.TaskGen_Load);
-			this.SizeChanged += new System.EventHandler(this.TaskGen_SizeChanged);
 			this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyUp);
 			this.Resize += new System.EventHandler(this.TaskGen_Resize);
 			((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
@@ -720,7 +712,6 @@ namespace TaskLab
 		private MetroFramework.Controls.MetroTile btnNewProject;
 		private MetroFramework.Controls.MetroTile btnSetting;
 		private MetroFramework.Controls.MetroTile btnLoad;
-		private MetroFramework.Controls.MetroTile btnStart;
 		private MetroFramework.Controls.MetroTile btnSave;
 		private System.Windows.Forms.Label label1;
 		private MetroFramework.Controls.MetroCheckBox chkbxMakTransprnt;
@@ -739,6 +730,7 @@ namespace TaskLab
         private System.Windows.Forms.ContextMenuStrip ThumbPicsMenu;
         private System.Windows.Forms.ToolStripMenuItem enterWebURLToolStripMenuItem;
         private System.Windows.Forms.WebBrowser webBrowser;
-    }
+		private System.Windows.Forms.Button btnStart;
+	}
 }
 

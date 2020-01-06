@@ -245,30 +245,43 @@ namespace TaskLab
 				}
 			}
 			btnBackgroundCol.BackColor = curTask.picList[selectedSlide].BGColor;
+			if (oldInd != selectedSlide)
+				if (vlcControl1.IsPlaying)
+				{
+					vlcControl1.Stop();
+					btnStart.BackgroundImage = Resource.Run;
+					vlcControl1.Visible = false;
+					pbDesign.Visible = true;
+				}
 			if (curTask.picList[selectedSlide].MediaTaskType == MediaType.Empty)
             {
-                pbDesign.Visible = true;
+				btnStart.Enabled = false;
+				pbDesign.Visible = true;
                 webBrowser.Visible = false;
                 vlcControl1.Visible = false;
                 pbDesign.Image = curTask.GetOperationFrame(true, selectedSlide);
             }
             if (curTask.picList[selectedSlide].MediaTaskType == MediaType.Image)
             {
-                pbDesign.Visible = true;
+				btnStart.Enabled = false;
+				pbDesign.Visible = true;
                 webBrowser.Visible = false;
                 vlcControl1.Visible = false;
                 pbDesign.Image = curTask.GetOperationFrame(true, selectedSlide);
             }
             if (curTask.picList[selectedSlide].MediaTaskType == MediaType.Video)
             {
-                pbDesign.Visible = false;
+				
+				pbDesign.Visible = true;
                 webBrowser.Visible = false;
-                vlcControl1.Visible = true;
-                vlcControl1.BackgroundImage = curTask.GetOperationFrame(true, selectedSlide);
+                vlcControl1.Visible = false;
+				pbDesign.Image = curTask.GetOperationFrame(true, selectedSlide);
+				btnStart.Enabled = true;
             }
             if (curTask.picList[selectedSlide].MediaTaskType == MediaType.Web)
             {
-                pbDesign.Visible = true;
+				btnStart.Enabled = false;
+				pbDesign.Visible = true;
                 webBrowser.Visible = true;
                 vlcControl1.Visible = false;
                 //webBrowser.BringToFront();
@@ -412,19 +425,14 @@ namespace TaskLab
 			}
         }
 
-        private void TaskGen_SizeChanged(object sender, EventArgs e)
-		{
-			curTask.operationSize = pbDesign.Size;
-			pnlSetting.Width = pbDesign.Size.Width - 14;
-		}
-
-		void TaskGen_Load(object sender, EventArgs e)
+       	void TaskGen_Load(object sender, EventArgs e)
 		{
 			MARGINS marg = new MARGINS() { Left = -1, Right = -1, Top = -1, Bottom = -1 };
 			DwmExtendFrameIntoClientArea(this.Handle, ref marg);
 			this.StartPosition = FormStartPosition.Manual;
 			pbDesign.SizeMode = PictureBoxSizeMode.StretchImage;
-			curTask.operationSize = pbDesign.Size;
+			curTask.OperationalImageSize = pbDesign.Size;
+			vlcControl1.EndReached += PreviewStoped;
 		}
 
 		void pbDesign_MouseMove(object sender, MouseEventArgs e)
@@ -472,8 +480,18 @@ namespace TaskLab
 
 		void btnStart_Click(object sender, EventArgs e)
 		{
-			btnStart.TileImage = Resource.stop;
-			vlcControl1.Play(new FileInfo(curTask.picList[selectedSlide].Address));
+			pbDesign.Visible = false;
+			vlcControl1.Visible = true;
+			vlcControl1.SetMedia(new FileInfo(curTask.picList[selectedSlide].Address));
+			vlcControl1.Play();
+			btnStart.BackgroundImage = Resource.stop;
+		}
+
+		void PreviewStoped(object sender, EventArgs e)
+		{
+			btnStart.BackgroundImage = Resource.Run;
+			Invoke((Action) delegate { vlcControl1.Visible = false; pbDesign.Visible = true; });
+			
 		}
 
 		void btnHome_Click(object sender, EventArgs e)
@@ -554,8 +572,9 @@ namespace TaskLab
 
 		private void TaskGen_Resize(object sender, EventArgs e)
 		{
-			curTask.operationSize = pbDesign.Size;
+			curTask.OperationalImageSize = new Size(splitContainer1.Panel2.Width, splitContainer1.Panel2.Height);
 			SelectSlide(selectedSlide);
+			pnlSetting.Width = splitContainer1.Panel2.Width - 14;
 		}
 
 		bool CheckSave(bool message)
