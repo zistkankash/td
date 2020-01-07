@@ -2,7 +2,7 @@
 using System.IO;
 using WMPLib;
 using System;
-using System.Windows.Media.Imaging;
+using CefSharp.WinForms;
 
 namespace Basics
 {
@@ -29,13 +29,18 @@ namespace Basics
         string _url;
         int _time;
 		Color _bgColor;
-		public bool UseTransparency;
-		public Color TransColor;
+		bool _useTransparency;
+		Color _transColor;
 		MediaType medType = MediaType.Empty;
+		public ChromiumWebBrowser webBrowser;
+
+		public Color TransColor { get { return _transColor; } set { _transColor = value; RenderImage(); } }
+
+		public bool UseTransparency { get { return _useTransparency; } set { _useTransparency = value; RenderImage(); } }
 
 		public Color BGColor { get { return _bgColor; } set { _bgColor = value;  RenderImage(); } }
 
-		public Bitmap Image { get { return _image; } set { _image = value; RenderImage(); } }
+		public Bitmap Image { get { return _image; } set { _image = value; RenderImage(); havMedia = true; } }
 
 		public MediaType MediaTaskType { get { return medType; } }
 
@@ -93,6 +98,9 @@ namespace Basics
 					_url = Address;
 					_address = Address;
 					medType = MediaType.Web;
+					havMedia = true;
+					_image = BitmapManager.TextBitmap("Web Page Slide", Color.White, Brushes.Green, _image.Size, 80);
+					
 					return medType;
 				}
 				else
@@ -112,6 +120,8 @@ namespace Basics
 			}
 			return medType;
 		}
+
+		
 
 		bool CheckVideo(string add)
 		{
@@ -139,7 +149,7 @@ namespace Basics
 		{
 			try
 			{
-				Image = new Bitmap(add);
+				_image = new Bitmap(add);
 				havMedia = true;
 				medType = MediaType.Image;
 				return true;

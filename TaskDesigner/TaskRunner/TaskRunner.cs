@@ -79,6 +79,9 @@ namespace TaskRunning
 			StartPosition = FormStartPosition.Manual;
 			pctbxFrm.SizeMode = PictureBoxSizeMode.StretchImage;
 			LocateForm();
+
+			//adding chromium browser to form
+
 		}
 			
 		void LocateForm()

@@ -16,9 +16,7 @@ namespace Basics
 	{
 		public List<MediaEelement> picList;
 		public int showedIndex;
-		public Color backColor;
 		public bool drawChess = false;
-		
 		public Bitmap operTaskImg;
         int curOperSlide = -1;
         Size _operationSize;

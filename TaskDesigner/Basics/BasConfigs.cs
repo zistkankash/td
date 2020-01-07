@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Basics
@@ -17,7 +13,7 @@ namespace Basics
 		public static TaskServer server;
 		public static int _triableMonitor;
 		public static object graphicsLock = new object();
-		public static bool GetScreenConfigs(int TriableMonitor)
+		public static bool SetScreenConfigs(int TriableMonitor)
 		{
 			_triableMonitor = TriableMonitor;
 			Screen[] screen = Screen.AllScreens;

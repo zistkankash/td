@@ -36,6 +36,18 @@
 			// txtbxURL
 			// 
 			this.txtbxURL.BackColor = System.Drawing.Color.White;
+			// 
+			// 
+			// 
+			this.txtbxURL.CustomButton.Image = null;
+			this.txtbxURL.CustomButton.Location = new System.Drawing.Point(401, 1);
+			this.txtbxURL.CustomButton.Name = "";
+			this.txtbxURL.CustomButton.Size = new System.Drawing.Size(21, 21);
+			this.txtbxURL.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+			this.txtbxURL.CustomButton.TabIndex = 1;
+			this.txtbxURL.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+			this.txtbxURL.CustomButton.UseSelectable = true;
+			this.txtbxURL.CustomButton.Visible = false;
 			this.txtbxURL.Lines = new string[0];
 			this.txtbxURL.Location = new System.Drawing.Point(12, 12);
 			this.txtbxURL.MaxLength = 32767;
@@ -83,9 +95,11 @@
 			// 
 			// URLInput
 			// 
+			this.AcceptButton = this.btnAccept;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(216)))), ((int)(((byte)(201)))));
+			this.CancelButton = this.btnCancel;
 			this.ClientSize = new System.Drawing.Size(447, 84);
 			this.Controls.Add(this.btnCancel);
 			this.Controls.Add(this.btnAccept);

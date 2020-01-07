@@ -51,7 +51,7 @@ namespace Basics
 		{
 			InitializeComponent();
 			Select();
-			BasConfigs.GetScreenConfigs(1);
+			BasConfigs.SetScreenConfigs(1);
 
 			#region psychophysics polygon and button
 			Point[] p_psychophysics = {

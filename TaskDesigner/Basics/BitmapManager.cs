@@ -38,18 +38,21 @@ namespace Basics
 
 		}
 
-		public static Bitmap TextBitmap(string st, Color bc, Brush bs, Size sz,short fontSize)
+		public static Bitmap TextBitmap(string st, Color BackColor, Brush TextColor, Size BitmapSize,short fontSize)
 		{
-			Bitmap bmp = new Bitmap(sz.Width, sz.Height);
+			if (TextColor == null)
+				TextColor = Brushes.DimGray;
 
-			RectangleF rectf = new RectangleF(10, sz.Height / 4, sz.Width, sz.Height / 2 + 10);
+			Bitmap bmp = new Bitmap(BitmapSize.Width, BitmapSize.Height);
+
+			RectangleF rectf = new RectangleF(10, BitmapSize.Height / 4, BitmapSize.Width, BitmapSize.Height / 2 + 10);
 
 			Graphics g = Graphics.FromImage(bmp);
-			g.Clear(bc);
+			g.Clear(BackColor);
 			g.SmoothingMode = SmoothingMode.AntiAlias;
 			g.InterpolationMode = InterpolationMode.HighQualityBicubic;
 			g.PixelOffsetMode = PixelOffsetMode.HighQuality;
-			g.DrawString(st, new Font("Arial", fontSize), bs, rectf);
+			g.DrawString(st, new Font("Arial", fontSize), TextColor, rectf);
 
 			g.Flush();
 

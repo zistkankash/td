@@ -501,9 +501,7 @@ namespace TaskRunning
 				microTimer.Stop();
 			}
             Timer1.Enabled = false;
-           
-			TaskOperator._stopped = true;
-			
+           	TaskOperator._stopped = true;
 			if (toClose)
 			{
 				

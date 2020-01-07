@@ -77,34 +77,38 @@ namespace TaskRunning
 			_operationBitmap = new Bitmap(pbOper.Width, pbOper.Height);
 		}
 
-		public void RefreshPctBx()
+		void RefreshPctBx()
 		{
 			//i++;
 			//gzX = (float)i % pbOper.Width;
 			//gzY = (float)i % pbOper.Height;
-			if (tsk.Type == TaskType.media)
-				tsk.GetFrameImage(_slideNum, ref _operationBitmap);
-
-			if (tsk.Type == TaskType.cognitive && shFrame.opFlag != null)
+			if (!_stopped)
 			{
-				_operationBitmap = shFrame.opFlag;
-				//_operationBitmap = BitmapManager.DrawOn(shFrame.opFlag, pbOper.Size, Color.White);
-			}
-			Graphics flagGraphics = Graphics.FromImage(_operationBitmap);
-			flagGraphics.FillEllipse(Brushes.Red, (float)gzX * pbOper.Width / triableScreen.Width - Marker_Radius / 2, (float)gzY * pbOper.Height / triableScreen.Height - Marker_Radius / 2, Marker_Radius, Marker_Radius);
+				if (tsk.Type == TaskType.media)
+					tsk.GetFrameImage(_slideNum, ref _operationBitmap);
 
-			flagGraphics.Flush();
+				if (tsk.Type == TaskType.cognitive && shFrame.opFlag != null)
+				{
+					_operationBitmap = shFrame.opFlag;
+					//_operationBitmap = BitmapManager.DrawOn(shFrame.opFlag, pbOper.Size, Color.White);
+				}
+
+				Graphics flagGraphics = Graphics.FromImage(_operationBitmap);
+				flagGraphics.FillEllipse(Brushes.Red, (float)gzX * pbOper.Width / triableScreen.Width - Marker_Radius / 2, (float)gzY * pbOper.Height / triableScreen.Height - Marker_Radius / 2, Marker_Radius, Marker_Radius);
+
+				flagGraphics.Flush();
+			}
 			//pbOper.Image.Dispose();
 			pbOper.Image = _operationBitmap;
 
 		}
 
-		private void txtPath_Click(object sender, EventArgs e)
+		void txtPath_Click(object sender, EventArgs e)
 		{
 			txtSavPath.Text = CrtSaveFile();
 		}
 
-		private void btnStart_Click_1(object sender, EventArgs e)
+		void btnStart_Click_1(object sender, EventArgs e)
 		{
 			try
 			{
@@ -123,6 +127,8 @@ namespace TaskRunning
 				{
 					btnStart.Enabled = false;
 					refTimer.Start();
+					refTimer.Enabled = true;
+					tsk.runConf = getRunConfigs;
 					if (tsk.Type == TaskType.cognitive)
 					{
 						tsk.PsycoPhysicsTask.Brake = false;
@@ -132,7 +138,7 @@ namespace TaskRunning
 						else
 							st = false;
 						_stopped = false;
-						shFrame = new PsycophysicsRunner(true ,pbOper.Width, pbOper.Height, tsk.PsycoPhysicsTask);
+						shFrame = new PsycophysicsRunner(st ,pbOper.Width, pbOper.Height, tsk.PsycoPhysicsTask);
 						shFrame.pupilDataPath = txtSavPath.Text;
 						shFrame.eventDataPath = FileName.UpdateFileName(txtSavPath.Text, "events");
 						shFrame.Show();
@@ -148,12 +154,9 @@ namespace TaskRunning
 							runner.RunTask(false);
 						
 					}
-					tsk.runConf = getRunConfigs;
-					SetControlsLocked();
-					btnStop.Enabled = true;
-					txtSavPath.Enabled = false;
-					txtbxTask.Enabled = false;
 					
+					SetControlsLocked();
+										
 				}
 			}
 			catch(Exception)
@@ -169,7 +172,7 @@ namespace TaskRunning
 		/// Get ET socket status to run the task.
 		/// </summary>
 		/// <returns></returns>
-		private bool GetETStat()
+		bool GetETStat()
 		{
 			if (BasConfigs.server != null)
 			{
@@ -208,26 +211,34 @@ namespace TaskRunning
 			return false;
 		}
 		
-		private void SetControlsLocked()
+		void SetControlsLocked()
 		{
 			metroPanel1.Enabled = false;
 			pnlErr1.Enabled = false;
 			pnlRunMode.Enabled = false;
+			btnClose.Enabled = false;
+			txtSavPath.Enabled = false;
+			txtbxTask.Enabled = false;
+			btnStop.Enabled = true;
 		}
 
-		private void SetControlsOpened()
+		void SetControlsOpened()
 		{
 			metroPanel1.Enabled = true;
 			pnlErr1.Enabled = true;
 			pnlRunMode.Enabled = true;
+			btnClose.Enabled = true;
+			txtSavPath.Enabled = true;
+			txtbxTask.Enabled = true;
+			btnStop.Enabled = false;
 		}
 		
-		private void TaskOperator_Load(object sender, EventArgs e)
+		void TaskOperator_Load(object sender, EventArgs e)
 		{
 			krbTabControl2.SelectedIndex = 0;
 		}
 
-		private string CrtSaveFile()
+		string CrtSaveFile()
 		{
 			sfd = new SaveFileDialog();
 			string TaskFolder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
@@ -243,7 +254,7 @@ namespace TaskRunning
 				return "";
 		}
 		
-		private void setTextTask()
+		void setTextTask()
 		{
 			if (tsk.LoadTask(true))
 			{
@@ -264,7 +275,7 @@ namespace TaskRunning
 			setTextTask();
 		}
 
-		private void TaskOperator_KeyDown(object sender, KeyEventArgs e)
+		void TaskOperator_KeyDown(object sender, KeyEventArgs e)
 		{
 			if (e.KeyCode == Keys.Escape)
 			{
@@ -278,29 +289,31 @@ namespace TaskRunning
 			}
 		}
 
-		private void btStop_Click(object sender, EventArgs e)
+		void btStop_Click(object sender, EventArgs e)
 		{
 			if (tsk.Type == TaskType.cognitive)
 			{
 				tsk.PsycoPhysicsTask.Brake = true;
-				Stop();
+				_stopped = true;
 
 			}
 			else
 			{
 				if (runner != null && runner.StopTask())
 				{
-					Stop();
+					_stopped = true;
 				}
 			}
 		}
 
-		private void refTimer_Tick(object sender, EventArgs e)
+		void refTimer_Tick(object sender, EventArgs e)
 		{
 			if (_stopped == true)
 			{
 				Stop();
-				_stopped = false;
+				
+				refTimer.Enabled = false;
+				refTimer.Stop();
 			}
 			RefreshPctBx();
 		}
@@ -331,12 +344,12 @@ namespace TaskRunning
 			}
 		}
 		
-		private void cmbTriableScreen_SelectedIndexChanged(object sender, EventArgs e)
+		void cmbTriableScreen_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			BasConfigs.GetScreenConfigs(cmbTriableScreen.SelectedIndex);
+			BasConfigs.SetScreenConfigs(cmbTriableScreen.SelectedIndex);
 		}
 		
-		private void krbTabControl2_MouseDown(object sender, MouseEventArgs e)
+		void krbTabControl2_MouseDown(object sender, MouseEventArgs e)
 		{
 			if (e.Button == MouseButtons.Left)
 			{
@@ -345,21 +358,15 @@ namespace TaskRunning
 			}
 		}
 
-		private void krbTabControl2_KeyDown(object sender, KeyEventArgs e)
+		void krbTabControl2_KeyDown(object sender, KeyEventArgs e)
 		{
 			if (e.KeyCode == Keys.Escape)
 			{
-				if (!btnStart.Enabled && btnStop.Enabled)
-				{
-					MetroMessageBox.Show((IWin32Window)this, "Please press Stop Task first!");
-					return;
-				}
-				this.Close();
-				e.Handled = true;
+				Exit();
 			}
 		}
 
-		private void tabPageEx1_MouseDown(object sender, MouseEventArgs e)
+		void tabPageEx1_MouseDown(object sender, MouseEventArgs e)
 		{
 			if (e.Button == MouseButtons.Left)
 			{
@@ -368,7 +375,7 @@ namespace TaskRunning
 			}
 		}
 
-		private void tabPageEx4_MouseDown(object sender, MouseEventArgs e)
+		void tabPageEx4_MouseDown(object sender, MouseEventArgs e)
 		{
 			if (e.Button == MouseButtons.Left)
 			{
@@ -377,7 +384,7 @@ namespace TaskRunning
 			}
 		}
 		
-		private void krbTabControl2_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+		void krbTabControl2_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
 		{
 		if(krbTabControl2.SelectedIndex == 1)
 		{
@@ -386,45 +393,51 @@ namespace TaskRunning
 		}
 			if (e.KeyCode == Keys.Escape)
 			{
-				if (!btnStart.Enabled && btnStop.Enabled)
-				{
-					MetroMessageBox.Show((IWin32Window)this, "Please press \"Stop Task\" first!");
-					return;
-				}
-				this.Close();
-				
+				Exit();
 			}
 		}
 
-		private void tabPageEx1_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+		void tabPageEx1_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
 		{
 			if (e.IsInputKey)
 				return;
+			Exit();
+			
+		}
+
+		void tabPageEx4_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+		{
+			krbTabControl2.SelectedIndex = 0;
+		}
+
+		void btnClose_Click(object sender, EventArgs e)
+		{
+			Close();
+		}
+
+		void Stop()
+		{
+			_slideNum = 0;
+			gzX = 0; gzY = 0;
+			_operationBitmap = BitmapManager.TextBitmap("اتمام تسک", Color.Black, Brushes.White, pbOper.Size, 46);
+			SetControlsOpened();
+			txtbxTask.Enabled = true;
+			txtSavPath.Enabled = true;
+			btnStart.Enabled = true;
+			btnStop.Enabled = false;
+			
+			//Select();
+		}
+
+		void Exit()
+		{
 			if (!btnStart.Enabled && btnStop.Enabled)
 			{
 				MetroMessageBox.Show((IWin32Window)this, "Please press Stop Task first!");
 				return;
 			}
 			this.Close();
-		}
-
-		private void tabPageEx4_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
-		{
-			krbTabControl2.SelectedIndex = 0;
-		}
-
-		public void Stop()
-		{
-			_slideNum = 0;
-			gzX = 0; gzY = 0;
-			//refTimer.Stop();
-			pbOper.Image = Basics.BitmapManager.TextBitmap("اتمام تسک", Color.Black, Brushes.White, pbOper.Size,46);
-			SetControlsOpened();
-			txtbxTask.Enabled = true;
-			txtSavPath.Enabled = true;
-			btnStart.Enabled = true;
-			btnStop.Enabled = false;
-			//Select();
+			
 		}
 	}
 
