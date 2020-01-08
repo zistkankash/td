@@ -52,7 +52,7 @@ namespace Basics
 			if(tk == TaskType.media)
 			{
 				_type = TaskType.media;
-				tskSavMod = SaveMod.bin;
+				tskSavMod = SaveMod.txt;
 				return;
 			}
 			if(tk == TaskType.cognitive)

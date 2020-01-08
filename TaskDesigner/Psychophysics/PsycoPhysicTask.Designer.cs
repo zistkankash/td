@@ -1,8 +1,6 @@
-﻿using System.Drawing;
-using System.Windows.Forms;
-using TaskDesigner;
+﻿using System.Windows.Forms;
 
-namespace Basics
+namespace Psychophysics
 {
 	partial class PsycoPhysicTask
 	{
@@ -37,11 +35,11 @@ namespace Basics
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.label3 = new System.Windows.Forms.Label();
 			this.Task_Table = new System.Windows.Forms.TableLayoutPanel();
-			this.FramePerTask_LB0 = new System.Windows.Forms.Label();
-			this.TotalTime_LB0 = new System.Windows.Forms.Label();
 			this.SelectTask_CB0 = new System.Windows.Forms.ComboBox();
 			this.NumTrial_TB0 = new System.Windows.Forms.TextBox();
 			this.NameTask_TB0 = new System.Windows.Forms.TextBox();
+			this.TotalTime_LB0 = new System.Windows.Forms.Label();
+			this.FramePerTask_LB0 = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
 			this.Time_LB = new System.Windows.Forms.Label();
 			this.label4 = new System.Windows.Forms.Label();
@@ -50,29 +48,32 @@ namespace Basics
 			this.Stop_PB = new System.Windows.Forms.Button();
 			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
 			this.chkRandom = new System.Windows.Forms.CheckBox();
+			this.pictureBox1 = new System.Windows.Forms.PictureBox();
 			this.panel1.SuspendLayout();
 			this.Task_Table.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// panel1
 			// 
 			this.panel1.AutoScroll = true;
 			this.panel1.BackColor = System.Drawing.Color.Transparent;
+			this.panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
 			this.panel1.Controls.Add(this.label3);
 			this.panel1.Controls.Add(this.Task_Table);
 			this.panel1.Controls.Add(this.label1);
 			this.panel1.Controls.Add(this.Time_LB);
 			this.panel1.Controls.Add(this.label4);
 			this.panel1.Controls.Add(this.label2);
-			this.panel1.Location = new System.Drawing.Point(28, 43);
+			this.panel1.Location = new System.Drawing.Point(29, 37);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(685, 300);
+			this.panel1.Size = new System.Drawing.Size(685, 339);
 			this.panel1.TabIndex = 0;
 			// 
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(539, 22);
+			this.label3.Location = new System.Drawing.Point(539, 14);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(93, 13);
 			this.label3.TabIndex = 3;
@@ -82,42 +83,25 @@ namespace Basics
 			// 
 			this.Task_Table.AutoScroll = true;
 			this.Task_Table.AutoSize = true;
+			this.Task_Table.BackColor = System.Drawing.Color.Transparent;
 			this.Task_Table.ColumnCount = 5;
 			this.Task_Table.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 164F));
 			this.Task_Table.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 169F));
 			this.Task_Table.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 131F));
 			this.Task_Table.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 62F));
 			this.Task_Table.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 111F));
-			this.Task_Table.Controls.Add(this.FramePerTask_LB0, 4, 0);
-			this.Task_Table.Controls.Add(this.TotalTime_LB0, 3, 0);
 			this.Task_Table.Controls.Add(this.SelectTask_CB0, 1, 0);
 			this.Task_Table.Controls.Add(this.NumTrial_TB0, 2, 0);
 			this.Task_Table.Controls.Add(this.NameTask_TB0, 0, 0);
-			this.Task_Table.Location = new System.Drawing.Point(16, 53);
+			this.Task_Table.Controls.Add(this.TotalTime_LB0, 3, 0);
+			this.Task_Table.Controls.Add(this.FramePerTask_LB0, 4, 0);
+			this.Task_Table.Location = new System.Drawing.Point(16, 45);
 			this.Task_Table.Name = "Task_Table";
 			this.Task_Table.RowCount = 1;
 			this.Task_Table.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.Task_Table.Size = new System.Drawing.Size(637, 30);
 			this.Task_Table.TabIndex = 3;
 			this.Task_Table.Scroll += new System.Windows.Forms.ScrollEventHandler(this.Task_Table_Scroll);
-			// 
-			// FramePerTask_LB0
-			// 
-			this.FramePerTask_LB0.AutoSize = true;
-			this.FramePerTask_LB0.Location = new System.Drawing.Point(529, 0);
-			this.FramePerTask_LB0.Name = "FramePerTask_LB0";
-			this.FramePerTask_LB0.Size = new System.Drawing.Size(13, 13);
-			this.FramePerTask_LB0.TabIndex = 4;
-			this.FramePerTask_LB0.Text = "0";
-			// 
-			// TotalTime_LB0
-			// 
-			this.TotalTime_LB0.AutoSize = true;
-			this.TotalTime_LB0.Location = new System.Drawing.Point(467, 0);
-			this.TotalTime_LB0.Name = "TotalTime_LB0";
-			this.TotalTime_LB0.Size = new System.Drawing.Size(13, 13);
-			this.TotalTime_LB0.TabIndex = 4;
-			this.TotalTime_LB0.Text = "0";
 			// 
 			// SelectTask_CB0
 			// 
@@ -149,10 +133,31 @@ namespace Basics
 			this.NameTask_TB0.Text = "1";
 			this.NameTask_TB0.TextChanged += new System.EventHandler(this.NameTask_TB_TextChanged);
 			// 
+			// TotalTime_LB0
+			// 
+			this.TotalTime_LB0.AutoSize = true;
+			this.TotalTime_LB0.Location = new System.Drawing.Point(467, 0);
+			this.TotalTime_LB0.Name = "TotalTime_LB0";
+			this.TotalTime_LB0.Size = new System.Drawing.Size(13, 13);
+			this.TotalTime_LB0.TabIndex = 4;
+			this.TotalTime_LB0.Text = "0";
+			this.TotalTime_LB0.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// FramePerTask_LB0
+			// 
+			this.FramePerTask_LB0.AutoSize = true;
+			this.FramePerTask_LB0.Location = new System.Drawing.Point(529, 0);
+			this.FramePerTask_LB0.Name = "FramePerTask_LB0";
+			this.FramePerTask_LB0.Size = new System.Drawing.Size(10, 17);
+			this.FramePerTask_LB0.TabIndex = 4;
+			this.FramePerTask_LB0.Text = "0";
+			this.FramePerTask_LB0.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.FramePerTask_LB0.UseCompatibleTextRendering = true;
+			// 
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(16, 22);
+			this.label1.Location = new System.Drawing.Point(16, 14);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(35, 13);
 			this.label1.TabIndex = 2;
@@ -161,7 +166,7 @@ namespace Basics
 			// Time_LB
 			// 
 			this.Time_LB.AutoSize = true;
-			this.Time_LB.Location = new System.Drawing.Point(473, 22);
+			this.Time_LB.Location = new System.Drawing.Point(473, 14);
 			this.Time_LB.Name = "Time_LB";
 			this.Time_LB.Size = new System.Drawing.Size(55, 13);
 			this.Time_LB.TabIndex = 2;
@@ -170,7 +175,7 @@ namespace Basics
 			// label4
 			// 
 			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(177, 22);
+			this.label4.Location = new System.Drawing.Point(177, 14);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(100, 13);
 			this.label4.TabIndex = 5;
@@ -179,7 +184,7 @@ namespace Basics
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(344, 22);
+			this.label2.Location = new System.Drawing.Point(344, 14);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(99, 13);
 			this.label2.TabIndex = 2;
@@ -216,7 +221,7 @@ namespace Basics
 			this.Stop_PB.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
 			this.Stop_PB.FlatAppearance.BorderSize = 0;
 			this.Stop_PB.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.Stop_PB.Location = new System.Drawing.Point(665, 379);
+			this.Stop_PB.Location = new System.Drawing.Point(230, 379);
 			this.Stop_PB.Margin = new System.Windows.Forms.Padding(0);
 			this.Stop_PB.Name = "Stop_PB";
 			this.Stop_PB.Size = new System.Drawing.Size(48, 48);
@@ -238,12 +243,23 @@ namespace Basics
 			this.chkRandom.Text = "Make Random Repeat";
 			this.chkRandom.UseVisualStyleBackColor = true;
 			// 
+			// pictureBox1
+			// 
+			this.pictureBox1.BackgroundImage = global::TaskDesigner.Resource.psychophy_icon_nocolor;
+			this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			this.pictureBox1.Location = new System.Drawing.Point(586, 320);
+			this.pictureBox1.Name = "pictureBox1";
+			this.pictureBox1.Size = new System.Drawing.Size(140, 186);
+			this.pictureBox1.TabIndex = 27;
+			this.pictureBox1.TabStop = false;
+			// 
 			// PsycoPhysicTask
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.Transparent;
 			this.ClientSize = new System.Drawing.Size(737, 455);
+			this.Controls.Add(this.pictureBox1);
 			this.Controls.Add(this.chkRandom);
 			this.Controls.Add(this.Stop_PB);
 			this.Controls.Add(this.panel1);
@@ -259,6 +275,7 @@ namespace Basics
 			this.panel1.PerformLayout();
 			this.Task_Table.ResumeLayout(false);
 			this.Task_Table.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -282,5 +299,6 @@ namespace Basics
 		private Label label4;
 		private ToolTip toolTip1;
 		private CheckBox chkRandom;
+		private PictureBox pictureBox1;
 	}
 }

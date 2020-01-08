@@ -1,18 +1,10 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Basics;
 using TaskDesigner;
-using static Psychophysics.Old.Designer;
 
 namespace Psychophysics
 {
@@ -56,22 +48,22 @@ namespace Psychophysics
         {
             this.StatusBar.EllipticalGlow = false;
 
-			if(Reward[index] == 1)
+			if(Designer.Reward[index] == 1)
 			{
 				PlayFail_CB.Checked = false;
 				PlayWinSound_CB.Checked = false;
 			}
-			if (Reward[index] == 2)
+			if (Designer.Reward[index] == 2)
 			{
 				PlayFail_CB.Checked = false;
 				PlayWinSound_CB.Checked = true;
 			}
-			if (Reward[index] == 3)
+			if (Designer.Reward[index] == 3)
 			{
 				PlayFail_CB.Checked = true;
 				PlayWinSound_CB.Checked = false;
 			}
-			if (Reward[index] == 4)
+			if (Designer.Reward[index] == 4)
 			{
 				PlayFail_CB.Checked = true;
 				PlayWinSound_CB.Checked = true;
@@ -219,19 +211,19 @@ namespace Psychophysics
             //}
 			if(!PlayFail_CB.Checked && !PlayWinSound_CB.Checked  )
 			{
-				Reward[index] = 1;
+				Designer.Reward[index] = 1;
 			}
 			if (!PlayFail_CB.Checked && PlayWinSound_CB.Checked)
 			{
-				Reward[index] = 2;
+				Designer.Reward[index] = 2;
 			}
 			if (PlayFail_CB.Checked && !PlayWinSound_CB.Checked)
 			{
-				Reward[index] = 3;
+				Designer.Reward[index] = 3;
 			}
 			if (PlayFail_CB.Checked && PlayWinSound_CB.Checked)
 			{
-				Reward[index] = 4;
+				Designer.Reward[index] = 4;
 			}
 			this.Close();
         }

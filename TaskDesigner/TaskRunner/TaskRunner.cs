@@ -1,22 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Media;
-using TaskLab;
 using System.Threading;
-using Emgu.CV.Structure;
-using Emgu.CV;
 using System.IO;
-using Psychophysics;
-using System.Drawing.Imaging;
 using System.Diagnostics;
 using Basics;
+using CefSharp;
+using CefSharp.WinForms;
 
 namespace TaskRunning
 {
@@ -40,9 +31,9 @@ namespace TaskRunning
 		int _timeLimit;
 		Thread runnerThread;
 		TaskOperator tsop;
-		Bitmap _runnerBitmap; 
-		//FNode goalNodeThrd, goalNodePrevius;
-		//FNode goalNode = new FNode(100, new Point(0, 0), 100, -100);
+		Bitmap _runnerBitmap;
+		ChromiumWebBrowser _controlWebBrowser;
+		ScreenRecorder.Recorder rec;
 		
 		public Size secondMonit = new Size(0,0);
 		public RunMod runMod = RunMod.Stop;
@@ -57,7 +48,6 @@ namespace TaskRunning
 			tsop = pr;
 			runMod = RunMod.Stop;
 			curTsk = cs;
-			
 			InitForm();
 		}
 		
@@ -71,6 +61,17 @@ namespace TaskRunning
 			InitForm();
 		}
 
+		void InitBrowser()
+		{
+			CefSettings seting = new CefSettings();
+			if (!Cef.IsInitialized)
+				Cef.Initialize(seting);
+			_controlWebBrowser = new ChromiumWebBrowser("www.toosbioresearch.com");
+			Controls.Add(_controlWebBrowser);
+			//_controlWebBrowser.LoadingStateChanged += _controlWebBrowser_LoadingStateChanged; ;
+			_controlWebBrowser.ActivateBrowserOnCreation = true;
+			_controlWebBrowser.Dock = DockStyle.Fill;
+		}
 		void InitForm()
 		{
 			screens = Screen.AllScreens;
@@ -134,7 +135,7 @@ namespace TaskRunning
 				
 				tskWatch.Start();
 								
-				while (curTsk.MediaTask.showedIndex < curTsk.MediaTask.picList.Count)
+				while (curTsk.MediaTask.showedIndex < curTsk.MediaTask.PicList.Count)
 				{
 					if (runMod == RunMod.Stop)
 						return;
@@ -152,7 +153,7 @@ namespace TaskRunning
 						_mouseClicked = false;
 						curTsk.MediaTask.showedIndex++;
 						Invoke((Action)delegate { tsop.SetNextSlide(); });
-						if (curTsk.MediaTask.showedIndex == curTsk.MediaTask.picList.Count)
+						if (curTsk.MediaTask.showedIndex == curTsk.MediaTask.PicList.Count)
 							break;
 						Invoke((Action)delegate { SetNextMediaSlide();  });						
 					}
@@ -168,7 +169,7 @@ namespace TaskRunning
 		bool SetNextMediaSlide()
 		{
 			brake = false;
-			MediaEelement pic = curTsk.MediaTask.picList[curTsk.MediaTask.showedIndex];
+			MediaEelement pic = curTsk.MediaTask.PicList[curTsk.MediaTask.showedIndex];
 			if (pic.MediaTaskType == MediaType.Video)
 			{
 				pctbxFrm.Visible = false;

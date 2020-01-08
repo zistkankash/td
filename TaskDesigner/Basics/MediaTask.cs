@@ -14,28 +14,30 @@ namespace Basics
 {
 	public class MediaTask : TaskData
 	{
-		public List<MediaEelement> picList;
+		public List<MediaEelement> PicList;
 		public int showedIndex;
 		public bool drawChess = false;
 		public Bitmap operTaskImg;
         int curOperSlide = -1;
         Size _operationSize;
+		public Size _thumbSize;
 
 		public Size OperationalImageSize { get { return _operationSize; } set { _operationSize = value; operTaskImg = new Bitmap(_operationSize.Width, _operationSize.Height); } }
 
 		public MediaTask()
 		{
             base._taskIsReady = false;
-			picList = new List<MediaEelement>();
+			PicList = new List<MediaEelement>();
 			showedIndex = -1;
-			
+			tskSavMod = SaveMod.txt;
+			_thumbSize = new Size(300, 250);
 		}
 
 		public void Clear()
 		{
 			base._taskIsReady = false;
-			if (picList != null)
-				picList.Clear();
+			if (PicList != null)
+				PicList.Clear();
 			_operationSize = new Size(500,500);
 			if (operTaskImg != null)
 				operTaskImg.Dispose();
@@ -44,7 +46,7 @@ namespace Basics
 
 		public Bitmap GetOperationFrame(bool Refresh, int selSlide)
 		{
-			if (selSlide == -1 || picList == null || picList.Count == 0 || selSlide == picList.Count)
+			if (selSlide == -1 || PicList == null || PicList.Count == 0 || selSlide == PicList.Count)
 				return operTaskImg;
 
 			if (operTaskImg == null && _operationSize.Width != 0)
@@ -53,17 +55,17 @@ namespace Basics
 			if (Refresh || curOperSlide != selSlide)
 			{
 				curOperSlide = selSlide;
-				RunnerUtils.MediaPictureRenderer(picList[selSlide].BGColor, picList[selSlide].Image, picList[selSlide].UseTransparency, picList[selSlide].TransColor, drawChess, ref operTaskImg);
+				RunnerUtils.MediaPictureRenderer(PicList[selSlide].BGColor, PicList[selSlide].Image, PicList[selSlide].UseTransparency, PicList[selSlide].TransColor, drawChess, ref operTaskImg);
 			}
 			return operTaskImg;
 		}
 
 		public bool GetOperationFrame(int selSlide, ref Bitmap BitIn)
 		{
-			if (selSlide == -1 || picList == null || picList.Count == 0 || selSlide == picList.Count)
+			if (selSlide == -1 || PicList == null || PicList.Count == 0 || selSlide == PicList.Count)
 				return false;
 							
-			RunnerUtils.MediaPictureRenderer(picList[selSlide].BGColor, picList[selSlide].Image, picList[selSlide].UseTransparency, picList[selSlide].TransColor, drawChess, ref BitIn);
+			RunnerUtils.MediaPictureRenderer(PicList[selSlide].BGColor, PicList[selSlide].Image, PicList[selSlide].UseTransparency, PicList[selSlide].TransColor, drawChess, ref BitIn);
 			
 			return true;
 		}
@@ -72,7 +74,7 @@ namespace Basics
 		{
 			try
 			{
-				picList = new List<MediaEelement>();
+				PicList = new List<MediaEelement>();
 				string[] temp = lines[1].Split(' ');
 				int count;
 				Int32.TryParse(temp[0], out count);
@@ -88,28 +90,42 @@ namespace Basics
 						Color bg = Color.FromArgb(r, g, b);
 						int time;
 						Int32.TryParse(s[4], out time);
-						MediaEelement pic = new MediaEelement(bg, time);
+						MediaEelement pic = new MediaEelement(bg, time, this);
 						pic.BGColor = bg;
-						picList.Add(pic);
+						PicList.Add(pic);
 					}
 					if (s[0] == "Image:")
 					{
 						string address = s[1];
 						int time;
 						Int32.TryParse(s[2], out time);
+						bool transUse;
 						int r, g, b;
+						
 						Int32.TryParse(s[3], out r);
 						Int32.TryParse(s[4], out g);
 						Int32.TryParse(s[5], out b);
 						Color bg = Color.FromArgb(r, g, b);
-						MediaEelement pic = new MediaEelement(address, time);
-						picList.Add(pic);
+						bool.TryParse(s[6], out transUse);
+						Int32.TryParse(s[7], out r);
+						Int32.TryParse(s[8], out g);
+						Int32.TryParse(s[9], out b);
+						MediaEelement pic = new MediaEelement(bg, address, time, transUse , Color.FromArgb(r,g,b), this);
+						PicList.Add(pic);
 					}
 					if (s[0] == "Video:")
 					{
-						MediaEelement pic = new MediaEelement(s[1]);
-						picList.Add(pic);
+						MediaEelement pic = new MediaEelement(s[1], this);
+						PicList.Add(pic);
 						
+					}
+					if (s[0] == "Web:")
+					{
+						int time;
+						Int32.TryParse(s[2], out time);
+						MediaEelement pic = new MediaEelement(s[1], time, this);
+						PicList.Add(pic);
+
 					}
 				}
 				SavingMode = SaveMod.txt;
@@ -132,7 +148,7 @@ namespace Basics
 			binReadIndex += sizeof(Int32);
 			ImageConverter imConverter = new ImageConverter();
 
-			picList = new List<MediaEelement>();
+			PicList = new List<MediaEelement>();
 
 			for (int i = 0; i < count; i++)
 			{
@@ -151,7 +167,7 @@ namespace Basics
 
 				int time = BitConverter.ToInt32(binTaskFile, binReadIndex);
 				binReadIndex += sizeof(Int32);
-				picList.Add(new MediaEelement(Color.FromArgb(R, G, B), time));
+				PicList.Add(new MediaEelement(Color.FromArgb(R, G, B), time, this));
 			}
 			//tskImg.Bitmap = picList[0].image;
 			SavingMode = SaveMod.bin;
@@ -176,10 +192,10 @@ namespace Basics
 			byte[] imgByts;
 			lines.AddRange(BitConverter.GetBytes((short)TaskType.media));
 			lines.AddRange(BitConverter.GetBytes(System.DateTime.Now.ToBinary()));
-			lines.AddRange(BitConverter.GetBytes(picList.Count));
+			lines.AddRange(BitConverter.GetBytes(PicList.Count));
 
 			ImageConverter im = new ImageConverter();
-			foreach (MediaEelement slide in picList)
+			foreach (MediaEelement slide in PicList)
 			{
 				//converting image to bytes.
 				imgByts = (byte[])im.ConvertTo(slide.Image, typeof(byte[]));
@@ -228,30 +244,34 @@ namespace Basics
 				}
 				StringBuilder savFile = new StringBuilder(10000);
 				savFile.AppendLine("TaskLabMedia");
-				savFile.AppendLine(picList.Count.ToString());
-				for (int i = 0; i < picList.Count; i++)
+				savFile.AppendLine(PicList.Count.ToString());
+				for (int i = 0; i < PicList.Count; i++)
 				{
-					if (!picList[i].HaveMedia)
+					if (!PicList[i].HaveMedia)
 					{
-						savFile.AppendLine("Background:," + picList[i].BGColor.R.ToString() + "," + picList[i].BGColor.G.ToString() + "," + picList[i].BGColor.B.ToString() + "," + picList[i].Time.ToString());
+						savFile.AppendLine("Background:," + PicList[i].BGColor.R.ToString() + "," + PicList[i].BGColor.G.ToString() + "," + PicList[i].BGColor.B.ToString() + "," + PicList[i].Time.ToString());
 					}
 					else
 					{
-						if (picList[i].MediaTaskType == MediaType.Image)
+						if (PicList[i].MediaTaskType == MediaType.Image)
 						{
-							savFile.AppendLine("Image:," + picList[i].Address + "," + picList[i].Time.ToString() + "," + picList[i].BGColor.R.ToString() + "," + picList[i].BGColor.G.ToString() + "," + picList[i].BGColor.B.ToString());
+							savFile.AppendLine("Image:," + PicList[i].Address + "," + PicList[i].Time.ToString() + "," + PicList[i].BGColor.R.ToString() + "," + PicList[i].BGColor.G.ToString() + "," + PicList[i].BGColor.B.ToString() + "," + PicList[i].UseTransparency.ToString() + "," + PicList[i].TransColor.R.ToString() + "," + PicList[i].TransColor.G.ToString() + "," + PicList[i].TransColor.B.ToString());
 						}
-						else
+						if(PicList[i].MediaTaskType == MediaType.Video)
 						{
-							savFile.AppendLine("Video:," + picList[i].Address);
+							savFile.AppendLine("Video:," + PicList[i].Address + "," + PicList[i].Time);
+						}
+						if (PicList[i].MediaTaskType == MediaType.Web)
+						{
+							savFile.AppendLine("Web:," + PicList[i].URL + "," + +PicList[i].Time);
 						}
 					}
 				}
 				File.WriteAllText(Address, savFile.ToString());
 			}
-			catch (Exception e)
+			catch (Exception)
 			{
-				MessageBox.Show("Error writing file" + e.Message);
+				
 				return false;
 			}
 			return true;

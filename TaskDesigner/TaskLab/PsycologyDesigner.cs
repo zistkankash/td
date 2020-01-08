@@ -595,7 +595,12 @@ namespace TaskLab
 			return inserNode;
 		}
 
-		
+		private void PsycologyDesigner_Resize(object sender, EventArgs e)
+		{
+			pnlSetting.Width = pbDesign.Width - 14;
+		}
+
+
 		/// <summary>
 		/// update node features for example  width or height.
 		/// use  input x and y  -1 to avoid update node position.

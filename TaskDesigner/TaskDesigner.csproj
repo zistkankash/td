@@ -126,6 +126,10 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="PresentationCore" />
+    <Reference Include="SharpAvi, Version=2.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpAvi.2.1.2\lib\net45\SharpAvi.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Design" />
@@ -164,6 +168,7 @@
     <Compile Include="Basics\MediaTask.cs" />
     <Compile Include="Basics\PsycologyTask.cs" />
     <Compile Include="Basics\PsycophysicTasks.cs" />
+    <Compile Include="Basics\ScreenRecorder.cs" />
     <Compile Include="Basics\TaskClient.cs" />
     <Compile Include="Basics\TaskData.cs" />
     <Compile Include="COGLABnewUI.cs">
@@ -171,18 +176,6 @@
     </Compile>
     <Compile Include="COGLABnewUI.Designer.cs">
       <DependentUpon>COGLABnewUI.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\ThumbnailList.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\ThumbnailList.Designer.cs">
-      <DependentUpon>ThumbnailList.cs</DependentUpon>
-    </Compile>
-    <Compile Include="DesignerMain\MainDesigner.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DesignerMain\MainDesigner.Designer.cs">
-      <DependentUpon>MainDesigner.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -290,24 +283,18 @@
     </Compile>
     <Compile Include="Basics\Node.cs" />
     <Compile Include="Basics\MediaElement.cs" />
-    <Compile Include="Basics\PsycoPhysicTask.cs">
+    <Compile Include="Psychophysics\PsycoPhysicTask.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Basics\PsycoPhysicTask.Designer.cs">
+    <Compile Include="Psychophysics\PsycoPhysicTask.Designer.cs">
       <DependentUpon>PsycoPhysicTask.cs</DependentUpon>
     </Compile>
     <Compile Include="Basics\XmlThemeLoader.cs" />
-    <EmbeddedResource Include="Controls\ThumbnailList.resx">
-      <DependentUpon>ThumbnailList.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Psychophysics\frmCoolForm.resx">
       <DependentUpon>frmCoolForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="COGLABnewUI.resx">
       <DependentUpon>COGLABnewUI.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DesignerMain\MainDesigner.resx">
-      <DependentUpon>MainDesigner.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TaskLab\CTT result.resx">
       <DependentUpon>CTT result.cs</DependentUpon>
@@ -352,7 +339,7 @@
     <EmbeddedResource Include="TaskLab\TaskGen.resx">
       <DependentUpon>TaskGen.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Basics\PsycoPhysicTask.resx">
+    <EmbeddedResource Include="Psychophysics\PsycoPhysicTask.resx">
       <DependentUpon>PsycoPhysicTask.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TaskRunner\TaskOperator.resx">

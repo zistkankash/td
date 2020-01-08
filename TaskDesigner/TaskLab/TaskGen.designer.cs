@@ -68,7 +68,6 @@ namespace TaskLab
 			this.btnStart = new System.Windows.Forms.Button();
 			this.label1 = new System.Windows.Forms.Label();
 			this.chkbxMakTransprnt = new MetroFramework.Controls.MetroCheckBox();
-			this.chkSaveData = new MetroFramework.Controls.MetroCheckBox();
 			this.cmbxSavMod = new MetroFramework.Controls.MetroComboBox();
 			this.chkboxChessDraw = new MetroFramework.Controls.MetroCheckBox();
 			this.txtPath = new MetroFramework.Controls.MetroTextBox();
@@ -78,6 +77,7 @@ namespace TaskLab
 			this.setVideoMediaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.setImageMediaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.showSettingsPanelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.timer1 = new System.Windows.Forms.Timer(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.pbDesign)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.icndisconnect)).BeginInit();
@@ -366,6 +366,9 @@ namespace TaskLab
 			// 
 			// splitContainer1.Panel2
 			// 
+			this.splitContainer1.Panel2.BackColor = System.Drawing.SystemColors.ActiveCaption;
+			this.splitContainer1.Panel2.BackgroundImage = global::TaskDesigner.Resource.lingu_icon_nocolor;
+			this.splitContainer1.Panel2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
 			this.splitContainer1.Panel2.Controls.Add(this.pnlSetting);
 			this.splitContainer1.Panel2.Controls.Add(this.pbDesign);
 			this.splitContainer1.Panel2.Controls.Add(this.vlcControl1);
@@ -395,7 +398,6 @@ namespace TaskLab
 			this.pnlPics.VerticalScrollbarBarColor = true;
 			this.pnlPics.VerticalScrollbarHighlightOnWheel = true;
 			this.pnlPics.VerticalScrollbarSize = 5;
-			this.pnlPics.Layout += new System.Windows.Forms.LayoutEventHandler(this.pnlPics_Layout);
 			// 
 			// pnlAddPic
 			// 
@@ -441,6 +443,7 @@ namespace TaskLab
 			// btnAddPic
 			// 
 			this.btnAddPic.ActiveControl = null;
+			this.btnAddPic.ForeColor = System.Drawing.SystemColors.Control;
 			this.btnAddPic.Location = new System.Drawing.Point(7, 6);
 			this.btnAddPic.Name = "btnAddPic";
 			this.btnAddPic.Size = new System.Drawing.Size(180, 112);
@@ -450,6 +453,7 @@ namespace TaskLab
 			this.btnAddPic.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.btnAddPic.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.btnAddPic.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
+			this.btnAddPic.UseCustomForeColor = true;
 			this.btnAddPic.UseSelectable = true;
 			this.btnAddPic.UseTileImage = true;
 			this.btnAddPic.Click += new System.EventHandler(this.btnAddPic_Click);
@@ -463,7 +467,6 @@ namespace TaskLab
 			this.pnlSetting.Controls.Add(this.label1);
 			this.pnlSetting.Controls.Add(this.chkbxMakTransprnt);
 			this.pnlSetting.Controls.Add(this.btnBackgroundCol);
-			this.pnlSetting.Controls.Add(this.chkSaveData);
 			this.pnlSetting.Controls.Add(this.cmbxSavMod);
 			this.pnlSetting.Controls.Add(this.chkboxChessDraw);
 			this.pnlSetting.Controls.Add(this.txtPath);
@@ -523,19 +526,6 @@ namespace TaskLab
 			this.chkbxMakTransprnt.UseSelectable = true;
 			this.chkbxMakTransprnt.CheckedChanged += new System.EventHandler(this.chkbxMakTransprnt_CheckedChanged);
 			// 
-			// chkSaveData
-			// 
-			this.chkSaveData.AutoSize = true;
-			this.chkSaveData.BackColor = System.Drawing.Color.Transparent;
-			this.chkSaveData.Location = new System.Drawing.Point(228, 10);
-			this.chkSaveData.Name = "chkSaveData";
-			this.chkSaveData.Size = new System.Drawing.Size(47, 15);
-			this.chkSaveData.TabIndex = 84;
-			this.chkSaveData.Text = "Save";
-			this.chkSaveData.UseCustomBackColor = true;
-			this.chkSaveData.UseSelectable = true;
-			this.chkSaveData.CheckedChanged += new System.EventHandler(this.chkSaveData_CheckedChanged_1);
-			// 
 			// cmbxSavMod
 			// 
 			this.cmbxSavMod.BackColor = System.Drawing.Color.Transparent;
@@ -545,7 +535,7 @@ namespace TaskLab
 			this.cmbxSavMod.ItemHeight = 19;
 			this.cmbxSavMod.Items.AddRange(new object[] {
             "Text mode"});
-			this.cmbxSavMod.Location = new System.Drawing.Point(281, 8);
+			this.cmbxSavMod.Location = new System.Drawing.Point(228, 8);
 			this.cmbxSavMod.Name = "cmbxSavMod";
 			this.cmbxSavMod.PromptText = "Saving Mode";
 			this.cmbxSavMod.Size = new System.Drawing.Size(122, 25);
@@ -575,7 +565,7 @@ namespace TaskLab
 			// 
 			// 
 			this.txtPath.CustomButton.Image = null;
-			this.txtPath.CustomButton.Location = new System.Drawing.Point(354, 1);
+			this.txtPath.CustomButton.Location = new System.Drawing.Point(383, 1);
 			this.txtPath.CustomButton.Name = "";
 			this.txtPath.CustomButton.Size = new System.Drawing.Size(23, 23);
 			this.txtPath.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
@@ -585,7 +575,7 @@ namespace TaskLab
 			this.txtPath.CustomButton.Visible = false;
 			this.txtPath.Enabled = false;
 			this.txtPath.Lines = new string[0];
-			this.txtPath.Location = new System.Drawing.Point(409, 8);
+			this.txtPath.Location = new System.Drawing.Point(369, 8);
 			this.txtPath.MaxLength = 32767;
 			this.txtPath.Name = "txtPath";
 			this.txtPath.PasswordChar = '\0';
@@ -595,7 +585,7 @@ namespace TaskLab
 			this.txtPath.SelectionLength = 0;
 			this.txtPath.SelectionStart = 0;
 			this.txtPath.ShortcutsEnabled = true;
-			this.txtPath.Size = new System.Drawing.Size(378, 25);
+			this.txtPath.Size = new System.Drawing.Size(407, 25);
 			this.txtPath.TabIndex = 72;
 			this.txtPath.UseCustomBackColor = true;
 			this.txtPath.UseSelectable = true;
@@ -654,21 +644,31 @@ namespace TaskLab
 			this.showSettingsPanelToolStripMenuItem.Text = "Show Settings Panel";
 			this.showSettingsPanelToolStripMenuItem.Click += new System.EventHandler(this.showSettingsPanelToolStripMenuItem_Click);
 			// 
+			// timer1
+			// 
+			this.timer1.Enabled = true;
+			this.timer1.Interval = 1000;
+			this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+			// 
 			// TaskGen
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.ActiveCaption;
+			this.BackgroundImage = global::TaskDesigner.Resource.lingu_icon_nocolor;
+			this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.ClientSize = new System.Drawing.Size(1188, 749);
 			this.ContextMenuStrip = this.MainMenu;
 			this.Controls.Add(this.panel1);
 			this.Controls.Add(this.statusStrip1);
 			this.Controls.Add(this.splitter1);
 			this.Controls.Add(this.panel2);
+			this.DoubleBuffered = true;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.KeyPreview = true;
 			this.Name = "TaskGen";
 			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
+			this.Text = "Linguistic Task Designer";
 			this.tltpHelp.SetToolTip(this, "Grab form to move it!");
 			this.TransparencyKey = System.Drawing.SystemColors.ActiveCaption;
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TaskGen_FormClosing);
@@ -732,7 +732,6 @@ namespace TaskLab
 		private System.Windows.Forms.Label label1;
 		private MetroFramework.Controls.MetroCheckBox chkbxMakTransprnt;
 		private System.Windows.Forms.Button btnBackgroundCol;
-		private MetroFramework.Controls.MetroCheckBox chkSaveData;
 		private MetroFramework.Controls.MetroComboBox cmbxSavMod;
 		private MetroFramework.Controls.MetroCheckBox chkboxChessDraw;
 		private MetroFramework.Controls.MetroTextBox txtPath;
@@ -749,6 +748,7 @@ namespace TaskLab
 		private System.Windows.Forms.ToolStripMenuItem setVideoMediaToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem setImageMediaToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem showSettingsPanelToolStripMenuItem;
+		private System.Windows.Forms.Timer timer1;
 	}
 }
 

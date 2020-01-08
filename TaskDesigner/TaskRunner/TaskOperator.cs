@@ -333,7 +333,7 @@ namespace TaskRunning
 				savedData = BasConfigs._monitor_resolution_x.ToString() + "," + BasConfigs._monitor_resolution_y.ToString() + "\n";
 			}
 
-			if (num < tsk.MediaTask.picList.Count)
+			if (num < tsk.MediaTask.PicList.Count)
 			{
 				txtSavPath.Text = FileName.AddNumToCSVFileName(false, txtSavPath.Text);
 				_slideNum = num;

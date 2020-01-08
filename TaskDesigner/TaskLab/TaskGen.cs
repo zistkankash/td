@@ -41,10 +41,13 @@ namespace TaskLab
 		Color _formBackColor = Color.FromArgb(232, 216, 201);
         ChromiumWebBrowser _controlWebBrowser;
 		Bitmap b1 = new Bitmap(1440,900);
+		ScreenRecorder.Recorder rec;
+
 		void InitBrowser()
 		{
 			CefSettings seting = new CefSettings();
-			Cef.Initialize(seting);
+			if (!Cef.IsInitialized)
+				Cef.Initialize(seting);
 			_controlWebBrowser = new ChromiumWebBrowser("www.toosbioresearch.com");
 			splitContainer1.Panel2.Controls.Add(_controlWebBrowser);
 			//_controlWebBrowser.LoadingStateChanged += _controlWebBrowser_LoadingStateChanged; ;
@@ -54,7 +57,7 @@ namespace TaskLab
 
 		private void _controlWebBrowser_LoadingStateChanged(object sender, LoadingStateChangedEventArgs e)
 		{
-			if (selectedSlide > -1 && curTask.picList[selectedSlide].MediaTaskType == MediaType.Web)
+			if (selectedSlide > -1 && curTask.PicList[selectedSlide].MediaTaskType == MediaType.Web)
 			{
 				if (!e.IsLoading)
 				{
@@ -66,16 +69,12 @@ namespace TaskLab
 				}
 			}
 		}
-
-		private void WebBrowser_LoadError(object sender, LoadErrorEventArgs e)
-		{
-			
-		}
-
+		
 		public TaskGen()
         {
             InitializeComponent();
-			InitBrowser();        
+			InitBrowser();
+			rec = new ScreenRecorder.Recorder(new ScreenRecorder.RecorderParams("out.avi", 10, SharpAvi.KnownFourCCs.Codecs.MotionJpeg, 70));   
 		}
             
 		/// <summary>
@@ -102,7 +101,7 @@ namespace TaskLab
 			else
 				newLocation = new Point(thumbs[thumbs.Count - 1].Location.X , thumbs[thumbs.Count - 1].Location.Y + thumbs[thumbs.Count - 1].Height + 10);
 			
-			while (curTask.picList.Count > picCount)
+			while (curTask.PicList.Count > picCount)
             {
 				thumbs.Add(CreateSlide(picCount, newLocation));
 				newLocation = new Point(thumbs[thumbs.Count - 1].Location.X, thumbs[thumbs.Count - 1].Location.Y + thumbs[thumbs.Count - 1].Height + 10);
@@ -114,129 +113,25 @@ namespace TaskLab
 				pnlAddPic.Location = new Point(5 , 5);
 		}
 
-        void btnAddPic_Click(object sender, EventArgs e)
-        {
-			AddPicture();
-		}
-        
-		void AddPicture()
-        {
-			//create empty bitmap with defined color.
-			MediaEelement p = new MediaEelement(btnBackgroundCol.BackColor, 0); 
-            isManupulated = true;
-			curTask.picList.Add(p);
-			picCount++;
-			thumbs.Add(CreateSlide(picCount - 1, pnlAddPic.Location));
-			pnlAddPic.Location = new Point(pnlAddPic.Location.X, pnlAddPic.Location.Y + pnlAddPic.Height + 10);
-			SelectSlide(picCount - 1);
-		}
-        
-		Panel CreateSlide(int index, Point panelLocation)
-        {
-			try
+		void DrawBorderPanels(int id)
+		{
+			if (id == -1)
 			{
-				//Create new panel
-				Panel pnl = new Panel();
-				pnl.Location = panelLocation;
-				pnl.Size = pnlAddPic.Size;
-				pnl.MouseDown += new MouseEventHandler(pnlPic_Click);
-				pnl.BackColor = _formBackColor;
-				pnl.ContextMenuStrip = ThumbPicsMenu;
-				pnl.Move += Thumb_Move;
-
-				PictureBox p = new PictureBox();
-				Label l = new Label();
-				Label lblNumber = new Label();
-				TextBox txt = new TextBox();
-				//Create picturebox for panel
-				p.Size = btnAddPic.Size;
-				p.Visible = true;
-				p.Location = new Point(10, 4);
-				p.SizeMode = PictureBoxSizeMode.StretchImage;
-				p.MouseDown += new MouseEventHandler(pb_Click);
-				p.DoubleClick += new EventHandler(pb_DoubleClick);
-				p.Image = curTask.picList[index].Image;
-
-				pnl.Controls.Add(p);
-					
-				l.Text = "Time:(ms)";
-				l.Location = lblPicTime.Location;
-				l.Size = new Size(52, 13);
-				pnl.Controls.Add(l);
-
-				//Create number label for panel
-				lblNumber.Text = (index).ToString();
-				lblNumber.Location = lblSlideNumber.Location;
-				lblNumber.Size = new Size(39, 13);
-				pnl.Controls.Add(lblNumber);
-				
-				//Create textbox for panel	
-				txt.Size = txtPicTime.Size;
-				txt.Text = curTask.picList[index].Time.ToString();
-				
-				if (curTask.picList[index].MediaTaskType == MediaType.Video)
-					txt.Enabled = false;
-
-				txt.Location = txtPicTime.Location;
-				txt.Click += new EventHandler(txtPicTime_TextChanged);
-				txt.Leave += new EventHandler(txtPicTime_Leave);
-				Int32.TryParse(txtPicTime.Text, out slideTime);
-				pnl.Controls.Add(txt);
-
-				pnl.Name = "pnl" + index;
-				p.Name = "pb" + index;
-				txt.Name = "txtPicTime" + index;
-				pnlPics.Controls.Add(pnl);
-				return pnl;
-			}
-			catch(Exception)
-			{
-				return null;
-			}
-		}
-				
-        void RemoveSlide()
-        {
-			if (picCount == 0 || selectedSlide >= picCount || selectedSlide < 0)
+				for (int i = 0; i < thumbs.Count; i++)
+					DrawBorderPanels(i);
 				return;
-			curTask.picList.RemoveAt(selectedSlide);
-			PicturePanelReset(selectedSlide - 1);
-			SelectSlide(selectedSlide);
-		}
-               
-        void pb_DoubleClick(object sender, EventArgs e)
-        {
-            OpenFileDialog file = new OpenFileDialog();
-            file.Filter = "Image Files |*.png;*.jpg;*.jpeg;*.bmp | Video Files |*.mp4;*.avi;*.wmv;*.mpeg";
-            if (file.ShowDialog() == DialogResult.OK)
-            {
-				PictureBox pbTemp = (PictureBox)sender;
-               								
-                string name = pbTemp.Name;
-                string[] texts = name.Split('b');
-                int index = -1;
-                Int32.TryParse(texts[1], out index);
-				
-				MediaType type = curTask.picList[index].VerifyElementbyAddress(file.FileName, false);
-				
-				if(type == MediaType.Video)
-				{
-					TextBox text = (TextBox)pnlPics.Controls.Find("txtPicTime" + index.ToString(),true)[0];
-					text.Enabled = false;
-					text.Text = curTask.picList[index].Time.ToString();
-					pbTemp.Image = curTask.picList[index].Image;
-				}
-				if(type == MediaType.Image)
-				{
-					pbTemp.Image = curTask.picList[index].Image;
-				}
-				if(type == MediaType.Empty)
-				{
-					MetroMessageBox.Show((IWin32Window)this, "Could not open media file!", 100);
-				}
-				SelectSlide(index);
 			}
-        }
+			if (id != selectedSlide)
+			{
+				Graphics border1 = thumbs[id].CreateGraphics();
+				border1.DrawRectangle(new Pen(Color.Gray, 1), new Rectangle(new Point(0, 0), new Size(thumbs[id].Size.Width - 1, thumbs[id].Size.Height - 1)));
+			}
+			else
+			{
+				Graphics redBorder = thumbs[selectedSlide].CreateGraphics();
+				redBorder.DrawRectangle(new Pen(Color.Red, 1), new Rectangle(new Point(0, 0), new Size(thumbs[selectedSlide].Size.Width - 1, thumbs[selectedSlide].Size.Height - 1)));
+			}
+		}
 
 		/// <summary>
 		/// Get new slide index, set selectedSlide and setting its border to gray.
@@ -267,7 +162,7 @@ namespace TaskLab
 					selectedSlide = newSel;
 				}
 			}
-			btnBackgroundCol.BackColor = curTask.picList[selectedSlide].BGColor;
+			btnBackgroundCol.BackColor = curTask.PicList[selectedSlide].BGColor;
 
 			vlcControl1.Visible = false;
 			pbDesign.Visible = false;
@@ -282,26 +177,26 @@ namespace TaskLab
 				pbDesign.Visible = true;
 			}
 
-			if (curTask.picList[selectedSlide].MediaTaskType == MediaType.Empty)
+			if (curTask.PicList[selectedSlide].MediaTaskType == MediaType.Empty)
 			{
 				pbDesign.Visible = true;
 				pbDesign.Image = curTask.GetOperationFrame(true, selectedSlide);
 			}
-			if (curTask.picList[selectedSlide].MediaTaskType == MediaType.Image)
+			if (curTask.PicList[selectedSlide].MediaTaskType == MediaType.Image)
 			{
 				pbDesign.Visible = true;
 				pbDesign.Image = curTask.GetOperationFrame(true, selectedSlide);
 			}
-			if (curTask.picList[selectedSlide].MediaTaskType == MediaType.Video)
+			if (curTask.PicList[selectedSlide].MediaTaskType == MediaType.Video)
 			{
 				pbDesign.Visible = true;
 				pbDesign.Image = curTask.GetOperationFrame(true, selectedSlide);
 				btnStart.Enabled = true;
 			}
-			if (curTask.picList[selectedSlide].MediaTaskType == MediaType.Web)
+			if (curTask.PicList[selectedSlide].MediaTaskType == MediaType.Web)
 			{
 				_controlWebBrowser.Visible = true;
-				_controlWebBrowser.Load(curTask.picList[selectedSlide].URL);
+				_controlWebBrowser.Load(curTask.PicList[selectedSlide].URL);
 			}
 
 			if (oldInd > -1)
@@ -310,7 +205,126 @@ namespace TaskLab
 
 
 		}
-		
+
+		void AddPicture()
+        {
+			//create empty bitmap with defined color.
+			MediaEelement p = new MediaEelement(btnBackgroundCol.BackColor, 0, curTask); 
+            isManupulated = true;
+			curTask.PicList.Add(p);
+			picCount++;
+			thumbs.Add(CreateSlide(picCount - 1, pnlAddPic.Location));
+			pnlAddPic.Location = new Point(pnlAddPic.Location.X, pnlAddPic.Location.Y + pnlAddPic.Height + 10);
+			SelectSlide(picCount - 1);
+		}
+        
+		Panel CreateSlide(int index, Point panelLocation)
+        {
+			try
+			{
+				//Create new panel
+				Panel pnl = new Panel();
+				pnl.Location = panelLocation;
+				pnl.Size = pnlAddPic.Size;
+				pnl.MouseDown += new MouseEventHandler(pnlPic_Click);
+				pnl.BackColor = _formBackColor;
+				pnl.ContextMenuStrip = ThumbPicsMenu;
+				pnl.Move += Thumb_Move;
+
+				PictureBox p = new PictureBox();
+				Label l = new Label();
+				Label lblNumber = new Label();
+				TextBox txt = new TextBox();
+				//Create picturebox for panel
+				p.Size = btnAddPic.Size;
+				p.Visible = true;
+				p.Location = new Point(10, 4);
+				p.SizeMode = PictureBoxSizeMode.StretchImage;
+				p.MouseDown += new MouseEventHandler(pb_Click);
+				p.DoubleClick += new EventHandler(pb_DoubleClick);
+				p.Image = curTask.PicList[index].Image;
+
+				pnl.Controls.Add(p);
+					
+				l.Text = "Time:(ms)";
+				l.Location = lblPicTime.Location;
+				l.Size = new Size(52, 13);
+				pnl.Controls.Add(l);
+
+				//Create number label for panel
+				lblNumber.Text = (index).ToString();
+				lblNumber.Location = lblSlideNumber.Location;
+				lblNumber.Size = new Size(39, 13);
+				pnl.Controls.Add(lblNumber);
+				
+				//Create textbox for panel	
+				txt.Size = txtPicTime.Size;
+				txt.Text = curTask.PicList[index].Time.ToString();
+				
+				if (curTask.PicList[index].MediaTaskType == MediaType.Video)
+					txt.Enabled = false;
+
+				txt.Location = txtPicTime.Location;
+				txt.Click += new EventHandler(txtPicTime_TextChanged);
+				txt.Leave += new EventHandler(txtPicTime_Leave);
+				Int32.TryParse(txtPicTime.Text, out slideTime);
+				pnl.Controls.Add(txt);
+
+				pnl.Name = "pnl" + index;
+				p.Name = "pb" + index;
+				txt.Name = "txtPicTime" + index;
+				pnlPics.Controls.Add(pnl);
+				return pnl;
+			}
+			catch(Exception)
+			{
+				return null;
+			}
+		}
+				
+        void RemoveSlide()
+        {
+			if (picCount == 0 || selectedSlide >= picCount || selectedSlide < 0)
+				return;
+			curTask.PicList.RemoveAt(selectedSlide);
+			PicturePanelReset(selectedSlide - 1);
+			SelectSlide(selectedSlide);
+		}
+               
+        void pb_DoubleClick(object sender, EventArgs e)
+        {
+            OpenFileDialog file = new OpenFileDialog();
+            file.Filter = "Image Files |*.png;*.jpg;*.jpeg;*.bmp | Video Files |*.mp4;*.avi;*.wmv;*.mpeg";
+            if (file.ShowDialog() == DialogResult.OK)
+            {
+				PictureBox pbTemp = (PictureBox)sender;
+               								
+                string name = pbTemp.Name;
+                string[] texts = name.Split('b');
+                int index = -1;
+                Int32.TryParse(texts[1], out index);
+				
+				MediaType type = curTask.PicList[index].VerifyElementbyAddress(file.FileName, false);
+				
+				if(type == MediaType.Video)
+				{
+					TextBox text = (TextBox)pnlPics.Controls.Find("txtPicTime" + index.ToString(),true)[0];
+					text.Enabled = false;
+					text.Text = curTask.PicList[index].Time.ToString();
+					pbTemp.Image = curTask.PicList[index].Image;
+				}
+				if(type == MediaType.Image)
+				{
+					pbTemp.Image = curTask.PicList[index].Image;
+				}
+				if(type == MediaType.Empty)
+				{
+					MetroMessageBox.Show((IWin32Window)this, "Could not open media file!", 100);
+				}
+				SelectSlide(index);
+			}
+        }
+						
         void txtPicTime_TextChanged(object sender, EventArgs e)
         {
 			TextBox txt = (TextBox)sender;
@@ -321,21 +335,12 @@ namespace TaskLab
 			txt.Select();
 		}
 
-		void DrawBorderPanels(int id)
+		void btnAddPic_Click(object sender, EventArgs e)
 		{
-			if (id != selectedSlide)
-			{
-				Graphics border1 = thumbs[id].CreateGraphics();
-				border1.DrawRectangle(new Pen(Color.Gray, 1), new Rectangle(new Point(0, 0), new Size(thumbs[id].Size.Width - 1, thumbs[id].Size.Height - 1)));
-			}
-			else
-			{
-				Graphics redBorder = thumbs[selectedSlide].CreateGraphics();
-				redBorder.DrawRectangle(new Pen(Color.Red, 1), new Rectangle(new Point(0, 0), new Size(thumbs[selectedSlide].Size.Width - 1, thumbs[selectedSlide].Size.Height - 1)));
-			}
+			AddPicture();
 		}
 
-        void pnlPic_Click(object sender, EventArgs e)
+		void pnlPic_Click(object sender, EventArgs e)
         {
 			int newSel;
 			Panel pnlTemp = (Panel)sender;
@@ -361,13 +366,14 @@ namespace TaskLab
 			Int32.TryParse(s[1], out index);   
 			int time;
 			if (Int32.TryParse(txt.Text, out time))
-				curTask.picList[index].Time = time;
+				curTask.PicList[index].Time = time;
 			else
-				txt.Text = curTask.picList[index].Time.ToString();
+				txt.Text = curTask.PicList[index].Time.ToString();
 		}
 		
 		void TaskGen_FormClosing(object sender, FormClosingEventArgs e)
 		{
+			rec.Dispose();
 			e.Cancel = !CheckSave(true);
 		}
 		
@@ -386,22 +392,6 @@ namespace TaskLab
 			
 		}
 				
-		void chkSaveData_CheckedChanged_1(object sender, EventArgs e)
-		{
-			if (chkSaveData.Checked)
-			{
-				if (curTask.Save())
-					txtPath.Text = curTask.Address;
-				else
-					chkSaveData.Checked = false;
-			}
-			else
-			{
-				txtPath.Text = "";
-				curTask.UnSave();
-			}
-		}
-
 		void cmbxSavMod_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if (cmbxSavMod.SelectedIndex == 0) 
@@ -417,15 +407,15 @@ namespace TaskLab
 				ColorDialog cd = new ColorDialog();
 				if (cd.ShowDialog() == DialogResult.OK)
 				{
-					curTask.picList[selectedSlide].TransColor = cd.Color;
-					curTask.picList[selectedSlide].UseTransparency = true;
+					curTask.PicList[selectedSlide].TransColor = cd.Color;
+					curTask.PicList[selectedSlide].UseTransparency = true;
 				}
 				else
 					chkbxMakTransprnt.Checked = false;
 
 			}
 			else
-				curTask.picList[selectedSlide].UseTransparency = false;
+				curTask.PicList[selectedSlide].UseTransparency = false;
 			
 		}
 		
@@ -437,15 +427,15 @@ namespace TaskLab
         private void enterWebURLToolStripMenuItem_Click(object sender, EventArgs e)
         {
 			URLInput url = new URLInput();
-			if (curTask.picList[selectedSlide].MediaTaskType == MediaType.Web)
-				url.txtbxURL.Text = curTask.picList[selectedSlide].URL;
+			if (curTask.PicList[selectedSlide].MediaTaskType == MediaType.Web)
+				url.txtbxURL.Text = curTask.PicList[selectedSlide].URL;
 			if (url.ShowDialog() == DialogResult.OK)
 			{
-				curTask.picList[selectedSlide].VerifyElementbyAddress(url.txtbxURL.Text, true);
+				curTask.PicList[selectedSlide].VerifyElementbyAddress(url.txtbxURL.Text, true);
 				url.Dispose(); url = null;
 				SelectSlide(selectedSlide);
 				PictureBox pbTemp = (PictureBox)thumbs[selectedSlide].Controls.Find("pb" + selectedSlide, false)[0];
-				pbTemp.Image = curTask.picList[selectedSlide].Image;
+				pbTemp.Image = curTask.PicList[selectedSlide].Image;
 			}
         }
 
@@ -455,7 +445,7 @@ namespace TaskLab
 			DwmExtendFrameIntoClientArea(this.Handle, ref marg);
 			this.StartPosition = FormStartPosition.Manual;
 			pbDesign.SizeMode = PictureBoxSizeMode.StretchImage;
-			curTask.OperationalImageSize = pbDesign.Size;
+			curTask.OperationalImageSize = splitContainer1.Panel2.Size;
 			vlcControl1.EndReached += PreviewStoped;
 		}
 
@@ -476,7 +466,7 @@ namespace TaskLab
 
 				if (thumbs.Count > 0)
 				{
-					curTask.picList[selectedSlide].BGColor = btnBackgroundCol.BackColor;
+					curTask.PicList[selectedSlide].BGColor = btnBackgroundCol.BackColor;
 					pbDesign.Image = curTask.GetOperationFrame(true, selectedSlide);
 					PictureBox p = (PictureBox)thumbs[selectedSlide].Controls.Find("pb" + selectedSlide, false)[0];
 					p.Image = curTask.GetOperationFrame(false, selectedSlide);
@@ -486,11 +476,10 @@ namespace TaskLab
 
 		void btnSave_Click(object sender, EventArgs e)
 		{
-			if (curTask.Address == null)
-				chkSaveData.Checked = true;
+			if (curTask.Save())
+				MetroMessageBox.Show((IWin32Window)this,"Task Saved Successfully.", "Save Task", MessageBoxButtons.OK, MessageBoxIcon.Information, 100);
 			else
-				curTask.Save();
-
+				MetroMessageBox.Show((IWin32Window)this, "Error Writing Task to File.", "Save Task", MessageBoxButtons.OK, MessageBoxIcon.Information, 100);
 		}
 
 		void btnLoad_Click(object sender, EventArgs e)
@@ -498,8 +487,17 @@ namespace TaskLab
 			if (!CheckSave(true))
 				return;
 
-			curTask.Load();
-
+			if (curTask.Load())
+			{
+				PicturePanelReset(-1);
+				SelectSlide(picCount - 1);
+				Application.DoEvents();
+				MetroMessageBox.Show((IWin32Window)this, "Task Loaded Successfully.", "Load Task", MessageBoxButtons.OK, MessageBoxIcon.Information, 100);
+			}
+			else
+			{ 
+				MetroMessageBox.Show((IWin32Window)this, "Error Reading Task from File", "Load Task", MessageBoxButtons.OK, MessageBoxIcon.Information, 100);
+			}
 		}
 
 		void btnStart_Click(object sender, EventArgs e)
@@ -513,7 +511,7 @@ namespace TaskLab
 			}
 			pbDesign.Visible = false;
 			vlcControl1.Visible = true;
-			vlcControl1.SetMedia(new FileInfo(curTask.picList[selectedSlide].Address));
+			vlcControl1.SetMedia(new FileInfo(curTask.PicList[selectedSlide].Address));
 			vlcControl1.Play();
 			btnStart.BackgroundImage = Resource.stop;
 		}
@@ -553,7 +551,7 @@ namespace TaskLab
 		{
 			if (e.KeyCode == Keys.Delete)
 			{
-				if (pnlPics.Visible == true)
+				if (pnlPics.Visible == true && selectedSlide > -1)
 				{
 					RemoveSlide();
 
@@ -591,17 +589,12 @@ namespace TaskLab
 
 		}
 
-		void pnlPics_Layout(object sender, LayoutEventArgs e)
-		{
-			for (int i = 0; i < thumbs.Count; i++)
-				DrawBorderPanels(i);
-		}
-
 		void TaskGen_Resize(object sender, EventArgs e)
 		{
 			curTask.OperationalImageSize = new Size(splitContainer1.Panel2.Width, splitContainer1.Panel2.Height);
 			SelectSlide(selectedSlide);
 			pnlSetting.Width = splitContainer1.Panel2.Width - 14;
+			
 		}
 
 		private void showSettingsPanelToolStripMenuItem_Click(object sender, EventArgs e)
@@ -617,12 +610,12 @@ namespace TaskLab
 			{
 				PictureBox pbTemp = (PictureBox)thumbs[selectedSlide].Controls.Find("pb" + selectedSlide, false)[0];
 
-				MediaType type = curTask.picList[selectedSlide].VerifyElementbyAddress(file.FileName, false);
+				MediaType type = curTask.PicList[selectedSlide].VerifyElementbyAddress(file.FileName, false);
 
 				
 				if (type == MediaType.Image)
 				{
-					pbTemp.Image = curTask.picList[selectedSlide].Image;
+					pbTemp.Image = curTask.PicList[selectedSlide].Image;
 				}
 				if (type == MediaType.Empty)
 				{
@@ -639,13 +632,13 @@ namespace TaskLab
 			if (file.ShowDialog() == DialogResult.OK)
 			{
 				PictureBox pbTemp = (PictureBox)thumbs[selectedSlide].Controls.Find("pb" + selectedSlide, false)[0];
-				MediaType type = curTask.picList[selectedSlide].VerifyElementbyAddress(file.FileName, false);
+				MediaType type = curTask.PicList[selectedSlide].VerifyElementbyAddress(file.FileName, false);
 				if (type == MediaType.Video)
 				{
 					TextBox text = (TextBox)pnlPics.Controls.Find("txtPicTime" + selectedSlide.ToString(), true)[0];
 					text.Enabled = false;
-					text.Text = curTask.picList[selectedSlide].Time.ToString();
-					pbTemp.Image = curTask.picList[selectedSlide].Image;
+					text.Text = curTask.PicList[selectedSlide].Time.ToString();
+					pbTemp.Image = curTask.PicList[selectedSlide].Image;
 				}
 				if (type == MediaType.Empty)
 				{
@@ -653,6 +646,11 @@ namespace TaskLab
 				}
 				SelectSlide(selectedSlide);
 			}
+		}
+
+		private void timer1_Tick(object sender, EventArgs e)
+		{
+			DrawBorderPanels(-1);
 		}
 
 		bool CheckSave(bool message)
@@ -692,41 +690,7 @@ namespace TaskLab
 				}
 			}
 		}
-
-		void tmrMain_Tick(object sender, EventArgs e)
-		{
-
-			if (selectedSlide == -1)
-			{
-				pbDesign.BackColor = SystemColors.ActiveCaption;
-
-				return;
-			}
-
-			PictureBox picB = (PictureBox)pnlPics.Controls.Find("pb" + selectedSlide.ToString(), true)[0];
-			//if (vlcControl1.IsPlaying)
-			//	vlcControl1.Stop();
-			if (curTask.picList[selectedSlide].MediaTaskType == MediaType.Image)
-			{
-				vlcControl1.Visible = false;
-				pbDesign.Visible = true;
-				btnStart.Enabled = false;
-				pbDesign.Image = curTask.GetOperationFrame(true, selectedSlide);
-				picB.Image = pbDesign.Image;
-			}
-			else
-			{
-				vlcControl1.Visible = true;
-				pbDesign.Visible = false;
-				btnStart.Enabled = true;
-				vlcControl1.BackgroundImageLayout = ImageLayout.Stretch;
-				vlcControl1.BackgroundImage = curTask.GetOperationFrame(true, selectedSlide);
-				picB.Image = vlcControl1.BackgroundImage;
-			}
-
-		}
-
-		//// هنگام کلیک بر روی تصویر
+						
 		void pb_Click(object sender, EventArgs e)
 		{
 			PictureBox pbTemp = (PictureBox)sender;

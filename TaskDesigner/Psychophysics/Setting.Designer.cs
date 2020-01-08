@@ -1,5 +1,5 @@
 ﻿using TaskDesigner;
-using Basics;
+
 namespace Psychophysics
 {
     partial class Setting

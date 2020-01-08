@@ -5,11 +5,10 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using System.IO;
-using Psychophysics;
-using Psychophysics.Old;
+using Basics;
 using TaskRunning;
 
-namespace Basics
+namespace Psychophysics
 {
     public partial class PsycoPhysicTask : XCoolForm.XCoolForm
     {
@@ -73,7 +72,7 @@ namespace Basics
 		void SetTheme()
 		{
 			this.Border.BorderStyle = XCoolForm.X3DBorderPrimitive.XBorderStyle.Flat;
-			this.TitleBar.TitleBarBackImage = TaskDesigner.Properties.Resources.engineer;
+			//this.TitleBar.TitleBarBackImage = TaskDesigner.Properties.Resources.engineer;
 			this.TitleBar.TitleBarCaption = "CogLAB Psycophysics";
 
 			this.TitleBar.TitleBarButtons[2].ButtonFillMode = XCoolForm.XTitleBarButton.XButtonFillMode.None;
@@ -81,7 +80,7 @@ namespace Basics
 			this.TitleBar.TitleBarButtons[0].ButtonFillMode = XCoolForm.XTitleBarButton.XButtonFillMode.None;
 
 			this.TitleBar.TitleBarType = XCoolForm.XTitleBar.XTitleBarType.Angular;
-			this.MenuIcon = TaskDesigner.Properties.Resources.brain.GetThumbnailImage(25, 25, null, IntPtr.Zero);
+			//this.MenuIcon = TaskDesigner.Properties.Resources.brain.GetThumbnailImage(25, 25, null, IntPtr.Zero);
 			this.StatusBar.EllipticalGlow = false;
 
 			this.TitleBar.TitleBarFill = XCoolForm.XTitleBar.XTitleBarFill.UpperGlow;
@@ -96,19 +95,19 @@ namespace Basics
 		
 		void TaskPreview_Load(object sender, EventArgs e)
 		{
-			this.IconHolder.HolderButtons.Add(new XCoolForm.XTitleBarIconHolder.XHolderButton(TaskDesigner.Properties.Resources.file.GetThumbnailImage(20, 20, null, IntPtr.Zero), "File"));
+			//this.IconHolder.HolderButtons.Add(new XCoolForm.XTitleBarIconHolder.XHolderButton(TaskDesigner.Properties.Resources.file.GetThumbnailImage(20, 20, null, IntPtr.Zero), "File"));
 			this.IconHolder.HolderButtons.Add(new XCoolForm.XTitleBarIconHolder.XHolderButton(TaskDesigner.Properties.Resources.add.GetThumbnailImage(20, 20, null, IntPtr.Zero), "Add"));
 			this.IconHolder.HolderButtons.Add(new XCoolForm.XTitleBarIconHolder.XHolderButton(TaskDesigner.Properties.Resources.import.GetThumbnailImage(20, 20, null, IntPtr.Zero), "Load"));
 			this.IconHolder.HolderButtons.Add(new XCoolForm.XTitleBarIconHolder.XHolderButton(TaskDesigner.Properties.Resources.save.GetThumbnailImage(20, 20, null, IntPtr.Zero), "Save"));
-			this.IconHolder.HolderButtons.Add(new XCoolForm.XTitleBarIconHolder.XHolderButton(TaskDesigner.Properties.Resources.setting.GetThumbnailImage(20, 20, null, IntPtr.Zero), "Setting"));
-			this.IconHolder.HolderButtons.Add(new XCoolForm.XTitleBarIconHolder.XHolderButton(TaskDesigner.Properties.Resources.help.GetThumbnailImage(20, 20, null, IntPtr.Zero), "Help"));
+			//this.IconHolder.HolderButtons.Add(new XCoolForm.XTitleBarIconHolder.XHolderButton(TaskDesigner.Properties.Resources.setting.GetThumbnailImage(20, 20, null, IntPtr.Zero), "Setting"));
+			//this.IconHolder.HolderButtons.Add(new XCoolForm.XTitleBarIconHolder.XHolderButton(TaskDesigner.Properties.Resources.help.GetThumbnailImage(20, 20, null, IntPtr.Zero), "Help"));
 
-			this.IconHolder.HolderButtons[0].FrameBackImage = TaskDesigner.Properties.Resources.file.GetThumbnailImage(48, 48, null, IntPtr.Zero);
-			this.IconHolder.HolderButtons[1].FrameBackImage = TaskDesigner.Properties.Resources.add.GetThumbnailImage(48, 48, null, IntPtr.Zero);
-			this.IconHolder.HolderButtons[2].FrameBackImage = TaskDesigner.Properties.Resources.import.GetThumbnailImage(48, 48, null, IntPtr.Zero);
-			this.IconHolder.HolderButtons[3].FrameBackImage = TaskDesigner.Properties.Resources.save.GetThumbnailImage(48, 48, null, IntPtr.Zero);
-			this.IconHolder.HolderButtons[4].FrameBackImage = TaskDesigner.Properties.Resources.setting.GetThumbnailImage(48, 48, null, IntPtr.Zero);
-			this.IconHolder.HolderButtons[5].FrameBackImage = TaskDesigner.Properties.Resources.help.GetThumbnailImage(48, 48, null, IntPtr.Zero);
+			//this.IconHolder.HolderButtons[0].FrameBackImage = TaskDesigner.Properties.Resources.file.GetThumbnailImage(48, 48, null, IntPtr.Zero);
+			this.IconHolder.HolderButtons[0].FrameBackImage = TaskDesigner.Properties.Resources.add.GetThumbnailImage(48, 48, null, IntPtr.Zero);
+			this.IconHolder.HolderButtons[1].FrameBackImage = TaskDesigner.Properties.Resources.import.GetThumbnailImage(48, 48, null, IntPtr.Zero);
+			this.IconHolder.HolderButtons[2].FrameBackImage = TaskDesigner.Properties.Resources.save.GetThumbnailImage(48, 48, null, IntPtr.Zero);
+			//this.IconHolder.HolderButtons[4].FrameBackImage = TaskDesigner.Properties.Resources.setting.GetThumbnailImage(48, 48, null, IntPtr.Zero);
+			//this.IconHolder.HolderButtons[5].FrameBackImage = TaskDesigner.Properties.Resources.help.GetThumbnailImage(48, 48, null, IntPtr.Zero);
 
 			this.StatusBar.BarItems.Add(new XCoolForm.XStatusBar.XBarItem(60));
 			this.StatusBar.BarItems.Add(new XCoolForm.XStatusBar.XBarItem(200, "INS"));
@@ -126,14 +125,27 @@ namespace Basics
 			switch (e.ButtonIndex)
 			{
 				case 0:
-
-					break;
-				case 1:
 					if (_tsk.EnabledTask.Count == _tsk.AllLevelProp.Count)
 					{
 						TaskName++;
 						Add_PB_Click(null, null);
 						_tsk.EnabledTask.Add(0);
+					}
+					break;
+				case 1:
+					{
+						if (_tsk.LoadTaskFromFile(true, null))
+						{
+							MessageBox.Show("Selected task loaded successfully!", "Load Task");
+							FillTaskTable();
+						}
+
+					}
+					break;
+				case 2:
+					{
+						if (_tsk.SavePsycoPhysicTask(true))
+							MessageBox.Show("Selected task saved successfully!", "Save Task");
 					}
 					break;
 				case 4:
@@ -142,22 +154,8 @@ namespace Basics
 					//this.Hide();
 					//SettingFrm.Show();
 					break;
-				case 3:
-					{
-						if (_tsk.SavePsycoPhysicTask(true))
-							MessageBox.Show("Selected task saved successfully!", "Save Task");
-					}
-					break;
-				case 2:
-					{
-						if (_tsk.LoadTaskFromFile(true, null))
-						{
-							MessageBox.Show("Selected task loaded successfully!", "Load Task");
-							FillTaskTable();
-						}
-						
-					}
-					break;
+							
+				
 				case 5:
 					break;
 				case 6:

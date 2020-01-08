@@ -29,6 +29,7 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PsycologyDesigner));
 			this.pnlBackGround = new System.Windows.Forms.Panel();
 			this.pnlBody = new System.Windows.Forms.Panel();
 			this.spltContner = new System.Windows.Forms.SplitContainer();
@@ -143,6 +144,8 @@
 			// 
 			// spltContner.Panel2
 			// 
+			this.spltContner.Panel2.BackgroundImage = global::TaskDesigner.Resource.psycho_icon_nocolor;
+			this.spltContner.Panel2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
 			this.spltContner.Panel2.Controls.Add(this.pnlSetting);
 			this.spltContner.Panel2.Controls.Add(this.pbDesign);
 			this.spltContner.Panel2MinSize = 50;
@@ -672,16 +675,16 @@
 			this.pnlSetting.Controls.Add(this.chkSaveData);
 			this.pnlSetting.Controls.Add(this.cmbxSavMod);
 			this.pnlSetting.Controls.Add(this.txtPath);
-			this.pnlSetting.Location = new System.Drawing.Point(3, 491);
+			this.pnlSetting.Location = new System.Drawing.Point(3, 515);
 			this.pnlSetting.Name = "pnlSetting";
-			this.pnlSetting.Size = new System.Drawing.Size(524, 112);
+			this.pnlSetting.Size = new System.Drawing.Size(1063, 88);
 			this.pnlSetting.TabIndex = 69;
 			this.pnlSetting.Visible = false;
 			// 
 			// label5
 			// 
 			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(9, 13);
+			this.label5.Location = new System.Drawing.Point(8, 15);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(86, 13);
 			this.label5.TabIndex = 96;
@@ -690,7 +693,7 @@
 			// chkboxUseBackImage
 			// 
 			this.chkboxUseBackImage.AutoSize = true;
-			this.chkboxUseBackImage.Location = new System.Drawing.Point(12, 49);
+			this.chkboxUseBackImage.Location = new System.Drawing.Point(11, 53);
 			this.chkboxUseBackImage.Name = "chkboxUseBackImage";
 			this.chkboxUseBackImage.Size = new System.Drawing.Size(84, 15);
 			this.chkboxUseBackImage.TabIndex = 95;
@@ -701,15 +704,14 @@
 			// 
 			// btnBackImage
 			// 
-			this.btnBackImage.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.btnBackImage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(85)))), ((int)(((byte)(85)))), ((int)(((byte)(85)))));
 			this.btnBackImage.FlatAppearance.BorderSize = 0;
 			this.btnBackImage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.btnBackImage.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.btnBackImage.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-			this.btnBackImage.Location = new System.Drawing.Point(111, 44);
+			this.btnBackImage.Location = new System.Drawing.Point(111, 49);
 			this.btnBackImage.Name = "btnBackImage";
-			this.btnBackImage.Size = new System.Drawing.Size(137, 25);
+			this.btnBackImage.Size = new System.Drawing.Size(111, 25);
 			this.btnBackImage.TabIndex = 93;
 			this.btnBackImage.Text = "Select Image";
 			this.btnBackImage.UseVisualStyleBackColor = false;
@@ -717,15 +719,14 @@
 			// 
 			// btnTaskBackColor
 			// 
-			this.btnTaskBackColor.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.btnTaskBackColor.BackColor = System.Drawing.Color.Silver;
 			this.btnTaskBackColor.FlatAppearance.BorderSize = 0;
 			this.btnTaskBackColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.btnTaskBackColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.btnTaskBackColor.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-			this.btnTaskBackColor.Location = new System.Drawing.Point(111, 7);
+			this.btnTaskBackColor.Location = new System.Drawing.Point(111, 9);
 			this.btnTaskBackColor.Name = "btnTaskBackColor";
-			this.btnTaskBackColor.Size = new System.Drawing.Size(137, 25);
+			this.btnTaskBackColor.Size = new System.Drawing.Size(111, 25);
 			this.btnTaskBackColor.TabIndex = 92;
 			this.btnTaskBackColor.UseVisualStyleBackColor = false;
 			this.btnTaskBackColor.Click += new System.EventHandler(this.btnTaskBackColor_Click);
@@ -735,7 +736,7 @@
 			this.chkSaveData.AutoSize = true;
 			this.chkSaveData.Checked = true;
 			this.chkSaveData.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chkSaveData.Location = new System.Drawing.Point(12, 87);
+			this.chkSaveData.Location = new System.Drawing.Point(237, 13);
 			this.chkSaveData.Name = "chkSaveData";
 			this.chkSaveData.Size = new System.Drawing.Size(47, 15);
 			this.chkSaveData.TabIndex = 84;
@@ -753,7 +754,7 @@
 			this.cmbxSavMod.ItemHeight = 19;
 			this.cmbxSavMod.Items.AddRange(new object[] {
             "Text mode"});
-			this.cmbxSavMod.Location = new System.Drawing.Point(111, 79);
+			this.cmbxSavMod.Location = new System.Drawing.Point(290, 9);
 			this.cmbxSavMod.Name = "cmbxSavMod";
 			this.cmbxSavMod.PromptText = "Saving Settings";
 			this.cmbxSavMod.Size = new System.Drawing.Size(137, 25);
@@ -764,11 +765,12 @@
 			// 
 			// txtPath
 			// 
+			this.txtPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			// 
 			// 
 			// 
 			this.txtPath.CustomButton.Image = null;
-			this.txtPath.CustomButton.Location = new System.Drawing.Point(225, 1);
+			this.txtPath.CustomButton.Location = new System.Drawing.Point(555, 1);
 			this.txtPath.CustomButton.Name = "";
 			this.txtPath.CustomButton.Size = new System.Drawing.Size(23, 23);
 			this.txtPath.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
@@ -778,17 +780,17 @@
 			this.txtPath.CustomButton.Visible = false;
 			this.txtPath.Enabled = false;
 			this.txtPath.Lines = new string[0];
-			this.txtPath.Location = new System.Drawing.Point(267, 79);
+			this.txtPath.Location = new System.Drawing.Point(442, 9);
 			this.txtPath.MaxLength = 32767;
 			this.txtPath.Name = "txtPath";
 			this.txtPath.PasswordChar = '\0';
-			this.txtPath.WaterMark = "Task Address";
+			this.txtPath.PromptText = "Task Address";
 			this.txtPath.ScrollBars = System.Windows.Forms.ScrollBars.None;
 			this.txtPath.SelectedText = "";
 			this.txtPath.SelectionLength = 0;
 			this.txtPath.SelectionStart = 0;
 			this.txtPath.ShortcutsEnabled = true;
-			this.txtPath.Size = new System.Drawing.Size(249, 25);
+			this.txtPath.Size = new System.Drawing.Size(579, 25);
 			this.txtPath.TabIndex = 72;
 			this.txtPath.UseCustomBackColor = true;
 			this.txtPath.UseSelectable = true;
@@ -823,12 +825,14 @@
 			this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.ClientSize = new System.Drawing.Size(1298, 606);
 			this.Controls.Add(this.pnlBackGround);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "PsycologyDesigner";
-			this.ShowIcon = false;
 			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
+			this.Text = "Phsycology Task Designer";
 			this.TransparencyKey = System.Drawing.SystemColors.ActiveCaption;
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PsycologyDesigner_FormClosing);
 			this.Load += new System.EventHandler(this.PsycologyDesigner_Load);
+			this.Resize += new System.EventHandler(this.PsycologyDesigner_Resize);
 			this.pnlBackGround.ResumeLayout(false);
 			this.pnlBody.ResumeLayout(false);
 			this.spltContner.Panel1.ResumeLayout(false);

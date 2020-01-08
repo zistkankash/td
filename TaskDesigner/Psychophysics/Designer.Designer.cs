@@ -1,5 +1,4 @@
-﻿using TaskDesigner;
-namespace Psychophysics.Old
+﻿namespace Psychophysics
 {
 	partial class Designer
 	{

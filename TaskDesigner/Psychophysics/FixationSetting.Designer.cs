@@ -1,5 +1,4 @@
-﻿using TaskDesigner;
-namespace Psychophysics
+﻿namespace Psychophysics
 {
     partial class FixationSetting
     {

@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Basics;
 using TaskDesigner;
-using static Psychophysics.Old.Designer;
+using static Psychophysics.Designer;
 
 namespace Psychophysics
 {

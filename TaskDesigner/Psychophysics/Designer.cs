@@ -11,7 +11,7 @@ using System.Windows.Forms;
 using Basics;
 using TaskDesigner;
 
-namespace Psychophysics.Old
+namespace Psychophysics
 {
     public partial class Designer : XCoolForm.XCoolForm 
     {
