@@ -49,6 +49,7 @@ namespace TaskRunning
 			runMod = RunMod.Stop;
 			curTsk = cs;
 			InitForm();
+			InitBrowser();
 		}
 		
 		public TaskRunner(TaskClient cs)
@@ -59,6 +60,7 @@ namespace TaskRunning
 			curTsk = cs;
 			
 			InitForm();
+			InitBrowser();
 		}
 
 		void InitBrowser()
@@ -80,7 +82,7 @@ namespace TaskRunning
 			StartPosition = FormStartPosition.Manual;
 			pctbxFrm.SizeMode = PictureBoxSizeMode.StretchImage;
 			LocateForm();
-
+			
 			//adding chromium browser to form
 
 		}
@@ -183,10 +185,17 @@ namespace TaskRunning
 				if (vlcControl1.IsPlaying)
 					vlcControl1.Stop();
 				vlcControl1.Visible = false;
-				pctbxFrm.Visible = true;
-				RunnerUtils.MediaPictureRenderer(pic.BGColor, pic.Image,pic.UseTransparency, pic.TransColor, false, ref _runnerBitmap);
-				pctbxFrm.Image = _runnerBitmap;
-				
+				if (pic.MediaTaskType == MediaType.Image || pic.MediaTaskType == MediaType.Empty)
+				{
+					pctbxFrm.Visible = true;
+					RunnerUtils.MediaPictureRenderer(pic.BGColor, pic.Image, pic.UseTransparency, pic.TransColor, false, ref _runnerBitmap);
+					pctbxFrm.Image = _runnerBitmap;
+				}
+				else
+				{
+					rec = new ScreenRecorder.Recorder(new ScreenRecorder.RecorderParams("web.avi", 30, SharpAvi.KnownFourCCs.Codecs.MotionJpeg, 70));
+					_controlWebBrowser.Visible = true;
+				}
 			}
 			_timeLimit = pic.Time;
 			tskWatch.Restart();
