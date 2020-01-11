@@ -33,6 +33,9 @@
 			this.refTimer = new System.Windows.Forms.Timer(this.components);
 			this.krbTabControl2 = new KRBTabControl.KRBTabControl();
 			this.tabPageEx1 = new KRBTabControl.TabPageEx();
+			this.btnClose = new System.Windows.Forms.Button();
+			this.label2 = new System.Windows.Forms.Label();
+			this.label1 = new System.Windows.Forms.Label();
 			this.pbOper = new System.Windows.Forms.PictureBox();
 			this.btnStop = new System.Windows.Forms.Button();
 			this.btnStart = new System.Windows.Forms.Button();
@@ -66,9 +69,6 @@
 			this.metroRadioButton1 = new MetroFramework.Controls.MetroRadioButton();
 			this.metroRadioButton2 = new MetroFramework.Controls.MetroRadioButton();
 			this.metroLabel24 = new MetroFramework.Controls.MetroLabel();
-			this.label1 = new System.Windows.Forms.Label();
-			this.label2 = new System.Windows.Forms.Label();
-			this.btnClose = new System.Windows.Forms.Button();
 			this.krbTabControl2.SuspendLayout();
 			this.tabPageEx1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pbOper)).BeginInit();
@@ -134,6 +134,38 @@
 			this.tabPageEx1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tabPageEx1_MouseDown);
 			this.tabPageEx1.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.tabPageEx1_PreviewKeyDown);
 			// 
+			// btnClose
+			// 
+			this.btnClose.BackColor = System.Drawing.Color.RoyalBlue;
+			this.btnClose.FlatAppearance.BorderColor = System.Drawing.Color.BlanchedAlmond;
+			this.btnClose.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+			this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.btnClose.Location = new System.Drawing.Point(371, 398);
+			this.btnClose.Name = "btnClose";
+			this.btnClose.Size = new System.Drawing.Size(108, 34);
+			this.btnClose.TabIndex = 105;
+			this.btnClose.Text = "Close Operator";
+			this.btnClose.UseVisualStyleBackColor = false;
+			this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
+			// 
+			// label2
+			// 
+			this.label2.AutoSize = true;
+			this.label2.Location = new System.Drawing.Point(3, 356);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(97, 15);
+			this.label2.TabIndex = 104;
+			this.label2.Text = "Output Address:";
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(1, 308);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(82, 15);
+			this.label1.TabIndex = 103;
+			this.label1.Text = "Task Address:";
+			// 
 			// pbOper
 			// 
 			this.pbOper.BackColor = System.Drawing.Color.Gray;
@@ -142,6 +174,7 @@
 			this.pbOper.Size = new System.Drawing.Size(472, 278);
 			this.pbOper.TabIndex = 0;
 			this.pbOper.TabStop = false;
+			this.pbOper.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.pbOper_PreviewKeyDown);
 			// 
 			// btnStop
 			// 
@@ -207,6 +240,7 @@
 			this.txtSavPath.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
 			this.txtSavPath.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
 			this.txtSavPath.Click += new System.EventHandler(this.txtPath_Click);
+			this.txtSavPath.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSavPath_KeyDown);
 			// 
 			// txtbxTask
 			// 
@@ -241,6 +275,8 @@
 			this.txtbxTask.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
 			this.txtbxTask.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
 			this.txtbxTask.Click += new System.EventHandler(this.txtbxTask_Click);
+			this.txtbxTask.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtbxTask_KeyDown);
+			this.txtbxTask.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.txtbxTask_PreviewKeyDown);
 			// 
 			// tabPageEx4
 			// 
@@ -595,39 +631,6 @@
 			this.metroLabel24.Text = "______________________________";
 			this.metroLabel24.UseCustomBackColor = true;
 			// 
-			// label1
-			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(1, 307);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(82, 15);
-			this.label1.TabIndex = 103;
-			this.label1.Text = "Task Address:";
-			// 
-			// label2
-			// 
-			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(3, 354);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(97, 15);
-			this.label2.TabIndex = 104;
-			this.label2.Text = "Output Address:";
-			// 
-			// btnClose
-			// 
-			this.btnClose.BackColor = System.Drawing.Color.RoyalBlue;
-			this.btnClose.Enabled = false;
-			this.btnClose.FlatAppearance.BorderColor = System.Drawing.Color.BlanchedAlmond;
-			this.btnClose.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-			this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.btnClose.Location = new System.Drawing.Point(371, 398);
-			this.btnClose.Name = "btnClose";
-			this.btnClose.Size = new System.Drawing.Size(108, 34);
-			this.btnClose.TabIndex = 105;
-			this.btnClose.Text = "Close Operator";
-			this.btnClose.UseVisualStyleBackColor = false;
-			this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
-			// 
 			// TaskOperator
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -698,11 +701,11 @@
 		private System.Windows.Forms.PictureBox pbOper;
 		private System.Windows.Forms.Button btnStop;
 		private System.Windows.Forms.Button btnStart;
-		private MetroFramework.Controls.MetroTextBox txtSavPath;
 		private MetroFramework.Controls.MetroTextBox txtbxTask;
 		public System.Windows.Forms.CheckBox chkb_nmsPrompt;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Button btnClose;
+		public MetroFramework.Controls.MetroTextBox txtSavPath;
 	}
 }

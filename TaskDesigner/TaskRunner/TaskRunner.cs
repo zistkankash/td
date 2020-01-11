@@ -23,7 +23,7 @@ namespace TaskRunning
 		SoundPlayer winSound;
 		SoundPlayer failSound;
 
-		bool silentMode = false;
+		bool doGaze = false;
 		bool brake = false;
 		Screen[] screens;
 		public static TaskClient curTsk;
@@ -55,7 +55,7 @@ namespace TaskRunning
 		public TaskRunner(TaskClient cs)
 		{
 			InitializeComponent();
-			silentMode = true;
+			
 			runMod = RunMod.Stop;
 			curTsk = cs;
 			
@@ -74,6 +74,7 @@ namespace TaskRunning
 			_controlWebBrowser.ActivateBrowserOnCreation = true;
 			_controlWebBrowser.Dock = DockStyle.Fill;
 		}
+		
 		void InitForm()
 		{
 			screens = Screen.AllScreens;
@@ -134,9 +135,7 @@ namespace TaskRunning
 			{
 				curTsk.MediaTask.showedIndex = 0;
 				Invoke((Action)delegate { LocateForm(); SetNextMediaSlide(); tsop.SetNextSlide(); });
-				
-				tskWatch.Start();
-								
+												
 				while (curTsk.MediaTask.showedIndex < curTsk.MediaTask.PicList.Count)
 				{
 					if (runMod == RunMod.Stop)
@@ -152,6 +151,7 @@ namespace TaskRunning
 					//Check status to go to next slide...
 					if ((curTsk.runConf.useCursorNextFrm && _mouseClicked && tskWatch.ElapsedMilliseconds > _timeLimit * 0.1) || tskWatch.ElapsedMilliseconds > _timeLimit || brake)
 					{
+						doGaze = false;
 						_mouseClicked = false;
 						curTsk.MediaTask.showedIndex++;
 						Invoke((Action)delegate { tsop.SetNextSlide(); });
@@ -186,6 +186,7 @@ namespace TaskRunning
 			{
 				vlcControl1.Visible = true;
 				vlcControl1.Play(new FileInfo(pic.Address));
+				vlcControl1.Playing += VlcControl1_Playing;
 				vlcControl1.EndReached += VlcControl1_EndReached;	
 			}
 			else
@@ -195,17 +196,26 @@ namespace TaskRunning
 					pctbxFrm.Visible = true;
 					RunnerUtils.MediaPictureRenderer(pic.BGColor, pic.Image, pic.UseTransparency, pic.TransColor, false, ref _runnerBitmap);
 					pctbxFrm.Image = _runnerBitmap;
+					
 				}
 				else
 				{
-					rec = new ScreenRecorder.Recorder(new ScreenRecorder.RecorderParams(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\web.avi", 30, SharpAvi.KnownFourCCs.Codecs.MotionJpeg, 70));
+					rec = new ScreenRecorder.Recorder(new ScreenRecorder.RecorderParams(Path.GetDirectoryName(tsop.txtSavPath.Text) + "\\web.avi", 30, SharpAvi.KnownFourCCs.Codecs.MotionJpeg, 70));
 					_controlWebBrowser.Visible = true;
 					_controlWebBrowser.Load(pic.URL);
+					
 				}
+				tskWatch.Restart();
 			}
 			_timeLimit = pic.Time;
-			tskWatch.Restart();
+			
 			return true;
+		}
+
+		private void VlcControl1_Playing(object sender, Vlc.DotNet.Core.VlcMediaPlayerPlayingEventArgs e)
+		{
+			doGaze = true;
+			tskWatch.Restart();
 		}
 
 		private void VlcControl1_EndReached(object sender, Vlc.DotNet.Core.VlcMediaPlayerEndReachedEventArgs e)
@@ -215,14 +225,14 @@ namespace TaskRunning
 
 		void GetMediaGaze(object sender, GazeTriple gzTemp)
 		{
-						
-			if (gzTemp != null)
-			{
-				TaskOperator.savedData += gzTemp.x.ToString() + "," + gzTemp.y.ToString() + "," + gzTemp.pupilSize.ToString() + "," + gzTemp.time.ToString()  + "\n";
-				TaskOperator.gzX = (float)gzTemp.x;
-				TaskOperator.gzY = (float)gzTemp.y;
-				return;
-			}
+			if (doGaze)
+				if (gzTemp != null)
+				{
+					TaskOperator.savedData += gzTemp.x.ToString() + "," + gzTemp.y.ToString() + "," + gzTemp.pupilSize.ToString() + "," + gzTemp.time.ToString() + "\n";
+					TaskOperator.gzX = (float)gzTemp.x;
+					TaskOperator.gzY = (float)gzTemp.y;
+					return;
+				}
 			
 		}
 

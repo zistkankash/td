@@ -17,7 +17,7 @@ namespace TaskRunning
 	{
 		SaveFileDialog sfd = null;
 		TaskRunner runner = null;
-		Bitmap _operationBitmap;
+		Bitmap _operationBitmap, tempBitmap;
 		
 		ETStatus _etStat = ETStatus.disconnected;
 		public static float gzX, gzY;
@@ -67,11 +67,12 @@ namespace TaskRunning
 		public static extern bool ReleaseCapture();
 		public const int WM_NCLBUTTONDOWN = 0xA1;
 		public const int HT_CAPTION = 0x2;
-		
+		Screen[] screens;
+
 		public TaskOperator()
 		{
 			InitializeComponent();
-			Screen[] screens = Screen.AllScreens;
+			screens = Screen.AllScreens;
 			triableScreen = new Size(screens[BasConfigs._triableMonitor].Bounds.Width, screens[BasConfigs._triableMonitor].Bounds.Height);
 			tsk = new TaskClient();
 			_operationBitmap = new Bitmap(pbOper.Width, pbOper.Height);
@@ -80,13 +81,15 @@ namespace TaskRunning
 		void RefreshPctBx()
 		{
 			//i++;
-			//gzX = (float)i % pbOper.Width;
-			//gzY = (float)i % pbOper.Height;
+			//gzX = (float)i %1440;
+			//gzY = (float)i %900;
 			if (!_stopped)
 			{
 				if (tsk.Type == TaskType.media)
-					tsk.GetFrameImage(_slideNum, ref _operationBitmap);
-
+				{
+					BitmapManager.Screenshot(out tempBitmap, screens[BasConfigs._triableMonitor].Bounds.Location, new Size(screens[BasConfigs._triableMonitor].Bounds.Width, screens[BasConfigs._triableMonitor].Bounds.Height));
+					_operationBitmap = BitmapManager.DrawOn(tempBitmap, pbOper.Size, Color.White);
+				}
 				if (tsk.Type == TaskType.cognitive && shFrame.opFlag != null)
 				{
 					_operationBitmap = shFrame.opFlag;
@@ -145,14 +148,11 @@ namespace TaskRunning
 					}
 					else
 					{
+						_stopped = false;
 						runner = new TaskRunner(tsk, this);
 						runner.Show();
-						if (_etStat == ETStatus.ready)
-							runner.RunTask(true);
-						
-						else
-							runner.RunTask(false);
-						
+						runner.RunTask(_etStat == ETStatus.ready);
+					
 					}
 					
 					SetControlsLocked();
@@ -249,7 +249,10 @@ namespace TaskRunning
 			sfd.CustomPlaces.Add(@"K:\Documents\");
 			sfd.Filter = "Excel Files (.csv) |*.csv";
 			if (sfd.ShowDialog() == DialogResult.OK)
+			{
+			
 				return sfd.FileName;
+			}
 			else
 				return "";
 		}
@@ -340,7 +343,7 @@ namespace TaskRunning
 			}
 			else
 			{
-				Stop();
+				_stopped = true;
 			}
 		}
 		
@@ -349,6 +352,31 @@ namespace TaskRunning
 			BasConfigs.SetScreenConfigs(cmbTriableScreen.SelectedIndex);
 		}
 		
+		void Stop()
+		{
+			_slideNum = 0;
+			gzX = 0; gzY = 0;
+			_operationBitmap = BitmapManager.TextBitmap("اتمام تسک", Color.Black, Brushes.White, pbOper.Size, 46);
+			SetControlsOpened();
+			txtbxTask.Enabled = true;
+			txtSavPath.Enabled = true;
+			btnStart.Enabled = true;
+			btnStop.Enabled = false;
+			
+			//Select();
+		}
+
+		void Exit()
+		{
+			if (!btnStart.Enabled && btnStop.Enabled)
+			{
+				MetroMessageBox.Show((IWin32Window)this, "Please press Stop Task first!");
+				return;
+			}
+			this.Close();
+			
+		}
+
 		void krbTabControl2_MouseDown(object sender, MouseEventArgs e)
 		{
 			if (e.Button == MouseButtons.Left)
@@ -383,14 +411,14 @@ namespace TaskRunning
 				SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
 			}
 		}
-		
+
 		void krbTabControl2_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
 		{
-		if(krbTabControl2.SelectedIndex == 1)
-		{
+			if (krbTabControl2.SelectedIndex == 1)
+			{
 				krbTabControl2.SelectedIndex = 0;
 				return;
-		}
+			}
 			if (e.KeyCode == Keys.Escape)
 			{
 				Exit();
@@ -401,8 +429,9 @@ namespace TaskRunning
 		{
 			if (e.IsInputKey)
 				return;
-			Exit();
-			
+			if (e.KeyCode == Keys.Escape)
+				Exit();
+
 		}
 
 		void tabPageEx4_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
@@ -410,34 +439,31 @@ namespace TaskRunning
 			krbTabControl2.SelectedIndex = 0;
 		}
 
+		private void txtbxTask_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Escape)
+				Exit();
+		}
+
+		private void txtSavPath_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Escape)
+				Exit();
+		}
+
+		private void txtbxTask_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+		{
+
+		}
+
+		private void pbOper_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+		{
+
+		}
+
 		void btnClose_Click(object sender, EventArgs e)
 		{
 			Close();
-		}
-
-		void Stop()
-		{
-			_slideNum = 0;
-			gzX = 0; gzY = 0;
-			_operationBitmap = BitmapManager.TextBitmap("اتمام تسک", Color.Black, Brushes.White, pbOper.Size, 46);
-			SetControlsOpened();
-			txtbxTask.Enabled = true;
-			txtSavPath.Enabled = true;
-			btnStart.Enabled = true;
-			btnStop.Enabled = false;
-			
-			//Select();
-		}
-
-		void Exit()
-		{
-			if (!btnStart.Enabled && btnStop.Enabled)
-			{
-				MetroMessageBox.Show((IWin32Window)this, "Please press Stop Task first!");
-				return;
-			}
-			this.Close();
-			
 		}
 	}
 

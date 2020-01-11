@@ -146,7 +146,8 @@ namespace Basics
 				var clip = player.newMedia(add);
 				_time = (int)TimeSpan.FromSeconds(clip.duration).TotalMilliseconds;
 				var ffMpeg = new NReco.VideoConverter.FFMpegConverter();
-				ffMpeg.GetVideoThumbnail(add, thumby, Time / 2000);
+								
+				ffMpeg.GetVideoThumbnail(add, thumby, _time / 2000);
 				Bitmap b = new Bitmap(thumby);
 				_image = BitmapManager.DrawOn(b, _parentTask.OperationalImageSize, _bgColor);
 				

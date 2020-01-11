@@ -167,6 +167,7 @@ namespace Basics
 							gazTemp.y = BitConverter.ToDouble(parBuffer, sizeof(double));
 							gazTemp.time = BitConverter.ToInt64(parBuffer, 2 * sizeof(double));
 							gazTemp.pupilSize = BitConverter.ToDouble(parBuffer, 2 * sizeof(double) + sizeof(long));
+
 							gazPnt.Enqueue(gazTemp);
 							OnGaze?.Invoke(this, gazTemp);
 
@@ -249,7 +250,10 @@ namespace Basics
 		public bool StartGaze()
 		{
 			_endGaze = false;
-			
+			if (GazeTracker.Available > 0)
+			{
+				GazeTracker.Receive(parBuffer);
+			}
 			return (Send((short)Comnd.SendGaz));
 		}
 
