@@ -170,7 +170,7 @@ namespace Basics
 			}
 			catch(Exception)
 			{
-				return false;
+				throw new System.ArgumentException("Operational size cannot be zero", "Media Task Reader");
 			}
 		}
 		       

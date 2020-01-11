@@ -367,7 +367,7 @@ namespace TaskLab
 			// splitContainer1.Panel2
 			// 
 			this.splitContainer1.Panel2.BackColor = System.Drawing.SystemColors.ActiveCaption;
-			this.splitContainer1.Panel2.BackgroundImage = global::TaskDesigner.Resource.lingu_icon_nocolor;
+			this.splitContainer1.Panel2.BackgroundImage = global::TaskDesigner.Resource.linguistics_brown_big;
 			this.splitContainer1.Panel2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
 			this.splitContainer1.Panel2.Controls.Add(this.pnlSetting);
 			this.splitContainer1.Panel2.Controls.Add(this.pbDesign);
@@ -655,7 +655,7 @@ namespace TaskLab
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.ActiveCaption;
-			this.BackgroundImage = global::TaskDesigner.Resource.lingu_icon_nocolor;
+			this.BackgroundImage = global::TaskDesigner.Resource.linguistics_brown_big;
 			this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.ClientSize = new System.Drawing.Size(1188, 749);
 			this.ContextMenuStrip = this.MainMenu;

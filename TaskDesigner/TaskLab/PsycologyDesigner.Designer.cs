@@ -144,7 +144,7 @@
 			// 
 			// spltContner.Panel2
 			// 
-			this.spltContner.Panel2.BackgroundImage = global::TaskDesigner.Resource.psycho_icon_nocolor;
+			this.spltContner.Panel2.BackgroundImage = global::TaskDesigner.Resource.psychology_brown_big;
 			this.spltContner.Panel2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
 			this.spltContner.Panel2.Controls.Add(this.pnlSetting);
 			this.spltContner.Panel2.Controls.Add(this.pbDesign);

@@ -281,9 +281,9 @@ namespace TaskDesigner {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap lingu_icon_nocolor {
+        internal static System.Drawing.Bitmap linguistics_brown_big {
             get {
-                object obj = ResourceManager.GetObject("lingu_icon_nocolor", resourceCulture);
+                object obj = ResourceManager.GetObject("linguistics_brown_big", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -521,9 +521,9 @@ namespace TaskDesigner {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap psycho_icon_nocolor {
+        internal static System.Drawing.Bitmap psychology_brown_big {
             get {
-                object obj = ResourceManager.GetObject("psycho_icon_nocolor", resourceCulture);
+                object obj = ResourceManager.GetObject("psychology_brown_big", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -531,9 +531,9 @@ namespace TaskDesigner {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap psychophy_icon_nocolor {
+        internal static System.Drawing.Bitmap psychophysics_brown_big {
             get {
-                object obj = ResourceManager.GetObject("psychophy_icon_nocolor", resourceCulture);
+                object obj = ResourceManager.GetObject("psychophysics_brown_big", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

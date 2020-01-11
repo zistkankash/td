@@ -40,8 +40,8 @@ namespace TaskLab
 		List<Panel> thumbs = new List<Panel>();
 		Color _formBackColor = Color.FromArgb(232, 216, 201);
         ChromiumWebBrowser _controlWebBrowser;
-		Bitmap b1 = new Bitmap(1440,900);
-		ScreenRecorder.Recorder rec;
+		Bitmap b1 = new Bitmap(1440, 900);
+		bool _activeSelect = true;
 
 		void InitBrowser()
 		{
@@ -50,9 +50,16 @@ namespace TaskLab
 				Cef.Initialize(seting);
 			_controlWebBrowser = new ChromiumWebBrowser("www.toosbioresearch.com");
 			splitContainer1.Panel2.Controls.Add(_controlWebBrowser);
-			//_controlWebBrowser.LoadingStateChanged += _controlWebBrowser_LoadingStateChanged; ;
+			_controlWebBrowser.LoadingStateChanged += _controlWebBrowser_LoadingStateChanged;
+			_controlWebBrowser.LoadError += _controlWebBrowser_LoadError;
 			_controlWebBrowser.ActivateBrowserOnCreation = true;
 			_controlWebBrowser.Dock = DockStyle.Fill;
+
+		}
+
+		private void _controlWebBrowser_LoadError(object sender, LoadErrorEventArgs e)
+		{
+			_activeSelect = true;
 		}
 
 		private void _controlWebBrowser_LoadingStateChanged(object sender, LoadingStateChangedEventArgs e)
@@ -61,10 +68,13 @@ namespace TaskLab
 			{
 				if (!e.IsLoading)
 				{
-					Invoke((Action)delegate { 
-					splitContainer1.Panel2.DrawToBitmap(b1, new Rectangle(0, 0, splitContainer1.Panel2.Width, splitContainer1.Panel2.Height));
-					DrawToBitmap(b1, new Rectangle(0, 0, splitContainer1.Panel2.Width, splitContainer1.Panel2.Height));
-					_controlWebBrowser.DrawToBitmap(b1, new Rectangle(0, 0, splitContainer1.Panel2.Width, splitContainer1.Panel2.Height));
+					Invoke((Action)delegate
+					{
+						_activeSelect = true;
+						BitmapManager.Screenshot(out b1, new Point(DesktopBounds.X + splitContainer1.Panel1.Width + 3, DesktopBounds.Y + 20), new Size(splitContainer1.Panel2.Width, splitContainer1.Panel2.Height - 20));
+						PictureBox pbTemp = (PictureBox)thumbs[selectedSlide].Controls.Find("pb" + selectedSlide, false)[0];
+						pbTemp.Image = b1;
+						curTask.PicList[selectedSlide].Image = b1;
 					});
 				}
 			}
@@ -74,7 +84,7 @@ namespace TaskLab
         {
             InitializeComponent();
 			InitBrowser();
-			rec = new ScreenRecorder.Recorder(new ScreenRecorder.RecorderParams("out.avi", 10, SharpAvi.KnownFourCCs.Codecs.MotionJpeg, 70));   
+			//rec = new ScreenRecorder.Recorder(new ScreenRecorder.RecorderParams("out.avi", 10, SharpAvi.KnownFourCCs.Codecs.MotionJpeg, 70));   
 		}
             
 		/// <summary>
@@ -140,6 +150,8 @@ namespace TaskLab
 		/// <param name="newSel"></param>
 		void SelectSlide(int newSel)
 		{
+			if (!_activeSelect)
+				return;
 			oldInd = selectedSlide;
 			if (newSel == -1)
 			{
@@ -337,6 +349,8 @@ namespace TaskLab
 
 		void btnAddPic_Click(object sender, EventArgs e)
 		{
+			if (!_activeSelect)
+				return;
 			AddPicture();
 		}
 
@@ -373,7 +387,6 @@ namespace TaskLab
 		
 		void TaskGen_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			rec.Dispose();
 			e.Cancel = !CheckSave(true);
 		}
 		
@@ -436,6 +449,8 @@ namespace TaskLab
 				SelectSlide(selectedSlide);
 				PictureBox pbTemp = (PictureBox)thumbs[selectedSlide].Controls.Find("pb" + selectedSlide, false)[0];
 				pbTemp.Image = curTask.PicList[selectedSlide].Image;
+				pnlSetting.Visible = false;
+				_activeSelect = false;
 			}
         }
 

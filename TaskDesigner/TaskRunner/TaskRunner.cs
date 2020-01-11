@@ -171,20 +171,25 @@ namespace TaskRunning
 		bool SetNextMediaSlide()
 		{
 			brake = false;
+			pctbxFrm.Visible = false;
+			vlcControl1.Visible = false;
+			_controlWebBrowser.Visible = false;
+			if(rec != null)
+			{
+				rec.Dispose();
+				rec = null;
+			}
+			if (vlcControl1.IsPlaying)
+				vlcControl1.Stop();
 			MediaEelement pic = curTsk.MediaTask.PicList[curTsk.MediaTask.showedIndex];
 			if (pic.MediaTaskType == MediaType.Video)
 			{
-				pctbxFrm.Visible = false;
 				vlcControl1.Visible = true;
 				vlcControl1.Play(new FileInfo(pic.Address));
-				vlcControl1.EndReached += VlcControl1_EndReached;
-				
+				vlcControl1.EndReached += VlcControl1_EndReached;	
 			}
 			else
 			{
-				if (vlcControl1.IsPlaying)
-					vlcControl1.Stop();
-				vlcControl1.Visible = false;
 				if (pic.MediaTaskType == MediaType.Image || pic.MediaTaskType == MediaType.Empty)
 				{
 					pctbxFrm.Visible = true;
@@ -193,8 +198,9 @@ namespace TaskRunning
 				}
 				else
 				{
-					rec = new ScreenRecorder.Recorder(new ScreenRecorder.RecorderParams("web.avi", 30, SharpAvi.KnownFourCCs.Codecs.MotionJpeg, 70));
+					rec = new ScreenRecorder.Recorder(new ScreenRecorder.RecorderParams(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\web.avi", 30, SharpAvi.KnownFourCCs.Codecs.MotionJpeg, 70));
 					_controlWebBrowser.Visible = true;
+					_controlWebBrowser.Load(pic.URL);
 				}
 			}
 			_timeLimit = pic.Time;
@@ -475,21 +481,32 @@ namespace TaskRunning
 
 		public bool StopTask()
 		{
-			CleanMap();
-			if (runMod == RunMod.Stop)       // هنگام اجرای برنامه
+			try
 			{
+				CleanMap();
+				if (runMod == RunMod.Stop)       // هنگام اجرای برنامه
+				{
+					return true;
+				}
+				//if(ThreadAbort && runnerThread.ThreadState == System.Threading.ThreadState.Running)
+				//	Invoke((Action)delegate { runnerThread.Abort(); });
+				runMod = RunMod.Stop;
+				if (rec != null)
+				{
+					rec.Dispose();
+					rec = null;
+				}
+				if (_getGaz)
+				{
+					RunnerUtils.EndGaze();
+				}
+				Invoke((Action)delegate { Close(); });
 				return true;
 			}
-			//if(ThreadAbort && runnerThread.ThreadState == System.Threading.ThreadState.Running)
-			//	Invoke((Action)delegate { runnerThread.Abort(); });
-			runMod = RunMod.Stop;
-			
-			if (_getGaz)
+			catch(Exception)
 			{
-				RunnerUtils.EndGaze();
+				return false;
 			}
-			Invoke((Action)delegate { Close(); });
-			return true;
 		}
 
 		/// <summary>

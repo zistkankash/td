@@ -245,7 +245,7 @@ namespace Psychophysics
 			// 
 			// pictureBox1
 			// 
-			this.pictureBox1.BackgroundImage = global::TaskDesigner.Resource.psychophy_icon_nocolor;
+
 			this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.pictureBox1.Location = new System.Drawing.Point(586, 320);
 			this.pictureBox1.Name = "pictureBox1";

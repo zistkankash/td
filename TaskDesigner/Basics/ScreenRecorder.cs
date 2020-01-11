@@ -23,6 +23,7 @@ namespace Basics
 				Codec = Encoder;
 				this.Quality = Quality;
 				Screen[] screens = Screen.AllScreens;
+
 				Height = screens[BasConfigs._triableMonitor].Bounds.Height;
 				Width = screens[BasConfigs._triableMonitor].Bounds.Width;
 				
@@ -73,6 +74,7 @@ namespace Basics
 			IAviVideoStream videoStream;
 			Thread screenThread;
 			ManualResetEvent stopThread = new ManualResetEvent(false);
+			Screen[] screens = Screen.AllScreens;
 			#endregion
 
 			public Recorder(RecorderParams Params)
@@ -142,10 +144,8 @@ namespace Basics
 				{
 					using (var g = Graphics.FromImage(BMP))
 					{
-						g.CopyFromScreen(Point.Empty, Point.Empty, new Size(Params.Width, Params.Height), CopyPixelOperation.SourceCopy);
-
+						g.CopyFromScreen(screens[BasConfigs._triableMonitor].Bounds.Location, Point.Empty, new Size(Params.Width, Params.Height), CopyPixelOperation.SourceCopy);
 						g.Flush();
-
 						var bits = BMP.LockBits(new Rectangle(0, 0, Params.Width, Params.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppRgb);
 						Marshal.Copy(bits.Scan0, Buffer, 0, Buffer.Length);
 						BMP.UnlockBits(bits);

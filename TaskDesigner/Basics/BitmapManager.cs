@@ -5,6 +5,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -123,8 +124,7 @@ namespace Basics
 			}
 			return image2;
 		}
-
-
+		
 		/// <summary>
 		/// Make a source over of input bitmap (iamge1) to bitmap image2 with opacity applied to image1.
 		/// </summary>
@@ -156,8 +156,7 @@ namespace Basics
 			}
 			return image2;
 		}
-		
-		
+				
 		public static Bitmap TakeBlurSnapshot(Form form)
 		{
 			Bitmap bmp = new Bitmap(form.Size.Width, form.Size.Height);
@@ -168,6 +167,14 @@ namespace Basics
 			return btmp.Bitmap;
 		}
 
-
+		public static void Screenshot(out Bitmap Buffer, Point UpperLeftSource, Size SourceSize)
+		{
+			Buffer = new Bitmap(SourceSize.Width, SourceSize.Height);
+				using (var g = Graphics.FromImage(Buffer))
+				{
+					g.CopyFromScreen(UpperLeftSource, Point.Empty, SourceSize, CopyPixelOperation.SourceCopy);
+					g.Flush();	
+				}
+		}
 	}
 }

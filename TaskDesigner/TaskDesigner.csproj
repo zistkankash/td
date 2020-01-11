@@ -454,6 +454,7 @@
     <None Include="Resources\main3-psycologyselected-green.png" />
     <None Include="Resources\MAINWINDOWBROWN-BIG.png" />
     <None Include="Resources\lingu-icon-nocolor.png" />
+    <None Include="Resources\linguistics-brown-big.png" />
     <Content Include="Resources\netdisconnected.png" />
     <Content Include="Resources\new project.png" />
     <Content Include="Resources\next %282%29.png" />
@@ -464,6 +465,8 @@
     <Content Include="Resources\picture.png" />
     <None Include="Resources\psycho-icon-nocolor.png" />
     <None Include="Resources\psychophy-icon-nocolor.png" />
+    <None Include="Resources\psychology-brown-big.png" />
+    <None Include="Resources\psychophysics-brown-big.png" />
     <Content Include="Resources\rect2.png" />
     <Content Include="Resources\rectangle %286%29.png" />
     <None Include="Resources\rectangle-psychology_1.png" />

@@ -129,6 +129,7 @@ namespace Basics
 						if (lines[0] == "TaskLabMedia")      // تسک های تصویری
 						{
 							mediaTask = new MediaTask();
+							mediaTask.OperationalImageSize = new Size(BasConfigs._monitor_resolution_x, BasConfigs._monitor_resolution_y);
 							if (mediaTask.LoadFromText(lines))
 								_taskIsReady = true;
 							_type = TaskType.media;
