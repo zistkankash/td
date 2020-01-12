@@ -181,7 +181,7 @@ namespace TaskRunning
 			Debug.Write("\n" + level.ToString() + " " + frame.ToString() + "\n");
 			InROI = false;
 			fixatehappened = false;
-
+			fixateBreak = false;
 			if (frame < framelimit)
 			{
 				Timer1.Interval = _task.AllLevelProp[level][frame].FrameTime;
@@ -514,7 +514,7 @@ namespace TaskRunning
 		{
 			lock (timerLock)
 			{
-				if (fixatehappened)
+				if (fixatehappened || fixateBreak)
 					return;
 
 				double dist1, dist2;
@@ -576,6 +576,7 @@ namespace TaskRunning
 						if (AFW)
 							AppendEventData("AFW", _task.AllLevelProp[level][frame].events.abortFixWindow.ToString());
 						InROI = false;
+						fixateBreak = true;
 						fixatehappened = false;
 						FixationSW.Reset();
 						//Timer1_Tick(null, null);

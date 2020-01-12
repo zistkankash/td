@@ -25,6 +25,7 @@ namespace TaskRunning
 
 		bool doGaze = false;
 		bool brake = false;
+		bool _startTask = false;
 		Screen[] screens;
 		public static TaskClient curTsk;
 		Stopwatch tskWatch;
@@ -42,10 +43,11 @@ namespace TaskRunning
 		static bool _mouseClicked = false;
 		static int _mousX, _mousY;
 					
-		public TaskRunner(TaskClient cs,TaskOperator pr)
+		public TaskRunner(TaskClient cs,TaskOperator pr, bool getGaz)
 		{
 			InitializeComponent();
 			tsop = pr;
+			_getGaz = getGaz;
 			runMod = RunMod.Stop;
 			curTsk = cs;
 			InitForm();
@@ -55,10 +57,8 @@ namespace TaskRunning
 		public TaskRunner(TaskClient cs)
 		{
 			InitializeComponent();
-			
 			runMod = RunMod.Stop;
 			curTsk = cs;
-			
 			InitForm();
 			InitBrowser();
 		}
@@ -69,12 +69,34 @@ namespace TaskRunning
 			if (!Cef.IsInitialized)
 				Cef.Initialize(seting);
 			_controlWebBrowser = new ChromiumWebBrowser("www.toosbioresearch.com");
+			
 			Controls.Add(_controlWebBrowser);
-			//_controlWebBrowser.LoadingStateChanged += _controlWebBrowser_LoadingStateChanged; ;
+			_controlWebBrowser.LoadingStateChanged += _controlWebBrowser_LoadingStateChanged;
+			_controlWebBrowser.LoadError += _controlWebBrowser_LoadError;
 			_controlWebBrowser.ActivateBrowserOnCreation = true;
 			_controlWebBrowser.Dock = DockStyle.Fill;
+			
 		}
 		
+		private void _controlWebBrowser_LoadError(object sender, LoadErrorEventArgs e)
+		{
+			if(!_startTask)
+			{
+				_startTask = true;
+				RunTask();
+			}
+		}
+
+		private void _controlWebBrowser_LoadingStateChanged(object sender, LoadingStateChangedEventArgs e)
+		{
+			if (!_startTask)
+			{
+				_startTask = true;
+				RunTask();
+			}
+
+		}
+
 		void InitForm()
 		{
 			screens = Screen.AllScreens;
@@ -104,7 +126,6 @@ namespace TaskRunning
 		/// <returns></returns>
 		void InitRunningTask()
 		{
-			
 			tskWatch = new Stopwatch(); //Get a watch for timing operations.
 			if (_getGaz)
 			{
@@ -188,6 +209,7 @@ namespace TaskRunning
 				vlcControl1.Play(new FileInfo(pic.Address));
 				vlcControl1.Playing += VlcControl1_Playing;
 				vlcControl1.EndReached += VlcControl1_EndReached;	
+				
 			}
 			else
 			{
@@ -196,14 +218,15 @@ namespace TaskRunning
 					pctbxFrm.Visible = true;
 					RunnerUtils.MediaPictureRenderer(pic.BGColor, pic.Image, pic.UseTransparency, pic.TransColor, false, ref _runnerBitmap);
 					pctbxFrm.Image = _runnerBitmap;
-					
+					doGaze = true;	
 				}
 				else
 				{
-					rec = new ScreenRecorder.Recorder(new ScreenRecorder.RecorderParams(Path.GetDirectoryName(tsop.txtSavPath.Text) + "\\web.avi", 30, SharpAvi.KnownFourCCs.Codecs.MotionJpeg, 70));
+					
+					rec = new ScreenRecorder.Recorder(new ScreenRecorder.RecorderParams(Path.GetDirectoryName(tsop.txtSavPath.Text) + "\\web.avi", 18, SharpAvi.KnownFourCCs.Codecs.MotionJpeg, 50));
 					_controlWebBrowser.Visible = true;
 					_controlWebBrowser.Load(pic.URL);
-					
+					doGaze = true;
 				}
 				tskWatch.Restart();
 			}
@@ -471,20 +494,18 @@ namespace TaskRunning
 			return 0;
 		}
 
-		public bool RunTask(bool getGaz)
+		public bool RunTask()
 		{
 			if (runMod == RunMod.Running)       // هنگام اجرای برنامه
 			{
 				return false;
 			}
-			if (!curTsk.IsReady)
-				return false;
-			_getGaz = getGaz;
-			
 			runMod = RunMod.Running;
+			//InitRunningTask();
+
 			runnerThread = new Thread(new ThreadStart(InitRunningTask));
 			runnerThread.Start();
-			
+
 			return true;
 
 		}

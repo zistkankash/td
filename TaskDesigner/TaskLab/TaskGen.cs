@@ -48,13 +48,15 @@ namespace TaskLab
 			CefSettings seting = new CefSettings();
 			if (!Cef.IsInitialized)
 				Cef.Initialize(seting);
+			
 			_controlWebBrowser = new ChromiumWebBrowser("www.toosbioresearch.com");
+			
 			splitContainer1.Panel2.Controls.Add(_controlWebBrowser);
 			_controlWebBrowser.LoadingStateChanged += _controlWebBrowser_LoadingStateChanged;
 			_controlWebBrowser.LoadError += _controlWebBrowser_LoadError;
 			_controlWebBrowser.ActivateBrowserOnCreation = true;
 			_controlWebBrowser.Dock = DockStyle.Fill;
-
+			bool tr = _controlWebBrowser.IsBrowserInitialized;
 		}
 
 		private void _controlWebBrowser_LoadError(object sender, LoadErrorEventArgs e)
@@ -64,6 +66,7 @@ namespace TaskLab
 
 		private void _controlWebBrowser_LoadingStateChanged(object sender, LoadingStateChangedEventArgs e)
 		{
+			bool tr = _controlWebBrowser.IsBrowserInitialized;
 			if (selectedSlide > -1 && curTask.PicList[selectedSlide].MediaTaskType == MediaType.Web)
 			{
 				if (!e.IsLoading)

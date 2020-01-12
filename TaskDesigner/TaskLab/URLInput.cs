@@ -29,10 +29,10 @@ namespace TaskLab
 			}
 			else
 			{
-				if (!txtbxURL.Text.Contains("www"))
-				{
-					txtbxURL.Text = "www." + txtbxURL.Text;
-				}
+				//if (!txtbxURL.Text.Contains("www"))
+				//{
+				//	txtbxURL.Text = "www." + txtbxURL.Text;
+				//}
 				if (!txtbxURL.Text.Contains("http"))
 				{
 					txtbxURL.Text = "http://" + txtbxURL.Text;

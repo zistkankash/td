@@ -141,7 +141,7 @@ namespace TaskRunning
 						else
 							st = false;
 						_stopped = false;
-						shFrame = new PsycophysicsRunner(st ,pbOper.Width, pbOper.Height, tsk.PsycoPhysicsTask);
+						shFrame = new PsycophysicsRunner(true ,pbOper.Width, pbOper.Height, tsk.PsycoPhysicsTask);
 						shFrame.pupilDataPath = txtSavPath.Text;
 						shFrame.eventDataPath = FileName.UpdateFileName(txtSavPath.Text, "events");
 						shFrame.Show();
@@ -149,9 +149,9 @@ namespace TaskRunning
 					else
 					{
 						_stopped = false;
-						runner = new TaskRunner(tsk, this);
+						runner = new TaskRunner(tsk, this, (_etStat == ETStatus.ready));
 						runner.Show();
-						runner.RunTask(_etStat == ETStatus.ready);
+						//runner.RunTask(_etStat == ETStatus.ready);
 					
 					}
 					
@@ -159,7 +159,7 @@ namespace TaskRunning
 										
 				}
 			}
-			catch(Exception)
+			catch(Exception ex)
 			{
 				refTimer.Stop();
 				return;

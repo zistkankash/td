@@ -60,21 +60,20 @@ namespace Basics
 		public static void EventGaze(object sender, GazeTriple gzTemp)
 		{
 			//GazeTriple gzTemp = null;
-			if (BasConfigs.server != null && BasConfigs.server.getGaze != null)
+
+			//gzTemp = BasConfigs.server.getGaze;
+			if (gzTemp.time != -1)
 			{
-				//gzTemp = BasConfigs.server.getGaze;
-				if (gzTemp.time != -1)
-				{
-					pts[0, _counter] = gzTemp.x;
-					pts[1, _counter] = gzTemp.y;
-					_counter = (_counter + 1) % _gazeSmoothPots;
-				}
-				else
-					return;
-				gzTemp.x = MeanPts(0);
-				gzTemp.y = MeanPts(1);
-				GazeReady(null, gzTemp);
+				pts[0, _counter] = gzTemp.x;
+				pts[1, _counter] = gzTemp.y;
+				_counter = (_counter + 1) % _gazeSmoothPots;
 			}
+			else
+				return;
+			gzTemp.x = MeanPts(0);
+			gzTemp.y = MeanPts(1);
+			GazeReady(null, gzTemp);
+
 			return;
 		}
 
@@ -103,6 +102,7 @@ namespace Basics
 			if (BasConfigs.server != null && !BasConfigs.server._endGaze)
 			{
 				return BasConfigs.server.EndGaze();
+				BasConfigs.server.OnGaze -= EventGaze;
 			}
 			return false;
 		}
