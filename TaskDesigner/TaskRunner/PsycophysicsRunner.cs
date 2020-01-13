@@ -42,7 +42,7 @@ namespace TaskRunning
 		double preFixationCenterX, preFixationCenterY, preFixationCenterWidth;
 		int FixationCenterTime = 0;
 		int FixationRewardType = 0;
-		Stopwatch FixationSW = new Stopwatch();// LoopWatch = new Stopwatch();
+		Stopwatch FixationSW = new Stopwatch();
 		public int[] RandForTaskLevel;
 		int indexRandForTaskLevel = -1;
 		//int trialCounter;

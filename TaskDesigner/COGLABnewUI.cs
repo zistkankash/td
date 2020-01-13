@@ -77,6 +77,8 @@ namespace Basics
 				p_psychophysics[1].X + 5, p_psychophysics[3].Y + 5);
 			btn_psychophysics.Enabled = true;
 			btn_psychophysics.Visible = true;
+			helpProvider1.SetShowHelp(btn_psychophysics, true);
+			helpProvider1.SetHelpString(btn_psychophysics, "Psychophysics Task Designer.");
 			#endregion
 			#region setting  polygon and button
 
@@ -103,6 +105,8 @@ namespace Basics
 				p_setting[1].X + 5, p_setting[3].Y + 5);
 			btn_setting.Enabled = true;
 			btn_setting.Visible = true;
+			helpProvider1.SetShowHelp(btn_setting, true);
+			helpProvider1.SetHelpString(btn_setting, "Network Setting.");
 			#endregion
 			#region psychology polygon and button
 			Point[] p_psychology = {
@@ -458,6 +462,7 @@ namespace Basics
 
 		private void btn_setting_MouseEnter(object sender, EventArgs e)
 		{
+			
 			if (connected)
 				pnl_cntrl.BackgroundImage = Resource.main3_setting_selected_green;
 			else
@@ -491,6 +496,12 @@ namespace Basics
 		private void btnMinmiz_Click(object sender, EventArgs e)
 		{
 			this.WindowState = FormWindowState.Minimized;
+		}
+
+		private void btnHelp_Click(object sender, EventArgs e)
+		{
+			HelpForm hlp = new HelpForm();
+			hlp.Show();
 		}
 	}
     

@@ -33,12 +33,13 @@
 			this.pnlNetSetting = new MetroFramework.Controls.MetroPanel();
 			this.TxtbxLIP = new MetroFramework.Controls.MetroTextBox();
 			this.txtbxLport = new MetroFramework.Controls.MetroTextBox();
-			this.btnNetAddressSet = new MetroFramework.Controls.MetroTile();
 			this.labelLIP = new MetroFramework.Controls.MetroLabel();
-			this.btnConct = new MetroFramework.Controls.MetroTile();
 			this.LabelLport = new MetroFramework.Controls.MetroLabel();
 			this.ToolTipHelp = new MetroFramework.Components.MetroToolTip();
 			this.coglabRefrshForm = new System.Windows.Forms.Timer(this.components);
+			this.btnHelp = new System.Windows.Forms.Button();
+			this.btnNetAddressSet = new MetroFramework.Controls.MetroTile();
+			this.btnConct = new MetroFramework.Controls.MetroTile();
 			this.pnlNetSetting.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -54,7 +55,7 @@
 			this.pnlNetSetting.HorizontalScrollbarBarColor = true;
 			this.pnlNetSetting.HorizontalScrollbarHighlightOnWheel = false;
 			this.pnlNetSetting.HorizontalScrollbarSize = 10;
-			this.pnlNetSetting.Location = new System.Drawing.Point(4, 13);
+			this.pnlNetSetting.Location = new System.Drawing.Point(4, 30);
 			this.pnlNetSetting.Name = "pnlNetSetting";
 			this.pnlNetSetting.Size = new System.Drawing.Size(524, 118);
 			this.pnlNetSetting.Style = MetroFramework.MetroColorStyle.Blue;
@@ -137,25 +138,6 @@
 			this.txtbxLport.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
 			this.txtbxLport.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
 			// 
-			// btnNetAddressSet
-			// 
-			this.btnNetAddressSet.ActiveControl = null;
-			this.btnNetAddressSet.BackColor = System.Drawing.Color.Black;
-			this.btnNetAddressSet.ForeColor = System.Drawing.Color.Black;
-			this.btnNetAddressSet.Location = new System.Drawing.Point(268, 62);
-			this.btnNetAddressSet.Name = "btnNetAddressSet";
-			this.btnNetAddressSet.Size = new System.Drawing.Size(239, 44);
-			this.btnNetAddressSet.Style = MetroFramework.MetroColorStyle.Blue;
-			this.btnNetAddressSet.TabIndex = 79;
-			this.btnNetAddressSet.Text = "Network IP";
-			this.btnNetAddressSet.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.btnNetAddressSet.Theme = MetroFramework.MetroThemeStyle.Dark;
-			this.btnNetAddressSet.TileImage = ((System.Drawing.Image)(resources.GetObject("btnNetAddressSet.TileImage")));
-			this.btnNetAddressSet.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
-			this.ToolTipHelp.SetToolTip(this.btnNetAddressSet, "Address Helper");
-			this.btnNetAddressSet.UseSelectable = true;
-			this.btnNetAddressSet.Click += new System.EventHandler(this.btnNetAddressSet_Click);
-			// 
 			// labelLIP
 			// 
 			this.labelLIP.AutoSize = true;
@@ -171,25 +153,6 @@
 			this.labelLIP.Text = "Task Designer IP:";
 			this.labelLIP.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			this.labelLIP.UseCustomBackColor = true;
-			// 
-			// btnConct
-			// 
-			this.btnConct.ActiveControl = null;
-			this.btnConct.BackColor = System.Drawing.Color.Black;
-			this.btnConct.ForeColor = System.Drawing.Color.Black;
-			this.btnConct.Location = new System.Drawing.Point(6, 62);
-			this.btnConct.Name = "btnConct";
-			this.btnConct.Size = new System.Drawing.Size(245, 44);
-			this.btnConct.Style = MetroFramework.MetroColorStyle.Blue;
-			this.btnConct.TabIndex = 75;
-			this.btnConct.Text = "Start Connection";
-			this.btnConct.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.btnConct.Theme = MetroFramework.MetroThemeStyle.Dark;
-			this.btnConct.TileImage = ((System.Drawing.Image)(resources.GetObject("btnConct.TileImage")));
-			this.btnConct.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
-			this.ToolTipHelp.SetToolTip(this.btnConct, "Press to start connection to ET");
-			this.btnConct.UseSelectable = true;
-			this.btnConct.Click += new System.EventHandler(this.btnConct_Click);
 			// 
 			// LabelLport
 			// 
@@ -219,10 +182,62 @@
 			this.coglabRefrshForm.Interval = 1000;
 			this.coglabRefrshForm.Tick += new System.EventHandler(this.coglabRefrshForm_Tick);
 			// 
+			// btnHelp
+			// 
+			this.btnHelp.BackgroundImage = global::TaskDesigner.Resource.help_black;
+			this.btnHelp.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			this.btnHelp.FlatAppearance.BorderColor = System.Drawing.Color.White;
+			this.btnHelp.FlatAppearance.BorderSize = 0;
+			this.btnHelp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.btnHelp.Location = new System.Drawing.Point(491, 9);
+			this.btnHelp.Name = "btnHelp";
+			this.btnHelp.Size = new System.Drawing.Size(12, 12);
+			this.btnHelp.TabIndex = 150;
+			this.btnHelp.UseVisualStyleBackColor = true;
+			// 
+			// btnNetAddressSet
+			// 
+			this.btnNetAddressSet.ActiveControl = null;
+			this.btnNetAddressSet.BackColor = System.Drawing.Color.Black;
+			this.btnNetAddressSet.ForeColor = System.Drawing.Color.Black;
+			this.btnNetAddressSet.Location = new System.Drawing.Point(268, 62);
+			this.btnNetAddressSet.Name = "btnNetAddressSet";
+			this.btnNetAddressSet.Size = new System.Drawing.Size(239, 44);
+			this.btnNetAddressSet.Style = MetroFramework.MetroColorStyle.Blue;
+			this.btnNetAddressSet.TabIndex = 79;
+			this.btnNetAddressSet.Text = "Network IP";
+			this.btnNetAddressSet.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.btnNetAddressSet.Theme = MetroFramework.MetroThemeStyle.Dark;
+			this.btnNetAddressSet.TileImage = ((System.Drawing.Image)(resources.GetObject("btnNetAddressSet.TileImage")));
+			this.btnNetAddressSet.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
+			this.ToolTipHelp.SetToolTip(this.btnNetAddressSet, "Address Helper");
+			this.btnNetAddressSet.UseSelectable = true;
+			this.btnNetAddressSet.Click += new System.EventHandler(this.btnNetAddressSet_Click);
+			// 
+			// btnConct
+			// 
+			this.btnConct.ActiveControl = null;
+			this.btnConct.BackColor = System.Drawing.Color.Black;
+			this.btnConct.ForeColor = System.Drawing.Color.Black;
+			this.btnConct.Location = new System.Drawing.Point(6, 62);
+			this.btnConct.Name = "btnConct";
+			this.btnConct.Size = new System.Drawing.Size(245, 44);
+			this.btnConct.Style = MetroFramework.MetroColorStyle.Blue;
+			this.btnConct.TabIndex = 75;
+			this.btnConct.Text = "Start Connection";
+			this.btnConct.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.btnConct.Theme = MetroFramework.MetroThemeStyle.Dark;
+			this.btnConct.TileImage = ((System.Drawing.Image)(resources.GetObject("btnConct.TileImage")));
+			this.btnConct.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
+			this.ToolTipHelp.SetToolTip(this.btnConct, "Press to start connection to ET");
+			this.btnConct.UseSelectable = true;
+			this.btnConct.Click += new System.EventHandler(this.btnConct_Click);
+			// 
 			// NetSettingForm
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(533, 142);
+			this.ClientSize = new System.Drawing.Size(533, 154);
+			this.Controls.Add(this.btnHelp);
 			this.Controls.Add(this.pnlNetSetting);
 			this.Font = new System.Drawing.Font("Marlett", 20.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(2)), true);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -251,5 +266,6 @@
 		private MetroFramework.Controls.MetroLabel labelLIP;
 		private MetroFramework.Controls.MetroLabel LabelLport;
 		private System.Windows.Forms.Timer coglabRefrshForm;
+		private System.Windows.Forms.Button btnHelp;
 	}
 }

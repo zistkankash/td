@@ -101,8 +101,8 @@ namespace Basics
 		{
 			if (BasConfigs.server != null && !BasConfigs.server._endGaze)
 			{
-				return BasConfigs.server.EndGaze();
 				BasConfigs.server.OnGaze -= EventGaze;
+				return BasConfigs.server.EndGaze();
 			}
 			return false;
 		}

@@ -29,7 +29,9 @@
 		private void InitializeComponent()
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(COGLABnewUI));
+			this.helpProvider1 = new System.Windows.Forms.HelpProvider();
 			this.pnl_cntrl = new System.Windows.Forms.Panel();
+			this.btnHelp = new System.Windows.Forms.Button();
 			this.btnMinmiz = new System.Windows.Forms.Button();
 			this.btnCls = new System.Windows.Forms.Button();
 			this.btn_trunner = new System.Windows.Forms.Button();
@@ -46,6 +48,7 @@
 			this.pnl_cntrl.BackColor = System.Drawing.Color.Transparent;
 			this.pnl_cntrl.BackgroundImage = global::TaskDesigner.Resource.main3_final;
 			this.pnl_cntrl.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+			this.pnl_cntrl.Controls.Add(this.btnHelp);
 			this.pnl_cntrl.Controls.Add(this.btnMinmiz);
 			this.pnl_cntrl.Controls.Add(this.btnCls);
 			this.pnl_cntrl.Controls.Add(this.btn_trunner);
@@ -60,6 +63,21 @@
 			this.pnl_cntrl.Size = new System.Drawing.Size(655, 508);
 			this.pnl_cntrl.TabIndex = 1;
 			this.pnl_cntrl.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pnl_cntrl_MouseDown);
+			// 
+			// btnHelp
+			// 
+			this.btnHelp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(216)))), ((int)(((byte)(201)))));
+			this.btnHelp.BackgroundImage = global::TaskDesigner.Resource.help_brown;
+			this.btnHelp.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			this.btnHelp.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(216)))), ((int)(((byte)(201)))));
+			this.btnHelp.FlatAppearance.BorderSize = 0;
+			this.btnHelp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.btnHelp.Location = new System.Drawing.Point(568, 320);
+			this.btnHelp.Name = "btnHelp";
+			this.btnHelp.Size = new System.Drawing.Size(23, 23);
+			this.btnHelp.TabIndex = 9;
+			this.btnHelp.UseVisualStyleBackColor = false;
+			this.btnHelp.Click += new System.EventHandler(this.btnHelp_Click);
 			// 
 			// btnMinmiz
 			// 
@@ -207,5 +225,7 @@
 		public System.Windows.Forms.Button btn_trunner;
 		private System.Windows.Forms.Button btnMinmiz;
 		private System.Windows.Forms.Button btnCls;
+		private System.Windows.Forms.HelpProvider helpProvider1;
+		private System.Windows.Forms.Button btnHelp;
 	}
 }
