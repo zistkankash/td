@@ -73,11 +73,14 @@ namespace TaskLab
 				{
 					Invoke((Action)delegate
 					{
-						_activeSelect = true;
-						BitmapManager.Screenshot(out b1, new Point(DesktopBounds.X + splitContainer1.Panel1.Width + 3, DesktopBounds.Y + 20), new Size(splitContainer1.Panel2.Width, splitContainer1.Panel2.Height - 20));
-						PictureBox pbTemp = (PictureBox)thumbs[selectedSlide].Controls.Find("pb" + selectedSlide, false)[0];
-						pbTemp.Image = b1;
-						curTask.PicList[selectedSlide].Image = b1;
+						if (!_activeSelect)
+						{
+							BitmapManager.Screenshot(out b1, new Point(DesktopBounds.X + splitContainer1.Panel1.Width + 3, DesktopBounds.Y + 20), new Size(splitContainer1.Panel2.Width, splitContainer1.Panel2.Height - 20));
+							PictureBox pbTemp = (PictureBox)thumbs[selectedSlide].Controls.Find("pb" + selectedSlide, false)[0];
+							pbTemp.Image = b1;
+							curTask.PicList[selectedSlide].Image = b1;
+							_activeSelect = true;
+						}
 					});
 				}
 			}
@@ -151,9 +154,9 @@ namespace TaskLab
 		/// Set new slide border to red.
 		/// </summary>
 		/// <param name="newSel"></param>
-		void SelectSlide(int newSel)
+		void SelectSlide(int newSel, bool MasterMode)
 		{
-			if (!_activeSelect)
+			if (!_activeSelect && !MasterMode)
 				return;
 			oldInd = selectedSlide;
 			if (newSel == -1)
@@ -230,7 +233,7 @@ namespace TaskLab
 			picCount++;
 			thumbs.Add(CreateSlide(picCount - 1, pnlAddPic.Location));
 			pnlAddPic.Location = new Point(pnlAddPic.Location.X, pnlAddPic.Location.Y + pnlAddPic.Height + 10);
-			SelectSlide(picCount - 1);
+			SelectSlide(picCount - 1, false);
 		}
         
 		Panel CreateSlide(int index, Point panelLocation)
@@ -299,11 +302,13 @@ namespace TaskLab
 				
         void RemoveSlide()
         {
+			if (!_activeSelect)
+				return;
 			if (picCount == 0 || selectedSlide >= picCount || selectedSlide < 0)
 				return;
 			curTask.PicList.RemoveAt(selectedSlide);
 			PicturePanelReset(selectedSlide - 1);
-			SelectSlide(selectedSlide);
+			SelectSlide(selectedSlide, false);
 		}
                
         void pb_DoubleClick(object sender, EventArgs e)
@@ -336,17 +341,19 @@ namespace TaskLab
 				{
 					MetroMessageBox.Show((IWin32Window)this, "Could not open media file!", 100);
 				}
-				SelectSlide(index);
+				SelectSlide(index, false);
 			}
         }
 						
         void txtPicTime_TextChanged(object sender, EventArgs e)
         {
+			if (!_activeSelect)
+				return;
 			TextBox txt = (TextBox)sender;
 			string[] s = txt.Name.Split('e');
 			int index;
 			Int32.TryParse(s[1], out index);
-			SelectSlide(index);
+			SelectSlide(index, false);
 			txt.Select();
 		}
 
@@ -359,11 +366,13 @@ namespace TaskLab
 
 		void pnlPic_Click(object sender, EventArgs e)
         {
+			if (!_activeSelect)
+				return;
 			int newSel;
 			Panel pnlTemp = (Panel)sender;
 			string[] seperate = pnlTemp.Name.Split('l');
             Int32.TryParse(seperate[1], out newSel);
-			SelectSlide(newSel);
+			SelectSlide(newSel, false);
         }
 
 		void Thumb_Move(object sender, EventArgs e)
@@ -377,6 +386,8 @@ namespace TaskLab
 
 		void txtPicTime_Leave(object sender, EventArgs e)
 		{
+			if (!_activeSelect)
+				return;
 			TextBox txt = (TextBox)sender;
 			string[] s = txt.Name.Split('e');
 			int index;
@@ -447,13 +458,15 @@ namespace TaskLab
 				url.txtbxURL.Text = curTask.PicList[selectedSlide].URL;
 			if (url.ShowDialog() == DialogResult.OK)
 			{
+				_activeSelect = false;
 				curTask.PicList[selectedSlide].VerifyElementbyAddress(url.txtbxURL.Text, true);
 				url.Dispose(); url = null;
-				SelectSlide(selectedSlide);
+				SelectSlide(selectedSlide, true);
+				
 				PictureBox pbTemp = (PictureBox)thumbs[selectedSlide].Controls.Find("pb" + selectedSlide, false)[0];
 				pbTemp.Image = curTask.PicList[selectedSlide].Image;
 				pnlSetting.Visible = false;
-				_activeSelect = false;
+				
 			}
         }
 
@@ -495,9 +508,15 @@ namespace TaskLab
 		void btnSave_Click(object sender, EventArgs e)
 		{
 			if (curTask.Save())
-				MetroMessageBox.Show((IWin32Window)this,"Task Saved Successfully.", "Save Task", MessageBoxButtons.OK, MessageBoxIcon.Information, 100);
+			{
+				txtPath.Text = curTask.Address;
+				MetroMessageBox.Show((IWin32Window)this, "Task Saved Successfully.", "Save Task", MessageBoxButtons.OK, MessageBoxIcon.Information, 100);
+			}
 			else
+			{
+				txtPath.Text = "";
 				MetroMessageBox.Show((IWin32Window)this, "Error Writing Task to File.", "Save Task", MessageBoxButtons.OK, MessageBoxIcon.Information, 100);
+			}
 		}
 
 		void btnLoad_Click(object sender, EventArgs e)
@@ -508,7 +527,7 @@ namespace TaskLab
 			if (curTask.Load())
 			{
 				PicturePanelReset(-1);
-				SelectSlide(picCount - 1);
+				SelectSlide(picCount - 1, false);
 				Application.DoEvents();
 				MetroMessageBox.Show((IWin32Window)this, "Task Loaded Successfully.", "Load Task", MessageBoxButtons.OK, MessageBoxIcon.Information, 100);
 			}
@@ -536,7 +555,7 @@ namespace TaskLab
 
 		void PreviewStoped(object sender, EventArgs e)
 		{
-			btnStart.BackgroundImage = Resource.Run;
+			btnStart.BackgroundImage = Resource.play_video_designer;
 			Invoke((Action) delegate { vlcControl1.Visible = false; pbDesign.Visible = true; });
 			
 		}
@@ -584,14 +603,14 @@ namespace TaskLab
 			{
 				if (curTask.Type == TaskType.media)
 				{
-					SelectSlide(selectedSlide - 1);
+					SelectSlide(selectedSlide - 1, false);
 				}
 			}
 			if (e.KeyCode == Keys.Down)
 			{
 				if (curTask.Type == TaskType.media)
 				{
-					SelectSlide(selectedSlide + 1);
+					SelectSlide(selectedSlide + 1, false);
 				}
 			}
 		}
@@ -610,9 +629,8 @@ namespace TaskLab
 		void TaskGen_Resize(object sender, EventArgs e)
 		{
 			curTask.OperationalImageSize = new Size(splitContainer1.Panel2.Width, splitContainer1.Panel2.Height);
-			SelectSlide(selectedSlide);
+			SelectSlide(selectedSlide, true);
 			pnlSetting.Width = splitContainer1.Panel2.Width - 14;
-			
 		}
 
 		private void showSettingsPanelToolStripMenuItem_Click(object sender, EventArgs e)
@@ -622,6 +640,8 @@ namespace TaskLab
 
 		private void setImageMediaToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			if (!_activeSelect)
+				return;
 			OpenFileDialog file = new OpenFileDialog();
 			file.Filter = "Image Files |*.png;*.jpg;*.jpeg;*.bmp";
 			if (file.ShowDialog() == DialogResult.OK)
@@ -639,12 +659,14 @@ namespace TaskLab
 				{
 					MetroMessageBox.Show((IWin32Window)this, "Could not open selected image file!", "Error" , MessageBoxButtons.OK, MessageBoxIcon.Error, 100);
 				}
-				SelectSlide(selectedSlide);
+				SelectSlide(selectedSlide, false);
 			}
 		}
 
 		private void setVideoMediaToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			if (!_activeSelect)
+				return;
 			OpenFileDialog file = new OpenFileDialog();
 			file.Filter = "Video Files |*.mp4;*.avi;*.wmv;*.mpeg";
 			if (file.ShowDialog() == DialogResult.OK)
@@ -662,7 +684,7 @@ namespace TaskLab
 				{
 					MetroMessageBox.Show((IWin32Window)this, "Could not open selected video file!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, 100);
 				}
-				SelectSlide(selectedSlide);
+				SelectSlide(selectedSlide, false);
 			}
 		}
 
@@ -711,6 +733,8 @@ namespace TaskLab
 						
 		void pb_Click(object sender, EventArgs e)
 		{
+			if (!_activeSelect)
+				return;
 			PictureBox pbTemp = (PictureBox)sender;
 
 			int ind;
@@ -718,7 +742,7 @@ namespace TaskLab
 			string[] index = name.Split('b');
 			Int32.TryParse(index[1], out ind);
 
-			SelectSlide(ind);
+			SelectSlide(ind, false);
 
 		}
 	}

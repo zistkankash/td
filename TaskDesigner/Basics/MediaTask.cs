@@ -216,7 +216,7 @@ namespace Basics
 		}
 		
 		/// <summary>
-		/// Saving Image task in bin file 
+		/// Saving Image task in file 
 		/// </summary>
 		/// <returns></returns>
 		public bool Save()
@@ -240,6 +240,7 @@ namespace Basics
 					if (path.ShowDialog() == DialogResult.OK)
 					{
 						base._tskAddress = path.FileName;
+						
 					}
 				}
 				StringBuilder savFile = new StringBuilder(10000);

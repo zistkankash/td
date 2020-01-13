@@ -492,13 +492,13 @@ namespace TaskLab
 			// 
 			// btnStart
 			// 
-			this.btnStart.BackgroundImage = global::TaskDesigner.Resource.Run;
+			this.btnStart.BackgroundImage = global::TaskDesigner.Resource.play_video_designer;
 			this.btnStart.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.btnStart.FlatAppearance.BorderSize = 0;
 			this.btnStart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.btnStart.Location = new System.Drawing.Point(159, 11);
+			this.btnStart.Location = new System.Drawing.Point(162, 11);
 			this.btnStart.Name = "btnStart";
-			this.btnStart.Size = new System.Drawing.Size(38, 38);
+			this.btnStart.Size = new System.Drawing.Size(33, 33);
 			this.btnStart.TabIndex = 75;
 			this.btnStart.UseVisualStyleBackColor = true;
 			this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
@@ -517,7 +517,7 @@ namespace TaskLab
 			// 
 			this.chkbxMakTransprnt.AutoSize = true;
 			this.chkbxMakTransprnt.BackColor = System.Drawing.Color.Transparent;
-			this.chkbxMakTransprnt.Location = new System.Drawing.Point(228, 43);
+			this.chkbxMakTransprnt.Location = new System.Drawing.Point(220, 43);
 			this.chkbxMakTransprnt.Name = "chkbxMakTransprnt";
 			this.chkbxMakTransprnt.Size = new System.Drawing.Size(157, 15);
 			this.chkbxMakTransprnt.TabIndex = 85;
@@ -535,13 +535,14 @@ namespace TaskLab
 			this.cmbxSavMod.ItemHeight = 19;
 			this.cmbxSavMod.Items.AddRange(new object[] {
             "Text mode"});
-			this.cmbxSavMod.Location = new System.Drawing.Point(228, 8);
+			this.cmbxSavMod.Location = new System.Drawing.Point(782, 8);
 			this.cmbxSavMod.Name = "cmbxSavMod";
 			this.cmbxSavMod.PromptText = "Saving Mode";
 			this.cmbxSavMod.Size = new System.Drawing.Size(122, 25);
 			this.cmbxSavMod.TabIndex = 74;
 			this.cmbxSavMod.UseCustomBackColor = true;
 			this.cmbxSavMod.UseSelectable = true;
+			this.cmbxSavMod.Visible = false;
 			this.cmbxSavMod.SelectedIndexChanged += new System.EventHandler(this.cmbxSavMod_SelectedIndexChanged);
 			// 
 			// chkboxChessDraw
@@ -549,7 +550,7 @@ namespace TaskLab
 			this.chkboxChessDraw.Appearance = System.Windows.Forms.Appearance.Button;
 			this.chkboxChessDraw.AutoSize = true;
 			this.chkboxChessDraw.BackColor = System.Drawing.Color.Transparent;
-			this.chkboxChessDraw.Location = new System.Drawing.Point(228, 74);
+			this.chkboxChessDraw.Location = new System.Drawing.Point(450, 43);
 			this.chkboxChessDraw.Name = "chkboxChessDraw";
 			this.chkboxChessDraw.Size = new System.Drawing.Size(115, 15);
 			this.chkboxChessDraw.TabIndex = 73;
@@ -565,7 +566,7 @@ namespace TaskLab
 			// 
 			// 
 			this.txtPath.CustomButton.Image = null;
-			this.txtPath.CustomButton.Location = new System.Drawing.Point(383, 1);
+			this.txtPath.CustomButton.Location = new System.Drawing.Point(524, 1);
 			this.txtPath.CustomButton.Name = "";
 			this.txtPath.CustomButton.Size = new System.Drawing.Size(23, 23);
 			this.txtPath.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
@@ -575,7 +576,7 @@ namespace TaskLab
 			this.txtPath.CustomButton.Visible = false;
 			this.txtPath.Enabled = false;
 			this.txtPath.Lines = new string[0];
-			this.txtPath.Location = new System.Drawing.Point(369, 8);
+			this.txtPath.Location = new System.Drawing.Point(220, 8);
 			this.txtPath.MaxLength = 32767;
 			this.txtPath.Name = "txtPath";
 			this.txtPath.PasswordChar = '\0';
@@ -585,7 +586,7 @@ namespace TaskLab
 			this.txtPath.SelectionLength = 0;
 			this.txtPath.SelectionStart = 0;
 			this.txtPath.ShortcutsEnabled = true;
-			this.txtPath.Size = new System.Drawing.Size(407, 25);
+			this.txtPath.Size = new System.Drawing.Size(548, 25);
 			this.txtPath.TabIndex = 72;
 			this.txtPath.UseCustomBackColor = true;
 			this.txtPath.UseSelectable = true;
