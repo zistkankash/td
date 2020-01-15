@@ -320,6 +320,15 @@ namespace TaskRunning
 			}
 			RefreshPctBx();
 		}
+		
+		void SavePupilData()
+		{
+			if (savedData != "")
+			{
+				File.WriteAllText(txtSavPath.Text, savedData);
+				savedData = BasConfigs._monitor_resolution_x.ToString() + "," + BasConfigs._monitor_resolution_y.ToString() + "\n";
+			}
+		}
 
 		public void SetNextSlide()
 		{
@@ -330,11 +339,7 @@ namespace TaskRunning
 				return;
 			}
 
-			if (savedData != "")
-			{
-				File.WriteAllText(txtSavPath.Text, savedData);
-				savedData = BasConfigs._monitor_resolution_x.ToString() + "," + BasConfigs._monitor_resolution_y.ToString() + "\n";
-			}
+			SavePupilData();
 
 			if (num < tsk.MediaTask.PicList.Count)
 			{
@@ -354,6 +359,7 @@ namespace TaskRunning
 		
 		void Stop()
 		{
+			SavePupilData();
 			_slideNum = 0;
 			gzX = 0; gzY = 0;
 			_operationBitmap = BitmapManager.TextBitmap("اتمام تسک", Color.Black, Brushes.White, pbOper.Size, 46);

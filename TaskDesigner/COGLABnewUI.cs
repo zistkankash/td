@@ -15,6 +15,7 @@ using TaskRunning;
 using TaskLab;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.IO;
 
 namespace Basics
 {
@@ -501,7 +502,7 @@ namespace Basics
 		private void btnHelp_Click(object sender, EventArgs e)
 		{
 			HelpForm hlp = new HelpForm();
-			hlp.Show();
+			hlp.Show(Directory.GetCurrentDirectory() + "\\t1.pdf");
 		}
 	}
     

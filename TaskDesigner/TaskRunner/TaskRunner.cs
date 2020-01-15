@@ -20,8 +20,8 @@ namespace TaskRunning
 	/// </summary>
 	public partial class TaskRunner : Form
 	{
-		SoundPlayer winSound;
-		SoundPlayer failSound;
+		//SoundPlayer winSound;
+		//SoundPlayer failSound;
 
 		bool doGaze = false;
 		bool brake = false;
@@ -195,14 +195,17 @@ namespace TaskRunning
 			pctbxFrm.Visible = false;
 			vlcControl1.Visible = false;
 			_controlWebBrowser.Visible = false;
-			if(rec != null)
+			MediaEelement pic = null;
+			if (rec != null)
 			{
 				rec.Dispose();
 				rec = null;
 			}
 			if (vlcControl1.IsPlaying)
 				vlcControl1.Stop();
-			MediaEelement pic = curTsk.MediaTask.PicList[curTsk.MediaTask.showedIndex];
+			if (curTsk.MediaTask.showedIndex >= curTsk.MediaTask.PicList.Count)
+				return false;
+			pic = curTsk.MediaTask.PicList[curTsk.MediaTask.showedIndex];
 			if (pic.MediaTaskType == MediaType.Video)
 			{
 				vlcControl1.Visible = true;
@@ -223,7 +226,8 @@ namespace TaskRunning
 				else
 				{
 					
-					rec = new ScreenRecorder.Recorder(new ScreenRecorder.RecorderParams(Path.GetDirectoryName(tsop.txtSavPath.Text) + "\\web.avi", 18, SharpAvi.KnownFourCCs.Codecs.MotionJpeg, 50));
+					rec = new ScreenRecorder.Recorder(new ScreenRecorder.RecorderParams(Path.GetDirectoryName(tsop.txtSavPath.Text) + "\\web" + curTsk.MediaTask.showedIndex.ToString() + ".avi", 10, SharpAvi.KnownFourCCs.Codecs.MotionJpeg, 50));
+					
 					_controlWebBrowser.Visible = true;
 					_controlWebBrowser.Load(pic.URL);
 					doGaze = true;
@@ -519,18 +523,19 @@ namespace TaskRunning
 				{
 					return true;
 				}
-				//if(ThreadAbort && runnerThread.ThreadState == System.Threading.ThreadState.Running)
-				//	Invoke((Action)delegate { runnerThread.Abort(); });
-				runMod = RunMod.Stop;
+				if (_getGaz)
+				{
+					RunnerUtils.EndGaze();
+				}
 				if (rec != null)
 				{
 					rec.Dispose();
 					rec = null;
 				}
-				if (_getGaz)
-				{
-					RunnerUtils.EndGaze();
-				}
+				if (vlcControl1.IsPlaying)
+					vlcControl1.Stop();
+
+				runMod = RunMod.Stop;
 				Invoke((Action)delegate { Close(); });
 				return true;
 			}
