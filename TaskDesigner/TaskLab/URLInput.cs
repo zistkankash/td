@@ -29,21 +29,22 @@ namespace TaskLab
 			}
 			else
 			{
-				//if (!txtbxURL.Text.Contains("www"))
-				//{
-				//	txtbxURL.Text = "www." + txtbxURL.Text;
-				//}
-				if (!txtbxURL.Text.Contains("http"))
-				{
-					txtbxURL.Text = "http://" + txtbxURL.Text;
-				}
-				Uri uriResult;
+                //if (!txtbxURL.Text.Contains("www"))
+                //{
+                //	txtbxURL.Text = "www." + txtbxURL.Text;
+                //}
+                if (!txtbxURL.Text.Contains("http"))
+                {
+                    txtbxURL.Text = "http://" + txtbxURL.Text;
+                }
+                Uri uriResult;
 				bool result = Uri.TryCreate(txtbxURL.Text, UriKind.Absolute, out uriResult)
 					&& (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
 				if (!result)
 				{
-					MetroFramework.MetroMessageBox.Show((IWin32Window)this, "URL is not valid. Check it please!", 100);
-					_notToClosed = true;
+					DialogResult dr = MetroFramework.MetroMessageBox.Show((IWin32Window)this, "URL seems not valid. Continue?", "URL Input",MessageBoxButtons.YesNo, MessageBoxIcon.Question, 100);
+                    if (dr == DialogResult.No)
+                        _notToClosed = true;
 				}
 				else
 				{

@@ -153,6 +153,7 @@
 			// 
 			this.btn_psychology.BackColor = System.Drawing.Color.Transparent;
 			this.btn_psychology.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.btn_psychology.Enabled = false;
 			this.btn_psychology.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
 			this.btn_psychology.Location = new System.Drawing.Point(0, 0);
 			this.btn_psychology.Name = "btn_psychology";
@@ -202,6 +203,7 @@
 			this.DoubleBuffered = true;
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			this.KeyPreview = true;
 			this.Name = "COGLABnewUI";
 			this.TransparencyKey = System.Drawing.Color.FromArgb(((int)(((byte)(86)))), ((int)(((byte)(75)))), ((int)(((byte)(75)))));
 			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.COGLABnewUI_FormClosed);

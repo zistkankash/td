@@ -300,7 +300,6 @@
     <EmbeddedResource Include="HelpForm.resx">
       <DependentUpon>HelpForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Psychophysics\frmCoolForm.resx">
       <DependentUpon>frmCoolForm.cs</DependentUpon>
     </EmbeddedResource>

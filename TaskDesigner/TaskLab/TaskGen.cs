@@ -166,7 +166,7 @@ namespace TaskLab
 				else
 				{
 					selectedSlide = -1;
-					return;
+					
 				}
 			}
 			else
@@ -180,8 +180,7 @@ namespace TaskLab
 					selectedSlide = newSel;
 				}
 			}
-			btnBackgroundCol.BackColor = curTask.PicList[selectedSlide].BGColor;
-
+			
 			vlcControl1.Visible = false;
 			pbDesign.Visible = false;
 			btnStart.Enabled = false;
@@ -192,10 +191,14 @@ namespace TaskLab
 
 				btnStart.BackgroundImage = Resource.Run;
 				vlcControl1.Visible = false;
-				pbDesign.Visible = true;
+				
 			}
-
-			if (curTask.PicList[selectedSlide].MediaTaskType == MediaType.Empty)
+            if (selectedSlide > -1)
+                pbDesign.Visible = true;
+            else
+                return;
+            btnBackgroundCol.BackColor = curTask.PicList[selectedSlide].BGColor;
+            if (curTask.PicList[selectedSlide].MediaTaskType == MediaType.Empty)
 			{
 				pbDesign.Visible = true;
 				pbDesign.Image = curTask.GetOperationFrame(true, selectedSlide);
@@ -213,6 +216,7 @@ namespace TaskLab
 			}
 			if (curTask.PicList[selectedSlide].MediaTaskType == MediaType.Web)
 			{
+                pbDesign.Visible = false;
 				_controlWebBrowser.Visible = true;
 				_controlWebBrowser.Load(curTask.PicList[selectedSlide].URL);
 			}
