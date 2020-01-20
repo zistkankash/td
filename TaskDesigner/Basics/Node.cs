@@ -16,7 +16,8 @@ namespace Basics
 
         public Shape shape;       //// شکل گره را مشخص می کند
         public Color shapeColor;
-        public Point pos;
+        public Point absolutePosition;
+		public PointF relationalPosition;
         public int width;
         public int height;
         public int number;
@@ -31,12 +32,13 @@ namespace Basics
         public Point next;      //// کمکی هنوز استفاده نشده
 
         // سازنده شکل بدون فیکسیشن
-        public Node(int id,int x, int y, Shape s, Color sColor, int num, Color tColor, int w, int h)
+        public Node(int id, PointF point, Shape s, Color sColor, int num, Color tColor, int w, int h)
         {
 			_id = id;
-            this.pos.X = x;
-            this.pos.Y = y;
-            this.shape = s;
+			relationalPosition = point;
+            this.absolutePosition.X = (int)(point.X * BasConfigs._monitor_resolution_x);
+			this.absolutePosition.Y = (int)(point.Y * BasConfigs._monitor_resolution_y);
+			this.shape = s;
             this.shapeColor = sColor;
             this.number = num;
             this.textColor = tColor;
@@ -46,12 +48,13 @@ namespace Basics
         }
 
         // سازنده فیکسیشن با فیکسیشن
-        public Node(int id, int x, int y, Shape s, Color sColor, int num, Color tColor, int w, int h, char fType, int fTime, int p, int fRadius, Color fColor)
+        public Node(int id, PointF point, Shape s, Color sColor, int num, Color tColor, int w, int h, char fType, int fTime, int p, int fRadius, Color fColor)
         {
 			_id = id;
-            this.pos.X = x;
-            this.pos.Y = y;
-            this.shape = s;
+			relationalPosition = point;
+			this.absolutePosition.X = (int)(point.X * BasConfigs._monitor_resolution_x);
+			this.absolutePosition.Y = (int)(point.Y * BasConfigs._monitor_resolution_y);
+			this.shape = s;
             this.shapeColor = sColor;
             this.number = num;
             this.textColor = tColor;
@@ -65,7 +68,8 @@ namespace Basics
             this.fixationRadius = fRadius;
             this.fixationColor = fColor;
         }
-        public Node()
+        
+		public Node()
         {
             this.enable = false;
         }

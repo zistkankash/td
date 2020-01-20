@@ -31,8 +31,8 @@ namespace TaskLab
 		bool _rectSel = false;
 		bool pnlShapVis, pnlShapPropVis, pnlFixVis, pnlDetalsVis, pnlbackVis;
 		Node selectedNode , inserNode;
-		float screenPictureboxRatioX;
-		float screenPictureboxRatioY;
+		double screenPictureboxRatioX;
+		double screenPictureboxRatioY;
 		PsycologyTask _curTask;
 		LabDesignState designerState, lastState;
 
@@ -98,7 +98,7 @@ namespace TaskLab
 		{
 			ScreenModer();
 			if (_curTask != null)
-				pbDesign.Image = _curTask.RenderTask();
+				pbDesign.Image = _curTask.RenderTask(new Size(spltContner.Panel2.Width, spltContner.Panel2.Height));
 		}
 
 		void spltContner_Click(object sender, EventArgs e)
@@ -122,28 +122,38 @@ namespace TaskLab
             ScreenModer();
         }
 
-        void PsycologyDesigner_FormClosing(object sender, FormClosingEventArgs e)
+		private void PsycologyDesigner_Resize(object sender, EventArgs e)
+		{
+			pnlSetting.Width = pbDesign.Width - 14;
+			
+		}
+
+		void PsycologyDesigner_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (!CheckSave(true))
                 e.Cancel = true;
         }
 
-        #endregion
+		private void spltContner_SplitterMoved(object sender, SplitterEventArgs e)
+		{
+			
+		}
 
-        #region pbdesign
+		#endregion
 
-        void pbDesign_MouseUp(object sender, MouseEventArgs e)
+		#region pbdesign
+
+		void pbDesign_MouseUp(object sender, MouseEventArgs e)
 		{
 			if (_curTask == null)
 				return;
-            int x = 0, y = 0;
 			
 			Color sColor = Color.Black;
 			#region moving node
 			if (lastState == LabDesignState.onChange && selectedNode != null)
 			{
-				UpdateRatio(e, out x, out y);
-				UpdateNode(x, y);
+				//UpdateRatio(e, out x, out y);
+				UpdateNode(e.X, e.Y);
 				selectedNode.enable = false;
 				designerState = LabDesignState.onChange;
                 return;	
@@ -154,8 +164,8 @@ namespace TaskLab
             {
 				if (!inserNode.enable)
 				{
-					UpdateRatio(e, out x, out y);
-					GiveNode(x, y);
+					//UpdateRatio(e, out x, out y);
+					GiveNode(e.X, e.Y);
 					designerState = LabDesignState.onInsert;
 				}  
 
@@ -170,8 +180,8 @@ namespace TaskLab
 			if (_curTask == null)
 				return;
 			
-			UpdateRatio(e, out x, out y);
-			Node tempSel = _curTask.findNode(x, y);
+			//UpdateRatio(e, out x, out y);
+			Node tempSel = _curTask.findNode(e.X, e.Y);
 			pnlSetting.Visible = false;
 
 			if (lastState == LabDesignState.onDesign)
@@ -521,8 +531,8 @@ namespace TaskLab
 				int.TryParse(txtHeight.Text, out h);
 			}
 		
-			inserNode.pos.X = x;
-			inserNode.pos.Y = y;
+			inserNode.absolutePosition.X = x;
+			inserNode.absolutePosition.Y = y;
 			inserNode.shape = shp;
 			inserNode.height = h; inserNode.width = w; inserNode.number = (int)numUpDownNode.Value; inserNode.textColor = btnNumberColor.BackColor;
 			//inserted node is drawed on image so is ready to add to map.
@@ -544,12 +554,13 @@ namespace TaskLab
 		Node GiveNode(bool MusbBeEnabled)
 		{
 			Random r = new Random();
-			int w, h = 0, x, y;
+			int w, h = 0;
+			float x, y;
 			Shape shp = Shape.Circle;
 			Color sColor = Color.Red;
 
-			x = r.Next(0, BasConfigs._monitor_resolution_x);
-			y = r.Next(0, BasConfigs._monitor_resolution_y);
+			x = r.Next(0, 1);
+			y = r.Next(0, 1);
 
 			int.TryParse(txtWidth.Text, out w);
 			if (CircSel)
@@ -565,7 +576,7 @@ namespace TaskLab
 
 			//create new node for modify in designer not for add to map.
 			if (inserNode == null)
-				inserNode = new Node(-1, x, y, shp, sColor, (int)numUpDownNode.Value, btnNumberColor.BackColor, w, h);
+				inserNode = new Node(-1, new PointF(x, y), shp, sColor, (int)numUpDownNode.Value, btnNumberColor.BackColor, w, h);
 			else
 			{
 				inserNode.shape = shp;
@@ -594,13 +605,7 @@ namespace TaskLab
 			}
 			return inserNode;
 		}
-
-		private void PsycologyDesigner_Resize(object sender, EventArgs e)
-		{
-			pnlSetting.Width = pbDesign.Width - 14;
-		}
-
-
+		
 		/// <summary>
 		/// update node features for example  width or height.
 		/// use  input x and y  -1 to avoid update node position.
@@ -628,9 +633,9 @@ namespace TaskLab
 			selectedNode.height = h; selectedNode.width = w; selectedNode.number = (int)numUpDownNode.Value;
 			
 			if (x != -1)
-				selectedNode.pos.X = x;
+				selectedNode.absolutePosition.X = x;
 			if (y != -1)
-				selectedNode.pos.Y = y;
+				selectedNode.absolutePosition.Y = y;
 
 			if (!chboxFixate.Checked) // add normal node to map
 				_curTask.CreateNode(selectedNode);
@@ -699,7 +704,7 @@ namespace TaskLab
 						else
 							pbDesign.Cursor = Cursors.Hand;
 						if (inserNode.enable)
-							_curTask.DrawPrompt(10, inserNode._id, Color.AliceBlue, true);
+							_curTask.DrawPrompt(10, new int[1] { inserNode._id }, Color.Yellow, true);
 						btnChangeNode.Text = "Insert";
 						btnRemoveNode.Text = "Cancel";
 						lastState = LabDesignState.onInsert;
@@ -724,7 +729,7 @@ namespace TaskLab
 							pbDesign.Cursor = Cursors.Hand;
 						else
 							pbDesign.Cursor = Cursors.Default;
-						_curTask.DrawPrompt(10, selectedNode._id, Color.AliceBlue, true);
+						_curTask.DrawPrompt(10, new int[1] { selectedNode._id }, Color.Yellow, true);
 						btnChangeNode.Text = "Change";
 						btnRemoveNode.Text = "Remove";
 						lastState = LabDesignState.onChange;
@@ -792,11 +797,11 @@ namespace TaskLab
 
 		void UpdateRatio(MouseEventArgs e, out int x, out int y)
 		{
-			screenPictureboxRatioX = BasConfigs._monitor_resolution_x / pbDesign.Size.Width;
-			screenPictureboxRatioY = BasConfigs._monitor_resolution_y / pbDesign.Size.Height;
+			screenPictureboxRatioX = (double)BasConfigs._monitor_resolution_x / pbDesign.Size.Width;
+			screenPictureboxRatioY = (double)BasConfigs._monitor_resolution_y / pbDesign.Size.Height;
 
-			x = Math.Max((int)screenPictureboxRatioX * e.X,  10);
-			y = Math.Max((int)screenPictureboxRatioY * e.Y, 10);
+			x = Math.Max((int)(screenPictureboxRatioX * e.X),  10);
+			y = Math.Max((int)(screenPictureboxRatioY * e.Y), 10);
 		}
 
 		void LoadTaskDesigner()

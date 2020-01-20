@@ -153,6 +153,7 @@
 			this.spltContner.SplitterDistance = 210;
 			this.spltContner.SplitterWidth = 10;
 			this.spltContner.TabIndex = 5;
+			this.spltContner.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.spltContner_SplitterMoved);
 			this.spltContner.Click += new System.EventHandler(this.spltContner_Click);
 			// 
 			// pnlShapeDetails

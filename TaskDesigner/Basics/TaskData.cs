@@ -5,10 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using TaskLab;
-using Emgu.CV.Structure;
-using Emgu.CV;
-using Psychophysics;
 using MetroFramework;
 
 namespace Basics
@@ -18,12 +14,13 @@ namespace Basics
 		protected TaskType _type;
 		protected bool _taskIsReady = false;
 		protected string _tskAddress = null;
-		protected RunConfig runConf;
 		protected SaveMod tskSavMod;
 		protected DateTime tskLastDateEdited;
 		protected byte[] binTaskFile;
 		protected string[] lines;
 		protected int binReadIndex = 0;
+
+		public RunConfig runConf;
 
 		public bool IsReady { get { return _taskIsReady; } }
 

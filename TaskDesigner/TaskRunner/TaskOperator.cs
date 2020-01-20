@@ -131,7 +131,7 @@ namespace TaskRunning
 					btnStart.Enabled = false;
 					refTimer.Start();
 					refTimer.Enabled = true;
-					tsk.runConf = getRunConfigs;
+					tsk.SetRunConfig = getRunConfigs;
 					if (tsk.Type == TaskType.cognitive)
 					{
 						tsk.PsycoPhysicsTask.Brake = false;
@@ -141,7 +141,7 @@ namespace TaskRunning
 						else
 							st = false;
 						_stopped = false;
-						shFrame = new PsycophysicsRunner(true ,pbOper.Width, pbOper.Height, tsk.PsycoPhysicsTask);
+						shFrame = new PsycophysicsRunner(st ,pbOper.Width, pbOper.Height, tsk.PsycoPhysicsTask);
 						shFrame.pupilDataPath = txtSavPath.Text;
 						shFrame.eventDataPath = FileName.UpdateFileName(txtSavPath.Text, "events");
 						shFrame.Show();
@@ -149,17 +149,20 @@ namespace TaskRunning
 					else
 					{
 						_stopped = false;
-						runner = new TaskRunner(tsk, this, (_etStat == ETStatus.ready));
+						if (tsk.Type == TaskType.media)
+							runner = new TaskRunner(tsk.MediaTask, TaskType.media, this, (_etStat == ETStatus.ready));
+						else
+							runner = new TaskRunner(tsk.PsycoTask, TaskType.lab, this, (_etStat == ETStatus.ready));
+						
 						runner.Show();
-						//runner.RunTask(_etStat == ETStatus.ready);
-					
+											
 					}
 					
 					SetControlsLocked();
 										
 				}
 			}
-			catch(Exception ex)
+			catch(Exception)
 			{
 				refTimer.Stop();
 				return;

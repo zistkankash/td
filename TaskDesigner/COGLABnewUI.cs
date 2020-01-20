@@ -239,17 +239,17 @@ namespace Basics
 
 		private void btn_psychology_Click(object sender, EventArgs e)
 		{
-			//try
-			//{
-			//	taskLab = new PsycologyDesigner();
-			//	taskLab.FormClosed += delegate { Show(); Select(); };
-			//	this.Hide();
-			//	taskLab.Show();
-			//}
-			//catch (Exception)
-			//{
-			//	return;
-			//}
+			try
+			{
+				taskLab = new PsycologyDesigner();
+				taskLab.FormClosed += delegate { Show(); Select(); };
+				this.Hide();
+				taskLab.Show();
+			}
+			catch (Exception)
+			{
+				return;
+			}
 		}
 
 		private void btn_linguistics_Click(object sender, EventArgs e)
@@ -382,12 +382,12 @@ namespace Basics
 				{
 					Close();
 				}
-			SerialPort port = new SerialPort("COM13");
+			//SerialPort port = new SerialPort("COM13");
+			//port.BaudRate = 9600;
+			//port.Open();
+			//port.Write("ali");
 			
-			port.Open();
-			port.Write("ali");
-			//port.Write(new byte[] { 0xE0, 0xE1, 0xE2 }, 0, 3);
-			port.Close();
+			//port.Close();
 		}
 		
 		private void mtlCls_Click(object sender, EventArgs e)
@@ -438,10 +438,10 @@ namespace Basics
 
 		private void btn_psychology_MouseEnter(object sender, EventArgs e)
 		{
-			//if (connected)
-			//	pnl_cntrl.BackgroundImage = Resource.main3_psycologyselected_green;
-			//else
-			//	pnl_cntrl.BackgroundImage = Resource.main3_psycologyselected;
+			if (connected)
+				pnl_cntrl.BackgroundImage = Resource.main3_psycologyselected_green;
+			else
+				pnl_cntrl.BackgroundImage = Resource.main3_psycologyselected;
 		}
 
 		private void btn_psychology_MouseLeave(object sender, EventArgs e)

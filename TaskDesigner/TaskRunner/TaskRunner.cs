@@ -8,12 +8,13 @@ using System.Diagnostics;
 using Basics;
 using CefSharp;
 using CefSharp.WinForms;
+using System.Collections.Generic;
 
 namespace TaskRunning
 {
 
 	/// <summary>
-	///  This class designed and implemented by Mh.T to run all task types.
+	///  This class designed and implemented by Mh.T to run 2 type tasks 1-linguistic, 2-psycology tasks.
 	///	first call TaskOperator to load a task and create output csv file, then operator can start running the task using TaskRunner.
 	///	Operator form has a picturebox to show tracked eye position.
 	///	arguments: 
@@ -27,7 +28,10 @@ namespace TaskRunning
 		bool brake = false;
 		bool _startTask = false;
 		Screen[] screens;
-		public static TaskClient curTsk;
+		TaskType _type;
+
+		MediaTask _mediaTask;
+		PsycologyTask _psycoTask;
 		Stopwatch tskWatch;
 		int _timeLimit;
 		Thread runnerThread;
@@ -35,7 +39,8 @@ namespace TaskRunning
 		Bitmap _runnerBitmap;
 		ChromiumWebBrowser _controlWebBrowser;
 		ScreenRecorder.Recorder rec;
-		
+		List<int> _mises = new List<int>(), _nearMises = new List<int>();
+		List<int> _goal = new List<int>();
 		public Size secondMonit = new Size(0,0);
 		public RunMod runMod = RunMod.Stop;
 				
@@ -43,26 +48,21 @@ namespace TaskRunning
 		static bool _mouseClicked = false;
 		static int _mousX, _mousY;
 					
-		public TaskRunner(TaskClient cs,TaskOperator pr, bool getGaz)
+		public TaskRunner(object cs,TaskType Type ,TaskOperator pr, bool getGaz)
 		{
 			InitializeComponent();
 			tsop = pr;
 			_getGaz = getGaz;
 			runMod = RunMod.Stop;
-			curTsk = cs;
+			_type = Type;
+			if (Type == TaskType.lab)
+				_psycoTask = (PsycologyTask)cs;
+			if (Type == TaskType.media)
+				_mediaTask = (MediaTask)cs;
 			InitForm();
 			InitBrowser();
 		}
 		
-		public TaskRunner(TaskClient cs)
-		{
-			InitializeComponent();
-			runMod = RunMod.Stop;
-			curTsk = cs;
-			InitForm();
-			InitBrowser();
-		}
-
 		void InitBrowser()
 		{
 			CefSettings seting = new CefSettings();
@@ -129,17 +129,22 @@ namespace TaskRunning
 			tskWatch = new Stopwatch(); //Get a watch for timing operations.
 			if (_getGaz)
 			{
-				RunnerUtils.GazeReady += GetMediaGaze;
+				if (_type == TaskType.media)
+					RunnerUtils.GazeReady += GetMediaGaze;
+				if (_type == TaskType.lab)
+					RunnerUtils.GazeReady += GetLabGaze;
 				RunnerUtils.StartGaze(true);
 			}
 			else
 				Cursor.Position = new Point(BasConfigs._monitor_resolution_x + BasConfigs._monitor_resolution_x / 2, BasConfigs._monitor_resolution_y / 2);
 
-			#region lab tasks
-			if (curTsk.Type == TaskType.lab)
+			#region psycology init running task
+			if (_type == TaskType.lab)
 			{
-
-				if(curTsk.runConf.taskRunMode == TaskRunMod.recursive)
+				_goal.Clear();
+				_mises.Clear();
+				_nearMises.Clear();
+				if(_psycoTask.runConf.taskRunMode == TaskRunMod.recursive)
 				{
 					CTTaskSelectStartGoal();
 
@@ -152,31 +157,32 @@ namespace TaskRunning
 				return;
 			}
 			#endregion
-			if (curTsk.Type == TaskType.media)
+			#region media init run
+			if (_type == TaskType.media)
 			{
-				curTsk.MediaTask.showedIndex = 0;
+				_mediaTask.showedIndex = 0;
 				Invoke((Action)delegate { LocateForm(); SetNextMediaSlide(); tsop.SetNextSlide(); });
 												
-				while (curTsk.MediaTask.showedIndex < curTsk.MediaTask.PicList.Count)
+				while (_mediaTask.showedIndex < _mediaTask.PicList.Count)
 				{
 					if (runMod == RunMod.Stop)
 						return;
 					//If gaze was enabled use gaze values to save in file and update pointer in operator in the gaze event.
 					//Else if pointer was enabled add the pointer position in file.
-					if(curTsk.runConf.useCursor)
+					if(_mediaTask.runConf.useCursor)
 					{
 						GetMediaCursor();
 						
 					}
 					
 					//Check status to go to next slide...
-					if ((curTsk.runConf.useCursorNextFrm && _mouseClicked && tskWatch.ElapsedMilliseconds > _timeLimit * 0.1) || tskWatch.ElapsedMilliseconds > _timeLimit || brake)
+					if ((_mediaTask.runConf.useCursorNextFrm && _mouseClicked && tskWatch.ElapsedMilliseconds > _timeLimit * 0.1) || tskWatch.ElapsedMilliseconds > _timeLimit || brake)
 					{
 						doGaze = false;
 						_mouseClicked = false;
-						curTsk.MediaTask.showedIndex++;
+						_mediaTask.showedIndex++;
 						Invoke((Action)delegate { tsop.SetNextSlide(); });
-						if (curTsk.MediaTask.showedIndex == curTsk.MediaTask.PicList.Count)
+						if (_mediaTask.showedIndex == _mediaTask.PicList.Count)
 							break;
 						Invoke((Action)delegate { SetNextMediaSlide();  });						
 					}
@@ -185,10 +191,11 @@ namespace TaskRunning
 				
 				return;
 			}
-						
-			return;
+			#endregion
+
 		}
-		
+
+
 		bool SetNextMediaSlide()
 		{
 			brake = false;
@@ -203,9 +210,9 @@ namespace TaskRunning
 			}
 			if (vlcControl1.IsPlaying)
 				vlcControl1.Stop();
-			if (curTsk.MediaTask.showedIndex >= curTsk.MediaTask.PicList.Count)
+			if (_mediaTask.showedIndex >= _mediaTask.PicList.Count)
 				return false;
-			pic = curTsk.MediaTask.PicList[curTsk.MediaTask.showedIndex];
+			pic = _mediaTask.PicList[_mediaTask.showedIndex];
 			if (pic.MediaTaskType == MediaType.Video)
 			{
 				vlcControl1.Visible = true;
@@ -226,7 +233,7 @@ namespace TaskRunning
 				else
 				{
 					
-					rec = new ScreenRecorder.Recorder(new ScreenRecorder.RecorderParams(Path.GetDirectoryName(tsop.txtSavPath.Text) + "\\web" + curTsk.MediaTask.showedIndex.ToString() + ".avi", 10, SharpAvi.KnownFourCCs.Codecs.MotionJpeg, 50));
+					rec = new ScreenRecorder.Recorder(new ScreenRecorder.RecorderParams(Path.GetDirectoryName(tsop.txtSavPath.Text) + "\\web" + _mediaTask.showedIndex.ToString() + ".avi", 10, SharpAvi.KnownFourCCs.Codecs.MotionJpeg, 50));
 					
 					_controlWebBrowser.Visible = true;
 					_controlWebBrowser.Load(pic.URL);
@@ -261,6 +268,18 @@ namespace TaskRunning
 					return;
 				}
 			
+		}
+		
+		private void GetLabGaze(object sender, GazeTriple gzTemp)
+		{
+			TaskOperator.savedData += gzTemp.x.ToString() + "," + gzTemp.y.ToString() + "," + gzTemp.pupilSize.ToString() + "," + gzTemp.time.ToString() + "\n";
+			TaskOperator.gzX = (float)gzTemp.x;
+			TaskOperator.gzY = (float)gzTemp.y;
+
+
+
+
+			return;
 		}
 
 		void GetMediaCursor()
@@ -464,8 +483,8 @@ namespace TaskRunning
 
 		void CTTaskSelectStartGoal()
 		{
-			int[] strt = curTsk.PsycoTask.FindStartShapes();
-			
+			int[] strt = _psycoTask.FindStartShapes();
+			_goal.AddRange(strt);
 
 		}
 			

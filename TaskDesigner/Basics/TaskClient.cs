@@ -17,10 +17,21 @@ namespace Basics
 		PsycologyTask psycoTask;
 		bool _taskIsReady = false;
 		string _tskAddress = null;
-		SaveMod tskSavMod;
-		DateTime tskLastDateEdited;
-        
-		public RunConfig runConf;
+		
+		public RunConfig SetRunConfig
+		{
+			set
+			{
+				if(_type == TaskType.lab)
+				{
+					psycoTask.runConf = value;
+				}
+				if(_type == TaskType.media)
+				{
+					mediaTask.runConf = value;
+				}
+			}
+		}	
 
 		public PsycophysicTasks PsycoPhysicsTask { get { return psycoPhysicsTask; } }
 
@@ -53,22 +64,24 @@ namespace Basics
 			if (tk == TaskType.lab)
 			{
 				_type = TaskType.lab;
+
 				psycoTask = new PsycologyTask();
-				tskSavMod = SaveMod.txt;
+				 
+
 				return;
 			}
 			if (tk == TaskType.media)
 			{
 				_type = TaskType.media;
 				mediaTask = new MediaTask();
-				tskSavMod = SaveMod.bin;
+				
 				return;
 			}
 			if (tk == TaskType.cognitive)
 			{
 				_type = TaskType.cognitive;
 				psycoPhysicsTask = new PsycophysicTasks(0);
-				tskSavMod = SaveMod.txt;
+				
 				return;
 			}
 		}
@@ -124,8 +137,7 @@ namespace Basics
 					else
 					{
 						_taskIsReady = false;
-                        tskSavMod = SaveMod.txt;
-						
+                      						
 						if (lines[0] == "TaskLabMedia")      // تسک های تصویری
 						{
 							mediaTask = new MediaTask();
