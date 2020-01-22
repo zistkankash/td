@@ -20,7 +20,7 @@ namespace Psychophysics
 		Screen[] screen = Screen.AllScreens;
 		public static int ScreenWidth = 0, ScreenHeight = 0;
 		float ViewSize = 80; //A: main white box size in the midddle of task designer
-		bool startPaint = false;
+		
 		Graphics g, gr;
 		//nullable int for storing Null value
 		int? initX = null;
@@ -32,7 +32,7 @@ namespace Psychophysics
 		bool moveObject = false;
 		int moveObjectX = 0, moveObjectY = 0;
 		int indexMoveObject = -1;
-		bool firstbackgr = false;
+		
 		int PicBCnt = 1, ActivePicB = 1;
 		bool FixationSelected = false;
 		String ImagePath = " ";
@@ -295,7 +295,7 @@ namespace Psychophysics
                 }
 
                 //setting startPaint and drawSquare value to false for creating one graphic on one click.
-                startPaint = false;
+                
                 drawSquare = false;
             }
             else if (drawRectangle)
@@ -331,7 +331,7 @@ namespace Psychophysics
                     FixationTime_ET.Enabled = true;
                 }
 
-                startPaint = false;
+                
                 drawRectangle = false;
             }
             else if (drawCircle)
@@ -367,7 +367,7 @@ namespace Psychophysics
                     FixationTime_ET.Enabled = false;
                 }
 
-                startPaint = false;
+               
                 drawCircle = false;
             }
             else if (drawImage)
@@ -387,7 +387,7 @@ namespace Psychophysics
                 gr.DrawImage(bmpvar, new Point(stimulus.Xloc - width / 2, stimulus.Yloc - height / 2));
                 bmpvar = new Bitmap(bmpvar, new Size(Convert.ToInt16(stimulus.Width * ViewSize / 100), Convert.ToInt16(stimulus.Height * ViewSize / 100)));
                 g.DrawImage(bmpvar, new Point(e.X - Convert.ToInt16(width * ViewSize / 200), Convert.ToInt16(e.Y - height * ViewSize / 200)));
-                startPaint = false;
+                
                 drawImage = false;
 				button7.Enabled = true;
             }
@@ -440,7 +440,7 @@ namespace Psychophysics
 					//Fired when the mouse pointer is over the pnl_Draw and a mouse button is released.
 		private void pnl_Draw_MouseUp(object sender, MouseEventArgs e)
         {
-            startPaint = false;
+           
             initX = null;
             initY = null;
 

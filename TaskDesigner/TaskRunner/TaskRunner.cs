@@ -12,7 +12,7 @@ using System.Collections.Generic;
 
 namespace TaskRunning
 {
-
+	
 	/// <summary>
 	///  This class designed and implemented by Mh.T to run 2 type tasks 1-linguistic, 2-psycology tasks.
 	///	first call TaskOperator to load a task and create output csv file, then operator can start running the task using TaskRunner.
@@ -23,12 +23,17 @@ namespace TaskRunning
 	{
 		//SoundPlayer winSound;
 		//SoundPlayer failSound;
-
+		#region General Runner Data Scope  
 		bool doGaze = false;
 		bool brake = false;
 		bool _startTask = false;
 		Screen[] screens;
 		TaskType _type;
+		Size secondMonit;
+		RunConfig _runnerConfig;
+		public RunMod runMod = RunMod.Stop;
+		bool _getGaz = false;
+		static bool _mouseClicked = false;
 
 		MediaTask _mediaTask;
 		PsycologyTask _psycoTask;
@@ -39,15 +44,16 @@ namespace TaskRunning
 		Bitmap _runnerBitmap;
 		ChromiumWebBrowser _controlWebBrowser;
 		ScreenRecorder.Recorder rec;
-		List<int> _mises = new List<int>(), _nearMises = new List<int>();
-		List<int> _goal = new List<int>();
-		public Size secondMonit = new Size(0,0);
-		public RunMod runMod = RunMod.Stop;
-				
-		bool _getGaz = false;
-		static bool _mouseClicked = false;
-		static int _mousX, _mousY;
-					
+		#endregion
+		
+		#region Lab Runner Data Scope
+		int[] strt;
+		int _curHeatedNode, _curHeatedGoal, _succededGoal, _selectedGroup;
+		List<int> _labNodeHeats = new List<int>(), _labNodeNearHeats = new List<int>();
+		List<LabRunnerNodeMetaData> _labBuffer = new List<LabRunnerNodeMetaData>();
+		List<int> _goals = new List<int>();
+		#endregion
+		
 		public TaskRunner(object cs,TaskType Type ,TaskOperator pr, bool getGaz)
 		{
 			InitializeComponent();
@@ -55,12 +61,23 @@ namespace TaskRunning
 			_getGaz = getGaz;
 			runMod = RunMod.Stop;
 			_type = Type;
+
 			if (Type == TaskType.lab)
+			{
 				_psycoTask = (PsycologyTask)cs;
+				_runnerConfig = _psycoTask.runConf;
+				
+			}
+
 			if (Type == TaskType.media)
+			{
 				_mediaTask = (MediaTask)cs;
+				_runnerConfig = _mediaTask.runConf;
+				
+				InitBrowser();
+			}
 			InitForm();
-			InitBrowser();
+			
 		}
 		
 		void InitBrowser()
@@ -127,24 +144,45 @@ namespace TaskRunning
 		void InitRunningTask()
 		{
 			tskWatch = new Stopwatch(); //Get a watch for timing operations.
+			secondMonit = new Size(BasConfigs._monitor_resolution_x, BasConfigs._monitor_resolution_y);
 			if (_getGaz)
 			{
 				if (_type == TaskType.media)
 					RunnerUtils.GazeReady += GetMediaGaze;
 				if (_type == TaskType.lab)
 					RunnerUtils.GazeReady += GetLabGaze;
+
 				RunnerUtils.StartGaze(true);
 			}
 			else
-				Cursor.Position = new Point(BasConfigs._monitor_resolution_x + BasConfigs._monitor_resolution_x / 2, BasConfigs._monitor_resolution_y / 2);
+				if (_runnerConfig.useCursor)
+					Cursor.Position = new Point(BasConfigs._monitor_resolution_x + BasConfigs._monitor_resolution_x / 2, BasConfigs._monitor_resolution_y / 2);
 
 			#region psycology init running task
 			if (_type == TaskType.lab)
 			{
-				_goal.Clear();
-				_mises.Clear();
-				_nearMises.Clear();
-				if(_psycoTask.runConf.taskRunMode == TaskRunMod.recursive)
+				vlcControl1.Visible = false;
+				_controlWebBrowser.Visible = false;
+				pctbxFrm.Visible = true;
+
+				//clearing data
+				_goals.Clear();
+				_labNodeHeats.Clear();
+				_labNodeNearHeats.Clear();
+				_succededGoal = -1;
+				_curHeatedNode = -1;
+				_selectedGroup = -1;
+				_curHeatedGoal = -1;
+
+				frameUpdater.Enabled = true;
+				frameUpdater.Start();
+				if (_runnerConfig.useCursor && !_getGaz)
+				{
+					pctbxFrm.MouseMove += pctbxFrm_MouseMoveforLab;
+
+				}
+
+				if (_psycoTask.runConf.taskRunMode == TaskRunMod.recursive)
 				{
 					CTTaskSelectStartGoal();
 
@@ -162,18 +200,19 @@ namespace TaskRunning
 			{
 				_mediaTask.showedIndex = 0;
 				Invoke((Action)delegate { LocateForm(); SetNextMediaSlide(); tsop.SetNextSlide(); });
-												
+
+				if (_runnerConfig.useCursor && !_getGaz)
+				{
+					pctbxFrm.MouseMove += pctbxFrm_MouseMoveforMedia;
+
+				}
 				while (_mediaTask.showedIndex < _mediaTask.PicList.Count)
 				{
 					if (runMod == RunMod.Stop)
 						return;
 					//If gaze was enabled use gaze values to save in file and update pointer in operator in the gaze event.
 					//Else if pointer was enabled add the pointer position in file.
-					if(_mediaTask.runConf.useCursor)
-					{
-						GetMediaCursor();
-						
-					}
+					
 					
 					//Check status to go to next slide...
 					if ((_mediaTask.runConf.useCursorNextFrm && _mouseClicked && tskWatch.ElapsedMilliseconds > _timeLimit * 0.1) || tskWatch.ElapsedMilliseconds > _timeLimit || brake)
@@ -194,8 +233,7 @@ namespace TaskRunning
 			#endregion
 
 		}
-
-
+		
 		bool SetNextMediaSlide()
 		{
 			brake = false;
@@ -246,13 +284,13 @@ namespace TaskRunning
 			return true;
 		}
 
-		private void VlcControl1_Playing(object sender, Vlc.DotNet.Core.VlcMediaPlayerPlayingEventArgs e)
+		void VlcControl1_Playing(object sender, Vlc.DotNet.Core.VlcMediaPlayerPlayingEventArgs e)
 		{
 			doGaze = true;
 			tskWatch.Restart();
 		}
 
-		private void VlcControl1_EndReached(object sender, Vlc.DotNet.Core.VlcMediaPlayerEndReachedEventArgs e)
+		void VlcControl1_EndReached(object sender, Vlc.DotNet.Core.VlcMediaPlayerEndReachedEventArgs e)
 		{
 			brake = true;
 		}
@@ -270,253 +308,136 @@ namespace TaskRunning
 			
 		}
 		
-		private void GetLabGaze(object sender, GazeTriple gzTemp)
+		void GetLabGaze(object sender, GazeTriple gzTemp)
 		{
 			TaskOperator.savedData += gzTemp.x.ToString() + "," + gzTemp.y.ToString() + "," + gzTemp.pupilSize.ToString() + "," + gzTemp.time.ToString() + "\n";
 			TaskOperator.gzX = (float)gzTemp.x;
 			TaskOperator.gzY = (float)gzTemp.y;
 
-
-
+			LabTaskRunnerCore((int)gzTemp.x, (int)gzTemp.y);
 
 			return;
 		}
+		
+		void LabTaskRunnerCore(int x, int y)
+		{
+			//Find nodes that match current gaze in its border.
+			List<int> ht = _psycoTask.findNode(x, y, 2);
 
-		void GetMediaCursor()
+			for (int i = 0; i < _labBuffer.Count; i++)
+			{
+				int ind = ht.FindIndex(a => a == _labBuffer[i].nodeId);
+				if (ind > -1)
+				{
+					_labBuffer[i].level++;
+					_labBuffer[i].outness = 0;
+					ht.RemoveAt(ind);
+				}
+				else
+					_labBuffer[i].outness++;
+			}
+			for (int k = 0; k < ht.Count; k++)
+			{
+				_labBuffer.Add(new LabRunnerNodeMetaData(ht[k]));
+			}
+
+			//Remove node with outness larger than threshold from buffer and sync buffer with heata and near_heats.
+			foreach (LabRunnerNodeMetaData ln in _labBuffer)
+				if (ln.outness > 5)
+				{
+					if (_labNodeNearHeats.Contains(ln.nodeId))
+						_labNodeNearHeats.Remove(ln.nodeId);
+
+					if (_labNodeHeats.Contains(ln.nodeId))
+						_labNodeHeats.Remove(ln.nodeId);
+
+					_labBuffer.Remove(ln);
+				}
+
+			//Add nodes with level larger than Near_Heat threshold to near_heat buffer.
+			foreach (LabRunnerNodeMetaData ln in _labBuffer)
+			{
+				//A node is near_heated...
+				if (ln.level > 80)
+				{
+					if (!_goals.Contains(ln.nodeId))
+						_psycoTask.shapeList[ln.nodeId].NearHeatCountforNode++;
+					if (!_labNodeNearHeats.Contains(ln.nodeId))
+					{
+						_labNodeNearHeats.Add(ln.nodeId);
+
+					}
+				}
+				//A node heated...
+				if (ln.level > 150)
+					if (!_labNodeHeats.Contains(ln.nodeId))
+					{
+						_labNodeHeats.Add(ln.nodeId);
+						//wrong node heated so it appointed as misses node
+						if(!_goals.Contains(ln.nodeId))
+						{
+							if (_runnerConfig.taskRunMode == TaskRunMod.recursive)
+							{
+								_goals.Clear();
+								_goals.AddRange(strt);
+								_succededGoal = -1;
+								_curHeatedGoal = -1;
+								if (_runnerConfig.showGoalPrompt)
+									_psycoTask.DrawNodePrompt(30, strt, Color.Yellow, true);
+							}
+							if (_runnerConfig.taskRunMode == TaskRunMod.forward)
+								if (_curHeatedGoal > -1 && _runnerConfig.showArrow)
+								{
+									_psycoTask.DrawArrow(20, _curHeatedGoal, _goals[0], Color.Black, false, 2);
+								}
+						}
+					}
+			}
+		}
+		
+		void CTTaskSelectStartGoal()
+		{
+			strt = _psycoTask.FindStartShapes();
+			_goals.AddRange(strt);
+			if (_runnerConfig.showGoalPrompt)
+				_psycoTask.DrawNodePrompt(30, strt, Color.Yellow, true);
+		}
+
+		void pctbxFrm_MouseMoveforLab(object sender, MouseEventArgs e)
+		{
+			LabTaskRunnerCore(e.X, e.Y);
+		}
+
+		void pctbxFrm_MouseMoveforMedia(object sender, MouseEventArgs e)
+		{
+			GetMediaCursor(e.X, e.Y);
+		}
+
+		void GetMediaCursor(int _mousX, int _mousY)
 		{
 			TaskOperator.savedData += _mousX.ToString() + "," + _mousY.ToString() + "," + 0.ToString() + "," + tskWatch.ElapsedMilliseconds.ToString() + "\n";
 			TaskOperator.gzX = (float)_mousX;
 			TaskOperator.gzY = (float)_mousY;
 		}
 
-		public static bool SetCurrentFixate()
-		{ //for lab tasks
-			//int min = 1000;
-			//int index = -1;
-			//foreach (Node n in fixationList)
-			//{
-			//	if (n.enable == true)
-			//	{
-			//		if (n.priority < min)
-			//		{
-			//			isCondition = true;
-			//			min = n.priority;
-			//			currentFNode.pos = n.pos;
-			//			currentFNode.time = n.fixationTime;
-			//			currentFNode.sound = true;
-			//			currentFNode.count = n.fixationTime / 8;
-			//			currentFNode.radius = n.width;
-			//			index = fixationList.IndexOf(n);
-			//		}
-			//	}
-			//}
-			//if (oldFNode.pos.X != -1)
-			//{
-			//	Image<Rgb, byte> im = new Image<Rgb, byte>(userMap);
-			//	int r, g, b;
-			//	r = btnArrowColor.BackColor.R;
-			//	g = btnArrowColor.BackColor.G;
-			//	b = btnArrowColor.BackColor.B;
-			//	CvInvoke.ArrowedLine(im, oldFNode.pos, currentFNode.pos, new MCvScalar(r, g, b), 2);
-			//	userMap = im.ToBitmap();
-			//	frame.DrawPic(userMap);
-			//	SetImage();
-			//}
-			//if (currentFNode.pos.X != -1)
-			//{
-			//	oldFNode.pos = currentFNode.pos;
-			//}
-			//if (index != -1)
-			//{
-			//	fixationList[index].enable = false;
-			//}
-			//else if (index == -1 && isCondition == true)
-			//{
-			//	StartStop();
-			//}
-			//if (min != 1000)
-			//	return true;
-			//else
-			return false;
+
+		/// <summary>
+		/// Update triable screen by task image every 30 miliseconds.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		void frameUpdater_Tick(object sender, EventArgs e)
+		{
+			if (runMod == RunMod.Stop)
+			{
+				frameUpdater.Stop();
+				frameUpdater.Enabled = false;
+				return;
+			}
+			if (_psycoTask != null)
+				pctbxFrm.Image = _psycoTask.RenderTask(secondMonit);
 		}
 		
-		//private void NormalLabRunner()
-		//{
-		//	int temp = 0;
-		//	int currentIndex = -1;
-		//	int oldIndex = -1;
-		//	int fixCounter = 0;
-		//	FNode currentNode = new FNode(-1,10, new Point(-1, -1), 100, -100);
-		//	//int roiCounter = 0;
-		//	int h = 0;
-			
-			
-		//	while (true)
-		//	{
-		//		try
-		//		{
-		//			temp++;
-
-		//			if (curTsk.runConf.useCursor == false)       // گرفتن مختصات از روی خیرگی
-		//			{
-		//				//currentNode = new FNode(10, new Point(-1, -1), 100, 'C', -100);
-		//				//currentIndex = 0;
-		//				//int score = 0;
-		//				//foreach (FNode node in TaskGen.positiveFixates)
-		//				//{
-		//				//	if (Math.Sqrt(Math.Pow(Math.Abs(node.pos.X - MappedSigs[0]), 2) + Math.Pow(Math.Abs(node.pos.Y - MappedSigs[1]), 2)) <= node.radius)
-		//				//	{
-		//				//		currentNode = node;
-		//				//		currentIndex = node.priority;
-		//				//	}
-		//				//}
-		//				//foreach (FNode node in TaskGen.negativeFixates)
-		//				//{
-		//				//	if (Math.Sqrt(Math.Pow(Math.Abs(node.pos.X - MappedSigs[0]), 2) + Math.Pow(Math.Abs(node.pos.Y - MappedSigs[1]), 2)) <= node.radius)
-		//				//	{
-		//				//		currentNode = node;
-		//				//		currentIndex = node.priority;
-		//				//	}
-		//				//}
-		//				//if (currentIndex == oldIndex)
-		//				//{
-		//				//	if (currentNode != goalNode)
-		//				//	{
-		//				//		fixCounter++;
-		//				//		if (currentNode.priority != -100)
-		//				//		{
-		//				//			if (fixCounter == currentNode.time / 8)
-		//				//			{
-		//				//				failSound.Play();
-		//				//				//score = -1;
-		//				//			}
-		//				//		}
-		//				//	}
-		//				//}
-		//				//else
-		//				//{
-		//				//	fixCounter = 0;
-		//				//	oldIndex = currentIndex;
-		//				//}
-		//				//if (Math.Sqrt(Math.Pow(goalNode.pos.X - MappedSigs[0], 2) + Math.Pow(goalNode.pos.Y - MappedSigs[1], 2)) <= goalNode.radius)
-		//				//{
-		//				//	h++;
-		//				//	if (h >= goalNode.time / 8)
-		//				//	{
-		//				//		winSound.Play();
-		//				//		score = 1;
-		//				//		int y = TLNormalSetGoalNode();
-		//				//		if (y == -1)
-		//				//			StartStop();
-		//				//	}
-		//				//}
-		//				//else
-		//				//	h = 0;
-		//				//savedStr = MappedSigs[0].ToString() + "," + MappedSigs[1].ToString() + "," + MappedSigs[2].ToString() + "," + currentIndex.ToString() + "," + MappedSigs[3].ToString() + "," + score.ToString() + "\n";
-		//				//savedData += savedStr;
-		//				//savedStr = "";
-		//			}
-		//			else        // گرفتن مختصات از روی موقعیت موس
-		//			{
-		//				int mouseX = Cursor.Position.X + BasConfigs._monitor_resolution_x;
-		//				int mouseY = Cursor.Position.Y;
-		//				//currentFixate.priority = 0;
-		//				currentNode = new FNode(-1,10, new Point(-1, -1), 100, -100);
-		//				currentIndex = 0;
-		//				//score = 0;
-		//				//foreach (FNode node in curTsk.Fixates)
-		//				//{
-		//				//	if (Math.Sqrt(Math.Pow(Math.Abs(node.pos.X - mouseX), 2) + Math.Pow(Math.Abs(node.pos.Y - mouseY), 2)) <= node.radius)
-		//				//	{
-		//				//		currentNode = node;
-		//				//		currentIndex = node.priority;
-		//				//	}
-		//				//}
-						
-
-		//				//if (currentIndex == oldIndex)
-		//				//{
-		//				//	if (currentNode != goalNode)
-		//				//	{
-		//				//		fixCounter++;
-		//				//		if (currentNode.priority != -100)
-		//				//		{
-		//				//			if (fixCounter == currentNode.time / 8)
-		//				//			{
-		//				//				failSound.Play();
-		//				//				//score = -1;
-		//				//			}
-		//				//		}
-		//				//	}
-		//				//}
-		//				//else
-		//				//{
-		//				//	fixCounter = 0;
-		//				//	oldIndex = currentIndex;
-		//				//}
-		//				//if (Math.Sqrt(Math.Pow(goalNode.pos.X - mouseX, 2) + Math.Pow(goalNode.pos.Y - mouseY, 2)) <= goalNode.radius)
-		//				//{
-		//				//	h++;
-		//				//	if (h >= goalNode.time / 8)
-		//				//	{
-		//				//		winSound.Play();
-		//				//		//score = 1;
-		//				//		int y = TLNormalSetGoalNode();
-		//				//		//if (y == -1)
-		//				//		//	StartStop();
-		//				//	}
-		//				//}
-		//				//else
-		//				//	h = 0;
-		//				//savedStr = (Cursor.Position.X + 1440).ToString() + "," + Cursor.Position.Y.ToString() + "," + currentIndex.ToString() + "," + MappedSigs[3].ToString() + "," + score.ToString() + "\n";
-		//				//savedData += savedStr;
-		//				savedStr = "";
-		//			}
-
-
-		//			//Thread.Sleep(7);
-
-		//		}
-		//		catch { }
-		//	}
-		//}
-
-		void CTTaskSelectStartGoal()
-		{
-			int[] strt = _psycoTask.FindStartShapes();
-			_goal.AddRange(strt);
-
-		}
-			
-		int TLNormalSetGoalNode()
-		{
-			//int tempPriority = 100;
-			//int tempIndex = -1;
-			//foreach (FNode node in TaskGen.positiveFixates)
-			//{
-			//	if (node.priority > goalNode.priority && node.priority < tempPriority)
-			//	{
-			//		tempPriority = node.priority;
-			//		tempIndex = TaskGen.positiveFixates.IndexOf(node);
-			//	}
-			//}
-			//if (tempIndex >= 0)
-			//{
-			//	goalNodeThrd = goalNodePrevius;
-			//	goalNodePrevius = goalNode;
-			//	goalNode = positiveFixates[tempIndex];
-			//	if (goalNodeThrd.priority != -100)
-			//	{
-			//		Image<Rgb, byte> tempImg = new Image<Rgb, byte>(userMap.Data);
-			//		CvInvoke.ArrowedLine(tempImg, goalNodeThrd.pos, goalNodePrevius.pos, new MCvScalar(120, 230, 50), 2);
-			//		pctbxFrm.Image = tempImg.ToBitmap();
-
-			//	}
-			//}
-			//return tempIndex;
-			return 0;
-		}
-
 		public bool RunTask()
 		{
 			if (runMod == RunMod.Running)       // هنگام اجرای برنامه
@@ -524,8 +445,7 @@ namespace TaskRunning
 				return false;
 			}
 			runMod = RunMod.Running;
-			//InitRunningTask();
-
+			
 			runnerThread = new Thread(new ThreadStart(InitRunningTask));
 			runnerThread.Start();
 
@@ -533,6 +453,10 @@ namespace TaskRunning
 
 		}
 
+		/// <summary>
+		/// Call this methode to Stop Running Task in Task Runner
+		/// </summary>
+		/// <returns></returns>
 		public bool StopTask()
 		{
 			try
@@ -554,6 +478,14 @@ namespace TaskRunning
 				if (vlcControl1.IsPlaying)
 					vlcControl1.Stop();
 
+				if(_mediaTask != null)
+				{
+					if (_mediaTask.runConf.useCursor)
+					{
+						pctbxFrm.MouseMove -= pctbxFrm_MouseMoveforMedia;
+
+					}
+				}
 				runMod = RunMod.Stop;
 				Invoke((Action)delegate { Close(); });
 				return true;
@@ -563,31 +495,7 @@ namespace TaskRunning
 				return false;
 			}
 		}
-
-		/// <summary>
-		/// Update triable screen by task image every 30 miliseconds.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		//private void frameUpdater_Tick(object sender, EventArgs e)
-		//{
-		//	if (curTsk.Type == TaskType.media)
-		//	{
-		//		if (runMod == RunMod.Running)
-		//		{
-		//			if (brake)
-		//			{
-		//				brake = false;
-		//				frameUpdater.Stop();
-		//				CleanMap();
-
-		//				return;
-		//			}
-					
-		//		}
-		//	}
-		//}
-
+		
 		void TaskRunner_Load(object sender, EventArgs e)
 		{
 			pctbxFrm.BackColor = Color.White;
@@ -607,16 +515,19 @@ namespace TaskRunning
 				this.Close();
 			}
 		}
-
-		void pctbxFrm_MouseMove(object sender, MouseEventArgs e)
-		{
-			_mousX = e.X; _mousY = e.Y;
-		}
-
-        void pctbxFrm_Click(object sender, EventArgs e)
+		
+		void pctbxFrm_Click(object sender, EventArgs e)
 		{
 			_mouseClicked = true;
 		}
 	}
 	
+	class LabRunnerNodeMetaData
+	{
+		public int outness; public int nodeId; public int level;
+		public LabRunnerNodeMetaData(int Id)
+		{
+			nodeId = Id; outness = 0; level = 0;
+		}
+	}
 }

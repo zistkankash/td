@@ -31,6 +31,7 @@ namespace Basics
 			showedIndex = -1;
 			tskSavMod = SaveMod.txt;
 			_thumbSize = new Size(300, 250);
+			operTaskImg = new Bitmap(1400,900);
 		}
 
 		public void Clear()
@@ -128,6 +129,7 @@ namespace Basics
 
 					}
 				}
+				operTaskImg = new Bitmap(_operationSize.Width, _operationSize.Height);
 				SavingMode = SaveMod.txt;
 				return true;
 			}
@@ -182,6 +184,7 @@ namespace Basics
 					return LoadFromText(lines);
 				else
 					return LoadFromBin(binTaskFile);
+
 			else
 				return false;
 		}

@@ -48,12 +48,11 @@
 			this.pctbxFrm.TabIndex = 0;
 			this.pctbxFrm.TabStop = false;
 			this.pctbxFrm.Click += new System.EventHandler(this.pctbxFrm_Click);
-			this.pctbxFrm.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pctbxFrm_MouseMove);
 			// 
 			// frameUpdater
 			// 
-			this.frameUpdater.Enabled = true;
-			this.frameUpdater.Interval = 1000;
+			this.frameUpdater.Interval = 30;
+			this.frameUpdater.Tick += new System.EventHandler(this.frameUpdater_Tick);
 			// 
 			// vlcControl1
 			// 

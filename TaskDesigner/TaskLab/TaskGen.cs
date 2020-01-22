@@ -67,7 +67,8 @@ namespace TaskLab
 		private void _controlWebBrowser_LoadingStateChanged(object sender, LoadingStateChangedEventArgs e)
 		{
 			bool tr = _controlWebBrowser.IsBrowserInitialized;
-			if (selectedSlide > -1 && curTask.PicList[selectedSlide].MediaTaskType == MediaType.Web)
+			
+			if (curTask!= null && curTask.PicList.Count > selectedSlide && selectedSlide > -1 && curTask.PicList[selectedSlide].MediaTaskType == MediaType.Web)
 			{
 				if (!e.IsLoading)
 				{
@@ -182,7 +183,7 @@ namespace TaskLab
 			}
 			
 			vlcControl1.Visible = false;
-			pbDesign.Visible = false;
+			
 			btnStart.Enabled = false;
 			_controlWebBrowser.Visible = false;
 			if (vlcControl1.IsPlaying)
@@ -193,10 +194,8 @@ namespace TaskLab
 				vlcControl1.Visible = false;
 				
 			}
-            if (selectedSlide > -1)
-                pbDesign.Visible = true;
-            else
-                return;
+			if (selectedSlide <= -1)
+				return;
             btnBackgroundCol.BackColor = curTask.PicList[selectedSlide].BGColor;
             if (curTask.PicList[selectedSlide].MediaTaskType == MediaType.Empty)
 			{

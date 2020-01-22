@@ -261,7 +261,7 @@ namespace Basics
 				this.Hide();
 				imageLab.Show();
 			}
-			catch(Exception ex)
+			catch(Exception)
 			{
 				return;
 			}
@@ -382,12 +382,7 @@ namespace Basics
 				{
 					Close();
 				}
-			//SerialPort port = new SerialPort("COM13");
-			//port.BaudRate = 9600;
-			//port.Open();
-			//port.Write("ali");
 			
-			//port.Close();
 		}
 		
 		private void mtlCls_Click(object sender, EventArgs e)

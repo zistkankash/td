@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.IO;
+using System.IO.Ports;
 using System.Windows.Forms;
 using Basics;
 using MetroFramework;
@@ -27,7 +28,7 @@ namespace TaskRunning
 		int _slideNum = 0;
 		public static bool _stopped = false;
 		PsycophysicsRunner shFrame;
-		int i = 0;
+		//int i = 0;
 		public static string savedData = BasConfigs._monitor_resolution_x.ToString() + "," + BasConfigs._monitor_resolution_y.ToString() + "\n";
 
 		public string getSavPath { get { return txtSavPath.Text; } }
@@ -141,7 +142,7 @@ namespace TaskRunning
 						else
 							st = false;
 						_stopped = false;
-						shFrame = new PsycophysicsRunner(st ,pbOper.Width, pbOper.Height, tsk.PsycoPhysicsTask);
+						shFrame = new PsycophysicsRunner(true ,pbOper.Width, pbOper.Height, tsk.PsycoPhysicsTask);
 						shFrame.pupilDataPath = txtSavPath.Text;
 						shFrame.eventDataPath = FileName.UpdateFileName(txtSavPath.Text, "events");
 						shFrame.Show();
@@ -150,7 +151,7 @@ namespace TaskRunning
 					{
 						_stopped = false;
 						if (tsk.Type == TaskType.media)
-							runner = new TaskRunner(tsk.MediaTask, TaskType.media, this, (_etStat == ETStatus.ready));
+							runner = new TaskRunner(tsk.MediaTask, TaskType.media, this, true);//(_etStat == ETStatus.ready));
 						else
 							runner = new TaskRunner(tsk.PsycoTask, TaskType.lab, this, (_etStat == ETStatus.ready));
 						
@@ -164,11 +165,12 @@ namespace TaskRunning
 			}
 			catch(Exception)
 			{
+				EndTask();
 				refTimer.Stop();
 				return;
 			}
             Application.OpenForms[this.Name].Select();
-			//krbTabControl2.Select();
+			
 		}
 
 		/// <summary>
@@ -307,16 +309,18 @@ namespace TaskRunning
 			{
 				if (runner != null && runner.StopTask())
 				{
+					SavePupilData();
 					_stopped = true;
 				}
 			}
+			
 		}
 
 		void refTimer_Tick(object sender, EventArgs e)
 		{
 			if (_stopped == true)
 			{
-				Stop();
+				EndTask();
 				
 				refTimer.Enabled = false;
 				refTimer.Stop();
@@ -324,6 +328,10 @@ namespace TaskRunning
 			RefreshPctBx();
 		}
 		
+		/// <summary>
+		/// Saving pupil data in media(linguistic) tasks and psycology tasks is acomplished in this methode.
+		/// Saving data in cognitive tasks has a methode in related class.
+		/// </summary>
 		void SavePupilData()
 		{
 			if (savedData != "")
@@ -360,9 +368,11 @@ namespace TaskRunning
 			BasConfigs.SetScreenConfigs(cmbTriableScreen.SelectedIndex);
 		}
 		
-		void Stop()
+		/// <summary>
+		/// Just set _stoped variable to false to Stop Running Task in Task Runner. calling EndTask from other methodes and classes not allowed.
+		/// </summary>
+		void EndTask()
 		{
-			SavePupilData();
 			_slideNum = 0;
 			gzX = 0; gzY = 0;
 			_operationBitmap = BitmapManager.TextBitmap("اتمام تسک", Color.Black, Brushes.White, pbOper.Size, 46);

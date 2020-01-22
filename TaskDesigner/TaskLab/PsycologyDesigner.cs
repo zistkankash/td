@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.IO.Ports;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -46,7 +47,7 @@ namespace TaskLab
 			{
 				if (!value)
 				{
-					
+					pnlBtnRect.BackColor = SystemColors.ActiveCaption;
 					_rectSel = false;
 				}
 				if (value)
@@ -72,6 +73,7 @@ namespace TaskLab
 			{
 				if (!value)
 				{
+					pnlBtnCircle.BackColor = SystemColors.ActiveCaption;
 					_circSel = false;
 				}
 				if (value)
@@ -120,7 +122,12 @@ namespace TaskLab
             DwmExtendFrameIntoClientArea(this.Handle, ref marg);
             designerState = LabDesignState.start;
             ScreenModer();
-        }
+			SerialPort port = new SerialPort("COM13");
+			port.BaudRate = 9600;
+			port.Open();
+			port.Write("Welcome to designer");
+			port.Close();
+		}
 
 		private void PsycologyDesigner_Resize(object sender, EventArgs e)
 		{
@@ -176,11 +183,12 @@ namespace TaskLab
 
 		void pbDesign_MouseDown(object sender, MouseEventArgs e)
 		{
-			int x, y;
+			
 			if (_curTask == null)
 				return;
-			
+
 			//UpdateRatio(e, out x, out y);
+			
 			Node tempSel = _curTask.findNode(e.X, e.Y);
 			pnlSetting.Visible = false;
 
@@ -217,8 +225,9 @@ namespace TaskLab
 					return;
 				if (tempSel._id == inserNode._id)
 				{
-					inserNode.enable = false;
 
+					inserNode.enable = false;
+					designerState = LabDesignState.onInsert;
 				}
 				
 				return;
@@ -279,15 +288,18 @@ namespace TaskLab
             {
                 if (lastState == LabDesignState.onDesign)
                 {
-                   
-					GiveNode(false);
+                   	GiveNode(false);
 					designerState = LabDesignState.onInsert;
 				}
                 RectSel = false;
 				// To update  Node
 				if(lastState == LabDesignState.onChange)
 				{
-					UpdateNode(-1,-1);
+					UpdateNode(-1, -1);
+				}
+				if (lastState == LabDesignState.onInsert)
+				{
+					GiveNode(false);
 				}
 			}
             return;
@@ -309,7 +321,11 @@ namespace TaskLab
                  // To update  Node
 				if (lastState == LabDesignState.onChange)
 				{
-					UpdateNode(-1,-1);
+					UpdateNode(-1, -1);
+				}
+				if (lastState == LabDesignState.onInsert)
+				{
+					GiveNode(false);
 				}
 			}
             return;
@@ -345,7 +361,7 @@ namespace TaskLab
 			{
 				btnTaskBackColor.BackColor = cDilog.Color;
 				_curTask.backColor = cDilog.Color;
-				_curTask.Invalidate();
+				
 			}
 		}
 
@@ -401,7 +417,7 @@ namespace TaskLab
 			{
 				
 				_curTask.backImage = BitmapManager.DrawOn(new Bitmap(of.FileName), new Size(BasConfigs._monitor_resolution_x, BasConfigs._monitor_resolution_y), _curTask.backColor);
-				_curTask.Invalidate();
+				
 			}
 			else
 			if(_curTask.backImage == null)
@@ -531,10 +547,11 @@ namespace TaskLab
 				int.TryParse(txtHeight.Text, out h);
 			}
 		
-			inserNode.absolutePosition.X = x;
-			inserNode.absolutePosition.Y = y;
+			inserNode.relationalPosition.X = (float)x / pbDesign.Width;
+			inserNode.relationalPosition.Y = (float)y / pbDesign.Height;
 			inserNode.shape = shp;
 			inserNode.height = h; inserNode.width = w; inserNode.number = (int)numUpDownNode.Value; inserNode.textColor = btnNumberColor.BackColor;
+			inserNode.shapeColor = sColor;
 			//inserted node is drawed on image so is ready to add to map.
 			inserNode.enable = true;
 
@@ -581,6 +598,7 @@ namespace TaskLab
 			{
 				inserNode.shape = shp;
 				inserNode.height = h; inserNode.width = w; inserNode.number = (int)numUpDownNode.Value; inserNode.textColor = btnNumberColor.BackColor;
+				inserNode.shapeColor = sColor;
 			}
 			if (MusbBeEnabled && !inserNode.enable)
 			{
@@ -631,12 +649,12 @@ namespace TaskLab
 			}
 			selectedNode.shape = shp;
 			selectedNode.height = h; selectedNode.width = w; selectedNode.number = (int)numUpDownNode.Value;
-			
+			selectedNode.shapeColor = sColor;
 			if (x != -1)
-				selectedNode.absolutePosition.X = x;
-			if (y != -1)
-				selectedNode.absolutePosition.Y = y;
-
+			{
+				selectedNode.relationalPosition.X = (float)x / pbDesign.Width;
+				selectedNode.relationalPosition.Y = (float)y / pbDesign.Height;
+			}
 			if (!chboxFixate.Checked) // add normal node to map
 				_curTask.CreateNode(selectedNode);
 			else // add fixate node to map.
@@ -704,7 +722,7 @@ namespace TaskLab
 						else
 							pbDesign.Cursor = Cursors.Hand;
 						if (inserNode.enable)
-							_curTask.DrawPrompt(10, new int[1] { inserNode._id }, Color.Yellow, true);
+							_curTask.DrawNodePrompt(10, new int[1] { inserNode._id }, Color.Yellow, true);
 						btnChangeNode.Text = "Insert";
 						btnRemoveNode.Text = "Cancel";
 						lastState = LabDesignState.onInsert;
@@ -729,13 +747,14 @@ namespace TaskLab
 							pbDesign.Cursor = Cursors.Hand;
 						else
 							pbDesign.Cursor = Cursors.Default;
-						_curTask.DrawPrompt(10, new int[1] { selectedNode._id }, Color.Yellow, true);
+						_curTask.DrawNodePrompt(10, new int[1] { selectedNode._id }, Color.Yellow, true);
 						btnChangeNode.Text = "Change";
 						btnRemoveNode.Text = "Remove";
 						lastState = LabDesignState.onChange;
 						designerState = LabDesignState.idle;
 						break;
 					}
+					
 			}
 		}
 
@@ -781,11 +800,11 @@ namespace TaskLab
 				return _curTask == null || _curTask.Save();
 			}
 
-			DialogResult dr = DialogResult.OK;
+			DialogResult dr = DialogResult.Yes;
 			if (_curTask != null && !_curTask.Save())
 			{
-				dr = MetroFramework.MetroMessageBox.Show((IWin32Window)this, "Project not saved. Do you want to continue?", "Save Project", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, 100);
-				if (dr == DialogResult.Cancel)
+				dr = MetroFramework.MetroMessageBox.Show((IWin32Window)this, "Project not saved. Do you want to continue?", "Save Project", MessageBoxButtons.YesNo, MessageBoxIcon.Question, 100);
+				if (dr == DialogResult.No)
 					return false;
 				else
 					return true;

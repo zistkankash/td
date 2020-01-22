@@ -15,7 +15,7 @@ namespace Basics
 		public static event EventHandler<GazeTriple> GazeReady;
 		public static MicroLibrary.MicroStopwatch microTimerLive;
 		
-		public static double twoDist(double px, double py, double ox, double oy)
+		public static double TwoPointDist(double px, double py, double ox, double oy)
 		{
 			return Math.Sqrt(Math.Pow(Math.Abs(px - ox), 2) + Math.Pow(Math.Abs(py - oy), 2));
 		}
@@ -113,6 +113,16 @@ namespace Basics
 			Array.Clear(pts, 0, pts.Length);
 		}
 
+		/// <summary>
+		/// Give a bitmap as input and make up BitIn as output bitmap using config options. If BitIn equala null return false else true.
+		/// </summary>
+		/// <param name="BgColor"></param>
+		/// <param name="Image"></param>
+		/// <param name="SetTransparent"></param>
+		/// <param name="TransBGColor"></param>
+		/// <param name="ChessDraw"></param>
+		/// <param name="BitIn">Output bitmap must be assigned.</param>
+		/// <returns></returns>
 		public static bool MediaPictureRenderer(Color BgColor, Bitmap Image, bool SetTransparent, Color TransBGColor,bool ChessDraw, ref Bitmap BitIn)
 		{
 			if (BitIn == null)

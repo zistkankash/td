@@ -102,7 +102,7 @@
 			this.krbTabControl2.ItemSize = new System.Drawing.Size(0, 26);
 			this.krbTabControl2.Location = new System.Drawing.Point(0, 0);
 			this.krbTabControl2.Name = "krbTabControl2";
-			this.krbTabControl2.SelectedIndex = 0;
+			this.krbTabControl2.SelectedIndex = 1;
 			this.krbTabControl2.Size = new System.Drawing.Size(489, 490);
 			this.krbTabControl2.TabBorderColor = System.Drawing.Color.Gray;
 			this.krbTabControl2.TabGradient.ColorEnd = System.Drawing.Color.Gainsboro;
@@ -613,9 +613,9 @@
 			this.metroRadioButton2.AutoSize = true;
 			this.metroRadioButton2.Location = new System.Drawing.Point(3, 13);
 			this.metroRadioButton2.Name = "metroRadioButton2";
-			this.metroRadioButton2.Size = new System.Drawing.Size(108, 15);
+			this.metroRadioButton2.Size = new System.Drawing.Size(109, 15);
 			this.metroRadioButton2.TabIndex = 3;
-			this.metroRadioButton2.Text = "Normal Reward ";
+			this.metroRadioButton2.Text = "Normal Forward";
 			this.metroRadioButton2.UseCustomBackColor = true;
 			this.metroRadioButton2.UseSelectable = true;
 			// 

@@ -51,7 +51,7 @@ namespace Basics
 
 	public enum ETStatus { Connected, listening, disconnected, ready, not_calibrated }
 
-	public enum TaskRunMod { recursive, reward }
+	public enum TaskRunMod { recursive, forward }
 
 	public enum TaskType { media, lab, cognitive }
 

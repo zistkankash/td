@@ -17,17 +17,16 @@ namespace Basics
 		public Bitmap backImage;
 		public Color backColor;
 		public Size OperationalSize;
-		List<Node> shapeList;
+		public List<Node> shapeList;
 		List<FNode> fixationList;
 
-		bool _repaint = true;
 		Image<Rgba, byte> tskImg;
 				
 		Image<Rgba, byte> prmpts;
 		Bitmap overlayer;
 		Bitmap _taskFrame;
 
-		public int[] colorGroups = null;
+		public int[] NodeGroupIdetifier = null;
 		public List<List<int>> groupMembers = null;
 		public int groupCount = -1;
 
@@ -78,6 +77,11 @@ namespace Basics
 			
 		}
 
+		/// <summary>
+		/// This function renders a bitmap from current state of nodes in task and renders prompts set before.
+		/// </summary>
+		/// <param name="OperSize"> Size of output bitmap of function</param>
+		/// <returns></returns>
 		public Bitmap RenderTask(Size OperSize)
 		{
 			OperationalSize = OperSize;
@@ -100,7 +104,7 @@ namespace Basics
 			
 			if (fixTime > 0)
 				AddFixateNode(newNode);
-			_repaint = true;
+			
 			return newNode; 
 		}
 
@@ -115,14 +119,14 @@ namespace Basics
 				shapeList[newNode._id] = newNode;
 			if (newNode.fixationTime > 0)
 				AddFixateNode(newNode);
-			_repaint = true;
+			
 			return newNode;
 		}
 
 		public void AddFixateNode(Node n)
         {
             fixationList.Add(new FNode(n._id, n.fixationRadius, n.absolutePosition, n.fixationTime, n.priority));
-			_repaint = true;
+			
         }
 
         void DrawNode(Node node)
@@ -130,11 +134,11 @@ namespace Basics
 		
 			if (node.shape == Shape.Circle)
 			{
-				CvInvoke.Circle(tskImg, new Point(node.absolutePosition.X, node.absolutePosition.Y), node.width / 2, new MCvScalar(node.shapeColor.R, node.shapeColor.G, node.shapeColor.B), -1);
+				CvInvoke.Circle(tskImg, new Point((int)(node.relationalPosition.X * OperationalSize.Width),(int)( node.relationalPosition.Y * OperationalSize.Height)), node.width / 2, new MCvScalar(node.shapeColor.R, node.shapeColor.G, node.shapeColor.B), -1);
 			}
 			else if (node.shape == Shape.Rectangle)
 			{
-				CvInvoke.Rectangle(tskImg, new Rectangle(new Point(node.absolutePosition.X - node.width / 2, node.absolutePosition.Y - node.height / 2), new Size(node.width, node.height)), new MCvScalar(node.shapeColor.R, node.shapeColor.G, node.shapeColor.B), -1);
+				CvInvoke.Rectangle(tskImg, new Rectangle(new Point((int)(node.relationalPosition.X * OperationalSize.Width) - node.width / 2, (int)(node.relationalPosition.Y * OperationalSize.Height) - node.height / 2), new Size(node.width, node.height)), new MCvScalar(node.shapeColor.R, node.shapeColor.G, node.shapeColor.B), -1);
 			}
 			if (node.number != -1)
 			{
@@ -176,11 +180,11 @@ namespace Basics
 				}
 
 				// رسم شماره
-				CvInvoke.PutText(tskImg, node.number.ToString(), new Point(node.absolutePosition.X - posOffsetX, node.absolutePosition.Y + posOffsetY), new Emgu.CV.CvEnum.FontFace(), numSize, new MCvScalar(node.textColor.R, node.textColor.G, node.textColor.B), thickness);
+				CvInvoke.PutText(tskImg, node.number.ToString(), new Point((int)(node.relationalPosition.X * OperationalSize.Width) - posOffsetX, (int)(node.relationalPosition.Y * OperationalSize.Height) + posOffsetY), new Emgu.CV.CvEnum.FontFace(), numSize, new MCvScalar(node.textColor.R, node.textColor.G, node.textColor.B), thickness);
 			}
 			// کشیدن فیکسیشن
-			if (node.fixationTime > 0)
-				CvInvoke.Circle(tskImg, node.absolutePosition, node.fixationRadius, new MCvScalar(node.fixationColor.R, node.fixationColor.G, node.fixationColor.B));
+			//if (node.fixationTime > 0)
+				//CvInvoke.Circle(tskImg, node.absolutePosition, node.fixationRadius, new MCvScalar(node.fixationColor.R, node.fixationColor.G, node.fixationColor.B));
 			
 		}
 
@@ -189,12 +193,12 @@ namespace Basics
 		/// after running this method, colorGroups array is filled.
 		/// corresponding index of colorGroups determinds group of index in shapList.
 		/// </summary>
-		public void ColorGrouping()
+		void ColorGrouping()
 		{
-			colorGroups = new int[shapeList.Count];
+			NodeGroupIdetifier = new int[shapeList.Count];
 			groupMembers = new List<List<int>>();
 			groupMembers.Add(new List<int>(new int[] { 0 }));
-			colorGroups[0] = 0; // group numbers starts from 0.
+			NodeGroupIdetifier[0] = 0; 
 			groupCount = 1;
 			int i, j;
 			for (i = 1; i < shapeList.Count; i++)
@@ -203,15 +207,15 @@ namespace Basics
 				{
 					if (shapeList[i].shapeColor.Equals(shapeList[j].shapeColor))
 					{
-						colorGroups[j] = colorGroups[i];
-						groupMembers[colorGroups[j]].Add(i);
+						NodeGroupIdetifier[j] = NodeGroupIdetifier[i];
+						groupMembers[NodeGroupIdetifier[j]].Add(i);
 					}
 
 				}
 				if (j == i)
 				{
 					groupCount++;
-					colorGroups[i] = groupCount;
+					NodeGroupIdetifier[i] = groupCount;
 					groupMembers.Add(new List<int>(new int[] { i }));
 				}
 			}
@@ -247,11 +251,11 @@ namespace Basics
 			{
 				if (shapeList[prmptNodeId[i]].shape == Shape.Circle)
 				{
-					CvInvoke.Circle(prmpts, new Point(shapeList[prmptNodeId[i]].absolutePosition.X, shapeList[prmptNodeId[i]].absolutePosition.Y), shapeList[prmptNodeId[i]].width / 2 + 3, new MCvScalar(prmptR, prmptG, prmptB, 255), 3);
+					CvInvoke.Circle(prmpts, new Point((int)(shapeList[prmptNodeId[i]].relationalPosition.X * OperationalSize.Width), (int)(shapeList[prmptNodeId[i]].relationalPosition.Y * OperationalSize.Height)), shapeList[prmptNodeId[i]].width / 2 + 3, new MCvScalar(prmptR, prmptG, prmptB, 255), 3);
 				}
 				else if (shapeList[prmptNodeId[i]].shape == Shape.Rectangle)
 				{
-					CvInvoke.Rectangle(prmpts, new Rectangle(new Point(shapeList[prmptNodeId[i]].absolutePosition.X - shapeList[prmptNodeId[i]].width / 2 - 3, shapeList[prmptNodeId[i]].absolutePosition.Y - shapeList[prmptNodeId[i]].height / 2 - 3), new Size(shapeList[prmptNodeId[i]].width + 6, shapeList[prmptNodeId[i]].height + 6)), new MCvScalar(prmptR, prmptG, prmptB), 3);
+					CvInvoke.Rectangle(prmpts, new Rectangle(new Point((int)(shapeList[prmptNodeId[i]].relationalPosition.X * OperationalSize.Width) - shapeList[prmptNodeId[i]].width / 2 - 3, (int)(shapeList[prmptNodeId[i]].relationalPosition.Y * OperationalSize.Height) - shapeList[prmptNodeId[i]].height / 2 - 3), new Size(shapeList[prmptNodeId[i]].width + 6, shapeList[prmptNodeId[i]].height + 6)), new MCvScalar(prmptR, prmptG, prmptB), 3);
 				}
 			}
 			if (arrowShower)
@@ -263,7 +267,7 @@ namespace Basics
 			BitmapManager.DrawOn(overlayer, _taskFrame, alpha);
 		}
 
-		public void DrawPrompt(int Max, int[] id, Color prCol, bool recursive)
+		public void DrawNodePrompt(int Max, int[] id, Color prCol, bool recursive)
 		{
 			prmptNodeShower = Max;
 			prmptNodeId = id;
@@ -280,7 +284,7 @@ namespace Basics
 			arrowBeginNodeId = id1;
 			arrowEndNodeId = id2;
 			prmptNodeMaxShower = Max;
-			prmptR = prCol.R; prmptG = prCol.G; prmptB = prCol.B;
+			arrowR = prCol.R; arrowG = prCol.G; arrowB = prCol.B;
 			prmptRecursive = recursive;
 		}
 
@@ -323,19 +327,42 @@ namespace Basics
 			foreach (Node node in shapeList)
 				if (node.shape == Shape.Circle)
 				{
-					if (Math.Sqrt(Math.Pow(Math.Abs(node.absolutePosition.X - x), 2) + Math.Pow(Math.Abs(node.absolutePosition.Y - y), 2)) <= node.width)
+					if (Math.Sqrt(Math.Pow(Math.Abs(node.relationalPosition.X * OperationalSize.Width - x), 2) + Math.Pow(Math.Abs(node.relationalPosition.Y * OperationalSize.Height - y), 2)) <= node.width)
 					{
 						return node;
 					}
 				}
 				else
 				{
-					if (Math.Abs(x - node.absolutePosition.X) < node.width / 2 && Math.Abs(y - node.absolutePosition.Y) < node.height / 2)
+					if (Math.Abs(x - node.relationalPosition.X * OperationalSize.Width) < node.width / 2 && Math.Abs(y - node.relationalPosition.Y * OperationalSize.Height) < node.height / 2)
 					{
 						return node;
 					}
 				}
 			return null;
+		}
+
+		public List<int> findNode(int x, int y, float radius)
+		{
+			List<int> bestNodes = new List<int>();
+			for (int i = 0; i < shapeList.Count; i++)
+			{
+				if (shapeList[i].shape == Shape.Circle)
+				{
+					if (Math.Sqrt(Math.Pow(Math.Abs(shapeList[i].relationalPosition.X * OperationalSize.Width - x), 2) + Math.Pow(Math.Abs(shapeList[i].relationalPosition.Y * OperationalSize.Height - y), 2)) <= (shapeList[i].width / 2) * radius)
+					{
+						bestNodes.Add(i);
+					}
+				}
+				else
+				{
+					if (Math.Abs(x - shapeList[i].relationalPosition.X * OperationalSize.Width) < (shapeList[i].width / 2) * radius && Math.Abs(y - shapeList[i].relationalPosition.Y * OperationalSize.Height) < (shapeList[i].height / 2) * radius)
+					{
+						bestNodes.Add(i);
+					}
+				}
+			}
+			return bestNodes;
 		}
 
 		public Node findNodeByID(int id)
@@ -352,7 +379,7 @@ namespace Basics
 				if (shapeList[id].fixationTime > 0)
 					RemoveFixNode(id);
 				shapeList.RemoveAt(id);
-				_repaint = true;
+				
 				return true;
 			}
 			return false;
@@ -552,7 +579,7 @@ namespace Basics
 			shapeList = null;
 			fixationList = null;
 			backColor = Color.Silver;
-			_repaint = true;
+			
 			DrawMap();
 		}
 
@@ -562,11 +589,6 @@ namespace Basics
 				return LoadFromText();
 			else
 				return false;
-		}
-
-		public void Invalidate()
-		{
-			_repaint = true;
 		}
 	}
 }

@@ -53,7 +53,7 @@
 			this.txtbxURL.MaxLength = 32767;
 			this.txtbxURL.Name = "txtbxURL";
 			this.txtbxURL.PasswordChar = '\0';
-			this.txtbxURL.PromptText = "Enter Web Page URL";
+			this.txtbxURL.WaterMark = "Enter Web Page URL";
 			this.txtbxURL.ScrollBars = System.Windows.Forms.ScrollBars.None;
 			this.txtbxURL.SelectedText = "";
 			this.txtbxURL.SelectionLength = 0;

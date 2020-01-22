@@ -11,10 +11,10 @@ namespace Basics
     public class Node
     {
 		public int _id;
-        public bool enable;     ////  کمکی هنوز استفاده نشده
-        public int type;        //// مشخص کننده نوع گره
-
-        public Shape shape;       //// شکل گره را مشخص می کند
+        public bool enable;     
+        public int type;
+		public int NearHeatCountforNode, HeatCountforNode;
+        public Shape shape;       
         public Color shapeColor;
         public Point absolutePosition;
 		public PointF relationalPosition;
@@ -28,8 +28,7 @@ namespace Basics
         public int priority;
         public int fixationRadius;
         public Color fixationColor;
-
-        public Point next;      //// کمکی هنوز استفاده نشده
+		      
 
         // سازنده شکل بدون فیکسیشن
         public Node(int id, PointF point, Shape s, Color sColor, int num, Color tColor, int w, int h)
