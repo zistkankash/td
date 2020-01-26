@@ -7,7 +7,6 @@ using System.IO;
 using System.Media;
 using TaskDesigner;
 using Basics;
-using Psychophysics;
 
 namespace TaskRunning
 {
@@ -16,7 +15,8 @@ namespace TaskRunning
 		// Sound
 		SoundPlayer winSound = new SoundPlayer(Resource.coin);
 		SoundPlayer failSound = new SoundPlayer(Resource.fail);
-		PsycophysicTasks _task;	
+		PsycophysicTasks _task;
+		
 		// ROI
 		bool InROI = false;
 		bool sacInAppend;
@@ -220,6 +220,8 @@ namespace TaskRunning
 			if (indexRandForTaskLevel > -1)
 				if (_task.AllLevelProp[level][frame].events.trialEnd != -1)
 				{
+					if (_task.runConf.useParOut)
+						PortAccess.Output(_task.runConf.ParAddress, _task.AllLevelProp[level][frame].events.trialEnd);
 					AppendEventData("TEnd", _task.AllLevelProp[level][frame].events.trialEnd.ToString());
 				}
 			indexRandForTaskLevel++;
@@ -312,27 +314,39 @@ namespace TaskRunning
 			{
 				if (_task.AllLevelProp[level][frame].events.trialStart != -1)
 				{
+					if (_task.runConf.useParOut)
+						PortAccess.Output(_task.runConf.ParAddress, _task.AllLevelProp[level][frame].events.trialStart);
 					AppendEventData("TStart", _task.AllLevelProp[level][frame].events.trialStart.ToString());
 				}
 				if (_task.AllLevelProp[level][frame].events.condition != -1)
 				{
+					if (_task.runConf.useParOut)
+						PortAccess.Output(_task.runConf.ParAddress, _task.AllLevelProp[level][frame].events.condition);
 					AppendEventData("Cond", _task.AllLevelProp[level][frame].events.condition.ToString());
 				}
 				
 				if (_task.AllLevelProp[level][frame].events.fixOn != -1)
 				{
+					if (_task.runConf.useParOut)
+						PortAccess.Output(_task.runConf.ParAddress, _task.AllLevelProp[level][frame].events.fixOn);
 					AppendEventData("FixOn", _task.AllLevelProp[level][frame].events.fixOn.ToString());
 				}
 				if (_task.AllLevelProp[level][frame].events.fixOff != -1)
 				{
+					if (_task.runConf.useParOut)
+						PortAccess.Output(_task.runConf.ParAddress, _task.AllLevelProp[level][frame].events.fixOff);
 					AppendEventData("FixOff", _task.AllLevelProp[level][frame].events.fixOff.ToString());
 				}
 				if (_task.AllLevelProp[level][frame].events.stimOn != -1)
 				{
+					if (_task.runConf.useParOut)
+						PortAccess.Output(_task.runConf.ParAddress, _task.AllLevelProp[level][frame].events.stimOn);
 					AppendEventData("StimOn", _task.AllLevelProp[level][frame].events.stimOn.ToString());
 				}
 				if (_task.AllLevelProp[level][frame].events.stimOff != -1)
 				{
+					if (_task.runConf.useParOut)
+						PortAccess.Output(_task.runConf.ParAddress, _task.AllLevelProp[level][frame].events.stimOff);
 					AppendEventData("StimOff", _task.AllLevelProp[level][frame].events.stimOff.ToString());
 				}
 				if (_task.AllLevelProp[level][frame].events.enterFixWindow != -1)
@@ -451,8 +465,7 @@ namespace TaskRunning
 
 				}
 				#endregion
-				//if (_useGaz)
-				//	opFlag = BitmapManager.DrawOn(flag, new Size(opFlagWidth, opFlagHeight), PsycoPhysicTask.AllLevelProp[level][frame].BGColor);
+				
 
 				pictureBox1.Image = flag;
 			}
@@ -491,9 +504,10 @@ namespace TaskRunning
 		{
 			if (_useGaz)
 			{
-				SaveData();
 				RunnerUtils.EndGaze();
 				_eventMicSW.Reset();
+				SaveData();
+				
 			}
 			if (microTimer != null)
 			{
@@ -525,6 +539,8 @@ namespace TaskRunning
 					dist2 = (Point[0] - preFixationCenterX) * (Point[0] - preFixationCenterX) + (Point[1] - preFixationCenterY) * (Point[1] - preFixationCenterY);
 					if (dist2 > preFixationCenterWidth * preFixationCenterWidth)
 					{
+						if (_task.runConf.useParOut)
+							PortAccess.Output(_task.runConf.ParAddress, _task.AllLevelProp[level][frame].events.saccadInit);
 						sacInAppend = false;
 						AppendEventData("SacIn", _task.AllLevelProp[level][frame].events.saccadInit.ToString());
 					}
@@ -543,9 +559,17 @@ namespace TaskRunning
 						FixationSW.Reset();
 						FixationSW.Start();
 						if (ETW)
+						{
+							if (_task.runConf.useParOut)
+								PortAccess.Output(_task.runConf.ParAddress, _task.AllLevelProp[level][frame].events.enterTargetWindow);
 							AppendEventData("ETW", _task.AllLevelProp[level][frame].events.enterTargetWindow.ToString());
+						}
 						if (EFW)
+						{
+							if (_task.runConf.useParOut)
+								PortAccess.Output(_task.runConf.ParAddress, _task.AllLevelProp[level][frame].events.enterFixWindow);
 							AppendEventData("EFW", _task.AllLevelProp[level][frame].events.enterFixWindow.ToString());
+						}
 					}
 					else
 					{
@@ -555,7 +579,11 @@ namespace TaskRunning
 						{
 							Debug.Write("hold " + level.ToString() + " " + frame.ToString() + "\n");
 							if (ETW)
+							{
+								if (_task.runConf.useParOut)
+									PortAccess.Output(_task.runConf.ParAddress, _task.AllLevelProp[level][frame].events.saccadLand);
 								AppendEventData("SacLan", _task.AllLevelProp[level][frame].events.saccadLand.ToString());
+							}
 							fixatehappened = true;
 							FixationSW.Reset();
 							InROI = false;
@@ -574,7 +602,11 @@ namespace TaskRunning
 					if (InROI && FixationSW.ElapsedMilliseconds < FixationCenterTime)
 					{
 						if (AFW)
+						{
+							if (_task.runConf.useParOut)
+								PortAccess.Output(_task.runConf.ParAddress, _task.AllLevelProp[level][frame].events.abortFixWindow);
 							AppendEventData("AFW", _task.AllLevelProp[level][frame].events.abortFixWindow.ToString());
+						}
 						InROI = false;
 						fixateBreak = true;
 						fixatehappened = false;

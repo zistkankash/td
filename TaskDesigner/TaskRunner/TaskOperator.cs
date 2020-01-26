@@ -5,6 +5,7 @@ using System.IO.Ports;
 using System.Windows.Forms;
 using Basics;
 using MetroFramework;
+using TaskDesigner;
 
 namespace TaskRunning
 {
@@ -55,8 +56,12 @@ namespace TaskRunning
 
 				if (chbuseMouseNextFrm.Checked)
 					r.useCursorNextFrm = true;
+				
+				if(ckbxParOut.Checked)
+					r.ParAddress = int.Parse(txtbxParAddress.Text, System.Globalization.NumberStyles.HexNumber);
+								
 				try
-				{ r.gazNumSmoth = short.Parse(txtNumGazeSmth.Text); }
+					{ r.gazNumSmoth = short.Parse(txtNumGazeSmth.Text); }
 				catch (Exception) { r.gazNumSmoth = 5; txtNumGazeSmth.Text = 5.ToString(); }
 				return r;
 			}
@@ -142,7 +147,7 @@ namespace TaskRunning
 						else
 							st = false;
 						_stopped = false;
-						shFrame = new PsycophysicsRunner(true ,pbOper.Width, pbOper.Height, tsk.PsycoPhysicsTask);
+						shFrame = new PsycophysicsRunner(st ,pbOper.Width, pbOper.Height, tsk.PsycoPhysicsTask);
 						shFrame.pupilDataPath = txtSavPath.Text;
 						shFrame.eventDataPath = FileName.UpdateFileName(txtSavPath.Text, "events");
 						shFrame.Show();
@@ -151,7 +156,7 @@ namespace TaskRunning
 					{
 						_stopped = false;
 						if (tsk.Type == TaskType.media)
-							runner = new TaskRunner(tsk.MediaTask, TaskType.media, this, true);//(_etStat == ETStatus.ready));
+							runner = new TaskRunner(tsk.MediaTask, TaskType.media, this, _etStat == ETStatus.ready);
 						else
 							runner = new TaskRunner(tsk.PsycoTask, TaskType.lab, this, (_etStat == ETStatus.ready));
 						
@@ -218,7 +223,11 @@ namespace TaskRunning
 		
 		void SetControlsLocked()
 		{
-			metroPanel1.Enabled = false;
+			groupBox1.Enabled = false;
+			groupBox2.Enabled = false;
+			groupBox3.Enabled = false;
+			groupBox4.Enabled = false;
+			
 			pnlErr1.Enabled = false;
 			pnlRunMode.Enabled = false;
 			btnClose.Enabled = false;
@@ -229,7 +238,11 @@ namespace TaskRunning
 
 		void SetControlsOpened()
 		{
-			metroPanel1.Enabled = true;
+			groupBox1.Enabled = true;
+			groupBox2.Enabled = true;
+			groupBox3.Enabled = true;
+			groupBox4.Enabled = true;
+			
 			pnlErr1.Enabled = true;
 			pnlRunMode.Enabled = true;
 			btnClose.Enabled = true;
@@ -240,7 +253,7 @@ namespace TaskRunning
 		
 		void TaskOperator_Load(object sender, EventArgs e)
 		{
-			krbTabControl2.SelectedIndex = 0;
+			
 		}
 
 		string CrtSaveFile()
@@ -395,24 +408,7 @@ namespace TaskRunning
 			this.Close();
 			
 		}
-
-		void krbTabControl2_MouseDown(object sender, MouseEventArgs e)
-		{
-			if (e.Button == MouseButtons.Left)
-			{
-				ReleaseCapture();
-				SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
-			}
-		}
-
-		void krbTabControl2_KeyDown(object sender, KeyEventArgs e)
-		{
-			if (e.KeyCode == Keys.Escape)
-			{
-				Exit();
-			}
-		}
-
+		
 		void tabPageEx1_MouseDown(object sender, MouseEventArgs e)
 		{
 			if (e.Button == MouseButtons.Left)
@@ -430,60 +426,35 @@ namespace TaskRunning
 				SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
 			}
 		}
-
-		void krbTabControl2_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
-		{
-			if (krbTabControl2.SelectedIndex == 1)
-			{
-				krbTabControl2.SelectedIndex = 0;
-				return;
-			}
-			if (e.KeyCode == Keys.Escape)
-			{
-				Exit();
-			}
-		}
-
-		void tabPageEx1_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
-		{
-			if (e.IsInputKey)
-				return;
-			if (e.KeyCode == Keys.Escape)
-				Exit();
-
-		}
-
-		void tabPageEx4_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
-		{
-			krbTabControl2.SelectedIndex = 0;
-		}
-
+		
 		private void txtbxTask_KeyDown(object sender, KeyEventArgs e)
 		{
 			if (e.KeyCode == Keys.Escape)
 				Exit();
+			else
+				setTextTask();
 		}
 
 		private void txtSavPath_KeyDown(object sender, KeyEventArgs e)
 		{
 			if (e.KeyCode == Keys.Escape)
 				Exit();
+			else
+				CrtSaveFile();
 		}
 
-		private void txtbxTask_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+		private void btnHelp_Click(object sender, EventArgs e)
 		{
-
+			HelpForm hlp = new HelpForm();
+			hlp.Show(Directory.GetCurrentDirectory() + "\\CogLABOperator.pdf");
 		}
-
-		private void pbOper_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
-		{
-
-		}
-
-		void btnClose_Click(object sender, EventArgs e)
+				
+		private void btnClose_Click(object sender, EventArgs e)
 		{
 			Close();
 		}
+
+	
 	}
 
 	

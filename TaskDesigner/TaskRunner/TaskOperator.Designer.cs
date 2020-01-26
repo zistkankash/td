@@ -31,8 +31,10 @@
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TaskOperator));
 			this.refTimer = new System.Windows.Forms.Timer(this.components);
-			this.krbTabControl2 = new KRBTabControl.KRBTabControl();
-			this.tabPageEx1 = new KRBTabControl.TabPageEx();
+			this.panel1 = new System.Windows.Forms.Panel();
+			this.tabControl1 = new System.Windows.Forms.TabControl();
+			this.tabPage1 = new System.Windows.Forms.TabPage();
+			this.btnHelp = new System.Windows.Forms.Button();
 			this.btnClose = new System.Windows.Forms.Button();
 			this.label2 = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
@@ -41,7 +43,7 @@
 			this.btnStart = new System.Windows.Forms.Button();
 			this.txtSavPath = new MetroFramework.Controls.MetroTextBox();
 			this.txtbxTask = new MetroFramework.Controls.MetroTextBox();
-			this.tabPageEx4 = new KRBTabControl.TabPageEx();
+			this.tabPage2 = new System.Windows.Forms.TabPage();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.metroLabel15 = new MetroFramework.Controls.MetroLabel();
 			this.metroLabel16 = new MetroFramework.Controls.MetroLabel();
@@ -57,28 +59,31 @@
 			this.chbx_useMouseGaze = new MetroFramework.Controls.MetroCheckBox();
 			this.metroLabel18 = new MetroFramework.Controls.MetroLabel();
 			this.groupBox4 = new System.Windows.Forms.GroupBox();
+			this.txtbxParAddress = new MetroFramework.Controls.MetroTextBox();
+			this.ckbxParOut = new MetroFramework.Controls.MetroCheckBox();
 			this.metroLabel19 = new MetroFramework.Controls.MetroLabel();
 			this.cmbTriableScreen = new System.Windows.Forms.ComboBox();
 			this.metroLabel20 = new MetroFramework.Controls.MetroLabel();
 			this.metroLabel21 = new MetroFramework.Controls.MetroLabel();
 			this.metroLabel22 = new MetroFramework.Controls.MetroLabel();
 			this.txtNumGazeSmth = new System.Windows.Forms.TextBox();
-			this.groupBox5 = new System.Windows.Forms.GroupBox();
+			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.metroLabel23 = new MetroFramework.Controls.MetroLabel();
 			this.pnlRunMode = new MetroFramework.Controls.MetroPanel();
 			this.metroRadioButton1 = new MetroFramework.Controls.MetroRadioButton();
 			this.metroRadioButton2 = new MetroFramework.Controls.MetroRadioButton();
 			this.metroLabel24 = new MetroFramework.Controls.MetroLabel();
-			this.krbTabControl2.SuspendLayout();
-			this.tabPageEx1.SuspendLayout();
+			this.panel1.SuspendLayout();
+			this.tabControl1.SuspendLayout();
+			this.tabPage1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pbOper)).BeginInit();
-			this.tabPageEx4.SuspendLayout();
+			this.tabPage2.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.pnlErr1.SuspendLayout();
 			this.groupBox3.SuspendLayout();
 			this.metroPanel1.SuspendLayout();
 			this.groupBox4.SuspendLayout();
-			this.groupBox5.SuspendLayout();
+			this.groupBox1.SuspendLayout();
 			this.pnlRunMode.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -87,107 +92,126 @@
 			this.refTimer.Interval = 15;
 			this.refTimer.Tick += new System.EventHandler(this.refTimer_Tick);
 			// 
-			// krbTabControl2
+			// panel1
 			// 
-			this.krbTabControl2.Alignment = System.Windows.Forms.TabAlignment.Bottom;
-			this.krbTabControl2.Alignments = KRBTabControl.KRBTabControl.TabAlignments.Bottom;
-			this.krbTabControl2.AllowDrop = true;
-			this.krbTabControl2.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(216)))), ((int)(((byte)(201)))));
-			this.krbTabControl2.BackgroundHatcher.HatchType = System.Drawing.Drawing2D.HatchStyle.DashedVertical;
-			this.krbTabControl2.Controls.Add(this.tabPageEx1);
-			this.krbTabControl2.Controls.Add(this.tabPageEx4);
-			this.krbTabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.krbTabControl2.IsCaptionVisible = false;
-			this.krbTabControl2.IsDocumentTabStyle = true;
-			this.krbTabControl2.ItemSize = new System.Drawing.Size(0, 26);
-			this.krbTabControl2.Location = new System.Drawing.Point(0, 0);
-			this.krbTabControl2.Name = "krbTabControl2";
-			this.krbTabControl2.SelectedIndex = 1;
-			this.krbTabControl2.Size = new System.Drawing.Size(489, 490);
-			this.krbTabControl2.TabBorderColor = System.Drawing.Color.Gray;
-			this.krbTabControl2.TabGradient.ColorEnd = System.Drawing.Color.Gainsboro;
-			this.krbTabControl2.TabIndex = 110;
-			this.krbTabControl2.TabStyles = KRBTabControl.KRBTabControl.TabStyle.VS2010;
-			this.krbTabControl2.UpDownStyle = KRBTabControl.KRBTabControl.UpDown32Style.BlackGlass;
-			this.krbTabControl2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.krbTabControl2_KeyDown);
-			this.krbTabControl2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.krbTabControl2_MouseDown);
-			this.krbTabControl2.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.krbTabControl2_PreviewKeyDown);
+			this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.panel1.Controls.Add(this.tabControl1);
+			this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.panel1.Location = new System.Drawing.Point(0, 0);
+			this.panel1.Name = "panel1";
+			this.panel1.Size = new System.Drawing.Size(500, 479);
+			this.panel1.TabIndex = 0;
 			// 
-			// tabPageEx1
+			// tabControl1
 			// 
-			this.tabPageEx1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(216)))), ((int)(((byte)(201)))));
-			this.tabPageEx1.Controls.Add(this.btnClose);
-			this.tabPageEx1.Controls.Add(this.label2);
-			this.tabPageEx1.Controls.Add(this.label1);
-			this.tabPageEx1.Controls.Add(this.pbOper);
-			this.tabPageEx1.Controls.Add(this.btnStop);
-			this.tabPageEx1.Controls.Add(this.btnStart);
-			this.tabPageEx1.Controls.Add(this.txtSavPath);
-			this.tabPageEx1.Controls.Add(this.txtbxTask);
-			this.tabPageEx1.Font = new System.Drawing.Font("Ebrima", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.tabPageEx1.IsClosable = false;
-			this.tabPageEx1.Location = new System.Drawing.Point(1, 5);
-			this.tabPageEx1.Name = "tabPageEx1";
-			this.tabPageEx1.Size = new System.Drawing.Size(487, 453);
-			this.tabPageEx1.TabIndex = 2;
-			this.tabPageEx1.Text = "Runner";
-			this.tabPageEx1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tabPageEx1_MouseDown);
-			this.tabPageEx1.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.tabPageEx1_PreviewKeyDown);
+			this.tabControl1.Alignment = System.Windows.Forms.TabAlignment.Bottom;
+			this.tabControl1.Controls.Add(this.tabPage1);
+			this.tabControl1.Controls.Add(this.tabPage2);
+			this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tabControl1.Font = new System.Drawing.Font("Segoe UI Symbol", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.tabControl1.HotTrack = true;
+			this.tabControl1.ItemSize = new System.Drawing.Size(58, 25);
+			this.tabControl1.Location = new System.Drawing.Point(0, 0);
+			this.tabControl1.Margin = new System.Windows.Forms.Padding(0);
+			this.tabControl1.Name = "tabControl1";
+			this.tabControl1.Padding = new System.Drawing.Point(0, 0);
+			this.tabControl1.SelectedIndex = 0;
+			this.tabControl1.ShowToolTips = true;
+			this.tabControl1.Size = new System.Drawing.Size(498, 477);
+			this.tabControl1.SizeMode = System.Windows.Forms.TabSizeMode.FillToRight;
+			this.tabControl1.TabIndex = 1;
+			this.tabControl1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tabPageEx1_MouseDown);
+			// 
+			// tabPage1
+			// 
+			this.tabPage1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(216)))), ((int)(((byte)(201)))));
+			this.tabPage1.Controls.Add(this.btnHelp);
+			this.tabPage1.Controls.Add(this.btnClose);
+			this.tabPage1.Controls.Add(this.label2);
+			this.tabPage1.Controls.Add(this.label1);
+			this.tabPage1.Controls.Add(this.pbOper);
+			this.tabPage1.Controls.Add(this.btnStop);
+			this.tabPage1.Controls.Add(this.btnStart);
+			this.tabPage1.Controls.Add(this.txtSavPath);
+			this.tabPage1.Controls.Add(this.txtbxTask);
+			this.tabPage1.Font = new System.Drawing.Font("Segoe UI Symbol", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.tabPage1.Location = new System.Drawing.Point(4, 4);
+			this.tabPage1.Margin = new System.Windows.Forms.Padding(0);
+			this.tabPage1.Name = "tabPage1";
+			this.tabPage1.Size = new System.Drawing.Size(490, 444);
+			this.tabPage1.TabIndex = 0;
+			this.tabPage1.Text = "Run Page";
+			this.tabPage1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tabPageEx1_MouseDown);
+			// 
+			// btnHelp
+			// 
+			this.btnHelp.BackColor = System.Drawing.Color.RoyalBlue;
+			this.btnHelp.FlatAppearance.BorderColor = System.Drawing.Color.Gold;
+			this.btnHelp.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+			this.btnHelp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.btnHelp.Location = new System.Drawing.Point(311, 398);
+			this.btnHelp.Name = "btnHelp";
+			this.btnHelp.Size = new System.Drawing.Size(72, 34);
+			this.btnHelp.TabIndex = 134;
+			this.btnHelp.Text = "Help";
+			this.btnHelp.UseVisualStyleBackColor = false;
+			this.btnHelp.Click += new System.EventHandler(this.btnHelp_Click);
 			// 
 			// btnClose
 			// 
-			this.btnClose.BackColor = System.Drawing.Color.RoyalBlue;
-			this.btnClose.FlatAppearance.BorderColor = System.Drawing.Color.BlanchedAlmond;
+			this.btnClose.BackColor = System.Drawing.Color.AliceBlue;
+			this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this.btnClose.FlatAppearance.BorderColor = System.Drawing.Color.Gold;
 			this.btnClose.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
 			this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.btnClose.Location = new System.Drawing.Point(371, 398);
+			this.btnClose.Location = new System.Drawing.Point(409, 398);
 			this.btnClose.Name = "btnClose";
-			this.btnClose.Size = new System.Drawing.Size(108, 34);
-			this.btnClose.TabIndex = 105;
-			this.btnClose.Text = "Close Operator";
+			this.btnClose.Size = new System.Drawing.Size(72, 34);
+			this.btnClose.TabIndex = 133;
+			this.btnClose.Text = "Close";
 			this.btnClose.UseVisualStyleBackColor = false;
 			this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
 			// 
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(3, 356);
+			this.label2.Location = new System.Drawing.Point(6, 358);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(97, 15);
-			this.label2.TabIndex = 104;
+			this.label2.Size = new System.Drawing.Size(108, 15);
+			this.label2.TabIndex = 132;
 			this.label2.Text = "Output Address:";
 			// 
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(1, 308);
+			this.label1.Location = new System.Drawing.Point(8, 313);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(82, 15);
-			this.label1.TabIndex = 103;
+			this.label1.Size = new System.Drawing.Size(92, 15);
+			this.label1.TabIndex = 131;
 			this.label1.Text = "Task Address:";
 			// 
 			// pbOper
 			// 
 			this.pbOper.BackColor = System.Drawing.Color.Gray;
-			this.pbOper.Location = new System.Drawing.Point(7, 5);
+			this.pbOper.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.pbOper.Location = new System.Drawing.Point(10, 8);
 			this.pbOper.Name = "pbOper";
 			this.pbOper.Size = new System.Drawing.Size(472, 278);
-			this.pbOper.TabIndex = 0;
+			this.pbOper.TabIndex = 126;
 			this.pbOper.TabStop = false;
-			this.pbOper.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.pbOper_PreviewKeyDown);
 			// 
 			// btnStop
 			// 
 			this.btnStop.BackColor = System.Drawing.Color.Red;
 			this.btnStop.Enabled = false;
-			this.btnStop.FlatAppearance.BorderColor = System.Drawing.Color.BlanchedAlmond;
+			this.btnStop.FlatAppearance.BorderColor = System.Drawing.Color.Gold;
 			this.btnStop.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
 			this.btnStop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.btnStop.Location = new System.Drawing.Point(238, 398);
+			this.btnStop.Location = new System.Drawing.Point(211, 398);
 			this.btnStop.Name = "btnStop";
-			this.btnStop.Size = new System.Drawing.Size(108, 34);
-			this.btnStop.TabIndex = 4;
-			this.btnStop.Text = "Stop Task";
+			this.btnStop.Size = new System.Drawing.Size(72, 34);
+			this.btnStop.TabIndex = 129;
+			this.btnStop.Text = "Stop";
 			this.btnStop.UseVisualStyleBackColor = false;
 			this.btnStop.Click += new System.EventHandler(this.btStop_Click);
 			// 
@@ -195,14 +219,14 @@
 			// 
 			this.btnStart.BackColor = System.Drawing.Color.Green;
 			this.btnStart.Enabled = false;
-			this.btnStart.FlatAppearance.BorderColor = System.Drawing.Color.BlanchedAlmond;
+			this.btnStart.FlatAppearance.BorderColor = System.Drawing.Color.Gold;
 			this.btnStart.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
 			this.btnStart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.btnStart.Location = new System.Drawing.Point(106, 398);
+			this.btnStart.Location = new System.Drawing.Point(113, 398);
 			this.btnStart.Name = "btnStart";
-			this.btnStart.Size = new System.Drawing.Size(108, 34);
-			this.btnStart.TabIndex = 1;
-			this.btnStart.Text = "Start Task";
+			this.btnStart.Size = new System.Drawing.Size(72, 34);
+			this.btnStart.TabIndex = 127;
+			this.btnStart.Text = "Start";
 			this.btnStart.UseVisualStyleBackColor = false;
 			this.btnStart.Click += new System.EventHandler(this.btnStart_Click_1);
 			// 
@@ -212,7 +236,7 @@
 			// 
 			// 
 			this.txtSavPath.CustomButton.Image = null;
-			this.txtSavPath.CustomButton.Location = new System.Drawing.Point(346, 1);
+			this.txtSavPath.CustomButton.Location = new System.Drawing.Point(339, 1);
 			this.txtSavPath.CustomButton.Name = "";
 			this.txtSavPath.CustomButton.Size = new System.Drawing.Size(21, 21);
 			this.txtSavPath.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
@@ -221,22 +245,22 @@
 			this.txtSavPath.CustomButton.UseSelectable = true;
 			this.txtSavPath.CustomButton.Visible = false;
 			this.txtSavPath.Lines = new string[0];
-			this.txtSavPath.Location = new System.Drawing.Point(111, 354);
+			this.txtSavPath.Location = new System.Drawing.Point(120, 356);
 			this.txtSavPath.MaxLength = 32767;
 			this.txtSavPath.Name = "txtSavPath";
 			this.txtSavPath.PasswordChar = '\0';
-			this.txtSavPath.PromptText = "Select Output";
+			this.txtSavPath.PromptText = "Click to Select Output";
 			this.txtSavPath.ScrollBars = System.Windows.Forms.ScrollBars.None;
 			this.txtSavPath.SelectedText = "";
 			this.txtSavPath.SelectionLength = 0;
 			this.txtSavPath.SelectionStart = 0;
 			this.txtSavPath.ShortcutsEnabled = true;
-			this.txtSavPath.Size = new System.Drawing.Size(368, 23);
-			this.txtSavPath.TabIndex = 101;
+			this.txtSavPath.Size = new System.Drawing.Size(361, 23);
+			this.txtSavPath.TabIndex = 130;
 			this.txtSavPath.TabStop = false;
 			this.txtSavPath.UseCustomBackColor = true;
 			this.txtSavPath.UseSelectable = true;
-			this.txtSavPath.WaterMark = "Select Output";
+			this.txtSavPath.WaterMark = "Click to Select Output";
 			this.txtSavPath.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
 			this.txtSavPath.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
 			this.txtSavPath.Click += new System.EventHandler(this.txtPath_Click);
@@ -248,7 +272,7 @@
 			// 
 			// 
 			this.txtbxTask.CustomButton.Image = null;
-			this.txtbxTask.CustomButton.Location = new System.Drawing.Point(346, 1);
+			this.txtbxTask.CustomButton.Location = new System.Drawing.Point(339, 1);
 			this.txtbxTask.CustomButton.Name = "";
 			this.txtbxTask.CustomButton.Size = new System.Drawing.Size(21, 21);
 			this.txtbxTask.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
@@ -257,43 +281,41 @@
 			this.txtbxTask.CustomButton.UseSelectable = true;
 			this.txtbxTask.CustomButton.Visible = false;
 			this.txtbxTask.Lines = new string[0];
-			this.txtbxTask.Location = new System.Drawing.Point(111, 307);
+			this.txtbxTask.Location = new System.Drawing.Point(120, 311);
 			this.txtbxTask.MaxLength = 32767;
 			this.txtbxTask.Name = "txtbxTask";
 			this.txtbxTask.PasswordChar = '\0';
-			this.txtbxTask.PromptText = "Select Task";
+			this.txtbxTask.PromptText = "Click to Select Task";
 			this.txtbxTask.ScrollBars = System.Windows.Forms.ScrollBars.None;
 			this.txtbxTask.SelectedText = "";
 			this.txtbxTask.SelectionLength = 0;
 			this.txtbxTask.SelectionStart = 0;
 			this.txtbxTask.ShortcutsEnabled = true;
-			this.txtbxTask.Size = new System.Drawing.Size(368, 23);
-			this.txtbxTask.TabIndex = 1;
+			this.txtbxTask.Size = new System.Drawing.Size(361, 23);
+			this.txtbxTask.TabIndex = 128;
 			this.txtbxTask.UseCustomBackColor = true;
 			this.txtbxTask.UseSelectable = true;
-			this.txtbxTask.WaterMark = "Select Task";
+			this.txtbxTask.WaterMark = "Click to Select Task";
 			this.txtbxTask.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
 			this.txtbxTask.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
 			this.txtbxTask.Click += new System.EventHandler(this.txtbxTask_Click);
 			this.txtbxTask.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtbxTask_KeyDown);
-			this.txtbxTask.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.txtbxTask_PreviewKeyDown);
 			// 
-			// tabPageEx4
+			// tabPage2
 			// 
-			this.tabPageEx4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(216)))), ((int)(((byte)(201)))));
-			this.tabPageEx4.Controls.Add(this.groupBox2);
-			this.tabPageEx4.Controls.Add(this.groupBox3);
-			this.tabPageEx4.Controls.Add(this.groupBox4);
-			this.tabPageEx4.Controls.Add(this.groupBox5);
-			this.tabPageEx4.Font = new System.Drawing.Font("Ebrima", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.tabPageEx4.IsClosable = false;
-			this.tabPageEx4.Location = new System.Drawing.Point(1, 5);
-			this.tabPageEx4.Name = "tabPageEx4";
-			this.tabPageEx4.Size = new System.Drawing.Size(487, 453);
-			this.tabPageEx4.TabIndex = 1;
-			this.tabPageEx4.Text = "Settings";
-			this.tabPageEx4.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tabPageEx4_MouseDown);
-			this.tabPageEx4.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.tabPageEx4_PreviewKeyDown);
+			this.tabPage2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(216)))), ((int)(((byte)(201)))));
+			this.tabPage2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.tabPage2.Controls.Add(this.groupBox2);
+			this.tabPage2.Controls.Add(this.groupBox3);
+			this.tabPage2.Controls.Add(this.groupBox4);
+			this.tabPage2.Controls.Add(this.groupBox1);
+			this.tabPage2.Location = new System.Drawing.Point(4, 4);
+			this.tabPage2.Name = "tabPage2";
+			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage2.Size = new System.Drawing.Size(490, 444);
+			this.tabPage2.TabIndex = 1;
+			this.tabPage2.Text = "Setting";
+			this.tabPage2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tabPageEx4_MouseDown);
 			// 
 			// groupBox2
 			// 
@@ -304,10 +326,10 @@
 			this.groupBox2.Enabled = false;
 			this.groupBox2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.groupBox2.Font = new System.Drawing.Font("Ebrima", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.groupBox2.Location = new System.Drawing.Point(247, 138);
+			this.groupBox2.Location = new System.Drawing.Point(248, 138);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.Size = new System.Drawing.Size(238, 183);
-			this.groupBox2.TabIndex = 29;
+			this.groupBox2.TabIndex = 126;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Visible = false;
 			// 
@@ -403,17 +425,17 @@
 			this.groupBox3.Controls.Add(this.metroLabel17);
 			this.groupBox3.Controls.Add(this.metroPanel1);
 			this.groupBox3.Controls.Add(this.metroLabel18);
-			this.groupBox3.Location = new System.Drawing.Point(247, 3);
+			this.groupBox3.Location = new System.Drawing.Point(248, 3);
 			this.groupBox3.Name = "groupBox3";
 			this.groupBox3.Size = new System.Drawing.Size(238, 129);
-			this.groupBox3.TabIndex = 31;
+			this.groupBox3.TabIndex = 128;
 			this.groupBox3.TabStop = false;
 			// 
 			// metroLabel17
 			// 
 			this.metroLabel17.AutoSize = true;
 			this.metroLabel17.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-			this.metroLabel17.Location = new System.Drawing.Point(3, 12);
+			this.metroLabel17.Location = new System.Drawing.Point(7, 12);
 			this.metroLabel17.Name = "metroLabel17";
 			this.metroLabel17.Size = new System.Drawing.Size(98, 19);
 			this.metroLabel17.TabIndex = 17;
@@ -473,24 +495,69 @@
 			// groupBox4
 			// 
 			this.groupBox4.BackColor = System.Drawing.Color.Transparent;
+			this.groupBox4.Controls.Add(this.txtbxParAddress);
+			this.groupBox4.Controls.Add(this.ckbxParOut);
 			this.groupBox4.Controls.Add(this.metroLabel19);
 			this.groupBox4.Controls.Add(this.cmbTriableScreen);
 			this.groupBox4.Controls.Add(this.metroLabel20);
 			this.groupBox4.Controls.Add(this.metroLabel21);
 			this.groupBox4.Controls.Add(this.metroLabel22);
 			this.groupBox4.Controls.Add(this.txtNumGazeSmth);
-			this.groupBox4.Location = new System.Drawing.Point(3, 3);
+			this.groupBox4.Location = new System.Drawing.Point(4, 3);
 			this.groupBox4.Name = "groupBox4";
 			this.groupBox4.Size = new System.Drawing.Size(238, 129);
-			this.groupBox4.TabIndex = 32;
+			this.groupBox4.TabIndex = 129;
 			this.groupBox4.TabStop = false;
+			// 
+			// txtbxParAddress
+			// 
+			// 
+			// 
+			// 
+			this.txtbxParAddress.CustomButton.Image = null;
+			this.txtbxParAddress.CustomButton.Location = new System.Drawing.Point(21, 1);
+			this.txtbxParAddress.CustomButton.Name = "";
+			this.txtbxParAddress.CustomButton.Size = new System.Drawing.Size(21, 21);
+			this.txtbxParAddress.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+			this.txtbxParAddress.CustomButton.TabIndex = 1;
+			this.txtbxParAddress.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+			this.txtbxParAddress.CustomButton.UseSelectable = true;
+			this.txtbxParAddress.CustomButton.Visible = false;
+			this.txtbxParAddress.Lines = new string[] {
+        "DFF0"};
+			this.txtbxParAddress.Location = new System.Drawing.Point(172, 100);
+			this.txtbxParAddress.MaxLength = 32767;
+			this.txtbxParAddress.Name = "txtbxParAddress";
+			this.txtbxParAddress.PasswordChar = '\0';
+			this.txtbxParAddress.ScrollBars = System.Windows.Forms.ScrollBars.None;
+			this.txtbxParAddress.SelectedText = "";
+			this.txtbxParAddress.SelectionLength = 0;
+			this.txtbxParAddress.SelectionStart = 0;
+			this.txtbxParAddress.ShortcutsEnabled = true;
+			this.txtbxParAddress.Size = new System.Drawing.Size(43, 23);
+			this.txtbxParAddress.TabIndex = 33;
+			this.txtbxParAddress.Text = "DFF0";
+			this.txtbxParAddress.UseSelectable = true;
+			this.txtbxParAddress.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+			this.txtbxParAddress.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+			// 
+			// ckbxParOut
+			// 
+			this.ckbxParOut.AutoSize = true;
+			this.ckbxParOut.Location = new System.Drawing.Point(8, 103);
+			this.ckbxParOut.Name = "ckbxParOut";
+			this.ckbxParOut.Size = new System.Drawing.Size(120, 15);
+			this.ckbxParOut.TabIndex = 33;
+			this.ckbxParOut.Text = "Use Parallel Ouput";
+			this.ckbxParOut.UseCustomBackColor = true;
+			this.ckbxParOut.UseSelectable = true;
 			// 
 			// metroLabel19
 			// 
 			this.metroLabel19.AutoSize = true;
 			this.metroLabel19.FontSize = MetroFramework.MetroLabelSize.Small;
 			this.metroLabel19.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-			this.metroLabel19.Location = new System.Drawing.Point(7, 58);
+			this.metroLabel19.Location = new System.Drawing.Point(7, 45);
 			this.metroLabel19.Name = "metroLabel19";
 			this.metroLabel19.Size = new System.Drawing.Size(83, 15);
 			this.metroLabel19.Style = MetroFramework.MetroColorStyle.Blue;
@@ -506,7 +573,7 @@
 			this.cmbTriableScreen.Items.AddRange(new object[] {
             "1",
             "2"});
-			this.cmbTriableScreen.Location = new System.Drawing.Point(172, 52);
+			this.cmbTriableScreen.Location = new System.Drawing.Point(172, 40);
 			this.cmbTriableScreen.Name = "cmbTriableScreen";
 			this.cmbTriableScreen.Size = new System.Drawing.Size(43, 25);
 			this.cmbTriableScreen.TabIndex = 83;
@@ -528,7 +595,7 @@
 			this.metroLabel21.AutoSize = true;
 			this.metroLabel21.FontSize = MetroFramework.MetroLabelSize.Small;
 			this.metroLabel21.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-			this.metroLabel21.Location = new System.Drawing.Point(10, 95);
+			this.metroLabel21.Location = new System.Drawing.Point(7, 75);
 			this.metroLabel21.Name = "metroLabel21";
 			this.metroLabel21.Size = new System.Drawing.Size(125, 15);
 			this.metroLabel21.Style = MetroFramework.MetroColorStyle.Blue;
@@ -551,24 +618,24 @@
 			// 
 			// txtNumGazeSmth
 			// 
-			this.txtNumGazeSmth.Location = new System.Drawing.Point(172, 90);
+			this.txtNumGazeSmth.Location = new System.Drawing.Point(172, 71);
 			this.txtNumGazeSmth.Name = "txtNumGazeSmth";
-			this.txtNumGazeSmth.Size = new System.Drawing.Size(43, 23);
+			this.txtNumGazeSmth.Size = new System.Drawing.Size(43, 22);
 			this.txtNumGazeSmth.TabIndex = 16;
 			// 
-			// groupBox5
+			// groupBox1
 			// 
-			this.groupBox5.BackColor = System.Drawing.Color.Transparent;
-			this.groupBox5.Controls.Add(this.metroLabel23);
-			this.groupBox5.Controls.Add(this.pnlRunMode);
-			this.groupBox5.Controls.Add(this.metroLabel24);
-			this.groupBox5.Enabled = false;
-			this.groupBox5.Location = new System.Drawing.Point(3, 138);
-			this.groupBox5.Name = "groupBox5";
-			this.groupBox5.Size = new System.Drawing.Size(238, 183);
-			this.groupBox5.TabIndex = 30;
-			this.groupBox5.TabStop = false;
-			this.groupBox5.Visible = false;
+			this.groupBox1.BackColor = System.Drawing.Color.Transparent;
+			this.groupBox1.Controls.Add(this.metroLabel23);
+			this.groupBox1.Controls.Add(this.pnlRunMode);
+			this.groupBox1.Controls.Add(this.metroLabel24);
+			this.groupBox1.Enabled = false;
+			this.groupBox1.Location = new System.Drawing.Point(4, 138);
+			this.groupBox1.Name = "groupBox1";
+			this.groupBox1.Size = new System.Drawing.Size(238, 183);
+			this.groupBox1.TabIndex = 127;
+			this.groupBox1.TabStop = false;
+			this.groupBox1.Visible = false;
 			// 
 			// metroLabel23
 			// 
@@ -635,20 +702,22 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(489, 490);
-			this.Controls.Add(this.krbTabControl2);
+			this.ClientSize = new System.Drawing.Size(500, 479);
+			this.Controls.Add(this.panel1);
 			this.Font = new System.Drawing.Font("Ebrima", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			this.KeyPreview = true;
 			this.Name = "TaskOperator";
 			this.Text = "Task Runner Operator";
 			this.Load += new System.EventHandler(this.TaskOperator_Load);
 			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TaskOperator_KeyDown);
-			this.krbTabControl2.ResumeLayout(false);
-			this.tabPageEx1.ResumeLayout(false);
-			this.tabPageEx1.PerformLayout();
+			this.panel1.ResumeLayout(false);
+			this.tabControl1.ResumeLayout(false);
+			this.tabPage1.ResumeLayout(false);
+			this.tabPage1.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pbOper)).EndInit();
-			this.tabPageEx4.ResumeLayout(false);
+			this.tabPage2.ResumeLayout(false);
 			this.groupBox2.ResumeLayout(false);
 			this.groupBox2.PerformLayout();
 			this.pnlErr1.ResumeLayout(false);
@@ -659,8 +728,8 @@
 			this.metroPanel1.PerformLayout();
 			this.groupBox4.ResumeLayout(false);
 			this.groupBox4.PerformLayout();
-			this.groupBox5.ResumeLayout(false);
-			this.groupBox5.PerformLayout();
+			this.groupBox1.ResumeLayout(false);
+			this.groupBox1.PerformLayout();
 			this.pnlRunMode.ResumeLayout(false);
 			this.pnlRunMode.PerformLayout();
 			this.ResumeLayout(false);
@@ -669,12 +738,24 @@
 
 		#endregion
 		private System.Windows.Forms.Timer refTimer;
-		private KRBTabControl.KRBTabControl krbTabControl2;
-		private KRBTabControl.TabPageEx tabPageEx4;
+		private System.Windows.Forms.Panel panel1;
+		private System.Windows.Forms.TabControl tabControl1;
+		private System.Windows.Forms.TabPage tabPage1;
+		private System.Windows.Forms.Button btnHelp;
+		private System.Windows.Forms.Button btnClose;
+		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.PictureBox pbOper;
+		private System.Windows.Forms.Button btnStop;
+		private System.Windows.Forms.Button btnStart;
+		public MetroFramework.Controls.MetroTextBox txtSavPath;
+		private MetroFramework.Controls.MetroTextBox txtbxTask;
+		private System.Windows.Forms.TabPage tabPage2;
 		private System.Windows.Forms.GroupBox groupBox2;
 		private MetroFramework.Controls.MetroLabel metroLabel15;
 		private MetroFramework.Controls.MetroLabel metroLabel16;
 		private MetroFramework.Controls.MetroPanel pnlErr1;
+		public System.Windows.Forms.CheckBox chkb_nmsPrompt;
 		public System.Windows.Forms.CheckBox chbx_sound;
 		public System.Windows.Forms.CheckBox chbx_showarrow;
 		public System.Windows.Forms.CheckBox chBx_prompt;
@@ -685,27 +766,19 @@
 		private MetroFramework.Controls.MetroCheckBox chbx_useMouseGaze;
 		private MetroFramework.Controls.MetroLabel metroLabel18;
 		private System.Windows.Forms.GroupBox groupBox4;
+		private MetroFramework.Controls.MetroTextBox txtbxParAddress;
+		private MetroFramework.Controls.MetroCheckBox ckbxParOut;
 		private MetroFramework.Controls.MetroLabel metroLabel19;
 		private System.Windows.Forms.ComboBox cmbTriableScreen;
 		private MetroFramework.Controls.MetroLabel metroLabel20;
 		private MetroFramework.Controls.MetroLabel metroLabel21;
 		private MetroFramework.Controls.MetroLabel metroLabel22;
 		private System.Windows.Forms.TextBox txtNumGazeSmth;
-		private System.Windows.Forms.GroupBox groupBox5;
+		private System.Windows.Forms.GroupBox groupBox1;
 		private MetroFramework.Controls.MetroLabel metroLabel23;
 		private MetroFramework.Controls.MetroPanel pnlRunMode;
 		public MetroFramework.Controls.MetroRadioButton metroRadioButton1;
 		public MetroFramework.Controls.MetroRadioButton metroRadioButton2;
 		private MetroFramework.Controls.MetroLabel metroLabel24;
-		private KRBTabControl.TabPageEx tabPageEx1;
-		private System.Windows.Forms.PictureBox pbOper;
-		private System.Windows.Forms.Button btnStop;
-		private System.Windows.Forms.Button btnStart;
-		private MetroFramework.Controls.MetroTextBox txtbxTask;
-		public System.Windows.Forms.CheckBox chkb_nmsPrompt;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Button btnClose;
-		public MetroFramework.Controls.MetroTextBox txtSavPath;
 	}
 }

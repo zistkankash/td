@@ -239,17 +239,17 @@ namespace Basics
 
 		private void btn_psychology_Click(object sender, EventArgs e)
 		{
-			try
-			{
-				taskLab = new PsycologyDesigner();
-				taskLab.FormClosed += delegate { Show(); Select(); };
-				this.Hide();
-				taskLab.Show();
-			}
-			catch (Exception)
-			{
-				return;
-			}
+			//try
+			//{
+			//	taskLab = new PsycologyDesigner();
+			//	taskLab.FormClosed += delegate { Show(); Select(); };
+			//	this.Hide();
+			//	taskLab.Show();
+			//}
+			//catch (Exception)
+			//{
+			//	return;
+			//}
 		}
 
 		private void btn_linguistics_Click(object sender, EventArgs e)

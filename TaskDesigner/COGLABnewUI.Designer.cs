@@ -77,6 +77,7 @@
 			this.btnHelp.Size = new System.Drawing.Size(23, 23);
 			this.btnHelp.TabIndex = 9;
 			this.btnHelp.UseVisualStyleBackColor = false;
+			this.btnHelp.Visible = false;
 			this.btnHelp.Click += new System.EventHandler(this.btnHelp_Click);
 			// 
 			// btnMinmiz

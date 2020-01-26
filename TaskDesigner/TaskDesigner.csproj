@@ -75,6 +75,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\x64\Debug\CefSharp.WinForms.dll</HintPath>
     </Reference>
+    <Reference Include="ChromeTabControler, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\x64\Debug\ChromeTabControler.dll</HintPath>
+    </Reference>
     <Reference Include="Emgu.CV.DebuggerVisualizers.VS2015, Version=3.4.3.3016, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\x64\Debug\Emgu.CV.DebuggerVisualizers.VS2015.dll</HintPath>
@@ -90,10 +94,6 @@
     <Reference Include="Emgu.CV.World, Version=3.2.0.2682, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\x64\Debug\Emgu.CV.World.dll</HintPath>
-    </Reference>
-    <Reference Include="KRBTabControl, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\x64\Debug\KRBTabControl.dll</HintPath>
     </Reference>
     <Reference Include="MaterialSkin, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -165,6 +165,7 @@
     <Compile Include="Basics\ByteManager.cs" />
     <Compile Include="Basics\FileName.cs" />
     <Compile Include="Basics\MediaTask.cs" />
+    <Compile Include="Basics\PortAccess.cs" />
     <Compile Include="Basics\PsycologyTask.cs" />
     <Compile Include="Basics\PsycophysicTasks.cs" />
     <Compile Include="Basics\ScreenRecord.cs" />
