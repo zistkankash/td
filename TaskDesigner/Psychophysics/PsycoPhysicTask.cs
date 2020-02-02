@@ -282,10 +282,12 @@ namespace Psychophysics
 			if ( !eventLock || !this.Visible)
 				return;
 			NameTask_TB0.Select();
-			
-			Label FrCountLB = Controls.Find("FramePerTask_LB" + (ActiveCol-1), true).FirstOrDefault() as Label;
-			FrCountLB.Text = Convert.ToString(_tsk.AllLevelProp[ActiveCol - 1].Count);
-			UpdateData(ActiveCol);
+			if (ActiveCol > 0)
+			{
+				Label FrCountLB = Controls.Find("FramePerTask_LB" + (ActiveCol - 1), true).FirstOrDefault() as Label;
+				FrCountLB.Text = Convert.ToString(_tsk.AllLevelProp[ActiveCol - 1].Count);
+				UpdateData(ActiveCol);
+			}
 		}
 
 		void Add_PB_Click(object sender, EventArgs e)

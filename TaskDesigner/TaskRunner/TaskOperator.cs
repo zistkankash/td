@@ -56,10 +56,30 @@ namespace TaskRunning
 
 				if (chbuseMouseNextFrm.Checked)
 					r.useCursorNextFrm = true;
-				
-				if(ckbxParOut.Checked)
-					r.ParAddress = int.Parse(txtbxParAddress.Text, System.Globalization.NumberStyles.HexNumber);
-								
+
+                if (rdbParAdress.Checked)
+                    try
+                    {
+                        r.ParAddress = int.Parse(txtbxParAddress.Text, System.Globalization.NumberStyles.HexNumber);
+                    }
+                    catch(Exception ex)
+                    {
+                        MessageBox.Show("Error in parallel address decoding!");
+                    }
+                if (rdbComPort.Checked)
+                {
+                    try
+                    {
+                        r._COMAddress = "COM" + numericComPort.Value.ToString();
+                        SerialPort se = new SerialPort(r._COMAddress);
+                        se.Open();
+                        se.Close();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error. COM port entered is not recognized!");
+                    }
+                }
 				try
 					{ r.gazNumSmoth = short.Parse(txtNumGazeSmth.Text); }
 				catch (Exception) { r.gazNumSmoth = 5; txtNumGazeSmth.Text = 5.ToString(); }
@@ -443,7 +463,17 @@ namespace TaskRunning
 				CrtSaveFile();
 		}
 
-		private void btnHelp_Click(object sender, EventArgs e)
+        private void rdbParAdress_CheckedChanged(object sender, EventArgs e)
+        {
+            txtbxParAddress.Enabled = rdbParAdress.Checked;
+        }
+
+        private void rdbComPort_CheckedChanged(object sender, EventArgs e)
+        {
+            numericComPort.Enabled = rdbComPort.Checked;
+        }
+
+        private void btnHelp_Click(object sender, EventArgs e)
 		{
 			HelpForm hlp = new HelpForm();
 			hlp.Show(Directory.GetCurrentDirectory() + "\\CogLABOperator.pdf");

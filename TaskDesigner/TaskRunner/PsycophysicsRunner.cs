@@ -52,6 +52,7 @@ namespace TaskRunning
 		MicroLibrary.MicroStopwatch _eventMicSW = new MicroLibrary.MicroStopwatch();
 		GazeTriple gz;
 		StringBuilder _pupilStringBiulder = new StringBuilder(1000000);
+        PortAccess _portAccess;
 
 		public PsycophysicsRunner(bool getGaze, int operWidth, int operHeight, PsycophysicTasks RunningTask)
 		{
@@ -69,6 +70,8 @@ namespace TaskRunning
 			failSound.Load();
 			winSound.Load();
             MakeRandomRepeat(RunningTask.SeqRandTaskRunner);
+            if (RunningTask.runConf._useCOMPort || RunningTask.runConf.useParOut)
+                _portAccess = new PortAccess(RunningTask.runConf);
         }
 
 		public void ScreenConfig()
@@ -220,8 +223,8 @@ namespace TaskRunning
 			if (indexRandForTaskLevel > -1)
 				if (_task.AllLevelProp[level][frame].events.trialEnd != -1)
 				{
-					if (_task.runConf.useParOut)
-						PortAccess.Output(_task.runConf.ParAddress, _task.AllLevelProp[level][frame].events.trialEnd);
+					if (_portAccess != null)
+                        _portAccess.Write((short)_task.AllLevelProp[level][frame].events.trialEnd);
 					AppendEventData("TEnd", _task.AllLevelProp[level][frame].events.trialEnd.ToString());
 				}
 			indexRandForTaskLevel++;
@@ -314,39 +317,39 @@ namespace TaskRunning
 			{
 				if (_task.AllLevelProp[level][frame].events.trialStart != -1)
 				{
-					if (_task.runConf.useParOut)
-						PortAccess.Output(_task.runConf.ParAddress, _task.AllLevelProp[level][frame].events.trialStart);
+					if (_portAccess != null)
+						_portAccess.Write((short)_task.AllLevelProp[level][frame].events.trialStart);
 					AppendEventData("TStart", _task.AllLevelProp[level][frame].events.trialStart.ToString());
 				}
 				if (_task.AllLevelProp[level][frame].events.condition != -1)
 				{
-					if (_task.runConf.useParOut)
-						PortAccess.Output(_task.runConf.ParAddress, _task.AllLevelProp[level][frame].events.condition);
+					if (_portAccess != null)
+                        _portAccess.Write((short)_task.AllLevelProp[level][frame].events.condition);
 					AppendEventData("Cond", _task.AllLevelProp[level][frame].events.condition.ToString());
 				}
 				
 				if (_task.AllLevelProp[level][frame].events.fixOn != -1)
 				{
-					if (_task.runConf.useParOut)
-						PortAccess.Output(_task.runConf.ParAddress, _task.AllLevelProp[level][frame].events.fixOn);
+					if (_portAccess != null)
+                        _portAccess.Write((short) _task.AllLevelProp[level][frame].events.fixOn);
 					AppendEventData("FixOn", _task.AllLevelProp[level][frame].events.fixOn.ToString());
 				}
 				if (_task.AllLevelProp[level][frame].events.fixOff != -1)
 				{
-					if (_task.runConf.useParOut)
-						PortAccess.Output(_task.runConf.ParAddress, _task.AllLevelProp[level][frame].events.fixOff);
+					if (_portAccess != null)
+                        _portAccess.Write((short)_task.AllLevelProp[level][frame].events.fixOff);
 					AppendEventData("FixOff", _task.AllLevelProp[level][frame].events.fixOff.ToString());
 				}
 				if (_task.AllLevelProp[level][frame].events.stimOn != -1)
 				{
-					if (_task.runConf.useParOut)
-						PortAccess.Output(_task.runConf.ParAddress, _task.AllLevelProp[level][frame].events.stimOn);
+					if (_portAccess != null)
+                        _portAccess.Write((short)_task.AllLevelProp[level][frame].events.stimOn);
 					AppendEventData("StimOn", _task.AllLevelProp[level][frame].events.stimOn.ToString());
 				}
 				if (_task.AllLevelProp[level][frame].events.stimOff != -1)
 				{
-					if (_task.runConf.useParOut)
-						PortAccess.Output(_task.runConf.ParAddress, _task.AllLevelProp[level][frame].events.stimOff);
+					if (_portAccess != null)
+                        _portAccess.Write((short)_task.AllLevelProp[level][frame].events.stimOff);
 					AppendEventData("StimOff", _task.AllLevelProp[level][frame].events.stimOff.ToString());
 				}
 				if (_task.AllLevelProp[level][frame].events.enterFixWindow != -1)
@@ -539,8 +542,8 @@ namespace TaskRunning
 					dist2 = (Point[0] - preFixationCenterX) * (Point[0] - preFixationCenterX) + (Point[1] - preFixationCenterY) * (Point[1] - preFixationCenterY);
 					if (dist2 > preFixationCenterWidth * preFixationCenterWidth)
 					{
-						if (_task.runConf.useParOut)
-							PortAccess.Output(_task.runConf.ParAddress, _task.AllLevelProp[level][frame].events.saccadInit);
+						if (_portAccess != null)
+							_portAccess.Write((short) _task.AllLevelProp[level][frame].events.saccadInit);
 						sacInAppend = false;
 						AppendEventData("SacIn", _task.AllLevelProp[level][frame].events.saccadInit.ToString());
 					}
@@ -560,14 +563,14 @@ namespace TaskRunning
 						FixationSW.Start();
 						if (ETW)
 						{
-							if (_task.runConf.useParOut)
-								PortAccess.Output(_task.runConf.ParAddress, _task.AllLevelProp[level][frame].events.enterTargetWindow);
+							if (_portAccess != null)
+								 _portAccess.Write((short)_task.AllLevelProp[level][frame].events.enterTargetWindow);
 							AppendEventData("ETW", _task.AllLevelProp[level][frame].events.enterTargetWindow.ToString());
 						}
 						if (EFW)
 						{
-							if (_task.runConf.useParOut)
-								PortAccess.Output(_task.runConf.ParAddress, _task.AllLevelProp[level][frame].events.enterFixWindow);
+							if (_portAccess != null)
+                                _portAccess.Write((short)_task.AllLevelProp[level][frame].events.enterFixWindow);
 							AppendEventData("EFW", _task.AllLevelProp[level][frame].events.enterFixWindow.ToString());
 						}
 					}
@@ -580,8 +583,8 @@ namespace TaskRunning
 							Debug.Write("hold " + level.ToString() + " " + frame.ToString() + "\n");
 							if (ETW)
 							{
-								if (_task.runConf.useParOut)
-									PortAccess.Output(_task.runConf.ParAddress, _task.AllLevelProp[level][frame].events.saccadLand);
+								if (_portAccess != null)
+                                    _portAccess.Write((short)_task.AllLevelProp[level][frame].events.saccadLand);
 								AppendEventData("SacLan", _task.AllLevelProp[level][frame].events.saccadLand.ToString());
 							}
 							fixatehappened = true;
@@ -603,8 +606,8 @@ namespace TaskRunning
 					{
 						if (AFW)
 						{
-							if (_task.runConf.useParOut)
-								PortAccess.Output(_task.runConf.ParAddress, _task.AllLevelProp[level][frame].events.abortFixWindow);
+							if (_portAccess != null)
+                                _portAccess.Write((short)_task.AllLevelProp[level][frame].events.abortFixWindow);
 							AppendEventData("AFW", _task.AllLevelProp[level][frame].events.abortFixWindow.ToString());
 						}
 						InROI = false;

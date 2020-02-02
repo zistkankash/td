@@ -47,8 +47,7 @@ namespace Basics
 			return ETStatus.Connected;
 		}
 	}
-
-
+    
 	public enum ETStatus { Connected, listening, disconnected, ready, not_calibrated }
 
 	public enum TaskRunMod { recursive, forward }
@@ -59,7 +58,7 @@ namespace Basics
 
 	public enum SaveMod { bin, txt }
 
-	public struct RunConfig { public GroupingMod shapeGroupingMode; public TaskRunMod taskRunMode; public bool showArrow; public bool showGoalPrompt; public bool useCursor; public bool useSound; public bool nmsShowArrow; public bool nmsShowGoalPrompt; public bool useCursorNextFrm; public bool nmsUseSound; public short gazNumSmoth; public bool useParOut; public int ParAddress; }
+	public struct RunConfig { public GroupingMod shapeGroupingMode; public TaskRunMod taskRunMode; public bool showArrow; public bool showGoalPrompt; public bool useCursor; public bool useSound; public bool nmsShowArrow; public bool nmsShowGoalPrompt; public bool useCursorNextFrm; public bool nmsUseSound; public short gazNumSmoth; public bool useParOut; public int ParAddress; public bool _useCOMPort; public string _COMAddress; }
 
 	enum Comnd { Close = 5, CalibStat = 2, SendGaz = 8, EndGaz = 9 , WatRest = 11 }
 	

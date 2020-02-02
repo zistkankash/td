@@ -44,6 +44,7 @@ namespace TaskRunning
 		Bitmap _runnerBitmap;
 		ChromiumWebBrowser _controlWebBrowser;
 		ScreenRecorder.Recorder rec;
+        PortAccess _portAccess;
 		#endregion
 		
 		#region Lab Runner Data Scope
@@ -61,8 +62,9 @@ namespace TaskRunning
 			_getGaz = getGaz;
 			runMod = RunMod.Stop;
 			_type = Type;
+           
 
-			if (Type == TaskType.lab)
+            if (Type == TaskType.lab)
 			{
 				_psycoTask = (PsycologyTask)cs;
 				_runnerConfig = _psycoTask.runConf;
@@ -75,10 +77,13 @@ namespace TaskRunning
 				_runnerConfig = _mediaTask.runConf;
 				
 				InitBrowser();
-			}
+                
+            }
 			InitForm();
-			
-		}
+
+            if (_runnerConfig._useCOMPort || _runnerConfig.useParOut)
+                _portAccess = new PortAccess(_runnerConfig);
+        }
 		
 		void InitBrowser()
 		{
@@ -266,16 +271,18 @@ namespace TaskRunning
 					pctbxFrm.Visible = true;
 					RunnerUtils.MediaPictureRenderer(pic.BGColor, pic.Image, pic.UseTransparency, pic.TransColor, false, ref _runnerBitmap);
 					pctbxFrm.Image = _runnerBitmap;
+                    if (_portAccess != null)
+                        _portAccess.Write(255);
 					doGaze = true;	
 				}
 				else
 				{
-					
 					rec = new ScreenRecorder.Recorder(new ScreenRecorder.RecorderParams(Path.GetDirectoryName(tsop.txtSavPath.Text) + "\\web" + _mediaTask.showedIndex.ToString() + ".avi", 10, SharpAvi.KnownFourCCs.Codecs.MotionJpeg, 50));
-					
 					_controlWebBrowser.Visible = true;
 					_controlWebBrowser.Load(pic.URL);
-					doGaze = true;
+                    if (_portAccess != null)
+                        _portAccess.Write(255);
+                    doGaze = true;
 				}
 				tskWatch.Restart();
 			}
@@ -286,7 +293,9 @@ namespace TaskRunning
 
 		void VlcControl1_Playing(object sender, Vlc.DotNet.Core.VlcMediaPlayerPlayingEventArgs e)
 		{
-			doGaze = true;
+            if (_portAccess != null)
+                _portAccess.Write(255);
+            doGaze = true;
 			tskWatch.Restart();
 		}
 
