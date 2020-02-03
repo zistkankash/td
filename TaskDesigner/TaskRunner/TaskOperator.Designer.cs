@@ -59,6 +59,12 @@
             this.chbx_useMouseGaze = new MetroFramework.Controls.MetroCheckBox();
             this.metroLabel18 = new MetroFramework.Controls.MetroLabel();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.numericComPort = new System.Windows.Forms.NumericUpDown();
+            this.metroLabel3 = new MetroFramework.Controls.MetroLabel();
+            this.metroLabel2 = new MetroFramework.Controls.MetroLabel();
+            this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
+            this.rdbComPort = new MetroFramework.Controls.MetroRadioButton();
+            this.rdbParAdress = new MetroFramework.Controls.MetroRadioButton();
             this.txtbxParAddress = new MetroFramework.Controls.MetroTextBox();
             this.metroLabel19 = new MetroFramework.Controls.MetroLabel();
             this.cmbTriableScreen = new System.Windows.Forms.ComboBox();
@@ -72,12 +78,6 @@
             this.metroRadioButton1 = new MetroFramework.Controls.MetroRadioButton();
             this.metroRadioButton2 = new MetroFramework.Controls.MetroRadioButton();
             this.metroLabel24 = new MetroFramework.Controls.MetroLabel();
-            this.rdbParAdress = new MetroFramework.Controls.MetroRadioButton();
-            this.rdbComPort = new MetroFramework.Controls.MetroRadioButton();
-            this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
-            this.metroLabel2 = new MetroFramework.Controls.MetroLabel();
-            this.metroLabel3 = new MetroFramework.Controls.MetroLabel();
-            this.numericComPort = new System.Windows.Forms.NumericUpDown();
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -88,9 +88,9 @@
             this.groupBox3.SuspendLayout();
             this.metroPanel1.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericComPort)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.pnlRunMode.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericComPort)).BeginInit();
             this.SuspendLayout();
             // 
             // refTimer
@@ -520,6 +520,81 @@
             this.groupBox4.TabIndex = 129;
             this.groupBox4.TabStop = false;
             // 
+            // numericComPort
+            // 
+            this.numericComPort.Enabled = false;
+            this.numericComPort.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.numericComPort.Location = new System.Drawing.Point(183, 217);
+            this.numericComPort.Name = "numericComPort";
+            this.numericComPort.Size = new System.Drawing.Size(32, 25);
+            this.numericComPort.TabIndex = 130;
+            this.numericComPort.Value = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            // 
+            // metroLabel3
+            // 
+            this.metroLabel3.AutoSize = true;
+            this.metroLabel3.FontSize = MetroFramework.MetroLabelSize.Small;
+            this.metroLabel3.FontWeight = MetroFramework.MetroLabelWeight.Regular;
+            this.metroLabel3.Location = new System.Drawing.Point(147, 221);
+            this.metroLabel3.Name = "metroLabel3";
+            this.metroLabel3.Size = new System.Drawing.Size(35, 15);
+            this.metroLabel3.Style = MetroFramework.MetroColorStyle.Blue;
+            this.metroLabel3.TabIndex = 134;
+            this.metroLabel3.Text = "COM";
+            this.metroLabel3.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.metroLabel3.UseCustomBackColor = true;
+            // 
+            // metroLabel2
+            // 
+            this.metroLabel2.AutoSize = true;
+            this.metroLabel2.FontWeight = MetroFramework.MetroLabelWeight.Regular;
+            this.metroLabel2.Location = new System.Drawing.Point(3, 150);
+            this.metroLabel2.Name = "metroLabel2";
+            this.metroLabel2.Size = new System.Drawing.Size(90, 19);
+            this.metroLabel2.TabIndex = 132;
+            this.metroLabel2.Text = "Trigger Setup";
+            this.metroLabel2.UseCustomBackColor = true;
+            // 
+            // metroLabel1
+            // 
+            this.metroLabel1.AutoSize = true;
+            this.metroLabel1.FontSize = MetroFramework.MetroLabelSize.Tall;
+            this.metroLabel1.FontWeight = MetroFramework.MetroLabelWeight.Bold;
+            this.metroLabel1.Location = new System.Drawing.Point(0, 150);
+            this.metroLabel1.Name = "metroLabel1";
+            this.metroLabel1.Size = new System.Drawing.Size(222, 25);
+            this.metroLabel1.TabIndex = 131;
+            this.metroLabel1.Text = "______________________________";
+            this.metroLabel1.UseCustomBackColor = true;
+            // 
+            // rdbComPort
+            // 
+            this.rdbComPort.AutoSize = true;
+            this.rdbComPort.Location = new System.Drawing.Point(7, 221);
+            this.rdbComPort.Name = "rdbComPort";
+            this.rdbComPort.Size = new System.Drawing.Size(98, 15);
+            this.rdbComPort.TabIndex = 130;
+            this.rdbComPort.Text = "Use COM Port";
+            this.rdbComPort.UseCustomBackColor = true;
+            this.rdbComPort.UseSelectable = true;
+            this.rdbComPort.CheckedChanged += new System.EventHandler(this.rdbComPort_CheckedChanged);
+            // 
+            // rdbParAdress
+            // 
+            this.rdbParAdress.AutoSize = true;
+            this.rdbParAdress.Location = new System.Drawing.Point(7, 186);
+            this.rdbParAdress.Name = "rdbParAdress";
+            this.rdbParAdress.Size = new System.Drawing.Size(108, 15);
+            this.rdbParAdress.TabIndex = 130;
+            this.rdbParAdress.Text = "Use Parallel Port";
+            this.rdbParAdress.UseCustomBackColor = true;
+            this.rdbParAdress.UseSelectable = true;
+            this.rdbParAdress.CheckedChanged += new System.EventHandler(this.rdbParAdress_CheckedChanged);
+            // 
             // txtbxParAddress
             // 
             // 
@@ -623,6 +698,7 @@
             this.txtNumGazeSmth.Name = "txtNumGazeSmth";
             this.txtNumGazeSmth.Size = new System.Drawing.Size(43, 22);
             this.txtNumGazeSmth.TabIndex = 16;
+            this.txtNumGazeSmth.Text = "5";
             // 
             // groupBox1
             // 
@@ -699,81 +775,6 @@
             this.metroLabel24.Text = "______________________________";
             this.metroLabel24.UseCustomBackColor = true;
             // 
-            // rdbParAdress
-            // 
-            this.rdbParAdress.AutoSize = true;
-            this.rdbParAdress.Location = new System.Drawing.Point(7, 186);
-            this.rdbParAdress.Name = "rdbParAdress";
-            this.rdbParAdress.Size = new System.Drawing.Size(108, 15);
-            this.rdbParAdress.TabIndex = 130;
-            this.rdbParAdress.Text = "Use Parallel Port";
-            this.rdbParAdress.UseCustomBackColor = true;
-            this.rdbParAdress.UseSelectable = true;
-            this.rdbParAdress.CheckedChanged += new System.EventHandler(this.rdbParAdress_CheckedChanged);
-            // 
-            // rdbComPort
-            // 
-            this.rdbComPort.AutoSize = true;
-            this.rdbComPort.Location = new System.Drawing.Point(7, 221);
-            this.rdbComPort.Name = "rdbComPort";
-            this.rdbComPort.Size = new System.Drawing.Size(98, 15);
-            this.rdbComPort.TabIndex = 130;
-            this.rdbComPort.Text = "Use COM Port";
-            this.rdbComPort.UseCustomBackColor = true;
-            this.rdbComPort.UseSelectable = true;
-            this.rdbComPort.CheckedChanged += new System.EventHandler(this.rdbComPort_CheckedChanged);
-            // 
-            // metroLabel1
-            // 
-            this.metroLabel1.AutoSize = true;
-            this.metroLabel1.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.metroLabel1.FontWeight = MetroFramework.MetroLabelWeight.Bold;
-            this.metroLabel1.Location = new System.Drawing.Point(0, 150);
-            this.metroLabel1.Name = "metroLabel1";
-            this.metroLabel1.Size = new System.Drawing.Size(222, 25);
-            this.metroLabel1.TabIndex = 131;
-            this.metroLabel1.Text = "______________________________";
-            this.metroLabel1.UseCustomBackColor = true;
-            // 
-            // metroLabel2
-            // 
-            this.metroLabel2.AutoSize = true;
-            this.metroLabel2.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.metroLabel2.Location = new System.Drawing.Point(3, 150);
-            this.metroLabel2.Name = "metroLabel2";
-            this.metroLabel2.Size = new System.Drawing.Size(90, 19);
-            this.metroLabel2.TabIndex = 132;
-            this.metroLabel2.Text = "Trigger Setup";
-            this.metroLabel2.UseCustomBackColor = true;
-            // 
-            // metroLabel3
-            // 
-            this.metroLabel3.AutoSize = true;
-            this.metroLabel3.FontSize = MetroFramework.MetroLabelSize.Small;
-            this.metroLabel3.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.metroLabel3.Location = new System.Drawing.Point(147, 221);
-            this.metroLabel3.Name = "metroLabel3";
-            this.metroLabel3.Size = new System.Drawing.Size(35, 15);
-            this.metroLabel3.Style = MetroFramework.MetroColorStyle.Blue;
-            this.metroLabel3.TabIndex = 134;
-            this.metroLabel3.Text = "COM";
-            this.metroLabel3.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            this.metroLabel3.UseCustomBackColor = true;
-            // 
-            // numericComPort
-            // 
-            this.numericComPort.Enabled = false;
-            this.numericComPort.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numericComPort.Location = new System.Drawing.Point(183, 217);
-            this.numericComPort.Name = "numericComPort";
-            this.numericComPort.Size = new System.Drawing.Size(32, 25);
-            this.numericComPort.TabIndex = 130;
-            this.numericComPort.Value = new decimal(new int[] {
-            3,
-            0,
-            0,
-            0});
-            // 
             // TaskOperator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -804,11 +805,11 @@
             this.metroPanel1.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericComPort)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.pnlRunMode.ResumeLayout(false);
             this.pnlRunMode.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericComPort)).EndInit();
             this.ResumeLayout(false);
 
 		}

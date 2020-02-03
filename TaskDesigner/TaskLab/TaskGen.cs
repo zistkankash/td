@@ -15,7 +15,7 @@ using CefSharp.WinForms;
 
 namespace TaskLab
 {
-    public partial class TaskGen : Form
+    public partial class TaskGen : MaterialSkin.Controls.MaterialForm
     {
 
 		#region Appearance
@@ -38,13 +38,14 @@ namespace TaskLab
 		MediaTask curTask = new MediaTask();
 		int selectedSlide = -1, slideTime , picCount, oldInd;
 		List<Panel> thumbs = new List<Panel>();
-		Color _formBackColor = Color.FromArgb(232, 216, 201);
+        System.Drawing.Color _formBackColor = System.Drawing.Color.FromArgb(232, 216, 201);
         ChromiumWebBrowser _controlWebBrowser;
 		Bitmap b1 = new Bitmap(1440, 900);
 		bool _activeSelect = true;
 
 		void InitBrowser()
 		{
+            
 			CefSettings seting = new CefSettings();
 			if (!Cef.IsInitialized)
 				Cef.Initialize(seting);
@@ -141,12 +142,12 @@ namespace TaskLab
 			if (id != selectedSlide)
 			{
 				Graphics border1 = thumbs[id].CreateGraphics();
-				border1.DrawRectangle(new Pen(Color.Gray, 1), new Rectangle(new Point(0, 0), new Size(thumbs[id].Size.Width - 1, thumbs[id].Size.Height - 1)));
+				border1.DrawRectangle(new Pen(System.Drawing.Color.Gray, 1), new Rectangle(new Point(0, 0), new Size(thumbs[id].Size.Width - 1, thumbs[id].Size.Height - 1)));
 			}
 			else
 			{
 				Graphics redBorder = thumbs[selectedSlide].CreateGraphics();
-				redBorder.DrawRectangle(new Pen(Color.Red, 1), new Rectangle(new Point(0, 0), new Size(thumbs[selectedSlide].Size.Width - 1, thumbs[selectedSlide].Size.Height - 1)));
+				redBorder.DrawRectangle(new Pen(System.Drawing.Color.Red, 1), new Rectangle(new Point(0, 0), new Size(thumbs[selectedSlide].Size.Width - 1, thumbs[selectedSlide].Size.Height - 1)));
 			}
 		}
 
@@ -181,17 +182,17 @@ namespace TaskLab
 					selectedSlide = newSel;
 				}
 			}
-			
-			vlcControl1.Visible = false;
-			
+            pnlBackImage.BringToFront();            
+
+			//vlcControl1.Visible = false;
 			btnStart.Enabled = false;
-			_controlWebBrowser.Visible = false;
+			//_controlWebBrowser.Visible = false;
 			if (vlcControl1.IsPlaying)
 			{
 				vlcControl1.Stop();
 
 				btnStart.BackgroundImage = Resource.Run;
-				vlcControl1.Visible = false;
+				//vlcControl1.Visible = false;
 				
 			}
 			if (selectedSlide <= -1)
@@ -199,25 +200,29 @@ namespace TaskLab
             btnBackgroundCol.BackColor = curTask.PicList[selectedSlide].BGColor;
             if (curTask.PicList[selectedSlide].MediaTaskType == MediaType.Empty)
 			{
-				pbDesign.Visible = true;
+                //pbDesign.Visible = true;
+                pbDesign.BringToFront();
 				pbDesign.Image = curTask.GetOperationFrame(true, selectedSlide);
 			}
 			if (curTask.PicList[selectedSlide].MediaTaskType == MediaType.Image)
 			{
-				pbDesign.Visible = true;
-				pbDesign.Image = curTask.GetOperationFrame(true, selectedSlide);
+                //pbDesign.Visible = true;
+                pbDesign.BringToFront();
+                pbDesign.Image = curTask.GetOperationFrame(true, selectedSlide);
 			}
 			if (curTask.PicList[selectedSlide].MediaTaskType == MediaType.Video)
 			{
-				pbDesign.Visible = true;
+                //pbDesign.Visible = true;
+                pbDesign.BringToFront();
 				pbDesign.Image = curTask.GetOperationFrame(true, selectedSlide);
 				btnStart.Enabled = true;
 			}
 			if (curTask.PicList[selectedSlide].MediaTaskType == MediaType.Web)
 			{
-                pbDesign.Visible = false;
-				_controlWebBrowser.Visible = true;
-				_controlWebBrowser.Load(curTask.PicList[selectedSlide].URL);
+                //pbDesign.Visible = false;
+                //_controlWebBrowser.Visible = true;
+                _controlWebBrowser.BringToFront();
+                _controlWebBrowser.Load(curTask.PicList[selectedSlide].URL);
 			}
 
 			if (oldInd > -1)
@@ -250,7 +255,7 @@ namespace TaskLab
 				pnl.MouseDown += new MouseEventHandler(pnlPic_Click);
 				pnl.BackColor = _formBackColor;
 				pnl.ContextMenuStrip = ThumbPicsMenu;
-				pnl.Move += Thumb_Move;
+				
 
 				PictureBox p = new PictureBox();
 				Label l = new Label();
@@ -377,16 +382,7 @@ namespace TaskLab
             Int32.TryParse(seperate[1], out newSel);
 			SelectSlide(newSel, false);
         }
-
-		void Thumb_Move(object sender, EventArgs e)
-		{
-			int newSel;
-			Panel pnlTemp = (Panel)sender;
-			string[] seperate = pnlTemp.Name.Split('l');
-			Int32.TryParse(seperate[1], out newSel);
-			DrawBorderPanels(newSel);
-		}
-
+        
 		void txtPicTime_Leave(object sender, EventArgs e)
 		{
 			if (!_activeSelect)
@@ -451,7 +447,7 @@ namespace TaskLab
 		
 		private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            pnlSetting.Visible = true;
+            pnlSetting.BringToFront();
         }
 
         private void enterWebURLToolStripMenuItem_Click(object sender, EventArgs e)
@@ -475,8 +471,8 @@ namespace TaskLab
 
        	void TaskGen_Load(object sender, EventArgs e)
 		{
-			MARGINS marg = new MARGINS() { Left = -1, Right = -1, Top = -1, Bottom = -1 };
-			DwmExtendFrameIntoClientArea(this.Handle, ref marg);
+			//MARGINS marg = new MARGINS() { Left = -1, Right = -1, Top = -1, Bottom = -1 };
+			//DwmExtendFrameIntoClientArea(this.Handle, ref marg);
 			this.StartPosition = FormStartPosition.Manual;
 			pbDesign.SizeMode = PictureBoxSizeMode.StretchImage;
 			curTask.OperationalImageSize = splitContainer1.Panel2.Size;
@@ -546,12 +542,14 @@ namespace TaskLab
 			{
 				vlcControl1.Stop();
 				btnStart.BackgroundImage = Resource.Run;
-				pbDesign.Visible = true;
-				return;
+                //pbDesign.Visible = true;
+                pbDesign.BringToFront();
+                return;
 			}
-			pbDesign.Visible = false;
-			vlcControl1.Visible = true;
-			vlcControl1.SetMedia(new FileInfo(curTask.PicList[selectedSlide].Address));
+            //pbDesign.Visible = false;
+            //vlcControl1.Visible = true;
+            vlcControl1.BringToFront();
+            vlcControl1.SetMedia(new FileInfo(curTask.PicList[selectedSlide].Address));
 			vlcControl1.Play();
 			btnStart.BackgroundImage = Resource.stop;
 		}
@@ -559,7 +557,12 @@ namespace TaskLab
 		void PreviewStoped(object sender, EventArgs e)
 		{
 			btnStart.BackgroundImage = Resource.play_video_designer;
-			Invoke((Action) delegate { vlcControl1.Visible = false; pbDesign.Visible = true; });
+			Invoke((Action) delegate 
+            {
+                //vlcControl1.Visible = false; 
+                pbDesign.BringToFront();
+                //pbDesign.Visible = true; 
+            });
 			
 		}
 
@@ -571,19 +574,7 @@ namespace TaskLab
 
 		void btnSetting_Click(object sender, EventArgs e)
 		{
-			if (!pnlSetting.Visible)
-			{
-				btnSetting.Style = MetroColorStyle.Yellow;
-
-				pnlSetting.BringToFront();
-				pnlSetting.Visible = true;
-			}
-			else
-			{
-				btnSetting.Style = MetroColorStyle.White;
-				pnlSetting.BringToFront();
-				pnlSetting.Visible = false; ;
-			}
+            pnlSetting.SendToBack();
 
 		}
 		
@@ -638,7 +629,7 @@ namespace TaskLab
 
 		private void showSettingsPanelToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			pnlSetting.Visible = true;
+            pnlSetting.BringToFront();
 		}
 
 		private void setImageMediaToolStripMenuItem_Click(object sender, EventArgs e)
@@ -691,7 +682,12 @@ namespace TaskLab
 			}
 		}
 
-		private void timer1_Tick(object sender, EventArgs e)
+        private void MainMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
 		{
 			DrawBorderPanels(-1);
 		}

@@ -11,17 +11,17 @@ namespace Basics
         [DllImport("inpout32.dll")]
         static extern UInt32 IsInpOutDriverOpen();
 
-        [DllImport("inpout32.dll")]
+        [DllImport("inpout32.dll", EntryPoint = "Out32")]
         static extern void Out32(short PortAddress, short Data);
 
         [DllImport("inpout32.dll")]
-        static extern char Inp32(short PortAddress);
+        static extern char Inp32(int PortAddress);
 
         [DllImport("inpout32.dll")]
-        static extern void DlPortWritePortUshort(short PortAddress, ushort Data);
+        static extern void DlPortWritePortUshort(int PortAddress, int Data);
 
         [DllImport("inpout32.dll")]
-        static extern ushort DlPortReadPortUshort(short PortAddress);
+        static extern ushort DlPortReadPortUshort(int PortAddress);
 
         [DllImport("inpout32.dll")]
         static extern void DlPortWritePortUlong(int PortAddress, uint Data);
@@ -41,16 +41,16 @@ namespace Basics
         static extern UInt32 IsInpOutDriverOpen_x64();
 
         [DllImport("inpoutx64.dll", EntryPoint = "Out32")]
-        static extern void Out32_x64(short PortAddress, short Data);
+        static extern void Out32_x64(int PortAddress, int Data);
 
         [DllImport("inpoutx64.dll", EntryPoint = "Inp32")]
-        static extern char Inp32_x64(short PortAddress);
+        static extern char Inp32_x64(int PortAddress);
 
         [DllImport("inpoutx64.dll", EntryPoint = "DlPortWritePortUshort")]
-        static extern void DlPortWritePortUshort_x64(short PortAddress, ushort Data);
+        static extern void DlPortWritePortUshort_x64(int PortAddress, int Data);
 
         [DllImport("inpoutx64.dll", EntryPoint = "DlPortReadPortUshort")]
-        static extern ushort DlPortReadPortUshort_x64(short PortAddress);
+        static extern ushort DlPortReadPortUshort_x64(int PortAddress);
 
         [DllImport("inpoutx64.dll", EntryPoint = "DlPortWritePortUlong")]
         static extern void DlPortWritePortUlong_x64(int PortAddress, uint Data);
@@ -65,33 +65,38 @@ namespace Basics
         static extern bool SetPhysLong_x64(ref int PortAddress, ref uint Data);
 
         bool _parPort , _COMPort, _X64;
-        short _PortAddress;
+        int _PortAddress;
         string _COMPortAddress;
         SerialPort _seri;
 
-        void Parallel(short address)
+        void SetParallel(int address)
         {
             _X64 = false;
             _PortAddress = address;
 
             try
             {
-                uint nResult = 0;
                 try
                 {
-                    nResult = IsInpOutDriverOpen();
+                    Out32((short)_PortAddress, 0);
+                    _parPort = true;
                 }
-                catch (BadImageFormatException)
+                catch (Exception ex)
                 {
-                    nResult = IsInpOutDriverOpen_x64();
-                    if (nResult != 0)
+                    try
+                    {
+                        Out32_x64(_PortAddress, 0);
                         _X64 = true;
-
+                        _parPort = true;
+                    }
+                    catch(Exception)
+                    {
+                        _parPort = false;
+                    }
                 }
-                _parPort = true;
-                if (nResult == 0)
+                if (!_parPort)
                 {
-                    throw new ArgumentException("Unable to open InpOut32 driver");
+                    throw new ArgumentException("Unable to open InpOut driver");
                 }
             }
             catch (DllNotFoundException)
@@ -102,7 +107,7 @@ namespace Basics
 
         public PortAccess(short PortAddress)
         {
-            Parallel(PortAddress);
+            SetParallel(PortAddress);
         }
 
         public PortAccess(string COMAddress)
@@ -115,7 +120,7 @@ namespace Basics
         {
             if (InitConfig.useParOut)
             {
-                Parallel((short)InitConfig.ParAddress);
+                SetParallel(InitConfig.ParAddress);
                 return;
             }
             if(InitConfig._useCOMPort)
@@ -136,7 +141,7 @@ namespace Basics
                 }
                 else
                 {
-                    Out32(_PortAddress, Data);
+                    Out32((short)_PortAddress, Data);
                 }
             }
             else

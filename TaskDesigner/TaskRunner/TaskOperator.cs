@@ -60,6 +60,7 @@ namespace TaskRunning
                 if (rdbParAdress.Checked)
                     try
                     {
+                        r.useParOut = true;
                         r.ParAddress = int.Parse(txtbxParAddress.Text, System.Globalization.NumberStyles.HexNumber);
                     }
                     catch(Exception ex)
@@ -74,6 +75,7 @@ namespace TaskRunning
                         SerialPort se = new SerialPort(r._COMAddress);
                         se.Open();
                         se.Close();
+                        r._useCOMPort = true;
                     }
                     catch (Exception ex)
                     {
@@ -188,10 +190,11 @@ namespace TaskRunning
 										
 				}
 			}
-			catch(Exception)
+			catch(Exception ex)
 			{
 				EndTask();
 				refTimer.Stop();
+                MessageBox.Show("Error" + ex.Message);
 				return;
 			}
             Application.OpenForms[this.Name].Select();
