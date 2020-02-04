@@ -39,31 +39,29 @@ namespace TaskRunning
 			get
 			{
 				RunConfig r = new RunConfig();
-				if (chBx_prompt.Checked)
-					r.showGoalPrompt = true;
+                //First panel
+                try
+                {
+                    if (txtNumGazeSmth.Text != "")
+                        r.gazNumSmoth = short.Parse(txtNumGazeSmth.Text); ;
+                }
+                catch (Exception) { r.gazNumSmoth = 5; txtNumGazeSmth.Text = 5.ToString(); }
 
-				if (chkb_nmsPrompt.Checked)
-					r.nmsShowGoalPrompt = true;
-									
-				if (chbx_sound.Checked)
-					r.useSound = true;
+                //Second panel
+                if (chbx_useMouseGaze.Checked)
+                    r.useCursor = true;
 
-				if (chbx_useMouseGaze.Checked)
-					r.useCursor = true;
+                if (chbuseMouseNextFrm.Checked)
+                    r.useCursorNextFrm = true;
 
-				if (chbx_showarrow.Checked)
-					r.showArrow = true;
-
-				if (chbuseMouseNextFrm.Checked)
-					r.useCursorNextFrm = true;
-
+                //Third panel
                 if (rdbParAdress.Checked)
                     try
                     {
-                        r.useParOut = true;
+                        r._useParOut = true;
                         r.ParAddress = int.Parse(txtbxParAddress.Text, System.Globalization.NumberStyles.HexNumber);
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         MessageBox.Show("Error in parallel address decoding!");
                     }
@@ -71,8 +69,8 @@ namespace TaskRunning
                 {
                     try
                     {
-                        r._COMAddress = "COM" + numericComPort.Value.ToString();
-                        SerialPort se = new SerialPort(r._COMAddress);
+                        r.COMAddress = "COM" + numericComPort.Value.ToString();
+                        SerialPort se = new SerialPort(r.COMAddress);
                         se.Open();
                         se.Close();
                         r._useCOMPort = true;
@@ -82,9 +80,36 @@ namespace TaskRunning
                         MessageBox.Show("Error. COM port entered is not recognized!");
                     }
                 }
-				try
-					{ r.gazNumSmoth = short.Parse(txtNumGazeSmth.Text); }
-				catch (Exception) { r.gazNumSmoth = 5; txtNumGazeSmth.Text = 5.ToString(); }
+
+                //Forth panel
+
+                if (rdbNormFormRun.Checked)
+                    r.taskRunMode = TaskRunMod.forward;
+                else
+                    r.taskRunMode = TaskRunMod.recursive;
+
+                //Fifth panel
+                if (chkbxGoalsPrompt.Checked)
+					r._showGoalPrompt = true;
+
+                if (chkbxArrwHintGoals.Checked)
+                    r._hintArrow = true;
+
+                if (chkbxGoalSound.Checked)
+                    r._useGoalSound = true;
+
+                if (chkbxMisSound.Checked)
+					r._useMissesSound = true;
+
+                if (chkbxMissesPrompt.Checked)
+                    r._showMisPromp = true;
+
+                if (chkbNearMisPrompt.Checked)
+                    r._showNearMisPrompt = true;
+
+                if (chbxNearMisHintArrow.Checked)
+					r._nmsShowArrowToGoal = true;
+                               
 				return r;
 			}
 		}

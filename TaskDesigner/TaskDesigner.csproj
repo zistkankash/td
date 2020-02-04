@@ -344,7 +344,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Resource.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
@@ -452,6 +452,7 @@
     <Content Include="Resources\circle.png" />
     <None Include="Resources\Clear-Green-Button-icon.png" />
     <Content Include="Resources\coin.wav" />
+    <None Include="Resources\Computer Error.wav" />
     <Content Include="Resources\engineer.png" />
     <None Include="Resources\eraser.png" />
     <Content Include="Resources\exit.png" />

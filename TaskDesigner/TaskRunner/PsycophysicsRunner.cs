@@ -70,7 +70,7 @@ namespace TaskRunning
 			failSound.Load();
 			winSound.Load();
             MakeRandomRepeat(RunningTask.SeqRandTaskRunner);
-            if (RunningTask.runConf._useCOMPort || RunningTask.runConf.useParOut)
+            if (RunningTask.runConf._useCOMPort || RunningTask.runConf._useParOut)
                 _portAccess = new PortAccess(RunningTask.runConf);
         }
 

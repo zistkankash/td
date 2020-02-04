@@ -132,7 +132,7 @@
 			this.btn_analysis.TabIndex = 4;
 			this.btn_analysis.UseVisualStyleBackColor = false;
 			this.btn_analysis.Click += new System.EventHandler(this.btn_analysis_Click);
-			this.btn_analysis.MouseClick += new System.Windows.Forms.MouseEventHandler(this.btn_analysis_MouseClick);
+		
 			this.btn_analysis.MouseEnter += new System.EventHandler(this.btn_analysis_MouseEnter);
 			this.btn_analysis.MouseLeave += new System.EventHandler(this.btn_analysis_MouseLeave);
 			// 

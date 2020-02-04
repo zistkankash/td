@@ -239,18 +239,19 @@ namespace Basics
 
 		private void btn_psychology_Click(object sender, EventArgs e)
 		{
-			//try
-			//{
-			//	taskLab = new PsycologyDesigner();
-			//	taskLab.FormClosed += delegate { Show(); Select(); };
-			//	this.Hide();
-			//	taskLab.Show();
-			//}
-			//catch (Exception)
-			//{
-			//	return;
-			//}
-		}
+            try
+            {
+                taskLab = new PsycologyDesigner();
+                taskLab.FormClosed += delegate { Show(); Select(); };
+                this.Hide();
+                taskLab.Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error! " + ex.Message);
+                return;
+            }
+        }
 
 		private void btn_linguistics_Click(object sender, EventArgs e)
 		{
@@ -261,9 +262,10 @@ namespace Basics
 				this.Hide();
 				imageLab.Show();
 			}
-			catch(Exception)
+			catch(Exception ex)
 			{
-				return;
+                MessageBox.Show("Error! " + ex.Message);
+                return;
 			}
 		}
 
@@ -276,9 +278,10 @@ namespace Basics
 				this.Hide();
 				heat.Show();
 			}
-			catch(Exception)
+			catch(Exception ex)
 			{
-				return;
+                MessageBox.Show("Error! " + ex.Message);
+                return;
 			}
 		}
 
@@ -300,9 +303,10 @@ namespace Basics
 
 				runner.Show();
 			}
-			catch(Exception)
+			catch(Exception ex)
 			{
-				return;
+                MessageBox.Show("Error! " + ex.Message);
+                return;
 			}
 
 		}
@@ -326,16 +330,33 @@ namespace Basics
 		private void COGLABnewUI_Load(object sender, EventArgs e)
 		{
 			this.CenterToScreen();
+            Process _curProcess  = Process.GetCurrentProcess();
+            if(!_curProcess.ProcessName.Equals("CogLAB"))
+            {
+                MessageBox.Show("Wrong CogLAB exe file! Rename to CogLAB.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Application.ExitThread();
+                Application.Exit();
+            }
+            bool see = false;
+            foreach (Process Proc in Process.GetProcesses())
+                if (Proc.ProcessName.Equals("CogLAB"))
+                {
+                    if (!see)
+                    {
+                        see = true;
+                    }
+                    else
+                    {
+                        MessageBox.Show("There is another CogLAB running on this system.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        Application.ExitThread();
+                        Application.Exit();
+                    }
+                }
             //MARGINS marg = new MARGINS() { Left = -1, Right = -1, Top = -1, Bottom = -1 };
             //DwmExtendFrameIntoClientArea(this.Handle, ref marg);
-            
+
         }
 		
-		public bool ThumbnailCallback()
-		{
-			return false;
-		}
-
 		private void COGLABnewUI_MouseDown(object sender, MouseEventArgs e)
 		{
 			if (e.Button == MouseButtons.Left)
@@ -369,12 +390,7 @@ namespace Basics
 				SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
 			}
 		}
-
-		private void btn_analysis_MouseClick(object sender, MouseEventArgs e)
-		{
-
-		}
-
+        
 		private void COGLABnewUI_KeyDown(object sender, KeyEventArgs e)
 		{
 			if (!e.Handled)

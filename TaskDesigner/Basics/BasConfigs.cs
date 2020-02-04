@@ -58,7 +58,26 @@ namespace Basics
 
 	public enum SaveMod { bin, txt }
 
-	public struct RunConfig { public GroupingMod shapeGroupingMode; public TaskRunMod taskRunMode; public bool showArrow; public bool showGoalPrompt; public bool useCursor; public bool useSound; public bool nmsShowArrow; public bool nmsShowGoalPrompt; public bool useCursorNextFrm; public bool nmsUseSound; public short gazNumSmoth; public bool useParOut; public int ParAddress; public bool _useCOMPort; public string _COMAddress; }
+	public struct RunConfig 
+    { 
+        public GroupingMod shapeGroupingMode; 
+        public TaskRunMod taskRunMode;
+        public short gazNumSmoth;
+        public bool _useParOut;
+        public int ParAddress;
+        public bool _useCOMPort;
+        public string COMAddress;
+        public bool useCursor;
+        public bool useCursorNextFrm;
+        //For psycology Tasks
+        public bool _hintArrow; 
+        public bool _showGoalPrompt; 
+        public bool _useGoalSound; 
+        public bool _useMissesSound;  
+        public bool _nmsShowArrowToGoal; 
+        public bool _showNearMisPrompt;
+        public bool _showMisPromp;
+    }
 
 	enum Comnd { Close = 5, CalibStat = 2, SendGaz = 8, EndGaz = 9 , WatRest = 11 }
 	

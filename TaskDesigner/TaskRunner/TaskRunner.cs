@@ -6,6 +6,7 @@ using System.Threading;
 using System.IO;
 using System.Diagnostics;
 using Basics;
+using TaskDesigner;
 using CefSharp;
 using CefSharp.WinForms;
 using System.Collections.Generic;
@@ -21,8 +22,8 @@ namespace TaskRunning
 	/// </summary>
 	public partial class TaskRunner : Form
 	{
-		//SoundPlayer winSound;
-		//SoundPlayer failSound;
+        SoundPlayer winSound = new SoundPlayer(Resource.Computer_Error);
+		SoundPlayer failSound = new SoundPlayer(Resource.fail);
 		#region General Runner Data Scope  
 		bool doGaze = false;
 		bool brake = false;
@@ -49,7 +50,7 @@ namespace TaskRunning
 		
 		#region Lab Runner Data Scope
 		int[] strt;
-		int _curHeatedNode, _curHeatedGoal, _succededGoal, _selectedGroup;
+		int _curHeatedNode, _curHeatedGoal, _succededNodeInGroup, _selectedGroup;
 		List<int> _labNodeHeats = new List<int>(), _labNodeNearHeats = new List<int>();
 		List<LabRunnerNodeMetaData> _labBuffer = new List<LabRunnerNodeMetaData>();
 		List<int> _goals = new List<int>();
@@ -81,7 +82,7 @@ namespace TaskRunning
             }
 			InitForm();
 
-            if (_runnerConfig._useCOMPort || _runnerConfig.useParOut)
+            if (_runnerConfig._useCOMPort || _runnerConfig._useParOut)
                 _portAccess = new PortAccess(_runnerConfig);
         }
 		
@@ -174,12 +175,17 @@ namespace TaskRunning
 				_goals.Clear();
 				_labNodeHeats.Clear();
 				_labNodeNearHeats.Clear();
-				_succededGoal = -1;
+				_succededNodeInGroup = -1;
 				_curHeatedNode = -1;
 				_selectedGroup = -1;
 				_curHeatedGoal = -1;
 
-				frameUpdater.Enabled = true;
+                if (_runnerConfig._useGoalSound)
+                    winSound.Load();
+                if (_runnerConfig._useMissesSound)
+                    failSound.Load();
+                
+                frameUpdater.Enabled = true;
 				frameUpdater.Start();
 				if (_runnerConfig.useCursor && !_getGaz)
 				{
@@ -374,8 +380,9 @@ namespace TaskRunning
 					if (!_labNodeNearHeats.Contains(ln.nodeId))
 					{
 						_labNodeNearHeats.Add(ln.nodeId);
-
-					}
+                        if (_runnerConfig._showGoalPrompt)
+                            _psycoTask.DrawNodePrompt(20, _goals.ToArray(), Color.Yellow, false);
+                    }
 				}
 				//A node heated...
 				if (ln.level > 150)
@@ -389,27 +396,50 @@ namespace TaskRunning
 							{
 								_goals.Clear();
 								_goals.AddRange(strt);
-								_succededGoal = -1;
+								_succededNodeInGroup = -1;
 								_curHeatedGoal = -1;
-								if (_runnerConfig.showGoalPrompt)
-									_psycoTask.DrawNodePrompt(30, strt, Color.Yellow, true);
+								
 							}
 							if (_runnerConfig.taskRunMode == TaskRunMod.forward)
-								if (_curHeatedGoal > -1 && _runnerConfig.showArrow)
+								if (_curHeatedGoal > -1 && _runnerConfig._hintArrow)
 								{
 									_psycoTask.DrawArrow(20, _curHeatedGoal, _goals[0], Color.Black, false, 2);
 								}
 						}
+                        else
+                        {
+                            if(_curHeatedNode == -1)
+                            {
+                                _curHeatedNode = ln.nodeId;
+
+                                _selectedGroup = _psycoTask.NodeGroupIdetifier[ln.nodeId];
+                                _curHeatedGoal = 0;
+                                                               
+                                if (_runnerConfig._useGoalSound)
+                                    winSound.Play();
+                                _goals.Clear();
+                                _goals.Add(_psycoTask.groupMembers[_selectedGroup][_curHeatedGoal]);
+                                if(_runnerConfig._showGoalPrompt)
+                                {
+                                    //Prompt the goal
+                                    _psycoTask.UndrawPrmpt();
+                                    
+                                }
+                            }
+                            
+                        }
 					}
-			}
+
+               
+            }
 		}
 		
 		void CTTaskSelectStartGoal()
 		{
 			strt = _psycoTask.FindStartShapes();
 			_goals.AddRange(strt);
-			if (_runnerConfig.showGoalPrompt)
-				_psycoTask.DrawNodePrompt(30, strt, Color.Yellow, true);
+			if (_runnerConfig._showGoalPrompt)
+				_psycoTask.DrawNodePrompt(30, strt, Color.Yellow, false);
 		}
 
 		void pctbxFrm_MouseMoveforLab(object sender, MouseEventArgs e)
@@ -428,8 +458,7 @@ namespace TaskRunning
 			TaskOperator.gzX = (float)_mousX;
 			TaskOperator.gzY = (float)_mousY;
 		}
-
-
+        
 		/// <summary>
 		/// Update triable screen by task image every 30 miliseconds.
 		/// </summary>

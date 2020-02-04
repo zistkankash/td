@@ -118,14 +118,14 @@ namespace Basics
 
         public PortAccess(RunConfig InitConfig)
         {
-            if (InitConfig.useParOut)
+            if (InitConfig._useParOut)
             {
                 SetParallel(InitConfig.ParAddress);
                 return;
             }
             if(InitConfig._useCOMPort)
             {
-                _seri = new SerialPort(InitConfig._COMAddress);
+                _seri = new SerialPort(InitConfig.COMAddress);
                 _COMPort = true;
             }
         }
