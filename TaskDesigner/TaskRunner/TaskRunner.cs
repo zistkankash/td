@@ -54,6 +54,10 @@ namespace TaskRunning
 		List<int> _labNodeHeats = new List<int>(), _labNodeNearHeats = new List<int>();
 		List<LabRunnerNodeMetaData> _labBuffer = new List<LabRunnerNodeMetaData>();
 		List<int> _goals = new List<int>();
+        int _nearMiseThresh = 5;
+        int _misesThresh = 10;
+        bool callAllow;
+        List<LabRunnerNodeMetaData> toDeleteBuffer = new List<LabRunnerNodeMetaData>(50);
 		#endregion
 		
 		public TaskRunner(object cs,TaskType Type ,TaskOperator pr, bool getGaz)
@@ -69,7 +73,7 @@ namespace TaskRunning
 			{
 				_psycoTask = (PsycologyTask)cs;
 				_runnerConfig = _psycoTask.runConf;
-				
+               
 			}
 
 			if (Type == TaskType.media)
@@ -167,12 +171,12 @@ namespace TaskRunning
 			#region psycology init running task
 			if (_type == TaskType.lab)
 			{
-				vlcControl1.Visible = false;
-				_controlWebBrowser.Visible = false;
-				pctbxFrm.Visible = true;
-
-				//clearing data
-				_goals.Clear();
+                //vlcControl1.Visible = false;
+                //_controlWebBrowser.Visible = false;
+                
+                Invoke((Action)delegate { LocateForm(); pctbxFrm.BringToFront(); });
+                //clearing data
+                _goals.Clear();
 				_labNodeHeats.Clear();
 				_labNodeNearHeats.Clear();
 				_succededNodeInGroup = -1;
@@ -184,25 +188,18 @@ namespace TaskRunning
                     winSound.Load();
                 if (_runnerConfig._useMissesSound)
                     failSound.Load();
+                Invoke((Action)delegate {
+                    frameUpdater.Enabled = true;
+                    frameUpdater.Start();
+                });
                 
-                frameUpdater.Enabled = true;
-				frameUpdater.Start();
 				if (_runnerConfig.useCursor && !_getGaz)
 				{
-					pctbxFrm.MouseMove += pctbxFrm_MouseMoveforLab;
-
+                    Invoke((Action)delegate { pctbxFrm.MouseMove += pctbxFrm_MouseMoveforLab; });
 				}
 
-				if (_psycoTask.runConf.taskRunMode == TaskRunMod.recursive)
-				{
-					CTTaskSelectStartGoal();
-
-				}
-				else
-				{
-					//SetGoalNode();
-				}
-				
+                CTTaskSelectStartGoal();
+                				
 				return;
 			}
 			#endregion
@@ -244,8 +241,16 @@ namespace TaskRunning
 			#endregion
 
 		}
-		
-		bool SetNextMediaSlide()
+
+        void CTTaskSelectStartGoal()
+        {
+            strt = _psycoTask.FindGroupedShapes();
+            _goals.AddRange(strt);
+            if (_runnerConfig._showGoalPrompt)
+                _psycoTask.DrawNodePrompt(30, strt, Color.Yellow, false);
+        }
+
+        bool SetNextMediaSlide()
 		{
 			brake = false;
 			pctbxFrm.Visible = false;
@@ -336,6 +341,7 @@ namespace TaskRunning
 		
 		void LabTaskRunnerCore(int x, int y)
 		{
+            callAllow = true;   
 			//Find nodes that match current gaze in its border.
 			List<int> ht = _psycoTask.findNode(x, y, 2);
 
@@ -355,96 +361,118 @@ namespace TaskRunning
 			{
 				_labBuffer.Add(new LabRunnerNodeMetaData(ht[k]));
 			}
-
+            toDeleteBuffer.Clear();
 			//Remove node with outness larger than threshold from buffer and sync buffer with heata and near_heats.
 			foreach (LabRunnerNodeMetaData ln in _labBuffer)
 				if (ln.outness > 5)
 				{
+                    toDeleteBuffer.Add(ln);
 					if (_labNodeNearHeats.Contains(ln.nodeId))
 						_labNodeNearHeats.Remove(ln.nodeId);
 
 					if (_labNodeHeats.Contains(ln.nodeId))
 						_labNodeHeats.Remove(ln.nodeId);
 
-					_labBuffer.Remove(ln);
+					//_labBuffer.Remove(ln);
 				}
+            foreach (LabRunnerNodeMetaData delNode in toDeleteBuffer)
+                _labBuffer.Remove(delNode);
 
 			//Add nodes with level larger than Near_Heat threshold to near_heat buffer.
 			foreach (LabRunnerNodeMetaData ln in _labBuffer)
 			{
 				//A node is near_heated...
-				if (ln.level > 80)
+				if (ln.level > _nearMiseThresh)
 				{
-					if (!_goals.Contains(ln.nodeId))
-						_psycoTask.shapeList[ln.nodeId].NearHeatCountforNode++;
-					if (!_labNodeNearHeats.Contains(ln.nodeId))
+                    if (!_goals.Contains(ln.nodeId))
+                        _psycoTask.shapeList[ln.nodeId].NearHeatCountforNode++;
+
+                    if (!_labNodeNearHeats.Contains(ln.nodeId))
 					{
-						_labNodeNearHeats.Add(ln.nodeId);
-                        if (_runnerConfig._showGoalPrompt)
-                            _psycoTask.DrawNodePrompt(20, _goals.ToArray(), Color.Yellow, false);
+                        _labNodeNearHeats.Add(ln.nodeId);
+
+                        if (!_goals.Contains(ln.nodeId))
+                        {
+                            if (_runnerConfig._showNearMisPrompt)
+                                _psycoTask.DrawNodePrompt(30, new int[] { ln.nodeId }, Color.Orange, false);
+
+                            if (_runnerConfig._showGoalPrompt)
+                                _psycoTask.DrawNodePrompt(30, _goals.ToArray(), Color.Yellow, false);
+
+                            if (_runnerConfig._nmsShowArrowToGoal)
+                                _psycoTask.DrawBlinkArrow(20, new int[1] { ln.nodeId }, _goals.ToArray(), Color.Black, false, 1);
+                        }
                     }
 				}
-				//A node heated...
-				if (ln.level > 150)
-					if (!_labNodeHeats.Contains(ln.nodeId))
-					{
-						_labNodeHeats.Add(ln.nodeId);
-						//wrong node heated so it appointed as misses node
-						if(!_goals.Contains(ln.nodeId))
-						{
-							if (_runnerConfig.taskRunMode == TaskRunMod.recursive)
-							{
-								_goals.Clear();
-								_goals.AddRange(strt);
-								_succededNodeInGroup = -1;
-								_curHeatedGoal = -1;
+                //A node heated...
+                if (ln.level > _misesThresh)
+                {
+                    if (!_goals.Contains(ln.nodeId))
+                        _psycoTask.shapeList[ln.nodeId].HeatCountforNode++;
+
+                    if (!_labNodeHeats.Contains(ln.nodeId))
+                    {
+                        _labNodeHeats.Add(ln.nodeId);
+                        _curHeatedNode = ln.nodeId;
+                        //wrong node heated so it appointed as misses node
+                        if (!_goals.Contains(ln.nodeId))
+                        {
+                            if (_runnerConfig._showMisPromp)
+                                _psycoTask.DrawNodePrompt(30, new int[1] { ln.nodeId }, Color.Red, false);
+
+                            if (_runnerConfig._useMissesSound)
+                                failSound.Play();
+
+                            if (_runnerConfig.taskRunMode == TaskRunMod.recursive)
+                            {
+                                _goals.Clear();
+                                _goals.AddRange(strt);
+                                _succededNodeInGroup = -1;
+                                _curHeatedGoal = -1;
                                 _selectedGroup = -1;
-							}
-							if (_runnerConfig.taskRunMode == TaskRunMod.forward)
-								if (_curHeatedGoal > -1 && _runnerConfig._hintArrow)
-								{
-									_psycoTask.DrawBlinkArrow(20, new int[] { _curHeatedGoal }, new int[] { _goals[0] }, Color.Black, false, 2);
-								}
-						}
+                            }
+                            if (_runnerConfig.taskRunMode == TaskRunMod.forward)
+                                if (_curHeatedGoal > -1 && _runnerConfig._hintArrow)
+                                {
+                                    _psycoTask.DrawBlinkArrow(20, new int[] { _curHeatedGoal }, _goals.ToArray(), Color.Black, false, 2);
+                                }
+                        }
                         else
                         {
-                            if(_selectedGroup == -1)
+                            if (_selectedGroup == -1)
                             {
-                                _curHeatedNode = ln.nodeId;
                                 _selectedGroup = _psycoTask.NodeGroupIdetifier[ln.nodeId];
-                                _curHeatedGoal = 0;
-                                                               
-                                if (_runnerConfig._useGoalSound)
-                                    winSound.Play();
-                                
-                                _goals.Clear();
+                                _curHeatedGoal = 1;
+                            }
+                            _psycoTask.DrawNodePrompt(30, new int[] { ln.nodeId }, Color.Green, false);
+                            if (_runnerConfig._useGoalSound)
+                                winSound.Play();
+                            _goals.Clear();
+                            if (_curHeatedGoal < _psycoTask.groupMembers[_selectedGroup].Count)
+                            {
                                 _goals.Add(_psycoTask.groupMembers[_selectedGroup][_curHeatedGoal]);
-                                if(_runnerConfig._showGoalPrompt)
+                                if (_runnerConfig._showGoalPrompt)
                                 {
-                                    //Prompt the goal
-                                    _psycoTask.UndrawPrmpt();
-                                    
+                                    _psycoTask.DrawNodePrompt(30, _goals.ToArray(), Color.Yellow, false);
+
                                 }
                             }
-                            
+                            else
+                            {
+                                runMod = RunMod.Stop;
+                                return;
+                            }
                         }
-					}
-
-               
+                    }
+                }
             }
+            callAllow = false;
 		}
 		
-		void CTTaskSelectStartGoal()
-		{
-			strt = _psycoTask.FindStartShapes();
-			_goals.AddRange(strt);
-			if (_runnerConfig._showGoalPrompt)
-				_psycoTask.DrawNodePrompt(30, strt, Color.Yellow, false);
-		}
-
 		void pctbxFrm_MouseMoveforLab(object sender, MouseEventArgs e)
 		{
-			LabTaskRunnerCore(e.X, e.Y);
+            if (!callAllow)
+                LabTaskRunnerCore(e.X, e.Y);
 		}
 
 		void pctbxFrm_MouseMoveforMedia(object sender, MouseEventArgs e)
@@ -537,7 +565,8 @@ namespace TaskRunning
 		void TaskRunner_Load(object sender, EventArgs e)
 		{
 			pctbxFrm.BackColor = Color.White;
-			
+            if (_type == TaskType.lab)
+                RunTask();
 		}
 
 		public void CleanMap()

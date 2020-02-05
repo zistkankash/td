@@ -448,7 +448,7 @@ namespace TaskLab
 				refreshTimer.Stop();
 			if (_curTask == null)
 				_curTask = new PsycologyTask();
-			if (_curTask.Load())
+			if (_curTask.Load(true))
 			{
 				LoadTaskDesigner();
 				designerState = LabDesignState.onDesign;
@@ -578,8 +578,8 @@ namespace TaskLab
 			Shape shp = Shape.Circle;
 			Color sColor = Color.Red;
 
-			x = r.Next(0, 1);
-			y = r.Next(0, 1);
+			x = (float)r.Next(0, 100) / 100;
+			y = (float)r.Next(0, 100) / 100;
 
 			int.TryParse(txtWidth.Text, out w);
 			if (CircSel)

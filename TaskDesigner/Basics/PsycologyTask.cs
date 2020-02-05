@@ -211,24 +211,30 @@ namespace Basics
 		/// </summary>
 		void ColorGrouping()
 		{
-			NodeGroupIdetifier = new int[shapeList.Count];
+            bool nodeAdded;
+			NodeGroupIdetifier = Enumerable.Repeat(-1, shapeList.Count).ToArray();
 			groupMembers = new List<List<int>>();
 			groupMembers.Add(new List<int>(new int[] { 0 }));
 			NodeGroupIdetifier[0] = 0; 
-			groupCount = 1;
+			groupCount = 0;
 			int i, j;
 			for (i = 1; i < shapeList.Count; i++)
 			{
-				for (j = 0; j < i; j++)
+                if (NodeGroupIdetifier[i] != -1)
+                    continue;
+                nodeAdded = false;
+				for (j = 0; j < groupMembers.Count; j++)
 				{
-					if (shapeList[i].shapeColor.Equals(shapeList[j].shapeColor))
+					if (shapeList[i].shapeColor.Equals(shapeList[groupMembers[j][0]].shapeColor))
 					{
-						NodeGroupIdetifier[j] = NodeGroupIdetifier[i];
-						groupMembers[NodeGroupIdetifier[j]].Add(i);
+						NodeGroupIdetifier[i] = NodeGroupIdetifier[groupMembers[j][0]];
+						groupMembers[NodeGroupIdetifier[i]].Add(i);
+                        nodeAdded = true;
+                        break;
 					}
 
 				}
-				if (j == i)
+				if (!nodeAdded)
 				{
 					groupCount++;
 					NodeGroupIdetifier[i] = groupCount;
@@ -282,8 +288,11 @@ namespace Basics
 			overlayer = prmpts.Bitmap;
 			overlayer.MakeTransparent(Color.Black);
 			_taskFrame = tskImg.Bitmap;
+            
 			BitmapManager.DrawOn(overlayer, _taskFrame, alpha);
-		}
+            overlayer.Dispose();
+            prmpts.Dispose();
+        }
 
 		public void DrawNodePrompt(int Max, int[] id, Color prCol, bool recursive)
 		{
@@ -317,26 +326,27 @@ namespace Basics
 			_taskFrame = tskImg.Bitmap;
 		}
 
-		public int[] FindStartShapes()
+		public int[] FindGroupedShapes()
 		{
 			if (runConf.shapeGroupingMode == GroupingMod.byColor)
 				ColorGrouping();
+            
+            int[] res = new int[groupMembers.Count];
 
-			int[] res = new int[groupCount];
-
-			for (int i = 0; i < groupCount; i++)
+            for (int i = 0; i < groupMembers.Count; i++)
 			{
-				int minNum = groupMembers[i][0];
-				res[i] = 0;
-				for (int j = 0; j < groupMembers[i].Count; j++)
-				{
-					if (shapeList[groupMembers[i][j]].number < minNum)
-					{
-						minNum = groupMembers[i][j];
-						res[i] = j;
-					}
-				}
+				int[] keys = groupMembers[i].ToArray();
+                int[] values = new int[keys.Length];
+                for (int j=0; j < keys.Length; j++)
+                {
+                    values[j] = shapeList[keys[j]].number;
+                }
+                Array.Sort(keys, values);
+                groupMembers[i].Clear();
+                groupMembers[i].AddRange(keys);
+                res[i] = groupMembers[i][0];
 			}
+           
 			return res;
 		}
 		
@@ -447,7 +457,7 @@ namespace Basics
 			{
 
 				List<string> lines = new List<string>();
-				lines.Add("TaskLab");
+				lines.Add("PsycoTaskLab");
 				lines.Add("DateCreated:" + System.DateTime.Now.ToString());
 				lines.Add("BackGround:" + "," + backColor.R + "," + backColor.G + "," + backColor.B);
 				lines.Add("Shapes:" + "," + shapeList.Count.ToString());
@@ -580,13 +590,13 @@ namespace Basics
 			#endregion
 			// اضافه کردن فیکسیشن ها
 
-			foreach (Node node in shapeList)
-			{
-				if (node.fixationTime > 0)
-				{
-					AddFixateNode(node);
-				}
-			}
+			//foreach (Node node in shapeList)
+			//{
+			//	if (node.fixationTime > 0)
+			//	{
+			//		AddFixateNode(node);
+			//	}
+			//}
 			DrawMap();
 			return true;
 		}
@@ -601,9 +611,9 @@ namespace Basics
 			DrawMap();
 		}
 
-		public bool Load()
+		public bool Load(bool NewTask)
 		{
-			if (Load(true, TaskType.lab).Result == ResultState.OK)
+			if (Load(NewTask, TaskType.lab).Result == ResultState.OK)
 				return LoadFromText();
 			else
 				return false;

@@ -138,7 +138,7 @@ namespace TaskRunning
 			//gzY = (float)i %900;
 			if (!_stopped)
 			{
-				if (tsk.Type == TaskType.media)
+				if (tsk.Type == TaskType.media || tsk.Type == TaskType.lab)
 				{
 					BitmapManager.Screenshot(out tempBitmap, screens[BasConfigs._triableMonitor].Bounds.Location, new Size(screens[BasConfigs._triableMonitor].Bounds.Width, screens[BasConfigs._triableMonitor].Bounds.Height));
 					_operationBitmap = BitmapManager.DrawOn(tempBitmap, pbOper.Size, Color.White);
@@ -271,10 +271,10 @@ namespace TaskRunning
 		
 		void SetControlsLocked()
 		{
-			groupBox1.Enabled = false;
-			groupBox2.Enabled = false;
-			groupBox3.Enabled = false;
-			groupBox4.Enabled = false;
+			pnl4.Enabled = false;
+			pnl5.Enabled = false;
+			pnl2.Enabled = false;
+			pnl1.Enabled = false;
 			
 			pnlErr1.Enabled = false;
 			pnlRunMode.Enabled = false;
@@ -286,10 +286,10 @@ namespace TaskRunning
 
 		void SetControlsOpened()
 		{
-			groupBox1.Enabled = true;
-			groupBox2.Enabled = true;
-			groupBox3.Enabled = true;
-			groupBox4.Enabled = true;
+			pnl4.Enabled = true;
+			pnl5.Enabled = true;
+			pnl2.Enabled = true;
+			pnl1.Enabled = true;
 			
 			pnlErr1.Enabled = true;
 			pnlRunMode.Enabled = true;
@@ -331,8 +331,13 @@ namespace TaskRunning
 				pbOper.SizeMode = PictureBoxSizeMode.StretchImage;
 				tsk.GetFrameImage(0, ref _operationBitmap);
 				pbOper.Image = _operationBitmap;
+
 				btnStart.Enabled = true;
-			}
+
+                pnl4.Visible = (tsk.Type == TaskType.lab);
+                pnl5.Visible = (tsk.Type == TaskType.lab);
+
+            }
 			else
 			{
 				MetroMessageBox.Show((IWin32Window)this, "Wrong or Corrupted Task File", "Error", 100);

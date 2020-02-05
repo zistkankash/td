@@ -150,10 +150,15 @@ namespace Basics
 
 						else if (lines[0] == "PsycoTaskLab")     // تسک های روانشناختی
 						{
-							if (psycoTask.Load())
-								_taskIsReady = true;
+                            psycoTask = new PsycologyTask();
+                            psycoTask.OperationalSize = new Size(BasConfigs._monitor_resolution_x, BasConfigs._monitor_resolution_y);
+                            psycoTask.Address = _tskAddress;
+                            if (psycoTask.Load(false))
+                                _taskIsReady = true;
+                            else
+                                return false;
 							_type = TaskType.lab;
-
+                            return true;
 						}       // انتهای تسک های روانشناختی
 
 						#region cognitive tasks
@@ -210,7 +215,11 @@ namespace Basics
 			{
 				return mediaTask.GetOperationFrame(SelSlide, ref BIn);
 			}
-
+            if(Type == TaskType.lab)
+            {
+                BIn = psycoTask.RenderTask();
+                return true;
+            }
 			return false;
 		}
 

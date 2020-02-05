@@ -24,7 +24,7 @@ namespace Basics
 
 		public bool IsReady { get { return _taskIsReady; } }
 
-		public string Address { get { return _tskAddress; } }
+		public string Address { get { return _tskAddress; } set { _tskAddress = value; } }
 
 		public TaskType Type { get { return _type; } }
 
@@ -92,7 +92,7 @@ namespace Basics
 				if (suffix == ".txt")
 				{
 					lines = File.ReadAllLines(_tskAddress, Encoding.UTF8);
-					if (lines[0] != "TaskLabMedia" && lines[0] != "TaskLab" && lines[0] != "Number Of Levels")
+					if (lines[0] != "TaskLabMedia" && lines[0] != "PsycoTaskLab" && lines[0] != "Number Of Levels")
 					{
 						MessageBox.Show("Wrong task file selected","Task File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 						return new ResultForm(ResultState.Error, SaveMod.txt);
@@ -103,7 +103,7 @@ namespace Basics
 					{
 						type = (short)TaskType.media;
 					}
-					if (lines[0] == "TaskLab")
+					if (lines[0] == "PsycoTaskLab")
 					{
 						type = (short)TaskType.lab;
 					}
