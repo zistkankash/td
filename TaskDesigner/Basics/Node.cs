@@ -31,12 +31,12 @@ namespace Basics
 		      
 
         // سازنده شکل بدون فیکسیشن
-        public Node(int id, PointF point, Shape s, Color sColor, int num, Color tColor, int w, int h)
+        public Node(int id, PointF point, Shape s, Color sColor, int num, Color tColor, int w, int h, Size OperSize)
         {
 			_id = id;
 			relationalPosition = point;
-            this.absolutePosition.X = (int)(point.X * BasConfigs._monitor_resolution_x);
-			this.absolutePosition.Y = (int)(point.Y * BasConfigs._monitor_resolution_y);
+            this.absolutePosition.X = (int)(point.X * OperSize.Width);
+			this.absolutePosition.Y = (int)(point.Y * OperSize.Height);
 			this.shape = s;
             this.shapeColor = sColor;
             this.number = num;
@@ -47,12 +47,12 @@ namespace Basics
         }
 
         // سازنده فیکسیشن با فیکسیشن
-        public Node(int id, PointF point, Shape s, Color sColor, int num, Color tColor, int w, int h, char fType, int fTime, int p, int fRadius, Color fColor)
+        public Node(int id, PointF point, Shape s, Color sColor, int num, Color tColor, int w, int h, char fType, int fTime, int p, int fRadius, Color fColor, Size OperSize)
         {
 			_id = id;
 			relationalPosition = point;
-			this.absolutePosition.X = (int)(point.X * BasConfigs._monitor_resolution_x);
-			this.absolutePosition.Y = (int)(point.Y * BasConfigs._monitor_resolution_y);
+			this.absolutePosition.X = (int)(point.X * OperSize.Width);
+			this.absolutePosition.Y = (int)(point.Y * OperSize.Height);
 			this.shape = s;
             this.shapeColor = sColor;
             this.number = num;

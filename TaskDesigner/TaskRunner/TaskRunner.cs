@@ -398,25 +398,25 @@ namespace TaskRunning
 								_goals.AddRange(strt);
 								_succededNodeInGroup = -1;
 								_curHeatedGoal = -1;
-								
+                                _selectedGroup = -1;
 							}
 							if (_runnerConfig.taskRunMode == TaskRunMod.forward)
 								if (_curHeatedGoal > -1 && _runnerConfig._hintArrow)
 								{
-									_psycoTask.DrawArrow(20, _curHeatedGoal, _goals[0], Color.Black, false, 2);
+									_psycoTask.DrawBlinkArrow(20, new int[] { _curHeatedGoal }, new int[] { _goals[0] }, Color.Black, false, 2);
 								}
 						}
                         else
                         {
-                            if(_curHeatedNode == -1)
+                            if(_selectedGroup == -1)
                             {
                                 _curHeatedNode = ln.nodeId;
-
                                 _selectedGroup = _psycoTask.NodeGroupIdetifier[ln.nodeId];
                                 _curHeatedGoal = 0;
                                                                
                                 if (_runnerConfig._useGoalSound)
                                     winSound.Play();
+                                
                                 _goals.Clear();
                                 _goals.Add(_psycoTask.groupMembers[_selectedGroup][_curHeatedGoal]);
                                 if(_runnerConfig._showGoalPrompt)
@@ -473,7 +473,7 @@ namespace TaskRunning
 				return;
 			}
 			if (_psycoTask != null)
-				pctbxFrm.Image = _psycoTask.RenderTask(secondMonit);
+				pctbxFrm.Image = _psycoTask.RenderTask();
 		}
 		
 		public bool RunTask()

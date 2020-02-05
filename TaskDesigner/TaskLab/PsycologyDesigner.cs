@@ -100,7 +100,7 @@ namespace TaskLab
 		{
 			ScreenModer();
 			if (_curTask != null)
-				pbDesign.Image = _curTask.RenderTask(new Size(spltContner.Panel2.Width, spltContner.Panel2.Height));
+				pbDesign.Image = _curTask.RenderTask();
 		}
 
 		void spltContner_Click(object sender, EventArgs e)
@@ -114,7 +114,9 @@ namespace TaskLab
 				pnlSetting.Visible = false;
 				spltContner.SplitterDistance = 0;
 			}
-		}
+            _curTask.OperationalSize = new Size(spltContner.Panel2.Width, spltContner.Panel2.Height);
+
+        }
 
         void PsycologyDesigner_Load(object sender, EventArgs e)
         {
@@ -122,18 +124,15 @@ namespace TaskLab
             DwmExtendFrameIntoClientArea(this.Handle, ref marg);
             designerState = LabDesignState.start;
             ScreenModer();
-			SerialPort port = new SerialPort("COM13");
-			port.BaudRate = 9600;
-			port.Open();
-			port.Write("Welcome to designer");
-			port.Close();
-		}
+           
+        }
 
 		private void PsycologyDesigner_Resize(object sender, EventArgs e)
 		{
 			pnlSetting.Width = pbDesign.Width - 14;
-			
-		}
+            if (_curTask != null)
+                _curTask.OperationalSize = new Size(spltContner.Panel2.Width, spltContner.Panel2.Height);
+        }
 
 		void PsycologyDesigner_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -438,7 +437,8 @@ namespace TaskLab
 			if (refreshTimer.Enabled)
 				refreshTimer.Stop();
 			_curTask = new PsycologyTask();
-			designerState = LabDesignState.onDesign;
+            _curTask.OperationalSize = new Size(spltContner.Panel2.Width, spltContner.Panel2.Height);
+            designerState = LabDesignState.onDesign;
 			refreshTimer.Start();
 		}
 
@@ -549,7 +549,9 @@ namespace TaskLab
 		
 			inserNode.relationalPosition.X = (float)x / pbDesign.Width;
 			inserNode.relationalPosition.Y = (float)y / pbDesign.Height;
-			inserNode.shape = shp;
+            inserNode.absolutePosition.X = x;
+            inserNode.absolutePosition.Y = y;
+            inserNode.shape = shp;
 			inserNode.height = h; inserNode.width = w; inserNode.number = (int)numUpDownNode.Value; inserNode.textColor = btnNumberColor.BackColor;
 			inserNode.shapeColor = sColor;
 			//inserted node is drawed on image so is ready to add to map.
@@ -591,15 +593,17 @@ namespace TaskLab
 				int.TryParse(txtHeight.Text, out h);
 			}
 
-			//create new node for modify in designer not for add to map.
-			if (inserNode == null)
-				inserNode = new Node(-1, new PointF(x, y), shp, sColor, (int)numUpDownNode.Value, btnNumberColor.BackColor, w, h);
-			else
-			{
-				inserNode.shape = shp;
-				inserNode.height = h; inserNode.width = w; inserNode.number = (int)numUpDownNode.Value; inserNode.textColor = btnNumberColor.BackColor;
-				inserNode.shapeColor = sColor;
-			}
+            //create new node for modify in designer not for add to map.
+            if (inserNode == null)
+            {
+                inserNode = new Node(-1, new PointF(x, y), shp, sColor, (int)numUpDownNode.Value, btnNumberColor.BackColor, w, h, pbDesign.Size);
+            }
+            else
+            {
+                inserNode.shape = shp;
+                inserNode.height = h; inserNode.width = w; inserNode.number = (int)numUpDownNode.Value; inserNode.textColor = btnNumberColor.BackColor;
+                inserNode.shapeColor = sColor;
+            }
 			if (MusbBeEnabled && !inserNode.enable)
 			{
 				inserNode.enable = true;
@@ -654,7 +658,9 @@ namespace TaskLab
 			{
 				selectedNode.relationalPosition.X = (float)x / pbDesign.Width;
 				selectedNode.relationalPosition.Y = (float)y / pbDesign.Height;
-			}
+                selectedNode.absolutePosition.X = x;
+                selectedNode.absolutePosition.Y = y;
+            }
 			if (!chboxFixate.Checked) // add normal node to map
 				_curTask.CreateNode(selectedNode);
 			else // add fixate node to map.
@@ -835,9 +841,9 @@ namespace TaskLab
 				txtPath.Text = _curTask.Address;
 			}
 			btnTaskBackColor.BackColor = _curTask.backColor;
-			
+            _curTask.OperationalSize = new Size(spltContner.Panel2.Width, spltContner.Panel2.Height);
 
-		}
+        }
 
 		#endregion
 	}
