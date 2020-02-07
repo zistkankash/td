@@ -114,7 +114,8 @@ namespace TaskLab
 				pnlSetting.Visible = false;
 				spltContner.SplitterDistance = 0;
 			}
-            _curTask.OperationalSize = new Size(spltContner.Panel2.Width, spltContner.Panel2.Height);
+            if (_curTask != null)
+                _curTask.OperationalSize = new Size(spltContner.Panel2.Width, spltContner.Panel2.Height);
 
         }
 

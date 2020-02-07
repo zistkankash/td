@@ -223,9 +223,10 @@ namespace Basics
 				this.Hide();
 				task.Show();
 			}
-			catch(Exception)
+			catch(Exception ex)
 			{
-				return;
+                MessageBox.Show("Error! " + ex.Message);
+                return;
 			}
 		}
 
@@ -331,7 +332,7 @@ namespace Basics
 		{
 			this.CenterToScreen();
             Process _curProcess  = Process.GetCurrentProcess();
-            if(!_curProcess.ProcessName.Equals("CogLAB"))
+            if(!(_curProcess.ProcessName.Equals("CogLAB") || _curProcess.ProcessName.Equals("CogLAB.vshost")))
             {
                 MessageBox.Show("Wrong CogLAB exe file! Rename to CogLAB.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.ExitThread();

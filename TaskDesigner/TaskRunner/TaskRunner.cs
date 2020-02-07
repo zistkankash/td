@@ -444,6 +444,8 @@ namespace TaskRunning
                                 _selectedGroup = _psycoTask.NodeGroupIdetifier[ln.nodeId];
                                 _curHeatedGoal = 1;
                             }
+                            else
+                                _curHeatedGoal++;
                             _psycoTask.DrawNodePrompt(30, new int[] { ln.nodeId }, Color.Green, false);
                             if (_runnerConfig._useGoalSound)
                                 winSound.Play();
