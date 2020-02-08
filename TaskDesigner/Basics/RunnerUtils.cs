@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
-
+using System.Globalization;
+using System.Text;
 
 namespace Basics
 {
@@ -20,7 +21,18 @@ namespace Basics
 			return Math.Sqrt(Math.Pow(Math.Abs(px - ox), 2) + Math.Pow(Math.Abs(py - oy), 2));
 		}
 
-		public static Bitmap PutString(string putex,Point pt)
+        public static string ToFarsiNumber(this string input)
+        {
+            var arabicDigits = CultureInfo.GetCultureInfo("fa-IR").NumberFormat.NativeDigits;
+            var rb = new StringBuilder();
+            foreach (var c in input)
+            {
+                rb.Append(char.IsDigit(c) ? arabicDigits[int.Parse(c.ToString())] : c.ToString());
+            }
+            return rb.ToString();
+        }
+
+        public static Bitmap PutString(string putex,Point pt)
 		{
 			var img = new Bitmap(Basics.BasConfigs._monitor_resolution_x, Basics.BasConfigs._monitor_resolution_y, PixelFormat.Format32bppArgb);
 			var graphics = Graphics.FromImage(img);
@@ -28,7 +40,14 @@ namespace Basics
 			return img;
 		}
 
-		public static double MeanPts(short row)
+        public static void PutString(string putex, Point pt, SolidBrush TextColor, ref Bitmap Context)
+        {
+            var graphics = Graphics.FromImage(Context);
+            graphics.DrawString(putex, new Font("Arial", 18), TextColor, pt);
+            
+        }
+
+        public static double MeanPts(short row)
 		{
 			double res = 0;
 			for (int i = 0; i < _gazeSmoothPots; i++)

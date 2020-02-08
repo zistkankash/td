@@ -56,12 +56,12 @@ namespace Basics
 
 		public void DrawMap()
 		{
-			ChangeBackGround();
+			Graphics gs = ChangeBackGround();
 			foreach (Node n in shapeList)
 			{
-				DrawNode(n);
+				DrawNode(n, gs);
 			}
-			_taskFrame = tskImg.Bitmap;			
+					
 		}
 
         public bool InitiatNodePositions()
@@ -76,21 +76,29 @@ namespace Basics
             return true;
         }
 
-		void ChangeBackGround()
+		Graphics ChangeBackGround()
 		{
 			if (tskImg != null)
 				tskImg.Dispose();
 
 			if (tskImg != null)
 				tskImg.Dispose();
+            Graphics gs = null;
 
-			if (useBackImage)
+            if (useBackImage)
 			{
-				tskImg = new Image<Rgba, byte>(backImage);
-				CvInvoke.Resize(tskImg, tskImg, _opSize);
-			}
+                _taskFrame = new Bitmap(backImage, _opSize);
+                //tskImg = new Image<Rgba, byte>(backImage);
+                //CvInvoke.Resize(tskImg, tskImg, _opSize);
+            }
 			else
-				tskImg = new Image<Rgba, byte>(_opSize.Width, _opSize.Height, new Rgba(backColor.R, backColor.G, backColor.B, 1));
+            {
+                _taskFrame = new Bitmap(_opSize.Width, _opSize.Height);
+               gs = Graphics.FromImage(_taskFrame);
+                gs.Clear(Color.FromArgb(backColor.R, backColor.G, backColor.B));
+            }
+            return gs;
+				//tskImg = new Image<Rgba, byte>(_opSize.Width, _opSize.Height, new Rgba(backColor.R, backColor.G, backColor.B, 1));
 			
 		}
 
@@ -145,16 +153,19 @@ namespace Basics
 			
         }
 
-        void DrawNode(Node node)
+        void DrawNode(Node node, Graphics gs)
 		{
-		
+
+            Brush drPen = new SolidBrush(Color.FromArgb(node.shapeColor.R, node.shapeColor.G, node.shapeColor.B));
 			if (node.shape == Shape.Circle)
 			{
-				CvInvoke.Circle(tskImg, new Point(node.absolutePosition.X, node.absolutePosition.Y) , node.width / 2, new MCvScalar(node.shapeColor.R, node.shapeColor.G, node.shapeColor.B), -1);
+                gs.FillEllipse(drPen, new Rectangle(new Point(node.absolutePosition.X - node.width / 2 , node.absolutePosition.Y - node.height / 2), new Size(node.width, node.height)));
+				//CvInvoke.Circle(tskImg, new Point(node.absolutePosition.X, node.absolutePosition.Y) , node.width / 2, new MCvScalar(node.shapeColor.R, node.shapeColor.G, node.shapeColor.B), -1);
 			}
 			else if (node.shape == Shape.Rectangle)
 			{
-				CvInvoke.Rectangle(tskImg, new Rectangle(new Point(node.absolutePosition.X - node.width / 2, node.absolutePosition.Y - node.height / 2), new Size(node.width, node.height)), new MCvScalar(node.shapeColor.R, node.shapeColor.G, node.shapeColor.B), -1);
+                gs.FillRectangle(drPen, new Rectangle(new Point(node.absolutePosition.X - node.width / 2, node.absolutePosition.Y - node.height / 2), new Size(node.width, node.height)));
+				//CvInvoke.Rectangle(tskImg, new Rectangle(new Point(node.absolutePosition.X - node.width / 2, node.absolutePosition.Y - node.height / 2), new Size(node.width, node.height)), new MCvScalar(node.shapeColor.R, node.shapeColor.G, node.shapeColor.B), -1);
 			}
 			if (node.number != -1)
 			{
@@ -169,13 +180,13 @@ namespace Basics
 						thickness = 2;
 					if (node.number < 10)
 					{
-						posOffsetX = (int)(node.width * 0.2);
-						posOffsetY = (int)(node.width * 0.2);
+						posOffsetX = (int)(node.width * 0.35);
+						posOffsetY = (int)(node.width * 0.45);
 					}
 					else
 					{
-						posOffsetX = (int)(node.width * 0.4);
-						posOffsetY = (int)(node.width * 0.2);
+						posOffsetX = (int)(node.width * 0.5);
+						posOffsetY = (int)(node.width * 0.45);
 					}
 				}
 				else if (node.shape == Shape.Rectangle)        // تنظیم شماره برای مستطیل
@@ -185,18 +196,18 @@ namespace Basics
 						thickness = 2;
 					if (node.number < 10)
 					{
-						posOffsetX = (int)(node.width * 0.2);
-						posOffsetY = (int)(node.height * 0.15);
+						posOffsetX = (int)(node.width * 0.35);
+						posOffsetY = (int)(node.height * 0.45);
 					}
 					else
 					{
-						posOffsetX = (int)(node.width * 0.4);
-						posOffsetY = (int)(node.height * 0.15);
+						posOffsetX = (int)(node.width * 0.5);
+						posOffsetY = (int)(node.height * 0.45);
 					}
 				}
-
+                RunnerUtils.PutString(RunnerUtils.ToFarsiNumber(node.number.ToString()), new Point(node.absolutePosition.X - posOffsetX, node.absolutePosition.Y - posOffsetY), new SolidBrush(Color.FromArgb(node.textColor.R, node.textColor.G, node.textColor.B)), ref _taskFrame);
 				// رسم شماره
-				CvInvoke.PutText(tskImg, node.number.ToString(), new Point(node.absolutePosition.X - posOffsetX, node.absolutePosition.Y + posOffsetY), new Emgu.CV.CvEnum.FontFace(), numSize, new MCvScalar(node.textColor.R, node.textColor.G, node.textColor.B), thickness);
+				//CvInvoke.PutText(tskImg, RunnerUtils.ToFarsiNumber(node.number.ToString()), new Point(node.absolutePosition.X - posOffsetX, node.absolutePosition.Y + posOffsetY), new Emgu.CV.CvEnum.FontFace(), numSize, new MCvScalar(node.textColor.R, node.textColor.G, node.textColor.B), thickness);
 			}
 			// کشیدن فیکسیشن
 			//if (node.fixationTime > 0)
@@ -287,8 +298,7 @@ namespace Basics
 
 			overlayer = prmpts.Bitmap;
 			overlayer.MakeTransparent(Color.Black);
-			_taskFrame = tskImg.Bitmap;
-            
+			            
 			BitmapManager.DrawOn(overlayer, _taskFrame, alpha);
             overlayer.Dispose();
             prmpts.Dispose();
@@ -323,7 +333,7 @@ namespace Basics
 			if (prmpts != null)
 				prmpts.Dispose();
 			DrawMap();
-			_taskFrame = tskImg.Bitmap;
+			
 		}
 
 		public int[] FindGroupedShapes()

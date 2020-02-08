@@ -15,14 +15,14 @@ namespace TaskRunning
 {
 	
 	/// <summary>
-	///  This class designed and implemented by Mh.T to run 2 type tasks 1-linguistic, 2-psycology tasks.
+	///  This class designed and implemented by Mh.T to run two types of tasks: 1-linguistic, 2-psycology tasks.
 	///	first call TaskOperator to load a task and create output csv file, then operator can start running the task using TaskRunner.
 	///	Operator form has a picturebox to show tracked eye position.
 	///	arguments: 
 	/// </summary>
 	public partial class TaskRunner : Form
 	{
-        SoundPlayer winSound = new SoundPlayer(Resource.Computer_Error);
+        SoundPlayer winSound = new SoundPlayer(Resource.coin);
 		SoundPlayer failSound = new SoundPlayer(Resource.fail);
 		#region General Runner Data Scope  
 		bool doGaze = false;
@@ -54,8 +54,8 @@ namespace TaskRunning
 		List<int> _labNodeHeats = new List<int>(), _labNodeNearHeats = new List<int>();
 		List<LabRunnerNodeMetaData> _labBuffer = new List<LabRunnerNodeMetaData>();
 		List<int> _goals = new List<int>();
-        int _nearMiseThresh = 5;
-        int _misesThresh = 10;
+        int _nearHeatThresh = 5;
+        int _heatThresh = 10;
         bool callAllow;
         List<LabRunnerNodeMetaData> toDeleteBuffer = new List<LabRunnerNodeMetaData>(50);
 		#endregion
@@ -343,7 +343,7 @@ namespace TaskRunning
 		{
             callAllow = true;   
 			//Find nodes that match current gaze in its border.
-			List<int> ht = _psycoTask.findNode(x, y, 2);
+			List<int> ht = _psycoTask.findNode(x, y, 1);
 
 			for (int i = 0; i < _labBuffer.Count; i++)
 			{
@@ -362,9 +362,10 @@ namespace TaskRunning
 				_labBuffer.Add(new LabRunnerNodeMetaData(ht[k]));
 			}
             toDeleteBuffer.Clear();
+
 			//Remove node with outness larger than threshold from buffer and sync buffer with heata and near_heats.
 			foreach (LabRunnerNodeMetaData ln in _labBuffer)
-				if (ln.outness > 5)
+				if (ln.outness > _runnerConfig._outnessThresh)
 				{
                     toDeleteBuffer.Add(ln);
 					if (_labNodeNearHeats.Contains(ln.nodeId))
@@ -382,7 +383,7 @@ namespace TaskRunning
 			foreach (LabRunnerNodeMetaData ln in _labBuffer)
 			{
 				//A node is near_heated...
-				if (ln.level > _nearMiseThresh)
+				if (ln.level > _nearHeatThresh)
 				{
                     if (!_goals.Contains(ln.nodeId))
                         _psycoTask.shapeList[ln.nodeId].NearHeatCountforNode++;
@@ -405,7 +406,7 @@ namespace TaskRunning
                     }
 				}
                 //A node heated...
-                if (ln.level > _misesThresh)
+                if (ln.level > _heatThresh)
                 {
                     if (!_goals.Contains(ln.nodeId))
                         _psycoTask.shapeList[ln.nodeId].HeatCountforNode++;

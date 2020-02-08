@@ -109,8 +109,17 @@ namespace TaskRunning
 
                 if (chbxNearMisHintArrow.Checked)
 					r._nmsShowArrowToGoal = true;
-                               
-				return r;
+
+                if (chkbxHeatConf.Checked)
+                    r._heatThresh = (int)numericHeatThresh.Value;
+
+                if (chkbxNearHeatConf.Checked)
+                    r._nearThresh = (int)numericNearThresh.Value;
+
+                if(chkbxOutnessConf.Checked)
+                    r._outnessThresh = (int)numericOutnessthresh.Value;
+
+                return r;
 			}
 		}
 

@@ -507,16 +507,17 @@ namespace TaskLab
 			if (node.shape == Shape.Circle)
 			{
 				pnlBtnCircle.BackColor = node.shapeColor;
-				txtHeight.Enabled = false;
+				
 				_circSel = true;
 			}
 			else if (node.shape == Shape.Rectangle)
 			{
 				_rectSel = true;
-				txtHeight.Text = node.height.ToString();
+				
 				pnlBtnRect.BackColor = node.shapeColor;
 			}
-			txtWidth.Text = node.width.ToString();
+            txtHeight.Text = node.height.ToString();
+            txtWidth.Text = node.width.ToString();
 			numUpDownNode.Value = node.number;
 			//cmbNumber.Text = node.number.ToString();
 			btnNumberColor.BackColor = node.textColor;
@@ -537,7 +538,8 @@ namespace TaskLab
 			Shape shp = Shape.Circle;
 			Color sColor = Color.Red;
 			int.TryParse(txtWidth.Text, out w);
-			if (CircSel)
+            int.TryParse(txtHeight.Text, out h);
+            if (CircSel)
 			{
 				sColor = pnlBtnCircle.BackColor;
 			}
@@ -545,10 +547,10 @@ namespace TaskLab
 			{
 				shp = Shape.Rectangle;
 				sColor = pnlBtnRect.BackColor;
-				int.TryParse(txtHeight.Text, out h);
+				
 			}
-		
-			inserNode.relationalPosition.X = (float)x / pbDesign.Width;
+            
+            inserNode.relationalPosition.X = (float)x / pbDesign.Width;
 			inserNode.relationalPosition.Y = (float)y / pbDesign.Height;
             inserNode.absolutePosition.X = x;
             inserNode.absolutePosition.Y = y;
@@ -583,7 +585,8 @@ namespace TaskLab
 			y = (float)r.Next(0, 100) / 100;
 
 			int.TryParse(txtWidth.Text, out w);
-			if (CircSel)
+            int.TryParse(txtHeight.Text, out h);
+            if (CircSel)
 			{
 				sColor = pnlBtnCircle.BackColor;
 			}
@@ -591,7 +594,7 @@ namespace TaskLab
 			{
 				shp = Shape.Rectangle;
 				sColor = pnlBtnRect.BackColor;
-				int.TryParse(txtHeight.Text, out h);
+				
 			}
 
             //create new node for modify in designer not for add to map.
@@ -641,8 +644,8 @@ namespace TaskLab
 			Shape shp = Shape.Circle;
 			Color sColor = Color.Red;
 			int.TryParse(txtWidth.Text, out w);
-
-			if (CircSel)
+            int.TryParse(txtHeight.Text, out h);
+            if (CircSel)
 			{
 				sColor = pnlBtnCircle.BackColor;
 			}
@@ -650,7 +653,7 @@ namespace TaskLab
 			{
 				shp = Shape.Rectangle;
 				sColor = pnlBtnRect.BackColor;
-				int.TryParse(txtHeight.Text, out h);
+				
 			}
 			selectedNode.shape = shp;
 			selectedNode.height = h; selectedNode.width = w; selectedNode.number = (int)numUpDownNode.Value;
@@ -715,14 +718,16 @@ namespace TaskLab
 						if (_circSel)
 						{
 							pnlBtnRect.BackColor = SystemColors.ActiveCaption;
-							txtHeight.Enabled = false;
+							
 						}
 						if (_rectSel)
 						{
 							pnlBtnCircle.BackColor = SystemColors.ActiveCaption;
-							txtHeight.Enabled = true;
+							
 						}
-						pnlShapVis = true; pnlShapPropVis = true; pnlDetalsVis = true; pnlbackVis = false;
+                        txtHeight.Enabled = true;
+                        txtWidth.Enabled = true;
+                        pnlShapVis = true; pnlShapPropVis = true; pnlDetalsVis = true; pnlbackVis = false;
 						PanelModer();
 						if (inserNode.enable)
 							pbDesign.Cursor = Cursors.Default;

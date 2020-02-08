@@ -77,6 +77,9 @@ namespace Basics
         public bool _nmsShowArrowToGoal; 
         public bool _showNearMisPrompt;
         public bool _showMisPromp;
+        public int _nearThresh;
+        public int _heatThresh;
+        public int _outnessThresh;
     }
 
 	enum Comnd { Close = 5, CalibStat = 2, SendGaz = 8, EndGaz = 9 , WatRest = 11 }
