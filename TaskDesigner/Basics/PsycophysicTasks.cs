@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static Psychophysics.Designer;
 
 namespace Basics
 {
@@ -165,14 +166,26 @@ namespace Basics
 							//Debug.Write("Load Debug " + line.Substring(6) + " " + values[0] + "\n");
 							Color BGColor = Color.FromArgb(255, int.Parse(values[1]), int.Parse(values[2]), int.Parse(values[3]));
 
+                            //Read fixations......................................................................................
 							line = reader.ReadLine();
 							line = reader.ReadLine();
-							values = line.Substring(9).Split(' ');
-							FixationPts varFixation = new FixationPts();
-							//varFixation.SetFixationPts(int.Parse(), int.Parse(), int.Parse(), int.Parse(),Color.FromArgb(255, int.Parse(), int.Parse(), int.Parse()));
-							Color fixationColor = Color.FromArgb(255, int.Parse(values[5]), int.Parse(values[6]), int.Parse(values[7]));
-							varFixation.SetFixationPts(int.Parse(values[0]), int.Parse(values[1]), int.Parse(values[2]), int.Parse(values[3]), fixationColor);
-							int fixationtime = int.Parse(values[4]);
+                            int NumberFixations = int.Parse(line.Substring(9));
+                            List<ObjectProp> fixations = new List<ObjectProp>(NumberFixations);
+                            for (int fixC = 0; fixC < NumberFixations; fixC++)
+                            {
+                                line = reader.ReadLine();
+                                values = line.Substring(9).Split(' ');
+                                int fixationtime = int.Parse(values[4]);
+                                Color fixationColor = Color.FromArgb(255, int.Parse(values[5]), int.Parse(values[6]), int.Parse(values[7]));
+                                ObjectProp newFix = new ObjectProp();
+                                newFix.Xloc = int.Parse(values[0]); newFix.Yloc = int.Parse(values[1]); newFix.Width = int.Parse(values[2]);
+                                newFix.Type = int.Parse(values[3]); newFix.Time = int.Parse(values[4]); newFix.ColorPt = fixationColor;
+                                newFix.ConvertToDeg();
+                                newFix.Enable = true;
+                                fixations.Add(newFix);
+                            }
+                            
+                            //Read stimuluses........................................................................................
 							line = reader.ReadLine();
 							line = reader.ReadLine();
 							//Debug.Write("Load Debug " + line.Substring(9)+ "\n");
@@ -219,7 +232,7 @@ namespace Basics
 								subFirst = 0;
 								tg.SetEvent(evCount + 1, ev);
 							}
-							varFrame.SetProperties(BGColor, FrameTime, , NumberStimulus, varStimulus, reward, null, 0, null, tg);
+							varFrame.SetProperties(BGColor, FrameTime, fixations, NumberStimulus, varStimulus, reward, null, 0, null, tg);
 
 							ListAddedFrame.Add(varFrame);
 						}

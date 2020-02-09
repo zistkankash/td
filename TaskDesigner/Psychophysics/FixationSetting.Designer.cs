@@ -41,7 +41,13 @@
             this.txtCorrectCode = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.txtIncorrectCode = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.txtFixETW = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.txtFixEFW = new System.Windows.Forms.TextBox();
+            this.txtFixationTime_ET = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // CheckFix_CB
@@ -49,7 +55,7 @@
             this.CheckFix_CB.AutoSize = true;
             this.CheckFix_CB.BackColor = System.Drawing.Color.Transparent;
             this.CheckFix_CB.Enabled = false;
-            this.CheckFix_CB.Location = new System.Drawing.Point(35, 193);
+            this.CheckFix_CB.Location = new System.Drawing.Point(35, 180);
             this.CheckFix_CB.Name = "CheckFix_CB";
             this.CheckFix_CB.Size = new System.Drawing.Size(121, 17);
             this.CheckFix_CB.TabIndex = 0;
@@ -65,7 +71,7 @@
             this.HoldFix_CB.Checked = true;
             this.HoldFix_CB.CheckState = System.Windows.Forms.CheckState.Checked;
             this.HoldFix_CB.Enabled = false;
-            this.HoldFix_CB.Location = new System.Drawing.Point(35, 150);
+            this.HoldFix_CB.Location = new System.Drawing.Point(35, 137);
             this.HoldFix_CB.Name = "HoldFix_CB";
             this.HoldFix_CB.Size = new System.Drawing.Size(112, 17);
             this.HoldFix_CB.TabIndex = 0;
@@ -80,7 +86,7 @@
             this.NextTrial_CB.Checked = true;
             this.NextTrial_CB.CheckState = System.Windows.Forms.CheckState.Checked;
             this.NextTrial_CB.Enabled = false;
-            this.NextTrial_CB.Location = new System.Drawing.Point(464, 150);
+            this.NextTrial_CB.Location = new System.Drawing.Point(464, 137);
             this.NextTrial_CB.Name = "NextTrial_CB";
             this.NextTrial_CB.Size = new System.Drawing.Size(116, 17);
             this.NextTrial_CB.TabIndex = 0;
@@ -91,7 +97,7 @@
             // 
             this.PlayFail_CB.AutoSize = true;
             this.PlayFail_CB.BackColor = System.Drawing.Color.Transparent;
-            this.PlayFail_CB.Location = new System.Drawing.Point(464, 188);
+            this.PlayFail_CB.Location = new System.Drawing.Point(464, 180);
             this.PlayFail_CB.Name = "PlayFail_CB";
             this.PlayFail_CB.Size = new System.Drawing.Size(114, 17);
             this.PlayFail_CB.TabIndex = 0;
@@ -102,7 +108,7 @@
             // 
             this.PlayWinSound_CB.AutoSize = true;
             this.PlayWinSound_CB.BackColor = System.Drawing.Color.Transparent;
-            this.PlayWinSound_CB.Location = new System.Drawing.Point(220, 193);
+            this.PlayWinSound_CB.Location = new System.Drawing.Point(220, 180);
             this.PlayWinSound_CB.Name = "PlayWinSound_CB";
             this.PlayWinSound_CB.Size = new System.Drawing.Size(120, 17);
             this.PlayWinSound_CB.TabIndex = 1;
@@ -116,7 +122,7 @@
             this.NextStep_CB.Checked = true;
             this.NextStep_CB.CheckState = System.Windows.Forms.CheckState.Checked;
             this.NextStep_CB.Enabled = false;
-            this.NextStep_CB.Location = new System.Drawing.Point(220, 150);
+            this.NextStep_CB.Location = new System.Drawing.Point(220, 137);
             this.NextStep_CB.Name = "NextStep_CB";
             this.NextStep_CB.Size = new System.Drawing.Size(120, 17);
             this.NextStep_CB.TabIndex = 3;
@@ -165,7 +171,7 @@
             this.Ok_PB.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.Ok_PB.FlatAppearance.BorderSize = 0;
             this.Ok_PB.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Ok_PB.Location = new System.Drawing.Point(452, 302);
+            this.Ok_PB.Location = new System.Drawing.Point(310, 308);
             this.Ok_PB.Margin = new System.Windows.Forms.Padding(0);
             this.Ok_PB.Name = "Ok_PB";
             this.Ok_PB.Size = new System.Drawing.Size(48, 48);
@@ -177,9 +183,9 @@
             // 
             // txtCorrectCode
             // 
-            this.txtCorrectCode.Location = new System.Drawing.Point(347, 261);
+            this.txtCorrectCode.Location = new System.Drawing.Point(203, 227);
             this.txtCorrectCode.Name = "txtCorrectCode";
-            this.txtCorrectCode.Size = new System.Drawing.Size(53, 20);
+            this.txtCorrectCode.Size = new System.Drawing.Size(37, 20);
             this.txtCorrectCode.TabIndex = 10;
             this.txtCorrectCode.TextChanged += new System.EventHandler(this.txtCorrectCode_TextChanged);
             this.txtCorrectCode.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCorrectCode_KeyPress);
@@ -188,7 +194,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.BackColor = System.Drawing.Color.Transparent;
-            this.label4.Location = new System.Drawing.Point(217, 230);
+            this.label4.Location = new System.Drawing.Point(32, 230);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(110, 13);
             this.label4.TabIndex = 11;
@@ -198,28 +204,93 @@
             // 
             this.label5.AutoSize = true;
             this.label5.BackColor = System.Drawing.Color.Transparent;
-            this.label5.Location = new System.Drawing.Point(460, 227);
+            this.label5.Location = new System.Drawing.Point(381, 230);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(118, 13);
             this.label5.TabIndex = 13;
             this.label5.Text = "TIncorrect Event Code:";
             // 
-            // textBox2
+            // txtIncorrectCode
             // 
-            this.textBox2.Location = new System.Drawing.Point(539, 261);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(53, 20);
-            this.textBox2.TabIndex = 12;
-            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
-            this.textBox2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox2_KeyPress);
+            this.txtIncorrectCode.Location = new System.Drawing.Point(533, 227);
+            this.txtIncorrectCode.Name = "txtIncorrectCode";
+            this.txtIncorrectCode.Size = new System.Drawing.Size(37, 20);
+            this.txtIncorrectCode.TabIndex = 12;
+            this.txtIncorrectCode.TextChanged += new System.EventHandler(this.txtIncorrectCode_TextChanged);
+            this.txtIncorrectCode.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtIncorrectCode_KeyPress);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.BackColor = System.Drawing.Color.Transparent;
+            this.label6.Location = new System.Drawing.Point(382, 274);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(142, 13);
+            this.label6.TabIndex = 17;
+            this.label6.Text = "Enter Target Window Event:";
+            // 
+            // txtFixETW
+            // 
+            this.txtFixETW.Location = new System.Drawing.Point(533, 273);
+            this.txtFixETW.Name = "txtFixETW";
+            this.txtFixETW.Size = new System.Drawing.Size(37, 20);
+            this.txtFixETW.TabIndex = 16;
+            this.txtFixETW.TextChanged += new System.EventHandler(this.txtFixETW_TextChanged);
+            this.txtFixETW.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFixETW_KeyPress);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.BackColor = System.Drawing.Color.Transparent;
+            this.label7.Location = new System.Drawing.Point(32, 273);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(147, 13);
+            this.label7.TabIndex = 15;
+            this.label7.Text = "Enter Fixation Window Event:";
+            // 
+            // txtFixEFW
+            // 
+            this.txtFixEFW.Location = new System.Drawing.Point(203, 271);
+            this.txtFixEFW.Name = "txtFixEFW";
+            this.txtFixEFW.Size = new System.Drawing.Size(37, 20);
+            this.txtFixEFW.TabIndex = 14;
+            this.txtFixEFW.TextChanged += new System.EventHandler(this.txtFixEFW_TextChanged);
+            this.txtFixEFW.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFixEFW_KeyPress);
+            // 
+            // txtFixationTime_ET
+            // 
+            this.txtFixationTime_ET.Location = new System.Drawing.Point(203, 318);
+            this.txtFixationTime_ET.Name = "txtFixationTime_ET";
+            this.txtFixationTime_ET.Size = new System.Drawing.Size(37, 20);
+            this.txtFixationTime_ET.TabIndex = 22;
+            this.txtFixationTime_ET.Text = "0";
+            this.txtFixationTime_ET.TextChanged += new System.EventHandler(this.txtFixationTime_ET_TextChanged);
+            this.txtFixationTime_ET.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFixationTime_ET_KeyPress);
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.BackColor = System.Drawing.Color.Transparent;
+            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
+            this.label13.Location = new System.Drawing.Point(32, 321);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(82, 13);
+            this.label13.TabIndex = 21;
+            this.label13.Text = "Fixation Time";
             // 
             // FixationSetting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(640, 400);
+            this.Controls.Add(this.txtFixationTime_ET);
+            this.Controls.Add(this.label13);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.txtFixETW);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.txtFixEFW);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.txtIncorrectCode);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.txtCorrectCode);
             this.Controls.Add(this.Ok_PB);
@@ -255,6 +326,12 @@
         private System.Windows.Forms.TextBox txtCorrectCode;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox txtIncorrectCode;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox txtFixETW;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox txtFixEFW;
+        private System.Windows.Forms.TextBox txtFixationTime_ET;
+        private System.Windows.Forms.Label label13;
     }
 }

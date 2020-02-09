@@ -7,6 +7,7 @@ using System.IO;
 using System.Media;
 using TaskDesigner;
 using Basics;
+using static Psychophysics.Designer;
 
 namespace TaskRunning
 {
@@ -18,7 +19,7 @@ namespace TaskRunning
 		PsycophysicTasks _task;
 		
 		// ROI
-		bool InROI = false;
+		int InROI = -1;
 		bool sacInAppend;
 		public bool _useGaz = false, _userClosed = true;
 		bool ETW, EFW, AFW;
@@ -31,18 +32,17 @@ namespace TaskRunning
 		Graphics opFlagGraphics;
 		float _screenRationX, _screenRatioY;
 		FixationPts stimulus;
-		FixationPts fixationstimulus;
+        ObjectProp[] _frameFixates;
 		Pen fixationp;
 		SolidBrush sb;
 		Bitmap bmpvar, bmpvarOp;
 		int numberstimulus;
 		readonly object timerLock = new object(), eventLock = new object();
 		bool containfixation = false;
-		double FixationCenterX = 0, FixationCenterY = 0, FixationCenterWidth = 0;
+		
 		double preFixationCenterX, preFixationCenterY, preFixationCenterWidth;
-		int FixationCenterTime = 0;
-		int FixationRewardType = 0;
-		Stopwatch FixationSW = new Stopwatch();
+        int _frameTimeLimit;
+        Stopwatch FixationSW = new Stopwatch(), _frameWatch = new Stopwatch();
 		public int[] RandForTaskLevel;
 		int indexRandForTaskLevel = -1;
 		//int trialCounter;
@@ -118,95 +118,91 @@ namespace TaskRunning
 			}
 		}
 
-		void Timer1_Tick(object sender, EventArgs e)
-		{
-			Timer1.Stop();
-			Timer1.Enabled = false;
-			lock (timerLock)
-			{
-				if (_task.Brake)
-				{
-					StopRun(true);
-					return;
-				}
+        void Timer1_Tick(object sender, EventArgs e)
+        {
+            if (!(fixatehappened || fixateBreak || _frameWatch.ElapsedMilliseconds > _frameTimeLimit))
+                return;
+            Timer1.Stop();
+            Timer1.Enabled = false;
 
-				#region fixatehappened
+            if (_task.Brake)
+            {
+                StopRun(true);
+                return;
+            }
 
-				if (!_useGaz)
-				{
-					if (!NextFrame())
-						return;
-				}
+            #region fixatehappened
 
-				else
-				{
-					if (!containfixation)
-					{
-						if (!NextFrame())
-							return;
-					}
-					else
-					{
-						if (fixatehappened)
-						{
-							Debug.Write("true fixate falsed");
-							fixatehappened = false;
-							if (FixationRewardType == 2 || FixationRewardType == 4)
-								winSound.Play();
+            if (!_useGaz)
+            {
+                if (!NextFrame())
+                    return;
+            }
 
-							if (!NextFrame())
-								return;
-						}
-						else
-						{
-							if (FixationRewardType == 3 || FixationRewardType == 4)
-								failSound.Play();
+            else
+            {
+                if (!containfixation)
+                {
+                    if (!NextFrame())
+                        return;
+                }
+                else
+                {
+                    if (fixatehappened)
+                    {
+                        Debug.Write("true fixate falsed");
+                        fixatehappened = false;
+                        if (_task.AllLevelProp[level][frame].RewardType == 2 || _task.AllLevelProp[level][frame].RewardType == 4)
+                            winSound.Play();
 
-							if (!NextTrial())
-								return;
+                        if (!NextFrame())
+                            return;
+                    }
+                    else
+                    {
+                        if (_task.AllLevelProp[level][frame].RewardType == 3 || _task.AllLevelProp[level][frame].RewardType == 4)
+                            failSound.Play();
 
-						}
-					}
-				}
+                        if (!NextTrial())
+                            return;
 
-				#endregion
-				Timer1.Start();
-				Timer1.Enabled = true;
-				//LoopWatch.Restart();
-			}
+                    }
+                }
+            }
 
-			return;
-		}
+            #endregion
+            Timer1.Start();
+            Timer1.Enabled = true;
+            //LoopWatch.Restart();
+
+
+            return;
+        }
 
 		bool NextFrame()
 		{
 			frame++;
 			Debug.Write("\n" + level.ToString() + " " + frame.ToString() + "\n");
-			InROI = false;
+			InROI = -1;
+            sacInAppend = true;
 			fixatehappened = false;
 			fixateBreak = false;
 			if (frame < framelimit)
 			{
-				Timer1.Interval = _task.AllLevelProp[level][frame].FrameTime;
-				FixationRewardType = _task.AllLevelProp[level][frame].RewardType;
-				fixationstimulus = _task.AllLevelProp[level][frame].Fixation;
-				if (fixationstimulus.Xloc != -1)
+                Timer1.Interval = 15;
+                _frameWatch.Reset();
+                _frameTimeLimit = _task.AllLevelProp[level][frame].FrameTime;
+                _frameFixates = null;
+               
+				if (_task.AllLevelProp[level][frame].Fixation.Count > 0)
 				{
 					containfixation = true;
-					if (fixationstimulus.Type == 3)
-					{
+                    _frameFixates = _task.AllLevelProp[level][frame].Fixation.ToArray();
 
-						preFixationCenterX = FixationCenterX;
-						FixationCenterX = fixationstimulus.Xloc;
-						preFixationCenterY = FixationCenterY;
-						FixationCenterY = fixationstimulus.Yloc;
-						preFixationCenterWidth = FixationCenterWidth;
-						FixationCenterWidth = fixationstimulus.Width;
-						FixationCenterTime = _task.AllLevelProp[level][frame].FixationTime;
-					}
-				}
+                }
 				else
 					containfixation = false;
+
 				AllocateFrame();
 				GenFrameEvents();
 				return true;
@@ -352,24 +348,12 @@ namespace TaskRunning
                         _portAccess.Write((short)_task.AllLevelProp[level][frame].events.stimOff);
 					AppendEventData("StimOff", _task.AllLevelProp[level][frame].events.stimOff.ToString());
 				}
-				if (_task.AllLevelProp[level][frame].events.enterFixWindow != -1)
-					EFW = true;
-				else
-					EFW = false;
+				
 				if (_task.AllLevelProp[level][frame].events.abortFixWindow != -1)
 					AFW = true;
 				else
 					AFW = false;
-				if (_task.AllLevelProp[level][frame].events.enterTargetWindow != -1)
-				{
-					ETW = true;
-					sacInAppend = true;
-				}
-				else
-				{ 
-					ETW = false;
-					sacInAppend = false;
-				}
+				
 			}
 		}
 
@@ -451,22 +435,19 @@ namespace TaskRunning
 				if (containfixation && opFlagGraphics != null)
 				{
 
-					#region add fixation
-					//opFlag = BitmapManager.DrawOn(flag, new Size(opFlagWidth, opFlagHeight), Color.White);
-					
-					fixationstimulus = _task.AllLevelProp[level][frame].Fixation;
-					//Use Solid Brush for filling the graphic shapes
-					fixationp = new Pen(fixationstimulus.ColorPt);
-
-					if (fixationstimulus.Type == 3)
-					{
-						opFlagGraphics.DrawEllipse(fixationp,_screenRationX *( fixationstimulus.Xloc - fixationstimulus.Width / 2), _screenRatioY * (fixationstimulus.Yloc - fixationstimulus.Width / 2), fixationstimulus.Width * _screenRationX, fixationstimulus.Width * _screenRatioY);
-						opFlagGraphics.Flush();
-						
-					}
-					#endregion
-
-				}
+                    #region add fixation
+                    //opFlag = BitmapManager.DrawOn(flag, new Size(opFlagWidth, opFlagHeight), Color.White);
+                    for (int fixC = 0; fixC < _frameFixates.Length; fixC++)
+                    {
+                        //Use Solid Brush for filling the graphic shapes
+                        fixationp = new Pen(_frameFixates[fixC].ColorPt);
+                                             
+                        opFlagGraphics.DrawEllipse(fixationp, _screenRationX * (_frameFixates[fixC].Xloc - _frameFixates[fixC].Width / 2), _screenRatioY * (_frameFixates[fixC].Yloc - _frameFixates[fixC].Width / 2), _frameFixates[fixC].Width * _screenRationX, _frameFixates[fixC].Width * _screenRatioY);
+                            
+                    }
+                    #endregion
+                    opFlagGraphics.Flush();
+                }
 				#endregion
 				
 
@@ -527,102 +508,140 @@ namespace TaskRunning
 			}
 		}
 
-		void CheckPointInROI(double[] Point)
-		{
-			lock (timerLock)
-			{
-				if (fixatehappened || fixateBreak)
-					return;
+        void CheckPointInROI(double[] Point)
+        {
 
-				double dist1, dist2;
-				dist1 = (Point[0] - FixationCenterX) * (Point[0] - FixationCenterX) + (Point[1] - FixationCenterY) * (Point[1] - FixationCenterY);
-				if (sacInAppend)
-				{
-					Debug.Write("d2" + dist1.ToString() + "\n");
-					dist2 = (Point[0] - preFixationCenterX) * (Point[0] - preFixationCenterX) + (Point[1] - preFixationCenterY) * (Point[1] - preFixationCenterY);
-					if (dist2 > preFixationCenterWidth * preFixationCenterWidth)
-					{
-						if (_portAccess != null)
-							_portAccess.Write((short) _task.AllLevelProp[level][frame].events.saccadInit);
-						sacInAppend = false;
-						AppendEventData("SacIn", _task.AllLevelProp[level][frame].events.saccadInit.ToString());
-					}
-				}
+            if (!containfixation  || fixatehappened || fixateBreak)
+                return;
 
-				#region check dist fixate
-				if (dist1 < FixationCenterWidth * FixationCenterWidth)
-				{
-					Debug.Write("in : d1 " + dist1.ToString() + "\n");
+            double dist1, dist2;
+            
+            if (sacInAppend && _task.AllLevelProp[level][frame].events.saccadInit != -1)
+            {
+                
+                dist2 = (Point[0] - preFixationCenterX) * (Point[0] - preFixationCenterX) + (Point[1] - preFixationCenterY) * (Point[1] - preFixationCenterY);
+                if (dist2 > preFixationCenterWidth * preFixationCenterWidth)
+                {
+                    if (_portAccess != null)
+                        _portAccess.Write((short)_task.AllLevelProp[level][frame].events.saccadInit);
+                    sacInAppend = false;
+                    AppendEventData("SacIn", _task.AllLevelProp[level][frame].events.saccadInit.ToString());
+                }
+            }
+            int selFix = -1;
+            for (int fixIter = 0; fixIter < _frameFixates.Length; fixIter++)
+            {
+                dist1 = (Point[0] - _frameFixates[fixIter].Xloc) * (Point[0] - _frameFixates[fixIter].Xloc) + (Point[1] - _frameFixates[fixIter].Yloc) * (Point[1] - _frameFixates[fixIter].Yloc);
+                //Debug.Write("d2" + dist1.ToString() + "\n");
 
-					if (!InROI)
-					{
-						Debug.Write("ROI false" + dist1.ToString() + "\n");
-						InROI = true;
-						FixationCenterTime = _task.AllLevelProp[level][frame].FixationTime;
-						FixationSW.Reset();
-						FixationSW.Start();
-						if (ETW)
-						{
-							if (_portAccess != null)
-								 _portAccess.Write((short)_task.AllLevelProp[level][frame].events.enterTargetWindow);
-							AppendEventData("ETW", _task.AllLevelProp[level][frame].events.enterTargetWindow.ToString());
-						}
-						if (EFW)
-						{
-							if (_portAccess != null)
-                                _portAccess.Write((short)_task.AllLevelProp[level][frame].events.enterFixWindow);
-							AppendEventData("EFW", _task.AllLevelProp[level][frame].events.enterFixWindow.ToString());
-						}
-					}
-					else
-					{
-						Debug.Write("ROI true" + FixationSW.ElapsedMilliseconds.ToString() + "  " + FixationCenterTime + " " + dist1.ToString() + "\n");
-
-						if (FixationSW.ElapsedMilliseconds >= FixationCenterTime)
-						{
-							Debug.Write("hold " + level.ToString() + " " + frame.ToString() + "\n");
-							if (ETW)
-							{
-								if (_portAccess != null)
+                #region check dist fixate
+                if (dist1 < _frameFixates[fixIter].Width * _frameFixates[fixIter].Width)
+                {
+                    //Debug.Write("in : d1 " + dist1.ToString() + "\n");
+                    selFix = fixIter;
+                }
+            }
+            if (selFix > -1) // check the fixation selected............................
+            {
+                if (InROI == -1)
+                {
+                    InROI = selFix;
+                    FixationSW.Reset();
+                    FixationSW.Start();
+                    if (_task.AllLevelProp[level][frame].Fixation[selFix].ETW > -1)
+                    {
+                        if (_portAccess != null)
+                            _portAccess.Write((short)_task.AllLevelProp[level][frame].Fixation[selFix].ETW);
+                        AppendEventData("ETW" + selFix.ToString(), _task.AllLevelProp[level][frame].Fixation[selFix].ETW.ToString());
+                    }
+                    if (_task.AllLevelProp[level][frame].Fixation[selFix].EFW > -1)
+                    {
+                        if (_portAccess != null)
+                            _portAccess.Write((short)_task.AllLevelProp[level][frame].Fixation[selFix].EFW);
+                        AppendEventData("EFW" + selFix.ToString(), _task.AllLevelProp[level][frame].Fixation[selFix].EFW.ToString());
+                    }
+                }
+                else
+                {
+                    //Debug.Write("ROI true" + FixationSW.ElapsedMilliseconds.ToString() + "  " + FixationCenterTime + " " + dist1.ToString() + "\n");
+                    if (InROI == selFix)
+                    {
+                        if (FixationSW.ElapsedMilliseconds >= _task.AllLevelProp[level][frame].Fixation[selFix].Time)
+                        {
+                            //Debug.Write("hold " + level.ToString() + " " + frame.ToString() + "\n");
+                            if (_task.AllLevelProp[level][frame].events.saccadLand > -1)
+                            {
+                                if (_portAccess != null)
                                     _portAccess.Write((short)_task.AllLevelProp[level][frame].events.saccadLand);
-								AppendEventData("SacLan", _task.AllLevelProp[level][frame].events.saccadLand.ToString());
-							}
-							fixatehappened = true;
-							FixationSW.Reset();
-							InROI = false;
-							//Timer1_Tick(null, null);
-
-							return;
-						}
-
-					}
-				}
-				#endregion
-				#region else check fixate
-				else
-				{
-					Debug.Write("out : d1 " + FixationSW.ElapsedMilliseconds + " " + FixationCenterTime + " " + dist1.ToString() + "\n");
-					if (InROI && FixationSW.ElapsedMilliseconds < FixationCenterTime)
-					{
-						if (AFW)
-						{
-							if (_portAccess != null)
+                                AppendEventData("SacLan", _task.AllLevelProp[level][frame].events.saccadLand.ToString());
+                            }
+                            if (_task.AllLevelProp[level][frame].Fixation[selFix].CorrectEventCode > -1)
+                            {
+                                if (_portAccess != null)
+                                    _portAccess.Write((short)_task.AllLevelProp[level][frame].Fixation[selFix].CorrectEventCode);
+                                AppendEventData("Correct" + selFix.ToString(), _task.AllLevelProp[level][frame].Fixation[selFix].CorrectEventCode.ToString());
+                            }
+                            if (_task.AllLevelProp[level][frame].Fixation[selFix].INcorrectEventCode > -1)
+                            {
+                                if (_portAccess != null)
+                                    _portAccess.Write((short)_task.AllLevelProp[level][frame].Fixation[selFix].INcorrectEventCode);
+                                AppendEventData("Incorrect" + selFix.ToString(), _task.AllLevelProp[level][frame].Fixation[selFix].INcorrectEventCode.ToString());
+                            }
+                            preFixationCenterWidth = _task.AllLevelProp[level][frame].Fixation[selFix].Width;
+                            preFixationCenterX = _task.AllLevelProp[level][frame].Fixation[selFix].Xloc;
+                            preFixationCenterY = _task.AllLevelProp[level][frame].Fixation[selFix].Yloc;
+                            fixateBreak = false;
+                            FixationSW.Reset();
+                            fixatehappened = true;
+                             
+                            
+                            return;
+                        }
+                    }
+                    else
+                    {
+                       
+                        if (AFW)
+                        {
+                            if (_portAccess != null)
                                 _portAccess.Write((short)_task.AllLevelProp[level][frame].events.abortFixWindow);
-							AppendEventData("AFW", _task.AllLevelProp[level][frame].events.abortFixWindow.ToString());
-						}
-						InROI = false;
-						fixateBreak = true;
-						fixatehappened = false;
-						FixationSW.Reset();
-						//Timer1_Tick(null, null);
-						return;
-					}
-					
-					
-				}
-				#endregion
-			}
-		}
+                            AppendEventData("AFW", _task.AllLevelProp[level][frame].events.abortFixWindow.ToString());
+                        }
+                        InROI = -1;
+                        fixatehappened = false;
+                        fixateBreak = true;
+                       
+                    }
+
+                }
+            }
+
+            #endregion
+            #region else check fixate
+            else
+            {
+                //Debug.Write("out : d1 " + FixationSW.ElapsedMilliseconds + " " + FixationCenterTime + " " + dist1.ToString() + "\n");
+                if (InROI > -1 && FixationSW.ElapsedMilliseconds < _task.AllLevelProp[level][frame].Fixation[selFix].Time)
+                {
+                    if (AFW)
+                    {
+                        if (_portAccess != null)
+                            _portAccess.Write((short)_task.AllLevelProp[level][frame].events.abortFixWindow);
+                        AppendEventData("AFW", _task.AllLevelProp[level][frame].events.abortFixWindow.ToString());
+                    }
+                    InROI = -1;
+                    fixatehappened = false;
+                    FixationSW.Reset();
+                    fixateBreak = true;
+                                     
+                    return;
+                }
+
+
+            }
+            #endregion
+
+        }
 
 		void ShowFrame_KeyDown(object sender, KeyEventArgs e)
 		{

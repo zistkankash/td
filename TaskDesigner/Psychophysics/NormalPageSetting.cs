@@ -493,10 +493,10 @@ namespace Psychophysics
                     //Form1.AddedFixationbyFrameTool.Add(FixationPoint);
                     //Form1.FixationIndexes.Add(frameindex + 1);
 
-                    FixationPoint.FrameIndex = frameindex + 1;
-                    FixationPoint.Type = 7;
-                    FixationPoint.Enable = true;
-                    fixationList[frameindex] = FixationPoint;
+                    //FixationPoint.FrameIndex = frameindex + 1;
+                    //FixationPoint.Type = 7;
+                    //FixationPoint.Enable = true;
+                    //fixationList[frameindex] = FixationPoint;
 
                     if (Arrow_CB.Checked)
                     {

@@ -33,7 +33,7 @@ namespace Psychophysics
 		int moveObjectX = 0, moveObjectY = 0;
 		int indexMoveObject = -1;
 		
-		int PicBCnt = 1, ActivePicB = 1, _fixateAreaSelected;
+		public static int PicBCnt = 1, ActivePicB = 1, _fixateAreaSelected;
 		bool FixationSelected = false;
 		String ImagePath = " ";
 		public static List<Bitmap> BitmapPicB = new List<Bitmap>();
@@ -191,18 +191,15 @@ namespace Psychophysics
                 DeletedFrames.Add(0);
 
                 // Fixation setting
-                ObjectProp fixation = new ObjectProp();
+                
                 List<ObjectProp> fixList = new List<ObjectProp>();
-                fixList.Add(fixation);
+               
                 fixationList.Add(fixList);
-                FixationTime_ET.Text = Convert.ToString(fixationList[0][0].Time);
-                FixationTime_ET.Enabled = false;
-
+                
                 Bitmap objBitmap = new Bitmap(BitmapPicB[0], new Size(PicB1.Width, PicB1.Height));
                 PicB1.Image = objBitmap;
 				
-				//SelectRewardType_CB.SelectedIndex = Reward[ActivePicB - 1];
-				//RewardType_LB.Text = Reward[ActivePicB - 1].ToString();
+				
 				UpdateTreeView(ActivePicB - 1);
             }
 			#endregion
@@ -328,12 +325,15 @@ namespace Psychophysics
                     fixation.SetProps(Convert.ToInt16(e.X * 100 / ViewSize), Convert.ToInt16(e.Y * 100 / ViewSize), width, width, CircleType, ActivePicB, true, btn_PenColor.BackColor);
                     fixation.ConvertToDeg();
                     fixationList[ActivePicB - 1].Add(fixation);
-                    fixation.Time = int.Parse(FixationTime_ET.Text);
+                   
+                    FixationSetting_BT.Enabled = true;
+                    _fixateAreaSelected = fixationList[ActivePicB - 1].Count - 1;
+                    //fixation.Time = int.Parse(FixationTime_ET.Text);
                     UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList);
 
                     Reward[ActivePicB - 1] = 0;
-                    FixationTime_ET.Text = Convert.ToString(fixationList[ActivePicB - 1][fixationList[ActivePicB - 1].Count - 1].Time);
-                    FixationTime_ET.Enabled = false;
+                    
+                    
                 }
 
                
@@ -495,8 +495,7 @@ namespace Psychophysics
             // Fixation setting
             List<ObjectProp> fixList = new List<ObjectProp>();
             fixationList.Add(fixList);
-            FixationTime_ET.Enabled = false;
-
+           
             // Adding new Bitmap image to the list
             Bitmap bmpVar = new Bitmap(frameList[0].frameWidth, frameList[0].frameHeight, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
             BitmapPicB.Add(bmpVar);
@@ -524,7 +523,9 @@ namespace Psychophysics
 
 		private void FixationSetting_BT_Click(object sender, EventArgs e)
         {
-            FixationSetting FixationSettingForm = new FixationSetting(Reward[ActivePicB - 1], ActivePicB - 1);
+            FixationSetting FixationSettingForm = new FixationSetting();
+            FixationSetting_BT.Enabled = false;
+
 			FixationSettingForm.ShowDialog();
             //FixationSettingForm.FormClosing += delegate {
                 //UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList);
@@ -536,11 +537,12 @@ namespace Psychophysics
 		private void FixationShapeActive_BT_Click(object sender, EventArgs e)
 		{
 			FixationSelected = true;
+            FixationSetting_BT.Enabled = false;
 			Shape_Panel.Enabled = true;
 			Shape_Panel.Visible = true;
 			SquareShape_BT.Visible = false;
 			RectangleShape_BT.Visible = false;
-			FixationTime_ET.Enabled = true;
+			//FixationTime_ET.Enabled = true;
 			Shape_Panel.BackColor = Color.Green;
 		}
 
@@ -699,11 +701,6 @@ namespace Psychophysics
 			Picture_Panel.BackColor = Color.Green;
 		}          
 
-		private void FixationTime_ET_TextChanged(object sender, EventArgs e)
-        {
-            fixationList[ActivePicB - 1][_fixateAreaSelected].Time = int.Parse(FixationTime_ET.Text);
-		}              
-
 		private void PicB_Click(object sender, EventArgs e)
         {
 			panel1.Select();
@@ -737,14 +734,7 @@ namespace Psychophysics
 			newGr.DrawRectangle(new Pen(Color.Red, 1), new Rectangle(picb.Location.X - 1, picb.Location.Y - 1, picb.Width + 1, picb.Height + 1));
 
 			FrameTime_ET.Text = Convert.ToString(frameList[ActivePicB - 1].Time);
-            if (fixationList[ActivePicB - 1].Count > 0)
-            {
-                FixationTime_ET.Text = Convert.ToString(fixationList[ActivePicB - 1][0].Time);
-                if (fixationList[ActivePicB - 1][0].Type == 1)
-                    FixationTime_ET.Enabled = true;
-                else
-                    FixationTime_ET.Enabled = false;
-            }
+           
             gr = Graphics.FromImage(BitmapPicB[ActivePicB - 1]);
                        
             BgColor_BT.BackColor = frameList[ActivePicB - 1].frameColor;
@@ -894,7 +884,7 @@ namespace Psychophysics
 				//Objects_TV.Nodes[0].Nodes.Add("Fixation window:");
                 for (int i = 0; i < fixationList[index].Count(); i++)
                 {
-                    Objects_TV.Nodes[0].Nodes.Add("fix" + i);
+                    Objects_TV.Nodes[0].Nodes.Add("Fixation " + i);
                 }
             }
 			Objects_TV.Nodes[1].Nodes.Clear();
@@ -904,7 +894,7 @@ namespace Psychophysics
                 if (stimulusList[i].FrameIndex != index + 1)
                     continue;
                
-                Objects_TV.Nodes[1].Nodes.Add("St" + i);
+                Objects_TV.Nodes[1].Nodes.Add("Stimulus " + i);
             }
             
 
@@ -1262,6 +1252,7 @@ namespace Psychophysics
         #endregion
 
         #region UpdatePictures-D
+
         private void UpdateFrame(int index, List<FrameProp> FrameObjs, List<ObjectProp> FixationObjs, List<ObjectProp> StimulusObjs)
         {
             if (index < 0)
@@ -1383,7 +1374,9 @@ namespace Psychophysics
 			
 		}   
         #endregion
+        
         #region FrameProp-D
+        
         public class FrameProp
         {
             public int frameWidth, frameHeight, Time;
@@ -1418,7 +1411,9 @@ namespace Psychophysics
             }
 
         }
+        
         #endregion
+        
         #region objectprop-D
 
         public class ObjectProp
@@ -1429,7 +1424,9 @@ namespace Psychophysics
             public int Contrast;
             public Color ColorPt;
             public string PathPic;
-            
+
+            public int CorrectEventCode = -1, INcorrectEventCode = -1, _rewardType = -1,  EFW = -1, ETW = -1;
+
 			public ObjectProp()
             {
                 Xloc = -1;
@@ -1443,6 +1440,9 @@ namespace Psychophysics
                 Contrast = 255;
                 PathPic = "";
                 ColorPt = Color.Black;
+                CorrectEventCode = -1;
+                INcorrectEventCode = -1;
+                _rewardType = -1;
             }
 
             public void SetContrastPts(int contrast)
@@ -1624,7 +1624,8 @@ namespace Psychophysics
 			if (IdName == 'F')
 			{
                 _fixateAreaSelected = int.Parse(Regex.Match(Name, @"\d+").Value);
-
+                FixationSetting_BT.Enabled = true;
+               
                 MetroFramework.Forms.MetroForm prompt = new MetroFramework.Forms.MetroForm();
 				prompt.ShowIcon = false;
 				prompt.TopMost = true;
@@ -1657,7 +1658,7 @@ namespace Psychophysics
 				prompt.Controls.Add(TimeTextBox);
 				prompt.Controls.Add(RemoveButton);
 				prompt.ShowDialog();
-				prompt.BringToFront();
+				
 			}
 
 			if (IdName == 'S')

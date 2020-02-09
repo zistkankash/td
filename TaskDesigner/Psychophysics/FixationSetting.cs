@@ -10,14 +10,11 @@ namespace Psychophysics
 {
     public partial class FixationSetting : XCoolForm.XCoolForm
     {
-        int index;
-		
-		public FixationSetting(int rewardType, int index)
+       	
+		public FixationSetting()
         {
             InitializeComponent();
-            this.index = index;
-			//DifineRewardType(rewardType);
-			
+          	
         }
         #region Theme
         
@@ -48,27 +45,47 @@ namespace Psychophysics
         {
             this.StatusBar.EllipticalGlow = false;
 
-			if(Designer.Reward[index] == 1)
+			if(Designer.Reward[Designer.ActivePicB - 1] == 1)
 			{
 				PlayFail_CB.Checked = false;
 				PlayWinSound_CB.Checked = false;
 			}
-			if (Designer.Reward[index] == 2)
+			if (Designer.Reward[Designer.ActivePicB - 1] == 2)
 			{
 				PlayFail_CB.Checked = false;
 				PlayWinSound_CB.Checked = true;
 			}
-			if (Designer.Reward[index] == 3)
+			if (Designer.Reward[Designer.ActivePicB - 1] == 3)
 			{
 				PlayFail_CB.Checked = true;
 				PlayWinSound_CB.Checked = false;
 			}
-			if (Designer.Reward[index] == 4)
+			if (Designer.Reward[Designer.ActivePicB - 1] == 4)
 			{
 				PlayFail_CB.Checked = true;
 				PlayWinSound_CB.Checked = true;
 			}
-			this.XCoolFormHolderButtonClick += new XCoolFormHolderButtonClickHandler(frmCoolForm_XCoolFormHolderButtonClick);
+            
+            if (Designer.fixationList[Designer.ActivePicB - 1][Designer._fixateAreaSelected].CorrectEventCode > -1)
+            {
+                txtCorrectCode.Text = Designer.fixationList[Designer.ActivePicB - 1][Designer._fixateAreaSelected].CorrectEventCode.ToString();
+            }
+            if (Designer.fixationList[Designer.ActivePicB - 1][Designer._fixateAreaSelected].INcorrectEventCode > -1)
+            {
+                txtIncorrectCode.Text = Designer.fixationList[Designer.ActivePicB - 1][Designer._fixateAreaSelected].INcorrectEventCode.ToString();
+            }
+            if (Designer.fixationList[Designer.ActivePicB - 1][Designer._fixateAreaSelected].ETW > -1)
+            {
+                txtFixETW.Text = Designer.fixationList[Designer.ActivePicB - 1][Designer._fixateAreaSelected].ETW.ToString();
+            }
+            if (Designer.fixationList[Designer.ActivePicB - 1][Designer._fixateAreaSelected].EFW > -1)
+            {
+                txtFixEFW.Text = Designer.fixationList[Designer.ActivePicB - 1][Designer._fixateAreaSelected].EFW.ToString();
+            }
+            
+            txtFixationTime_ET.Text = Convert.ToString(Designer.fixationList[Designer.ActivePicB - 1][Designer._fixateAreaSelected].Time);
+
+            this.XCoolFormHolderButtonClick += new XCoolFormHolderButtonClickHandler(frmCoolForm_XCoolFormHolderButtonClick);
             xtl.ThemeForm = this;
             SetTheme();
 
@@ -91,42 +108,7 @@ namespace Psychophysics
         }
 
         #endregion
-
-        private void DifineRewardType(int type)
-        {
-            byte[] intBytes = BitConverter.GetBytes(type);
-
-            BitArray b = new BitArray(intBytes);
-            for (int i  = 0; i < b.Length; i++)
-            {
-                Debug.Write("Byte"+ i + " " + b[i]+ "\n");
-            }
-
-
-            NextStep_CB.Checked = b[4];
-            //SetDaq_CB.Checked = b[3];
-            PlayWinSound_CB.Checked = b[2];
-            NextTrial_CB.Checked = b[1];
-            PlayFail_CB.Checked = b[0];
-
-            CheckFix_CB.Checked = b[6];
-            HoldFix_CB.Checked = b[5];
-
-        }
-
-        private void CheckFix_CB_CheckedChanged(object sender, EventArgs e)
-        {
-            NextStep_CB.Enabled = CheckFix_CB.Checked;
-            //SetDaq_CB.Enabled = CheckFix_CB.Checked;
-            PlayWinSound_CB.Enabled = CheckFix_CB.Checked;
-            NextTrial_CB.Enabled = CheckFix_CB.Checked;
-            PlayFail_CB.Enabled = CheckFix_CB.Checked;
-        }
-
-        private void HoldFix_CB_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
+          
 
         private void Condition_CB_CheckedChanged(object sender, EventArgs e)
         {
@@ -180,26 +162,26 @@ namespace Psychophysics
             
 			if(!PlayFail_CB.Checked && !PlayWinSound_CB.Checked  )
 			{
-				Designer.Reward[index] = 1;
+				Designer.Reward[Designer.ActivePicB -1] = 1;
 			}
 			if (!PlayFail_CB.Checked && PlayWinSound_CB.Checked)
 			{
-				Designer.Reward[index] = 2;
+				Designer.Reward[Designer.ActivePicB - 1] = 2;
 			}
 			if (PlayFail_CB.Checked && !PlayWinSound_CB.Checked)
 			{
-				Designer.Reward[index] = 3;
+				Designer.Reward[Designer.ActivePicB - 1] = 3;
 			}
 			if (PlayFail_CB.Checked && PlayWinSound_CB.Checked)
 			{
-				Designer.Reward[index] = 4;
+				Designer.Reward[Designer.ActivePicB - 1] = 4;
 			}
 			this.Close();
         }
 
         private void txtCorrectCode_TextChanged(object sender, EventArgs e)
         {
-
+            Designer.fixationList[Designer.ActivePicB - 1][Designer._fixateAreaSelected].CorrectEventCode = int.Parse(txtCorrectCode.Text);
         }
 
         private void txtCorrectCode_KeyPress(object sender, KeyPressEventArgs e)
@@ -218,9 +200,57 @@ namespace Psychophysics
             }
         }
 
-        private void textBox2_TextChanged(object sender, EventArgs e)
+       
+        private void txtFixETW_KeyPress(object sender, KeyPressEventArgs e)
         {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
 
+        private void txtFixEFW_TextChanged(object sender, EventArgs e)
+        {
+            Designer.fixationList[Designer.ActivePicB - 1][Designer._fixateAreaSelected].EFW = int.Parse(txtFixEFW.Text);
+        }
+
+        private void txtFixEFW_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtIncorrectCode_TextChanged(object sender, EventArgs e)
+        {
+            Designer.fixationList[Designer.ActivePicB - 1][Designer._fixateAreaSelected].INcorrectEventCode = int.Parse(txtIncorrectCode.Text);
+        }
+
+        private void txtIncorrectCode_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtFixETW_TextChanged(object sender, EventArgs e)
+        {
+            Designer.fixationList[Designer.ActivePicB - 1][Designer._fixateAreaSelected].ETW = int.Parse(txtFixETW.Text);
+        }
+
+        private void txtFixationTime_ET_TextChanged(object sender, EventArgs e)
+        {
+            Designer.fixationList[Designer.ActivePicB - 1][Designer._fixateAreaSelected].Time = int.Parse(txtFixationTime_ET.Text);
+        }
+
+        private void txtFixationTime_ET_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
         }
     }
 }
