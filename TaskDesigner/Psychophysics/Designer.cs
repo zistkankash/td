@@ -33,13 +33,14 @@ namespace Psychophysics
 		int moveObjectX = 0, moveObjectY = 0;
 		int indexMoveObject = -1;
 		
-		int PicBCnt = 1, ActivePicB = 1;
+		int PicBCnt = 1, ActivePicB = 1, _fixateAreaSelected;
 		bool FixationSelected = false;
 		String ImagePath = " ";
 		public static List<Bitmap> BitmapPicB = new List<Bitmap>();
 		public static List<int> DeletedFrames = new List<int>();
 		public static List<int> Reward = new List<int>();
-		public PsycoPhysicTask _parentTask;
+        //public static List<int>  = new List<int>();
+        public PsycoPhysicTask _parentTask;
 		// ShowFrame
 		public static List<ShowFr> ShowBoxes = new List<ShowFr>();
 		public static List<int> FrameIndexes = new List<int>();
@@ -57,7 +58,7 @@ namespace Psychophysics
 		#endregion
 		#region Lists
 		public static List<ObjectProp> stimulusList = new List<ObjectProp>();
-		public static List<ObjectProp> fixationList = new List<ObjectProp>();
+		public static List<List<ObjectProp>> fixationList = new List<List<ObjectProp>>();
 		// Type 
 		const int filledSquareType = 1;
 		const int filledRectangleType = 2;
@@ -137,7 +138,7 @@ namespace Psychophysics
 		//}
 		#endregion
 
-		public Designer(int mode, int index, PsycoPhysicTask DesignParent)  //A:loading the new designer
+		public Designer(int mode, int index, PsycoPhysicTask DesignParent)  
         {
             InitializeComponent();
 			_parentTask = DesignParent;
@@ -158,7 +159,7 @@ namespace Psychophysics
             X_TB.Enabled = false;
             Y_TB.Enabled = false;
 			#region new desidn mod
-			if (mode == 1) //A: new designer
+			if (mode == 1) 
             {
                 this.Mode = mode;
 
@@ -191,8 +192,10 @@ namespace Psychophysics
 
                 // Fixation setting
                 ObjectProp fixation = new ObjectProp();
-                fixationList.Add(fixation);
-                FixationTime_ET.Text = Convert.ToString(fixationList[0].Time);
+                List<ObjectProp> fixList = new List<ObjectProp>();
+                fixList.Add(fixation);
+                fixationList.Add(fixList);
+                FixationTime_ET.Text = Convert.ToString(fixationList[0][0].Time);
                 FixationTime_ET.Enabled = false;
 
                 Bitmap objBitmap = new Bitmap(BitmapPicB[0], new Size(PicB1.Width, PicB1.Height));
@@ -223,7 +226,7 @@ namespace Psychophysics
         static Color SetTransparency(int A, Color color)
         {
             return Color.FromArgb(A, color.R, color.G, color.B);
-		}          //A:DONE
+		}         
 
 		//Event fired when the mouse pointer is moved over the Panel(pnl_Draw).
 		private void pnl_Draw_MouseMove(object sender, MouseEventArgs e)
@@ -231,25 +234,24 @@ namespace Psychophysics
             initX = e.X;
             initY = e.Y;
 			pnl_Draw.Select();
-            double X = ConvertDegreeX(Convert.ToInt16(initX * 100 / ViewSize)) * 180 / 3.1415;//A: convert the cursur position in percent to radian whyyyy?!!
-            double Y = ConvertDegreeY(Convert.ToInt16(initY * 100 / ViewSize)) * 180 / 3.1415;//A:it seems the ConvertDegree suppost to give the degree of the position 
-																					          //A:didnt use it later?!just showing it!
-			X_Fixation_Location_ET.Text = Convert.ToString(X); //A: shows it on the text box
+            double X = ConvertDegreeX(Convert.ToInt16(initX * 100 / ViewSize)) * 180 / 3.1415;
+            double Y = ConvertDegreeY(Convert.ToInt16(initY * 100 / ViewSize)) * 180 / 3.1415;
+																					          
+			X_Fixation_Location_ET.Text = Convert.ToString(X); 
             Y_Fixation_Location_ET.Text = Convert.ToString(Y);
             X_TB.Text = e.X.ToString();
             Y_TB.Text = e.Y.ToString();
             if(moveObject)
             {
-                
                 stimulusList[indexMoveObject].Xloc += (Convert.ToInt16(initX * 100 / ViewSize) - moveObjectX);
                 stimulusList[indexMoveObject].Yloc += (Convert.ToInt16(initY * 100 / ViewSize) - moveObjectY);
                 stimulusList[indexMoveObject].ConvertToDeg();
                 moveObjectX = Convert.ToInt16(initX * 100 / ViewSize);
                 moveObjectY = Convert.ToInt16(initY * 100 / ViewSize);
-                UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList);
+                UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList);
             }
 
-		}            //A:DONE
+		}           
 
 		//Event Fired when the mouse pointer is over Panel and a mouse button is pressed
 		private void pnl_Draw_MouseDown(object sender, MouseEventArgs e)
@@ -274,25 +276,7 @@ namespace Psychophysics
                     gr.FillRectangle(sb, stimulus.Xloc - stimulus.Width / 2, stimulus.Yloc - stimulus.Height / 2, stimulus.Width, stimulus.Height);
                     g.FillRectangle(sb, e.X - stimulus.Width * ViewSize / 200, e.Y - stimulus.Height * ViewSize / 200, stimulus.Width * ViewSize / 100, stimulus.Height * ViewSize / 100);
                 }
-                else
-                {
-                    ObjectProp fixation = new ObjectProp();
-                    double widthd = double.Parse(txt_ShapeSize.Text);
-                    int width = Convert.ToInt16(ConvertPixelWidth(widthd));
-                    fixation.SetProps(Convert.ToInt16(e.X * 100 / ViewSize), Convert.ToInt16(e.Y * 100 / ViewSize), width, width, SquareType, ActivePicB, true, btn_PenColor.BackColor);
-                    fixation.ConvertToDeg();
-                    fixation.Time = int.Parse(FixationTime_ET.Text);
-                    fixationList[ActivePicB - 1] = fixation;
-
-                    UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList);
-
-                    //gr.DrawRectangle(p, fixation.Xloc - fixation.Width / 2, fixation.Yloc - fixation.Height / 2, fixation.Width, fixation.Height);
-                    //g.DrawRectangle(p, e.X - fixation.Width * ViewSize / 200, e.Y - fixation.Height * ViewSize / 200, fixation.Width * ViewSize / 100, fixation.Height * ViewSize / 100);
-
-                    Reward[ActivePicB - 1] = 0;
-                    FixationTime_ET.Text = Convert.ToString(fixationList[ActivePicB - 1].Time);
-                    FixationTime_ET.Enabled = true;
-                }
+                
 
                 //setting startPaint and drawSquare value to false for creating one graphic on one click.
                 
@@ -315,22 +299,7 @@ namespace Psychophysics
                     gr.FillRectangle(sb, stimulus.Xloc - stimulus.Width / 2, stimulus.Yloc - stimulus.Height / 2, stimulus.Width, stimulus.Height);
                     g.FillRectangle(sb, e.X - stimulus.Width * ViewSize / 200, e.Y - stimulus.Height * ViewSize / 200, stimulus.Width * ViewSize / 100, stimulus.Height * ViewSize / 100);
                 }
-                else
-                {
-                    ObjectProp fixation = new ObjectProp();
-                    double widthd = double.Parse(txt_ShapeSize.Text);
-                    int width = Convert.ToInt16(ConvertPixelWidth(widthd));
-                    fixation.SetProps(Convert.ToInt16(e.X * 100 / ViewSize), Convert.ToInt16(e.Y * 100 / ViewSize), 2 * width, width, RectangleType, ActivePicB, true, btn_PenColor.BackColor);
-                    fixation.ConvertToDeg();
-                    fixationList[ActivePicB - 1] = fixation;
-                    fixation.Time = int.Parse(FixationTime_ET.Text);
-                    UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList);
-
-                    Reward[ActivePicB - 1] = 0;
-                    FixationTime_ET.Text = Convert.ToString(fixationList[ActivePicB - 1].Time);
-                    FixationTime_ET.Enabled = true;
-                }
-
+                
                 
                 drawRectangle = false;
             }
@@ -358,12 +327,12 @@ namespace Psychophysics
 
                     fixation.SetProps(Convert.ToInt16(e.X * 100 / ViewSize), Convert.ToInt16(e.Y * 100 / ViewSize), width, width, CircleType, ActivePicB, true, btn_PenColor.BackColor);
                     fixation.ConvertToDeg();
-                    fixationList[ActivePicB - 1] = fixation;
+                    fixationList[ActivePicB - 1].Add(fixation);
                     fixation.Time = int.Parse(FixationTime_ET.Text);
-                    UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList);
+                    UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList);
 
                     Reward[ActivePicB - 1] = 0;
-                    FixationTime_ET.Text = Convert.ToString(fixationList[ActivePicB - 1].Time);
+                    FixationTime_ET.Text = Convert.ToString(fixationList[ActivePicB - 1][fixationList[ActivePicB - 1].Count - 1].Time);
                     FixationTime_ET.Enabled = false;
                 }
 
@@ -471,7 +440,7 @@ namespace Psychophysics
                 gr.Clear(c.Color);
 
                 frameList[ActivePicB - 1].frameColor = c.Color;
-                UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList);  
+                UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList);  
             }
 		}    //A:DONE
 		
@@ -524,9 +493,8 @@ namespace Psychophysics
             FrameTime_ET.Text = Convert.ToString(frameList[ActivePicB - 1].Time);
 
             // Fixation setting
-            ObjectProp fixation = new ObjectProp();
-            fixationList.Add(fixation);
-            FixationTime_ET.Text = Convert.ToString(fixationList[ActivePicB - 1].Time);
+            List<ObjectProp> fixList = new List<ObjectProp>();
+            fixationList.Add(fixList);
             FixationTime_ET.Enabled = false;
 
             // Adding new Bitmap image to the list
@@ -558,11 +526,11 @@ namespace Psychophysics
         {
             FixationSetting FixationSettingForm = new FixationSetting(Reward[ActivePicB - 1], ActivePicB - 1);
 			FixationSettingForm.ShowDialog();
-            FixationSettingForm.FormClosing += delegate {
-                UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList);
-                UpdateTreeView(ActivePicB - 1);
-                RewardType_LB.Text = Reward[ActivePicB - 1].ToString();
-            };
+            //FixationSettingForm.FormClosing += delegate {
+                //UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList);
+                //UpdateTreeView(ActivePicB - 1);
+                //RewardType_LB.Text = Reward[ActivePicB - 1].ToString();
+            //};
 		}                   
 
 		private void FixationShapeActive_BT_Click(object sender, EventArgs e)
@@ -649,8 +617,8 @@ namespace Psychophysics
                 int NumStimulus = 0;
                 for (int j = 0; j < stimulusList.Count; j++)
                 {
-                    if (stimulusList[j].FrameIndex == i + 1)   //A:why i+1 ? how does he know that its always lower than the PicBCnt ??? 
-                        NumStimulus++;                         //A: asan why counts the stimulus? it can use stimulus.count !!!
+                    if (stimulusList[j].FrameIndex == i + 1)   
+                        NumStimulus++;                         
                 }
 
                 FixationPts[] StimulusVar = new FixationPts[NumStimulus];
@@ -661,7 +629,7 @@ namespace Psychophysics
                         StimulusVar[indexVar] = new FixationPts();
                     if (stimulusList[j].FrameIndex == i + 1)
                     {
-                        if (stimulusList[j].Type != 4 && stimulusList[j].Type != 8 && stimulusList[j].Type != 12)  //A: what are type 8,12 ?!
+                        if (stimulusList[j].Type != 4 && stimulusList[j].Type != 8 && stimulusList[j].Type != 12)  
                         {
                             StimulusVar[indexVar].SetFixationPts(stimulusList[j].Xloc, stimulusList[j].Yloc, stimulusList[j].Width, stimulusList[j].Width, stimulusList[j].Type, stimulusList[j].ColorPt);
                             StimulusVar[indexVar].SetContrastPts(stimulusList[j].Contrast);
@@ -671,17 +639,9 @@ namespace Psychophysics
                         indexVar++;
                     }
                 }
-                
-				FixationPts FixationVar = new FixationPts();
-                FixationVar.SetFixationPts(fixationList[i].Xloc, fixationList[i].Yloc, fixationList[i].Width, fixationList[i].Height, fixationList[i].Type, fixationList[i].ColorPt);
-
-
-
-				
-				AddedFrame[i].SetProperties(frameList[i].frameColor, frameList[i].Time, FixationVar, fixationList[i].Time, NumStimulus, StimulusVar, Reward[i], null, 0, null, frameList[i].events.NewInstant());
-                
-             
-           }
+                                                             			
+				AddedFrame[i].SetProperties(frameList[i].frameColor, frameList[i].Time, fixationList[i], NumStimulus, StimulusVar, Reward[i], null, 0, null, frameList[i].events.NewInstant());
+            }
             
             for (int i = 0; i < AddedFrame.Length; i++)
             {
@@ -714,14 +674,19 @@ namespace Psychophysics
 
 		private void FrameTime_ET_TextChanged(object sender, EventArgs e)
         {
+            int ftime = 1000;
             try
             {
                 if (ActivePicB > 0)
-                    frameList[ActivePicB - 1].Time = int.Parse(FrameTime_ET.Text);
+                {
+                    int.TryParse(FrameTime_ET.Text, out ftime);
+                    frameList[ActivePicB - 1].Time = ftime;
+                }
             }
             catch(Exception)
             {
-                //MessageBox.Show("");
+                FrameTime_ET.Text = ftime.ToString();
+                frameList[ActivePicB - 1].Time = ftime;
             }
 		}                  
 
@@ -736,7 +701,7 @@ namespace Psychophysics
 
 		private void FixationTime_ET_TextChanged(object sender, EventArgs e)
         {
-            fixationList[ActivePicB - 1].Time = int.Parse(FixationTime_ET.Text);
+            fixationList[ActivePicB - 1][_fixateAreaSelected].Time = int.Parse(FixationTime_ET.Text);
 		}              
 
 		private void PicB_Click(object sender, EventArgs e)
@@ -772,160 +737,22 @@ namespace Psychophysics
 			newGr.DrawRectangle(new Pen(Color.Red, 1), new Rectangle(picb.Location.X - 1, picb.Location.Y - 1, picb.Width + 1, picb.Height + 1));
 
 			FrameTime_ET.Text = Convert.ToString(frameList[ActivePicB - 1].Time);
-            FixationTime_ET.Text = Convert.ToString(fixationList[ActivePicB - 1].Time);
+            if (fixationList[ActivePicB - 1].Count > 0)
+            {
+                FixationTime_ET.Text = Convert.ToString(fixationList[ActivePicB - 1][0].Time);
+                if (fixationList[ActivePicB - 1][0].Type == 1)
+                    FixationTime_ET.Enabled = true;
+                else
+                    FixationTime_ET.Enabled = false;
+            }
             gr = Graphics.FromImage(BitmapPicB[ActivePicB - 1]);
-
-            FixationTime_ET.Text = Convert.ToString(fixationList[ActivePicB - 1].Time);
+                       
             BgColor_BT.BackColor = frameList[ActivePicB - 1].frameColor;
-
-            if (fixationList[ActivePicB - 1].Type == 1)
-                FixationTime_ET.Enabled = true;
-            else
-                FixationTime_ET.Enabled = false;
-
-			//SelectRewardType_CB.SelectedIndex = Reward[ActivePicB - 1];
-			//RewardType_LB.Text = Reward[ActivePicB - 1].ToString();
 			cmbtrigger.SelectedIndex = 0;
-            UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList);
+            UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList);
             UpdateTreeView(ActivePicB - 1);
-		}                              //A:DONE
-
-		private void UpdateChangesByFrameTool()
-        {
-
-            for (int i = 0; i < PicBCnt; i++)
-            {
-                Graphics graphic = Graphics.FromImage(BitmapPicB[i]);
-                graphic.Clear(frameList[i].frameColor);
-            }
-
-            for (int i = 0; i < ShowBoxes.Count; i++)
-            {
-                Graphics graphic = Graphics.FromImage(BitmapPicB[FrameIndexes[i] - 1]);
-
-                Pen boxp = new Pen(ShowBoxes[i].ColorBox, ShowBoxes[i].Thickness);
-                graphic.DrawRectangle(boxp, ShowBoxes[i].CenterX - ShowBoxes[i].Width / 2, ShowBoxes[i].CenterY - ShowBoxes[i].Height / 2, ShowBoxes[i].Width, ShowBoxes[i].Height);
-
-                PictureBox picb = panel1.Controls.Find("PicB" + FrameIndexes[i], true).FirstOrDefault() as PictureBox;
-                Bitmap objBitmap = new Bitmap(BitmapPicB[FrameIndexes[i] - 1], new Size(PicB1.Width, PicB1.Height));
-
-                picb.Image = objBitmap;
-                
-                if (ActivePicB == FrameIndexes[i])
-                {
-                    gr.DrawRectangle(boxp, ShowBoxes[i].CenterX - ShowBoxes[i].Width / 2, ShowBoxes[i].CenterY - ShowBoxes[i].Height / 2, ShowBoxes[i].Width, ShowBoxes[i].Height);
-                    g.DrawRectangle(boxp, (ShowBoxes[i].CenterX - ShowBoxes[i].Width / 2) * ViewSize / 100, (ShowBoxes[i].CenterY - ShowBoxes[i].Height / 2) * ViewSize / 100, ShowBoxes[i].Width, ShowBoxes[i].Height);
-                }
-            }
-
-            for (int i = 0; i < AddedHintsbyFrameTool.Count; i++)
-            {
-                Graphics graphic = Graphics.FromImage(BitmapPicB[HintIndexes[i] - 1]);
-
-                if (AddedHintsbyFrameTool[i].BoxRatio == 1)
-                {
-                    Pen pen = new Pen(AddedHintsbyFrameTool[i].ArrowColor, AddedHintsbyFrameTool[i].ArrowWidth);
-                    pen.StartCap = LineCap.ArrowAnchor;
-                    graphic.DrawLine(pen, AddedHintsbyFrameTool[i].ArrowLocX0, AddedHintsbyFrameTool[i].ArrowLocY, AddedHintsbyFrameTool[i].ArrowLocX1, AddedHintsbyFrameTool[i].ArrowLocY);
-
-                    pen = new Pen(AddedHintsbyFrameTool[i].ArrowColor, (AddedHintsbyFrameTool[i].ArrowWidth) * ViewSize / 100);
-                    pen.StartCap = LineCap.ArrowAnchor;
-                    g.DrawLine(pen, (AddedHintsbyFrameTool[i].ArrowLocX0) * ViewSize / 100, (AddedHintsbyFrameTool[i].ArrowLocY) * ViewSize / 100, (AddedHintsbyFrameTool[i].ArrowLocX1) * ViewSize / 100, (AddedHintsbyFrameTool[i].ArrowLocY) * ViewSize / 100);
-                }
-
-                PictureBox picb = panel1.Controls.Find("PicB" + HintIndexes[i], true).FirstOrDefault() as PictureBox;
-                Bitmap objBitmap = new Bitmap(BitmapPicB[HintIndexes[i] - 1], new Size(PicB1.Width, PicB1.Height));
-                picb.Image = objBitmap;
-            }
-
-            for (int i = 0; i < stimulusList.Count; i++)
-            {
-                Graphics graphic = Graphics.FromImage(BitmapPicB[stimulusList[i].FrameIndex - 1]);
-                SolidBrush sb = new SolidBrush(Color.FromArgb(stimulusList[i].Contrast, stimulusList[i].ColorPt));
-
-                switch ((stimulusList[i].Type))
-                {
-                    case 1:
-                    case 5:
-                    case 9:
-                        graphic.FillRectangle(sb, stimulusList[i].Xloc - stimulusList[i].Width / 2, stimulusList[i].Yloc - stimulusList[i].Width / 2, stimulusList[i].Width, stimulusList[i].Width);
-                        if (ActivePicB == stimulusList[i].FrameIndex)
-                        {
-                            gr.FillRectangle(sb, stimulusList[i].Xloc - stimulusList[i].Width / 2, stimulusList[i].Yloc - stimulusList[i].Width / 2, stimulusList[i].Width, stimulusList[i].Width);
-                            g.FillRectangle(sb, (stimulusList[i].Xloc - stimulusList[i].Width / 2) * ViewSize / 100, (stimulusList[i].Yloc - stimulusList[i].Width / 2) * ViewSize / 100, stimulusList[i].Width * ViewSize / 100, stimulusList[i].Width * ViewSize / 100);
-
-                        }
-                        break;
-                    case 3:
-                    case 7:
-                    case 11:
-                        graphic.FillEllipse(sb, stimulusList[i].Xloc - stimulusList[i].Width / 2, stimulusList[i].Yloc - stimulusList[i].Width / 2, stimulusList[i].Width, stimulusList[i].Width);
-                        if (ActivePicB == stimulusList[i].FrameIndex)
-                        {
-                            gr.FillEllipse(sb, stimulusList[i].Xloc - stimulusList[i].Width / 2, stimulusList[i].Yloc - stimulusList[i].Width / 2, stimulusList[i].Width, stimulusList[i].Width);
-                            g.FillRectangle(sb, (stimulusList[i].Xloc - stimulusList[i].Width / 2) * ViewSize / 100, (stimulusList[i].Yloc - stimulusList[i].Width / 2) * ViewSize / 100, stimulusList[i].Width * ViewSize / 100, stimulusList[i].Width * ViewSize / 100);
-                        }
-                        break;
-                    case 4:
-                    case 8:
-                    case 12:
-                        if (stimulusList[i].Width > 0 && stimulusList[i].Height > 0)
-                        {
-                            Bitmap bmpvar = new Bitmap(stimulusList[i].PathPic);
-                            bmpvar = new Bitmap(bmpvar, new Size(stimulusList[i].Width, stimulusList[i].Height));
-                            graphic.DrawImage(bmpvar, new Point(stimulusList[i].Xloc - stimulusList[i].Width / 2, stimulusList[i].Yloc - stimulusList[i].Height / 2));
-                            if (ActivePicB == stimulusList[i].FrameIndex)
-                            {
-                                gr.DrawImage(bmpvar, new Point(stimulusList[i].Xloc - stimulusList[i].Width / 2, stimulusList[i].Yloc - stimulusList[i].Height / 2));
-                                bmpvar = new Bitmap(bmpvar, new Size(Convert.ToInt16(stimulusList[i].Width * ViewSize / 100), Convert.ToInt16(stimulusList[i].Height * ViewSize / 100)));
-                                g.DrawImage(bmpvar, new Point(Convert.ToInt16((stimulusList[i].Xloc - stimulusList[i].Width / 2) * ViewSize / 100), Convert.ToInt16((stimulusList[i].Yloc - stimulusList[i].Height / 2) * ViewSize / 100)));
-                            }
-                        }
-                        break;
-                    default:
-                        break;
-                }
-                //d
-                PictureBox picb = panel1.Controls.Find("PicB" + stimulusList[i].FrameIndex, true).FirstOrDefault() as PictureBox;
-                Bitmap objBitmap = new Bitmap(BitmapPicB[stimulusList[i].FrameIndex - 1], new Size(PicB1.Width, PicB1.Height));
-                picb.Image = objBitmap;
-            }
-
-            for (int i = 0; i < fixationList.Count; i++)
-            {
-                if (!fixationList[i].Enable)
-                    continue;
-                Graphics graphic = Graphics.FromImage(BitmapPicB[fixationList[i].FrameIndex - 1]);
-                Pen boxp = new Pen(fixationList[i].ColorPt);
-                switch (fixationList[i].Type)
-                {
-                    case 1:
-                        graphic.DrawRectangle(boxp, fixationList[i].Xloc - fixationList[i].Width / 2, fixationList[i].Yloc - fixationList[i].Width / 2, fixationList[i].Width, fixationList[i].Width);
-                        if (ActivePicB == fixationList[i].FrameIndex)
-                        {
-                            gr.DrawRectangle(boxp, fixationList[i].Xloc - fixationList[i].Width / 2, fixationList[i].Yloc - fixationList[i].Width / 2, fixationList[i].Width, fixationList[i].Width);
-                            g.DrawRectangle(boxp, (fixationList[i].Xloc - fixationList[i].Width / 2) * ViewSize / 100, (fixationList[i].Yloc - fixationList[i].Width / 2) * ViewSize / 100, (fixationList[i].Width) * ViewSize / 100, (fixationList[i].Width) * ViewSize / 100);
-                        }
-                        break;
-                    case 3:
-                    case 7:
-                        graphic.DrawEllipse(boxp, fixationList[i].Xloc - fixationList[i].Width / 2, fixationList[i].Yloc - fixationList[i].Width / 2, fixationList[i].Width, fixationList[i].Width);
-                        if (ActivePicB == fixationList[i].FrameIndex)
-                        {
-                            gr.DrawEllipse(boxp, fixationList[i].Xloc - fixationList[i].Width / 2, fixationList[i].Yloc - fixationList[i].Width / 2, fixationList[i].Width, fixationList[i].Width);
-                            g.DrawRectangle(boxp, (fixationList[i].Xloc - fixationList[i].Width / 2) * ViewSize / 100, (fixationList[i].Yloc - fixationList[i].Width / 2) * ViewSize / 100, (fixationList[i].Width) * ViewSize / 100, (fixationList[i].Width) * ViewSize / 100);
-                        }
-                        break;
-                    default:
-                        break;
-                }
-                PictureBox picb = panel1.Controls.Find("PicB" + fixationList[i].FrameIndex, true).FirstOrDefault() as PictureBox;
-                Bitmap objBitmap = new Bitmap(BitmapPicB[fixationList[i].FrameIndex - 1], new Size(PicB1.Width, PicB1.Height));
-                picb.Image = objBitmap;
-            }
-            UpdateTreeView(ActivePicB - 1);
-        }                                  //A:it seems no body use this!!!?
-
+		}                              
+        
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DialogResult dialogResult = MessageBox.Show("This deletes all the material related to the current active Page. Are you sure you want to continue it?", "Warning", MessageBoxButtons.YesNo);
@@ -966,7 +793,7 @@ namespace Psychophysics
                         {
                             ActivePicB = index + 1;
                             gr = Graphics.FromImage(BitmapPicB[ActivePicB - 1]);
-                            UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList);
+                            UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList);
                         }
                     }
                     else
@@ -980,7 +807,7 @@ namespace Psychophysics
                         }
                         ActivePicB = index + 1;
                         gr = Graphics.FromImage(BitmapPicB[ActivePicB - 1]);
-                        UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList);
+                        UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList);
                     }
                 }
                 else
@@ -998,7 +825,7 @@ namespace Psychophysics
 				Picture_Panel.Visible = false;
 				AddPicB.Location = new Point(AddPicB.Location.X, AddPicB.Location.Y - AddPicB.Size.Height - 15);
             }
-        }  //A:what was this toolstrip do and for?
+        }  
 
         private void clearToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1006,7 +833,7 @@ namespace Psychophysics
             DialogResult dialogResult = MessageBox.Show("This erases all the material related to the current active Page. Are you sure you want to continue it?", "Warning", MessageBoxButtons.YesNo,MessageBoxIcon.Question);
             if (dialogResult == DialogResult.Yes)
             {
-                fixationList[ActivePicB - 1] = new ObjectProp();
+                fixationList[ActivePicB - 1] = new List<ObjectProp>();
 
                 for (int i = 0; i < stimulusList.Count; i++)
                 {
@@ -1022,7 +849,7 @@ namespace Psychophysics
                     Reward[i] = -1;
                 }
 
-                UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList);
+                UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList);
             }
             else if (dialogResult == DialogResult.No)
             {
@@ -1057,21 +884,26 @@ namespace Psychophysics
 		}                
 		#endregion
 		#region TreeView-D
-		private void UpdateTreeView(int index)
+		
+        private void UpdateTreeView(int index)
         {
             Objects_TV.Nodes[0].Nodes.Clear();
            
-			if(fixationList[index].Xloc != -1)
+			if(fixationList[index].Count != 0)
 			{
-				Objects_TV.Nodes[0].Nodes.Add("Fix area");
-			}
+				//Objects_TV.Nodes[0].Nodes.Add("Fixation window:");
+                for (int i = 0; i < fixationList[index].Count(); i++)
+                {
+                    Objects_TV.Nodes[0].Nodes.Add("fix" + i);
+                }
+            }
 			Objects_TV.Nodes[1].Nodes.Clear();
-            int id = 0;
+           
             for (int i = 0; i < stimulusList.Count(); i++)
             {
                 if (stimulusList[i].FrameIndex != index + 1)
                     continue;
-                id++;
+               
                 Objects_TV.Nodes[1].Nodes.Add("St" + i);
             }
             
@@ -1087,8 +919,8 @@ namespace Psychophysics
         {
             try
             {
-                fixationList[index].Widthd = double.Parse(Value);
-                fixationList[index].ConvertToPix();
+                fixationList[index][_fixateAreaSelected].Widthd = double.Parse(Value);
+                fixationList[index][_fixateAreaSelected].ConvertToPix();
             }
             catch (Exception)
             {
@@ -1100,8 +932,8 @@ namespace Psychophysics
         {
             try
             {
-                fixationList[index].Xlocd = double.Parse(Value);
-                fixationList[index].ConvertToPix();
+                fixationList[index][_fixateAreaSelected].Xlocd = double.Parse(Value);
+                fixationList[index][_fixateAreaSelected].ConvertToPix();
             }
             catch (Exception)
             {
@@ -1114,8 +946,8 @@ namespace Psychophysics
         {
             try
             {
-                fixationList[index].Ylocd = double.Parse(Value);
-                fixationList[index].ConvertToPix();
+                fixationList[index][_fixateAreaSelected].Ylocd = double.Parse(Value);
+                fixationList[index][_fixateAreaSelected].ConvertToPix();
             }
             catch (Exception)
             {
@@ -1128,7 +960,7 @@ namespace Psychophysics
         {
             try
             {
-                fixationList[index].Time = int.Parse(Value);
+                fixationList[index][_fixateAreaSelected].Time = int.Parse(Value);
             }
             catch (Exception)
             {
@@ -1139,7 +971,7 @@ namespace Psychophysics
 
         void FixationRemove(int index)
         {
-            fixationList[index] = new ObjectProp();
+            fixationList[index] = new List<ObjectProp>();
         }
 
         void StimulusEditWidth(int index, String Value)
@@ -1369,12 +1201,11 @@ namespace Psychophysics
 
             for (int i = 0; i < PicBCnt; i++)
             {
-                ObjectProp fixationProp = new ObjectProp();
-                fixationProp.SetFixationPts(_parentTask._tsk.AllLevelProp[index][i].Fixation.Xloc,_parentTask._tsk.AllLevelProp[index][i].Fixation.Yloc, _parentTask._tsk.AllLevelProp[index][i].Fixation.Width, _parentTask._tsk.AllLevelProp[index][i].Fixation.Height, _parentTask._tsk.AllLevelProp[index][i].Fixation.Type, i + 1, true, _parentTask._tsk.AllLevelProp[index][i].Fixation.ColorPt);
-                fixationProp.Time = _parentTask._tsk.AllLevelProp[index][i].FixationTime;
-                fixationProp.ConvertToDeg();
-
-                fixationList.Add(fixationProp);
+                
+                //fixationProp.SetFixationPts(_parentTask._tsk.AllLevelProp[index][i].Fixation.Xloc,_parentTask._tsk.AllLevelProp[index][i].Fixation.Yloc, _parentTask._tsk.AllLevelProp[index][i].Fixation.Width, _parentTask._tsk.AllLevelProp[index][i].Fixation.Height, _parentTask._tsk.AllLevelProp[index][i].Fixation.Type, i + 1, true, _parentTask._tsk.AllLevelProp[index][i].Fixation.ColorPt);
+                
+                
+                fixationList.Add(_parentTask._tsk.AllLevelProp[index][i].Fixation.GetRange(0, _parentTask._tsk.AllLevelProp[index][i].Fixation.Count));
                 
             }
 
@@ -1407,7 +1238,7 @@ namespace Psychophysics
             {
                 gr = Graphics.FromImage(BitmapPicB[i]);
                 
-                UpdateFrame(i, frameList, fixationList, stimulusList);
+                UpdateFrame(i, frameList, fixationList[ActivePicB - 1], stimulusList);
                 
                 UpdateTreeView(ActivePicB - 1);
             }
@@ -1522,33 +1353,35 @@ namespace Psychophysics
 
             //Debug.Write("FixTime#$% : " + fixationList[0].Time + "\n");
             //Debug.Write("FixTime#$% : " + fixationList[1].Time + "\n");
-            if (FixationObjs[index].Enable)
+            for (int j = 0; j < FixationObjs.Count; j++)
             {
-                Pen boxp = new Pen(fixationList[index].ColorPt);
-                switch (fixationList[index].Type)
+                if (FixationObjs[j].Enable)
                 {
-                    case 1:
-                        gr.DrawRectangle(boxp, fixationList[index].Xloc - fixationList[index].Width / 2, fixationList[index].Yloc - fixationList[index].Width / 2, fixationList[index].Width, fixationList[index].Width);
-                        g.DrawRectangle(boxp, (fixationList[index].Xloc - fixationList[index].Width / 2) * ViewSize / 100, (fixationList[index].Yloc - fixationList[index].Width / 2) * ViewSize / 100, (fixationList[index].Width) * ViewSize / 100, (fixationList[index].Width) * ViewSize / 100);
-                        break;
-                    case 3:
-                    case 7:
-                        gr.DrawEllipse(boxp, fixationList[index].Xloc - fixationList[index].Width / 2, fixationList[index].Yloc - fixationList[index].Width / 2, fixationList[index].Width, fixationList[index].Width);
-                        g.DrawEllipse(boxp, (fixationList[index].Xloc - fixationList[index].Width / 2) * ViewSize / 100, (fixationList[index].Yloc - fixationList[index].Width / 2) * ViewSize / 100, fixationList[index].Width * ViewSize / 100, fixationList[index].Width * ViewSize / 100);
-                        break;
-                    default:
-                        break;
-                }
-               
-            }
+                    Pen boxp = new Pen(FixationObjs[j].ColorPt);
+                    switch (FixationObjs[j].Type)
+                    {
+                        case 1:
+                            gr.DrawRectangle(boxp, FixationObjs[j].Xloc - FixationObjs[j].Width / 2, FixationObjs[j].Yloc - FixationObjs[j].Width / 2, FixationObjs[j].Width, FixationObjs[j].Width);
+                            g.DrawRectangle(boxp, (FixationObjs[j].Xloc - FixationObjs[j].Width / 2) * ViewSize / 100, (FixationObjs[j].Yloc - FixationObjs[j].Width / 2) * ViewSize / 100, (FixationObjs[j].Width) * ViewSize / 100, (FixationObjs[j].Width) * ViewSize / 100);
+                            break;
+                        case 3:
+                        case 7:
+                            gr.DrawEllipse(boxp, FixationObjs[j].Xloc - FixationObjs[j].Width / 2, FixationObjs[j].Yloc - FixationObjs[j].Width / 2, FixationObjs[j].Width, FixationObjs[j].Width);
+                            g.DrawEllipse(boxp, (FixationObjs[j].Xloc - FixationObjs[j].Width / 2) * ViewSize / 100, (FixationObjs[j].Yloc - FixationObjs[j].Width / 2) * ViewSize / 100, FixationObjs[j].Width * ViewSize / 100, FixationObjs[j].Width * ViewSize / 100);
+                            break;
+                        default:
+                            break;
+                    }
 
+                }
+            }
             // Add drawing commands here
             Bitmap objBitmap = new Bitmap(BitmapPicB[index], new Size(PicB1.Width, PicB1.Height));
             PictureBox picb = panel1.Controls.Find("PicB" + (index + 1), true).FirstOrDefault() as PictureBox;
             picb.Image = objBitmap;
 			
 			
-		}    //A:Done
+		}   
         #endregion
         #region FrameProp-D
         public class FrameProp
@@ -1604,7 +1437,7 @@ namespace Psychophysics
                 Width = 0;
                 Height = 0;
                 Type = 0;
-                Time = 500;
+                Time = 100;
                 FrameIndex = -1;
                 Enable = false;
                 Contrast = 255;
@@ -1739,7 +1572,7 @@ namespace Psychophysics
 		
         private void Designer_Move(object sender, EventArgs e)
         {
-            UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList);
+            UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList);
         }
 
 		private void Popup_Opening(object sender, System.ComponentModel.CancelEventArgs e)
@@ -1790,7 +1623,9 @@ namespace Psychophysics
 			char IdName = Name[0];
 			if (IdName == 'F')
 			{
-				MetroFramework.Forms.MetroForm prompt = new MetroFramework.Forms.MetroForm();
+                _fixateAreaSelected = int.Parse(Regex.Match(Name, @"\d+").Value);
+
+                MetroFramework.Forms.MetroForm prompt = new MetroFramework.Forms.MetroForm();
 				prompt.ShowIcon = false;
 				prompt.TopMost = true;
 				prompt.Name = "FixationForm";
@@ -1798,19 +1633,19 @@ namespace Psychophysics
 				prompt.Height = 300;
 				//prompt.Text = "Fixation Edit Panel";
 				Label SizeLabel = new Label() { Left = 30, Top = 30, Height = 15, Text = "Size :" };
-				TextBox SizeTextBox = new TextBox { Left = 160, Top = 30, Width = 60, Text = Convert.ToString(fixationList[ActivePicB - 1].Widthd) };
-				SizeTextBox.TextChanged += delegate { this.FixationEditWidth(ActivePicB - 1, SizeTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList); };
+				TextBox SizeTextBox = new TextBox { Left = 160, Top = 30, Width = 60, Text = Convert.ToString(fixationList[ActivePicB - 1][_fixateAreaSelected].Widthd) };
+				SizeTextBox.TextChanged += delegate { this.FixationEditWidth(ActivePicB - 1, SizeTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList); };
 				Label XLabel = new Label() { Left = 30, Top = 70, Height = 15, Text = "X :" };
-				TextBox XTextBox = new TextBox { Left = 160, Top = 70, Width = 60, Text = Convert.ToString(fixationList[ActivePicB - 1].Xlocd) };
-				XTextBox.TextChanged += delegate { this.FixationEditX(ActivePicB - 1, XTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList); };
+				TextBox XTextBox = new TextBox { Left = 160, Top = 70, Width = 60, Text = Convert.ToString(fixationList[ActivePicB - 1][_fixateAreaSelected].Xlocd) };
+				XTextBox.TextChanged += delegate { this.FixationEditX(ActivePicB - 1, XTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList); };
 				Label YLabel = new Label() { Left = 30, Top = 110, Height = 15, Text = "Y :" };
-				TextBox YTextBox = new TextBox { Left = 160, Top = 110, Width = 60, Text = Convert.ToString(fixationList[ActivePicB - 1].Ylocd) };
-				YTextBox.TextChanged += delegate { this.FixationEditY(ActivePicB - 1, YTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList); };
+				TextBox YTextBox = new TextBox { Left = 160, Top = 110, Width = 60, Text = Convert.ToString(fixationList[ActivePicB - 1][_fixateAreaSelected].Ylocd) };
+				YTextBox.TextChanged += delegate { this.FixationEditY(ActivePicB - 1, YTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList); };
 				Label TimeLabel = new Label() { Left = 30, Top = 150, Height = 15, Text = "Fixation Time :" };
-				TextBox TimeTextBox = new TextBox { Left = 160, Top = 150, Width = 60, Text = Convert.ToString(fixationList[ActivePicB - 1].Time) };
-				TimeTextBox.TextChanged += delegate { this.FixationEditTime(ActivePicB - 1, TimeTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList); };
+				TextBox TimeTextBox = new TextBox { Left = 160, Top = 150, Width = 60, Text = Convert.ToString(fixationList[ActivePicB - 1][_fixateAreaSelected].Time) };
+				TimeTextBox.TextChanged += delegate { this.FixationEditTime(ActivePicB - 1, TimeTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList); };
 				Button RemoveButton = new Button { Left = 75, Top = 190, Width = 80, Text = Convert.ToString("Remove") };
-				RemoveButton.Click += delegate { this.FixationRemove(ActivePicB - 1); this.UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList); UpdateTreeView(ActivePicB - 1); prompt.Close(); };
+				RemoveButton.Click += delegate { this.FixationRemove(ActivePicB - 1); this.UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList); UpdateTreeView(ActivePicB - 1); prompt.Close(); };
 
 				prompt.Controls.Add(SizeLabel);
 				prompt.Controls.Add(SizeTextBox);
@@ -1838,19 +1673,19 @@ namespace Psychophysics
 				//Width
 				Label SizeWLabel = new Label() { Left = 30, Top = 30, Text = "Size :" };
 				TextBox SizeWTextBox = new TextBox { Left = 160, Top = 30, Width = 60, Text = Convert.ToString(stimulusList[IdIndex].Widthd) };
-				SizeWTextBox.TextChanged += delegate { this.StimulusEditWidth(IdIndex, SizeWTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList); };
+				SizeWTextBox.TextChanged += delegate { this.StimulusEditWidth(IdIndex, SizeWTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList); };
 				//Height
 				Label SizeHLabel = new Label() { Left = 30, Top = 70, Text = "Size :" };
 				TextBox SizeHTextBox = new TextBox { Left = 160, Top = 70, Width = 60, Text = Convert.ToString(stimulusList[IdIndex].Heightd) };
-				SizeHTextBox.TextChanged += delegate { this.StimulusEditHeight(IdIndex, SizeHTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList); };
+				SizeHTextBox.TextChanged += delegate { this.StimulusEditHeight(IdIndex, SizeHTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList); };
 				//X
 				Label XLabel = new Label() { Left = 30, Top = 110, Text = "X :" };
 				TextBox XTextBox = new TextBox { Left = 160, Top = 110, Width = 60, Text = Convert.ToString(stimulusList[IdIndex].Xlocd) };
-				XTextBox.TextChanged += delegate { this.StimulusEditX(IdIndex, XTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList); };
+				XTextBox.TextChanged += delegate { this.StimulusEditX(IdIndex, XTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList); };
 				//Y
 				Label YLabel = new Label() { Left = 30, Top = 150, Text = "Y :" };
 				TextBox YTextBox = new TextBox { Left = 160, Top = 150, Width = 60, Text = Convert.ToString(stimulusList[IdIndex].Ylocd) };
-				YTextBox.TextChanged += delegate { this.StimulusEditY(IdIndex, YTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList); };
+				YTextBox.TextChanged += delegate { this.StimulusEditY(IdIndex, YTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList); };
 
 				if (stimulusList[IdIndex].Type == 4 || stimulusList[IdIndex].Type == 8 || stimulusList[IdIndex].Type == 12)
 				{
@@ -1859,10 +1694,10 @@ namespace Psychophysics
 					Label PathLabel = new Label() { Left = 30, Top = 190, Width = 40, Text = "Path :" };
 					TextBox PathTextBox = new TextBox { Left = 75, Top = 190, Width = 120, Text = Convert.ToString(stimulusList[IdIndex].PathPic) };
 					Button PathButton = new Button() { Left = 200, Top = 190, Width = 30, Height = PathTextBox.Height, Text = "..." };
-					PathButton.Click += delegate { string VarPath = this.StimulusEditPath(IdIndex); PathTextBox.Text = VarPath; this.UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList); };
+					PathButton.Click += delegate { string VarPath = this.StimulusEditPath(IdIndex); PathTextBox.Text = VarPath; this.UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList); };
 
 					Button RemoveButton = new Button { Left = 85, Top = 230, Width = 80, Text = Convert.ToString("Remove") };
-					RemoveButton.Click += delegate { this.StimulusRemove(IdIndex); this.UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList); UpdateTreeView(ActivePicB - 1); prompt.Close(); };
+					RemoveButton.Click += delegate { this.StimulusRemove(IdIndex); this.UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList); UpdateTreeView(ActivePicB - 1); prompt.Close(); };
 
 					prompt.Controls.Add(SizeWLabel);
 					prompt.Controls.Add(SizeWTextBox);
@@ -1882,14 +1717,14 @@ namespace Psychophysics
 					//Color
 					Label ColorLabel = new Label() { Left = 30, Top = 180, Text = "Color :" };
 					Button ColorButton = new Button() { Left = 160, Top = 175, Width = 30, Height = 30, BackColor = stimulusList[IdIndex].ColorPt };
-					ColorButton.Click += delegate { this.StimulusEditColor(IdIndex); ColorButton.BackColor = stimulusList[IdIndex].ColorPt; this.UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList); };
+					ColorButton.Click += delegate { this.StimulusEditColor(IdIndex); ColorButton.BackColor = stimulusList[IdIndex].ColorPt; this.UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList); };
 					//Contrast
 					Label ContrastLabel = new Label() { Left = 30, Top = 210, Text = "Contrast :" };
 					TextBox ContrastTextBox = new TextBox { Left = 160, Top = 210, Width = 60, Text = Convert.ToString(stimulusList[IdIndex].Contrast) };
-					ContrastTextBox.TextChanged += delegate { this.StimulusEditContrast(IdIndex, ContrastTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList); };
+					ContrastTextBox.TextChanged += delegate { this.StimulusEditContrast(IdIndex, ContrastTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList); };
 
 					Button RemoveButton = new Button { Left = 85, Top = 250, Width = 80, Text = Convert.ToString("Remove") };
-					RemoveButton.Click += delegate { this.StimulusRemove(IdIndex); this.UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList); UpdateTreeView(ActivePicB - 1); prompt.Close(); };
+					RemoveButton.Click += delegate { this.StimulusRemove(IdIndex); this.UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList); UpdateTreeView(ActivePicB - 1); prompt.Close(); };
 
 					prompt.Controls.Add(SizeWLabel);
 					prompt.Controls.Add(SizeWTextBox);
@@ -1925,22 +1760,22 @@ namespace Psychophysics
 					//X0
 					Label X0ArrowLabel = new Label() { Left = 30, Top = 30, Text = "X :" };
 					TextBox X0ArrowTextBox = new TextBox { Left = 160, Top = 30, Width = 60, Text = Convert.ToString(AddedHintsbyFrameTool[IdIndex].ArrowLocX0 + AddedHintsbyFrameTool[IdIndex].ArrowWidth) };
-					X0ArrowTextBox.TextChanged += delegate { this.HintEditX0(IdIndex, X0ArrowTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList); };
+					X0ArrowTextBox.TextChanged += delegate { this.HintEditX0(IdIndex, X0ArrowTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList); };
 
 					//Y
 					Label YLabel = new Label() { Left = 30, Top = 70, Text = "Y :" };
 					TextBox YTextBox = new TextBox { Left = 160, Top = 70, Width = 60, Text = Convert.ToString(AddedHintsbyFrameTool[IdIndex].ArrowLocY) };
-					YTextBox.TextChanged += delegate { this.HintEditY(IdIndex, YTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList); };
+					YTextBox.TextChanged += delegate { this.HintEditY(IdIndex, YTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList); };
 
 					//Width
 					Label WidthLabel = new Label() { Left = 30, Top = 110, Text = "Width :" };
 					TextBox WidthTextBox = new TextBox { Left = 160, Top = 110, Width = 60, Text = Convert.ToString(AddedHintsbyFrameTool[IdIndex].ArrowWidth) };
-					WidthTextBox.TextChanged += delegate { this.HintEditWidth(IdIndex, YTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList); };
+					WidthTextBox.TextChanged += delegate { this.HintEditWidth(IdIndex, YTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList); };
 					WidthTextBox.Enabled = false;
 					//Color
 					Label ColorLabel = new Label() { Left = 30, Top = 150, Text = "Color :" };
 					Button ColorButton = new Button() { Left = 160, Top = 150, Width = 30, Height = 30, BackColor = AddedHintsbyFrameTool[IdIndex].ArrowColor };
-					ColorButton.Click += delegate { this.HintEditColor(IdIndex); ColorButton.BackColor = AddedHintsbyFrameTool[IdIndex].ArrowColor; this.UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList); };
+					ColorButton.Click += delegate { this.HintEditColor(IdIndex); ColorButton.BackColor = AddedHintsbyFrameTool[IdIndex].ArrowColor; this.UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList); };
 
 					prompt.Controls.Add(X0ArrowLabel);
 					prompt.Controls.Add(X0ArrowTextBox);
@@ -1960,7 +1795,7 @@ namespace Psychophysics
 					//Ratio
 					Label RatioBoxLabel = new Label() { Left = 30, Top = 30, Text = "Ratio :" };
 					TextBox RatioBoxTextBox = new TextBox { Left = 160, Top = 30, Width = 60, Text = Convert.ToString(AddedHintsbyFrameTool[IdIndex].BoxRatio) };
-					RatioBoxTextBox.TextChanged += delegate { this.HintEditRatio(IdIndex, RatioBoxTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList); };
+					RatioBoxTextBox.TextChanged += delegate { this.HintEditRatio(IdIndex, RatioBoxTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList); };
 					prompt.Controls.Add(RatioBoxLabel);
 					prompt.Controls.Add(RatioBoxTextBox);
 

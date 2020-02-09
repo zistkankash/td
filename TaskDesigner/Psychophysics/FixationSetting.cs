@@ -177,38 +177,7 @@ namespace Psychophysics
 
         private void Ok_PB_Click(object sender, EventArgs e)
         {
-            //byte[] intBytes = BitConverter.GetBytes(0);
-            //BitArray b = new BitArray(intBytes);
-
-            //b[6] = CheckFix_CB.Checked;
-            //b[5] = HoldFix_CB.Checked;
-            //if(b[6])
-            //{ 
-            //    b[4] = NextStep_CB.Checked & NextStep_CB.Enabled;
-            //    b[3] = SetDaq_CB.Checked & SetDaq_CB.Enabled;
-            //    b[2] = PlayWinSound_CB.Checked & PlayWinSound_CB.Enabled;
-            //    b[1] = NextTrial_CB.Checked & NextTrial_CB.Enabled;
-            //    b[0] = PlayFail_CB.Checked & PlayFail_CB.Enabled;
-
-            //    int[] array = new int[1];
-            //    b.CopyTo(array, 0);
-            //    Reward[index] = array[0];
-            //}
-            //else if(b[5])
-            //{
-            //    b[4] = NextStep_CB.Checked & NextStep_CB.Enabled;
-            //    b[3] = false;
-            //    b[2] = false;
-            //    b[1] = NextTrial_CB.Checked & NextTrial_CB.Enabled;
-            //    b[0] = PlayFail_CB.Checked & PlayFail_CB.Enabled;
-            //    int[] array = new int[1];
-            //    b.CopyTo(array, 0);
-            //    Reward[index] = array[0];
-            //}
-            //else
-            //{
-            //    Reward[index] = 0;
-            //}
+            
 			if(!PlayFail_CB.Checked && !PlayWinSound_CB.Checked  )
 			{
 				Designer.Reward[index] = 1;
@@ -226,6 +195,32 @@ namespace Psychophysics
 				Designer.Reward[index] = 4;
 			}
 			this.Close();
+        }
+
+        private void txtCorrectCode_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtCorrectCode_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBox2_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

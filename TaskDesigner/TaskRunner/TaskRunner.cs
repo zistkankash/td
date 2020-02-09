@@ -52,8 +52,10 @@ namespace TaskRunning
 		int[] strt;
 		int _curHeatedNode, _curHeatedGoal, _succededNodeInGroup, _selectedGroup;
 		List<int> _labNodeHeats = new List<int>(), _labNodeNearHeats = new List<int>();
-		List<LabRunnerNodeMetaData> _labBuffer = new List<LabRunnerNodeMetaData>();
-		List<int> _goals = new List<int>();
+		List<LabRunnerNodeMetaData> _heatLabNodeBuffer = new List<LabRunnerNodeMetaData>();
+        List<LabRunnerNodeMetaData> _nearHeatLabNodeBuffer = new List<LabRunnerNodeMetaData>();
+
+        List<int> _goals = new List<int>();
         int _nearHeatThresh = 5;
         int _heatThresh = 10;
         bool callAllow;
@@ -341,30 +343,35 @@ namespace TaskRunning
 		
 		void LabTaskRunnerCore(int x, int y)
 		{
-            callAllow = true;   
-			//Find nodes that match current gaze in its border.
-			List<int> ht = _psycoTask.findNode(x, y, 1);
+            callAllow = true;
+            //Find nodes that match current gaze in its border.
 
-			for (int i = 0; i < _labBuffer.Count; i++)
+            List<Node> nht = _psycoTask.FindNode(x, y, 4);
+            
+
+            
+            List<Node> ht = _psycoTask.FindNode(x, y, 2);
+            
+			for (int i = 0; i < _heatLabNodeBuffer.Count; i++)
 			{
-				int ind = ht.FindIndex(a => a == _labBuffer[i].nodeId);
+				int ind = ht.FindIndex(a => a._id == _heatLabNodeBuffer[i].nodeId);
 				if (ind > -1)
 				{
-					_labBuffer[i].level++;
-					_labBuffer[i].outness = 0;
+					_heatLabNodeBuffer[i].level++;
+					_heatLabNodeBuffer[i].outness = 0;
 					ht.RemoveAt(ind);
 				}
 				else
-					_labBuffer[i].outness++;
+					_heatLabNodeBuffer[i].outness++;
 			}
 			for (int k = 0; k < ht.Count; k++)
 			{
-				_labBuffer.Add(new LabRunnerNodeMetaData(ht[k]));
+				_heatLabNodeBuffer.Add(new LabRunnerNodeMetaData(ht[k]._id));
 			}
             toDeleteBuffer.Clear();
 
 			//Remove node with outness larger than threshold from buffer and sync buffer with heata and near_heats.
-			foreach (LabRunnerNodeMetaData ln in _labBuffer)
+			foreach (LabRunnerNodeMetaData ln in _heatLabNodeBuffer)
 				if (ln.outness > _runnerConfig._outnessThresh)
 				{
                     toDeleteBuffer.Add(ln);
@@ -377,10 +384,10 @@ namespace TaskRunning
 					//_labBuffer.Remove(ln);
 				}
             foreach (LabRunnerNodeMetaData delNode in toDeleteBuffer)
-                _labBuffer.Remove(delNode);
+                _heatLabNodeBuffer.Remove(delNode);
 
 			//Add nodes with level larger than Near_Heat threshold to near_heat buffer.
-			foreach (LabRunnerNodeMetaData ln in _labBuffer)
+			foreach (LabRunnerNodeMetaData ln in _heatLabNodeBuffer)
 			{
 				//A node is near_heated...
 				if (ln.level > _nearHeatThresh)

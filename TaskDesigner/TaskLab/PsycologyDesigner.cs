@@ -189,7 +189,7 @@ namespace TaskLab
 
 			//UpdateRatio(e, out x, out y);
 			
-			Node tempSel = _curTask.findNode(e.X, e.Y);
+			Node tempSel = _curTask.RelationalLocatFindNode(e.X, e.Y);
 			pnlSetting.Visible = false;
 
 			if (lastState == LabDesignState.onDesign)

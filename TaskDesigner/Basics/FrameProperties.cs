@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Psychophysics.Designer;
 
 namespace Basics
 {
@@ -12,13 +13,11 @@ namespace Basics
 	{
 		public Color BGColor;
 		public int FrameTime;
-		//public int FixationWidth;
-		//public int FixationHeight;
-		public FixationPts Fixation = new FixationPts();
-		public int FixationTime;
+		
+		public List<ObjectProp> Fixation = new List<ObjectProp>();
+		
 		public int NumberSaccade;
-		//public int[] SaccadeWidth;
-		//public int[] SaccadeHeight;
+		
 		public FixationPts[] Stimulus;
 		public Color[] StimulusColor;
 		public int RewardType;
@@ -32,10 +31,7 @@ namespace Basics
 		{
 			BGColor = Color.Black;
 			FrameTime = 0;
-			Fixation.Width = 0;
-			Fixation.Xloc = 0;
-			Fixation.Yloc = 0;
-			FixationTime = 0;
+						
 			NumberSaccade = 1;
 			Stimulus = new FixationPts[NumberSaccade];
 			Stimulus[0] = new FixationPts();
@@ -53,16 +49,15 @@ namespace Basics
 		public FrameProperties Copy()
 		{
 			FrameProperties fr = new FrameProperties();
-			fr.SetProperties(BGColor, FrameTime, Fixation, FixationTime, NumberSaccade, Stimulus, RewardType,null, 0, null, events.NewInstant());
+			fr.SetProperties(BGColor, FrameTime, Fixation, NumberSaccade, Stimulus, RewardType,null, 0, null, events.NewInstant());
 			return fr;
 		}
 
-		public void SetProperties(Color BGC, int FrameT, FixationPts FixationProp, int FixationT, int NumSaccade, FixationPts[] StimulusProp, int Reward, HintForm cue, int NumBox, ShowFr[] ShowBox, TriggerEvents ev)
+		public void SetProperties(Color BGC, int FrameT, List<ObjectProp> FixationProp, int NumSaccade, FixationPts[] StimulusProp, int Reward, HintForm cue, int NumBox, ShowFr[] ShowBox, TriggerEvents ev)
 		{
 			BGColor = BGC;
 			FrameTime = FrameT;
-			Fixation = FixationProp;
-			FixationTime = FixationT;
+            Fixation = FixationProp.GetRange(0, FixationProp.Count);
 			NumberSaccade = NumSaccade;
 			Stimulus = new FixationPts[NumSaccade];
 			for (int i = 0; i < NumSaccade; i++)
@@ -96,6 +91,8 @@ namespace Basics
         public int Contrast;
         public Color ColorPt;
         public string PathPic;
+        public int _correctEventCode, _incorrectEventCode, time;
+
         public FixationPts()
         {
             Xloc = -1;
@@ -106,6 +103,7 @@ namespace Basics
             PathPic = "";
             ColorPt = Color.Black;
         }
+        
         public void SetContrastPts(int contrast)
         {
             Contrast = contrast;

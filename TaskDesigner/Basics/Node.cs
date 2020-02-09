@@ -13,6 +13,7 @@ namespace Basics
 		public int _id;
         public bool enable;     
         public int type;
+        public double _distToPoint; // used for node search
 		public int NearHeatCountforNode, HeatCountforNode;
         public Shape shape;       
         public Color shapeColor;
@@ -46,6 +47,16 @@ namespace Basics
            
         }
 
+        public Node(int id, Point point ,Shape s, Color ShapeColor, int ShapeNumber,double dist)
+        {
+            _id = id;
+            absolutePosition = point;
+            shape = s;
+            number = ShapeNumber;
+            shapeColor = ShapeColor;
+            _distToPoint = dist;
+        }
+
         // سازنده فیکسیشن با فیکسیشن
         public Node(int id, PointF point, Shape s, Color sColor, int num, Color tColor, int w, int h, char fType, int fTime, int p, int fRadius, Color fColor, Size OperSize)
         {
@@ -71,6 +82,11 @@ namespace Basics
 		public Node()
         {
             this.enable = false;
+        }
+
+        public Node ClonePlusDist(double DistanceToPoint)
+        {
+            return new Node(_id, absolutePosition, shape, shapeColor, number,DistanceToPoint);
         }
     }
 }

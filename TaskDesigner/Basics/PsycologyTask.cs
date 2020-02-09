@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -24,7 +25,7 @@ namespace Basics
 
 		Image<Rgba, byte> tskImg;
 				
-		Image<Rgba, byte> prmpts;
+		Bitmap prmpts;
 		Bitmap overlayer;
 		Bitmap _taskFrame;
 
@@ -155,29 +156,24 @@ namespace Basics
 
         void DrawNode(Node node, Graphics gs)
 		{
-
             Brush drPen = new SolidBrush(Color.FromArgb(node.shapeColor.R, node.shapeColor.G, node.shapeColor.B));
 			if (node.shape == Shape.Circle)
 			{
                 gs.FillEllipse(drPen, new Rectangle(new Point(node.absolutePosition.X - node.width / 2 , node.absolutePosition.Y - node.height / 2), new Size(node.width, node.height)));
-				//CvInvoke.Circle(tskImg, new Point(node.absolutePosition.X, node.absolutePosition.Y) , node.width / 2, new MCvScalar(node.shapeColor.R, node.shapeColor.G, node.shapeColor.B), -1);
 			}
 			else if (node.shape == Shape.Rectangle)
 			{
                 gs.FillRectangle(drPen, new Rectangle(new Point(node.absolutePosition.X - node.width / 2, node.absolutePosition.Y - node.height / 2), new Size(node.width, node.height)));
-				//CvInvoke.Rectangle(tskImg, new Rectangle(new Point(node.absolutePosition.X - node.width / 2, node.absolutePosition.Y - node.height / 2), new Size(node.width, node.height)), new MCvScalar(node.shapeColor.R, node.shapeColor.G, node.shapeColor.B), -1);
 			}
 			if (node.number != -1)
 			{
-				//// کشیدن عدد
-				double numSize = node.width * 0.02;
+				
 				int posOffsetX = 7;
 				int posOffsetY = 5;
-				int thickness = 5;
+				
 				if (node.shape == Shape.Circle)        // تنظیم شماره برای دایره
 				{
-					if (node.width <= 45)
-						thickness = 2;
+					
 					if (node.number < 10)
 					{
 						posOffsetX = (int)(node.width * 0.35);
@@ -191,9 +187,7 @@ namespace Basics
 				}
 				else if (node.shape == Shape.Rectangle)        // تنظیم شماره برای مستطیل
 				{
-					numSize = Math.Min(node.height, node.width) * 0.02;
-					if (Math.Min(node.height, node.width) <= 45)
-						thickness = 2;
+										
 					if (node.number < 10)
 					{
 						posOffsetX = (int)(node.width * 0.35);
@@ -264,8 +258,10 @@ namespace Basics
 				return;
 			if (prmptNodeShower == 0 && !prmptRecursive )
 				return;
-			prmpts = new Image<Rgba, byte>(OperationalSize.Width, OperationalSize.Height, new Rgba(0, 0, 0, 0));
-			float alpha = ((float)prmptNodeShower / prmptNodeMaxShower);
+            prmpts = new Bitmap(OperationalSize.Width, OperationalSize.Height);
+            Graphics gs = Graphics.FromImage(prmpts);
+			
+            float alpha = ((float)prmptNodeShower / prmptNodeMaxShower);
 			
 			if (!prmptRecursiveShowerDirect)
 				prmptNodeShower--;
@@ -280,27 +276,38 @@ namespace Basics
 			{
 				prmptRecursiveShowerDirect = false;
 			}
-			for (int i = 0; i < prmptNodeId.Length; i++)
+
+            Brush drPen = new SolidBrush(Color.FromArgb(prmptR, prmptG, prmptB));
+            Pen prmptPen = new Pen(drPen, 3);
+            Pen arrowPen = new Pen(Color.FromArgb(arrowR, arrowG, arrowB));
+            arrowPen.EndCap = LineCap.ArrowAnchor;
+            arrowPen.StartCap = LineCap.RoundAnchor;
+
+            for (int i = 0; i < prmptNodeId.Length; i++)
 			{
 				if (shapeList[prmptNodeId[i]].shape == Shape.Circle)
 				{
-					CvInvoke.Circle(prmpts, new Point((int)(shapeList[prmptNodeId[i]].absolutePosition.X), (int)(shapeList[prmptNodeId[i]].absolutePosition.Y)), shapeList[prmptNodeId[i]].width / 2 + 3, new MCvScalar(prmptR, prmptG, prmptB, 255), 3);
+                    gs.DrawEllipse(prmptPen, new Rectangle(new Point(shapeList[prmptNodeId[i]].absolutePosition.X - shapeList[prmptNodeId[i]].width / 2 - 3, shapeList[prmptNodeId[i]].absolutePosition.Y - shapeList[prmptNodeId[i]].height / 2 - 3), new Size(shapeList[prmptNodeId[i]].width + 6, shapeList[prmptNodeId[i]].height + 6)));
+                   
 				}
 				else if (shapeList[prmptNodeId[i]].shape == Shape.Rectangle)
 				{
-					CvInvoke.Rectangle(prmpts, new Rectangle(new Point((int)(shapeList[prmptNodeId[i]].absolutePosition.X) - shapeList[prmptNodeId[i]].width / 2 - 3, (int)(shapeList[prmptNodeId[i]].absolutePosition.Y) - shapeList[prmptNodeId[i]].height / 2 - 3), new Size(shapeList[prmptNodeId[i]].width + 6, shapeList[prmptNodeId[i]].height + 6)), new MCvScalar(prmptR, prmptG, prmptB), 3);
-				}
+                    gs.DrawRectangle(prmptPen, new Rectangle(new Point(shapeList[prmptNodeId[i]].absolutePosition.X - shapeList[prmptNodeId[i]].width / 2 - 3, shapeList[prmptNodeId[i]].absolutePosition.Y - shapeList[prmptNodeId[i]].height / 2 - 3), new Size(shapeList[prmptNodeId[i]].width + 6, shapeList[prmptNodeId[i]].height + 6)));
+                   
+                }
 			}
             //Draw blinking arrow
-			if (arrowShower)
+            if (arrowShower)
                 for (int arg = 0; arg < _blinkArrowBeginNodeId.Length; arg++)
-				    CvInvoke.ArrowedLine(prmpts, shapeList[_blinkArrowBeginNodeId[arg]].absolutePosition, shapeList[_blinkArrowEndNodeId[arg]].absolutePosition, new MCvScalar(arrowR, arrowG, arrowB), arrowThickness);
+                    
+                    gs.DrawLine(arrowPen, shapeList[_blinkArrowBeginNodeId[arg]].absolutePosition, shapeList[_blinkArrowEndNodeId[arg]].absolutePosition);
 
-			overlayer = prmpts.Bitmap;
-			overlayer.MakeTransparent(Color.Black);
+
+            prmpts.MakeTransparent(Color.Black);
 			            
-			BitmapManager.DrawOn(overlayer, _taskFrame, alpha);
-            overlayer.Dispose();
+			BitmapManager.DrawOn(prmpts, _taskFrame, alpha);
+
+            
             prmpts.Dispose();
         }
 
@@ -315,7 +322,6 @@ namespace Basics
 
 		public void DrawBlinkArrow(int Max, int[] id1, int[] id2, Color prCol, bool recursive, int ArrowThickess)
 		{
-			prmpts = new Image<Rgba, byte>(BasConfigs._monitor_resolution_x, BasConfigs._monitor_resolution_y, new Rgba(0, 0, 0, 0));
 			arrowShower = true;
 			arrowThickness = ArrowThickess;
 			_blinkArrowBeginNodeId = id1;
@@ -360,7 +366,7 @@ namespace Basics
 			return res;
 		}
 		
-		public Node findNode(int x, int y)
+		public Node RelationalLocatFindNode(int x, int y)
 		{
 			foreach (Node node in shapeList)
 				if (node.shape == Shape.Circle)
@@ -380,30 +386,35 @@ namespace Basics
 			return null;
 		}
 
-		public List<int> findNode(int x, int y, float radius)
+		public List<Node> FindNode(int x, int y, float radius)
 		{
-			List<int> bestNodes = new List<int>();
+			List<Node> bestNodes = new List<Node>();
 			for (int i = 0; i < shapeList.Count; i++)
 			{
 				if (shapeList[i].shape == Shape.Circle)
 				{
-					if (Math.Sqrt(Math.Pow(Math.Abs(shapeList[i].relationalPosition.X * OperationalSize.Width - x), 2) + Math.Pow(Math.Abs(shapeList[i].relationalPosition.Y * OperationalSize.Height - y), 2)) <= (shapeList[i].width / 2) * radius)
+                    double dist = Math.Sqrt(Math.Pow(Math.Abs(shapeList[i].relationalPosition.X * OperationalSize.Width - x), 2) + Math.Pow(Math.Abs(shapeList[i].relationalPosition.Y * OperationalSize.Height - y), 2));
+
+                    if (dist <= (shapeList[i].width / 2) * radius)
 					{
-						bestNodes.Add(i);
+						bestNodes.Add(shapeList[i].ClonePlusDist(dist));
 					}
 				}
 				else
 				{
-					if (Math.Abs(x - shapeList[i].relationalPosition.X * OperationalSize.Width) < (shapeList[i].width / 2) * radius && Math.Abs(y - shapeList[i].relationalPosition.Y * OperationalSize.Height) < (shapeList[i].height / 2) * radius)
+                    double d1 = Math.Abs(x - shapeList[i].absolutePosition.X);
+                    double d2 = Math.Abs(y - shapeList[i].absolutePosition.Y);
+
+                    if (d1 < (shapeList[i].width / 2) * radius &&   d2 < (shapeList[i].height / 2) * radius)
 					{
-						bestNodes.Add(i);
+						bestNodes.Add(shapeList[i].ClonePlusDist(Math.Sqrt(Math.Pow(d1,2) + Math.Pow(d2,2))));
 					}
 				}
 			}
 			return bestNodes;
 		}
 
-		public Node findNodeByID(int id)
+		public Node FindNodeByID(int id)
 		{
 			if (id > -1 && id < shapeList.Count)
 				return shapeList[id];

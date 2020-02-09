@@ -56,9 +56,13 @@ namespace Basics
 				for (int j = 0; j < framecnt; j++)
 				{
 					SaveText += "______Frame" + j + "\n______" + AllLevelProp[i][j].FrameTime + " " + AllLevelProp[i][j].BGColor.R + " " + AllLevelProp[i][j].BGColor.G + " " + AllLevelProp[i][j].BGColor.B + "\n";
-					SaveText += "_________Fixation\n";
-					SaveText += "_________" + AllLevelProp[i][j].Fixation.Xloc + " " + AllLevelProp[i][j].Fixation.Yloc + " " + AllLevelProp[i][j].Fixation.Width + " " + AllLevelProp[i][j].Fixation.Type + " " + AllLevelProp[i][j].FixationTime + " " + AllLevelProp[i][j].Fixation.ColorPt.R + " " + AllLevelProp[i][j].Fixation.ColorPt.G + " " + AllLevelProp[i][j].Fixation.ColorPt.B + "\n";
-					int stimuluscnt = AllLevelProp[i][j].NumberSaccade;
+					SaveText += "_________Number Of Fixations\n";
+                    SaveText += "_________" + AllLevelProp[i][j].Fixation.Count + "\n";
+                    for (int k=0; k < AllLevelProp[i][j].Fixation.Count; k++)
+                    {
+                        SaveText += "_________" + AllLevelProp[i][j].Fixation[k].Xloc + " " + AllLevelProp[i][j].Fixation[k].Yloc + " " + AllLevelProp[i][j].Fixation[k].Width + " " + AllLevelProp[i][j].Fixation[k].Type + " " + AllLevelProp[i][j].Fixation[k].Time + " " + AllLevelProp[i][j].Fixation[k].ColorPt.R + " " + AllLevelProp[i][j].Fixation[k].ColorPt.G + " " + AllLevelProp[i][j].Fixation[k].ColorPt.B + "\n";
+                    }
+                    int stimuluscnt = AllLevelProp[i][j].NumberSaccade;
 					SaveText += "_________Number Of Stimulus\n";
 					SaveText += "_________" + stimuluscnt + "\n";
 					for (int k = 0; k < stimuluscnt; k++)
@@ -215,7 +219,7 @@ namespace Basics
 								subFirst = 0;
 								tg.SetEvent(evCount + 1, ev);
 							}
-							varFrame.SetProperties(BGColor, FrameTime, varFixation, fixationtime, NumberStimulus, varStimulus, reward, null, 0, null, tg);
+							varFrame.SetProperties(BGColor, FrameTime, , NumberStimulus, varStimulus, reward, null, 0, null, tg);
 
 							ListAddedFrame.Add(varFrame);
 						}
