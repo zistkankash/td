@@ -348,8 +348,70 @@ namespace TaskRunning
 
             List<Node> nht = _psycoTask.FindNode(x, y, 4);
             
+            toDeleteBuffer.Clear();
+            //Add near heat condidate node to near-heat list...................................... 
+            for (int i = 0; i < _nearHeatLabNodeBuffer.Count; i++)
+            {
+                int ind = nht.FindIndex(a => a._id == _nearHeatLabNodeBuffer[i].nodeId);
+                if (ind > -1)
+                {
+                    _nearHeatLabNodeBuffer[i].level++;
+                    _nearHeatLabNodeBuffer[i].outness = 0;
+                    nht.RemoveAt(ind);
+                }
+                else
+                    _nearHeatLabNodeBuffer[i].outness++;
+            }
+            for (int k = 0; k < nht.Count; k++)
+            {
+                _nearHeatLabNodeBuffer.Add(new LabRunnerNodeMetaData(nht[k]._id));
+            }
+            //Remove outed nodes from near-heat list...............................................
+            foreach (LabRunnerNodeMetaData ln in _nearHeatLabNodeBuffer)
+                if (ln.outness > _runnerConfig._outnessThresh)
+                {
+                    toDeleteBuffer.Add(ln);
+                    if (_labNodeNearHeats.Contains(ln.nodeId))
+                        _labNodeNearHeats.Remove(ln.nodeId);
+                    
+                }
+            foreach (LabRunnerNodeMetaData delNode in toDeleteBuffer)
+                _nearHeatLabNodeBuffer.Remove(delNode);
 
-            
+            //Select A node is near_heated.......................................................... 
+            foreach (LabRunnerNodeMetaData ln in _heatLabNodeBuffer)
+            {
+                
+                if (ln.level > _runnerConfig._nearThresh)
+                {
+                    
+                    if (!_labNodeNearHeats.Contains(ln.nodeId))
+                    {
+
+                        _labNodeNearHeats.Add(ln.nodeId);
+
+                        if (!_goals.Contains(ln.nodeId))
+                        {
+                            if (_runnerConfig._showNearMisPrompt)
+                                _psycoTask.DrawNodePrompt(10, new int[] { ln.nodeId }, Color.Orange, false);
+
+                            if (_runnerConfig._showGoalPrompt)
+                                _psycoTask.DrawNodePrompt(30, _goals.ToArray(), Color.Yellow, false);
+
+                            if (_runnerConfig._nmsShowArrowToGoal)
+                                _psycoTask.DrawBlinkArrow(20, new int[1] { ln.nodeId }, _goals.ToArray(), Color.Black, false, 1);
+                        }
+                    }
+                }
+            }
+
+
+
+
+
+
+
+
             List<Node> ht = _psycoTask.FindNode(x, y, 2);
             
 			for (int i = 0; i < _heatLabNodeBuffer.Count; i++)

@@ -107,8 +107,8 @@ namespace TaskRunning
 
 			Timer1.Enabled = true;
 			Timer1.Start();
-			//LoopWatch.Start();
-			
+            //LoopWatch.Start();
+            _frameWatch.Start();
 			if (_useGaz)
 			{
 				RunnerUtils.GazeReady += OnRunnerGazeReady;
@@ -174,7 +174,7 @@ namespace TaskRunning
             Timer1.Start();
             Timer1.Enabled = true;
             //LoopWatch.Restart();
-
+            _frameWatch.Start();
 
             return;
         }

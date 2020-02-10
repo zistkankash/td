@@ -57,7 +57,8 @@ namespace Basics
 		{
 			BGColor = BGC;
 			FrameTime = FrameT;
-            Fixation = FixationProp.GetRange(0, FixationProp.Count);
+            ObjectProp[] temp = FixationProp.ToArray();
+            Fixation = temp.ToList();
 			NumberSaccade = NumSaccade;
 			Stimulus = new FixationPts[NumSaccade];
 			for (int i = 0; i < NumSaccade; i++)

@@ -815,7 +815,7 @@
             this.pnl5.Font = new System.Drawing.Font("Ebrima", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.pnl5.Location = new System.Drawing.Point(3, 177);
             this.pnl5.Name = "pnl5";
-            this.pnl5.Size = new System.Drawing.Size(482, 221);
+            this.pnl5.Size = new System.Drawing.Size(246, 261);
             this.pnl5.TabIndex = 128;
             this.pnl5.TabStop = false;
             this.pnl5.Visible = false;
@@ -858,7 +858,7 @@
             this.pnlErr1.HorizontalScrollbarSize = 10;
             this.pnlErr1.Location = new System.Drawing.Point(0, 40);
             this.pnlErr1.Name = "pnlErr1";
-            this.pnlErr1.Size = new System.Drawing.Size(473, 167);
+            this.pnlErr1.Size = new System.Drawing.Size(234, 215);
             this.pnlErr1.TabIndex = 30;
             this.pnlErr1.UseCustomBackColor = true;
             this.pnlErr1.VerticalScrollbarBarColor = true;
@@ -869,7 +869,7 @@
             // 
             this.chkbxArrwHintGoals.AutoSize = true;
             this.chkbxArrwHintGoals.BackColor = System.Drawing.Color.Transparent;
-            this.chkbxArrwHintGoals.Location = new System.Drawing.Point(15, 62);
+            this.chkbxArrwHintGoals.Location = new System.Drawing.Point(15, 102);
             this.chkbxArrwHintGoals.Name = "chkbxArrwHintGoals";
             this.chkbxArrwHintGoals.Size = new System.Drawing.Size(152, 15);
             this.chkbxArrwHintGoals.TabIndex = 140;
@@ -883,7 +883,7 @@
             this.chkbxGoalsPrompt.BackColor = System.Drawing.Color.Transparent;
             this.chkbxGoalsPrompt.Checked = true;
             this.chkbxGoalsPrompt.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkbxGoalsPrompt.Location = new System.Drawing.Point(15, 28);
+            this.chkbxGoalsPrompt.Location = new System.Drawing.Point(15, 12);
             this.chkbxGoalsPrompt.Name = "chkbxGoalsPrompt";
             this.chkbxGoalsPrompt.Size = new System.Drawing.Size(109, 15);
             this.chkbxGoalsPrompt.TabIndex = 139;
@@ -897,7 +897,7 @@
             this.chkbxGoalSound.BackColor = System.Drawing.Color.Transparent;
             this.chkbxGoalSound.Checked = true;
             this.chkbxGoalSound.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkbxGoalSound.Location = new System.Drawing.Point(15, 96);
+            this.chkbxGoalSound.Location = new System.Drawing.Point(15, 132);
             this.chkbxGoalSound.Name = "chkbxGoalSound";
             this.chkbxGoalSound.Size = new System.Drawing.Size(131, 15);
             this.chkbxGoalSound.TabIndex = 138;
@@ -911,7 +911,7 @@
             this.chkbxMisSound.BackColor = System.Drawing.Color.Transparent;
             this.chkbxMisSound.Checked = true;
             this.chkbxMisSound.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkbxMisSound.Location = new System.Drawing.Point(15, 130);
+            this.chkbxMisSound.Location = new System.Drawing.Point(15, 162);
             this.chkbxMisSound.Name = "chkbxMisSound";
             this.chkbxMisSound.Size = new System.Drawing.Size(137, 15);
             this.chkbxMisSound.TabIndex = 137;
@@ -923,7 +923,7 @@
             // 
             this.chbxNearMisHintArrow.AutoSize = true;
             this.chbxNearMisHintArrow.BackColor = System.Drawing.Color.Transparent;
-            this.chbxNearMisHintArrow.Location = new System.Drawing.Point(253, 96);
+            this.chbxNearMisHintArrow.Location = new System.Drawing.Point(15, 192);
             this.chbxNearMisHintArrow.Name = "chbxNearMisHintArrow";
             this.chbxNearMisHintArrow.Size = new System.Drawing.Size(211, 15);
             this.chbxNearMisHintArrow.TabIndex = 136;
@@ -935,7 +935,7 @@
             // 
             this.chkbNearMisPrompt.AutoSize = true;
             this.chkbNearMisPrompt.BackColor = System.Drawing.Color.Transparent;
-            this.chkbNearMisPrompt.Location = new System.Drawing.Point(253, 62);
+            this.chkbNearMisPrompt.Location = new System.Drawing.Point(15, 72);
             this.chkbNearMisPrompt.Name = "chkbNearMisPrompt";
             this.chkbNearMisPrompt.Size = new System.Drawing.Size(145, 15);
             this.chkbNearMisPrompt.TabIndex = 135;
@@ -949,7 +949,7 @@
             this.chkbxMissesPrompt.BackColor = System.Drawing.Color.Transparent;
             this.chkbxMissesPrompt.Checked = true;
             this.chkbxMissesPrompt.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkbxMissesPrompt.Location = new System.Drawing.Point(253, 28);
+            this.chkbxMissesPrompt.Location = new System.Drawing.Point(15, 42);
             this.chkbxMissesPrompt.Name = "chkbxMissesPrompt";
             this.chkbxMissesPrompt.Size = new System.Drawing.Size(115, 15);
             this.chkbxMissesPrompt.TabIndex = 134;

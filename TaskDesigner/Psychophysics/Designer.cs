@@ -113,29 +113,8 @@ namespace Psychophysics
 			PictureBox picb = panel1.Controls.Find("PicB" + ActivePicB, true).FirstOrDefault() as PictureBox;
 			using (Graphics newGr = panel1.CreateGraphics())
 				newGr.DrawRectangle(new Pen(Color.DimGray, 1), new Rectangle(picb.Location.X - 1, picb.Location.Y - 1, picb.Width + 1, picb.Height + 1));
-		}  //A:this is also used for the theme and we dont need it in metroform
-		//private void frmCoolForm_XCoolFormHolderButtonClick(XCoolForm.XCoolForm.XCoolFormHolderButtonClickArgs e)//A: what is its use? so i commented it!
-		//{
-		//    switch (e.ButtonIndex)
-		//    {
-		//        case 1:
-
-		//            break;
-		//        case 2:
-		//            //NormalPageSetting SettingFrm = new NormalPageSetting();
-		//            //SettingFrm.PageCount = PicBCnt;
-		//            //SettingFrm.FormClosing += delegate { this.Show(); this.UpdateChangesByFrameTool(); };
-		//            //this.Hide();
-		//            //SettingFrm.Show();
-		//            break;
-		//        case 3:
-		//            break;
-		//        case 0:
-		//            //this.Close();
-		//            break;
-		//    }
-
-		//}
+		}  
+		
 		#endregion
 
 		public Designer(int mode, int index, PsycoPhysicTask DesignParent)  
@@ -155,14 +134,14 @@ namespace Psychophysics
             frameList.Clear();
             FrameIndexes.Clear();
             DeletedFrames.Clear();
-
+            ActivePicB = 1;
             X_TB.Enabled = false;
             Y_TB.Enabled = false;
 			#region new desidn mod
 			if (mode == 1) 
             {
                 this.Mode = mode;
-
+               
                 // Frame Initialization
                 FrameProp frm = new FrameProp();
                 frameList.Add(frm);
@@ -180,7 +159,7 @@ namespace Psychophysics
                 // Bitmap Graphic setting
                 Bitmap bmpVar = new Bitmap(frameList[0].frameWidth, frameList[0].frameHeight, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
                 BitmapPicB.Add(bmpVar);
-                ActivePicB = 1;
+                
                 gr = Graphics.FromImage(BitmapPicB[0]);
                 gr.Clear(Color.White);
 

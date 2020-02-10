@@ -180,7 +180,7 @@ namespace Basics
                                 ObjectProp newFix = new ObjectProp();
                                 newFix.Xloc = int.Parse(values[0]); newFix.Yloc = int.Parse(values[1]); newFix.Width = int.Parse(values[2]);
                                 newFix.Type = int.Parse(values[3]); newFix.Time = int.Parse(values[4]); newFix.ColorPt = fixationColor;
-                                newFix.ConvertToDeg();
+                                //newFix.ConvertToDeg();
                                 newFix.Enable = true;
                                 fixations.Add(newFix);
                             }
