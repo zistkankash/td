@@ -1207,9 +1207,9 @@ namespace Psychophysics
             {
                 gr = Graphics.FromImage(BitmapPicB[i]);
                 
-                UpdateFrame(i, frameList, fixationList[ActivePicB - 1], stimulusList);
+                UpdateFrame(i, frameList, fixationList[i], stimulusList);
                 
-                UpdateTreeView(ActivePicB - 1);
+                UpdateTreeView(i);
             }
             //UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList);
             pnl_Draw.BackgroundImage = new Bitmap(BitmapPicB[ActivePicB - 1],pnl_Draw.Size);

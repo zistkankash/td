@@ -61,7 +61,7 @@ namespace Basics
                     SaveText += "_________" + AllLevelProp[i][j].Fixation.Count + "\n";
                     for (int k=0; k < AllLevelProp[i][j].Fixation.Count; k++)
                     {
-                        SaveText += "_________" + AllLevelProp[i][j].Fixation[k].Xloc + " " + AllLevelProp[i][j].Fixation[k].Yloc + " " + AllLevelProp[i][j].Fixation[k].Width + " " + AllLevelProp[i][j].Fixation[k].Type + " " + AllLevelProp[i][j].Fixation[k].Time + " " + AllLevelProp[i][j].Fixation[k].ColorPt.R + " " + AllLevelProp[i][j].Fixation[k].ColorPt.G + " " + AllLevelProp[i][j].Fixation[k].ColorPt.B + "\n";
+                        SaveText += "_________" + AllLevelProp[i][j].Fixation[k].Xloc + " " + AllLevelProp[i][j].Fixation[k].Yloc + " " + AllLevelProp[i][j].Fixation[k].Width + " " + AllLevelProp[i][j].Fixation[k].Type + " " + AllLevelProp[i][j].Fixation[k].Time + " " + AllLevelProp[i][j].Fixation[k].ColorPt.R + " " + AllLevelProp[i][j].Fixation[k].ColorPt.G + " " + AllLevelProp[i][j].Fixation[k].ColorPt.B + " " + AllLevelProp[i][j].Fixation[k].EFW.ToString() + " " + AllLevelProp[i][j].Fixation[k].ETW.ToString() + " " + AllLevelProp[i][j].Fixation[k].CorrectEventCode.ToString() + " " + AllLevelProp[i][j].Fixation[k].INcorrectEventCode.ToString() + "\n";
                     }
                     int stimuluscnt = AllLevelProp[i][j].NumberSaccade;
 					SaveText += "_________Number Of Stimulus\n";
@@ -180,7 +180,11 @@ namespace Basics
                                 ObjectProp newFix = new ObjectProp();
                                 newFix.Xloc = int.Parse(values[0]); newFix.Yloc = int.Parse(values[1]); newFix.Width = int.Parse(values[2]);
                                 newFix.Type = int.Parse(values[3]); newFix.Time = int.Parse(values[4]); newFix.ColorPt = fixationColor;
-                                //newFix.ConvertToDeg();
+                                newFix.EFW = int.Parse(values[8]);
+                                newFix.ETW = int.Parse(values[9]);
+                                newFix.CorrectEventCode = int.Parse(values[10]);
+                                newFix.INcorrectEventCode = int.Parse(values[11]);
+                                newFix.ConvertToDeg();
                                 newFix.Enable = true;
                                 fixations.Add(newFix);
                             }

@@ -93,6 +93,13 @@
             this.rdbRecursRun = new MetroFramework.Controls.MetroRadioButton();
             this.rdbNormFormRun = new MetroFramework.Controls.MetroRadioButton();
             this.metroLabel24 = new MetroFramework.Controls.MetroLabel();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.metroLabel6 = new MetroFramework.Controls.MetroLabel();
+            this.metroPanel3 = new MetroFramework.Controls.MetroPanel();
+            this.rdbColorGrouping = new MetroFramework.Controls.MetroRadioButton();
+            this.rdbNoGrouping = new MetroFramework.Controls.MetroRadioButton();
+            this.metroLabel7 = new MetroFramework.Controls.MetroLabel();
+            this.rdbShapGrouping = new MetroFramework.Controls.MetroRadioButton();
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -113,6 +120,8 @@
             this.pnlErr1.SuspendLayout();
             this.pnl4.SuspendLayout();
             this.pnlRunMode.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.metroPanel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // refTimer
@@ -400,7 +409,7 @@
             this.metroLabel2.FontWeight = MetroFramework.MetroLabelWeight.Regular;
             this.metroLabel2.Location = new System.Drawing.Point(7, 15);
             this.metroLabel2.Name = "metroLabel2";
-            this.metroLabel2.Size = new System.Drawing.Size(140, 19);
+            this.metroLabel2.Size = new System.Drawing.Size(139, 19);
             this.metroLabel2.TabIndex = 140;
             this.metroLabel2.Text = "Output Trigger Setup";
             this.metroLabel2.UseCustomBackColor = true;
@@ -516,7 +525,7 @@
             this.chbuseMouseNextFrm.AutoSize = true;
             this.chbuseMouseNextFrm.Location = new System.Drawing.Point(10, 43);
             this.chbuseMouseNextFrm.Name = "chbuseMouseNextFrm";
-            this.chbuseMouseNextFrm.Size = new System.Drawing.Size(219, 15);
+            this.chbuseMouseNextFrm.Size = new System.Drawing.Size(220, 15);
             this.chbuseMouseNextFrm.TabIndex = 19;
             this.chbuseMouseNextFrm.Text = "Use Mouse Click to Go to Next Frame";
             this.chbuseMouseNextFrm.UseCustomBackColor = true;
@@ -567,7 +576,7 @@
             this.metroLabel19.FontWeight = MetroFramework.MetroLabelWeight.Regular;
             this.metroLabel19.Location = new System.Drawing.Point(7, 49);
             this.metroLabel19.Name = "metroLabel19";
-            this.metroLabel19.Size = new System.Drawing.Size(165, 15);
+            this.metroLabel19.Size = new System.Drawing.Size(163, 15);
             this.metroLabel19.Style = MetroFramework.MetroColorStyle.Blue;
             this.metroLabel19.TabIndex = 84;
             this.metroLabel19.Text = "Screen Number to Show Task:";
@@ -593,7 +602,7 @@
             this.metroLabel20.FontWeight = MetroFramework.MetroLabelWeight.Regular;
             this.metroLabel20.Location = new System.Drawing.Point(3, 12);
             this.metroLabel20.Name = "metroLabel20";
-            this.metroLabel20.Size = new System.Drawing.Size(189, 19);
+            this.metroLabel20.Size = new System.Drawing.Size(187, 19);
             this.metroLabel20.TabIndex = 17;
             this.metroLabel20.Text = "General Task Running Setting";
             this.metroLabel20.UseCustomBackColor = true;
@@ -636,6 +645,7 @@
             // tabPage3
             // 
             this.tabPage3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(216)))), ((int)(((byte)(201)))));
+            this.tabPage3.Controls.Add(this.groupBox2);
             this.tabPage3.Controls.Add(this.groupBox1);
             this.tabPage3.Controls.Add(this.pnl5);
             this.tabPage3.Controls.Add(this.pnl4);
@@ -720,7 +730,7 @@
             this.chkbxOutnessConf.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkbxOutnessConf.Location = new System.Drawing.Point(6, 85);
             this.chkbxOutnessConf.Name = "chkbxOutnessConf";
-            this.chkbxOutnessConf.Size = new System.Drawing.Size(187, 15);
+            this.chkbxOutnessConf.Size = new System.Drawing.Size(186, 15);
             this.chkbxOutnessConf.TabIndex = 139;
             this.chkbxOutnessConf.Text = "Gaze-Node Outness Threshold:";
             this.chkbxOutnessConf.UseCustomBackColor = true;
@@ -773,7 +783,7 @@
             this.chkbxNearHeatConf.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkbxNearHeatConf.Location = new System.Drawing.Point(6, 51);
             this.chkbxNearHeatConf.Name = "chkbxNearHeatConf";
-            this.chkbxNearHeatConf.Size = new System.Drawing.Size(137, 15);
+            this.chkbxNearHeatConf.Size = new System.Drawing.Size(136, 15);
             this.chkbxNearHeatConf.TabIndex = 136;
             this.chkbxNearHeatConf.Text = "Near_Heat Threshold:";
             this.chkbxNearHeatConf.UseCustomBackColor = true;
@@ -787,7 +797,7 @@
             this.chkbxHeatConf.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkbxHeatConf.Location = new System.Drawing.Point(6, 18);
             this.chkbxHeatConf.Name = "chkbxHeatConf";
-            this.chkbxHeatConf.Size = new System.Drawing.Size(110, 15);
+            this.chkbxHeatConf.Size = new System.Drawing.Size(109, 15);
             this.chkbxHeatConf.TabIndex = 135;
             this.chkbxHeatConf.Text = "Heat Threshold: ";
             this.chkbxHeatConf.UseCustomBackColor = true;
@@ -800,9 +810,9 @@
             this.metroLabel5.FontWeight = MetroFramework.MetroLabelWeight.Bold;
             this.metroLabel5.Location = new System.Drawing.Point(7, 15);
             this.metroLabel5.Name = "metroLabel5";
-            this.metroLabel5.Size = new System.Drawing.Size(222, 25);
+            this.metroLabel5.Size = new System.Drawing.Size(285, 25);
             this.metroLabel5.TabIndex = 7;
-            this.metroLabel5.Text = "______________________________";
+            this.metroLabel5.Text = "_______________________________________";
             this.metroLabel5.UseCustomBackColor = true;
             // 
             // pnl5
@@ -826,7 +836,7 @@
             this.metroLabel15.FontWeight = MetroFramework.MetroLabelWeight.Regular;
             this.metroLabel15.Location = new System.Drawing.Point(8, 12);
             this.metroLabel15.Name = "metroLabel15";
-            this.metroLabel15.Size = new System.Drawing.Size(204, 19);
+            this.metroLabel15.Size = new System.Drawing.Size(202, 19);
             this.metroLabel15.TabIndex = 31;
             this.metroLabel15.Text = "Psycology Tasks Prompt Setting";
             this.metroLabel15.UseCustomBackColor = true;
@@ -838,9 +848,9 @@
             this.metroLabel16.FontWeight = MetroFramework.MetroLabelWeight.Bold;
             this.metroLabel16.Location = new System.Drawing.Point(7, 12);
             this.metroLabel16.Name = "metroLabel16";
-            this.metroLabel16.Size = new System.Drawing.Size(467, 25);
+            this.metroLabel16.Size = new System.Drawing.Size(229, 25);
             this.metroLabel16.TabIndex = 32;
-            this.metroLabel16.Text = "_________________________________________________________________";
+            this.metroLabel16.Text = "_______________________________";
             this.metroLabel16.UseCustomBackColor = true;
             // 
             // pnlErr1
@@ -973,9 +983,9 @@
             // metroLabel23
             // 
             this.metroLabel23.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.metroLabel23.Location = new System.Drawing.Point(22, 12);
+            this.metroLabel23.Location = new System.Drawing.Point(21, 12);
             this.metroLabel23.Name = "metroLabel23";
-            this.metroLabel23.Size = new System.Drawing.Size(128, 44);
+            this.metroLabel23.Size = new System.Drawing.Size(129, 44);
             this.metroLabel23.TabIndex = 6;
             this.metroLabel23.Text = "Psycology Tasks Running   Mode";
             this.metroLabel23.UseCustomBackColor = true;
@@ -1026,16 +1036,104 @@
             this.metroLabel24.AutoSize = true;
             this.metroLabel24.FontSize = MetroFramework.MetroLabelSize.Tall;
             this.metroLabel24.FontWeight = MetroFramework.MetroLabelWeight.Bold;
-            this.metroLabel24.Location = new System.Drawing.Point(21, 34);
+            this.metroLabel24.Location = new System.Drawing.Point(6, 34);
             this.metroLabel24.Name = "metroLabel24";
-            this.metroLabel24.Size = new System.Drawing.Size(110, 25);
+            this.metroLabel24.Size = new System.Drawing.Size(152, 25);
             this.metroLabel24.TabIndex = 7;
-            this.metroLabel24.Text = "______________";
+            this.metroLabel24.Text = "____________________";
             this.metroLabel24.UseCustomBackColor = true;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.BackColor = System.Drawing.Color.Transparent;
+            this.groupBox2.Controls.Add(this.metroLabel6);
+            this.groupBox2.Controls.Add(this.metroPanel3);
+            this.groupBox2.Controls.Add(this.metroLabel7);
+            this.groupBox2.Location = new System.Drawing.Point(255, 177);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(210, 255);
+            this.groupBox2.TabIndex = 131;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Visible = false;
+            // 
+            // metroLabel6
+            // 
+            this.metroLabel6.FontWeight = MetroFramework.MetroLabelWeight.Regular;
+            this.metroLabel6.Location = new System.Drawing.Point(0, 12);
+            this.metroLabel6.Name = "metroLabel6";
+            this.metroLabel6.Size = new System.Drawing.Size(210, 19);
+            this.metroLabel6.TabIndex = 6;
+            this.metroLabel6.Text = "Psycology Tasks Grouping Mode";
+            this.metroLabel6.UseCustomBackColor = true;
+            this.metroLabel6.WrapToLine = true;
+            // 
+            // metroPanel3
+            // 
+            this.metroPanel3.Controls.Add(this.rdbShapGrouping);
+            this.metroPanel3.Controls.Add(this.rdbColorGrouping);
+            this.metroPanel3.Controls.Add(this.rdbNoGrouping);
+            this.metroPanel3.HorizontalScrollbarBarColor = true;
+            this.metroPanel3.HorizontalScrollbarHighlightOnWheel = false;
+            this.metroPanel3.HorizontalScrollbarSize = 10;
+            this.metroPanel3.Location = new System.Drawing.Point(12, 52);
+            this.metroPanel3.Name = "metroPanel3";
+            this.metroPanel3.Size = new System.Drawing.Size(179, 165);
+            this.metroPanel3.TabIndex = 5;
+            this.metroPanel3.UseCustomBackColor = true;
+            this.metroPanel3.VerticalScrollbarBarColor = true;
+            this.metroPanel3.VerticalScrollbarHighlightOnWheel = false;
+            this.metroPanel3.VerticalScrollbarSize = 10;
+            // 
+            // rdbColorGrouping
+            // 
+            this.rdbColorGrouping.AutoSize = true;
+            this.rdbColorGrouping.Location = new System.Drawing.Point(8, 43);
+            this.rdbColorGrouping.Name = "rdbColorGrouping";
+            this.rdbColorGrouping.Size = new System.Drawing.Size(105, 15);
+            this.rdbColorGrouping.TabIndex = 4;
+            this.rdbColorGrouping.Text = "Color Grouping";
+            this.rdbColorGrouping.UseCustomBackColor = true;
+            this.rdbColorGrouping.UseSelectable = true;
+            // 
+            // rdbNoGrouping
+            // 
+            this.rdbNoGrouping.AutoSize = true;
+            this.rdbNoGrouping.Checked = true;
+            this.rdbNoGrouping.Location = new System.Drawing.Point(8, 9);
+            this.rdbNoGrouping.Name = "rdbNoGrouping";
+            this.rdbNoGrouping.Size = new System.Drawing.Size(92, 15);
+            this.rdbNoGrouping.TabIndex = 3;
+            this.rdbNoGrouping.TabStop = true;
+            this.rdbNoGrouping.Text = "No Grouping";
+            this.rdbNoGrouping.UseCustomBackColor = true;
+            this.rdbNoGrouping.UseSelectable = true;
+            // 
+            // metroLabel7
+            // 
+            this.metroLabel7.AutoSize = true;
+            this.metroLabel7.FontSize = MetroFramework.MetroLabelSize.Tall;
+            this.metroLabel7.FontWeight = MetroFramework.MetroLabelWeight.Bold;
+            this.metroLabel7.Location = new System.Drawing.Point(0, 12);
+            this.metroLabel7.Name = "metroLabel7";
+            this.metroLabel7.Size = new System.Drawing.Size(222, 25);
+            this.metroLabel7.TabIndex = 7;
+            this.metroLabel7.Text = "______________________________";
+            this.metroLabel7.UseCustomBackColor = true;
+            // 
+            // rdbShapGrouping
+            // 
+            this.rdbShapGrouping.AutoSize = true;
+            this.rdbShapGrouping.Location = new System.Drawing.Point(8, 77);
+            this.rdbShapGrouping.Name = "rdbShapGrouping";
+            this.rdbShapGrouping.Size = new System.Drawing.Size(108, 15);
+            this.rdbShapGrouping.TabIndex = 5;
+            this.rdbShapGrouping.Text = "Shape Grouping";
+            this.rdbShapGrouping.UseCustomBackColor = true;
+            this.rdbShapGrouping.UseSelectable = true;
             // 
             // TaskOperator
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 17F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(216)))), ((int)(((byte)(201)))));
             this.ClientSize = new System.Drawing.Size(500, 479);
@@ -1079,6 +1177,10 @@
             this.pnl4.PerformLayout();
             this.pnlRunMode.ResumeLayout(false);
             this.pnlRunMode.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.metroPanel3.ResumeLayout(false);
+            this.metroPanel3.PerformLayout();
             this.ResumeLayout(false);
 
 		}
@@ -1147,5 +1249,12 @@
         private MetroFramework.Controls.MetroLabel metroLabel24;
         private System.Windows.Forms.NumericUpDown numericOutnessthresh;
         private MetroFramework.Controls.MetroCheckBox chkbxOutnessConf;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private MetroFramework.Controls.MetroLabel metroLabel6;
+        private MetroFramework.Controls.MetroPanel metroPanel3;
+        public MetroFramework.Controls.MetroRadioButton rdbColorGrouping;
+        public MetroFramework.Controls.MetroRadioButton rdbNoGrouping;
+        private MetroFramework.Controls.MetroLabel metroLabel7;
+        public MetroFramework.Controls.MetroRadioButton rdbShapGrouping;
     }
 }
