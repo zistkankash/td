@@ -135,6 +135,7 @@ namespace Psychophysics
             FrameIndexes.Clear();
             DeletedFrames.Clear();
             ActivePicB = 1;
+            PicBCnt = 1;
             X_TB.Enabled = false;
             Y_TB.Enabled = false;
 			#region new desidn mod
