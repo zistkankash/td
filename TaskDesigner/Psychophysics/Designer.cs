@@ -83,7 +83,7 @@ namespace Psychophysics
 		{
 			this.Border.BorderStyle = XCoolForm.X3DBorderPrimitive.XBorderStyle.Flat;
 
-			this.TitleBar.TitleBarBackImage = Resource.engineer;
+			
 			this.TitleBar.TitleBarCaption = "CogLAB";
 			this.TitleBar.TitleBarButtons[2].ButtonFillMode = XCoolForm.XTitleBarButton.XButtonFillMode.None;
 			this.TitleBar.TitleBarButtons[1].ButtonFillMode = XCoolForm.XTitleBarButton.XButtonFillMode.None;
@@ -91,7 +91,7 @@ namespace Psychophysics
 			this.TitleBar.TitleBarType = XCoolForm.XTitleBar.XTitleBarType.Angular;
 			this.TitleBar.TitleBarFill = XCoolForm.XTitleBar.XTitleBarFill.UpperGlow;
 
-			this.MenuIcon = Resource.brain.GetThumbnailImage(25, 25, null, IntPtr.Zero);
+			
 			this.StatusBar.BarHeight = 1;
 			this.StatusBar.EllipticalGlow = false;
 			this.StatusBar.BarImageAlign = XCoolForm.XStatusBar.XStatusBarBackImageAlign.Left;
@@ -640,14 +640,13 @@ namespace Psychophysics
                 }
                 else
 					_parentTask._tsk.AllLevelProp.Add(ListAddedFrame);
-
-				_parentTask._tsk.EnabledTask[_parentTask._tsk.AllLevelProp.Count - 1] = 2;   
+                				  
             }
             else if (Mode == 2)
             {
 				_parentTask._tsk.AllLevelProp[EditedIndex].Clear();
                 _parentTask._tsk.AllLevelProp[EditedIndex] = ListAddedFrame;
-               	_parentTask._tsk.EnabledTask[EditedIndex] = 2;
+               	
             }
 			
             this.Close();

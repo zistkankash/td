@@ -30,275 +30,266 @@ namespace Psychophysics
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PsycoPhysicTask));
-			this.panel1 = new System.Windows.Forms.Panel();
-			this.label3 = new System.Windows.Forms.Label();
-			this.Task_Table = new System.Windows.Forms.TableLayoutPanel();
-			this.SelectTask_CB0 = new System.Windows.Forms.ComboBox();
-			this.NumTrial_TB0 = new System.Windows.Forms.TextBox();
-			this.NameTask_TB0 = new System.Windows.Forms.TextBox();
-			this.TotalTime_LB0 = new System.Windows.Forms.Label();
-			this.FramePerTask_LB0 = new System.Windows.Forms.Label();
-			this.label1 = new System.Windows.Forms.Label();
-			this.Time_LB = new System.Windows.Forms.Label();
-			this.label4 = new System.Windows.Forms.Label();
-			this.label2 = new System.Windows.Forms.Label();
-			this.Start_PB = new System.Windows.Forms.Button();
-			this.Stop_PB = new System.Windows.Forms.Button();
-			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-			this.chkRandom = new System.Windows.Forms.CheckBox();
-			this.pictureBox1 = new System.Windows.Forms.PictureBox();
-			this.panel1.SuspendLayout();
-			this.Task_Table.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-			this.SuspendLayout();
-			// 
-			// panel1
-			// 
-			this.panel1.AutoScroll = true;
-			this.panel1.BackColor = System.Drawing.Color.Transparent;
-			this.panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-			this.panel1.Controls.Add(this.label3);
-			this.panel1.Controls.Add(this.Task_Table);
-			this.panel1.Controls.Add(this.label1);
-			this.panel1.Controls.Add(this.Time_LB);
-			this.panel1.Controls.Add(this.label4);
-			this.panel1.Controls.Add(this.label2);
-			this.panel1.Location = new System.Drawing.Point(29, 37);
-			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(685, 339);
-			this.panel1.TabIndex = 0;
-			// 
-			// label3
-			// 
-			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(539, 14);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(93, 13);
-			this.label3.TabIndex = 3;
-			this.label3.Text = "Number of Frames";
-			// 
-			// Task_Table
-			// 
-			this.Task_Table.AutoScroll = true;
-			this.Task_Table.AutoSize = true;
-			this.Task_Table.BackColor = System.Drawing.Color.Transparent;
-			this.Task_Table.ColumnCount = 5;
-			this.Task_Table.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 164F));
-			this.Task_Table.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 169F));
-			this.Task_Table.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 131F));
-			this.Task_Table.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 62F));
-			this.Task_Table.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 111F));
-			this.Task_Table.Controls.Add(this.SelectTask_CB0, 1, 0);
-			this.Task_Table.Controls.Add(this.NumTrial_TB0, 2, 0);
-			this.Task_Table.Controls.Add(this.NameTask_TB0, 0, 0);
-			this.Task_Table.Controls.Add(this.TotalTime_LB0, 3, 0);
-			this.Task_Table.Controls.Add(this.FramePerTask_LB0, 4, 0);
-			this.Task_Table.Location = new System.Drawing.Point(16, 45);
-			this.Task_Table.Name = "Task_Table";
-			this.Task_Table.RowCount = 1;
-			this.Task_Table.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.Task_Table.Size = new System.Drawing.Size(637, 30);
-			this.Task_Table.TabIndex = 3;
-			this.Task_Table.Scroll += new System.Windows.Forms.ScrollEventHandler(this.Task_Table_Scroll);
-			// 
-			// SelectTask_CB0
-			// 
-			this.SelectTask_CB0.FormattingEnabled = true;
-			this.SelectTask_CB0.Items.AddRange(new object[] {
-            "",
-            "Design"});
-			this.SelectTask_CB0.Location = new System.Drawing.Point(167, 3);
-			this.SelectTask_CB0.Name = "SelectTask_CB0";
-			this.SelectTask_CB0.Size = new System.Drawing.Size(94, 21);
-			this.SelectTask_CB0.TabIndex = 4;
-			this.SelectTask_CB0.SelectedIndexChanged += new System.EventHandler(this.SelectTask_CB_SelectedIndexChanged);
-			// 
-			// NumTrial_TB0
-			// 
-			this.NumTrial_TB0.Location = new System.Drawing.Point(336, 3);
-			this.NumTrial_TB0.Name = "NumTrial_TB0";
-			this.NumTrial_TB0.Size = new System.Drawing.Size(56, 20);
-			this.NumTrial_TB0.TabIndex = 4;
-			this.NumTrial_TB0.Text = "1";
-			this.NumTrial_TB0.TextChanged += new System.EventHandler(this.NumTrial_TB_TextChanged);
-			// 
-			// NameTask_TB0
-			// 
-			this.NameTask_TB0.Location = new System.Drawing.Point(3, 3);
-			this.NameTask_TB0.Name = "NameTask_TB0";
-			this.NameTask_TB0.Size = new System.Drawing.Size(104, 20);
-			this.NameTask_TB0.TabIndex = 0;
-			this.NameTask_TB0.Text = "1";
-			this.NameTask_TB0.TextChanged += new System.EventHandler(this.NameTask_TB_TextChanged);
-			// 
-			// TotalTime_LB0
-			// 
-			this.TotalTime_LB0.AutoSize = true;
-			this.TotalTime_LB0.Location = new System.Drawing.Point(467, 0);
-			this.TotalTime_LB0.Name = "TotalTime_LB0";
-			this.TotalTime_LB0.Size = new System.Drawing.Size(13, 13);
-			this.TotalTime_LB0.TabIndex = 4;
-			this.TotalTime_LB0.Text = "0";
-			this.TotalTime_LB0.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// FramePerTask_LB0
-			// 
-			this.FramePerTask_LB0.AutoSize = true;
-			this.FramePerTask_LB0.Location = new System.Drawing.Point(529, 0);
-			this.FramePerTask_LB0.Name = "FramePerTask_LB0";
-			this.FramePerTask_LB0.Size = new System.Drawing.Size(10, 17);
-			this.FramePerTask_LB0.TabIndex = 4;
-			this.FramePerTask_LB0.Text = "0";
-			this.FramePerTask_LB0.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.FramePerTask_LB0.UseCompatibleTextRendering = true;
-			// 
-			// label1
-			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(16, 14);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(35, 13);
-			this.label1.TabIndex = 2;
-			this.label1.Text = "Name";
-			// 
-			// Time_LB
-			// 
-			this.Time_LB.AutoSize = true;
-			this.Time_LB.Location = new System.Drawing.Point(473, 14);
-			this.Time_LB.Name = "Time_LB";
-			this.Time_LB.Size = new System.Drawing.Size(55, 13);
-			this.Time_LB.TabIndex = 2;
-			this.Time_LB.Text = "Time (ms):";
-			// 
-			// label4
-			// 
-			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(177, 14);
-			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(100, 13);
-			this.label4.TabIndex = 5;
-			this.label4.Text = "Operation Selection";
-			// 
-			// label2
-			// 
-			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(344, 14);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(99, 13);
-			this.label2.TabIndex = 2;
-			this.label2.Text = "Number of Repeats";
-			// 
-			// Start_PB
-			// 
-			this.Start_PB.AutoEllipsis = true;
-			this.Start_PB.BackColor = System.Drawing.Color.Transparent;
-			this.Start_PB.BackgroundImage = global::TaskDesigner.Resource.next;
-			this.Start_PB.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.Start_PB.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-			this.Start_PB.FlatAppearance.BorderSize = 0;
-			this.Start_PB.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-			this.Start_PB.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-			this.Start_PB.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.Start_PB.Location = new System.Drawing.Point(28, 379);
-			this.Start_PB.Margin = new System.Windows.Forms.Padding(0);
-			this.Start_PB.Name = "Start_PB";
-			this.Start_PB.Size = new System.Drawing.Size(48, 48);
-			this.Start_PB.TabIndex = 2;
-			this.Start_PB.TabStop = false;
-			this.toolTip1.SetToolTip(this.Start_PB, "Preview of task");
-			this.Start_PB.UseMnemonic = false;
-			this.Start_PB.UseVisualStyleBackColor = false;
-			this.Start_PB.Click += new System.EventHandler(this.Start_PB_Click);
-			// 
-			// Stop_PB
-			// 
-			this.Stop_PB.AutoEllipsis = true;
-			this.Stop_PB.BackColor = System.Drawing.Color.Transparent;
-			this.Stop_PB.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Stop_PB.BackgroundImage")));
-			this.Stop_PB.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.Stop_PB.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-			this.Stop_PB.FlatAppearance.BorderSize = 0;
-			this.Stop_PB.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.Stop_PB.Location = new System.Drawing.Point(230, 379);
-			this.Stop_PB.Margin = new System.Windows.Forms.Padding(0);
-			this.Stop_PB.Name = "Stop_PB";
-			this.Stop_PB.Size = new System.Drawing.Size(48, 48);
-			this.Stop_PB.TabIndex = 25;
-			this.Stop_PB.TabStop = false;
-			this.Stop_PB.UseMnemonic = false;
-			this.Stop_PB.UseVisualStyleBackColor = false;
-			this.Stop_PB.Visible = false;
-			this.Stop_PB.Click += new System.EventHandler(this.Stop_PB_Click);
-			// 
-			// chkRandom
-			// 
-			this.chkRandom.AutoSize = true;
-			this.chkRandom.ForeColor = System.Drawing.Color.Black;
-			this.chkRandom.Location = new System.Drawing.Point(93, 396);
-			this.chkRandom.Name = "chkRandom";
-			this.chkRandom.Size = new System.Drawing.Size(134, 17);
-			this.chkRandom.TabIndex = 26;
-			this.chkRandom.Text = "Make Random Repeat";
-			this.chkRandom.UseVisualStyleBackColor = true;
-			// 
-			// pictureBox1
-			// 
-
-			this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.pictureBox1.Location = new System.Drawing.Point(586, 320);
-			this.pictureBox1.Name = "pictureBox1";
-			this.pictureBox1.Size = new System.Drawing.Size(140, 186);
-			this.pictureBox1.TabIndex = 27;
-			this.pictureBox1.TabStop = false;
-			// 
-			// PsycoPhysicTask
-			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.BackColor = System.Drawing.Color.Transparent;
-			this.ClientSize = new System.Drawing.Size(737, 455);
-			this.Controls.Add(this.pictureBox1);
-			this.Controls.Add(this.chkRandom);
-			this.Controls.Add(this.Stop_PB);
-			this.Controls.Add(this.panel1);
-			this.Controls.Add(this.Start_PB);
-			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-			this.Name = "PsycoPhysicTask";
-			this.Tag = "TaskP";
-			this.Text = "TaskPreview";
-			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TaskPreview_FormClosing);
-			this.Load += new System.EventHandler(this.TaskPreview_Load);
-			this.VisibleChanged += new System.EventHandler(this.TaskPreview_VisibleChanged);
-			this.panel1.ResumeLayout(false);
-			this.panel1.PerformLayout();
-			this.Task_Table.ResumeLayout(false);
-			this.Task_Table.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-			this.ResumeLayout(false);
-			this.PerformLayout();
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PsycoPhysicTask));
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.dtgvConds = new System.Windows.Forms.DataGridView();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.panel2 = new System.Windows.Forms.Panel();
+            this._name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._repeat = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._frame = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this._time = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnNewTask = new System.Windows.Forms.Button();
+            this.btnEditCond = new System.Windows.Forms.Button();
+            this.btnRemCond = new System.Windows.Forms.Button();
+            this.btnAddCond = new System.Windows.Forms.Button();
+            this.btnSave = new System.Windows.Forms.Button();
+            this.btnOpen = new System.Windows.Forms.Button();
+            this.btnPreStart = new System.Windows.Forms.Button();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dtgvConds)).BeginInit();
+            this.panel2.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // panel1
+            // 
+            this.panel1.AutoScroll = true;
+            this.panel1.BackColor = System.Drawing.Color.Transparent;
+            this.panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.panel1.Controls.Add(this.dtgvConds);
+            this.panel1.Location = new System.Drawing.Point(71, 1);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(472, 394);
+            this.panel1.TabIndex = 0;
+            // 
+            // dtgvConds
+            // 
+            this.dtgvConds.AllowUserToAddRows = false;
+            this.dtgvConds.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dtgvConds.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dtgvConds.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this._name,
+            this._repeat,
+            this._frame,
+            this._time});
+            this.dtgvConds.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dtgvConds.Location = new System.Drawing.Point(0, 0);
+            this.dtgvConds.MultiSelect = false;
+            this.dtgvConds.Name = "dtgvConds";
+            this.dtgvConds.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.dtgvConds.Size = new System.Drawing.Size(472, 394);
+            this.dtgvConds.TabIndex = 0;
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.btnEditCond);
+            this.panel2.Controls.Add(this.btnRemCond);
+            this.panel2.Controls.Add(this.btnAddCond);
+            this.panel2.Location = new System.Drawing.Point(4, 1);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(61, 394);
+            this.panel2.TabIndex = 6;
+            // 
+            // _name
+            // 
+            this._name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this._name.HeaderText = "Name";
+            this._name.Name = "_name";
+            // 
+            // _repeat
+            // 
+            this._repeat.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this._repeat.HeaderText = "Repeats";
+            this._repeat.Name = "_repeat";
+            // 
+            // _frame
+            // 
+            this._frame.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this._frame.HeaderText = "Frames";
+            this._frame.Name = "_frame";
+            this._frame.ReadOnly = true;
+            // 
+            // _time
+            // 
+            this._time.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this._time.HeaderText = "Time";
+            this._time.Name = "_time";
+            this._time.ReadOnly = true;
+            // 
+            // btnNewTask
+            // 
+            this.btnNewTask.BackColor = System.Drawing.Color.Transparent;
+            this.btnNewTask.BackgroundImage = global::TaskDesigner.Resource.New;
+            this.btnNewTask.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnNewTask.Enabled = false;
+            this.btnNewTask.FlatAppearance.BorderColor = System.Drawing.Color.Gold;
+            this.btnNewTask.FlatAppearance.BorderSize = 0;
+            this.btnNewTask.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.btnNewTask.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnNewTask.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnNewTask.Location = new System.Drawing.Point(306, 403);
+            this.btnNewTask.Name = "btnNewTask";
+            this.btnNewTask.Size = new System.Drawing.Size(44, 45);
+            this.btnNewTask.TabIndex = 130;
+            this.toolTip1.SetToolTip(this.btnNewTask, "New Task");
+            this.btnNewTask.UseVisualStyleBackColor = false;
+            this.btnNewTask.Click += new System.EventHandler(this.btnNewTask_Click);
+            // 
+            // btnEditCond
+            // 
+            this.btnEditCond.BackColor = System.Drawing.Color.Transparent;
+            this.btnEditCond.BackgroundImage = global::TaskDesigner.Resource.Edit;
+            this.btnEditCond.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnEditCond.Enabled = false;
+            this.btnEditCond.FlatAppearance.BorderColor = System.Drawing.Color.Gold;
+            this.btnEditCond.FlatAppearance.BorderSize = 0;
+            this.btnEditCond.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.btnEditCond.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnEditCond.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEditCond.Location = new System.Drawing.Point(3, 69);
+            this.btnEditCond.Name = "btnEditCond";
+            this.btnEditCond.Size = new System.Drawing.Size(55, 55);
+            this.btnEditCond.TabIndex = 131;
+            this.toolTip1.SetToolTip(this.btnEditCond, "Edit Condition");
+            this.btnEditCond.UseVisualStyleBackColor = false;
+            // 
+            // btnRemCond
+            // 
+            this.btnRemCond.BackColor = System.Drawing.Color.Transparent;
+            this.btnRemCond.BackgroundImage = global::TaskDesigner.Resource.delete;
+            this.btnRemCond.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnRemCond.Enabled = false;
+            this.btnRemCond.FlatAppearance.BorderColor = System.Drawing.Color.Gold;
+            this.btnRemCond.FlatAppearance.BorderSize = 0;
+            this.btnRemCond.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.btnRemCond.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRemCond.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRemCond.Location = new System.Drawing.Point(3, 138);
+            this.btnRemCond.Name = "btnRemCond";
+            this.btnRemCond.Size = new System.Drawing.Size(55, 55);
+            this.btnRemCond.TabIndex = 130;
+            this.toolTip1.SetToolTip(this.btnRemCond, "Remove Condition");
+            this.btnRemCond.UseVisualStyleBackColor = false;
+            // 
+            // btnAddCond
+            // 
+            this.btnAddCond.BackColor = System.Drawing.Color.Transparent;
+            this.btnAddCond.BackgroundImage = global::TaskDesigner.Resource.add;
+            this.btnAddCond.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnAddCond.Enabled = false;
+            this.btnAddCond.FlatAppearance.BorderColor = System.Drawing.Color.Gold;
+            this.btnAddCond.FlatAppearance.BorderSize = 0;
+            this.btnAddCond.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.btnAddCond.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAddCond.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAddCond.ForeColor = System.Drawing.Color.White;
+            this.btnAddCond.Location = new System.Drawing.Point(3, 3);
+            this.btnAddCond.Name = "btnAddCond";
+            this.btnAddCond.Size = new System.Drawing.Size(55, 55);
+            this.btnAddCond.TabIndex = 129;
+            this.btnAddCond.UseVisualStyleBackColor = false;
+            // 
+            // btnSave
+            // 
+            this.btnSave.BackColor = System.Drawing.Color.Transparent;
+            this.btnSave.BackgroundImage = global::TaskDesigner.Resource.Save2;
+            this.btnSave.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnSave.Enabled = false;
+            this.btnSave.FlatAppearance.BorderColor = System.Drawing.Color.Gold;
+            this.btnSave.FlatAppearance.BorderSize = 0;
+            this.btnSave.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSave.Location = new System.Drawing.Point(432, 404);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(49, 44);
+            this.btnSave.TabIndex = 129;
+            this.toolTip1.SetToolTip(this.btnSave, "Save Task");
+            this.btnSave.UseVisualStyleBackColor = false;
+            // 
+            // btnOpen
+            // 
+            this.btnOpen.BackColor = System.Drawing.Color.Transparent;
+            this.btnOpen.BackgroundImage = global::TaskDesigner.Resource.Open1;
+            this.btnOpen.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnOpen.Enabled = false;
+            this.btnOpen.FlatAppearance.BorderColor = System.Drawing.Color.Gold;
+            this.btnOpen.FlatAppearance.BorderSize = 0;
+            this.btnOpen.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.btnOpen.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnOpen.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnOpen.Location = new System.Drawing.Point(368, 404);
+            this.btnOpen.Name = "btnOpen";
+            this.btnOpen.Size = new System.Drawing.Size(45, 45);
+            this.btnOpen.TabIndex = 128;
+            this.toolTip1.SetToolTip(this.btnOpen, "Open Task");
+            this.btnOpen.UseVisualStyleBackColor = false;
+            // 
+            // btnPreStart
+            // 
+            this.btnPreStart.AutoEllipsis = true;
+            this.btnPreStart.BackColor = System.Drawing.Color.Transparent;
+            this.btnPreStart.BackgroundImage = global::TaskDesigner.Resource.Run2;
+            this.btnPreStart.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnPreStart.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.btnPreStart.FlatAppearance.BorderSize = 0;
+            this.btnPreStart.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.btnPreStart.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.btnPreStart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnPreStart.Location = new System.Drawing.Point(495, 402);
+            this.btnPreStart.Margin = new System.Windows.Forms.Padding(0);
+            this.btnPreStart.Name = "btnPreStart";
+            this.btnPreStart.Size = new System.Drawing.Size(48, 48);
+            this.btnPreStart.TabIndex = 2;
+            this.btnPreStart.TabStop = false;
+            this.toolTip1.SetToolTip(this.btnPreStart, "Preview of Task");
+            this.btnPreStart.UseMnemonic = false;
+            this.btnPreStart.UseVisualStyleBackColor = false;
+            this.btnPreStart.Click += new System.EventHandler(this.Start_PB_Click);
+            // 
+            // PsycoPhysicTask
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(216)))), ((int)(((byte)(201)))));
+            this.ClientSize = new System.Drawing.Size(545, 455);
+            this.Controls.Add(this.btnNewTask);
+            this.Controls.Add(this.panel2);
+            this.Controls.Add(this.btnSave);
+            this.Controls.Add(this.btnOpen);
+            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.btnPreStart);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.Name = "PsycoPhysicTask";
+            this.Tag = "TaskP";
+            this.Text = "TaskPreview";
+            this.Load += new System.EventHandler(this.TaskPreview_Load);
+            this.VisibleChanged += new System.EventHandler(this.TaskPreview_VisibleChanged);
+            this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dtgvConds)).EndInit();
+            this.panel2.ResumeLayout(false);
+            this.ResumeLayout(false);
 
 		}
 
 		#endregion
 
 		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.TableLayoutPanel Task_Table;
-		private System.Windows.Forms.TextBox NumTrial_TB0;
-		private System.Windows.Forms.Label TotalTime_LB0;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.Label Time_LB;
-		private System.Windows.Forms.ComboBox SelectTask_CB0;
-		private System.Windows.Forms.Button Start_PB;
-		private Label label3;
-		private Label FramePerTask_LB0;
-		private Label label1;
-		private TextBox NameTask_TB0;
-		private Button Stop_PB;
-		private Label label4;
+		private System.Windows.Forms.Button btnPreStart;
 		private ToolTip toolTip1;
-		private CheckBox chkRandom;
-		private PictureBox pictureBox1;
-	}
+        private Button btnOpen;
+        private Button btnSave;
+        private Panel panel2;
+        private DataGridView dtgvConds;
+        private Button btnRemCond;
+        private Button btnAddCond;
+        private Button btnNewTask;
+        private Button btnEditCond;
+        private DataGridViewTextBoxColumn _name;
+        private DataGridViewTextBoxColumn _repeat;
+        private DataGridViewTextBoxColumn _frame;
+        private DataGridViewTextBoxColumn _time;
+    }
 }

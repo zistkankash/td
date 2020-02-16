@@ -15,10 +15,8 @@ namespace Basics
 		public int NFrame = 0;
 		public FrameProperties[] FrameProps;
 		public List<List<FrameProperties>> AllLevelProp = new List<List<FrameProperties>>();
-		public List<int> BaseIndex = new List<int>();
-		public List<String> AllLevelName = new List<String>();
-		public List<int> EnabledTask = new List<int>();
-		public List<int> NumerRepeat = new List<int>();
+		public List<ConditionData> AllLevelName = new List<ConditionData>();
+		
 		public bool Savetask = false;
 		public string DataPath = "";
 		public int SeqRandTaskRunner = 2;
@@ -273,4 +271,10 @@ namespace Basics
 			NFrame = numFrame;
 		}
 	}
+
+    public class ConditionData
+    {
+        public string Name;
+        public int Repeat;
+    }
 }
