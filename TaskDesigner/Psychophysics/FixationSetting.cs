@@ -8,7 +8,7 @@ using TaskDesigner;
 
 namespace Psychophysics
 {
-    public partial class FixationSetting : XCoolForm.XCoolForm
+    public partial class FixationSetting : Form
     {
        	
 		public FixationSetting()
@@ -16,35 +16,10 @@ namespace Psychophysics
             InitializeComponent();
           	
         }
-        #region Theme
-        
-		private XmlThemeLoader xtl = new XmlThemeLoader();
-        // this function just sets a theme for the application
-        
-		private void SetTheme()
-        {
-            this.Border.BorderStyle = XCoolForm.X3DBorderPrimitive.XBorderStyle.Flat;
-
-            this.TitleBar.TitleBarBackImage = Resource.engineer;
-            this.TitleBar.TitleBarCaption = "Fixation Setting";
-            this.TitleBar.TitleBarButtons[2].ButtonFillMode = XCoolForm.XTitleBarButton.XButtonFillMode.None;
-            this.TitleBar.TitleBarButtons[1].ButtonFillMode = XCoolForm.XTitleBarButton.XButtonFillMode.None;
-            this.TitleBar.TitleBarButtons[0].ButtonFillMode = XCoolForm.XTitleBarButton.XButtonFillMode.None;
-            this.TitleBar.TitleBarType = XCoolForm.XTitleBar.XTitleBarType.Angular;
-            this.TitleBar.TitleBarFill = XCoolForm.XTitleBar.XTitleBarFill.UpperGlow;
-
-            this.MenuIcon = Resource.brain.GetThumbnailImage(25, 25, null, IntPtr.Zero);
-
-            this.StatusBar.EllipticalGlow = false;
-            this.StatusBar.BarImageAlign = XCoolForm.XStatusBar.XStatusBarBackImageAlign.Left;
-
-            xtl.ApplyTheme(Path.Combine(Environment.CurrentDirectory, @"Themes\BlueWinterTheme.xml"));
-        }
-        
+                                
 		private void FixationSetting_Load(object sender, EventArgs e)
         {
-            this.StatusBar.EllipticalGlow = false;
-
+            
 			if(Designer.Reward[Designer.ActivePicB - 1] == 1)
 			{
 				PlayFail_CB.Checked = false;
@@ -85,11 +60,6 @@ namespace Psychophysics
             
             txtFixationTime_ET.Text = Convert.ToString(Designer.fixationList[Designer.ActivePicB - 1][Designer._fixateAreaSelected].Time);
 
-            this.XCoolFormHolderButtonClick += new XCoolFormHolderButtonClickHandler(frmCoolForm_XCoolFormHolderButtonClick);
-            xtl.ThemeForm = this;
-            SetTheme();
-
-
         }
 
         private void frmCoolForm_XCoolFormHolderButtonClick(XCoolForm.XCoolForm.XCoolFormHolderButtonClickArgs e)
@@ -106,9 +76,7 @@ namespace Psychophysics
             }
 
         }
-
-        #endregion
-          
+                  
 
         private void Condition_CB_CheckedChanged(object sender, EventArgs e)
         {

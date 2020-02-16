@@ -684,15 +684,15 @@ namespace TaskRunning
 		void MakeRandomRepeat(int DisplayType)
 		{
 			int totalRepeat = 0;
-			for (int i = 0; i < _task.NumerRepeat.Count; i++)
+			for (int i = 0; i < _task.AllLevelName.Count; i++)
 			{
-				totalRepeat += _task.NumerRepeat[i];
+				totalRepeat += _task.AllLevelName[i].Repeat;
 			}
 			RandForTaskLevel = new int[totalRepeat];
 			int index = 0;
-			for (int i = 0; i < _task.NumerRepeat.Count; i++)
+			for (int i = 0; i < _task.AllLevelName.Count; i++)
 			{
-				for (int j = 0; j < _task.NumerRepeat[i]; j++)
+				for (int j = 0; j < _task.AllLevelName[i].Repeat; j++)
 				{
 
 					RandForTaskLevel[index] = i;

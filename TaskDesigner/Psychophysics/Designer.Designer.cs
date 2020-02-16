@@ -397,7 +397,7 @@
             // 
             this.FixationSetting_BT.AutoEllipsis = true;
             this.FixationSetting_BT.BackColor = System.Drawing.Color.Transparent;
-            this.FixationSetting_BT.BackgroundImage = global::TaskDesigner.Resource.fixation_setting;
+            this.FixationSetting_BT.BackgroundImage = global::TaskDesigner.Resource.setting;
             this.FixationSetting_BT.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.FixationSetting_BT.Enabled = false;
             this.FixationSetting_BT.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
@@ -417,7 +417,7 @@
             // 
             this.button5.AutoEllipsis = true;
             this.button5.BackColor = System.Drawing.Color.Transparent;
-            this.button5.BackgroundImage = global::TaskDesigner.Resource.shape;
+            this.button5.BackgroundImage = global::TaskDesigner.Resource.setting;
             this.button5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.button5.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.button5.FlatAppearance.BorderSize = 0;
@@ -555,7 +555,7 @@
             // 
             this.button7.AutoEllipsis = true;
             this.button7.BackColor = System.Drawing.Color.Transparent;
-            this.button7.BackgroundImage = global::TaskDesigner.Resource.picture;
+            this.button7.BackgroundImage = global::TaskDesigner.Resource.setting;
             this.button7.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.button7.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.button7.FlatAppearance.BorderSize = 0;
@@ -574,7 +574,7 @@
             // 
             this.button6.AutoEllipsis = true;
             this.button6.BackColor = System.Drawing.Color.Transparent;
-            this.button6.BackgroundImage = global::TaskDesigner.Resource.shape;
+            this.button6.BackgroundImage = global::TaskDesigner.Resource.setting;
             this.button6.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.button6.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.button6.FlatAppearance.BorderSize = 0;
@@ -800,7 +800,7 @@
             // 
             this.RectangleShape_BT.AutoEllipsis = true;
             this.RectangleShape_BT.BackColor = System.Drawing.Color.Transparent;
-            this.RectangleShape_BT.BackgroundImage = global::TaskDesigner.Resource.rectangle;
+            this.RectangleShape_BT.BackgroundImage = global::TaskDesigner.Resource.setting;
             this.RectangleShape_BT.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.RectangleShape_BT.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.RectangleShape_BT.FlatAppearance.BorderSize = 0;
@@ -819,7 +819,7 @@
             // 
             this.SquareShape_BT.AutoEllipsis = true;
             this.SquareShape_BT.BackColor = System.Drawing.Color.Transparent;
-            this.SquareShape_BT.BackgroundImage = global::TaskDesigner.Resource.square;
+            this.SquareShape_BT.BackgroundImage = global::TaskDesigner.Resource.setting;
             this.SquareShape_BT.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.SquareShape_BT.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.SquareShape_BT.FlatAppearance.BorderSize = 0;
@@ -848,7 +848,7 @@
             // 
             this.CircleShape_BT.AutoEllipsis = true;
             this.CircleShape_BT.BackColor = System.Drawing.Color.Transparent;
-            this.CircleShape_BT.BackgroundImage = global::TaskDesigner.Resource.circle;
+            this.CircleShape_BT.BackgroundImage = global::TaskDesigner.Resource.setting;
             this.CircleShape_BT.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.CircleShape_BT.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.CircleShape_BT.FlatAppearance.BorderSize = 0;
@@ -885,7 +885,7 @@
             // 
             this.Start_PB.AutoEllipsis = true;
             this.Start_PB.BackColor = System.Drawing.Color.Transparent;
-            this.Start_PB.BackgroundImage = global::TaskDesigner.Resource._checked;
+            this.Start_PB.BackgroundImage = global::TaskDesigner.Resource.setting;
             this.Start_PB.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.Start_PB.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.Start_PB.FlatAppearance.BorderSize = 0;

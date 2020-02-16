@@ -34,19 +34,19 @@ namespace Psychophysics
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PsycoPhysicTask));
             this.panel1 = new System.Windows.Forms.Panel();
             this.dtgvConds = new System.Windows.Forms.DataGridView();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.panel2 = new System.Windows.Forms.Panel();
             this._name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._repeat = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._frame = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._time = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.btnNewTask = new System.Windows.Forms.Button();
             this.btnEditCond = new System.Windows.Forms.Button();
             this.btnRemCond = new System.Windows.Forms.Button();
-            this.btnAddCond = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnOpen = new System.Windows.Forms.Button();
             this.btnPreStart = new System.Windows.Forms.Button();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.btnAddCond = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtgvConds)).BeginInit();
             this.panel2.SuspendLayout();
@@ -80,16 +80,7 @@ namespace Psychophysics
             this.dtgvConds.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.dtgvConds.Size = new System.Drawing.Size(472, 394);
             this.dtgvConds.TabIndex = 0;
-            // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.btnEditCond);
-            this.panel2.Controls.Add(this.btnRemCond);
-            this.panel2.Controls.Add(this.btnAddCond);
-            this.panel2.Location = new System.Drawing.Point(4, 1);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(61, 394);
-            this.panel2.TabIndex = 6;
+            this.dtgvConds.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgvConds_CellEndEdit);
             // 
             // _name
             // 
@@ -138,7 +129,7 @@ namespace Psychophysics
             // 
             // btnEditCond
             // 
-            this.btnEditCond.BackColor = System.Drawing.Color.Transparent;
+            this.btnEditCond.BackColor = System.Drawing.Color.NavajoWhite;
             this.btnEditCond.BackgroundImage = global::TaskDesigner.Resource.Edit;
             this.btnEditCond.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnEditCond.Enabled = false;
@@ -156,7 +147,7 @@ namespace Psychophysics
             // 
             // btnRemCond
             // 
-            this.btnRemCond.BackColor = System.Drawing.Color.Transparent;
+            this.btnRemCond.BackColor = System.Drawing.Color.LightCoral;
             this.btnRemCond.BackgroundImage = global::TaskDesigner.Resource.delete;
             this.btnRemCond.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnRemCond.Enabled = false;
@@ -165,30 +156,13 @@ namespace Psychophysics
             this.btnRemCond.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.btnRemCond.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRemCond.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRemCond.Location = new System.Drawing.Point(3, 138);
+            this.btnRemCond.Location = new System.Drawing.Point(3, 136);
             this.btnRemCond.Name = "btnRemCond";
             this.btnRemCond.Size = new System.Drawing.Size(55, 55);
             this.btnRemCond.TabIndex = 130;
             this.toolTip1.SetToolTip(this.btnRemCond, "Remove Condition");
             this.btnRemCond.UseVisualStyleBackColor = false;
-            // 
-            // btnAddCond
-            // 
-            this.btnAddCond.BackColor = System.Drawing.Color.Transparent;
-            this.btnAddCond.BackgroundImage = global::TaskDesigner.Resource.add;
-            this.btnAddCond.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnAddCond.Enabled = false;
-            this.btnAddCond.FlatAppearance.BorderColor = System.Drawing.Color.Gold;
-            this.btnAddCond.FlatAppearance.BorderSize = 0;
-            this.btnAddCond.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.btnAddCond.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAddCond.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddCond.ForeColor = System.Drawing.Color.White;
-            this.btnAddCond.Location = new System.Drawing.Point(3, 3);
-            this.btnAddCond.Name = "btnAddCond";
-            this.btnAddCond.Size = new System.Drawing.Size(55, 55);
-            this.btnAddCond.TabIndex = 129;
-            this.btnAddCond.UseVisualStyleBackColor = false;
+            this.btnRemCond.Click += new System.EventHandler(this.btnRemCond_Click);
             // 
             // btnSave
             // 
@@ -248,6 +222,34 @@ namespace Psychophysics
             this.btnPreStart.UseVisualStyleBackColor = false;
             this.btnPreStart.Click += new System.EventHandler(this.Start_PB_Click);
             // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.btnEditCond);
+            this.panel2.Controls.Add(this.btnRemCond);
+            this.panel2.Controls.Add(this.btnAddCond);
+            this.panel2.Location = new System.Drawing.Point(4, 1);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(61, 394);
+            this.panel2.TabIndex = 6;
+            // 
+            // btnAddCond
+            // 
+            this.btnAddCond.BackColor = System.Drawing.Color.PaleGreen;
+            this.btnAddCond.BackgroundImage = global::TaskDesigner.Resource.add;
+            this.btnAddCond.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnAddCond.Enabled = false;
+            this.btnAddCond.FlatAppearance.BorderColor = System.Drawing.Color.Gold;
+            this.btnAddCond.FlatAppearance.BorderSize = 0;
+            this.btnAddCond.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.btnAddCond.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAddCond.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAddCond.ForeColor = System.Drawing.Color.White;
+            this.btnAddCond.Location = new System.Drawing.Point(3, 3);
+            this.btnAddCond.Name = "btnAddCond";
+            this.btnAddCond.Size = new System.Drawing.Size(55, 55);
+            this.btnAddCond.TabIndex = 129;
+            this.btnAddCond.UseVisualStyleBackColor = false;
+            // 
             // PsycoPhysicTask
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -266,7 +268,6 @@ namespace Psychophysics
             this.Tag = "TaskP";
             this.Text = "TaskPreview";
             this.Load += new System.EventHandler(this.TaskPreview_Load);
-            this.VisibleChanged += new System.EventHandler(this.TaskPreview_VisibleChanged);
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dtgvConds)).EndInit();
             this.panel2.ResumeLayout(false);

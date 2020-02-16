@@ -25,12 +25,12 @@ namespace Basics
 		public HintForm Cue;
 		public ShowFr[] ShowFrame;
 		public TriggerEvents events;
-		public RepeatLinkFrame RepeatInfo;
+		
 
 		public FrameProperties()
 		{
-			BGColor = Color.Black;
-			FrameTime = 0;
+			BGColor = Color.White;
+			FrameTime = 1000;
 						
 			NumberSaccade = 1;
 			Stimulus = new FixationPts[NumberSaccade];
@@ -43,7 +43,7 @@ namespace Basics
 			Cue = new HintForm();
 			ShowFrame = new ShowFr[1];
 			events = new TriggerEvents();
-			RepeatInfo = new RepeatLinkFrame();
+			
 		}
 
 		public FrameProperties Copy()

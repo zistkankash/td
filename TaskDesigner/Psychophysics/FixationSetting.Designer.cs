@@ -166,7 +166,7 @@
             // 
             this.Ok_PB.AutoEllipsis = true;
             this.Ok_PB.BackColor = System.Drawing.Color.Transparent;
-            this.Ok_PB.BackgroundImage = global::TaskDesigner.Resource._checked;
+            this.Ok_PB.BackgroundImage = global::TaskDesigner.Resource.Run;
             this.Ok_PB.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.Ok_PB.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.Ok_PB.FlatAppearance.BorderSize = 0;

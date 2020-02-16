@@ -45,10 +45,9 @@ namespace Basics
 			for (int i = 0; i < levelcnt; i++)
 			{
 				SaveText += "___Name\n";
-				SaveText += "___" + AllLevelName[i] + "\n";
+				SaveText += "___" + AllLevelName[i].Name + "\n";
 				SaveText += "___Number Of Repeatation\n";
-				int repeatnum = NumerRepeat[i];
-				SaveText += "___" + repeatnum + "\n";
+				SaveText += "___" + AllLevelName[i].Repeat.ToString() + "\n";
 				SaveText += "___Number Of Frames\n";
 				int framecnt = AllLevelProp[i].Count;
 				SaveText += "___" + framecnt + "\n";
@@ -124,10 +123,7 @@ namespace Basics
 				}
 				AllLevelProp.Clear();
 				AllLevelName.Clear();
-				BaseIndex.Clear();
-				NumerRepeat.Clear();
-				EnabledTask.Clear();
-
+				
 				using (var fs = File.OpenRead(_tskAddress))
 				using (var reader = new StreamReader(fs))
 				{
@@ -136,20 +132,17 @@ namespace Basics
 					int NumberLevel = int.Parse(line);
 					for (int i = 0; i < NumberLevel; i++)
 					{
-						BaseIndex.Add(0);
+						
 						List<FrameProperties> ListAddedFrame = new List<FrameProperties>();
 
 						line = reader.ReadLine();
 						line = reader.ReadLine();
-						AllLevelName.Add(line.Substring(3));
-
-						line = reader.ReadLine();
+                        string name = line.Substring(3);
+                        line = reader.ReadLine();
 						line = reader.ReadLine();
 						int repeatnumber = int.Parse(line.Substring(3));
-						NumerRepeat.Add(repeatnumber);
-						EnabledTask.Add(2);
-
-						line = reader.ReadLine();
+                        AllLevelName.Add(new ConditionData(name, repeatnumber));
+                        line = reader.ReadLine();
 						line = reader.ReadLine();
 						int NumberFrame = int.Parse(line.Substring(3));
 
@@ -276,5 +269,10 @@ namespace Basics
     {
         public string Name;
         public int Repeat;
+        public ConditionData(string LevelName, int LevelRepeat)
+        {
+            Name = LevelName;
+            Repeat = LevelRepeat;
+        }
     }
 }

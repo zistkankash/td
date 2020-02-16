@@ -76,7 +76,7 @@ namespace Psychophysics
 		public static List<FrameProp> frameList = new List<FrameProp>();
 		#endregion
 		#region Theme
-		private XmlThemeLoader xtl = new XmlThemeLoader();
+		
 		// this function just sets a theme for the application
 
 		private void SetTheme() //A:we dont need it in metroform
@@ -97,8 +97,7 @@ namespace Psychophysics
 			this.StatusBar.BarImageAlign = XCoolForm.XStatusBar.XStatusBarBackImageAlign.Left;
 			this.StatusBar.BarItems[1].BarItemText = "";
 			this.StatusBar.BarItems[1].ItemTextAlign = StringAlignment.Center;
-
-			xtl.ApplyTheme(Path.Combine(Environment.CurrentDirectory, @"Themes\BlueWinterTheme.xml"));
+            			
 		}
 
 		private void DesignerForm_Load(object sender, EventArgs e)
@@ -108,7 +107,7 @@ namespace Psychophysics
 			this.StatusBar.BarItems.Add(new XCoolForm.XStatusBar.XBarItem(80, "Done"));
 			this.StatusBar.EllipticalGlow = false;
 
-			xtl.ThemeForm = this;
+			
 			SetTheme();
 			PictureBox picb = panel1.Controls.Find("PicB" + ActivePicB, true).FirstOrDefault() as PictureBox;
 			using (Graphics newGr = panel1.CreateGraphics())
@@ -1131,9 +1130,7 @@ namespace Psychophysics
 
                 Reward.Add(_parentTask._tsk.AllLevelProp[index][i].RewardType);
                 DeletedFrames.Add(0);
-                RepeatedFrame.Add(_parentTask._tsk.AllLevelProp[index][i].RepeatInfo.RepeatationNumber);
-                RepeatationLength.Add(_parentTask._tsk.AllLevelProp[index][i].RepeatInfo.Length);
-                RepeatedRandomLocation.Add(_parentTask._tsk.AllLevelProp[index][i].RepeatInfo.RandomLocation);
+                
             }
 
             for (int i = 0; i < PicBCnt; i++)
