@@ -80,7 +80,7 @@ namespace Basics
 			if (tk == TaskType.cognitive)
 			{
 				_type = TaskType.cognitive;
-				psycoPhysicsTask = new PsycophysicTasks(0);
+				psycoPhysicsTask = new PsycophysicTasks();
 				
 				return;
 			}
@@ -165,7 +165,7 @@ namespace Basics
 
 						else if (lines[0] == "Number Of Levels")
 						{
-							psycoPhysicsTask = new PsycophysicTasks(0);
+							psycoPhysicsTask = new PsycophysicTasks();
 							
 							if (psycoPhysicsTask.LoadTaskFromFile(false, _tskAddress))
 							{

@@ -179,7 +179,9 @@ namespace Psychophysics
 
         private void txtFixEFW_TextChanged(object sender, EventArgs e)
         {
-            Designer.fixationList[Designer.ActivePicB - 1][Designer._fixateAreaSelected].EFW = int.Parse(txtFixEFW.Text);
+            int alpha = 45;
+            if (int.TryParse(txtFixEFW.Text, out alpha))
+                Designer.fixationList[Designer.ActivePicB - 1][Designer._fixateAreaSelected].EFW = alpha;
         }
 
         private void txtFixEFW_KeyPress(object sender, KeyPressEventArgs e)
@@ -192,7 +194,9 @@ namespace Psychophysics
 
         private void txtIncorrectCode_TextChanged(object sender, EventArgs e)
         {
-            Designer.fixationList[Designer.ActivePicB - 1][Designer._fixateAreaSelected].INcorrectEventCode = int.Parse(txtIncorrectCode.Text);
+            int alpha = 47;
+            if (int.TryParse(txtIncorrectCode.Text, out alpha))
+                Designer.fixationList[Designer.ActivePicB - 1][Designer._fixateAreaSelected].INcorrectEventCode = alpha;
         }
 
         private void txtIncorrectCode_KeyPress(object sender, KeyPressEventArgs e)
@@ -205,12 +209,16 @@ namespace Psychophysics
 
         private void txtFixETW_TextChanged(object sender, EventArgs e)
         {
-            Designer.fixationList[Designer.ActivePicB - 1][Designer._fixateAreaSelected].ETW = int.Parse(txtFixETW.Text);
+            int alpha = 18;
+            if (int.TryParse(txtFixETW.Text, out alpha))
+                Designer.fixationList[Designer.ActivePicB - 1][Designer._fixateAreaSelected].ETW = alpha;
         }
 
         private void txtFixationTime_ET_TextChanged(object sender, EventArgs e)
         {
-            Designer.fixationList[Designer.ActivePicB - 1][Designer._fixateAreaSelected].Time = int.Parse(txtFixationTime_ET.Text);
+            int alpha = 16;
+            if (int.TryParse(txtFixationTime_ET.Text, out alpha))
+                Designer.fixationList[Designer.ActivePicB - 1][Designer._fixateAreaSelected].Time = alpha;
         }
 
         private void txtFixationTime_ET_KeyPress(object sender, KeyPressEventArgs e)

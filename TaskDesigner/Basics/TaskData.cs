@@ -139,14 +139,14 @@ namespace Basics
 		{
 			if (newTaskType == TaskType.media && type == (short)TaskType.cognitive)
 			{
-				if (MetroMessageBox.Show((IWin32Window)this, "A psycophysic task selected! do you want to work on it?", "Open Task", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+				if (MetroMessageBox.Show((IWin32Window)this, "A Psycophysics task selected! do you want to work on it?", "Open Task", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
 					return new ResultForm(ResultState.Cancel, TaskType.cognitive);
 				else
 					return new ResultForm(ResultState.Mismath, TaskType.cognitive);
 			}
 			if (newTaskType == TaskType.media && type == (short)TaskType.lab)
 			{
-				if (MetroMessageBox.Show((IWin32Window)this, "A psycology task selected! do you want to work on it?", "Open Task", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+				if (MetroMessageBox.Show((IWin32Window)this, "A Psycology task selected! do you want to work on it?", "Open Task", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
 					return new ResultForm(ResultState.Cancel, TaskType.lab);
 				else
 					return new ResultForm(ResultState.Mismath, TaskType.lab);
@@ -154,28 +154,28 @@ namespace Basics
 			}
 			if (newTaskType == TaskType.lab && type == (short)TaskType.cognitive)
 			{
-				if (MetroMessageBox.Show((IWin32Window)this, "A psycophysic task selected! do you want to work on it?", "Open Task", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+				if (MetroMessageBox.Show((IWin32Window)this, "A Psycophysics task selected! do you want to work on it?", "Open Task", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
 					return new ResultForm(ResultState.Cancel, TaskType.cognitive);
 				else
 					return new ResultForm(ResultState.Mismath, TaskType.cognitive);
 			}
 			if (newTaskType == TaskType.lab && type == (short)TaskType.media)
 			{
-				if (MetroMessageBox.Show((IWin32Window)this, "A media task selected! do you want to work on it?", "Open Task", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+				if (MetroMessageBox.Show((IWin32Window)this, "A Media task selected! do you want to work on it?", "Open Task", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
 					return new ResultForm(ResultState.Cancel, TaskType.media);
 				else
 					return new ResultForm(ResultState.Mismath, TaskType.media);
 			}
 			if (newTaskType == TaskType.cognitive && type == (short)TaskType.lab)
 			{
-				if (MetroMessageBox.Show((IWin32Window)this, "A psycophysic task selected! do you want to work on it?", "Open Task", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+				if (MetroMessageBox.Show((IWin32Window)this, "A Psycophysics task selected! do you want to work on it?", "Open Task", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
 					return new ResultForm(ResultState.Cancel, TaskType.lab);
 				else
 					return new ResultForm(ResultState.Mismath, TaskType.lab);
 			}
 			if (newTaskType == TaskType.cognitive && type == (short)TaskType.media)
 			{
-				if (MetroMessageBox.Show((IWin32Window)this, "A media task selected! do you want to work on it?", "Open Task", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+				if (MetroMessageBox.Show((IWin32Window)this, "A Media task selected! do you want to work on it?", "Open Task", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
 					return new ResultForm(ResultState.Cancel, TaskType.media);
 				else
 					return new ResultForm(ResultState.Mismath, TaskType.media);

@@ -13,7 +13,7 @@ using TaskDesigner;
 
 namespace Psychophysics
 {
-    public partial class Designer : XCoolForm.XCoolForm 
+    public partial class Designer : Form
     {
 		#region Variables
 		// Number and Size of Screens
@@ -79,36 +79,11 @@ namespace Psychophysics
 		
 		// this function just sets a theme for the application
 
-		private void SetTheme() //A:we dont need it in metroform
-		{
-			this.Border.BorderStyle = XCoolForm.X3DBorderPrimitive.XBorderStyle.Flat;
-
-			
-			this.TitleBar.TitleBarCaption = "CogLAB";
-			this.TitleBar.TitleBarButtons[2].ButtonFillMode = XCoolForm.XTitleBarButton.XButtonFillMode.None;
-			this.TitleBar.TitleBarButtons[1].ButtonFillMode = XCoolForm.XTitleBarButton.XButtonFillMode.None;
-			this.TitleBar.TitleBarButtons[0].ButtonFillMode = XCoolForm.XTitleBarButton.XButtonFillMode.None;
-			this.TitleBar.TitleBarType = XCoolForm.XTitleBar.XTitleBarType.Angular;
-			this.TitleBar.TitleBarFill = XCoolForm.XTitleBar.XTitleBarFill.UpperGlow;
-
-			
-			this.StatusBar.BarHeight = 1;
-			this.StatusBar.EllipticalGlow = false;
-			this.StatusBar.BarImageAlign = XCoolForm.XStatusBar.XStatusBarBackImageAlign.Left;
-			this.StatusBar.BarItems[1].BarItemText = "";
-			this.StatusBar.BarItems[1].ItemTextAlign = StringAlignment.Center;
-            			
-		}
+		
 
 		private void DesignerForm_Load(object sender, EventArgs e)
 		{
-			this.StatusBar.BarItems.Add(new XCoolForm.XStatusBar.XBarItem(60));
-			this.StatusBar.BarItems.Add(new XCoolForm.XStatusBar.XBarItem(200, "INS"));
-			this.StatusBar.BarItems.Add(new XCoolForm.XStatusBar.XBarItem(80, "Done"));
-			this.StatusBar.EllipticalGlow = false;
-
-			
-			SetTheme();
+					
 			PictureBox picb = panel1.Controls.Find("PicB" + ActivePicB, true).FirstOrDefault() as PictureBox;
 			using (Graphics newGr = panel1.CreateGraphics())
 				newGr.DrawRectangle(new Pen(Color.DimGray, 1), new Rectangle(picb.Location.X - 1, picb.Location.Y - 1, picb.Width + 1, picb.Height + 1));
@@ -632,18 +607,12 @@ namespace Psychophysics
             }
             if (Mode == 1)
             {
-                if (_parentTask._tsk.AllLevelProp.Count == _parentTask.ActiveCol)
-                {
-                    for (int i = 0; i < PicBCnt; i++)
-						_parentTask._tsk.AllLevelProp[_parentTask.ActiveCol - 1].Add(ListAddedFrame[i]);
-                }
-                else
-					_parentTask._tsk.AllLevelProp.Add(ListAddedFrame);
+                //مود یک خداحافظ 
                 				  
             }
             else if (Mode == 2)
             {
-				_parentTask._tsk.AllLevelProp[EditedIndex].Clear();
+				
                 _parentTask._tsk.AllLevelProp[EditedIndex] = ListAddedFrame;
                	
             }
@@ -1581,7 +1550,27 @@ namespace Psychophysics
 			}
 		}
 
-		private void txtEvent_TextChanged(object sender, EventArgs e)
+        private void FixationPanel_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void StimulusPanel_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void panel5_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void panel3_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void txtEvent_TextChanged(object sender, EventArgs e)
 		{
 			if (cmbtrigger.SelectedIndex == 0)
 				return;

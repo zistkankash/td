@@ -16,8 +16,7 @@ namespace Basics
 		public FrameProperties[] FrameProps;
 		public List<List<FrameProperties>> AllLevelProp = new List<List<FrameProperties>>();
 		public List<ConditionData> AllLevelName = new List<ConditionData>();
-		
-		public bool Savetask = false;
+				
 		public string DataPath = "";
 		public int SeqRandTaskRunner = 2;
 		public bool Brake;
@@ -258,10 +257,10 @@ namespace Basics
 			
 			
 		}
-
-		public PsycophysicTasks(int numFrame)
+        
+		public PsycophysicTasks()
 		{
-			NFrame = numFrame;
+			
 		}
 	}
 

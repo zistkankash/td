@@ -45,11 +45,12 @@ namespace Psychophysics
             this.btnSave = new System.Windows.Forms.Button();
             this.btnOpen = new System.Windows.Forms.Button();
             this.btnPreStart = new System.Windows.Forms.Button();
-            this.panel2 = new System.Windows.Forms.Panel();
+            this.pnlMenu = new System.Windows.Forms.Panel();
             this.btnAddCond = new System.Windows.Forms.Button();
+            this.btnCopy = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dtgvConds)).BeginInit();
-            this.panel2.SuspendLayout();
+            this.pnlMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -67,6 +68,7 @@ namespace Psychophysics
             // 
             this.dtgvConds.AllowUserToAddRows = false;
             this.dtgvConds.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dtgvConds.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(216)))), ((int)(((byte)(201)))));
             this.dtgvConds.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dtgvConds.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this._name,
@@ -74,6 +76,7 @@ namespace Psychophysics
             this._frame,
             this._time});
             this.dtgvConds.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dtgvConds.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(216)))), ((int)(((byte)(201)))));
             this.dtgvConds.Location = new System.Drawing.Point(0, 0);
             this.dtgvConds.MultiSelect = false;
             this.dtgvConds.Name = "dtgvConds";
@@ -81,6 +84,9 @@ namespace Psychophysics
             this.dtgvConds.Size = new System.Drawing.Size(472, 394);
             this.dtgvConds.TabIndex = 0;
             this.dtgvConds.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgvConds_CellEndEdit);
+            this.dtgvConds.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgvConds_CellValueChanged);
+            this.dtgvConds.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dtgvConds_EditingControlShowing);
+            this.dtgvConds.SelectionChanged += new System.EventHandler(this.dtgvConds_SelectionChanged);
             // 
             // _name
             // 
@@ -113,13 +119,12 @@ namespace Psychophysics
             this.btnNewTask.BackColor = System.Drawing.Color.Transparent;
             this.btnNewTask.BackgroundImage = global::TaskDesigner.Resource.New;
             this.btnNewTask.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnNewTask.Enabled = false;
             this.btnNewTask.FlatAppearance.BorderColor = System.Drawing.Color.Gold;
             this.btnNewTask.FlatAppearance.BorderSize = 0;
             this.btnNewTask.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.btnNewTask.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnNewTask.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNewTask.Location = new System.Drawing.Point(306, 403);
+            this.btnNewTask.Location = new System.Drawing.Point(250, 404);
             this.btnNewTask.Name = "btnNewTask";
             this.btnNewTask.Size = new System.Drawing.Size(44, 45);
             this.btnNewTask.TabIndex = 130;
@@ -129,34 +134,33 @@ namespace Psychophysics
             // 
             // btnEditCond
             // 
-            this.btnEditCond.BackColor = System.Drawing.Color.NavajoWhite;
+            this.btnEditCond.BackColor = System.Drawing.Color.Transparent;
             this.btnEditCond.BackgroundImage = global::TaskDesigner.Resource.Edit;
             this.btnEditCond.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnEditCond.Enabled = false;
             this.btnEditCond.FlatAppearance.BorderColor = System.Drawing.Color.Gold;
             this.btnEditCond.FlatAppearance.BorderSize = 0;
             this.btnEditCond.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.btnEditCond.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnEditCond.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnEditCond.Location = new System.Drawing.Point(3, 69);
+            this.btnEditCond.Location = new System.Drawing.Point(3, 20);
             this.btnEditCond.Name = "btnEditCond";
             this.btnEditCond.Size = new System.Drawing.Size(55, 55);
             this.btnEditCond.TabIndex = 131;
             this.toolTip1.SetToolTip(this.btnEditCond, "Edit Condition");
             this.btnEditCond.UseVisualStyleBackColor = false;
+            this.btnEditCond.Click += new System.EventHandler(this.btnEditCond_Click);
             // 
             // btnRemCond
             // 
-            this.btnRemCond.BackColor = System.Drawing.Color.LightCoral;
+            this.btnRemCond.BackColor = System.Drawing.Color.Transparent;
             this.btnRemCond.BackgroundImage = global::TaskDesigner.Resource.delete;
             this.btnRemCond.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnRemCond.Enabled = false;
             this.btnRemCond.FlatAppearance.BorderColor = System.Drawing.Color.Gold;
             this.btnRemCond.FlatAppearance.BorderSize = 0;
             this.btnRemCond.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.btnRemCond.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRemCond.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRemCond.Location = new System.Drawing.Point(3, 136);
+            this.btnRemCond.Location = new System.Drawing.Point(3, 183);
             this.btnRemCond.Name = "btnRemCond";
             this.btnRemCond.Size = new System.Drawing.Size(55, 55);
             this.btnRemCond.TabIndex = 130;
@@ -169,36 +173,36 @@ namespace Psychophysics
             this.btnSave.BackColor = System.Drawing.Color.Transparent;
             this.btnSave.BackgroundImage = global::TaskDesigner.Resource.Save2;
             this.btnSave.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnSave.Enabled = false;
             this.btnSave.FlatAppearance.BorderColor = System.Drawing.Color.Gold;
             this.btnSave.FlatAppearance.BorderSize = 0;
             this.btnSave.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSave.Location = new System.Drawing.Point(432, 404);
+            this.btnSave.Location = new System.Drawing.Point(406, 404);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(49, 44);
             this.btnSave.TabIndex = 129;
             this.toolTip1.SetToolTip(this.btnSave, "Save Task");
             this.btnSave.UseVisualStyleBackColor = false;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // btnOpen
             // 
             this.btnOpen.BackColor = System.Drawing.Color.Transparent;
             this.btnOpen.BackgroundImage = global::TaskDesigner.Resource.Open1;
             this.btnOpen.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnOpen.Enabled = false;
             this.btnOpen.FlatAppearance.BorderColor = System.Drawing.Color.Gold;
             this.btnOpen.FlatAppearance.BorderSize = 0;
             this.btnOpen.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.btnOpen.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnOpen.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnOpen.Location = new System.Drawing.Point(368, 404);
+            this.btnOpen.Location = new System.Drawing.Point(322, 404);
             this.btnOpen.Name = "btnOpen";
             this.btnOpen.Size = new System.Drawing.Size(45, 45);
             this.btnOpen.TabIndex = 128;
             this.toolTip1.SetToolTip(this.btnOpen, "Open Task");
             this.btnOpen.UseVisualStyleBackColor = false;
+            this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
             // 
             // btnPreStart
             // 
@@ -211,7 +215,7 @@ namespace Psychophysics
             this.btnPreStart.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.btnPreStart.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.btnPreStart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnPreStart.Location = new System.Drawing.Point(495, 402);
+            this.btnPreStart.Location = new System.Drawing.Point(493, 402);
             this.btnPreStart.Margin = new System.Windows.Forms.Padding(0);
             this.btnPreStart.Name = "btnPreStart";
             this.btnPreStart.Size = new System.Drawing.Size(48, 48);
@@ -222,46 +226,68 @@ namespace Psychophysics
             this.btnPreStart.UseVisualStyleBackColor = false;
             this.btnPreStart.Click += new System.EventHandler(this.Start_PB_Click);
             // 
-            // panel2
+            // pnlMenu
             // 
-            this.panel2.Controls.Add(this.btnEditCond);
-            this.panel2.Controls.Add(this.btnRemCond);
-            this.panel2.Controls.Add(this.btnAddCond);
-            this.panel2.Location = new System.Drawing.Point(4, 1);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(61, 394);
-            this.panel2.TabIndex = 6;
+            this.pnlMenu.Controls.Add(this.btnCopy);
+            this.pnlMenu.Controls.Add(this.btnEditCond);
+            this.pnlMenu.Controls.Add(this.btnRemCond);
+            this.pnlMenu.Enabled = false;
+            this.pnlMenu.Location = new System.Drawing.Point(4, 62);
+            this.pnlMenu.Name = "pnlMenu";
+            this.pnlMenu.Size = new System.Drawing.Size(61, 333);
+            this.pnlMenu.TabIndex = 6;
             // 
             // btnAddCond
             // 
-            this.btnAddCond.BackColor = System.Drawing.Color.PaleGreen;
+            this.btnAddCond.BackColor = System.Drawing.Color.Transparent;
             this.btnAddCond.BackgroundImage = global::TaskDesigner.Resource.add;
             this.btnAddCond.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnAddCond.Enabled = false;
             this.btnAddCond.FlatAppearance.BorderColor = System.Drawing.Color.Gold;
             this.btnAddCond.FlatAppearance.BorderSize = 0;
             this.btnAddCond.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.btnAddCond.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAddCond.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAddCond.ForeColor = System.Drawing.Color.White;
-            this.btnAddCond.Location = new System.Drawing.Point(3, 3);
+            this.btnAddCond.Location = new System.Drawing.Point(7, 4);
             this.btnAddCond.Name = "btnAddCond";
             this.btnAddCond.Size = new System.Drawing.Size(55, 55);
-            this.btnAddCond.TabIndex = 129;
+            this.btnAddCond.TabIndex = 131;
+            this.toolTip1.SetToolTip(this.btnAddCond, "Add New Condition");
             this.btnAddCond.UseVisualStyleBackColor = false;
+            this.btnAddCond.Click += new System.EventHandler(this.btnAddCond_Click);
+            // 
+            // btnCopy
+            // 
+            this.btnCopy.BackColor = System.Drawing.Color.Transparent;
+            this.btnCopy.BackgroundImage = global::TaskDesigner.Resource.Edit;
+            this.btnCopy.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnCopy.FlatAppearance.BorderColor = System.Drawing.Color.Gold;
+            this.btnCopy.FlatAppearance.BorderSize = 0;
+            this.btnCopy.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.btnCopy.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCopy.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCopy.Location = new System.Drawing.Point(3, 102);
+            this.btnCopy.Name = "btnCopy";
+            this.btnCopy.Size = new System.Drawing.Size(55, 55);
+            this.btnCopy.TabIndex = 132;
+            this.toolTip1.SetToolTip(this.btnCopy, "Copy to New Condition");
+            this.btnCopy.UseVisualStyleBackColor = false;
+            this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
             // 
             // PsycoPhysicTask
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(216)))), ((int)(((byte)(201)))));
-            this.ClientSize = new System.Drawing.Size(545, 455);
+            this.ClientSize = new System.Drawing.Size(545, 452);
+            this.Controls.Add(this.btnAddCond);
             this.Controls.Add(this.btnNewTask);
-            this.Controls.Add(this.panel2);
+            this.Controls.Add(this.pnlMenu);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnOpen);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.btnPreStart);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "PsycoPhysicTask";
@@ -270,7 +296,7 @@ namespace Psychophysics
             this.Load += new System.EventHandler(this.TaskPreview_Load);
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dtgvConds)).EndInit();
-            this.panel2.ResumeLayout(false);
+            this.pnlMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
 		}
@@ -282,15 +308,16 @@ namespace Psychophysics
 		private ToolTip toolTip1;
         private Button btnOpen;
         private Button btnSave;
-        private Panel panel2;
+        private Panel pnlMenu;
         private DataGridView dtgvConds;
         private Button btnRemCond;
-        private Button btnAddCond;
         private Button btnNewTask;
         private Button btnEditCond;
         private DataGridViewTextBoxColumn _name;
         private DataGridViewTextBoxColumn _repeat;
         private DataGridViewTextBoxColumn _frame;
         private DataGridViewTextBoxColumn _time;
+        private Button btnAddCond;
+        private Button btnCopy;
     }
 }

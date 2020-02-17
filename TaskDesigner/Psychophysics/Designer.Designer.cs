@@ -43,7 +43,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.BgColor_BT = new System.Windows.Forms.Button();
             this.btn_PenColor = new System.Windows.Forms.Button();
-            this.pnl_Draw = new System.Windows.Forms.Panel();
             this.panel9 = new System.Windows.Forms.Panel();
             this.panel6 = new System.Windows.Forms.Panel();
             this.Objects_TV = new System.Windows.Forms.TreeView();
@@ -76,6 +75,7 @@
             this.Start_BT = new System.Windows.Forms.Panel();
             this.RewardType_LB = new System.Windows.Forms.Label();
             this.SelectRewardType_CB = new System.Windows.Forms.ComboBox();
+            this.Start_PB = new System.Windows.Forms.Button();
             this.FrameTime_ET = new System.Windows.Forms.TextBox();
             this.Picture_Panel = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -95,13 +95,10 @@
             this.CircleShape_BT = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
             this.Contrast_ET = new System.Windows.Forms.TextBox();
-            this.Start_PB = new System.Windows.Forms.Button();
-            this.ParentPanel = new System.Windows.Forms.Panel();
             this.Popup = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Size_LB = new System.Windows.Forms.Label();
-            this.SelectedPage_LB = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicB1)).BeginInit();
@@ -120,7 +117,6 @@
             this.Picture_Panel.SuspendLayout();
             this.panel2.SuspendLayout();
             this.Shape_Panel.SuspendLayout();
-            this.ParentPanel.SuspendLayout();
             this.Popup.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -131,9 +127,10 @@
             this.panel1.Controls.Add(this.panel4);
             this.panel1.Controls.Add(this.PicB1);
             this.panel1.Controls.Add(this.AddPicB);
-            this.panel1.Location = new System.Drawing.Point(19, 68);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(186, 686);
+            this.panel1.Size = new System.Drawing.Size(186, 788);
             this.panel1.TabIndex = 0;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
@@ -238,32 +235,21 @@
             this.btn_PenColor.UseVisualStyleBackColor = false;
             this.btn_PenColor.Click += new System.EventHandler(this.button1_Click);
             // 
-            // pnl_Draw
-            // 
-            this.pnl_Draw.AutoScroll = true;
-            this.pnl_Draw.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.pnl_Draw.Cursor = System.Windows.Forms.Cursors.Default;
-            this.pnl_Draw.Location = new System.Drawing.Point(0, 0);
-            this.pnl_Draw.Name = "pnl_Draw";
-            this.pnl_Draw.Size = new System.Drawing.Size(810, 527);
-            this.pnl_Draw.TabIndex = 2;
-            this.pnl_Draw.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pnl_Draw_MouseDown);
-            this.pnl_Draw.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pnl_Draw_MouseMove);
-            this.pnl_Draw.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pnl_Draw_MouseUp);
-            // 
             // panel9
             // 
             this.panel9.AutoScroll = true;
             this.panel9.BackColor = System.Drawing.Color.Transparent;
             this.panel9.Controls.Add(this.panel6);
             this.panel9.Controls.Add(this.panel7);
+            this.panel9.Controls.Add(this.Start_PB);
             this.panel9.Controls.Add(this.panel5);
             this.panel9.Controls.Add(this.FixationPanel);
             this.panel9.Controls.Add(this.panel3);
             this.panel9.Controls.Add(this.StimulusPanel);
-            this.panel9.Location = new System.Drawing.Point(1026, 68);
+            this.panel9.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel9.Location = new System.Drawing.Point(1025, 0);
             this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(182, 623);
+            this.panel9.Size = new System.Drawing.Size(186, 788);
             this.panel9.TabIndex = 3;
             // 
             // panel6
@@ -327,6 +313,7 @@
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(177, 110);
             this.panel5.TabIndex = 5;
+            this.panel5.Paint += new System.Windows.Forms.PaintEventHandler(this.panel5_Paint);
             // 
             // label20
             // 
@@ -392,6 +379,7 @@
             this.FixationPanel.Name = "FixationPanel";
             this.FixationPanel.Size = new System.Drawing.Size(177, 126);
             this.FixationPanel.TabIndex = 1;
+            this.FixationPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.FixationPanel_Paint);
             // 
             // FixationSetting_BT
             // 
@@ -468,6 +456,7 @@
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(177, 129);
             this.panel3.TabIndex = 3;
+            this.panel3.Paint += new System.Windows.Forms.PaintEventHandler(this.panel3_Paint);
             // 
             // Y_TB
             // 
@@ -550,6 +539,7 @@
             this.StimulusPanel.Name = "StimulusPanel";
             this.StimulusPanel.Size = new System.Drawing.Size(177, 112);
             this.StimulusPanel.TabIndex = 2;
+            this.StimulusPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.StimulusPanel_Paint);
             // 
             // button7
             // 
@@ -621,9 +611,9 @@
             this.Start_BT.Controls.Add(this.label16);
             this.Start_BT.Controls.Add(this.BgColor_BT);
             this.Start_BT.Controls.Add(this.Shape_Panel);
-            this.Start_BT.Location = new System.Drawing.Point(211, 618);
+            this.Start_BT.Location = new System.Drawing.Point(209, 621);
             this.Start_BT.Name = "Start_BT";
-            this.Start_BT.Size = new System.Drawing.Size(719, 159);
+            this.Start_BT.Size = new System.Drawing.Size(814, 159);
             this.Start_BT.TabIndex = 4;
             // 
             // RewardType_LB
@@ -653,6 +643,25 @@
             this.SelectRewardType_CB.TabIndex = 23;
             this.SelectRewardType_CB.Visible = false;
             this.SelectRewardType_CB.SelectedIndexChanged += new System.EventHandler(this.SelectRewardType_CB_SelectedIndexChanged);
+            // 
+            // Start_PB
+            // 
+            this.Start_PB.AutoEllipsis = true;
+            this.Start_PB.BackColor = System.Drawing.Color.Transparent;
+            this.Start_PB.BackgroundImage = global::TaskDesigner.Resource.setting;
+            this.Start_PB.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.Start_PB.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.Start_PB.FlatAppearance.BorderSize = 0;
+            this.Start_PB.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Start_PB.Location = new System.Drawing.Point(69, 683);
+            this.Start_PB.Margin = new System.Windows.Forms.Padding(0);
+            this.Start_PB.Name = "Start_PB";
+            this.Start_PB.Size = new System.Drawing.Size(48, 48);
+            this.Start_PB.TabIndex = 21;
+            this.Start_PB.TabStop = false;
+            this.Start_PB.UseMnemonic = false;
+            this.Start_PB.UseVisualStyleBackColor = false;
+            this.Start_PB.Click += new System.EventHandler(this.Next_PB_Click);
             // 
             // FrameTime_ET
             // 
@@ -881,37 +890,6 @@
             this.Contrast_ET.TabIndex = 9;
             this.Contrast_ET.Text = "255";
             // 
-            // Start_PB
-            // 
-            this.Start_PB.AutoEllipsis = true;
-            this.Start_PB.BackColor = System.Drawing.Color.Transparent;
-            this.Start_PB.BackgroundImage = global::TaskDesigner.Resource.setting;
-            this.Start_PB.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.Start_PB.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.Start_PB.FlatAppearance.BorderSize = 0;
-            this.Start_PB.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Start_PB.Location = new System.Drawing.Point(1083, 700);
-            this.Start_PB.Margin = new System.Windows.Forms.Padding(0);
-            this.Start_PB.Name = "Start_PB";
-            this.Start_PB.Size = new System.Drawing.Size(48, 48);
-            this.Start_PB.TabIndex = 21;
-            this.Start_PB.TabStop = false;
-            this.Start_PB.UseMnemonic = false;
-            this.Start_PB.UseVisualStyleBackColor = false;
-            this.Start_PB.Click += new System.EventHandler(this.Next_PB_Click);
-            // 
-            // ParentPanel
-            // 
-            this.ParentPanel.AutoScroll = true;
-            this.ParentPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(191)))), ((int)(((byte)(219)))), ((int)(((byte)(255)))));
-            this.ParentPanel.Controls.Add(this.pnl_Draw);
-            this.ParentPanel.Location = new System.Drawing.Point(205, 68);
-            this.ParentPanel.Name = "ParentPanel";
-            this.ParentPanel.Size = new System.Drawing.Size(822, 545);
-            this.ParentPanel.TabIndex = 18;
-            this.ParentPanel.Scroll += new System.Windows.Forms.ScrollEventHandler(this.ParentPanel_Scroll);
-            this.ParentPanel.MouseHover += new System.EventHandler(this.ParentPanel_MouseHover);
-            // 
             // Popup
             // 
             this.Popup.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -944,26 +922,13 @@
             this.Size_LB.Size = new System.Drawing.Size(0, 13);
             this.Size_LB.TabIndex = 21;
             // 
-            // SelectedPage_LB
-            // 
-            this.SelectedPage_LB.AutoSize = true;
-            this.SelectedPage_LB.Location = new System.Drawing.Point(28, 764);
-            this.SelectedPage_LB.Name = "SelectedPage_LB";
-            this.SelectedPage_LB.Size = new System.Drawing.Size(83, 13);
-            this.SelectedPage_LB.TabIndex = 22;
-            this.SelectedPage_LB.Text = "Selected Page :";
-            // 
             // Designer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Transparent;
             this.ClientSize = new System.Drawing.Size(1211, 788);
             this.Controls.Add(this.Start_BT);
-            this.Controls.Add(this.SelectedPage_LB);
-            this.Controls.Add(this.Start_PB);
             this.Controls.Add(this.Size_LB);
-            this.Controls.Add(this.ParentPanel);
             this.Controls.Add(this.panel9);
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -1000,7 +965,6 @@
             this.panel2.PerformLayout();
             this.Shape_Panel.ResumeLayout(false);
             this.Shape_Panel.PerformLayout();
-            this.ParentPanel.ResumeLayout(false);
             this.Popup.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -1010,7 +974,6 @@
 		#endregion
 
 		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.Panel pnl_Draw;
 		private System.Windows.Forms.Button btn_PenColor;
 		private System.Windows.Forms.Button BgColor_BT;
 		private System.Windows.Forms.TextBox txt_ShapeSize;
@@ -1047,7 +1010,6 @@
 		private System.Windows.Forms.TextBox X_TB;
 		private System.Windows.Forms.Label label14;
 		private System.Windows.Forms.Label label15;
-		private System.Windows.Forms.Panel ParentPanel;
 		private System.Windows.Forms.TextBox FrameTime_ET;
 		private System.Windows.Forms.Label label16;
 		private System.Windows.Forms.Panel panel4;
@@ -1069,7 +1031,6 @@
 		private System.Windows.Forms.ComboBox SelectRewardType_CB;
 		private System.Windows.Forms.Label label18;
 		private System.Windows.Forms.Label Size_LB;
-		private System.Windows.Forms.Label SelectedPage_LB;
 		private System.Windows.Forms.Button FixationSetting_BT;
 		private System.Windows.Forms.Label RewardType_LB;
 		private System.Windows.Forms.Panel panel5;
