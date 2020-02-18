@@ -1570,6 +1570,11 @@ namespace Psychophysics
 
         }
 
+        private void label7_Click(object sender, EventArgs e)
+        {
+
+        }
+
         private void txtEvent_TextChanged(object sender, EventArgs e)
 		{
 			if (cmbtrigger.SelectedIndex == 0)
