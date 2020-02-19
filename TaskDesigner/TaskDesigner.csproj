@@ -189,6 +189,12 @@
     <Compile Include="Basics\StringEncryptor.cs" />
     <Compile Include="Basics\TaskClient.cs" />
     <Compile Include="Basics\TaskData.cs" />
+    <Compile Include="Basics\TransPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Basics\TransPanel.Designer.cs">
+      <DependentUpon>TransPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="COGLABnewUI.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -30,7 +30,11 @@ namespace Basics
 				{
 					mediaTask.runConf = value;
 				}
-			}
+                if (_type == TaskType.cognitive)
+                {
+                    psycoPhysicsTask.runConf = value;
+                }
+            }
 		}	
 
 		public PsycophysicTasks PsycoPhysicsTask { get { return psycoPhysicsTask; } }

@@ -48,6 +48,7 @@
             this.Objects_TV = new System.Windows.Forms.TreeView();
             this.panel7 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
+            this.Start_PB = new System.Windows.Forms.Button();
             this.panel5 = new System.Windows.Forms.Panel();
             this.label20 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
@@ -58,15 +59,6 @@
             this.button5 = new System.Windows.Forms.Button();
             this.panel15 = new System.Windows.Forms.Panel();
             this.label8 = new System.Windows.Forms.Label();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.Y_TB = new System.Windows.Forms.TextBox();
-            this.X_TB = new System.Windows.Forms.TextBox();
-            this.label14 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
-            this.Y_Fixation_Location_ET = new System.Windows.Forms.TextBox();
-            this.X_Fixation_Location_ET = new System.Windows.Forms.TextBox();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
             this.StimulusPanel = new System.Windows.Forms.Panel();
             this.button7 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
@@ -75,7 +67,6 @@
             this.Start_BT = new System.Windows.Forms.Panel();
             this.RewardType_LB = new System.Windows.Forms.Label();
             this.SelectRewardType_CB = new System.Windows.Forms.ComboBox();
-            this.Start_PB = new System.Windows.Forms.Button();
             this.FrameTime_ET = new System.Windows.Forms.TextBox();
             this.Picture_Panel = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -110,7 +101,6 @@
             this.panel5.SuspendLayout();
             this.FixationPanel.SuspendLayout();
             this.panel15.SuspendLayout();
-            this.panel3.SuspendLayout();
             this.StimulusPanel.SuspendLayout();
             this.panel13.SuspendLayout();
             this.Start_BT.SuspendLayout();
@@ -123,8 +113,9 @@
             // panel1
             // 
             this.panel1.AutoScroll = true;
-            this.panel1.BackColor = System.Drawing.Color.LightCyan;
+            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(232)))), ((int)(((byte)(216)))), ((int)(((byte)(201)))));
             this.panel1.Controls.Add(this.panel4);
+            this.panel1.Controls.Add(this.Start_BT);
             this.panel1.Controls.Add(this.PicB1);
             this.panel1.Controls.Add(this.AddPicB);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
@@ -244,7 +235,6 @@
             this.panel9.Controls.Add(this.Start_PB);
             this.panel9.Controls.Add(this.panel5);
             this.panel9.Controls.Add(this.FixationPanel);
-            this.panel9.Controls.Add(this.panel3);
             this.panel9.Controls.Add(this.StimulusPanel);
             this.panel9.Dock = System.Windows.Forms.DockStyle.Right;
             this.panel9.Location = new System.Drawing.Point(1025, 0);
@@ -300,6 +290,25 @@
             this.label1.Size = new System.Drawing.Size(83, 16);
             this.label1.TabIndex = 1;
             this.label1.Text = "Event Tool";
+            // 
+            // Start_PB
+            // 
+            this.Start_PB.AutoEllipsis = true;
+            this.Start_PB.BackColor = System.Drawing.Color.Transparent;
+            this.Start_PB.BackgroundImage = global::TaskDesigner.Resource.setting;
+            this.Start_PB.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.Start_PB.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.Start_PB.FlatAppearance.BorderSize = 0;
+            this.Start_PB.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Start_PB.Location = new System.Drawing.Point(69, 683);
+            this.Start_PB.Margin = new System.Windows.Forms.Padding(0);
+            this.Start_PB.Name = "Start_PB";
+            this.Start_PB.Size = new System.Drawing.Size(48, 48);
+            this.Start_PB.TabIndex = 21;
+            this.Start_PB.TabStop = false;
+            this.Start_PB.UseMnemonic = false;
+            this.Start_PB.UseVisualStyleBackColor = false;
+            this.Start_PB.Click += new System.EventHandler(this.Next_PB_Click);
             // 
             // panel5
             // 
@@ -440,94 +449,6 @@
             this.label8.TabIndex = 1;
             this.label8.Text = "Fixation Tool";
             // 
-            // panel3
-            // 
-            this.panel3.BackColor = System.Drawing.Color.LightCyan;
-            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel3.Controls.Add(this.Y_TB);
-            this.panel3.Controls.Add(this.X_TB);
-            this.panel3.Controls.Add(this.label14);
-            this.panel3.Controls.Add(this.label15);
-            this.panel3.Controls.Add(this.Y_Fixation_Location_ET);
-            this.panel3.Controls.Add(this.X_Fixation_Location_ET);
-            this.panel3.Controls.Add(this.label12);
-            this.panel3.Controls.Add(this.label10);
-            this.panel3.Location = new System.Drawing.Point(2, 491);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(177, 129);
-            this.panel3.TabIndex = 3;
-            this.panel3.Paint += new System.Windows.Forms.PaintEventHandler(this.panel3_Paint);
-            // 
-            // Y_TB
-            // 
-            this.Y_TB.Location = new System.Drawing.Point(66, 33);
-            this.Y_TB.Name = "Y_TB";
-            this.Y_TB.Size = new System.Drawing.Size(102, 20);
-            this.Y_TB.TabIndex = 25;
-            // 
-            // X_TB
-            // 
-            this.X_TB.Location = new System.Drawing.Point(66, 8);
-            this.X_TB.Name = "X_TB";
-            this.X_TB.Size = new System.Drawing.Size(102, 20);
-            this.X_TB.TabIndex = 23;
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.Location = new System.Drawing.Point(2, 37);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(49, 13);
-            this.label14.TabIndex = 24;
-            this.label14.Text = "Y(pixel)";
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.Location = new System.Drawing.Point(2, 10);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(49, 13);
-            this.label15.TabIndex = 22;
-            this.label15.Text = "X(pixel)";
-            // 
-            // Y_Fixation_Location_ET
-            // 
-            this.Y_Fixation_Location_ET.Enabled = false;
-            this.Y_Fixation_Location_ET.Location = new System.Drawing.Point(66, 87);
-            this.Y_Fixation_Location_ET.Name = "Y_Fixation_Location_ET";
-            this.Y_Fixation_Location_ET.Size = new System.Drawing.Size(102, 20);
-            this.Y_Fixation_Location_ET.TabIndex = 21;
-            // 
-            // X_Fixation_Location_ET
-            // 
-            this.X_Fixation_Location_ET.Enabled = false;
-            this.X_Fixation_Location_ET.Location = new System.Drawing.Point(66, 58);
-            this.X_Fixation_Location_ET.Name = "X_Fixation_Location_ET";
-            this.X_Fixation_Location_ET.Size = new System.Drawing.Size(102, 20);
-            this.X_Fixation_Location_ET.TabIndex = 19;
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(2, 90);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(62, 13);
-            this.label12.TabIndex = 20;
-            this.label12.Text = "Y(degree)";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(2, 64);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(62, 13);
-            this.label10.TabIndex = 18;
-            this.label10.Text = "X(degree)";
-            // 
             // StimulusPanel
             // 
             this.StimulusPanel.BackColor = System.Drawing.Color.LightCyan;
@@ -611,7 +532,7 @@
             this.Start_BT.Controls.Add(this.label16);
             this.Start_BT.Controls.Add(this.BgColor_BT);
             this.Start_BT.Controls.Add(this.Shape_Panel);
-            this.Start_BT.Location = new System.Drawing.Point(209, 621);
+            this.Start_BT.Location = new System.Drawing.Point(70, 603);
             this.Start_BT.Name = "Start_BT";
             this.Start_BT.Size = new System.Drawing.Size(814, 159);
             this.Start_BT.TabIndex = 4;
@@ -643,25 +564,6 @@
             this.SelectRewardType_CB.TabIndex = 23;
             this.SelectRewardType_CB.Visible = false;
             this.SelectRewardType_CB.SelectedIndexChanged += new System.EventHandler(this.SelectRewardType_CB_SelectedIndexChanged);
-            // 
-            // Start_PB
-            // 
-            this.Start_PB.AutoEllipsis = true;
-            this.Start_PB.BackColor = System.Drawing.Color.Transparent;
-            this.Start_PB.BackgroundImage = global::TaskDesigner.Resource.setting;
-            this.Start_PB.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.Start_PB.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.Start_PB.FlatAppearance.BorderSize = 0;
-            this.Start_PB.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Start_PB.Location = new System.Drawing.Point(69, 683);
-            this.Start_PB.Margin = new System.Windows.Forms.Padding(0);
-            this.Start_PB.Name = "Start_PB";
-            this.Start_PB.Size = new System.Drawing.Size(48, 48);
-            this.Start_PB.TabIndex = 21;
-            this.Start_PB.TabStop = false;
-            this.Start_PB.UseMnemonic = false;
-            this.Start_PB.UseVisualStyleBackColor = false;
-            this.Start_PB.Click += new System.EventHandler(this.Next_PB_Click);
             // 
             // FrameTime_ET
             // 
@@ -927,7 +829,6 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1211, 788);
-            this.Controls.Add(this.Start_BT);
             this.Controls.Add(this.Size_LB);
             this.Controls.Add(this.panel9);
             this.Controls.Add(this.panel1);
@@ -952,8 +853,6 @@
             this.FixationPanel.ResumeLayout(false);
             this.panel15.ResumeLayout(false);
             this.panel15.PerformLayout();
-            this.panel3.ResumeLayout(false);
-            this.panel3.PerformLayout();
             this.StimulusPanel.ResumeLayout(false);
             this.panel13.ResumeLayout(false);
             this.panel13.PerformLayout();
@@ -1001,15 +900,6 @@
 		private System.Windows.Forms.Label label11;
 		private System.Windows.Forms.Panel Shape_Panel;
 		private System.Windows.Forms.Panel Picture_Panel;
-		private System.Windows.Forms.TextBox Y_Fixation_Location_ET;
-		private System.Windows.Forms.Label label12;
-		private System.Windows.Forms.TextBox X_Fixation_Location_ET;
-		private System.Windows.Forms.Label label10;
-		private System.Windows.Forms.Panel panel3;
-		private System.Windows.Forms.TextBox Y_TB;
-		private System.Windows.Forms.TextBox X_TB;
-		private System.Windows.Forms.Label label14;
-		private System.Windows.Forms.Label label15;
 		private System.Windows.Forms.TextBox FrameTime_ET;
 		private System.Windows.Forms.Label label16;
 		private System.Windows.Forms.Panel panel4;
