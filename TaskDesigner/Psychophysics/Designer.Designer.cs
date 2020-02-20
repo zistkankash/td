@@ -37,44 +37,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.PicB1 = new System.Windows.Forms.PictureBox();
             this.AddPicB = new System.Windows.Forms.PictureBox();
-            this.txt_ShapeSize = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.panel8 = new System.Windows.Forms.Panel();
-            this.label3 = new System.Windows.Forms.Label();
-            this.BgColor_BT = new System.Windows.Forms.Button();
-            this.btn_PenColor = new System.Windows.Forms.Button();
-            this.panel9 = new System.Windows.Forms.Panel();
-            this.panel6 = new System.Windows.Forms.Panel();
-            this.Objects_TV = new System.Windows.Forms.TreeView();
-            this.panel7 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.panel5 = new System.Windows.Forms.Panel();
-            this.label20 = new System.Windows.Forms.Label();
-            this.label19 = new System.Windows.Forms.Label();
-            this.txtEvent = new System.Windows.Forms.TextBox();
-            this.cmbtrigger = new System.Windows.Forms.ComboBox();
-            this.FixationPanel = new System.Windows.Forms.Panel();
-            this.FixationSetting_BT = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
-            this.panel15 = new System.Windows.Forms.Panel();
-            this.label8 = new System.Windows.Forms.Label();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.Y_TB = new System.Windows.Forms.TextBox();
-            this.X_TB = new System.Windows.Forms.TextBox();
-            this.label14 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
-            this.Y_Fixation_Location_ET = new System.Windows.Forms.TextBox();
-            this.X_Fixation_Location_ET = new System.Windows.Forms.TextBox();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.StimulusPanel = new System.Windows.Forms.Panel();
-            this.button7 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
-            this.panel13 = new System.Windows.Forms.Panel();
-            this.label7 = new System.Windows.Forms.Label();
             this.Start_BT = new System.Windows.Forms.Panel();
-            this.RewardType_LB = new System.Windows.Forms.Label();
-            this.SelectRewardType_CB = new System.Windows.Forms.ComboBox();
             this.FrameTime_ET = new System.Windows.Forms.TextBox();
             this.Picture_Panel = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -85,7 +48,6 @@
             this.Imageheight_TB = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
-            this.label18 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.BgColor_BT = new System.Windows.Forms.Button();
             this.Shape_Panel = new System.Windows.Forms.Panel();
@@ -100,54 +62,54 @@
             this.Contrast_ET = new System.Windows.Forms.TextBox();
             this.txt_ShapeSize = new System.Windows.Forms.TextBox();
             this.btn_PenColor = new System.Windows.Forms.Button();
-            this.PicB1 = new System.Windows.Forms.PictureBox();
-            this.AddPicB = new System.Windows.Forms.PictureBox();
             this.panel9 = new System.Windows.Forms.Panel();
             this.panel6 = new System.Windows.Forms.Panel();
             this.Objects_TV = new System.Windows.Forms.TreeView();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.dtgvEventsFrame = new System.Windows.Forms.DataGridView();
+            this.EventName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.EventCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel7 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
-            this.panel5 = new System.Windows.Forms.Panel();
             this.FixationPanel = new System.Windows.Forms.Panel();
             this.panel15 = new System.Windows.Forms.Panel();
             this.label8 = new System.Windows.Forms.Label();
-            this.StimulusPanel = new System.Windows.Forms.Panel();
-            this.panel13 = new System.Windows.Forms.Panel();
-            this.label7 = new System.Windows.Forms.Label();
             this.Popup = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Size_LB = new System.Windows.Forms.Label();
-            this.dtgvEventsFrame = new System.Windows.Forms.DataGridView();
-            this.EventName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.EventCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.panel13 = new System.Windows.Forms.Panel();
+            this.label7 = new System.Windows.Forms.Label();
+            this.pnlStimPanel = new System.Windows.Forms.Panel();
+            this.pnlFixationBlock = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicB1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AddPicB)).BeginInit();
             this.Start_BT.SuspendLayout();
             this.Picture_Panel.SuspendLayout();
             this.panel2.SuspendLayout();
             this.Shape_Panel.SuspendLayout();
             this.panel8.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PicB1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.AddPicB)).BeginInit();
             this.panel9.SuspendLayout();
             this.panel6.SuspendLayout();
-            this.panel7.SuspendLayout();
             this.panel5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dtgvEventsFrame)).BeginInit();
+            this.panel7.SuspendLayout();
             this.FixationPanel.SuspendLayout();
             this.panel15.SuspendLayout();
-            this.StimulusPanel.SuspendLayout();
-            this.panel13.SuspendLayout();
             this.Popup.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dtgvEventsFrame)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.panel13.SuspendLayout();
+            this.pnlStimPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
             this.panel1.AutoScroll = true;
-            this.panel1.BackColor = System.Drawing.Color.LightCyan;
+            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(216)))), ((int)(((byte)(201)))));
             this.panel1.Controls.Add(this.panel4);
-            this.panel1.Controls.Add(this.Start_BT);
             this.panel1.Controls.Add(this.PicB1);
             this.panel1.Controls.Add(this.AddPicB);
             this.panel1.Location = new System.Drawing.Point(0, 0);
@@ -193,443 +155,17 @@
             this.AddPicB.Location = new System.Drawing.Point(12, 159);
             this.AddPicB.Name = "AddPicB";
             this.AddPicB.Size = new System.Drawing.Size(144, 102);
-            this.AddPicB.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.AddPicB.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.AddPicB.TabIndex = 0;
             this.AddPicB.TabStop = false;
             this.AddPicB.Click += new System.EventHandler(this.AddPicB_Click);
-            // 
-            // txt_ShapeSize
-            // 
-            this.txt_ShapeSize.Location = new System.Drawing.Point(106, 106);
-            this.txt_ShapeSize.Name = "txt_ShapeSize";
-            this.txt_ShapeSize.Size = new System.Drawing.Size(50, 20);
-            this.txt_ShapeSize.TabIndex = 9;
-            this.txt_ShapeSize.Text = "2";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(97, 85);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(71, 13);
-            this.label4.TabIndex = 8;
-            this.label4.Text = "Shape Size";
-            // 
-            // panel8
-            // 
-            this.panel8.BackColor = System.Drawing.Color.DimGray;
-            this.panel8.Controls.Add(this.label3);
-            this.panel8.Location = new System.Drawing.Point(0, 0);
-            this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(269, 27);
-            this.panel8.TabIndex = 1;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(88, 5);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(0, 16);
-            this.label3.TabIndex = 1;
-            // 
-            // BgColor_BT
-            // 
-            this.BgColor_BT.BackColor = System.Drawing.SystemColors.Control;
-            this.BgColor_BT.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BgColor_BT.Location = new System.Drawing.Point(9, 6);
-            this.BgColor_BT.Name = "BgColor_BT";
-            this.BgColor_BT.Size = new System.Drawing.Size(156, 28);
-            this.BgColor_BT.TabIndex = 4;
-            this.BgColor_BT.Text = "Background Color";
-            this.BgColor_BT.UseVisualStyleBackColor = false;
-            this.BgColor_BT.Click += new System.EventHandler(this.btn_CanvasColor_Click_1);
-            // 
-            // btn_PenColor
-            // 
-            this.btn_PenColor.BackColor = System.Drawing.Color.Black;
-            this.btn_PenColor.Location = new System.Drawing.Point(27, 101);
-            this.btn_PenColor.Name = "btn_PenColor";
-            this.btn_PenColor.Size = new System.Drawing.Size(33, 28);
-            this.btn_PenColor.TabIndex = 2;
-            this.btn_PenColor.UseVisualStyleBackColor = false;
-            this.btn_PenColor.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // panel9
-            // 
-            this.panel9.AutoScroll = true;
-            this.panel9.BackColor = System.Drawing.Color.Transparent;
-            this.panel9.Controls.Add(this.panel6);
-            this.panel9.Controls.Add(this.panel7);
-            this.panel9.Controls.Add(this.Start_PB);
-            this.panel9.Controls.Add(this.panel5);
-            this.panel9.Controls.Add(this.FixationPanel);
-            this.panel9.Controls.Add(this.panel3);
-            this.panel9.Controls.Add(this.StimulusPanel);
-            this.panel9.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel9.Location = new System.Drawing.Point(1025, 0);
-            this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(186, 788);
-            this.panel9.TabIndex = 3;
-            // 
-            // panel6
-            // 
-            this.panel6.BackColor = System.Drawing.Color.LightCyan;
-            this.panel6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel6.Controls.Add(this.Objects_TV);
-            this.panel6.Location = new System.Drawing.Point(2, 347);
-            this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(177, 146);
-            this.panel6.TabIndex = 4;
-            // 
-            // Objects_TV
-            // 
-            this.Objects_TV.BackColor = System.Drawing.Color.LightCyan;
-            this.Objects_TV.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.Objects_TV.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Objects_TV.Location = new System.Drawing.Point(0, 0);
-            this.Objects_TV.Name = "Objects_TV";
-            treeNode1.Name = "FixationROIRoot";
-            treeNode1.Text = "Fixations";
-            treeNode2.Name = "StimulusRoot";
-            treeNode2.Text = "Stimulus";
-            this.Objects_TV.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2});
-            this.Objects_TV.Size = new System.Drawing.Size(175, 144);
-            this.Objects_TV.TabIndex = 26;
-            this.Objects_TV.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.Objects_TV_AfterSelect);
-            this.Objects_TV.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.Objects_TV_NodeMouseClick);
-            // 
-            // panel7
-            // 
-            this.panel7.BackColor = System.Drawing.Color.DimGray;
-            this.panel7.Controls.Add(this.label1);
-            this.panel7.Location = new System.Drawing.Point(2, 238);
-            this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(177, 27);
-            this.panel7.TabIndex = 2;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(11, 6);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(83, 16);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Event Tool";
-            // 
-            // panel5
-            // 
-            this.panel5.BackColor = System.Drawing.Color.LightCyan;
-            this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel5.Controls.Add(this.label20);
-            this.panel5.Controls.Add(this.label19);
-            this.panel5.Controls.Add(this.txtEvent);
-            this.panel5.Controls.Add(this.cmbtrigger);
-            this.panel5.Location = new System.Drawing.Point(2, 238);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(177, 110);
-            this.panel5.TabIndex = 5;
-            this.panel5.Paint += new System.Windows.Forms.PaintEventHandler(this.panel5_Paint);
-            // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label20.Location = new System.Drawing.Point(9, 79);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(36, 13);
-            this.label20.TabIndex = 24;
-            this.label20.Text = "Code";
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label19.Location = new System.Drawing.Point(9, 48);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(40, 13);
-            this.label19.TabIndex = 23;
-            this.label19.Text = "Event";
-            // 
-            // txtEvent
-            // 
-            this.txtEvent.Location = new System.Drawing.Point(66, 76);
-            this.txtEvent.Name = "txtEvent";
-            this.txtEvent.Size = new System.Drawing.Size(102, 20);
-            this.txtEvent.TabIndex = 1;
-            this.txtEvent.TextChanged += new System.EventHandler(this.txtEvent_TextChanged);
-            this.txtEvent.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtEvent_KeyPress);
-            // 
-            // cmbtrigger
-            // 
-            this.cmbtrigger.DropDownWidth = 120;
-            this.cmbtrigger.FormattingEnabled = true;
-            this.cmbtrigger.Items.AddRange(new object[] {
-            "",
-            "Condition",
-            "Trial Start",
-            "Trial End",
-            "Fixation Point On",
-            "Fixation Point Off",
-            "Stimulus On",
-            "Stimulus Off",
-            "Enter Fixation Window",
-            "Abort Fixation Window",
-            "Enter Target Window",
-            "Saccad Initialized",
-            "Saccad Landed"});
-            this.cmbtrigger.Location = new System.Drawing.Point(66, 45);
-            this.cmbtrigger.Name = "cmbtrigger";
-            this.cmbtrigger.Size = new System.Drawing.Size(102, 21);
-            this.cmbtrigger.TabIndex = 0;
-            this.cmbtrigger.SelectedIndexChanged += new System.EventHandler(this.cmbtrigger_SelectedIndexChanged);
-            // 
-            // FixationPanel
-            // 
-            this.FixationPanel.BackColor = System.Drawing.Color.LightCyan;
-            this.FixationPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.FixationPanel.Controls.Add(this.FixationSetting_BT);
-            this.FixationPanel.Controls.Add(this.button5);
-            this.FixationPanel.Controls.Add(this.panel15);
-            this.FixationPanel.Location = new System.Drawing.Point(2, 0);
-            this.FixationPanel.Name = "FixationPanel";
-            this.FixationPanel.Size = new System.Drawing.Size(177, 126);
-            this.FixationPanel.TabIndex = 1;
-            this.FixationPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.FixationPanel_Paint);
-            // 
-            // FixationSetting_BT
-            // 
-            this.FixationSetting_BT.AutoEllipsis = true;
-            this.FixationSetting_BT.BackColor = System.Drawing.Color.Transparent;
-            this.FixationSetting_BT.BackgroundImage = global::TaskDesigner.Resource.setting;
-            this.FixationSetting_BT.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.FixationSetting_BT.Enabled = false;
-            this.FixationSetting_BT.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.FixationSetting_BT.FlatAppearance.BorderSize = 0;
-            this.FixationSetting_BT.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.FixationSetting_BT.Location = new System.Drawing.Point(106, 49);
-            this.FixationSetting_BT.Margin = new System.Windows.Forms.Padding(0);
-            this.FixationSetting_BT.Name = "FixationSetting_BT";
-            this.FixationSetting_BT.Size = new System.Drawing.Size(48, 48);
-            this.FixationSetting_BT.TabIndex = 22;
-            this.FixationSetting_BT.TabStop = false;
-            this.FixationSetting_BT.UseMnemonic = false;
-            this.FixationSetting_BT.UseVisualStyleBackColor = false;
-            this.FixationSetting_BT.Click += new System.EventHandler(this.FixationSetting_BT_Click);
-            // 
-            // button5
-            // 
-            this.button5.AutoEllipsis = true;
-            this.button5.BackColor = System.Drawing.Color.Transparent;
-            this.button5.BackgroundImage = global::TaskDesigner.Resource.setting;
-            this.button5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.button5.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.button5.FlatAppearance.BorderSize = 0;
-            this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button5.Location = new System.Drawing.Point(17, 49);
-            this.button5.Margin = new System.Windows.Forms.Padding(0);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(48, 48);
-            this.button5.TabIndex = 22;
-            this.button5.TabStop = false;
-            this.button5.UseMnemonic = false;
-            this.button5.UseVisualStyleBackColor = false;
-            this.button5.Click += new System.EventHandler(this.FixationShapeActive_BT_Click);
-            // 
-            // panel15
-            // 
-            this.panel15.BackColor = System.Drawing.Color.DimGray;
-            this.panel15.Controls.Add(this.label8);
-            this.panel15.Location = new System.Drawing.Point(0, -1);
-            this.panel15.Name = "panel15";
-            this.panel15.Size = new System.Drawing.Size(176, 27);
-            this.panel15.TabIndex = 2;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.ForeColor = System.Drawing.Color.White;
-            this.label8.Location = new System.Drawing.Point(14, 5);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(98, 16);
-            this.label8.TabIndex = 1;
-            this.label8.Text = "Fixation Tool";
-            // 
-            // panel3
-            // 
-            this.panel3.BackColor = System.Drawing.Color.LightCyan;
-            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel3.Controls.Add(this.Y_TB);
-            this.panel3.Controls.Add(this.X_TB);
-            this.panel3.Controls.Add(this.label14);
-            this.panel3.Controls.Add(this.label15);
-            this.panel3.Controls.Add(this.Y_Fixation_Location_ET);
-            this.panel3.Controls.Add(this.X_Fixation_Location_ET);
-            this.panel3.Controls.Add(this.label12);
-            this.panel3.Controls.Add(this.label10);
-            this.panel3.Location = new System.Drawing.Point(2, 491);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(177, 129);
-            this.panel3.TabIndex = 3;
-            this.panel3.Paint += new System.Windows.Forms.PaintEventHandler(this.panel3_Paint);
-            // 
-            // Y_TB
-            // 
-            this.Y_TB.Location = new System.Drawing.Point(66, 33);
-            this.Y_TB.Name = "Y_TB";
-            this.Y_TB.Size = new System.Drawing.Size(102, 20);
-            this.Y_TB.TabIndex = 25;
-            // 
-            // X_TB
-            // 
-            this.X_TB.Location = new System.Drawing.Point(66, 8);
-            this.X_TB.Name = "X_TB";
-            this.X_TB.Size = new System.Drawing.Size(102, 20);
-            this.X_TB.TabIndex = 23;
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.Location = new System.Drawing.Point(2, 37);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(49, 13);
-            this.label14.TabIndex = 24;
-            this.label14.Text = "Y(pixel)";
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.Location = new System.Drawing.Point(2, 10);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(49, 13);
-            this.label15.TabIndex = 22;
-            this.label15.Text = "X(pixel)";
-            // 
-            // Y_Fixation_Location_ET
-            // 
-            this.Y_Fixation_Location_ET.Enabled = false;
-            this.Y_Fixation_Location_ET.Location = new System.Drawing.Point(66, 87);
-            this.Y_Fixation_Location_ET.Name = "Y_Fixation_Location_ET";
-            this.Y_Fixation_Location_ET.Size = new System.Drawing.Size(102, 20);
-            this.Y_Fixation_Location_ET.TabIndex = 21;
-            // 
-            // X_Fixation_Location_ET
-            // 
-            this.X_Fixation_Location_ET.Enabled = false;
-            this.X_Fixation_Location_ET.Location = new System.Drawing.Point(66, 58);
-            this.X_Fixation_Location_ET.Name = "X_Fixation_Location_ET";
-            this.X_Fixation_Location_ET.Size = new System.Drawing.Size(102, 20);
-            this.X_Fixation_Location_ET.TabIndex = 19;
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(2, 90);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(62, 13);
-            this.label12.TabIndex = 20;
-            this.label12.Text = "Y(degree)";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(2, 64);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(62, 13);
-            this.label10.TabIndex = 18;
-            this.label10.Text = "X(degree)";
-            // 
-            // StimulusPanel
-            // 
-            this.StimulusPanel.BackColor = System.Drawing.Color.LightCyan;
-            this.StimulusPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.StimulusPanel.Controls.Add(this.button7);
-            this.StimulusPanel.Controls.Add(this.button6);
-            this.StimulusPanel.Controls.Add(this.panel13);
-            this.StimulusPanel.Location = new System.Drawing.Point(2, 126);
-            this.StimulusPanel.Name = "StimulusPanel";
-            this.StimulusPanel.Size = new System.Drawing.Size(177, 112);
-            this.StimulusPanel.TabIndex = 2;
-            this.StimulusPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.StimulusPanel_Paint);
-            // 
-            // button7
-            // 
-            this.button7.AutoEllipsis = true;
-            this.button7.BackColor = System.Drawing.Color.Transparent;
-            this.button7.BackgroundImage = global::TaskDesigner.Resource.setting;
-            this.button7.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.button7.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.button7.FlatAppearance.BorderSize = 0;
-            this.button7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button7.Location = new System.Drawing.Point(106, 48);
-            this.button7.Margin = new System.Windows.Forms.Padding(0);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(48, 48);
-            this.button7.TabIndex = 23;
-            this.button7.TabStop = false;
-            this.button7.UseMnemonic = false;
-            this.button7.UseVisualStyleBackColor = false;
-            this.button7.Click += new System.EventHandler(this.StimulusPictureActive_BT_Click);
-            // 
-            // button6
-            // 
-            this.button6.AutoEllipsis = true;
-            this.button6.BackColor = System.Drawing.Color.Transparent;
-            this.button6.BackgroundImage = global::TaskDesigner.Resource.setting;
-            this.button6.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.button6.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.button6.FlatAppearance.BorderSize = 0;
-            this.button6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button6.Location = new System.Drawing.Point(17, 48);
-            this.button6.Margin = new System.Windows.Forms.Padding(0);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(48, 48);
-            this.button6.TabIndex = 22;
-            this.button6.TabStop = false;
-            this.button6.UseMnemonic = false;
-            this.button6.UseVisualStyleBackColor = false;
-            this.button6.Click += new System.EventHandler(this.StimulusShapeActive_BT_Click);
-            // 
-            // panel13
-            // 
-            this.panel13.BackColor = System.Drawing.Color.DimGray;
-            this.panel13.Controls.Add(this.label7);
-            this.panel13.Location = new System.Drawing.Point(-1, -1);
-            this.panel13.Name = "panel13";
-            this.panel13.Size = new System.Drawing.Size(177, 27);
-            this.panel13.TabIndex = 0;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.ForeColor = System.Drawing.Color.White;
-            this.label7.Location = new System.Drawing.Point(15, 5);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(102, 16);
-            this.label7.TabIndex = 1;
-            this.label7.Text = "Stimulus Tool";
             // 
             // Start_BT
             // 
             this.Start_BT.AutoScroll = true;
             this.Start_BT.BackColor = System.Drawing.Color.Transparent;
-            this.Start_BT.Controls.Add(this.RewardType_LB);
-            this.Start_BT.Controls.Add(this.SelectRewardType_CB);
             this.Start_BT.Controls.Add(this.FrameTime_ET);
             this.Start_BT.Controls.Add(this.Picture_Panel);
-            this.Start_BT.Controls.Add(this.label18);
             this.Start_BT.Controls.Add(this.label16);
             this.Start_BT.Controls.Add(this.BgColor_BT);
             this.Start_BT.Controls.Add(this.Shape_Panel);
@@ -637,34 +173,6 @@
             this.Start_BT.Name = "Start_BT";
             this.Start_BT.Size = new System.Drawing.Size(814, 159);
             this.Start_BT.TabIndex = 4;
-            // 
-            // RewardType_LB
-            // 
-            this.RewardType_LB.AutoSize = true;
-            this.RewardType_LB.Location = new System.Drawing.Point(151, 121);
-            this.RewardType_LB.Name = "RewardType_LB";
-            this.RewardType_LB.Size = new System.Drawing.Size(0, 13);
-            this.RewardType_LB.TabIndex = 24;
-            this.RewardType_LB.Visible = false;
-            // 
-            // SelectRewardType_CB
-            // 
-            this.SelectRewardType_CB.FormattingEnabled = true;
-            this.SelectRewardType_CB.Items.AddRange(new object[] {
-            "0",
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7"});
-            this.SelectRewardType_CB.Location = new System.Drawing.Point(135, 113);
-            this.SelectRewardType_CB.Name = "SelectRewardType_CB";
-            this.SelectRewardType_CB.Size = new System.Drawing.Size(30, 21);
-            this.SelectRewardType_CB.TabIndex = 23;
-            this.SelectRewardType_CB.Visible = false;
-            this.SelectRewardType_CB.SelectedIndexChanged += new System.EventHandler(this.SelectRewardType_CB_SelectedIndexChanged);
             // 
             // FrameTime_ET
             // 
@@ -766,17 +274,6 @@
             this.label11.Size = new System.Drawing.Size(44, 13);
             this.label11.TabIndex = 13;
             this.label11.Text = "Height";
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label18.Location = new System.Drawing.Point(6, 119);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(82, 13);
-            this.label18.TabIndex = 19;
-            this.label18.Text = "Reward Type";
-            this.label18.Visible = false;
             // 
             // label16
             // 
@@ -952,36 +449,14 @@
             this.btn_PenColor.UseVisualStyleBackColor = false;
             this.btn_PenColor.Click += new System.EventHandler(this.button1_Click);
             // 
-            // PicB1
-            // 
-            this.PicB1.Location = new System.Drawing.Point(12, 40);
-            this.PicB1.Name = "PicB1";
-            this.PicB1.Size = new System.Drawing.Size(144, 102);
-            this.PicB1.TabIndex = 0;
-            this.PicB1.TabStop = false;
-            this.PicB1.Click += new System.EventHandler(this.PicB_Click);
-            // 
-            // AddPicB
-            // 
-            this.AddPicB.BackColor = System.Drawing.Color.White;
-            this.AddPicB.Image = global::TaskDesigner.Resource.add;
-            this.AddPicB.InitialImage = global::TaskDesigner.Resource.add;
-            this.AddPicB.Location = new System.Drawing.Point(12, 159);
-            this.AddPicB.Name = "AddPicB";
-            this.AddPicB.Size = new System.Drawing.Size(144, 102);
-            this.AddPicB.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.AddPicB.TabIndex = 0;
-            this.AddPicB.TabStop = false;
-            this.AddPicB.Click += new System.EventHandler(this.AddPicB_Click);
-            // 
             // panel9
             // 
             this.panel9.AutoScroll = true;
             this.panel9.BackColor = System.Drawing.Color.Transparent;
             this.panel9.Controls.Add(this.panel6);
             this.panel9.Controls.Add(this.panel5);
-            this.panel9.Controls.Add(this.StimulusPanel);
             this.panel9.Controls.Add(this.FixationPanel);
+            this.panel9.Dock = System.Windows.Forms.DockStyle.Right;
             this.panel9.Location = new System.Drawing.Point(1025, 0);
             this.panel9.Name = "panel9";
             this.panel9.Size = new System.Drawing.Size(186, 788);
@@ -992,8 +467,8 @@
             this.panel6.BackColor = System.Drawing.Color.LightCyan;
             this.panel6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel6.Controls.Add(this.Objects_TV);
-            this.panel6.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel6.Location = new System.Drawing.Point(0, 338);
+            this.panel6.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel6.Location = new System.Drawing.Point(0, 261);
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(186, 146);
             this.panel6.TabIndex = 4;
@@ -1005,17 +480,57 @@
             this.Objects_TV.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Objects_TV.Location = new System.Drawing.Point(0, 0);
             this.Objects_TV.Name = "Objects_TV";
-            treeNode1.Name = "FixationROIRoot";
+            treeNode1.Name = "";
             treeNode1.Text = "Fixations";
-            treeNode2.Name = "StimulusRoot";
+            treeNode2.Name = "";
             treeNode2.Text = "Stimulus";
             this.Objects_TV.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode1,
             treeNode2});
             this.Objects_TV.Size = new System.Drawing.Size(184, 144);
             this.Objects_TV.TabIndex = 26;
-            this.Objects_TV.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.Objects_TV_AfterSelect);
             this.Objects_TV.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.Objects_TV_NodeMouseClick);
+            // 
+            // panel5
+            // 
+            this.panel5.BackColor = System.Drawing.Color.LightCyan;
+            this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel5.Controls.Add(this.dtgvEventsFrame);
+            this.panel5.Controls.Add(this.panel7);
+            this.panel5.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel5.Location = new System.Drawing.Point(0, 484);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(186, 304);
+            this.panel5.TabIndex = 5;
+            // 
+            // dtgvEventsFrame
+            // 
+            this.dtgvEventsFrame.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dtgvEventsFrame.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dtgvEventsFrame.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.EventName,
+            this.EventCode});
+            this.dtgvEventsFrame.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dtgvEventsFrame.Location = new System.Drawing.Point(0, 27);
+            this.dtgvEventsFrame.MultiSelect = false;
+            this.dtgvEventsFrame.Name = "dtgvEventsFrame";
+            this.dtgvEventsFrame.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.dtgvEventsFrame.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dtgvEventsFrame.Size = new System.Drawing.Size(184, 275);
+            this.dtgvEventsFrame.TabIndex = 0;
+            // 
+            // EventName
+            // 
+            this.EventName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.EventName.HeaderText = "Name";
+            this.EventName.Name = "EventName";
+            this.EventName.ReadOnly = true;
+            // 
+            // EventCode
+            // 
+            this.EventCode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.EventCode.HeaderText = "Code";
+            this.EventCode.Name = "EventCode";
             // 
             // panel7
             // 
@@ -1038,29 +553,18 @@
             this.label1.TabIndex = 1;
             this.label1.Text = "Event Tool";
             // 
-            // panel5
-            // 
-            this.panel5.BackColor = System.Drawing.Color.LightCyan;
-            this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel5.Controls.Add(this.dtgvEventsFrame);
-            this.panel5.Controls.Add(this.panel7);
-            this.panel5.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel5.Location = new System.Drawing.Point(0, 484);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(186, 304);
-            this.panel5.TabIndex = 5;
-            this.panel5.Paint += new System.Windows.Forms.PaintEventHandler(this.panel5_Paint);
-            // 
             // FixationPanel
             // 
             this.FixationPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(216)))), ((int)(((byte)(201)))));
             this.FixationPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.FixationPanel.Controls.Add(this.pnlFixationBlock);
+            this.FixationPanel.Controls.Add(this.pnlStimPanel);
             this.FixationPanel.Controls.Add(this.panel15);
-            this.FixationPanel.Location = new System.Drawing.Point(1, 0);
+            this.FixationPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.FixationPanel.Location = new System.Drawing.Point(0, 0);
             this.FixationPanel.Name = "FixationPanel";
-            this.FixationPanel.Size = new System.Drawing.Size(184, 333);
+            this.FixationPanel.Size = new System.Drawing.Size(186, 261);
             this.FixationPanel.TabIndex = 1;
-            this.FixationPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.FixationPanel_Paint);
             // 
             // panel15
             // 
@@ -1069,7 +573,7 @@
             this.panel15.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel15.Location = new System.Drawing.Point(0, 0);
             this.panel15.Name = "panel15";
-            this.panel15.Size = new System.Drawing.Size(182, 27);
+            this.panel15.Size = new System.Drawing.Size(184, 27);
             this.panel15.TabIndex = 2;
             // 
             // label8
@@ -1085,42 +589,6 @@
             this.label8.Size = new System.Drawing.Size(98, 16);
             this.label8.TabIndex = 1;
             this.label8.Text = "Fixation Tool";
-            // 
-            // StimulusPanel
-            // 
-            this.StimulusPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(216)))), ((int)(((byte)(201)))));
-            this.StimulusPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.StimulusPanel.Controls.Add(this.panel13);
-            this.StimulusPanel.Location = new System.Drawing.Point(1, 0);
-            this.StimulusPanel.Name = "StimulusPanel";
-            this.StimulusPanel.Size = new System.Drawing.Size(184, 332);
-            this.StimulusPanel.TabIndex = 2;
-            this.StimulusPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.StimulusPanel_Paint);
-            // 
-            // panel13
-            // 
-            this.panel13.BackColor = System.Drawing.Color.DimGray;
-            this.panel13.Controls.Add(this.label7);
-            this.panel13.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel13.Location = new System.Drawing.Point(0, 0);
-            this.panel13.Name = "panel13";
-            this.panel13.Size = new System.Drawing.Size(182, 27);
-            this.panel13.TabIndex = 0;
-            // 
-            // label7
-            // 
-            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.ForeColor = System.Drawing.Color.White;
-            this.label7.Location = new System.Drawing.Point(34, 5);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(102, 16);
-            this.label7.TabIndex = 1;
-            this.label7.Text = "Stimulus Tool";
-            this.label7.Click += new System.EventHandler(this.label7_Click);
             // 
             // Popup
             // 
@@ -1154,34 +622,55 @@
             this.Size_LB.Size = new System.Drawing.Size(0, 13);
             this.Size_LB.TabIndex = 21;
             // 
-            // dtgvEventsFrame
+            // pictureBox1
             // 
-            this.dtgvEventsFrame.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.dtgvEventsFrame.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dtgvEventsFrame.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.EventName,
-            this.EventCode});
-            this.dtgvEventsFrame.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dtgvEventsFrame.Location = new System.Drawing.Point(0, 27);
-            this.dtgvEventsFrame.MultiSelect = false;
-            this.dtgvEventsFrame.Name = "dtgvEventsFrame";
-            this.dtgvEventsFrame.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.dtgvEventsFrame.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dtgvEventsFrame.Size = new System.Drawing.Size(184, 275);
-            this.dtgvEventsFrame.TabIndex = 0;
+            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(1211, 788);
+            this.pictureBox1.TabIndex = 22;
+            this.pictureBox1.TabStop = false;
             // 
-            // EventName
+            // panel13
             // 
-            this.EventName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.EventName.HeaderText = "Name";
-            this.EventName.Name = "EventName";
-            this.EventName.ReadOnly = true;
+            this.panel13.BackColor = System.Drawing.Color.DimGray;
+            this.panel13.Controls.Add(this.label7);
+            this.panel13.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel13.Location = new System.Drawing.Point(0, 0);
+            this.panel13.Name = "panel13";
+            this.panel13.Size = new System.Drawing.Size(184, 27);
+            this.panel13.TabIndex = 3;
             // 
-            // EventCode
+            // label7
             // 
-            this.EventCode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.EventCode.HeaderText = "Code";
-            this.EventCode.Name = "EventCode";
+            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.ForeColor = System.Drawing.Color.White;
+            this.label7.Location = new System.Drawing.Point(34, 5);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(102, 16);
+            this.label7.TabIndex = 1;
+            this.label7.Text = "Stimulus Tool";
+            // 
+            // pnlStimPanel
+            // 
+            this.pnlStimPanel.Controls.Add(this.panel13);
+            this.pnlStimPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlStimPanel.Location = new System.Drawing.Point(0, 27);
+            this.pnlStimPanel.Name = "pnlStimPanel";
+            this.pnlStimPanel.Size = new System.Drawing.Size(184, 102);
+            this.pnlStimPanel.TabIndex = 3;
+            // 
+            // pnlFixationBlock
+            // 
+            this.pnlFixationBlock.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlFixationBlock.Location = new System.Drawing.Point(0, 129);
+            this.pnlFixationBlock.Name = "pnlFixationBlock";
+            this.pnlFixationBlock.Size = new System.Drawing.Size(184, 23);
+            this.pnlFixationBlock.TabIndex = 4;
             // 
             // Designer
             // 
@@ -1192,6 +681,7 @@
             this.Controls.Add(this.Size_LB);
             this.Controls.Add(this.panel9);
             this.Controls.Add(this.panel1);
+            this.Controls.Add(this.pictureBox1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Designer";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -1200,6 +690,8 @@
             this.panel1.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PicB1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.AddPicB)).EndInit();
             this.Start_BT.ResumeLayout(false);
             this.Start_BT.PerformLayout();
             this.Picture_Panel.ResumeLayout(false);
@@ -1210,21 +702,20 @@
             this.Shape_Panel.PerformLayout();
             this.panel8.ResumeLayout(false);
             this.panel8.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PicB1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.AddPicB)).EndInit();
             this.panel9.ResumeLayout(false);
             this.panel6.ResumeLayout(false);
+            this.panel5.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dtgvEventsFrame)).EndInit();
             this.panel7.ResumeLayout(false);
             this.panel7.PerformLayout();
-            this.panel5.ResumeLayout(false);
             this.FixationPanel.ResumeLayout(false);
             this.panel15.ResumeLayout(false);
             this.panel15.PerformLayout();
-            this.StimulusPanel.ResumeLayout(false);
+            this.Popup.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel13.ResumeLayout(false);
             this.panel13.PerformLayout();
-            this.Popup.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dtgvEventsFrame)).EndInit();
+            this.pnlStimPanel.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1240,9 +731,6 @@
 		private System.Windows.Forms.Panel panel8;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Panel panel9;
-		private System.Windows.Forms.Panel StimulusPanel;
-		private System.Windows.Forms.Panel panel13;
-		private System.Windows.Forms.Label label7;
 		private System.Windows.Forms.Panel FixationPanel;
 		private System.Windows.Forms.Panel panel15;
 		private System.Windows.Forms.Label label8;
@@ -1274,16 +762,18 @@
 		private System.Windows.Forms.TextBox Contrast_ET;
 		private System.Windows.Forms.Panel panel6;
 		private System.Windows.Forms.TreeView Objects_TV;
-		private System.Windows.Forms.ComboBox SelectRewardType_CB;
-		private System.Windows.Forms.Label label18;
 		private System.Windows.Forms.Label Size_LB;
-		private System.Windows.Forms.Label RewardType_LB;
 		private System.Windows.Forms.Panel panel5;
 		private System.Windows.Forms.Panel panel7;
 		private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridView dtgvEventsFrame;
         private System.Windows.Forms.DataGridViewTextBoxColumn EventName;
         private System.Windows.Forms.DataGridViewTextBoxColumn EventCode;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Panel panel13;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Panel pnlStimPanel;
+        private System.Windows.Forms.Panel pnlFixationBlock;
     }
 
 }

@@ -21,7 +21,7 @@ namespace Psychophysics
 		public static int ScreenWidth = 0, ScreenHeight = 0;
 		float ViewSize = 80; //A: main white box size in the midddle of task designer
 		
-		Graphics g, gr;
+		Graphics _mainBitmapGraphics, _slideImageGraphics;
 		//nullable int for storing Null value
 		int? initX = null;
 		int? initY = null;
@@ -39,20 +39,10 @@ namespace Psychophysics
 		public static List<Bitmap> BitmapPicB = new List<Bitmap>();
 		public static List<int> DeletedFrames = new List<int>();
 		public static List<int> Reward = new List<int>();
-        //public static List<int>  = new List<int>();
+        
         public PsycoPhysicTask _parentTask;
-		// ShowFrame
-		public static List<ShowFr> ShowBoxes = new List<ShowFr>();
-		public static List<int> FrameIndexes = new List<int>();
-
-		// Hint Arrow Added By FrameTool
-		public static List<HintForm> AddedHintsbyFrameTool = new List<HintForm>();
-		public static List<int> HintIndexes = new List<int>();
-
-		// Repeat 
-		public static List<int> RepeatedFrame = new List<int>();
-		public static List<int> RepeatationLength = new List<int>();
-		public static List<int> RepeatedRandomLocation = new List<int>();
+		
+				
 		// Update
 		Bitmap bmpvarforUpdate;
 		#endregion
@@ -75,10 +65,7 @@ namespace Psychophysics
 		// Global Vars
 		public static List<FrameProp> frameList = new List<FrameProp>();
 		#endregion
-		#region Theme
 		
-		// this function just sets a theme for the application
-
 		
 
 		private void DesignerForm_Load(object sender, EventArgs e)
@@ -88,8 +75,7 @@ namespace Psychophysics
 			using (Graphics newGr = panel1.CreateGraphics())
 				newGr.DrawRectangle(new Pen(Color.DimGray, 1), new Rectangle(picb.Location.X - 1, picb.Location.Y - 1, picb.Width + 1, picb.Height + 1));
 		}  
-		
-		#endregion
+			
 
 		public Designer(int mode, int index, PsycoPhysicTask DesignParent)  
         {
@@ -99,19 +85,13 @@ namespace Psychophysics
             fixationList.Clear();
             stimulusList.Clear();
             Reward.Clear();
-            AddedHintsbyFrameTool.Clear();
-            HintIndexes.Clear();
-            RepeatedFrame.Clear();
-            RepeatationLength.Clear();
-            RepeatedRandomLocation.Clear();
-            ShowBoxes.Clear();
+                       
             frameList.Clear();
-            FrameIndexes.Clear();
+            
             DeletedFrames.Clear();
             ActivePicB = 1;
             PicBCnt = 1;
-            X_TB.Enabled = false;
-            Y_TB.Enabled = false;
+           
 			#region new desidn mod
 			if (mode == 1) 
             {
@@ -120,27 +100,21 @@ namespace Psychophysics
                 // Frame Initialization
                 FrameProp frm = new FrameProp();
                 frameList.Add(frm);
-                X_TB.Text = Convert.ToString(frameList[0].frameWidth);
-
-                Y_TB.Text = Convert.ToString(frameList[0].frameHeight);
-
+                
                 FrameTime_ET.Text = Convert.ToString(frameList[0].Time);
 
                 // Panel Graphic setting
-                pnl_Draw.Size = new Size(Convert.ToInt16(frameList[0].frameWidth * (ViewSize / 100)), Convert.ToInt16(frameList[0].frameHeight * (ViewSize / 100)));
-                g = pnl_Draw.CreateGraphics();
-                g.Clear(Color.Black);
+               
+                _mainBitmapGraphics.Clear(Color.Black);
 
                 // Bitmap Graphic setting
                 Bitmap bmpVar = new Bitmap(frameList[0].frameWidth, frameList[0].frameHeight, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
                 BitmapPicB.Add(bmpVar);
                 
-                gr = Graphics.FromImage(BitmapPicB[0]);
-                gr.Clear(Color.White);
+                _slideImageGraphics = Graphics.FromImage(BitmapPicB[0]);
+                _slideImageGraphics.Clear(Color.White);
 
-                RepeatedFrame.Add(0);
-                RepeatationLength.Add(0);
-                RepeatedRandomLocation.Add(0);
+                
                 Reward.Add(0);
                 DeletedFrames.Add(0);
 
@@ -169,8 +143,7 @@ namespace Psychophysics
             }
 			#endregion
 			Size_LB.Text = " % " + Convert.ToString(ViewSize);
-            ParentPanel.MouseWheel += ParentPanel_Wheel;    //A:again the parent panel?!! what does it do?!!
-            SelectedPage_LB.Text = "Selected Page : " + Convert.ToString(ActivePicB);
+            
 			
 		}
        
@@ -179,19 +152,17 @@ namespace Psychophysics
             return Color.FromArgb(A, color.R, color.G, color.B);
 		}         
 
-		//Event fired when the mouse pointer is moved over the Panel(pnl_Draw).
+		
 		private void pnl_Draw_MouseMove(object sender, MouseEventArgs e)
         {
             initX = e.X;
             initY = e.Y;
-			pnl_Draw.Select();
+			
             double X = ConvertDegreeX(Convert.ToInt16(initX * 100 / ViewSize)) * 180 / 3.1415;
             double Y = ConvertDegreeY(Convert.ToInt16(initY * 100 / ViewSize)) * 180 / 3.1415;
 																					          
-			X_Fixation_Location_ET.Text = Convert.ToString(X); 
-            Y_Fixation_Location_ET.Text = Convert.ToString(Y);
-            X_TB.Text = e.X.ToString();
-            Y_TB.Text = e.Y.ToString();
+			
+           
             if(moveObject)
             {
                 stimulusList[indexMoveObject].Xloc += (Convert.ToInt16(initX * 100 / ViewSize) - moveObjectX);
@@ -204,10 +175,10 @@ namespace Psychophysics
 
 		}           
 
-		//Event Fired when the mouse pointer is over Panel and a mouse button is pressed
+		
 		private void pnl_Draw_MouseDown(object sender, MouseEventArgs e)
         {
-			pnl_Draw.Select();
+			
             if (drawSquare)
             {
                 //Use Solid Brush for filling the graphic shapes
@@ -224,8 +195,8 @@ namespace Psychophysics
                     stimulus.SetContrastPts(int.Parse(Contrast_ET.Text));
                     stimulus.ConvertToDeg();
                     stimulusList.Add(stimulus);
-                    gr.FillRectangle(sb, stimulus.Xloc - stimulus.Width / 2, stimulus.Yloc - stimulus.Height / 2, stimulus.Width, stimulus.Height);
-                    g.FillRectangle(sb, e.X - stimulus.Width * ViewSize / 200, e.Y - stimulus.Height * ViewSize / 200, stimulus.Width * ViewSize / 100, stimulus.Height * ViewSize / 100);
+                    _slideImageGraphics.FillRectangle(sb, stimulus.Xloc - stimulus.Width / 2, stimulus.Yloc - stimulus.Height / 2, stimulus.Width, stimulus.Height);
+                    _mainBitmapGraphics.FillRectangle(sb, e.X - stimulus.Width * ViewSize / 200, e.Y - stimulus.Height * ViewSize / 200, stimulus.Width * ViewSize / 100, stimulus.Height * ViewSize / 100);
                 }
                 
 
@@ -247,8 +218,8 @@ namespace Psychophysics
                     stimulus.SetContrastPts(int.Parse(Contrast_ET.Text));
                     stimulus.ConvertToDeg();
                     stimulusList.Add(stimulus);
-                    gr.FillRectangle(sb, stimulus.Xloc - stimulus.Width / 2, stimulus.Yloc - stimulus.Height / 2, stimulus.Width, stimulus.Height);
-                    g.FillRectangle(sb, e.X - stimulus.Width * ViewSize / 200, e.Y - stimulus.Height * ViewSize / 200, stimulus.Width * ViewSize / 100, stimulus.Height * ViewSize / 100);
+                    _slideImageGraphics.FillRectangle(sb, stimulus.Xloc - stimulus.Width / 2, stimulus.Yloc - stimulus.Height / 2, stimulus.Width, stimulus.Height);
+                    _mainBitmapGraphics.FillRectangle(sb, e.X - stimulus.Width * ViewSize / 200, e.Y - stimulus.Height * ViewSize / 200, stimulus.Width * ViewSize / 100, stimulus.Height * ViewSize / 100);
                 }
                 
                 
@@ -267,8 +238,8 @@ namespace Psychophysics
                     stimulus.SetContrastPts(int.Parse(Contrast_ET.Text));
                     stimulus.ConvertToDeg();
                     stimulusList.Add(stimulus);
-                    gr.FillEllipse(sb, stimulus.Xloc - stimulus.Width / 2, stimulus.Yloc - stimulus.Height / 2, stimulus.Width, stimulus.Height);
-                    g.FillEllipse(sb, e.X - stimulus.Width * ViewSize / 200, e.Y - stimulus.Height * ViewSize / 200, stimulus.Width * ViewSize / 100, stimulus.Height * ViewSize / 100);
+                    _slideImageGraphics.FillEllipse(sb, stimulus.Xloc - stimulus.Width / 2, stimulus.Yloc - stimulus.Height / 2, stimulus.Width, stimulus.Height);
+                    _mainBitmapGraphics.FillEllipse(sb, e.X - stimulus.Width * ViewSize / 200, e.Y - stimulus.Height * ViewSize / 200, stimulus.Width * ViewSize / 100, stimulus.Height * ViewSize / 100);
                 }
                 else
                 {
@@ -280,7 +251,7 @@ namespace Psychophysics
                     fixation.ConvertToDeg();
                     fixationList[ActivePicB - 1].Add(fixation);
                    
-                    FixationSetting_BT.Enabled = true;
+                    
                     _fixateAreaSelected = fixationList[ActivePicB - 1].Count - 1;
                     //fixation.Time = int.Parse(FixationTime_ET.Text);
                     UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList);
@@ -307,12 +278,12 @@ namespace Psychophysics
                 stimulusList.Add(stimulus);
                 Bitmap bmpvar = new Bitmap(stimulus.PathPic);
                 bmpvar = new Bitmap(bmpvar, new Size(stimulus.Width, stimulus.Height));
-                gr.DrawImage(bmpvar, new Point(stimulus.Xloc - width / 2, stimulus.Yloc - height / 2));
+                _slideImageGraphics.DrawImage(bmpvar, new Point(stimulus.Xloc - width / 2, stimulus.Yloc - height / 2));
                 bmpvar = new Bitmap(bmpvar, new Size(Convert.ToInt16(stimulus.Width * ViewSize / 100), Convert.ToInt16(stimulus.Height * ViewSize / 100)));
-                g.DrawImage(bmpvar, new Point(e.X - Convert.ToInt16(width * ViewSize / 200), Convert.ToInt16(e.Y - height * ViewSize / 200)));
+                _mainBitmapGraphics.DrawImage(bmpvar, new Point(e.X - Convert.ToInt16(width * ViewSize / 200), Convert.ToInt16(e.Y - height * ViewSize / 200)));
                 
                 drawImage = false;
-				button7.Enabled = true;
+				
             }
             else
             {
@@ -349,7 +320,7 @@ namespace Psychophysics
 
             UpdateTreeView(ActivePicB - 1);
             
-            pnl_Draw.Cursor = Cursors.Arrow;
+            
             Shape_Panel.BackColor = Color.Transparent;
             Picture_Panel.BackColor = Color.Transparent;
             Shape_Panel.Enabled = false;
@@ -360,8 +331,9 @@ namespace Psychophysics
             PictureBox picb = panel1.Controls.Find("PicB" + ActivePicB, true).FirstOrDefault() as PictureBox;
             picb.Image = objBitmap;
 		}           //A:DONE
-					//Fired when the mouse pointer is over the pnl_Draw and a mouse button is released.
-		private void pnl_Draw_MouseUp(object sender, MouseEventArgs e)
+					
+		
+        private void pnl_Draw_MouseUp(object sender, MouseEventArgs e)
         {
            
             initX = null;
@@ -372,7 +344,8 @@ namespace Psychophysics
             moveObjectY = 0;
             indexMoveObject = -1;
 		}           //A:DONE
-					//Button for Setting pen Color
+
+					
 		private void button1_Click(object sender, EventArgs e)
         {
             //Open Color Dialog and Set BackColor of btn_PenColor if user click on OK
@@ -383,44 +356,48 @@ namespace Psychophysics
             }
         }     //A:DONE
 
-        //Setting the Canvas Color
+        
         private void btn_CanvasColor_Click_1(object sender, EventArgs e) 
         {
             ColorDialog c = new ColorDialog();
             if (c.ShowDialog() == DialogResult.OK)
             {
-                g.Clear(c.Color);
+                _mainBitmapGraphics.Clear(c.Color);
                 BgColor_BT.BackColor = c.Color;
-                gr.Clear(c.Color);
+                _slideImageGraphics.Clear(c.Color);
 
                 frameList[ActivePicB - 1].frameColor = c.Color;
                 UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList);  
             }
 		}    //A:DONE
 		
-		private void btn_Square_Click(object sender, EventArgs e)
+		
+        private void btn_Square_Click(object sender, EventArgs e)
         {
             drawSquare = true;
-            pnl_Draw.Cursor = Cursors.Hand;
+           
         }
 
+        
         private void btn_Rectangle_Click(object sender, EventArgs e)
         {
             drawRectangle = true;
-            pnl_Draw.Cursor = Cursors.Hand;
+           
         }
 
+        
         private void btn_Circle_Click(object sender, EventArgs e) 
         {
             drawCircle = true;
-            pnl_Draw.Cursor = Cursors.Hand;
+           
         }
 
+        
         private void AddPicB_Click(object sender, EventArgs e)
         {
 			// Adding new PictureBox
 			panel1.Select();
-			StimulusPanel.Enabled = true;
+			
             FixationPanel.Enabled = true;
 			PictureBox picb = panel1.Controls.Find("PicB" + ActivePicB, true).FirstOrDefault() as PictureBox;
 			using (Graphics newGr = panel1.CreateGraphics())
@@ -429,7 +406,7 @@ namespace Psychophysics
 			PicBCnt++;
             int Yloc = AddPicB.Location.Y;
             ActivePicB = PicBCnt;
-            SelectedPage_LB.Text = "Selected Page : " + Convert.ToString(ActivePicB);
+           
 
             PictureBox PicB = new PictureBox();
             panel1.Controls.Add(PicB);
@@ -442,8 +419,7 @@ namespace Psychophysics
             // Frame setting
             FrameProp newFrame = new FrameProp();
             frameList.Add(newFrame);
-            X_TB.Text = Convert.ToString(frameList[ActivePicB - 1].frameWidth);
-            Y_TB.Text = Convert.ToString(frameList[ActivePicB - 1].frameHeight);
+           
             FrameTime_ET.Text = Convert.ToString(frameList[ActivePicB - 1].Time);
 
             // Fixation setting
@@ -453,45 +429,29 @@ namespace Psychophysics
             // Adding new Bitmap image to the list
             Bitmap bmpVar = new Bitmap(frameList[0].frameWidth, frameList[0].frameHeight, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
             BitmapPicB.Add(bmpVar);
-            gr = Graphics.FromImage(BitmapPicB[ActivePicB - 1]);
-            gr.Clear(Color.White);
+            _slideImageGraphics = Graphics.FromImage(BitmapPicB[ActivePicB - 1]);
+            _slideImageGraphics.Clear(Color.White);
 
             // setting blank Image to the picturebox 
             Bitmap objBitmap = new Bitmap(BitmapPicB[ActivePicB - 1], new Size(PicB.Width, PicB.Height));
             PicB.Image = objBitmap;
 
             // set blank image to the panel
-            g.DrawImage(BitmapPicB[ActivePicB - 1], new PointF(0, 0));
+            _mainBitmapGraphics.DrawImage(BitmapPicB[ActivePicB - 1], new PointF(0, 0));
 
             Reward.Add(0);
             DeletedFrames.Add(0);
-            RepeatedFrame.Add(0);
-            RepeatationLength.Add(0);
-            RepeatedRandomLocation.Add(0);
-
-			cmbtrigger.SelectedIndex = 0;
+            			
             // Change the location of Add-Picturebox
             AddPicB.Location = new Point(AddPicB.Location.X, AddPicB.Location.Y + AddPicB.Size.Height + 15);
             UpdateTreeView(ActivePicB - 1);
 		}      
-
-		private void FixationSetting_BT_Click(object sender, EventArgs e)
-        {
-            FixationSetting FixationSettingForm = new FixationSetting();
-            FixationSetting_BT.Enabled = false;
-
-			FixationSettingForm.ShowDialog();
-            //FixationSettingForm.FormClosing += delegate {
-                //UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList);
-                //UpdateTreeView(ActivePicB - 1);
-                //RewardType_LB.Text = Reward[ActivePicB - 1].ToString();
-            //};
-		}                   
+         
 
 		private void FixationShapeActive_BT_Click(object sender, EventArgs e)
 		{
 			FixationSelected = true;
-            FixationSetting_BT.Enabled = false;
+           
 			Shape_Panel.Enabled = true;
 			Shape_Panel.Visible = true;
 			SquareShape_BT.Visible = false;
@@ -509,22 +469,6 @@ namespace Psychophysics
             RectangleShape_BT.Visible = true;
             Shape_Panel.BackColor = Color.Green;
 		}          
-
-		private void ParentPanel_Scroll(object sender, ScrollEventArgs e)  
-        {
-            Bitmap objBitmap = new Bitmap(BitmapPicB[ActivePicB - 1], pnl_Draw.Size);
-            g.Clear(Color.White);
-            g.DrawImage(objBitmap, new PointF(0, 0));
-            objBitmap.Dispose();
-        }  
-
-        private void ParentPanel_Wheel(object sender, MouseEventArgs e)
-        {
-            Bitmap objBitmap = new Bitmap(BitmapPicB[ActivePicB - 1], pnl_Draw.Size);
-            g.Clear(Color.White);
-            g.DrawImage(objBitmap, new PointF(0, 0));
-            objBitmap.Dispose();
-		} 
 
 		private void Browse_BT(object sender, EventArgs e)
         {
@@ -554,11 +498,7 @@ namespace Psychophysics
 
 		}                                 
 
-        private void ParentPanel_MouseHover(object sender, EventArgs e) 
-        {
-            ParentPanel.Focus();
-		}  
-
+       
 		private void Next_PB_Click(object sender, EventArgs e)
         {
             FrameProperties[] AddedFrame = new FrameProperties[PicBCnt];
@@ -641,7 +581,7 @@ namespace Psychophysics
 
 		private void StimulusPictureActive_BT_Click(object sender, EventArgs e)
         {
-			button7.Enabled = false;
+			
             FixationSelected = false;
             Picture_Panel.Enabled = true;
 			Picture_Panel.Visible = true;
@@ -651,7 +591,7 @@ namespace Psychophysics
 		private void PicB_Click(object sender, EventArgs e)
         {
 			panel1.Select();
-            StimulusPanel.Enabled = true;
+           
             FixationPanel.Enabled = true;
             MouseEventArgs me = (MouseEventArgs)e;
             switch (me.Button)
@@ -671,7 +611,7 @@ namespace Psychophysics
 			int index = 0;
             index = int.Parse(Regex.Match(PicBName, @"\d+").Value);
             ActivePicB = index;
-            SelectedPage_LB.Text = "Selected Page : " +  Convert.ToString(ActivePicB);
+            
             Bitmap objBitmap = new Bitmap(BitmapPicB[ActivePicB - 1], new Size(PicB1.Width, PicB1.Height));
 
             picb = panel1.Controls.Find("PicB" + ActivePicB, true).FirstOrDefault() as PictureBox;
@@ -682,10 +622,10 @@ namespace Psychophysics
 
 			FrameTime_ET.Text = Convert.ToString(frameList[ActivePicB - 1].Time);
            
-            gr = Graphics.FromImage(BitmapPicB[ActivePicB - 1]);
+            _slideImageGraphics = Graphics.FromImage(BitmapPicB[ActivePicB - 1]);
                        
             BgColor_BT.BackColor = frameList[ActivePicB - 1].frameColor;
-			cmbtrigger.SelectedIndex = 0;
+			
             UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList);
             UpdateTreeView(ActivePicB - 1);
 		}                              
@@ -729,7 +669,7 @@ namespace Psychophysics
                         if (index != -1)
                         {
                             ActivePicB = index + 1;
-                            gr = Graphics.FromImage(BitmapPicB[ActivePicB - 1]);
+                            _slideImageGraphics = Graphics.FromImage(BitmapPicB[ActivePicB - 1]);
                             UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList);
                         }
                     }
@@ -743,14 +683,14 @@ namespace Psychophysics
                             picb.Location = new Point(picb.Location.X, picb.Location.Y - picb.Size.Height - 15);
                         }
                         ActivePicB = index + 1;
-                        gr = Graphics.FromImage(BitmapPicB[ActivePicB - 1]);
+                        _slideImageGraphics = Graphics.FromImage(BitmapPicB[ActivePicB - 1]);
                         UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList);
                     }
                 }
                 else
                 {
-                    g.Clear(Color.FromArgb(191, 219, 255));
-                    StimulusPanel.Enabled = false;
+                    _mainBitmapGraphics.Clear(Color.FromArgb(191, 219, 255));
+                    
                     FixationPanel.Enabled = false;
 
                 }
@@ -794,32 +734,7 @@ namespace Psychophysics
             }
         }
 
-        #region Size
-        private void Maximize_Click(object sender, EventArgs e)
-        {
-            if (ViewSize > 190)
-                return;
-            ViewSize += 10;
-            Size_LB.Text = " % " + Convert.ToString(ViewSize);
-            pnl_Draw.Size = new Size(Convert.ToInt16(frameList[0].frameWidth * (ViewSize / 100.0f)), Convert.ToInt16(frameList[0].frameHeight * (ViewSize / 100.0f)));
-            Bitmap objBitmap = new Bitmap(BitmapPicB[ActivePicB - 1], pnl_Draw.Size);
-            g.Clear(Color.White);
-            g.DrawImage(objBitmap, new PointF(0, 0));
-        }                
-
-        private void Minimize_Click(object sender, EventArgs e)
-        {
-            if (ViewSize < 60)
-                return;
-            ViewSize -= 10;
-            Size_LB.Text = " % " + Convert.ToString(ViewSize);
-
-            pnl_Draw.Size = new Size(Convert.ToInt16(frameList[0].frameWidth * (ViewSize / 100.0f)), Convert.ToInt16(frameList[0].frameHeight * (ViewSize / 100.0f)));
-            Bitmap objBitmap = new Bitmap(BitmapPicB[ActivePicB - 1], pnl_Draw.Size);
-            g.Clear(Color.White);
-            g.DrawImage(objBitmap, new PointF(0, 0));
-		}                
-		#endregion
+        
 		#region TreeView-D
 		
         private void UpdateTreeView(int index)
@@ -847,10 +762,6 @@ namespace Psychophysics
 
         }
 
-        private void Objects_TV_AfterSelect(object sender, TreeViewEventArgs e)
-        {
-            
-		}  
 
 		void FixationEditWidth(int index, String Value)
         {
@@ -1016,77 +927,11 @@ namespace Psychophysics
             stimulusList.RemoveAt(index);
         }
 
-        void HintEditX0(int index, String Value)
-        {
-            try
-            {
-                AddedHintsbyFrameTool[index].ArrowLocX0 = int.Parse(Value) - AddedHintsbyFrameTool[index].ArrowWidth;
-                AddedHintsbyFrameTool[index].ArrowLocX1 = int.Parse(Value) + AddedHintsbyFrameTool[index].ArrowWidth;
-            }
-            catch (Exception)
-            {
-                //MessageBox.Show("Please insert numerical data in field", "Input Error");
-            }
-            
-        }
-
-        void HintEditY(int index, String Value)
-        {
-            try
-            {
-                AddedHintsbyFrameTool[index].ArrowLocY = int.Parse(Value);
-            }
-            catch (Exception)
-            {
-                //MessageBox.Show("Please insert numerical data in field", "Input Error");
-            }
-            
-        }
         
-		void HintEditWidth(int index, String Value)
-        {
-            try
-            {
-                AddedHintsbyFrameTool[index].ArrowWidth = int.Parse(Value);
-            }
-            catch (Exception)
-            {
-                //MessageBox.Show("Please insert numerical data in field", "Input Error");
-            }
-            
-        }
-        
-		void HintEditColor(int index)
-        {
-            ColorDialog c = new ColorDialog();
-            if (c.ShowDialog() == DialogResult.OK)
-            {
-                AddedHintsbyFrameTool[index].ArrowColor = c.Color;
-            }
-        }
-        
-		void HintEditRatio(int index, String Value)
-        {
-            for (int i = 0; i < ShowBoxes.Count; i++)
-            {
-                if (HintIndexes[index] == FrameIndexes[i])
-                {
-                    ShowBoxes[i].Thickness = (ShowBoxes[i].Thickness / AddedHintsbyFrameTool[index].BoxRatio) * float.Parse(Value);
-                    break;
-                }
-            }
-            try
-            {
-                AddedHintsbyFrameTool[index].BoxRatio = float.Parse(Value);
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Please insert numerical data in field", "Input Error");
-            }
-        }
 		#endregion        
 
 		#region EditR-D
+
 		private void LoadParameters(int index)
         {
             PicBCnt = _parentTask._tsk.AllLevelProp[index].Count;
@@ -1107,8 +952,8 @@ namespace Psychophysics
                 // Adding new Bitmap image to the list
                 Bitmap bmpVar = new Bitmap(frameList[0].frameWidth, frameList[0].frameHeight, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
                 BitmapPicB.Add(bmpVar);
-                gr = Graphics.FromImage(BitmapPicB[i]);
-                gr.Clear(Color.White);
+                _slideImageGraphics = Graphics.FromImage(BitmapPicB[i]);
+                _slideImageGraphics.Clear(Color.White);
             }
 
             // setting blank Image to the picturebox 
@@ -1166,34 +1011,20 @@ namespace Psychophysics
             ActivePicB = PicBCnt;
 
             // Panel Graphic setting
-            pnl_Draw.Size = new Size(Convert.ToInt16(frameList[0].frameWidth * (ViewSize / 100)), Convert.ToInt16(frameList[0].frameHeight * (ViewSize / 100)));
-            g = pnl_Draw.CreateGraphics();
+           
 
             for (int i = 0; i < PicBCnt; i++)
             {
-                gr = Graphics.FromImage(BitmapPicB[i]);
+                _slideImageGraphics = Graphics.FromImage(BitmapPicB[i]);
                 
                 UpdateFrame(i, frameList, fixationList[i], stimulusList);
                 
                 UpdateTreeView(i);
             }
             //UpdateFrame(ActivePicB - 1, frameList, fixationList, stimulusList);
-            pnl_Draw.BackgroundImage = new Bitmap(BitmapPicB[ActivePicB - 1],pnl_Draw.Size);
-			FrameTime_ET.Text = _parentTask._tsk.AllLevelProp[index][ActivePicB - 1].FrameTime.ToString();
+            
 		}         
-
-		private void SelectRewardType_CB_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            ComboBox cmb = (ComboBox)sender;
-
-            String cmbVal = cmb.Text;
-            Debug.Write("ComboVal : " + cmbVal + "\n");
-            int index = int.Parse(cmbVal);
-
-            Reward[ActivePicB - 1] = index;
-        }
-
-
+        
         #endregion
 
         #region UpdatePictures-D
@@ -1202,39 +1033,9 @@ namespace Psychophysics
         {
             if (index < 0)
                 return;
-            g.Clear(FrameObjs[index].frameColor);
-            gr.Clear(FrameObjs[index].frameColor);
-
-            for (int i = 0; i < ShowBoxes.Count; i++)
-            {
-                if (FrameIndexes[i] == index + 1)
-                {
-                    Pen boxp = new Pen(ShowBoxes[i].ColorBox, ShowBoxes[i].Thickness);
-                    gr.DrawRectangle(boxp, ShowBoxes[i].CenterX - ShowBoxes[i].Width / 2, ShowBoxes[i].CenterY - ShowBoxes[i].Height / 2, ShowBoxes[i].Width, ShowBoxes[i].Height);
-                    g.DrawRectangle(boxp, (ShowBoxes[i].CenterX - ShowBoxes[i].Width / 2) * ViewSize / 100, (ShowBoxes[i].CenterY - ShowBoxes[i].Height / 2) * ViewSize / 100, (ShowBoxes[i].Width) * ViewSize / 100, (ShowBoxes[i].Height) * ViewSize / 100);
-                }
-            }
-
-            for (int i = 0; i < AddedHintsbyFrameTool.Count; i++)
-            {
-                if (FrameIndexes[i] == index + 1)
-                {
-                    Graphics graphic = Graphics.FromImage(BitmapPicB[HintIndexes[i] - 1]);
-
-                    if (AddedHintsbyFrameTool[i].BoxRatio == 1)
-                    {
-                        Pen pen = new Pen(AddedHintsbyFrameTool[i].ArrowColor, AddedHintsbyFrameTool[i].ArrowWidth);
-                        pen.StartCap = LineCap.ArrowAnchor;
-                        gr.DrawLine(pen, AddedHintsbyFrameTool[i].ArrowLocX0, AddedHintsbyFrameTool[i].ArrowLocY, AddedHintsbyFrameTool[i].ArrowLocX1, AddedHintsbyFrameTool[i].ArrowLocY);
-                        pen = new Pen(AddedHintsbyFrameTool[i].ArrowColor, (AddedHintsbyFrameTool[i].ArrowWidth) * ViewSize / 100);
-                        pen.StartCap = LineCap.ArrowAnchor;
-                        g.DrawLine(pen, (AddedHintsbyFrameTool[i].ArrowLocX0) * ViewSize / 100, (AddedHintsbyFrameTool[i].ArrowLocY) * ViewSize / 100, (AddedHintsbyFrameTool[i].ArrowLocX1) * ViewSize / 100, (AddedHintsbyFrameTool[i].ArrowLocY) * ViewSize / 100);
-
-                    }
-                }
-            }
-
-
+            _mainBitmapGraphics.Clear(FrameObjs[index].frameColor);
+            _slideImageGraphics.Clear(FrameObjs[index].frameColor);
+                        
             for (int i = 0; i < StimulusObjs.Count; i++)
             {
 
@@ -1246,20 +1047,20 @@ namespace Psychophysics
 
                 if (StimulusObjs[i].Type == 1 || StimulusObjs[i].Type == 5 || StimulusObjs[i].Type == 9)
                 {
-                    g.FillRectangle(sb, (StimulusObjs[i].Xloc - StimulusObjs[i].Width / 2) * ViewSize / 100, (StimulusObjs[i].Yloc - StimulusObjs[i].Width / 2) * ViewSize / 100, StimulusObjs[i].Width * ViewSize / 100, StimulusObjs[i].Width * ViewSize / 100);
-                    gr.FillRectangle(sb, StimulusObjs[i].Xloc - StimulusObjs[i].Width / 2, StimulusObjs[i].Yloc - StimulusObjs[i].Width / 2, StimulusObjs[i].Width, StimulusObjs[i].Width);
+                    _mainBitmapGraphics.FillRectangle(sb, (StimulusObjs[i].Xloc - StimulusObjs[i].Width / 2) * ViewSize / 100, (StimulusObjs[i].Yloc - StimulusObjs[i].Width / 2) * ViewSize / 100, StimulusObjs[i].Width * ViewSize / 100, StimulusObjs[i].Width * ViewSize / 100);
+                    _slideImageGraphics.FillRectangle(sb, StimulusObjs[i].Xloc - StimulusObjs[i].Width / 2, StimulusObjs[i].Yloc - StimulusObjs[i].Width / 2, StimulusObjs[i].Width, StimulusObjs[i].Width);
                 }
 
                 if (StimulusObjs[i].Type == 2)
                 {
-                    g.FillRectangle(sb, (StimulusObjs[i].Xloc - StimulusObjs[i].Width / 2) * ViewSize / 100, (StimulusObjs[i].Yloc - StimulusObjs[i].Width / 2) * ViewSize / 100, StimulusObjs[i].Width * ViewSize / 100, StimulusObjs[i].Width * ViewSize / 100);
-                    gr.FillRectangle(sb, StimulusObjs[i].Xloc - StimulusObjs[i].Width / 2, StimulusObjs[i].Yloc - StimulusObjs[i].Width / 2, StimulusObjs[i].Width, StimulusObjs[i].Width);
+                    _mainBitmapGraphics.FillRectangle(sb, (StimulusObjs[i].Xloc - StimulusObjs[i].Width / 2) * ViewSize / 100, (StimulusObjs[i].Yloc - StimulusObjs[i].Width / 2) * ViewSize / 100, StimulusObjs[i].Width * ViewSize / 100, StimulusObjs[i].Width * ViewSize / 100);
+                    _slideImageGraphics.FillRectangle(sb, StimulusObjs[i].Xloc - StimulusObjs[i].Width / 2, StimulusObjs[i].Yloc - StimulusObjs[i].Width / 2, StimulusObjs[i].Width, StimulusObjs[i].Width);
                 }
 
                 if (StimulusObjs[i].Type == 3 || StimulusObjs[i].Type == 7 || StimulusObjs[i].Type == 11)
                 {
-                    g.FillEllipse(sb, (StimulusObjs[i].Xloc - StimulusObjs[i].Width / 2) * ViewSize / 100, (StimulusObjs[i].Yloc - StimulusObjs[i].Width / 2) * ViewSize / 100, StimulusObjs[i].Width * ViewSize / 100, StimulusObjs[i].Width * ViewSize / 100);
-                    gr.FillEllipse(sb, StimulusObjs[i].Xloc - StimulusObjs[i].Width / 2, StimulusObjs[i].Yloc - StimulusObjs[i].Width / 2, StimulusObjs[i].Width, StimulusObjs[i].Width);
+                    _mainBitmapGraphics.FillEllipse(sb, (StimulusObjs[i].Xloc - StimulusObjs[i].Width / 2) * ViewSize / 100, (StimulusObjs[i].Yloc - StimulusObjs[i].Width / 2) * ViewSize / 100, StimulusObjs[i].Width * ViewSize / 100, StimulusObjs[i].Width * ViewSize / 100);
+                    _slideImageGraphics.FillEllipse(sb, StimulusObjs[i].Xloc - StimulusObjs[i].Width / 2, StimulusObjs[i].Yloc - StimulusObjs[i].Width / 2, StimulusObjs[i].Width, StimulusObjs[i].Width);
                 }
 
                 if (StimulusObjs[i].Type == 4 || StimulusObjs[i].Type == 8 || StimulusObjs[i].Type == 12)
@@ -1271,9 +1072,9 @@ namespace Psychophysics
                         { 
                             bmpvarforUpdate = new Bitmap(StimulusObjs[i].PathPic);
                             bmpvarforUpdate = new Bitmap(bmpvarforUpdate, new Size(StimulusObjs[i].Width, StimulusObjs[i].Height));
-                            gr.DrawImage(bmpvarforUpdate, new Point(StimulusObjs[i].Xloc - StimulusObjs[i].Width / 2, StimulusObjs[i].Yloc - StimulusObjs[i].Height / 2));
+                            _slideImageGraphics.DrawImage(bmpvarforUpdate, new Point(StimulusObjs[i].Xloc - StimulusObjs[i].Width / 2, StimulusObjs[i].Yloc - StimulusObjs[i].Height / 2));
                             bmpvarforUpdate = new Bitmap(bmpvarforUpdate, new Size(Convert.ToInt16(StimulusObjs[i].Width * ViewSize / 100), Convert.ToInt16(StimulusObjs[i].Height * ViewSize / 100)));
-                            g.DrawImage(bmpvarforUpdate, new Point(Convert.ToInt16((StimulusObjs[i].Xloc - StimulusObjs[i].Width / 2) * ViewSize / 100), Convert.ToInt16((StimulusObjs[i].Yloc - StimulusObjs[i].Height / 2) * ViewSize / 100)));
+                            _mainBitmapGraphics.DrawImage(bmpvarforUpdate, new Point(Convert.ToInt16((StimulusObjs[i].Xloc - StimulusObjs[i].Width / 2) * ViewSize / 100), Convert.ToInt16((StimulusObjs[i].Yloc - StimulusObjs[i].Height / 2) * ViewSize / 100)));
                         }
                         bmpvarforUpdate.Dispose();
                     }
@@ -1297,13 +1098,13 @@ namespace Psychophysics
                     switch (FixationObjs[j].Type)
                     {
                         case 1:
-                            gr.DrawRectangle(boxp, FixationObjs[j].Xloc - FixationObjs[j].Width / 2, FixationObjs[j].Yloc - FixationObjs[j].Width / 2, FixationObjs[j].Width, FixationObjs[j].Width);
-                            g.DrawRectangle(boxp, (FixationObjs[j].Xloc - FixationObjs[j].Width / 2) * ViewSize / 100, (FixationObjs[j].Yloc - FixationObjs[j].Width / 2) * ViewSize / 100, (FixationObjs[j].Width) * ViewSize / 100, (FixationObjs[j].Width) * ViewSize / 100);
+                            _slideImageGraphics.DrawRectangle(boxp, FixationObjs[j].Xloc - FixationObjs[j].Width / 2, FixationObjs[j].Yloc - FixationObjs[j].Width / 2, FixationObjs[j].Width, FixationObjs[j].Width);
+                            _mainBitmapGraphics.DrawRectangle(boxp, (FixationObjs[j].Xloc - FixationObjs[j].Width / 2) * ViewSize / 100, (FixationObjs[j].Yloc - FixationObjs[j].Width / 2) * ViewSize / 100, (FixationObjs[j].Width) * ViewSize / 100, (FixationObjs[j].Width) * ViewSize / 100);
                             break;
                         case 3:
                         case 7:
-                            gr.DrawEllipse(boxp, FixationObjs[j].Xloc - FixationObjs[j].Width / 2, FixationObjs[j].Yloc - FixationObjs[j].Width / 2, FixationObjs[j].Width, FixationObjs[j].Width);
-                            g.DrawEllipse(boxp, (FixationObjs[j].Xloc - FixationObjs[j].Width / 2) * ViewSize / 100, (FixationObjs[j].Yloc - FixationObjs[j].Width / 2) * ViewSize / 100, FixationObjs[j].Width * ViewSize / 100, FixationObjs[j].Width * ViewSize / 100);
+                            _slideImageGraphics.DrawEllipse(boxp, FixationObjs[j].Xloc - FixationObjs[j].Width / 2, FixationObjs[j].Yloc - FixationObjs[j].Width / 2, FixationObjs[j].Width, FixationObjs[j].Width);
+                            _mainBitmapGraphics.DrawEllipse(boxp, (FixationObjs[j].Xloc - FixationObjs[j].Width / 2) * ViewSize / 100, (FixationObjs[j].Yloc - FixationObjs[j].Width / 2) * ViewSize / 100, FixationObjs[j].Width * ViewSize / 100, FixationObjs[j].Width * ViewSize / 100);
                             break;
                         default:
                             break;
@@ -1318,6 +1119,7 @@ namespace Psychophysics
 			
 			
 		}   
+
         #endregion
         
         #region FrameProp-D
@@ -1525,23 +1327,7 @@ namespace Psychophysics
 
 		}
 
-		private void cmbtrigger_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			if (cmbtrigger.SelectedIndex == 0)
-			{
-				txtEvent.Text = "";
-				txtEvent.Enabled = false;
-			}
-			else
-			{
-				txtEvent.Text = frameList[ActivePicB - 1].events.GetEvent(cmbtrigger.SelectedIndex).ToString();
-				if (txtEvent.Text == "-1")
-					txtEvent.Text = "";
-				txtEvent.Enabled = true;
-			}
-			this.Select();
-		}
-
+		
 		private void txtEvent_KeyPress(object sender, KeyPressEventArgs e)
 		{
 			if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
@@ -1550,230 +1336,125 @@ namespace Psychophysics
 			}
 		}
 
-        private void FixationPanel_Paint(object sender, PaintEventArgs e)
+
+        private void Objects_TV_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-
-        }
-
-        private void StimulusPanel_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void panel5_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void panel3_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void label7_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txtEvent_TextChanged(object sender, EventArgs e)
-		{
-			if (cmbtrigger.SelectedIndex == 0)
-				return;
-			if (txtEvent.Text == "")
-				frameList[ActivePicB - 1].events.SetEvent(cmbtrigger.SelectedIndex, -1);
-			else
-				frameList[ActivePicB - 1].events.SetEvent(cmbtrigger.SelectedIndex, int.Parse(txtEvent.Text));
-		}
-
-		private void Objects_TV_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
-		{
-			if (e.Node.Level == 0)
-				return;
-			String Name = e.Node.Text;
-			char IdName = Name[0];
-			if (IdName == 'F')
-			{
+            if (e.Node.Level == 0)
+                return;
+            String Name = e.Node.Text;
+            char IdName = Name[0];
+            if (IdName == 'F')
+            {
                 _fixateAreaSelected = int.Parse(Regex.Match(Name, @"\d+").Value);
-                FixationSetting_BT.Enabled = true;
+
+
                
+                //prompt.Text = "Fixation Edit Panel";
+                Label SizeLabel = new Label() { Left = 30, Top = 30, Height = 15, Text = "Size :" };
+                TextBox SizeTextBox = new TextBox { Left = 160, Top = 30, Width = 60, Text = Convert.ToString(fixationList[ActivePicB - 1][_fixateAreaSelected].Widthd) };
+                SizeTextBox.TextChanged += delegate { this.FixationEditWidth(ActivePicB - 1, SizeTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList); };
+                Label XLabel = new Label() { Left = 30, Top = 70, Height = 15, Text = "X :" };
+                TextBox XTextBox = new TextBox { Left = 160, Top = 70, Width = 60, Text = Convert.ToString(fixationList[ActivePicB - 1][_fixateAreaSelected].Xlocd) };
+                XTextBox.TextChanged += delegate { this.FixationEditX(ActivePicB - 1, XTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList); };
+                Label YLabel = new Label() { Left = 30, Top = 110, Height = 15, Text = "Y :" };
+                TextBox YTextBox = new TextBox { Left = 160, Top = 110, Width = 60, Text = Convert.ToString(fixationList[ActivePicB - 1][_fixateAreaSelected].Ylocd) };
+                YTextBox.TextChanged += delegate { this.FixationEditY(ActivePicB - 1, YTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList); };
+                Label TimeLabel = new Label() { Left = 30, Top = 150, Height = 15, Text = "Fixation Time :" };
+                TextBox TimeTextBox = new TextBox { Left = 160, Top = 150, Width = 60, Text = Convert.ToString(fixationList[ActivePicB - 1][_fixateAreaSelected].Time) };
+                TimeTextBox.TextChanged += delegate { this.FixationEditTime(ActivePicB - 1, TimeTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList); };
+                Button RemoveButton = new Button { Left = 75, Top = 190, Width = 80, Text = Convert.ToString("Remove") };
+                RemoveButton.Click += delegate { this.FixationRemove(ActivePicB - 1); this.UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList); UpdateTreeView(ActivePicB - 1); };
+
+                FixationSetting FixationSettingForm = new FixationSetting();
+                FixationSettingForm.ShowDialog();
+
+            }
+
+            if (IdName == 'S')
+            {
+                int IdIndex = int.Parse(Regex.Match(Name, @"\d+").Value);
+
                 MetroFramework.Forms.MetroForm prompt = new MetroFramework.Forms.MetroForm();
-				prompt.ShowIcon = false;
-				prompt.TopMost = true;
-				prompt.Name = "FixationForm";
-				prompt.Width = 250;
-				prompt.Height = 300;
-				//prompt.Text = "Fixation Edit Panel";
-				Label SizeLabel = new Label() { Left = 30, Top = 30, Height = 15, Text = "Size :" };
-				TextBox SizeTextBox = new TextBox { Left = 160, Top = 30, Width = 60, Text = Convert.ToString(fixationList[ActivePicB - 1][_fixateAreaSelected].Widthd) };
-				SizeTextBox.TextChanged += delegate { this.FixationEditWidth(ActivePicB - 1, SizeTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList); };
-				Label XLabel = new Label() { Left = 30, Top = 70, Height = 15, Text = "X :" };
-				TextBox XTextBox = new TextBox { Left = 160, Top = 70, Width = 60, Text = Convert.ToString(fixationList[ActivePicB - 1][_fixateAreaSelected].Xlocd) };
-				XTextBox.TextChanged += delegate { this.FixationEditX(ActivePicB - 1, XTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList); };
-				Label YLabel = new Label() { Left = 30, Top = 110, Height = 15, Text = "Y :" };
-				TextBox YTextBox = new TextBox { Left = 160, Top = 110, Width = 60, Text = Convert.ToString(fixationList[ActivePicB - 1][_fixateAreaSelected].Ylocd) };
-				YTextBox.TextChanged += delegate { this.FixationEditY(ActivePicB - 1, YTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList); };
-				Label TimeLabel = new Label() { Left = 30, Top = 150, Height = 15, Text = "Fixation Time :" };
-				TextBox TimeTextBox = new TextBox { Left = 160, Top = 150, Width = 60, Text = Convert.ToString(fixationList[ActivePicB - 1][_fixateAreaSelected].Time) };
-				TimeTextBox.TextChanged += delegate { this.FixationEditTime(ActivePicB - 1, TimeTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList); };
-				Button RemoveButton = new Button { Left = 75, Top = 190, Width = 80, Text = Convert.ToString("Remove") };
-				RemoveButton.Click += delegate { this.FixationRemove(ActivePicB - 1); this.UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList); UpdateTreeView(ActivePicB - 1); prompt.Close(); };
+                prompt.ShowIcon = false;
+                prompt.Name = "StimulusForm";
+                prompt.Width = 250;
+                prompt.Height = 300;
+                //prompt.Text = "Stimulus Edit Panel";
+                //Width
+                Label SizeWLabel = new Label() { Left = 30, Top = 30, Text = "Size :" };
+                TextBox SizeWTextBox = new TextBox { Left = 160, Top = 30, Width = 60, Text = Convert.ToString(stimulusList[IdIndex].Widthd) };
+                SizeWTextBox.TextChanged += delegate { this.StimulusEditWidth(IdIndex, SizeWTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList); };
+                //Height
+                Label SizeHLabel = new Label() { Left = 30, Top = 70, Text = "Size :" };
+                TextBox SizeHTextBox = new TextBox { Left = 160, Top = 70, Width = 60, Text = Convert.ToString(stimulusList[IdIndex].Heightd) };
+                SizeHTextBox.TextChanged += delegate { this.StimulusEditHeight(IdIndex, SizeHTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList); };
+                //X
+                Label XLabel = new Label() { Left = 30, Top = 110, Text = "X :" };
+                TextBox XTextBox = new TextBox { Left = 160, Top = 110, Width = 60, Text = Convert.ToString(stimulusList[IdIndex].Xlocd) };
+                XTextBox.TextChanged += delegate { this.StimulusEditX(IdIndex, XTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList); };
+                //Y
+                Label YLabel = new Label() { Left = 30, Top = 150, Text = "Y :" };
+                TextBox YTextBox = new TextBox { Left = 160, Top = 150, Width = 60, Text = Convert.ToString(stimulusList[IdIndex].Ylocd) };
+                YTextBox.TextChanged += delegate { this.StimulusEditY(IdIndex, YTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList); };
 
-				prompt.Controls.Add(SizeLabel);
-				prompt.Controls.Add(SizeTextBox);
-				prompt.Controls.Add(XLabel);
-				prompt.Controls.Add(XTextBox);
-				prompt.Controls.Add(YLabel);
-				prompt.Controls.Add(YTextBox);
-				prompt.Controls.Add(TimeLabel);
-				prompt.Controls.Add(TimeTextBox);
-				prompt.Controls.Add(RemoveButton);
-				prompt.ShowDialog();
-				
-			}
+                if (stimulusList[IdIndex].Type == 4 || stimulusList[IdIndex].Type == 8 || stimulusList[IdIndex].Type == 12)
+                {
+                    prompt.Height = 270;
+                    //Path
+                    Label PathLabel = new Label() { Left = 30, Top = 190, Width = 40, Text = "Path :" };
+                    TextBox PathTextBox = new TextBox { Left = 75, Top = 190, Width = 120, Text = Convert.ToString(stimulusList[IdIndex].PathPic) };
+                    Button PathButton = new Button() { Left = 200, Top = 190, Width = 30, Height = PathTextBox.Height, Text = "..." };
+                    PathButton.Click += delegate { string VarPath = this.StimulusEditPath(IdIndex); PathTextBox.Text = VarPath; this.UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList); };
 
-			if (IdName == 'S')
-			{
-				int IdIndex = int.Parse(Regex.Match(Name, @"\d+").Value);
+                    Button RemoveButton = new Button { Left = 85, Top = 230, Width = 80, Text = Convert.ToString("Remove") };
+                    RemoveButton.Click += delegate { this.StimulusRemove(IdIndex); this.UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList); UpdateTreeView(ActivePicB - 1); prompt.Close(); };
 
-				MetroFramework.Forms.MetroForm prompt = new MetroFramework.Forms.MetroForm();
-				prompt.ShowIcon = false;
-				prompt.Name = "StimulusForm";
-				prompt.Width = 250;
-				prompt.Height = 300;
-				//prompt.Text = "Stimulus Edit Panel";
-				//Width
-				Label SizeWLabel = new Label() { Left = 30, Top = 30, Text = "Size :" };
-				TextBox SizeWTextBox = new TextBox { Left = 160, Top = 30, Width = 60, Text = Convert.ToString(stimulusList[IdIndex].Widthd) };
-				SizeWTextBox.TextChanged += delegate { this.StimulusEditWidth(IdIndex, SizeWTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList); };
-				//Height
-				Label SizeHLabel = new Label() { Left = 30, Top = 70, Text = "Size :" };
-				TextBox SizeHTextBox = new TextBox { Left = 160, Top = 70, Width = 60, Text = Convert.ToString(stimulusList[IdIndex].Heightd) };
-				SizeHTextBox.TextChanged += delegate { this.StimulusEditHeight(IdIndex, SizeHTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList); };
-				//X
-				Label XLabel = new Label() { Left = 30, Top = 110, Text = "X :" };
-				TextBox XTextBox = new TextBox { Left = 160, Top = 110, Width = 60, Text = Convert.ToString(stimulusList[IdIndex].Xlocd) };
-				XTextBox.TextChanged += delegate { this.StimulusEditX(IdIndex, XTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList); };
-				//Y
-				Label YLabel = new Label() { Left = 30, Top = 150, Text = "Y :" };
-				TextBox YTextBox = new TextBox { Left = 160, Top = 150, Width = 60, Text = Convert.ToString(stimulusList[IdIndex].Ylocd) };
-				YTextBox.TextChanged += delegate { this.StimulusEditY(IdIndex, YTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList); };
+                    prompt.Controls.Add(SizeWLabel);
+                    prompt.Controls.Add(SizeWTextBox);
+                    prompt.Controls.Add(SizeHLabel);
+                    prompt.Controls.Add(SizeHTextBox);
+                    prompt.Controls.Add(XLabel);
+                    prompt.Controls.Add(XTextBox);
+                    prompt.Controls.Add(YLabel);
+                    prompt.Controls.Add(YTextBox);
+                    prompt.Controls.Add(PathLabel);
+                    prompt.Controls.Add(PathButton);
+                    prompt.Controls.Add(PathTextBox);
+                    prompt.Controls.Add(RemoveButton);
+                }
+                else
+                {
+                    //Color
+                    Label ColorLabel = new Label() { Left = 30, Top = 180, Text = "Color :" };
+                    Button ColorButton = new Button() { Left = 160, Top = 175, Width = 30, Height = 30, BackColor = stimulusList[IdIndex].ColorPt };
+                    ColorButton.Click += delegate { this.StimulusEditColor(IdIndex); ColorButton.BackColor = stimulusList[IdIndex].ColorPt; this.UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList); };
+                    //Contrast
+                    Label ContrastLabel = new Label() { Left = 30, Top = 210, Text = "Contrast :" };
+                    TextBox ContrastTextBox = new TextBox { Left = 160, Top = 210, Width = 60, Text = Convert.ToString(stimulusList[IdIndex].Contrast) };
+                    ContrastTextBox.TextChanged += delegate { this.StimulusEditContrast(IdIndex, ContrastTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList); };
 
-				if (stimulusList[IdIndex].Type == 4 || stimulusList[IdIndex].Type == 8 || stimulusList[IdIndex].Type == 12)
-				{
-					prompt.Height = 270;
-					//Path
-					Label PathLabel = new Label() { Left = 30, Top = 190, Width = 40, Text = "Path :" };
-					TextBox PathTextBox = new TextBox { Left = 75, Top = 190, Width = 120, Text = Convert.ToString(stimulusList[IdIndex].PathPic) };
-					Button PathButton = new Button() { Left = 200, Top = 190, Width = 30, Height = PathTextBox.Height, Text = "..." };
-					PathButton.Click += delegate { string VarPath = this.StimulusEditPath(IdIndex); PathTextBox.Text = VarPath; this.UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList); };
+                    Button RemoveButton = new Button { Left = 85, Top = 250, Width = 80, Text = Convert.ToString("Remove") };
+                    RemoveButton.Click += delegate { this.StimulusRemove(IdIndex); this.UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList); UpdateTreeView(ActivePicB - 1); prompt.Close(); };
 
-					Button RemoveButton = new Button { Left = 85, Top = 230, Width = 80, Text = Convert.ToString("Remove") };
-					RemoveButton.Click += delegate { this.StimulusRemove(IdIndex); this.UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList); UpdateTreeView(ActivePicB - 1); prompt.Close(); };
+                    prompt.Controls.Add(SizeWLabel);
+                    prompt.Controls.Add(SizeWTextBox);
+                    prompt.Controls.Add(SizeHLabel);
+                    prompt.Controls.Add(SizeHTextBox);
+                    prompt.Controls.Add(XLabel);
+                    prompt.Controls.Add(XTextBox);
+                    prompt.Controls.Add(YLabel);
+                    prompt.Controls.Add(YTextBox);
+                    prompt.Controls.Add(ColorLabel);
+                    prompt.Controls.Add(ColorButton);
+                    prompt.Controls.Add(ContrastLabel);
+                    prompt.Controls.Add(ContrastTextBox);
+                    prompt.Controls.Add(RemoveButton);
+                }
+                prompt.ShowDialog();
+            }
 
-					prompt.Controls.Add(SizeWLabel);
-					prompt.Controls.Add(SizeWTextBox);
-					prompt.Controls.Add(SizeHLabel);
-					prompt.Controls.Add(SizeHTextBox);
-					prompt.Controls.Add(XLabel);
-					prompt.Controls.Add(XTextBox);
-					prompt.Controls.Add(YLabel);
-					prompt.Controls.Add(YTextBox);
-					prompt.Controls.Add(PathLabel);
-					prompt.Controls.Add(PathButton);
-					prompt.Controls.Add(PathTextBox);
-					prompt.Controls.Add(RemoveButton);
-				}
-				else
-				{
-					//Color
-					Label ColorLabel = new Label() { Left = 30, Top = 180, Text = "Color :" };
-					Button ColorButton = new Button() { Left = 160, Top = 175, Width = 30, Height = 30, BackColor = stimulusList[IdIndex].ColorPt };
-					ColorButton.Click += delegate { this.StimulusEditColor(IdIndex); ColorButton.BackColor = stimulusList[IdIndex].ColorPt; this.UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList); };
-					//Contrast
-					Label ContrastLabel = new Label() { Left = 30, Top = 210, Text = "Contrast :" };
-					TextBox ContrastTextBox = new TextBox { Left = 160, Top = 210, Width = 60, Text = Convert.ToString(stimulusList[IdIndex].Contrast) };
-					ContrastTextBox.TextChanged += delegate { this.StimulusEditContrast(IdIndex, ContrastTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList); };
-
-					Button RemoveButton = new Button { Left = 85, Top = 250, Width = 80, Text = Convert.ToString("Remove") };
-					RemoveButton.Click += delegate { this.StimulusRemove(IdIndex); this.UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList); UpdateTreeView(ActivePicB - 1); prompt.Close(); };
-
-					prompt.Controls.Add(SizeWLabel);
-					prompt.Controls.Add(SizeWTextBox);
-					prompt.Controls.Add(SizeHLabel);
-					prompt.Controls.Add(SizeHTextBox);
-					prompt.Controls.Add(XLabel);
-					prompt.Controls.Add(XTextBox);
-					prompt.Controls.Add(YLabel);
-					prompt.Controls.Add(YTextBox);
-					prompt.Controls.Add(ColorLabel);
-					prompt.Controls.Add(ColorButton);
-					prompt.Controls.Add(ContrastLabel);
-					prompt.Controls.Add(ContrastTextBox);
-					prompt.Controls.Add(RemoveButton);
-				}
-				prompt.ShowDialog();
-			}
-
-			if (IdName == 'H')
-			{
-				int IdIndex = int.Parse(Regex.Match(Name, @"\d+").Value);
-				MetroFramework.Forms.MetroForm prompt = new MetroFramework.Forms.MetroForm();
-				prompt.ShowIcon = false;
-				prompt.Name = "HintForm";
-				prompt.Width = 250;
-
-				//prompt.Text = "Hint Edit Panel";
-				//Type
-				if (AddedHintsbyFrameTool[IdIndex].type == 1)
-				{
-					prompt.Height = 250;
-
-					//X0
-					Label X0ArrowLabel = new Label() { Left = 30, Top = 30, Text = "X :" };
-					TextBox X0ArrowTextBox = new TextBox { Left = 160, Top = 30, Width = 60, Text = Convert.ToString(AddedHintsbyFrameTool[IdIndex].ArrowLocX0 + AddedHintsbyFrameTool[IdIndex].ArrowWidth) };
-					X0ArrowTextBox.TextChanged += delegate { this.HintEditX0(IdIndex, X0ArrowTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList); };
-
-					//Y
-					Label YLabel = new Label() { Left = 30, Top = 70, Text = "Y :" };
-					TextBox YTextBox = new TextBox { Left = 160, Top = 70, Width = 60, Text = Convert.ToString(AddedHintsbyFrameTool[IdIndex].ArrowLocY) };
-					YTextBox.TextChanged += delegate { this.HintEditY(IdIndex, YTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList); };
-
-					//Width
-					Label WidthLabel = new Label() { Left = 30, Top = 110, Text = "Width :" };
-					TextBox WidthTextBox = new TextBox { Left = 160, Top = 110, Width = 60, Text = Convert.ToString(AddedHintsbyFrameTool[IdIndex].ArrowWidth) };
-					WidthTextBox.TextChanged += delegate { this.HintEditWidth(IdIndex, YTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList); };
-					WidthTextBox.Enabled = false;
-					//Color
-					Label ColorLabel = new Label() { Left = 30, Top = 150, Text = "Color :" };
-					Button ColorButton = new Button() { Left = 160, Top = 150, Width = 30, Height = 30, BackColor = AddedHintsbyFrameTool[IdIndex].ArrowColor };
-					ColorButton.Click += delegate { this.HintEditColor(IdIndex); ColorButton.BackColor = AddedHintsbyFrameTool[IdIndex].ArrowColor; this.UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList); };
-
-					prompt.Controls.Add(X0ArrowLabel);
-					prompt.Controls.Add(X0ArrowTextBox);
-					prompt.Controls.Add(YLabel);
-					prompt.Controls.Add(WidthLabel);
-					prompt.Controls.Add(YTextBox);
-					prompt.Controls.Add(WidthTextBox);
-					prompt.Controls.Add(ColorLabel);
-					prompt.Controls.Add(ColorButton);
-
-				}
-
-				//Type
-				if (AddedHintsbyFrameTool[IdIndex].type == 2)
-				{
-					prompt.Height = 150;
-					//Ratio
-					Label RatioBoxLabel = new Label() { Left = 30, Top = 30, Text = "Ratio :" };
-					TextBox RatioBoxTextBox = new TextBox { Left = 160, Top = 30, Width = 60, Text = Convert.ToString(AddedHintsbyFrameTool[IdIndex].BoxRatio) };
-					RatioBoxTextBox.TextChanged += delegate { this.HintEditRatio(IdIndex, RatioBoxTextBox.Text); this.UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList); };
-					prompt.Controls.Add(RatioBoxLabel);
-					prompt.Controls.Add(RatioBoxTextBox);
-
-				}
-				prompt.ShowDialog();
-			}
-		}
+        }
+		
 
 		private void panel1_Paint(object sender, PaintEventArgs e)
 		{
