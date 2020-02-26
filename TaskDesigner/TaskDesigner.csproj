@@ -40,6 +40,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -49,6 +50,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>tbr7.ico</ApplicationIcon>
@@ -66,6 +68,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
     <WarningLevel>0</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
@@ -76,9 +79,13 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Basler.Pylon, Version=1.0.0.0, Culture=neutral, PublicKeyToken=e389355f398382ab, processorArchitecture=AMD64" />
+    <Reference Include="Accordion, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\x64\Debug\Accordion.dll</HintPath>
+    </Reference>
     <Reference Include="CefSharp, Version=75.1.143.0, Culture=neutral, PublicKeyToken=40c4b6fc221f4138, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\x64\Debug\CefSharp.dll</HintPath>
@@ -90,10 +97,6 @@
     <Reference Include="CefSharp.WinForms, Version=75.1.143.0, Culture=neutral, PublicKeyToken=40c4b6fc221f4138, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\x64\Debug\CefSharp.WinForms.dll</HintPath>
-    </Reference>
-    <Reference Include="ChromeTabControler, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\x64\Debug\ChromeTabControler.dll</HintPath>
     </Reference>
     <Reference Include="Emgu.CV.DebuggerVisualizers.VS2015, Version=3.4.3.3016, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -110,6 +113,9 @@
     <Reference Include="Emgu.CV.World, Version=3.2.0.2682, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\x64\Debug\Emgu.CV.World.dll</HintPath>
+    </Reference>
+    <Reference Include="MakarovDev.ExpandCollapsePanel">
+      <HintPath>..\..\ExpandCollapse\MakarovDev.ExpandCollapsePanel\bin\Debug\MakarovDev.ExpandCollapsePanel.dll</HintPath>
     </Reference>
     <Reference Include="MaterialSkin, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

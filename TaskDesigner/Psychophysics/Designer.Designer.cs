@@ -1,4 +1,5 @@
-﻿namespace Psychophysics
+﻿
+namespace Psychophysics
 {
 	partial class Designer
 	{
@@ -32,117 +33,64 @@
             System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Fixations");
             System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Stimulus");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Designer));
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.panel4 = new System.Windows.Forms.Panel();
-            this.label6 = new System.Windows.Forms.Label();
             this.PicB1 = new System.Windows.Forms.PictureBox();
             this.AddPicB = new System.Windows.Forms.PictureBox();
-            this.Start_BT = new System.Windows.Forms.Panel();
             this.FrameTime_ET = new System.Windows.Forms.TextBox();
-            this.Picture_Panel = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.label2 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.ImageWidth_TB = new System.Windows.Forms.TextBox();
+            this.btnSelectImageFile = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.Imageheight_TB = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.BgColor_BT = new System.Windows.Forms.Button();
-            this.Shape_Panel = new System.Windows.Forms.Panel();
             this.RectangleShape_BT = new System.Windows.Forms.Button();
-            this.panel8 = new System.Windows.Forms.Panel();
-            this.label3 = new System.Windows.Forms.Label();
             this.SquareShape_BT = new System.Windows.Forms.Button();
-            this.label17 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
             this.CircleShape_BT = new System.Windows.Forms.Button();
-            this.label9 = new System.Windows.Forms.Label();
-            this.Contrast_ET = new System.Windows.Forms.TextBox();
-            this.txt_ShapeSize = new System.Windows.Forms.TextBox();
-            this.btn_PenColor = new System.Windows.Forms.Button();
-            this.panel9 = new System.Windows.Forms.Panel();
-            this.panel6 = new System.Windows.Forms.Panel();
-            this.Objects_TV = new System.Windows.Forms.TreeView();
-            this.panel5 = new System.Windows.Forms.Panel();
-            this.dtgvEventsFrame = new System.Windows.Forms.DataGridView();
-            this.EventName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.EventCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.panel7 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.FixationPanel = new System.Windows.Forms.Panel();
-            this.panel15 = new System.Windows.Forms.Panel();
-            this.label8 = new System.Windows.Forms.Label();
             this.Popup = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Size_LB = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.panel13 = new System.Windows.Forms.Panel();
-            this.label7 = new System.Windows.Forms.Label();
-            this.pnlStimPanel = new System.Windows.Forms.Panel();
-            this.pnlFixationBlock = new System.Windows.Forms.Panel();
-            this.panel1.SuspendLayout();
-            this.panel4.SuspendLayout();
+            this.pbDesign = new System.Windows.Forms.PictureBox();
+            this.expandCollapsePanel1 = new MakarovDev.ExpandCollapsePanel.ExpandCollapsePanel();
+            this.advancedFlowLayoutPanel1 = new MakarovDev.ExpandCollapsePanel.AdvancedFlowLayoutPanel();
+            this.expandCollapsePanel2 = new MakarovDev.ExpandCollapsePanel.ExpandCollapsePanel();
+            this.Objects_TV = new System.Windows.Forms.TreeView();
+            this.expandCollapsePanel3 = new MakarovDev.ExpandCollapsePanel.ExpandCollapsePanel();
+            this.expandCollapsePanel4 = new MakarovDev.ExpandCollapsePanel.ExpandCollapsePanel();
+            this.pnlFrames = new MakarovDev.ExpandCollapsePanel.ExpandCollapsePanel();
+            this.expandCollapsePanel6 = new MakarovDev.ExpandCollapsePanel.ExpandCollapsePanel();
+            this.rdbImageStim = new System.Windows.Forms.RadioButton();
+            this.pnlImageStim = new System.Windows.Forms.Panel();
+            this.txtStimY = new System.Windows.Forms.TextBox();
+            this.txtStimX = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.txtStimHeight = new System.Windows.Forms.TextBox();
+            this.txtStimWidth = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.txtStimContrast = new System.Windows.Forms.TextBox();
+            this.rdbShapeStim = new System.Windows.Forms.RadioButton();
+            this.pnlShapeStim = new System.Windows.Forms.Panel();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.PicB1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.AddPicB)).BeginInit();
-            this.Start_BT.SuspendLayout();
-            this.Picture_Panel.SuspendLayout();
-            this.panel2.SuspendLayout();
-            this.Shape_Panel.SuspendLayout();
-            this.panel8.SuspendLayout();
-            this.panel9.SuspendLayout();
-            this.panel6.SuspendLayout();
-            this.panel5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dtgvEventsFrame)).BeginInit();
-            this.panel7.SuspendLayout();
-            this.FixationPanel.SuspendLayout();
-            this.panel15.SuspendLayout();
             this.Popup.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.panel13.SuspendLayout();
-            this.pnlStimPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbDesign)).BeginInit();
+            this.expandCollapsePanel1.SuspendLayout();
+            this.advancedFlowLayoutPanel1.SuspendLayout();
+            this.expandCollapsePanel2.SuspendLayout();
+            this.expandCollapsePanel3.SuspendLayout();
+            this.pnlFrames.SuspendLayout();
+            this.expandCollapsePanel6.SuspendLayout();
+            this.pnlImageStim.SuspendLayout();
+            this.pnlShapeStim.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // panel1
-            // 
-            this.panel1.AutoScroll = true;
-            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(216)))), ((int)(((byte)(201)))));
-            this.panel1.Controls.Add(this.panel4);
-            this.panel1.Controls.Add(this.PicB1);
-            this.panel1.Controls.Add(this.AddPicB);
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(186, 788);
-            this.panel1.TabIndex = 0;
-            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
-            // 
-            // panel4
-            // 
-            this.panel4.BackColor = System.Drawing.Color.DimGray;
-            this.panel4.Controls.Add(this.label6);
-            this.panel4.Location = new System.Drawing.Point(0, 0);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(186, 27);
-            this.panel4.TabIndex = 3;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.ForeColor = System.Drawing.Color.White;
-            this.label6.Location = new System.Drawing.Point(67, 6);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(60, 16);
-            this.label6.TabIndex = 1;
-            this.label6.Text = "Frames";
             // 
             // PicB1
             // 
-            this.PicB1.Location = new System.Drawing.Point(12, 40);
+            this.PicB1.Location = new System.Drawing.Point(36, 53);
             this.PicB1.Name = "PicB1";
-            this.PicB1.Size = new System.Drawing.Size(144, 102);
+            this.PicB1.Size = new System.Drawing.Size(193, 122);
             this.PicB1.TabIndex = 0;
             this.PicB1.TabStop = false;
             this.PicB1.Click += new System.EventHandler(this.PicB_Click);
@@ -152,134 +100,51 @@
             this.AddPicB.BackColor = System.Drawing.Color.White;
             this.AddPicB.Image = global::TaskDesigner.Resource.add;
             this.AddPicB.InitialImage = global::TaskDesigner.Resource.add;
-            this.AddPicB.Location = new System.Drawing.Point(12, 159);
+            this.AddPicB.Location = new System.Drawing.Point(36, 201);
             this.AddPicB.Name = "AddPicB";
-            this.AddPicB.Size = new System.Drawing.Size(144, 102);
+            this.AddPicB.Size = new System.Drawing.Size(193, 122);
             this.AddPicB.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.AddPicB.TabIndex = 0;
             this.AddPicB.TabStop = false;
             this.AddPicB.Click += new System.EventHandler(this.AddPicB_Click);
             // 
-            // Start_BT
-            // 
-            this.Start_BT.AutoScroll = true;
-            this.Start_BT.BackColor = System.Drawing.Color.Transparent;
-            this.Start_BT.Controls.Add(this.FrameTime_ET);
-            this.Start_BT.Controls.Add(this.Picture_Panel);
-            this.Start_BT.Controls.Add(this.label16);
-            this.Start_BT.Controls.Add(this.BgColor_BT);
-            this.Start_BT.Controls.Add(this.Shape_Panel);
-            this.Start_BT.Location = new System.Drawing.Point(209, 621);
-            this.Start_BT.Name = "Start_BT";
-            this.Start_BT.Size = new System.Drawing.Size(814, 159);
-            this.Start_BT.TabIndex = 4;
-            // 
             // FrameTime_ET
             // 
-            this.FrameTime_ET.Location = new System.Drawing.Point(97, 66);
+            this.FrameTime_ET.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.FrameTime_ET.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.FrameTime_ET.Location = new System.Drawing.Point(175, 80);
             this.FrameTime_ET.Name = "FrameTime_ET";
             this.FrameTime_ET.Size = new System.Drawing.Size(68, 20);
             this.FrameTime_ET.TabIndex = 20;
             this.FrameTime_ET.Text = "0";
             this.FrameTime_ET.TextChanged += new System.EventHandler(this.FrameTime_ET_TextChanged);
             // 
-            // Picture_Panel
+            // btnSelectImageFile
             // 
-            this.Picture_Panel.BackColor = System.Drawing.Color.Transparent;
-            this.Picture_Panel.Controls.Add(this.panel2);
-            this.Picture_Panel.Controls.Add(this.button1);
-            this.Picture_Panel.Controls.Add(this.ImageWidth_TB);
-            this.Picture_Panel.Controls.Add(this.textBox1);
-            this.Picture_Panel.Controls.Add(this.Imageheight_TB);
-            this.Picture_Panel.Controls.Add(this.label5);
-            this.Picture_Panel.Controls.Add(this.label11);
-            this.Picture_Panel.Enabled = false;
-            this.Picture_Panel.Location = new System.Drawing.Point(475, 8);
-            this.Picture_Panel.Name = "Picture_Panel";
-            this.Picture_Panel.Size = new System.Drawing.Size(234, 146);
-            this.Picture_Panel.TabIndex = 17;
-            this.Picture_Panel.Visible = false;
-            // 
-            // panel2
-            // 
-            this.panel2.BackColor = System.Drawing.Color.DimGray;
-            this.panel2.Controls.Add(this.label2);
-            this.panel2.Location = new System.Drawing.Point(0, 0);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(234, 27);
-            this.panel2.TabIndex = 10;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(80, 5);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(95, 16);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Plot Pictures";
-            // 
-            // button1
-            // 
-            this.button1.BackColor = System.Drawing.SystemColors.Control;
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(188, 36);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(27, 28);
-            this.button1.TabIndex = 11;
-            this.button1.Text = "...";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.Browse_BT);
-            // 
-            // ImageWidth_TB
-            // 
-            this.ImageWidth_TB.Location = new System.Drawing.Point(83, 85);
-            this.ImageWidth_TB.Name = "ImageWidth_TB";
-            this.ImageWidth_TB.Size = new System.Drawing.Size(62, 20);
-            this.ImageWidth_TB.TabIndex = 15;
-            this.ImageWidth_TB.Text = "1";
+            this.btnSelectImageFile.BackColor = System.Drawing.SystemColors.Control;
+            this.btnSelectImageFile.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSelectImageFile.Location = new System.Drawing.Point(3, 9);
+            this.btnSelectImageFile.Name = "btnSelectImageFile";
+            this.btnSelectImageFile.Size = new System.Drawing.Size(207, 28);
+            this.btnSelectImageFile.TabIndex = 11;
+            this.btnSelectImageFile.Text = "Select Image";
+            this.btnSelectImageFile.UseVisualStyleBackColor = false;
+            this.btnSelectImageFile.Click += new System.EventHandler(this.Browse_BT);
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(18, 41);
+            this.textBox1.Location = new System.Drawing.Point(3, 45);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(164, 20);
+            this.textBox1.Size = new System.Drawing.Size(207, 20);
             this.textBox1.TabIndex = 12;
-            // 
-            // Imageheight_TB
-            // 
-            this.Imageheight_TB.Location = new System.Drawing.Point(83, 111);
-            this.Imageheight_TB.Name = "Imageheight_TB";
-            this.Imageheight_TB.Size = new System.Drawing.Size(62, 20);
-            this.Imageheight_TB.TabIndex = 14;
-            this.Imageheight_TB.Text = "1";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(22, 85);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(40, 13);
-            this.label5.TabIndex = 13;
-            this.label5.Text = "Width";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(22, 114);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(44, 13);
-            this.label11.TabIndex = 13;
-            this.label11.Text = "Height";
             // 
             // label16
             // 
             this.label16.AutoSize = true;
+            this.label16.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(216)))), ((int)(((byte)(201)))));
             this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label16.Location = new System.Drawing.Point(6, 69);
+            this.label16.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
+            this.label16.Location = new System.Drawing.Point(33, 85);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(72, 13);
             this.label16.TabIndex = 19;
@@ -287,35 +152,16 @@
             // 
             // BgColor_BT
             // 
-            this.BgColor_BT.BackColor = System.Drawing.SystemColors.Control;
+            this.BgColor_BT.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.BgColor_BT.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BgColor_BT.Location = new System.Drawing.Point(9, 6);
+            this.BgColor_BT.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
+            this.BgColor_BT.Location = new System.Drawing.Point(36, 42);
             this.BgColor_BT.Name = "BgColor_BT";
-            this.BgColor_BT.Size = new System.Drawing.Size(156, 28);
+            this.BgColor_BT.Size = new System.Drawing.Size(207, 28);
             this.BgColor_BT.TabIndex = 4;
-            this.BgColor_BT.Text = "Background Color";
+            this.BgColor_BT.Text = "Back Color";
             this.BgColor_BT.UseVisualStyleBackColor = false;
             this.BgColor_BT.Click += new System.EventHandler(this.btn_CanvasColor_Click_1);
-            // 
-            // Shape_Panel
-            // 
-            this.Shape_Panel.BackColor = System.Drawing.Color.Transparent;
-            this.Shape_Panel.Controls.Add(this.RectangleShape_BT);
-            this.Shape_Panel.Controls.Add(this.panel8);
-            this.Shape_Panel.Controls.Add(this.SquareShape_BT);
-            this.Shape_Panel.Controls.Add(this.label17);
-            this.Shape_Panel.Controls.Add(this.label4);
-            this.Shape_Panel.Controls.Add(this.CircleShape_BT);
-            this.Shape_Panel.Controls.Add(this.label9);
-            this.Shape_Panel.Controls.Add(this.Contrast_ET);
-            this.Shape_Panel.Controls.Add(this.txt_ShapeSize);
-            this.Shape_Panel.Controls.Add(this.btn_PenColor);
-            this.Shape_Panel.Enabled = false;
-            this.Shape_Panel.Location = new System.Drawing.Point(191, 8);
-            this.Shape_Panel.Name = "Shape_Panel";
-            this.Shape_Panel.Size = new System.Drawing.Size(269, 146);
-            this.Shape_Panel.TabIndex = 16;
-            this.Shape_Panel.Visible = false;
             // 
             // RectangleShape_BT
             // 
@@ -326,7 +172,7 @@
             this.RectangleShape_BT.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.RectangleShape_BT.FlatAppearance.BorderSize = 0;
             this.RectangleShape_BT.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.RectangleShape_BT.Location = new System.Drawing.Point(196, 30);
+            this.RectangleShape_BT.Location = new System.Drawing.Point(162, 16);
             this.RectangleShape_BT.Margin = new System.Windows.Forms.Padding(0);
             this.RectangleShape_BT.Name = "RectangleShape_BT";
             this.RectangleShape_BT.Size = new System.Drawing.Size(48, 48);
@@ -335,25 +181,6 @@
             this.RectangleShape_BT.UseMnemonic = false;
             this.RectangleShape_BT.UseVisualStyleBackColor = false;
             this.RectangleShape_BT.Click += new System.EventHandler(this.btn_Rectangle_Click);
-            // 
-            // panel8
-            // 
-            this.panel8.BackColor = System.Drawing.Color.DimGray;
-            this.panel8.Controls.Add(this.label3);
-            this.panel8.Location = new System.Drawing.Point(0, 0);
-            this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(269, 27);
-            this.panel8.TabIndex = 1;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(88, 5);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(0, 16);
-            this.label3.TabIndex = 1;
             // 
             // SquareShape_BT
             // 
@@ -364,7 +191,7 @@
             this.SquareShape_BT.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.SquareShape_BT.FlatAppearance.BorderSize = 0;
             this.SquareShape_BT.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.SquareShape_BT.Location = new System.Drawing.Point(18, 30);
+            this.SquareShape_BT.Location = new System.Drawing.Point(8, 16);
             this.SquareShape_BT.Margin = new System.Windows.Forms.Padding(0);
             this.SquareShape_BT.Name = "SquareShape_BT";
             this.SquareShape_BT.Size = new System.Drawing.Size(48, 48);
@@ -373,26 +200,6 @@
             this.SquareShape_BT.UseMnemonic = false;
             this.SquareShape_BT.UseVisualStyleBackColor = false;
             this.SquareShape_BT.Click += new System.EventHandler(this.btn_Square_Click);
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label17.Location = new System.Drawing.Point(172, 86);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(94, 13);
-            this.label17.TabIndex = 8;
-            this.label17.Text = "Shape Contrast";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(97, 85);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(71, 13);
-            this.label4.TabIndex = 8;
-            this.label4.Text = "Shape Size";
             // 
             // CircleShape_BT
             // 
@@ -403,7 +210,7 @@
             this.CircleShape_BT.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.CircleShape_BT.FlatAppearance.BorderSize = 0;
             this.CircleShape_BT.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.CircleShape_BT.Location = new System.Drawing.Point(108, 29);
+            this.CircleShape_BT.Location = new System.Drawing.Point(84, 18);
             this.CircleShape_BT.Margin = new System.Windows.Forms.Padding(0);
             this.CircleShape_BT.Name = "CircleShape_BT";
             this.CircleShape_BT.Size = new System.Drawing.Size(48, 48);
@@ -412,183 +219,6 @@
             this.CircleShape_BT.UseMnemonic = false;
             this.CircleShape_BT.UseVisualStyleBackColor = false;
             this.CircleShape_BT.Click += new System.EventHandler(this.btn_Circle_Click);
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(8, 85);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(76, 13);
-            this.label9.TabIndex = 8;
-            this.label9.Text = "Shape Color";
-            // 
-            // Contrast_ET
-            // 
-            this.Contrast_ET.Location = new System.Drawing.Point(196, 102);
-            this.Contrast_ET.Name = "Contrast_ET";
-            this.Contrast_ET.Size = new System.Drawing.Size(50, 20);
-            this.Contrast_ET.TabIndex = 9;
-            this.Contrast_ET.Text = "255";
-            // 
-            // txt_ShapeSize
-            // 
-            this.txt_ShapeSize.Location = new System.Drawing.Point(106, 106);
-            this.txt_ShapeSize.Name = "txt_ShapeSize";
-            this.txt_ShapeSize.Size = new System.Drawing.Size(50, 20);
-            this.txt_ShapeSize.TabIndex = 9;
-            this.txt_ShapeSize.Text = "2";
-            // 
-            // btn_PenColor
-            // 
-            this.btn_PenColor.BackColor = System.Drawing.Color.Black;
-            this.btn_PenColor.Location = new System.Drawing.Point(27, 101);
-            this.btn_PenColor.Name = "btn_PenColor";
-            this.btn_PenColor.Size = new System.Drawing.Size(33, 28);
-            this.btn_PenColor.TabIndex = 2;
-            this.btn_PenColor.UseVisualStyleBackColor = false;
-            this.btn_PenColor.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // panel9
-            // 
-            this.panel9.AutoScroll = true;
-            this.panel9.BackColor = System.Drawing.Color.Transparent;
-            this.panel9.Controls.Add(this.panel6);
-            this.panel9.Controls.Add(this.panel5);
-            this.panel9.Controls.Add(this.FixationPanel);
-            this.panel9.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel9.Location = new System.Drawing.Point(1025, 0);
-            this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(186, 788);
-            this.panel9.TabIndex = 3;
-            // 
-            // panel6
-            // 
-            this.panel6.BackColor = System.Drawing.Color.LightCyan;
-            this.panel6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel6.Controls.Add(this.Objects_TV);
-            this.panel6.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel6.Location = new System.Drawing.Point(0, 261);
-            this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(186, 146);
-            this.panel6.TabIndex = 4;
-            // 
-            // Objects_TV
-            // 
-            this.Objects_TV.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(216)))), ((int)(((byte)(201)))));
-            this.Objects_TV.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.Objects_TV.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Objects_TV.Location = new System.Drawing.Point(0, 0);
-            this.Objects_TV.Name = "Objects_TV";
-            treeNode1.Name = "";
-            treeNode1.Text = "Fixations";
-            treeNode2.Name = "";
-            treeNode2.Text = "Stimulus";
-            this.Objects_TV.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2});
-            this.Objects_TV.Size = new System.Drawing.Size(184, 144);
-            this.Objects_TV.TabIndex = 26;
-            this.Objects_TV.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.Objects_TV_NodeMouseClick);
-            // 
-            // panel5
-            // 
-            this.panel5.BackColor = System.Drawing.Color.LightCyan;
-            this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel5.Controls.Add(this.dtgvEventsFrame);
-            this.panel5.Controls.Add(this.panel7);
-            this.panel5.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel5.Location = new System.Drawing.Point(0, 484);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(186, 304);
-            this.panel5.TabIndex = 5;
-            // 
-            // dtgvEventsFrame
-            // 
-            this.dtgvEventsFrame.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.dtgvEventsFrame.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dtgvEventsFrame.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.EventName,
-            this.EventCode});
-            this.dtgvEventsFrame.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dtgvEventsFrame.Location = new System.Drawing.Point(0, 27);
-            this.dtgvEventsFrame.MultiSelect = false;
-            this.dtgvEventsFrame.Name = "dtgvEventsFrame";
-            this.dtgvEventsFrame.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.dtgvEventsFrame.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dtgvEventsFrame.Size = new System.Drawing.Size(184, 275);
-            this.dtgvEventsFrame.TabIndex = 0;
-            // 
-            // EventName
-            // 
-            this.EventName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.EventName.HeaderText = "Name";
-            this.EventName.Name = "EventName";
-            this.EventName.ReadOnly = true;
-            // 
-            // EventCode
-            // 
-            this.EventCode.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.EventCode.HeaderText = "Code";
-            this.EventCode.Name = "EventCode";
-            // 
-            // panel7
-            // 
-            this.panel7.BackColor = System.Drawing.Color.DimGray;
-            this.panel7.Controls.Add(this.label1);
-            this.panel7.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel7.Location = new System.Drawing.Point(0, 0);
-            this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(184, 27);
-            this.panel7.TabIndex = 2;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(11, 6);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(83, 16);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Event Tool";
-            // 
-            // FixationPanel
-            // 
-            this.FixationPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(216)))), ((int)(((byte)(201)))));
-            this.FixationPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.FixationPanel.Controls.Add(this.pnlFixationBlock);
-            this.FixationPanel.Controls.Add(this.pnlStimPanel);
-            this.FixationPanel.Controls.Add(this.panel15);
-            this.FixationPanel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.FixationPanel.Location = new System.Drawing.Point(0, 0);
-            this.FixationPanel.Name = "FixationPanel";
-            this.FixationPanel.Size = new System.Drawing.Size(186, 261);
-            this.FixationPanel.TabIndex = 1;
-            // 
-            // panel15
-            // 
-            this.panel15.BackColor = System.Drawing.Color.DimGray;
-            this.panel15.Controls.Add(this.label8);
-            this.panel15.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel15.Location = new System.Drawing.Point(0, 0);
-            this.panel15.Name = "panel15";
-            this.panel15.Size = new System.Drawing.Size(184, 27);
-            this.panel15.TabIndex = 2;
-            // 
-            // label8
-            // 
-            this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.ForeColor = System.Drawing.Color.White;
-            this.label8.Location = new System.Drawing.Point(36, 5);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(98, 16);
-            this.label8.TabIndex = 1;
-            this.label8.Text = "Fixation Tool";
             // 
             // Popup
             // 
@@ -622,158 +252,402 @@
             this.Size_LB.Size = new System.Drawing.Size(0, 13);
             this.Size_LB.TabIndex = 21;
             // 
-            // pictureBox1
+            // pbDesign
             // 
-            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(1211, 788);
-            this.pictureBox1.TabIndex = 22;
-            this.pictureBox1.TabStop = false;
+            this.pbDesign.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pbDesign.Location = new System.Drawing.Point(0, 0);
+            this.pbDesign.Name = "pbDesign";
+            this.pbDesign.Size = new System.Drawing.Size(1211, 788);
+            this.pbDesign.TabIndex = 22;
+            this.pbDesign.TabStop = false;
+            this.pbDesign.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pnl_Draw_MouseMove);
             // 
-            // panel13
+            // expandCollapsePanel1
             // 
-            this.panel13.BackColor = System.Drawing.Color.DimGray;
-            this.panel13.Controls.Add(this.label7);
-            this.panel13.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel13.Location = new System.Drawing.Point(0, 0);
-            this.panel13.Name = "panel13";
-            this.panel13.Size = new System.Drawing.Size(184, 27);
-            this.panel13.TabIndex = 3;
-            // 
-            // label7
-            // 
-            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.expandCollapsePanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.ForeColor = System.Drawing.Color.White;
-            this.label7.Location = new System.Drawing.Point(34, 5);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(102, 16);
-            this.label7.TabIndex = 1;
-            this.label7.Text = "Stimulus Tool";
+            this.expandCollapsePanel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(216)))), ((int)(((byte)(201)))));
+            this.expandCollapsePanel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.expandCollapsePanel1.ButtonSize = MakarovDev.ExpandCollapsePanel.ExpandCollapseButton.ExpandButtonSize.Normal;
+            this.expandCollapsePanel1.ButtonStyle = MakarovDev.ExpandCollapsePanel.ExpandCollapseButton.ExpandButtonStyle.Circle;
+            this.expandCollapsePanel1.Controls.Add(this.advancedFlowLayoutPanel1);
+            this.expandCollapsePanel1.ExpandedHeight = 0;
+            this.expandCollapsePanel1.IsExpanded = true;
+            this.expandCollapsePanel1.Location = new System.Drawing.Point(933, 0);
+            this.expandCollapsePanel1.Name = "expandCollapsePanel1";
+            this.expandCollapsePanel1.Size = new System.Drawing.Size(278, 788);
+            this.expandCollapsePanel1.TabIndex = 27;
+            this.expandCollapsePanel1.Text = "Design Panel";
+            this.expandCollapsePanel1.UseAnimation = true;
             // 
-            // pnlStimPanel
+            // advancedFlowLayoutPanel1
             // 
-            this.pnlStimPanel.Controls.Add(this.panel13);
-            this.pnlStimPanel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlStimPanel.Location = new System.Drawing.Point(0, 27);
-            this.pnlStimPanel.Name = "pnlStimPanel";
-            this.pnlStimPanel.Size = new System.Drawing.Size(184, 102);
-            this.pnlStimPanel.TabIndex = 3;
+            this.advancedFlowLayoutPanel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(216)))), ((int)(((byte)(201)))));
+            this.advancedFlowLayoutPanel1.Controls.Add(this.expandCollapsePanel2);
+            this.advancedFlowLayoutPanel1.Controls.Add(this.expandCollapsePanel3);
+            this.advancedFlowLayoutPanel1.Controls.Add(this.expandCollapsePanel4);
+            this.advancedFlowLayoutPanel1.Controls.Add(this.expandCollapsePanel6);
+            this.advancedFlowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.advancedFlowLayoutPanel1.Location = new System.Drawing.Point(16, 43);
+            this.advancedFlowLayoutPanel1.Name = "advancedFlowLayoutPanel1";
+            this.advancedFlowLayoutPanel1.Size = new System.Drawing.Size(256, 748);
+            this.advancedFlowLayoutPanel1.TabIndex = 1;
             // 
-            // pnlFixationBlock
+            // expandCollapsePanel2
             // 
-            this.pnlFixationBlock.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlFixationBlock.Location = new System.Drawing.Point(0, 129);
-            this.pnlFixationBlock.Name = "pnlFixationBlock";
-            this.pnlFixationBlock.Size = new System.Drawing.Size(184, 23);
-            this.pnlFixationBlock.TabIndex = 4;
+            this.expandCollapsePanel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(216)))), ((int)(((byte)(201)))));
+            this.expandCollapsePanel2.ButtonSize = MakarovDev.ExpandCollapsePanel.ExpandCollapseButton.ExpandButtonSize.Normal;
+            this.expandCollapsePanel2.ButtonStyle = MakarovDev.ExpandCollapsePanel.ExpandCollapseButton.ExpandButtonStyle.Circle;
+            this.expandCollapsePanel2.Controls.Add(this.FrameTime_ET);
+            this.expandCollapsePanel2.Controls.Add(this.label16);
+            this.expandCollapsePanel2.Controls.Add(this.Objects_TV);
+            this.expandCollapsePanel2.Controls.Add(this.BgColor_BT);
+            this.expandCollapsePanel2.ExpandedHeight = 243;
+            this.expandCollapsePanel2.IsExpanded = false;
+            this.expandCollapsePanel2.Location = new System.Drawing.Point(3, 3);
+            this.expandCollapsePanel2.Name = "expandCollapsePanel2";
+            this.expandCollapsePanel2.Size = new System.Drawing.Size(250, 35);
+            this.expandCollapsePanel2.TabIndex = 2;
+            this.expandCollapsePanel2.Text = "Frame Configuration";
+            this.expandCollapsePanel2.UseAnimation = true;
+            // 
+            // Objects_TV
+            // 
+            this.Objects_TV.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(216)))), ((int)(((byte)(201)))));
+            this.Objects_TV.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Objects_TV.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.Objects_TV.Location = new System.Drawing.Point(36, 113);
+            this.Objects_TV.Name = "Objects_TV";
+            treeNode1.Name = "";
+            treeNode1.Text = "Fixations";
+            treeNode2.Name = "";
+            treeNode2.Text = "Stimulus";
+            this.Objects_TV.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
+            treeNode1,
+            treeNode2});
+            this.Objects_TV.Size = new System.Drawing.Size(207, 127);
+            this.Objects_TV.TabIndex = 26;
+            // 
+            // expandCollapsePanel3
+            // 
+            this.expandCollapsePanel3.ButtonSize = MakarovDev.ExpandCollapsePanel.ExpandCollapseButton.ExpandButtonSize.Normal;
+            this.expandCollapsePanel3.ButtonStyle = MakarovDev.ExpandCollapsePanel.ExpandCollapseButton.ExpandButtonStyle.Circle;
+            this.expandCollapsePanel3.Controls.Add(this.pnlShapeStim);
+            this.expandCollapsePanel3.Controls.Add(this.rdbShapeStim);
+            this.expandCollapsePanel3.Controls.Add(this.txtStimY);
+            this.expandCollapsePanel3.Controls.Add(this.txtStimX);
+            this.expandCollapsePanel3.Controls.Add(this.label6);
+            this.expandCollapsePanel3.Controls.Add(this.label1);
+            this.expandCollapsePanel3.Controls.Add(this.txtStimHeight);
+            this.expandCollapsePanel3.Controls.Add(this.txtStimWidth);
+            this.expandCollapsePanel3.Controls.Add(this.label11);
+            this.expandCollapsePanel3.Controls.Add(this.label17);
+            this.expandCollapsePanel3.Controls.Add(this.label5);
+            this.expandCollapsePanel3.Controls.Add(this.txtStimContrast);
+            this.expandCollapsePanel3.Controls.Add(this.pnlImageStim);
+            this.expandCollapsePanel3.Controls.Add(this.rdbImageStim);
+            this.expandCollapsePanel3.ExpandedHeight = 273;
+            this.expandCollapsePanel3.IsExpanded = true;
+            this.expandCollapsePanel3.Location = new System.Drawing.Point(3, 44);
+            this.expandCollapsePanel3.Name = "expandCollapsePanel3";
+            this.expandCollapsePanel3.Size = new System.Drawing.Size(250, 273);
+            this.expandCollapsePanel3.TabIndex = 3;
+            this.expandCollapsePanel3.Text = "Stimulus Tool";
+            this.expandCollapsePanel3.UseAnimation = true;
+            // 
+            // expandCollapsePanel4
+            // 
+            this.expandCollapsePanel4.ButtonSize = MakarovDev.ExpandCollapsePanel.ExpandCollapseButton.ExpandButtonSize.Normal;
+            this.expandCollapsePanel4.ButtonStyle = MakarovDev.ExpandCollapsePanel.ExpandCollapseButton.ExpandButtonStyle.Circle;
+            this.expandCollapsePanel4.ExpandedHeight = 263;
+            this.expandCollapsePanel4.IsExpanded = false;
+            this.expandCollapsePanel4.Location = new System.Drawing.Point(3, 323);
+            this.expandCollapsePanel4.Name = "expandCollapsePanel4";
+            this.expandCollapsePanel4.Size = new System.Drawing.Size(250, 35);
+            this.expandCollapsePanel4.TabIndex = 4;
+            this.expandCollapsePanel4.Text = "Fixation Tool";
+            this.expandCollapsePanel4.UseAnimation = true;
+            // 
+            // pnlFrames
+            // 
+            this.pnlFrames.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.pnlFrames.AutoScroll = true;
+            this.pnlFrames.AutoScrollMinSize = new System.Drawing.Size(50, 10);
+            this.pnlFrames.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(216)))), ((int)(((byte)(201)))));
+            this.pnlFrames.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlFrames.ButtonSize = MakarovDev.ExpandCollapsePanel.ExpandCollapseButton.ExpandButtonSize.Normal;
+            this.pnlFrames.ButtonStyle = MakarovDev.ExpandCollapsePanel.ExpandCollapseButton.ExpandButtonStyle.Circle;
+            this.pnlFrames.Controls.Add(this.PicB1);
+            this.pnlFrames.Controls.Add(this.AddPicB);
+            this.pnlFrames.ExpandedHeight = 0;
+            this.pnlFrames.IsExpanded = true;
+            this.pnlFrames.Location = new System.Drawing.Point(0, 0);
+            this.pnlFrames.Name = "pnlFrames";
+            this.pnlFrames.Size = new System.Drawing.Size(278, 788);
+            this.pnlFrames.TabIndex = 28;
+            this.pnlFrames.Text = "Frames";
+            this.pnlFrames.UseAnimation = true;
+            // 
+            // expandCollapsePanel6
+            // 
+            this.expandCollapsePanel6.ButtonSize = MakarovDev.ExpandCollapsePanel.ExpandCollapseButton.ExpandButtonSize.Normal;
+            this.expandCollapsePanel6.ButtonStyle = MakarovDev.ExpandCollapsePanel.ExpandCollapseButton.ExpandButtonStyle.Circle;
+            this.expandCollapsePanel6.Controls.Add(this.dataGridView1);
+            this.expandCollapsePanel6.ExpandedHeight = 319;
+            this.expandCollapsePanel6.IsExpanded = false;
+            this.expandCollapsePanel6.Location = new System.Drawing.Point(3, 364);
+            this.expandCollapsePanel6.Name = "expandCollapsePanel6";
+            this.expandCollapsePanel6.Size = new System.Drawing.Size(250, 35);
+            this.expandCollapsePanel6.TabIndex = 5;
+            this.expandCollapsePanel6.Text = "Event Tool";
+            this.expandCollapsePanel6.UseAnimation = true;
+            // 
+            // rdbImageStim
+            // 
+            this.rdbImageStim.AutoSize = true;
+            this.rdbImageStim.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(216)))), ((int)(((byte)(201)))));
+            this.rdbImageStim.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(130)))), ((int)(((byte)(180)))));
+            this.rdbImageStim.Location = new System.Drawing.Point(137, 36);
+            this.rdbImageStim.Name = "rdbImageStim";
+            this.rdbImageStim.Size = new System.Drawing.Size(60, 19);
+            this.rdbImageStim.TabIndex = 1;
+            this.rdbImageStim.Text = "Image";
+            this.rdbImageStim.UseVisualStyleBackColor = false;
+            // 
+            // pnlImageStim
+            // 
+            this.pnlImageStim.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(216)))), ((int)(((byte)(201)))));
+            this.pnlImageStim.Controls.Add(this.textBox1);
+            this.pnlImageStim.Controls.Add(this.btnSelectImageFile);
+            this.pnlImageStim.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(130)))), ((int)(((byte)(180)))));
+            this.pnlImageStim.Location = new System.Drawing.Point(33, 61);
+            this.pnlImageStim.Name = "pnlImageStim";
+            this.pnlImageStim.Size = new System.Drawing.Size(213, 78);
+            this.pnlImageStim.TabIndex = 2;
+            // 
+            // txtStimY
+            // 
+            this.txtStimY.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.txtStimY.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.txtStimY.Location = new System.Drawing.Point(183, 166);
+            this.txtStimY.Name = "txtStimY";
+            this.txtStimY.Size = new System.Drawing.Size(62, 20);
+            this.txtStimY.TabIndex = 29;
+            this.txtStimY.Text = "1";
+            // 
+            // txtStimX
+            // 
+            this.txtStimX.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.txtStimX.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.txtStimX.Location = new System.Drawing.Point(183, 141);
+            this.txtStimX.Name = "txtStimX";
+            this.txtStimX.Size = new System.Drawing.Size(62, 20);
+            this.txtStimX.TabIndex = 28;
+            this.txtStimX.Text = "1";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(216)))), ((int)(((byte)(201)))));
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(130)))), ((int)(((byte)(180)))));
+            this.label6.Location = new System.Drawing.Point(38, 146);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(64, 13);
+            this.label6.TabIndex = 27;
+            this.label6.Text = "Position X";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(216)))), ((int)(((byte)(201)))));
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(130)))), ((int)(((byte)(180)))));
+            this.label1.Location = new System.Drawing.Point(38, 171);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(64, 13);
+            this.label1.TabIndex = 26;
+            this.label1.Text = "Position Y";
+            // 
+            // txtStimHeight
+            // 
+            this.txtStimHeight.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.txtStimHeight.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.txtStimHeight.Location = new System.Drawing.Point(183, 217);
+            this.txtStimHeight.Name = "txtStimHeight";
+            this.txtStimHeight.Size = new System.Drawing.Size(62, 20);
+            this.txtStimHeight.TabIndex = 24;
+            this.txtStimHeight.Text = "1";
+            // 
+            // txtStimWidth
+            // 
+            this.txtStimWidth.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.txtStimWidth.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.txtStimWidth.Location = new System.Drawing.Point(183, 191);
+            this.txtStimWidth.Name = "txtStimWidth";
+            this.txtStimWidth.Size = new System.Drawing.Size(62, 20);
+            this.txtStimWidth.TabIndex = 25;
+            this.txtStimWidth.Text = "1";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(216)))), ((int)(((byte)(201)))));
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(130)))), ((int)(((byte)(180)))));
+            this.label11.Location = new System.Drawing.Point(38, 222);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(44, 13);
+            this.label11.TabIndex = 22;
+            this.label11.Text = "Height";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(216)))), ((int)(((byte)(201)))));
+            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label17.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(130)))), ((int)(((byte)(180)))));
+            this.label17.Location = new System.Drawing.Point(38, 248);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(54, 13);
+            this.label17.TabIndex = 20;
+            this.label17.Text = "Contrast";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(216)))), ((int)(((byte)(201)))));
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(130)))), ((int)(((byte)(180)))));
+            this.label5.Location = new System.Drawing.Point(38, 196);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(40, 13);
+            this.label5.TabIndex = 23;
+            this.label5.Text = "Width";
+            // 
+            // txtStimContrast
+            // 
+            this.txtStimContrast.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.txtStimContrast.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.txtStimContrast.Location = new System.Drawing.Point(183, 243);
+            this.txtStimContrast.Name = "txtStimContrast";
+            this.txtStimContrast.Size = new System.Drawing.Size(62, 20);
+            this.txtStimContrast.TabIndex = 21;
+            this.txtStimContrast.Text = "255";
+            // 
+            // rdbShapeStim
+            // 
+            this.rdbShapeStim.AutoSize = true;
+            this.rdbShapeStim.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(216)))), ((int)(((byte)(201)))));
+            this.rdbShapeStim.Checked = true;
+            this.rdbShapeStim.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(130)))), ((int)(((byte)(180)))));
+            this.rdbShapeStim.Location = new System.Drawing.Point(33, 36);
+            this.rdbShapeStim.Name = "rdbShapeStim";
+            this.rdbShapeStim.Size = new System.Drawing.Size(61, 19);
+            this.rdbShapeStim.TabIndex = 30;
+            this.rdbShapeStim.TabStop = true;
+            this.rdbShapeStim.Text = "Shape";
+            this.rdbShapeStim.UseVisualStyleBackColor = false;
+            this.rdbShapeStim.CheckedChanged += new System.EventHandler(this.rdbShapeStim_CheckedChanged);
+            // 
+            // pnlShapeStim
+            // 
+            this.pnlShapeStim.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(216)))), ((int)(((byte)(201)))));
+            this.pnlShapeStim.Controls.Add(this.RectangleShape_BT);
+            this.pnlShapeStim.Controls.Add(this.SquareShape_BT);
+            this.pnlShapeStim.Controls.Add(this.CircleShape_BT);
+            this.pnlShapeStim.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(130)))), ((int)(((byte)(180)))));
+            this.pnlShapeStim.Location = new System.Drawing.Point(33, 60);
+            this.pnlShapeStim.Name = "pnlShapeStim";
+            this.pnlShapeStim.Size = new System.Drawing.Size(213, 79);
+            this.pnlShapeStim.TabIndex = 31;
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(33, 47);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(217, 272);
+            this.dataGridView1.TabIndex = 1;
             // 
             // Designer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1211, 788);
-            this.Controls.Add(this.Start_BT);
+            this.Controls.Add(this.pnlFrames);
+            this.Controls.Add(this.expandCollapsePanel1);
             this.Controls.Add(this.Size_LB);
-            this.Controls.Add(this.panel9);
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.pbDesign);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Designer";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Load += new System.EventHandler(this.DesignerForm_Load);
             this.Move += new System.EventHandler(this.Designer_Move);
-            this.panel1.ResumeLayout(false);
-            this.panel4.ResumeLayout(false);
-            this.panel4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PicB1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.AddPicB)).EndInit();
-            this.Start_BT.ResumeLayout(false);
-            this.Start_BT.PerformLayout();
-            this.Picture_Panel.ResumeLayout(false);
-            this.Picture_Panel.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
-            this.Shape_Panel.ResumeLayout(false);
-            this.Shape_Panel.PerformLayout();
-            this.panel8.ResumeLayout(false);
-            this.panel8.PerformLayout();
-            this.panel9.ResumeLayout(false);
-            this.panel6.ResumeLayout(false);
-            this.panel5.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dtgvEventsFrame)).EndInit();
-            this.panel7.ResumeLayout(false);
-            this.panel7.PerformLayout();
-            this.FixationPanel.ResumeLayout(false);
-            this.panel15.ResumeLayout(false);
-            this.panel15.PerformLayout();
             this.Popup.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.panel13.ResumeLayout(false);
-            this.panel13.PerformLayout();
-            this.pnlStimPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pbDesign)).EndInit();
+            this.expandCollapsePanel1.ResumeLayout(false);
+            this.expandCollapsePanel1.PerformLayout();
+            this.advancedFlowLayoutPanel1.ResumeLayout(false);
+            this.expandCollapsePanel2.ResumeLayout(false);
+            this.expandCollapsePanel2.PerformLayout();
+            this.expandCollapsePanel3.ResumeLayout(false);
+            this.expandCollapsePanel3.PerformLayout();
+            this.pnlFrames.ResumeLayout(false);
+            this.pnlFrames.PerformLayout();
+            this.expandCollapsePanel6.ResumeLayout(false);
+            this.expandCollapsePanel6.PerformLayout();
+            this.pnlImageStim.ResumeLayout(false);
+            this.pnlImageStim.PerformLayout();
+            this.pnlShapeStim.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
 		}
 
 		#endregion
-
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.Button btn_PenColor;
 		private System.Windows.Forms.Button BgColor_BT;
-		private System.Windows.Forms.TextBox txt_ShapeSize;
-		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.Panel panel8;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.Panel panel9;
-		private System.Windows.Forms.Panel FixationPanel;
-		private System.Windows.Forms.Panel panel15;
-		private System.Windows.Forms.Label label8;
-		private System.Windows.Forms.Panel Start_BT;
 		private System.Windows.Forms.PictureBox AddPicB;
 		private System.Windows.Forms.PictureBox PicB1;
-		private System.Windows.Forms.Label label9;
-		private System.Windows.Forms.TextBox ImageWidth_TB;
-		private System.Windows.Forms.TextBox Imageheight_TB;
-		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.TextBox textBox1;
-		private System.Windows.Forms.Button button1;
-		private System.Windows.Forms.Panel panel2;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.Label label11;
-		private System.Windows.Forms.Panel Shape_Panel;
-		private System.Windows.Forms.Panel Picture_Panel;
+		private System.Windows.Forms.Button btnSelectImageFile;
 		private System.Windows.Forms.TextBox FrameTime_ET;
 		private System.Windows.Forms.Label label16;
-		private System.Windows.Forms.Panel panel4;
-		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.Button CircleShape_BT;
 		private System.Windows.Forms.Button RectangleShape_BT;
 		private System.Windows.Forms.Button SquareShape_BT;
 		private System.Windows.Forms.ContextMenuStrip Popup;
 		private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem clearToolStripMenuItem;
-		private System.Windows.Forms.Label label17;
-		private System.Windows.Forms.TextBox Contrast_ET;
-		private System.Windows.Forms.Panel panel6;
-		private System.Windows.Forms.TreeView Objects_TV;
 		private System.Windows.Forms.Label Size_LB;
-		private System.Windows.Forms.Panel panel5;
-		private System.Windows.Forms.Panel panel7;
-		private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.DataGridView dtgvEventsFrame;
-        private System.Windows.Forms.DataGridViewTextBoxColumn EventName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn EventCode;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Panel panel13;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Panel pnlStimPanel;
-        private System.Windows.Forms.Panel pnlFixationBlock;
+        private System.Windows.Forms.PictureBox pbDesign;
+        private MakarovDev.ExpandCollapsePanel.ExpandCollapsePanel expandCollapsePanel1;
+        private MakarovDev.ExpandCollapsePanel.AdvancedFlowLayoutPanel advancedFlowLayoutPanel1;
+        private MakarovDev.ExpandCollapsePanel.ExpandCollapsePanel expandCollapsePanel2;
+        private System.Windows.Forms.TreeView Objects_TV;
+        private MakarovDev.ExpandCollapsePanel.ExpandCollapsePanel expandCollapsePanel3;
+        private MakarovDev.ExpandCollapsePanel.ExpandCollapsePanel expandCollapsePanel4;
+        private MakarovDev.ExpandCollapsePanel.ExpandCollapsePanel pnlFrames;
+        private MakarovDev.ExpandCollapsePanel.ExpandCollapsePanel expandCollapsePanel6;
+        private System.Windows.Forms.Panel pnlImageStim;
+        private System.Windows.Forms.RadioButton rdbImageStim;
+        private System.Windows.Forms.RadioButton rdbShapeStim;
+        private System.Windows.Forms.TextBox txtStimY;
+        private System.Windows.Forms.TextBox txtStimX;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox txtStimHeight;
+        private System.Windows.Forms.TextBox txtStimWidth;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox txtStimContrast;
+        private System.Windows.Forms.Panel pnlShapeStim;
+        private System.Windows.Forms.DataGridView dataGridView1;
     }
 
 }

@@ -18,12 +18,15 @@ namespace Psychophysics
 		#region Variables
 		// Number and Size of Screens
 		Screen[] screen = Screen.AllScreens;
+        Color StimColor;
 		public static int ScreenWidth = 0, ScreenHeight = 0;
 		float ViewSize = 80; //A: main white box size in the midddle of task designer
 		
-		Graphics _mainBitmapGraphics, _slideImageGraphics;
-		//nullable int for storing Null value
-		int? initX = null;
+		Graphics _slideImageGraphics;
+        Bitmap _picBitmap = new Bitmap(BasConfigs._monitor_resolution_x, BasConfigs._monitor_resolution_y);
+        Graphics _mainBitmapGraphics;
+        //nullable int for storing Null value
+        int? initX = null;
 		int? initY = null;
 		bool drawSquare = false;
 		bool drawRectangle = false;
@@ -46,7 +49,8 @@ namespace Psychophysics
 		// Update
 		Bitmap bmpvarforUpdate;
 		#endregion
-		#region Lists
+		
+        #region Lists
 		public static List<ObjectProp> stimulusList = new List<ObjectProp>();
 		public static List<List<ObjectProp>> fixationList = new List<List<ObjectProp>>();
 		// Type 
@@ -65,22 +69,33 @@ namespace Psychophysics
 		// Global Vars
 		public static List<FrameProp> frameList = new List<FrameProp>();
 		#endregion
-		
-		
+				
 
 		private void DesignerForm_Load(object sender, EventArgs e)
 		{
 					
-			PictureBox picb = panel1.Controls.Find("PicB" + ActivePicB, true).FirstOrDefault() as PictureBox;
-			using (Graphics newGr = panel1.CreateGraphics())
+			PictureBox picb = pnlFrames.Controls.Find("PicB" + ActivePicB, true).FirstOrDefault() as PictureBox;
+			using (Graphics newGr = pnlFrames.CreateGraphics())
 				newGr.DrawRectangle(new Pen(Color.DimGray, 1), new Rectangle(picb.Location.X - 1, picb.Location.Y - 1, picb.Width + 1, picb.Height + 1));
-		}  
+
+            expandCollapsePanel1.ForeColor = Color.FromArgb(51,51,51);
+            expandCollapsePanel2.ForeColor = Color.FromArgb(51, 51, 51);
+            expandCollapsePanel3.ForeColor = Color.FromArgb(51, 51, 51);
+            expandCollapsePanel4.ForeColor = Color.FromArgb(51, 51, 51);
+            pnlFrames.ForeColor = Color.FromArgb(51, 51, 51);
+            expandCollapsePanel6.ForeColor = Color.FromArgb(51, 51, 51);
+            //expandCollapsePanel1.BackColor = Color.FromArgb(100,232,216,201);
+            //expandCollapsePanel2.BackColor = Color.FromArgb(100, 232, 216, 201);
+            //expandCollapsePanel3.BackColor = Color.FromArgb(100, 232, 216, 201);
+            //expandCollapsePanel4.BackColor = Color.FromArgb(100, 232, 216, 201);
+        }  
 			
 
 		public Designer(int mode, int index, PsycoPhysicTask DesignParent)  
         {
             InitializeComponent();
 			_parentTask = DesignParent;
+            
             Debug.Write("Helll");
             fixationList.Clear();
             stimulusList.Clear();
@@ -91,9 +106,9 @@ namespace Psychophysics
             DeletedFrames.Clear();
             ActivePicB = 1;
             PicBCnt = 1;
+            _mainBitmapGraphics = Graphics.FromImage(_picBitmap);
            
-			#region new desidn mod
-			if (mode == 1) 
+            if (mode == 1) 
             {
                 this.Mode = mode;
                
@@ -130,7 +145,7 @@ namespace Psychophysics
 				
 				UpdateTreeView(ActivePicB - 1);
             }
-			#endregion
+			
 			#region edit mode
 			else if ( mode == 2 ) 
             {
@@ -155,6 +170,8 @@ namespace Psychophysics
 		
 		private void pnl_Draw_MouseMove(object sender, MouseEventArgs e)
         {
+            if (e.X < 5)
+                pnlFrames.Width = 170;
             initX = e.X;
             initY = e.Y;
 			
@@ -182,17 +199,17 @@ namespace Psychophysics
             if (drawSquare)
             {
                 //Use Solid Brush for filling the graphic shapes
-                SolidBrush sb = new SolidBrush(Color.FromArgb(int.Parse(Contrast_ET.Text), btn_PenColor.BackColor));
-                Pen p = new Pen(SetTransparency(125, btn_PenColor.BackColor));
+                SolidBrush sb = new SolidBrush(Color.FromArgb(int.Parse(txtStimContrast.Text), StimColor));
+                Pen p = new Pen(SetTransparency(125, StimColor));
                 //setting the width and height same for creating square.
                 //Getting the width and Heigt value from Textbox(txt_ShapeSize)
                 if (!FixationSelected)
                 {
                     ObjectProp stimulus = new ObjectProp();
-                    double widthd = double.Parse(txt_ShapeSize.Text);
+                    double widthd = double.Parse(txtStimWidth.Text);
                     int width = Convert.ToInt16(ConvertPixelWidth(widthd));
-                    stimulus.SetProps(Convert.ToInt16(e.X * 100 / ViewSize), Convert.ToInt16(e.Y * 100 / ViewSize), width, width, filledSquareType, ActivePicB, true, btn_PenColor.BackColor);
-                    stimulus.SetContrastPts(int.Parse(Contrast_ET.Text));
+                    stimulus.SetProps(Convert.ToInt16(e.X * 100 / ViewSize), Convert.ToInt16(e.Y * 100 / ViewSize), width, width, filledSquareType, ActivePicB, true, StimColor);
+                    stimulus.SetContrastPts(int.Parse(txtStimContrast.Text));
                     stimulus.ConvertToDeg();
                     stimulusList.Add(stimulus);
                     _slideImageGraphics.FillRectangle(sb, stimulus.Xloc - stimulus.Width / 2, stimulus.Yloc - stimulus.Height / 2, stimulus.Width, stimulus.Height);
@@ -206,16 +223,18 @@ namespace Psychophysics
             }
             else if (drawRectangle)
             {
-                SolidBrush sb = new SolidBrush(Color.FromArgb(int.Parse(Contrast_ET.Text), btn_PenColor.BackColor));
-                Pen p = new Pen(SetTransparency(125, btn_PenColor.BackColor));
+                SolidBrush sb = new SolidBrush(Color.FromArgb(int.Parse(txtStimContrast.Text), StimColor));
+                Pen p = new Pen(SetTransparency(125, StimColor));
                 //setting the width twice of the height
                 if (!FixationSelected)
                 {
                     ObjectProp stimulus = new ObjectProp();
-                    double widthd = double.Parse(txt_ShapeSize.Text);
-                    int width = Convert.ToInt16(ConvertPixelWidth(widthd));
-                    stimulus.SetProps(Convert.ToInt16(e.X * 100 / ViewSize), Convert.ToInt16(e.Y * 100 / ViewSize), 2 * width, width, filledRectangleType, ActivePicB, true, btn_PenColor.BackColor);
-                    stimulus.SetContrastPts(int.Parse(Contrast_ET.Text));
+                    double widthD = double.Parse(txtStimWidth.Text);
+                    double heightD = double.Parse(txtStimHeight.Text);
+                    int width = Convert.ToInt16(ConvertPixelWidth(widthD));
+                    int height = Convert.ToInt16(ConvertPixelWidth(heightD));
+                    stimulus.SetProps(Convert.ToInt16(e.X * 100 / ViewSize), Convert.ToInt16(e.Y * 100 / ViewSize), width, height, filledRectangleType, ActivePicB, true, StimColor);
+                    stimulus.SetContrastPts(int.Parse(txtStimContrast.Text));
                     stimulus.ConvertToDeg();
                     stimulusList.Add(stimulus);
                     _slideImageGraphics.FillRectangle(sb, stimulus.Xloc - stimulus.Width / 2, stimulus.Yloc - stimulus.Height / 2, stimulus.Width, stimulus.Height);
@@ -227,15 +246,15 @@ namespace Psychophysics
             }
             else if (drawCircle)
             {
-                SolidBrush sb = new SolidBrush(Color.FromArgb(int.Parse(Contrast_ET.Text), btn_PenColor.BackColor));
-                Pen p = new Pen(SetTransparency(125, btn_PenColor.BackColor));
+                SolidBrush sb = new SolidBrush(Color.FromArgb(int.Parse(txtStimContrast.Text), StimColor));
+                Pen p = new Pen(SetTransparency(125, StimColor));
                 if (!FixationSelected)
                 {
                     ObjectProp stimulus = new ObjectProp();
-                    double widthd = double.Parse(txt_ShapeSize.Text);
+                    double widthd = double.Parse(txtStimWidth.Text);
                     int width = Convert.ToInt16(ConvertPixelWidth(widthd));
-                    stimulus.SetProps(Convert.ToInt16(e.X * 100 / ViewSize), Convert.ToInt16(e.Y * 100 / ViewSize), width, width, filledCircleType, ActivePicB, true, btn_PenColor.BackColor);
-                    stimulus.SetContrastPts(int.Parse(Contrast_ET.Text));
+                    stimulus.SetProps(Convert.ToInt16(e.X * 100 / ViewSize), Convert.ToInt16(e.Y * 100 / ViewSize), width, width, filledCircleType, ActivePicB, true, StimColor);
+                    stimulus.SetContrastPts(int.Parse(txtStimContrast.Text));
                     stimulus.ConvertToDeg();
                     stimulusList.Add(stimulus);
                     _slideImageGraphics.FillEllipse(sb, stimulus.Xloc - stimulus.Width / 2, stimulus.Yloc - stimulus.Height / 2, stimulus.Width, stimulus.Height);
@@ -244,10 +263,10 @@ namespace Psychophysics
                 else
                 {
                     ObjectProp fixation = new ObjectProp();
-                    double widthd = double.Parse(txt_ShapeSize.Text);
+                    double widthd = double.Parse(txtStimWidth.Text);
                     int width = Convert.ToInt16(ConvertPixelWidth(widthd));
 
-                    fixation.SetProps(Convert.ToInt16(e.X * 100 / ViewSize), Convert.ToInt16(e.Y * 100 / ViewSize), width, width, CircleType, ActivePicB, true, btn_PenColor.BackColor);
+                    fixation.SetProps(Convert.ToInt16(e.X * 100 / ViewSize), Convert.ToInt16(e.Y * 100 / ViewSize), width, width, CircleType, ActivePicB, true, StimColor);
                     fixation.ConvertToDeg();
                     fixationList[ActivePicB - 1].Add(fixation);
                    
@@ -267,10 +286,10 @@ namespace Psychophysics
             else if (drawImage)
             {
                 ObjectProp stimulus = new ObjectProp();
-                double widthd = double.Parse(ImageWidth_TB.Text);
+                double widthd = double.Parse(txtStimWidth.Text);
                 int width = Convert.ToInt16(ConvertPixelWidth(widthd));
 
-                double heightd = double.Parse(Imageheight_TB.Text);
+                double heightd = double.Parse(txtStimHeight.Text);
                 int height = Convert.ToInt16(ConvertPixelHeight(heightd));
 
                 stimulus.SetPicture(Convert.ToInt16(e.X * 100 / ViewSize), Convert.ToInt16(e.Y * 100 / ViewSize), width, height, PictureType, ActivePicB, true, ImagePath);
@@ -319,18 +338,11 @@ namespace Psychophysics
             }
 
             UpdateTreeView(ActivePicB - 1);
-            
-            
-            Shape_Panel.BackColor = Color.Transparent;
-            Picture_Panel.BackColor = Color.Transparent;
-            Shape_Panel.Enabled = false;
-			Shape_Panel.Visible = false;
-			Picture_Panel.Enabled = false;
-			Picture_Panel.Visible = false;
+                        
 			Bitmap objBitmap = new Bitmap(BitmapPicB[ActivePicB - 1], new Size(PicB1.Width, PicB1.Height));
-            PictureBox picb = panel1.Controls.Find("PicB" + ActivePicB, true).FirstOrDefault() as PictureBox;
+            PictureBox picb = pnlFrames.Controls.Find("PicB" + ActivePicB, true).FirstOrDefault() as PictureBox;
             picb.Image = objBitmap;
-		}           //A:DONE
+		}           
 					
 		
         private void pnl_Draw_MouseUp(object sender, MouseEventArgs e)
@@ -346,15 +358,15 @@ namespace Psychophysics
 		}           //A:DONE
 
 					
-		private void button1_Click(object sender, EventArgs e)
+		private void PickColor()
         {
             //Open Color Dialog and Set BackColor of btn_PenColor if user click on OK
             ColorDialog c = new ColorDialog();
             if (c.ShowDialog() == DialogResult.OK)
             {
-                btn_PenColor.BackColor = c.Color;
+                StimColor = c.Color;
             }
-        }     //A:DONE
+        }     
 
         
         private void btn_CanvasColor_Click_1(object sender, EventArgs e) 
@@ -369,7 +381,7 @@ namespace Psychophysics
                 frameList[ActivePicB - 1].frameColor = c.Color;
                 UpdateFrame(ActivePicB - 1, frameList, fixationList[ActivePicB - 1], stimulusList);  
             }
-		}    //A:DONE
+		}    
 		
 		
         private void btn_Square_Click(object sender, EventArgs e)
@@ -396,11 +408,11 @@ namespace Psychophysics
         private void AddPicB_Click(object sender, EventArgs e)
         {
 			// Adding new PictureBox
-			panel1.Select();
+			pnlFrames.Select();
 			
-            FixationPanel.Enabled = true;
-			PictureBox picb = panel1.Controls.Find("PicB" + ActivePicB, true).FirstOrDefault() as PictureBox;
-			using (Graphics newGr = panel1.CreateGraphics())
+            //toolPanel.Enabled = true;
+			PictureBox picb = pnlFrames.Controls.Find("PicB" + ActivePicB, true).FirstOrDefault() as PictureBox;
+			using (Graphics newGr = pnlFrames.CreateGraphics())
 				newGr.DrawRectangle(new Pen(Color.LightCyan, 1), new Rectangle(picb.Location.X - 1, picb.Location.Y - 1, picb.Width + 1, picb.Height + 1));
 			
 			PicBCnt++;
@@ -409,7 +421,7 @@ namespace Psychophysics
            
 
             PictureBox PicB = new PictureBox();
-            panel1.Controls.Add(PicB);
+            pnlFrames.Controls.Add(PicB);
             PicB.Location = AddPicB.Location;
             PicB.Size = AddPicB.Size;
             PicB.Name = "PicB" + PicBCnt;
@@ -452,22 +464,19 @@ namespace Psychophysics
 		{
 			FixationSelected = true;
            
-			Shape_Panel.Enabled = true;
-			Shape_Panel.Visible = true;
+			
 			SquareShape_BT.Visible = false;
 			RectangleShape_BT.Visible = false;
 			//FixationTime_ET.Enabled = true;
-			Shape_Panel.BackColor = Color.Green;
+			
 		}
 
 		private void StimulusShapeActive_BT_Click(object sender, EventArgs e)     
 		{
             FixationSelected = false;
-            Shape_Panel.Enabled = true;
-			Shape_Panel.Visible = true;
-			SquareShape_BT.Visible = true;
+           	SquareShape_BT.Visible = true;
             RectangleShape_BT.Visible = true;
-            Shape_Panel.BackColor = Color.Green;
+           
 		}          
 
 		private void Browse_BT(object sender, EventArgs e)
@@ -493,8 +502,8 @@ namespace Psychophysics
 					break;
 				}
 			}
-			else
-				Picture_Panel.Visible = false;
+			
+				
 
 		}                                 
 
@@ -583,16 +592,14 @@ namespace Psychophysics
         {
 			
             FixationSelected = false;
-            Picture_Panel.Enabled = true;
-			Picture_Panel.Visible = true;
-			Picture_Panel.BackColor = Color.Green;
+           
 		}          
 
 		private void PicB_Click(object sender, EventArgs e)
         {
-			panel1.Select();
+			pnlFrames.Select();
            
-            FixationPanel.Enabled = true;
+            //toolPanel.Enabled = true;
             MouseEventArgs me = (MouseEventArgs)e;
             switch (me.Button)
             {
@@ -603,8 +610,8 @@ namespace Psychophysics
                     break;
             }
             String PicBName = ((PictureBox)sender).Name;
-			PictureBox picb = panel1.Controls.Find("PicB" + ActivePicB, true).FirstOrDefault() as PictureBox;
-			using (Graphics newGr = panel1.CreateGraphics())
+			PictureBox picb = pnlFrames.Controls.Find("PicB" + ActivePicB, true).FirstOrDefault() as PictureBox;
+			using (Graphics newGr = pnlFrames.CreateGraphics())
 				newGr.DrawRectangle(new Pen(Color.LightCyan, 1), new Rectangle(picb.Location.X - 1, picb.Location.Y - 1, picb.Width + 1, picb.Height + 1));
 
 			// Get position of the button that has been clicked
@@ -614,10 +621,10 @@ namespace Psychophysics
             
             Bitmap objBitmap = new Bitmap(BitmapPicB[ActivePicB - 1], new Size(PicB1.Width, PicB1.Height));
 
-            picb = panel1.Controls.Find("PicB" + ActivePicB, true).FirstOrDefault() as PictureBox;
+            picb = pnlFrames.Controls.Find("PicB" + ActivePicB, true).FirstOrDefault() as PictureBox;
             picb.Image = objBitmap;
 
-			using (Graphics newGr = panel1.CreateGraphics())
+			using (Graphics newGr = pnlFrames.CreateGraphics())
 			newGr.DrawRectangle(new Pen(Color.Red, 1), new Rectangle(picb.Location.X - 1, picb.Location.Y - 1, picb.Width + 1, picb.Height + 1));
 
 			FrameTime_ET.Text = Convert.ToString(frameList[ActivePicB - 1].Time);
@@ -635,7 +642,7 @@ namespace Psychophysics
             DialogResult dialogResult = MessageBox.Show("This deletes all the material related to the current active Page. Are you sure you want to continue it?", "Warning", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
-                PictureBox picbremoved = panel1.Controls.Find("PicB" + ActivePicB, true).FirstOrDefault() as PictureBox;
+                PictureBox picbremoved = pnlFrames.Controls.Find("PicB" + ActivePicB, true).FirstOrDefault() as PictureBox;
                 picbremoved.Dispose();
                 DeletedFrames[ActivePicB - 1] = 1;
                 int VisibleFrames = 0;
@@ -679,7 +686,7 @@ namespace Psychophysics
                         {
                             if (DeletedFrames[i - 1] == 1)
                                 continue;
-                            PictureBox picb = panel1.Controls.Find("PicB" + i, true).FirstOrDefault() as PictureBox;
+                            PictureBox picb = pnlFrames.Controls.Find("PicB" + i, true).FirstOrDefault() as PictureBox;
                             picb.Location = new Point(picb.Location.X, picb.Location.Y - picb.Size.Height - 15);
                         }
                         ActivePicB = index + 1;
@@ -691,15 +698,10 @@ namespace Psychophysics
                 {
                     _mainBitmapGraphics.Clear(Color.FromArgb(191, 219, 255));
                     
-                    FixationPanel.Enabled = false;
+                    //toolPanel.Enabled = false;
 
                 }
-                Shape_Panel.BackColor = Color.Transparent;
-                Picture_Panel.BackColor = Color.Transparent;
-                Shape_Panel.Enabled = false;
-				Shape_Panel.Visible = false;
-				Picture_Panel.Enabled = false;
-				Picture_Panel.Visible = false;
+                
 				AddPicB.Location = new Point(AddPicB.Location.X, AddPicB.Location.Y - AddPicB.Size.Height - 15);
             }
         }  
@@ -935,6 +937,7 @@ namespace Psychophysics
 		private void LoadParameters(int index)
         {
             PicBCnt = _parentTask._tsk.AllLevelProp[index].Count;
+           
             for (int i = 0; i < PicBCnt; i++)
             {
                 // Frame setting
@@ -964,7 +967,7 @@ namespace Psychophysics
             {
                 int Yloc = AddPicB.Location.Y;
                 PictureBox PicB = new PictureBox();
-                panel1.Controls.Add(PicB);
+                pnlFrames.Controls.Add(PicB);
                 PicB.Location = AddPicB.Location;
                 PicB.Size = AddPicB.Size;
                 PicB.Name = "PicB" + (i + 1);
@@ -1114,7 +1117,7 @@ namespace Psychophysics
             }
             // Add drawing commands here
             Bitmap objBitmap = new Bitmap(BitmapPicB[index], new Size(PicB1.Width, PicB1.Height));
-            PictureBox picb = panel1.Controls.Find("PicB" + (index + 1), true).FirstOrDefault() as PictureBox;
+            PictureBox picb = pnlFrames.Controls.Find("PicB" + (index + 1), true).FirstOrDefault() as PictureBox;
             picb.Image = objBitmap;
 			
 			
@@ -1326,7 +1329,6 @@ namespace Psychophysics
 		{
 
 		}
-
 		
 		private void txtEvent_KeyPress(object sender, KeyPressEventArgs e)
 		{
@@ -1336,6 +1338,11 @@ namespace Psychophysics
 			}
 		}
 
+        private void rdbShapeStim_CheckedChanged(object sender, EventArgs e)
+        {
+            pnlImageStim.Visible = !rdbShapeStim.Checked;
+            pnlShapeStim.Visible = rdbShapeStim.Checked;
+        }
 
         private void Objects_TV_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
@@ -1458,8 +1465,8 @@ namespace Psychophysics
 
 		private void panel1_Paint(object sender, PaintEventArgs e)
 		{
-			PictureBox picb = panel1.Controls.Find("PicB" + ActivePicB, true).FirstOrDefault() as PictureBox;
-			using (Graphics newGr = panel1.CreateGraphics())
+			PictureBox picb = pnlFrames.Controls.Find("PicB" + ActivePicB, true).FirstOrDefault() as PictureBox;
+			using (Graphics newGr = pnlFrames.CreateGraphics())
 				newGr.DrawRectangle(new Pen(Color.Red, 1), new Rectangle(picb.Location.X - 1, picb.Location.Y - 1, picb.Width + 1, picb.Height + 1));
 		}
 				
