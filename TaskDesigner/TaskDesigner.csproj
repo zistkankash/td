@@ -204,32 +204,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
-    <Compile Include="Psychophysics\Designer.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Psychophysics\Designer.Designer.cs">
-      <DependentUpon>Designer.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Psychophysics\FixationSetting.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Psychophysics\FixationSetting.Designer.cs">
-      <DependentUpon>FixationSetting.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TaskLab\PsycologyDesigner.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="TaskLab\PsycologyDesigner.Designer.cs">
-      <DependentUpon>PsycologyDesigner.cs</DependentUpon>
-    </Compile>
-    <Compile Include="TaskLab\URLInput.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="TaskLab\URLInput.Designer.cs">
-      <DependentUpon>URLInput.cs</DependentUpon>
-    </Compile>
     <Compile Include="TaskRunner\TaskOperator.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -254,29 +230,11 @@
     <Compile Include="NetSettingForm.Designer.cs">
       <DependentUpon>NetSettingForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="TaskLab\TaskGen.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="TaskLab\TaskGen.designer.cs">
-      <DependentUpon>TaskGen.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Psychophysics\PsycoPhysicTask.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Psychophysics\PsycoPhysicTask.Designer.cs">
-      <DependentUpon>PsycoPhysicTask.cs</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="HelpForm.resx">
       <DependentUpon>HelpForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="COGLABnewUI.resx">
       <DependentUpon>COGLABnewUI.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Psychophysics\Designer.resx">
-      <DependentUpon>Designer.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Psychophysics\FixationSetting.resx">
-      <DependentUpon>FixationSetting.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -288,23 +246,11 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="TaskLab\URLInput.resx">
-      <DependentUpon>URLInput.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="TaskRunner\PsycophysicsRunner.resx">
       <DependentUpon>PsycophysicsRunner.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NetSettingForm.resx">
       <DependentUpon>NetSettingForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TaskLab\PsycologyDesigner.resx">
-      <DependentUpon>PsycologyDesigner.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TaskLab\TaskGen.resx">
-      <DependentUpon>TaskGen.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Psychophysics\PsycoPhysicTask.resx">
-      <DependentUpon>PsycoPhysicTask.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TaskRunner\TaskOperator.resx">
       <DependentUpon>TaskOperator.cs</DependentUpon>
@@ -327,54 +273,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="bin\Debug\Icons\rectangle %286%29.png" />
-    <None Include="bin\x64\Debug\Icons\open.png" />
-    <None Include="bin\x64\Debug\Icons\save.png" />
-    <None Include="bin\x64\Debug\Icons\Start.png" />
-    <None Include="bin\x64\Debug\Icons\network.png" />
-    <None Include="bin\x64\Debug\Icons\netdisconnected.png" />
-    <None Include="bin\x64\Debug\Icons\networksetting.png" />
-    <None Include="bin\x64\Debug\Icons\Home.png" />
-    <None Include="bin\x64\Debug\Icons\addpic.png" />
-    <None Include="bin\x64\Debug\Icons\stop.png" />
-    <None Include="bin\x64\Debug\Icons\new project.png" />
-    <None Include="bin\x64\Debug\Icons\add.png" />
-    <None Include="bin\x64\Debug\Icons\brain.png" />
-    <None Include="bin\x64\Debug\Icons\checked.png" />
-    <None Include="bin\x64\Debug\Icons\circle.png" />
-    <None Include="bin\x64\Debug\Icons\circle2.png" />
-    <None Include="bin\x64\Debug\Icons\circle4.png" />
-    <None Include="bin\x64\Debug\Icons\circle6.png" />
-    <None Include="bin\x64\Debug\Icons\coglab2.png" />
-    <None Include="bin\x64\Debug\Icons\engineer.png" />
-    <None Include="bin\x64\Debug\Icons\eraser.png" />
-    <None Include="bin\x64\Debug\Icons\exit.png" />
-    <None Include="bin\x64\Debug\Icons\file.png" />
-    <None Include="bin\x64\Debug\Icons\fixation setting.png" />
-    <None Include="bin\x64\Debug\Icons\heatmap2.png" />
-    <None Include="bin\x64\Debug\Icons\help.png" />
-    <None Include="bin\x64\Debug\Icons\Icon.png" />
-    <None Include="bin\x64\Debug\Icons\import.png" />
-    <None Include="bin\x64\Debug\Icons\next %282%29.png" />
-    <None Include="bin\x64\Debug\Icons\next.png" />
-    <None Include="bin\x64\Debug\Icons\open-folder.png" />
-    <None Include="bin\x64\Debug\Icons\palette.jpg" />
-    <None Include="bin\x64\Debug\Icons\picture.png" />
-    <None Include="bin\x64\Debug\Icons\rect2.png" />
-    <None Include="bin\x64\Debug\Icons\rectangle %286%29.png" />
-    <None Include="bin\x64\Debug\Icons\rectangle.png" />
-    <None Include="bin\x64\Debug\Icons\reset.png" />
-    <None Include="bin\x64\Debug\Icons\right-arrow.png" />
-    <None Include="bin\x64\Debug\Icons\setting.png" />
-    <None Include="bin\x64\Debug\Icons\shape.png" />
-    <None Include="bin\x64\Debug\Icons\square.png" />
-    <None Include="bin\x64\Debug\Icons\stopbutton.png" />
-    <None Include="bin\x64\Debug\Icons\stopbutton1.png" />
-    <None Include="bin\x64\Debug\Icons\tasklab2.png" />
     <None Include="Resources\3bd1719a157128926cf3bcb8f374f740.png" />
     <None Include="Resources\7c43224c67a5fa4f0808253ef0997549.png" />
     <None Include="Resources\941bb8f00c10ba581acd1bea6f85fd58.png" />
-    <None Include="bin\x64\Debug\Icons\addpic1.png" />
     <None Include="Resources\ADD.png" />
     <None Include="Resources\delete.png" />
     <None Include="Resources\Edit.png" />
